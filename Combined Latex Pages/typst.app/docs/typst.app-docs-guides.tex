@@ -1,0 +1,3011 @@
+\title{typst.app/docs/guides/table-guide}
+
+\begin{itemize}
+\tightlist
+\item
+  \href{/docs}{\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-docs-dark.svg}}
+\item
+  \includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-arrow-right.svg}
+\item
+  \href{/docs/guides/}{Guides}
+\item
+  \includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-arrow-right.svg}
+\item
+  \href{/docs/guides/table-guide/}{Table guide}
+\end{itemize}
+
+\section{Table guide}\label{table-guide}
+
+Tables are a great way to present data to your readers in an easily
+readable, compact, and organized manner. They are not only used for
+numerical values, but also survey responses, task planning, schedules,
+and more. Because of this wide set of possible applications, there is no
+single best way to lay out a table. Instead, think about the data you
+want to highlight, your document\textquotesingle s overarching design,
+and ultimately how your table can best serve your readers.
+
+Typst can help you with your tables by automating styling, importing
+data from other applications, and more! This guide takes you through a
+few of the most common questions you may have when adding a table to
+your document with Typst. Feel free to skip to the section most relevant
+to you â€`` we designed this guide to be read out of order.
+
+If you want to look up a detail of how tables work, you should also
+\href{/docs/reference/model/table/}{check out their reference page} .
+And if you are looking for a table of contents rather than a normal
+table, the reference page of the
+\href{/docs/reference/model/outline/}{\texttt{\ outline\ } function} is
+the right place to learn more.
+
+\subsection{How to create a basic table?}\label{basic-tables}
+
+In order to create a table in Typst, use the
+\href{/docs/reference/model/table/}{\texttt{\ table\ } function} . For a
+basic table, you need to tell the table function two things:
+
+\begin{itemize}
+\tightlist
+\item
+  The number of columns
+\item
+  The content for each of the table cells
+\end{itemize}
+
+So, let\textquotesingle s say you want to create a table with two
+columns describing the ingredients for a cookie recipe:
+
+\begin{verbatim}
+#table(
+  columns: 2,
+  [*Amount*], [*Ingredient*],
+  [360g], [Baking flour],
+  [250g], [Butter (room temp.)],
+  [150g], [Brown sugar],
+  [100g], [Cane sugar],
+  [100g], [70% cocoa chocolate],
+  [100g], [35-40% cocoa chocolate],
+  [2], [Eggs],
+  [Pinch], [Salt],
+  [Drizzle], [Vanilla extract],
+)
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/DrLInmCn8ozR2FQ7a7txfwAAAAAAAAAA.png}
+
+This example shows how to call, configure, and populate a table. Both
+the column count and cell contents are passed to the table as arguments.
+The \href{/docs/reference/foundations/function/}{argument list} is
+surrounded by round parentheses. In it, we first pass the column count
+as a named argument. Then, we pass multiple
+\href{/docs/reference/foundations/content/}{content blocks} as
+positional arguments. Each content block contains the contents for a
+single cell.
+
+To make the example more legible, we have placed two content block
+arguments on each line, mimicking how they would appear in the table.
+You could also write each cell on its own line. Typst does not care on
+which line you place the arguments. Instead, Typst will place the
+content cells from left to right (or right to left, if that is the
+writing direction of your language) and then from top to bottom. It will
+automatically add enough rows to your table so that it fits all of your
+content.
+
+It is best to wrap the header row of your table in the
+\href{/docs/reference/model/table/\#definitions-header}{\texttt{\ table.header\ }
+function} . This clarifies your intent and will also allow future
+versions of Typst to make the output more accessible to users with a
+screen reader:
+
+\begin{verbatim}
+#table(
+  columns: 2,
+  table.header[*Amount*][*Ingredient*],
+  [360g], [Baking flour],
+ // ... the remaining cells
+)
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/aiVJ7GWTsso2QP8oAOCqrgAAAAAAAAAA.png}
+
+You could also write a show rule that automatically
+\href{/docs/reference/model/strong/}{strongly emphasizes} the contents
+of the first cells for all tables. This quickly becomes useful if your
+document contains multiple tables!
+
+\begin{verbatim}
+#show table.cell.where(y: 0): strong
+
+#table(
+  columns: 2,
+  table.header[Amount][Ingredient],
+  [360g], [Baking flour],
+ // ... the remaining cells
+)
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/U7CxDwHdU4boWRgp53c3XgAAAAAAAAAA.png}
+
+We are using a show rule with a selector for cell coordinates here
+instead of applying our styles directly to \texttt{\ table.header\ } .
+This is due to a current limitation of Typst that will be fixed in a
+future release.
+
+Congratulations, you have created your first table! Now you can proceed
+to \hyperref[column-sizes]{change column sizes} ,
+\hyperref[strokes]{adjust the strokes} , \hyperref[fills]{add striped
+rows} , and more!
+
+\subsection{How to change the column sizes?}\label{column-sizes}
+
+If you create a table and specify the number of columns, Typst will make
+each column large enough to fit its largest cell. Often, you want
+something different, for example, to make a table span the whole width
+of the page. You can provide a list, specifying how wide you want each
+column to be, through the \texttt{\ columns\ } argument. There are a few
+different ways to specify column widths:
+
+\begin{itemize}
+\tightlist
+\item
+  First, there is \texttt{\ }{\texttt{\ auto\ }}\texttt{\ } . This is
+  the default behavior and tells Typst to grow the column to fit its
+  contents. If there is not enough space, Typst will try its best to
+  distribute the space among the
+  \texttt{\ }{\texttt{\ auto\ }}\texttt{\ } -sized columns.
+\item
+  \href{/docs/reference/layout/length/}{Lengths} like
+  \texttt{\ }{\texttt{\ 6cm\ }}\texttt{\ } ,
+  \texttt{\ }{\texttt{\ 0.7in\ }}\texttt{\ } , or
+  \texttt{\ }{\texttt{\ 120pt\ }}\texttt{\ } . As usual, you can also
+  use the font-dependent \texttt{\ em\ } unit. This is a multiple of
+  your current font size. It\textquotesingle s useful if you want to
+  size your table so that it always fits about the same amount of text,
+  independent of font size.
+\item
+  A \href{/docs/reference/layout/ratio/}{ratio in percent} such as
+  \texttt{\ }{\texttt{\ 40\%\ }}\texttt{\ } . This will make the column
+  take up 40\% of the total horizontal space available to the table, so
+  either the inner width of the page or the table\textquotesingle s
+  container. You can also mix ratios and lengths into
+  \href{/docs/reference/layout/relative/}{relative lengths} . Be mindful
+  that even if you specify a list of column widths that sum up to 100\%,
+  your table could still become larger than its container. This is
+  because there can be
+  \href{/docs/reference/model/table/\#parameters-gutter}{gutter} between
+  columns that is not included in the column widths. If you want to make
+  a table fill the page, the next option is often very useful.
+\item
+  A \href{/docs/reference/layout/fraction/}{fractional part of the free
+  space} using the \texttt{\ fr\ } unit, such as \texttt{\ 1fr\ } . This
+  unit allows you to distribute the available space to columns. It works
+  as follows: First, Typst sums up the lengths of all columns that do
+  not use \texttt{\ fr\ } s. Then, it determines how much horizontal
+  space is left. This horizontal space then gets distributed to all
+  columns denominated in \texttt{\ fr\ } s. During this process, a
+  \texttt{\ 2fr\ } column will become twice as wide as a
+  \texttt{\ 1fr\ } column. This is where the name comes from: The width
+  of the column is its fraction of the total fractionally sized columns.
+\end{itemize}
+
+Let\textquotesingle s put this to use with a table that contains the
+dates, numbers, and descriptions of some routine checks. The first two
+columns are \texttt{\ auto\ } -sized and the last column is
+\texttt{\ 1fr\ } wide as to fill the whole page.
+
+\begin{verbatim}
+#table(
+  columns: (auto, auto, 1fr),
+  table.header[Date][Â°No][Description],
+  [24/01/03], [813], [Filtered participant pool],
+  [24/01/03], [477], [Transitioned to sec. regimen],
+  [24/01/11], [051], [Cycled treatment substrate],
+)
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/2U_qe89XvypLADel8g81vgAAAAAAAAAA.png}
+
+Here, we have passed our list of column lengths as an
+\href{/docs/reference/foundations/array/}{array} , enclosed in round
+parentheses, with its elements separated by commas. The first two
+columns are automatically sized, so that they take on the size of their
+content and the third column is sized as
+\texttt{\ }{\texttt{\ 1fr\ }}\texttt{\ } so that it fills up the
+remainder of the space on the page. If you wanted to instead change the
+second column to be a bit more spacious, you could replace its entry in
+the \texttt{\ columns\ } array with a value like
+\texttt{\ }{\texttt{\ 6em\ }}\texttt{\ } .
+
+\subsection{How to caption and reference my
+table?}\label{captions-and-references}
+
+A table is just as valuable as the information your readers draw from
+it. You can enhance the effectiveness of both your prose and your table
+by making a clear connection between the two with a cross-reference.
+Typst can help you with automatic
+\href{/docs/reference/model/ref/}{references} and the
+\href{/docs/reference/model/figure/}{\texttt{\ figure\ } function} .
+
+Just like with images, wrapping a table in the \texttt{\ figure\ }
+function allows you to add a caption and a label, so you can reference
+the figure elsewhere. Wrapping your table in a figure also lets you use
+the figure\textquotesingle s \texttt{\ placement\ } parameter to float
+it to the top or bottom of a page.
+
+Let\textquotesingle s take a look at a captioned table and how to
+reference it in prose:
+
+\begin{verbatim}
+#show table.cell.where(y: 0): set text(weight: "bold")
+
+#figure(
+  table(
+    columns: 4,
+    stroke: none,
+
+    table.header[Test Item][Specification][Test Result][Compliance],
+    [Voltage], [220V Â± 5%], [218V], [Pass],
+    [Current], [5A Â± 0.5A], [4.2A], [Fail],
+  ),
+  caption: [Probe results for design A],
+) <probe-a>
+
+The results from @probe-a show that the design is not yet optimal.
+We will show how its performance can be improved in this section.
+\end{verbatim}
+
+\includegraphics[width=8.27083in,height=\textheight,keepaspectratio]{/assets/docs/q8w9c3xaiqkQD9Ab1PAe6AAAAAAAAAAA.png}
+
+The example shows how to wrap a table in a figure, set a caption and a
+label, and how to reference that label. We start by using the
+\texttt{\ figure\ } function. It expects the contents of the figure as a
+positional argument. We just put the table function call in its argument
+list, omitting the \texttt{\ \#\ } character because it is only needed
+when calling a function in markup mode. We also add the caption as a
+named argument (above or below) the table.
+
+After the figure call, we put a label in angle brackets (
+\texttt{\ }{\texttt{\ \textless{}probe-a\textgreater{}\ }}\texttt{\ } ).
+This tells Typst to remember this element and make it referenceable
+under this name throughout your document. We can then reference it in
+prose by using the at sign and the label name
+\texttt{\ }{\texttt{\ @probe-a\ }}\texttt{\ } . Typst will print a
+nicely formatted reference and automatically update the label if the
+table\textquotesingle s number changes.
+
+\subsection{How to get a striped table?}\label{fills}
+
+Many tables use striped rows or columns instead of strokes to
+differentiate between rows and columns. This effect is often called
+\emph{zebra stripes.} Tables with zebra stripes are popular in Business
+and commercial Data Analytics applications, while academic applications
+tend to use strokes instead.
+
+To add zebra stripes to a table, we use the \texttt{\ table\ }
+function\textquotesingle s \texttt{\ fill\ } argument. It can take three
+kinds of arguments:
+
+\begin{itemize}
+\tightlist
+\item
+  A single color (this can also be a gradient or a pattern) to fill all
+  cells with. Because we want some cells to have another color, this is
+  not useful if we want to build zebra tables.
+\item
+  An array with colors which Typst cycles through for each column. We
+  can use an array with two elements to get striped columns.
+\item
+  A function that takes the horizontal coordinate \texttt{\ x\ } and the
+  vertical coordinate \texttt{\ y\ } of a cell and returns its fill. We
+  can use this to create horizontal stripes or
+  \href{/docs/reference/layout/grid/\#definitions-cell}{checkerboard
+  patterns} .
+\end{itemize}
+
+Let\textquotesingle s start with an example of a horizontally striped
+table:
+
+\begin{verbatim}
+#set text(font: "IBM Plex Sans")
+
+// Medium bold table header.
+#show table.cell.where(y: 0): set text(weight: "medium")
+
+// Bold titles.
+#show table.cell.where(x: 1): set text(weight: "bold")
+
+// See the strokes section for details on this!
+#let frame(stroke) = (x, y) => (
+  left: if x > 0 { 0pt } else { stroke },
+  right: stroke,
+  top: if y < 2 { stroke } else { 0pt },
+  bottom: stroke,
+)
+
+#set table(
+  fill: (rgb("EAF2F5"), none),
+  stroke: frame(rgb("21222C")),
+)
+
+#table(
+  columns: (0.4fr, 1fr, 1fr, 1fr),
+
+  table.header[Month][Title][Author][Genre],
+  [January], [The Great Gatsby], [F. Scott Fitzgerald], [Classic],
+  [February], [To Kill a Mockingbird], [Harper Lee], [Drama],
+  [March], [1984], [George Orwell], [Dystopian],
+  [April], [The Catcher in the Rye], [J.D. Salinger], [Coming-of-Age],
+)
+\end{verbatim}
+
+\includegraphics[width=9.44792in,height=\textheight,keepaspectratio]{/assets/docs/UJoXkTjV0r6grf2p2oGJMAAAAAAAAAAA.png}
+
+This example shows a book club reading list. The line
+\texttt{\ fill:\ }{\texttt{\ (\ }}\texttt{\ }{\texttt{\ rgb\ }}\texttt{\ }{\texttt{\ (\ }}\texttt{\ }{\texttt{\ "EAF2F5"\ }}\texttt{\ }{\texttt{\ )\ }}\texttt{\ }{\texttt{\ ,\ }}\texttt{\ }{\texttt{\ none\ }}\texttt{\ }{\texttt{\ )\ }}\texttt{\ }
+in \texttt{\ table\ } \textquotesingle s set rule is all that is needed
+to add striped columns. It tells Typst to alternate between coloring
+columns with a light blue (in the
+\href{/docs/reference/visualize/color/\#definitions-rgb}{\texttt{\ rgb\ }}
+function call) and nothing ( \texttt{\ }{\texttt{\ none\ }}\texttt{\ }
+). Note that we extracted all of our styling from the \texttt{\ table\ }
+function call itself into set and show rules, so that we can
+automatically reuse it for multiple tables.
+
+Because setting the stripes itself is easy we also added some other
+styles to make it look nice. The other code in the example provides a
+dark blue \hyperref[stroke-functions]{stroke} around the table and below
+the first line and emboldens the first row and the column with the book
+title. See the \hyperref[strokes]{strokes} section for details on how we
+achieved this stroke configuration.
+
+Let\textquotesingle s next take a look at how we can change only the set
+rule to achieve horizontal stripes instead:
+
+\begin{verbatim}
+#set table(
+  fill: (_, y) => if calc.odd(y) { rgb("EAF2F5") },
+  stroke: frame(rgb("21222C")),
+)
+\end{verbatim}
+
+\includegraphics[width=9.44792in,height=\textheight,keepaspectratio]{/assets/docs/25lCWRlQDgNwC6P_ss5rsgAAAAAAAAAA.png}
+
+We just need to replace the set rule from the previous example with this
+one and get horizontal stripes instead. Here, we are passing a function
+to \texttt{\ fill\ } . It discards the horizontal coordinate with an
+underscore and then checks if the vertical coordinate \texttt{\ y\ } of
+the cell is odd. If so, the cell gets a light blue fill, otherwise, no
+fill is returned.
+
+Of course, you can make this function arbitrarily complex. For example,
+if you want to stripe the rows with a light and darker shade of blue,
+you could do something like this:
+
+\begin{verbatim}
+#set table(
+  fill: (_, y) => (none, rgb("EAF2F5"), rgb("DDEAEF")).at(calc.rem(y, 3)),
+  stroke: frame(rgb("21222C")),
+)
+\end{verbatim}
+
+\includegraphics[width=9.44792in,height=\textheight,keepaspectratio]{/assets/docs/cCvrBfZ8ZZjy8abtCE_cmgAAAAAAAAAA.png}
+
+This example shows an alternative approach to write our fill function.
+The function uses an array with three colors and then cycles between its
+values for each row by indexing the array with the remainder of
+\texttt{\ y\ } divided by 3.
+
+Finally, here is a bonus example that uses the \emph{stroke} to achieve
+striped rows:
+
+\begin{verbatim}
+#set table(
+  stroke: (x, y) => (
+    y: 1pt,
+    left: if x > 0 { 0pt } else if calc.even(y) { 1pt },
+    right: if calc.even(y) { 1pt },
+  ),
+)
+\end{verbatim}
+
+\includegraphics[width=9.44792in,height=\textheight,keepaspectratio]{/assets/docs/GD_bV9_znidgeZ0v5zIXUAAAAAAAAAAA.png}
+
+\subsubsection{Manually overriding a cell\textquotesingle s fill
+color}\label{fill-override}
+
+Sometimes, the fill of a cell needs not to vary based on its position in
+the table, but rather based on its contents. We can use the
+\href{/docs/reference/model/table/\#definitions-cell}{\texttt{\ table.cell\ }
+element} in the \texttt{\ table\ } \textquotesingle s parameter list to
+wrap a cell\textquotesingle s content and override its fill.
+
+For example, here is a list of all German presidents, with the cell
+borders colored in the color of their party.
+
+\begin{verbatim}
+#set text(font: "Roboto")
+
+#let cdu(name) = ([CDU], table.cell(fill: black, text(fill: white, name)))
+#let spd(name) = ([SPD], table.cell(fill: red, text(fill: white, name)))
+#let fdp(name) = ([FDP], table.cell(fill: yellow, name))
+
+#table(
+  columns: (auto, auto, 1fr),
+  stroke: (x: none),
+
+  table.header[Tenure][Party][President],
+  [1949-1959], ..fdp[Theodor Heuss],
+  [1959-1969], ..cdu[Heinrich LÃ¼bke],
+  [1969-1974], ..spd[Gustav Heinemann],
+  [1974-1979], ..fdp[Walter Scheel],
+  [1979-1984], ..cdu[Karl Carstens],
+  [1984-1994], ..cdu[Richard von WeizsÃ¤cker],
+  [1994-1999], ..cdu[Roman Herzog],
+  [1999-2004], ..spd[Johannes Rau],
+  [2004-2010], ..cdu[Horst KÃ¶hler],
+  [2010-2012], ..cdu[Christian Wulff],
+  [2012-2017], [n/a], [Joachim Gauck],
+  [2017-],     ..spd[Frank-Walter-Steinmeier],
+)
+\end{verbatim}
+
+\includegraphics[width=5.90625in,height=\textheight,keepaspectratio]{/assets/docs/Kc5oSTV9kIbzwSd275OEwQAAAAAAAAAA.png}
+
+In this example, we make use of variables because there only have been a
+total of three parties whose members have become president (and one
+unaffiliated president). Their colors will repeat multiple times, so we
+store a function that produces an array with their
+party\textquotesingle s name and a table cell with that
+party\textquotesingle s color and the president\textquotesingle s name (
+\texttt{\ cdu\ } , \texttt{\ spd\ } , and \texttt{\ fdp\ } ). We then
+use these functions in the \texttt{\ table\ } argument list instead of
+directly adding the name. We use the
+\href{/docs/reference/foundations/arguments/\#spreading}{spread
+operator} \texttt{\ ..\ } to turn the items of the arrays into single
+cells. We could also write something like
+\texttt{\ }{\texttt{\ {[}\ }}\texttt{\ FDP\ }{\texttt{\ {]}\ }}\texttt{\ ,\ table\ }{\texttt{\ .\ }}\texttt{\ }{\texttt{\ cell\ }}\texttt{\ }{\texttt{\ (\ }}\texttt{\ fill\ }{\texttt{\ :\ }}\texttt{\ yellow\ }{\texttt{\ )\ }}\texttt{\ }{\texttt{\ {[}\ }}\texttt{\ Theodor\ Heuss\ }{\texttt{\ {]}\ }}\texttt{\ }
+for each cell directly in the \texttt{\ table\ } \textquotesingle s
+argument list, but that becomes unreadable, especially for the parties
+whose colors are dark so that they require white text. We also delete
+vertical strokes and set the font to Roboto.
+
+The party column and the cell color in this example communicate
+redundant information on purpose: Communicating important data using
+color only is a bad accessibility practice. It disadvantages users with
+vision impairment and is in violation of universal access standards,
+such as the
+\href{https://www.w3.org/WAI/WCAG21/Understanding/use-of-color.html}{WCAG
+2.1 Success Criterion 1.4.1} . To improve this table, we added a column
+printing the party name. Alternatively, you could have made sure to
+choose a color-blindness friendly palette and mark up your cells with an
+additional label that screen readers can read out loud. The latter
+feature is not currently supported by Typst, but will be added in a
+future release. You can check how colors look for color-blind readers
+with
+\href{https://chromewebstore.google.com/detail/colorblindly/floniaahmccleoclneebhhmnjgdfijgg}{this
+Chrome extension} ,
+\href{https://helpx.adobe.com/photoshop/using/proofing-colors.html}{Photoshop}
+, or
+\href{https://docs.gimp.org/2.10/en/gimp-display-filter-dialog.html}{GIMP}
+.
+
+\subsection{How to adjust the lines in a table?}\label{strokes}
+
+By default, Typst adds strokes between each row and column of a table.
+You can adjust these strokes in a variety of ways. Which one is the most
+practical, depends on the modification you want to make and your intent:
+
+\begin{itemize}
+\tightlist
+\item
+  Do you want to style all tables in your document, irrespective of
+  their size and content? Use the \texttt{\ table\ }
+  function\textquotesingle s
+  \href{/docs/reference/model/table/\#parameters-stroke}{stroke}
+  argument in a set rule.
+\item
+  Do you want to customize all lines in a single table? Use the
+  \texttt{\ table\ } function\textquotesingle s
+  \href{/docs/reference/model/table/\#parameters-stroke}{stroke}
+  argument when calling the table function.
+\item
+  Do you want to change, add, or remove the stroke around a single cell?
+  Use the \texttt{\ table.cell\ } element in the argument list of your
+  table call.
+\item
+  Do you want to change, add, or remove a single horizontal or vertical
+  stroke in a single table? Use the
+  \href{/docs/reference/model/table/\#definitions-hline}{\texttt{\ table.hline\ }}
+  and
+  \href{/docs/reference/model/table/\#definitions-vline}{\texttt{\ table.vline\ }}
+  elements in the argument list of your table call.
+\end{itemize}
+
+We will go over all of these options with examples next! First, we will
+tackle the \texttt{\ table\ } function\textquotesingle s
+\href{/docs/reference/model/table/\#parameters-stroke}{stroke} argument.
+Here, you can adjust both how the table\textquotesingle s lines get
+drawn and configure which lines are drawn at all.
+
+Let\textquotesingle s start by modifying the color and thickness of the
+stroke:
+
+\begin{verbatim}
+#table(
+  columns: 4,
+  stroke: 0.5pt + rgb("666675"),
+  [*Monday*], [11.5], [13.0], [4.0],
+  [*Tuesday*], [8.0], [14.5], [5.0],
+  [*Wednesday*], [9.0], [18.5], [13.0],
+)
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/y0uGf9aX-aUGWqCKMwHEJwAAAAAAAAAA.png}
+
+This makes the table lines a bit less wide and uses a bluish gray. You
+can see that we added a width in point to a color to achieve our
+customized stroke. This addition yields a value of the
+\href{/docs/reference/visualize/stroke/}{stroke type} . Alternatively,
+you can use the dictionary representation for strokes which allows you
+to access advanced features such as dashed lines.
+
+The previous example showed how to use the stroke argument in the table
+function\textquotesingle s invocation. Alternatively, you can specify
+the stroke argument in the \texttt{\ table\ } \textquotesingle s set
+rule. This will have exactly the same effect on all subsequent
+\texttt{\ table\ } calls as if the stroke argument was specified in the
+argument list. This is useful if you are writing a template or want to
+style your whole document.
+
+\begin{verbatim}
+// Renders the exact same as the last example
+#set table(stroke: 0.5pt + rgb("666675"))
+
+#table(
+  columns: 4,
+  [*Monday*], [11.5], [13.0], [4.0],
+  [*Tuesday*], [8.0], [14.5], [5.0],
+  [*Wednesday*], [9.0], [18.5], [13.0],
+)
+\end{verbatim}
+
+For small tables, you sometimes want to suppress all strokes because
+they add too much visual noise. To do this, just set the stroke argument
+to \texttt{\ }{\texttt{\ none\ }}\texttt{\ } :
+
+\begin{verbatim}
+#table(
+  columns: 4,
+  stroke: none,
+  [*Monday*], [11.5], [13.0], [4.0],
+  [*Tuesday*], [8.0], [14.5], [5.0],
+  [*Wednesday*], [9.0], [18.5], [13.0],
+)
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/vQmODupZkk6MbI3nByjkqwAAAAAAAAAA.png}
+
+If you want more fine-grained control of where lines get placed in your
+table, you can also pass a dictionary with the keys \texttt{\ top\ } ,
+\texttt{\ left\ } , \texttt{\ right\ } , \texttt{\ bottom\ }
+(controlling the respective cell sides), \texttt{\ x\ } , \texttt{\ y\ }
+(controlling vertical and horizontal strokes), and \texttt{\ rest\ }
+(covers all strokes not styled by other dictionary entries). All keys
+are optional; omitted keys will be treated as if their value was the
+default value. For example, to get a table with only horizontal lines,
+you can do this:
+
+\begin{verbatim}
+#table(
+  columns: 2,
+  stroke: (x: none),
+  align: horizon,
+  [â], [Close cabin door],
+  [â], [Start engines],
+  [â], [Radio tower],
+  [â], [Push back],
+)
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/eb2IfSiEgTxcBIC79R6b-QAAAAAAAAAA.png}
+
+This turns off all vertical strokes and leaves the horizontal strokes in
+place. To achieve the reverse effect (only horizontal strokes), set the
+stroke argument to
+\texttt{\ }{\texttt{\ (\ }}\texttt{\ y\ }{\texttt{\ :\ }}\texttt{\ }{\texttt{\ none\ }}\texttt{\ }{\texttt{\ )\ }}\texttt{\ }
+instead.
+
+\hyperref[stroke-functions]{Further down in the guide} , we cover how to
+use a function in the stroke argument to customize all strokes
+individually. This is how you achieve more complex stroking patterns.
+
+\subsubsection{Adding individual lines in the
+table}\label{individual-lines}
+
+If you want to add a single horizontal or vertical line in your table,
+for example to separate a group of rows, you can use the
+\href{/docs/reference/model/table/\#definitions-hline}{\texttt{\ table.hline\ }}
+and
+\href{/docs/reference/model/table/\#definitions-vline}{\texttt{\ table.vline\ }}
+elements for horizontal and vertical lines, respectively. Add them to
+the argument list of the \texttt{\ table\ } function just like you would
+add individual cells and a header.
+
+Let\textquotesingle s take a look at the following example from the
+reference:
+
+\begin{verbatim}
+#set table.hline(stroke: 0.6pt)
+
+#table(
+  stroke: none,
+  columns: (auto, 1fr),
+  // Morning schedule abridged.
+  [14:00], [Talk: Tracked Layout],
+  [15:00], [Talk: Automations],
+  [16:00], [Workshop: Tables],
+  table.hline(),
+  [19:00], [Day 1 Attendee Mixer],
+)
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/3OGDUdhafmvnsbwhpEZnqAAAAAAAAAAA.png}
+
+In this example, you can see that we have placed a call to
+\texttt{\ table.hline\ } between the cells, producing a horizontal line
+at that spot. We also used a set rule on the element to reduce its
+stroke width to make it fit better with the weight of the font.
+
+By default, Typst places horizontal and vertical lines after the current
+row or column, depending on their position in the argument list. You can
+also manually move them to a different position by adding the
+\texttt{\ y\ } (for \texttt{\ hline\ } ) or \texttt{\ x\ } (for
+\texttt{\ vline\ } ) argument. For example, the code below would produce
+the same result:
+
+\begin{verbatim}
+#set table.hline(stroke: 0.6pt)
+
+#table(
+  stroke: none,
+  columns: (auto, 1fr),
+  // Morning schedule abridged.
+  table.hline(y: 3),
+  [14:00], [Talk: Tracked Layout],
+  [15:00], [Talk: Automations],
+  [16:00], [Workshop: Tables],
+  [19:00], [Day 1 Attendee Mixer],
+)
+\end{verbatim}
+
+Let\textquotesingle s imagine you are working with a template that shows
+none of the table strokes except for one between the first and second
+row. Now, since you have one table that also has labels in the first
+column, you want to add an extra vertical line to it. However, you do
+not want this vertical line to cross into the top row. You can achieve
+this with the \texttt{\ start\ } argument:
+
+\begin{verbatim}
+// Base template already configured tables, but we need some
+// extra configuration for this table.
+#{
+  set table(align: (x, _) => if x == 0 { left } else { right })
+  show table.cell.where(x: 0): smallcaps
+  table(
+    columns: (auto, 1fr, 1fr, 1fr),
+    table.vline(x: 1, start: 1),
+    table.header[Trainset][Top Speed][Length][Weight],
+    [TGV RÃ©seau], [320 km/h], [200m], [383t],
+    [ICE 403], [330 km/h], [201m], [409t],
+    [Shinkansen N700], [300 km/h], [405m], [700t],
+  )
+}
+\end{verbatim}
+
+\includegraphics[width=7.08333in,height=\textheight,keepaspectratio]{/assets/docs/LINgvIDoMEPxmydMRnWXAgAAAAAAAAAA.png}
+
+In this example, we have added \texttt{\ table.vline\ } at the start of
+our positional argument list. But because the line is not supposed to go
+to the left of the first column, we specified the \texttt{\ x\ }
+argument as \texttt{\ }{\texttt{\ 1\ }}\texttt{\ } . We also set the
+\texttt{\ start\ } argument to \texttt{\ }{\texttt{\ 1\ }}\texttt{\ } so
+that the line does only start after the first row.
+
+The example also contains two more things: We use the align argument
+with a function to right-align the data in all but the first column and
+use a show rule to make the first column of table cells appear in small
+capitals. Because these styles are specific to this one table, we put
+everything into a \href{/docs/reference/scripting/\#blocks}{code block}
+, so that the styling does not affect any further tables.
+
+\subsubsection{Overriding the strokes of a single
+cell}\label{stroke-override}
+
+Imagine you want to change the stroke around a single cell. Maybe your
+cell is very important and needs highlighting! For this scenario, there
+is the
+\href{/docs/reference/model/table/\#definitions-cell}{\texttt{\ table.cell\ }
+function} . Instead of adding your content directly in the argument list
+of the table, you wrap it in a \texttt{\ table.cell\ } call. Now, you
+can use \texttt{\ table.cell\ } \textquotesingle s argument list to
+override the table properties, such as the stroke, for this cell only.
+
+Here\textquotesingle s an example with a matrix of two of the Big Five
+personality factors, with one intersection highlighted.
+
+\begin{verbatim}
+#table(
+  columns: 3,
+  stroke: (x: none),
+
+  [], [*High Neuroticism*], [*Low Neuroticism*],
+
+  [*High Agreeableness*],
+  table.cell(stroke: orange + 2pt)[
+    _Sensitive_ \ Prone to emotional distress but very empathetic.
+  ],
+  [_Compassionate_ \ Caring and stable, often seen as a supportive figure.],
+
+  [*Low Agreeableness*],
+  [_Contentious_ \ Competitive and easily agitated.],
+  [_Detached_ \ Independent and calm, may appear aloof.],
+)
+\end{verbatim}
+
+\includegraphics[width=9.44792in,height=\textheight,keepaspectratio]{/assets/docs/zT-rPhodrO99vfmjEknOKwAAAAAAAAAA.png}
+
+Above, you can see that we used the \texttt{\ table.cell\ } element in
+the table\textquotesingle s argument list and passed the cell content to
+it. We have used its \texttt{\ stroke\ } argument to set a wider orange
+stroke. Despite the fact that we disabled vertical strokes on the table,
+the orange stroke appeared on all sides of the modified cell, showing
+that the table\textquotesingle s stroke configuration is overwritten.
+
+\subsubsection{Complex document-wide stroke
+customization}\label{stroke-functions}
+
+This section explains how to customize all lines at once in one or
+multiple tables. This allows you to draw only the first horizontal line
+or omit the outer lines, without knowing how many cells the table has.
+This is achieved by providing a function to the table\textquotesingle s
+\texttt{\ stroke\ } parameter. The function should return a stroke given
+the zero-indexed x and y position of the current cell. You should only
+need these functions if you are a template author, do not use a
+template, or need to heavily customize your tables. Otherwise, your
+template should set appropriate default table strokes.
+
+For example, this is a set rule that draws all horizontal lines except
+for the very first and last line.
+
+\begin{verbatim}
+#show table.cell.where(x: 0): set text(style: "italic")
+#show table.cell.where(y: 0): set text(style: "normal", weight: "bold")
+#set table(stroke: (_, y) => if y > 0 { (top: 0.8pt) })
+
+#table(
+  columns: 3,
+  align: center + horizon,
+  table.header[Technique][Advantage][Drawback],
+  [Diegetic], [Immersive], [May be contrived],
+  [Extradiegetic], [Breaks immersion], [Obtrusive],
+  [Omitted], [Fosters engagement], [May fracture audience],
+)
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/SKiPog79AfwUoglArT-17wAAAAAAAAAA.png}
+
+In the set rule, we pass a function that receives two arguments,
+assigning the vertical coordinate to \texttt{\ y\ } and discarding the
+horizontal coordinate. It then returns a stroke dictionary with a
+\texttt{\ }{\texttt{\ 0.8pt\ }}\texttt{\ } top stroke for all but the
+first line. The cells in the first line instead implicitly receive
+\texttt{\ }{\texttt{\ none\ }}\texttt{\ } as the return value. You can
+easily modify this function to just draw the inner vertical lines
+instead as
+\texttt{\ }{\texttt{\ (\ }}\texttt{\ x\ }{\texttt{\ ,\ }}\texttt{\ \_\ }{\texttt{\ )\ }}\texttt{\ }{\texttt{\ =\textgreater{}\ }}\texttt{\ }{\texttt{\ if\ }}\texttt{\ x\ }{\texttt{\ \textgreater{}\ }}\texttt{\ }{\texttt{\ 0\ }}\texttt{\ }{\texttt{\ \{\ }}\texttt{\ }{\texttt{\ (\ }}\texttt{\ left\ }{\texttt{\ :\ }}\texttt{\ }{\texttt{\ 0.8pt\ }}\texttt{\ }{\texttt{\ )\ }}\texttt{\ }{\texttt{\ \}\ }}\texttt{\ }
+.
+
+Let\textquotesingle s try a few more stroking functions. The next
+function will only draw a line below the first row:
+
+\begin{verbatim}
+#set table(stroke: (_, y) => if y == 0 { (bottom: 1pt) })
+
+// Table as seen above
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/nyvsIK-tDvHuRwbnwhj4kQAAAAAAAAAA.png}
+
+If you understood the first example, it becomes obvious what happens
+here. We check if we are in the first row. If so, we return a bottom
+stroke. Otherwise, we\textquotesingle ll return
+\texttt{\ }{\texttt{\ none\ }}\texttt{\ } implicitly.
+
+The next example shows how to draw all but the outer lines:
+
+\begin{verbatim}
+#set table(stroke: (x, y) => (
+  left: if x > 0 { 0.8pt },
+  top: if y > 0 { 0.8pt },
+))
+
+// Table as seen above
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/QRh4-eyPqD4Yz9VResk9dwAAAAAAAAAA.png}
+
+This example uses both the \texttt{\ x\ } and \texttt{\ y\ }
+coordinates. It omits the left stroke in the first column and the top
+stroke in the first row. The right and bottom lines are not drawn.
+
+Finally, here is a table that draws all lines except for the vertical
+lines in the first row and horizontal lines in the table body. It looks
+a bit like a calendar.
+
+\begin{verbatim}
+#set table(stroke: (x, y) => (
+  left: if x == 0 or y > 0 { 1pt } else {Â 0pt },
+  right: 1pt,
+  top: if y <= 1 { 1pt } else {Â 0pt },
+  bottom: 1pt,
+))
+
+// Table as seen above
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/qw8tKe_4tpVbtFAmFf0POQAAAAAAAAAA.png}
+
+This example is a bit more complex. We start by drawing all the strokes
+on the right of the cells. But this means that we have drawn strokes in
+the top row, too, and we don\textquotesingle t need those! We use the
+fact that \texttt{\ left\ } will override \texttt{\ right\ } and only
+draw the left line if we are not in the first row or if we are in the
+first column. In all other cases, we explicitly remove the left line.
+Finally, we draw the horizontal lines by first setting the bottom line
+and then for the first two rows with the \texttt{\ top\ } key,
+suppressing all other top lines. The last line appears because there is
+no \texttt{\ top\ } line that could suppress it.
+
+\subsubsection{How to achieve a double line?}\label{double-stroke}
+
+Typst does not yet have a native way to draw double strokes, but there
+are multiple ways to emulate them, for example with
+\href{/docs/reference/visualize/pattern/}{patterns} . We will show a
+different workaround in this section: Table gutters.
+
+Tables can space their cells apart using the \texttt{\ gutter\ }
+argument. When a gutter is applied, a stroke is drawn on each of the now
+separated cells. We can selectively add gutter between the rows or
+columns for which we want to draw a double line. The
+\texttt{\ row-gutter\ } and \texttt{\ column-gutter\ } arguments allow
+us to do this. They accept arrays of gutter values.
+Let\textquotesingle s take a look at an example:
+
+\begin{verbatim}
+#table(
+  columns: 3,
+  stroke: (x: none),
+  row-gutter: (2.2pt, auto),
+  table.header[Date][Exercise Type][Calories Burned],
+  [2023-03-15], [Swimming], [400],
+  [2023-03-17], [Weightlifting], [250],
+  [2023-03-18], [Yoga], [200],
+)
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/ketpWMF_8TQEKQlrbhiNRQAAAAAAAAAA.png}
+
+We can see that we used an array for \texttt{\ row-gutter\ } that
+specifies a \texttt{\ }{\texttt{\ 2.2pt\ }}\texttt{\ } gap between the
+first and second row. It then continues with \texttt{\ auto\ } (which is
+the default, in this case \texttt{\ }{\texttt{\ 0pt\ }}\texttt{\ }
+gutter) which will be the gutter between all other rows, since it is the
+last entry in the array.
+
+\subsection{How to align the contents of the cells in my
+table?}\label{alignment}
+
+You can use multiple mechanisms to align the content in your table. You
+can either use the \texttt{\ table\ } function\textquotesingle s
+\texttt{\ align\ } argument to set the alignment for your whole table
+(or use it in a set rule to set the alignment for tables throughout your
+document) or the
+\href{/docs/reference/layout/align/}{\texttt{\ align\ }} function (or
+\texttt{\ table.cell\ } \textquotesingle s \texttt{\ align\ } argument)
+to override the alignment of a single cell.
+
+When using the \texttt{\ table\ } function\textquotesingle s align
+argument, you can choose between three methods to specify an
+\href{/docs/reference/layout/alignment/}{alignment} :
+
+\begin{itemize}
+\tightlist
+\item
+  Just specify a single alignment like \texttt{\ right\ } (aligns in the
+  top-right corner) or \texttt{\ center\ +\ horizon\ } (centers all cell
+  content). This changes the alignment of all cells.
+\item
+  Provide an array. Typst will cycle through this array for each column.
+\item
+  Provide a function that is passed the horizontal \texttt{\ x\ } and
+  vertical \texttt{\ y\ } coordinate of a cell and returns an alignment.
+\end{itemize}
+
+For example, this travel itinerary right-aligns the day column and
+left-aligns everything else by providing an array in the
+\texttt{\ align\ } argument:
+
+\begin{verbatim}
+#set text(font: "IBM Plex Sans")
+#show table.cell.where(y: 0): set text(weight: "bold")
+
+#table(
+  columns: 4,
+  align: (right, left, left, left),
+  fill: (_, y) => if calc.odd(y) { green.lighten(90%) },
+  stroke: none,
+
+  table.header[Day][Location][Hotel or Apartment][Activities],
+  [1], [Paris, France], [Hotel de L'Europe], [Arrival, Evening River Cruise],
+  [2], [Paris, France], [Hotel de L'Europe], [Louvre Museum, Eiffel Tower],
+  [3], [Lyon, France], [Lyon City Hotel], [City Tour, Local Cuisine Tasting],
+  [4], [Geneva, Switzerland], [Lakeview Inn], [Lake Geneva, Red Cross Museum],
+  [5], [Zermatt, Switzerland], [Alpine Lodge], [Visit Matterhorn, Skiing],
+)
+\end{verbatim}
+
+\includegraphics[width=7.08333in,height=\textheight,keepaspectratio]{/assets/docs/JDfAUmIJzQHzE6NL8LKAnwAAAAAAAAAA.png}
+
+However, this example does not yet look perfect â€'' the header cells
+should be bottom-aligned. Let\textquotesingle s use a function instead
+to do so:
+
+\begin{verbatim}
+#set text(font: "IBM Plex Sans")
+#show table.cell.where(y: 0): set text(weight: "bold")
+
+#table(
+  columns: 4,
+  align: (x, y) =>
+    if x == 0 { right } else { left } +
+    if y == 0 { bottom } else { top },
+  fill: (_, y) => if calc.odd(y) { green.lighten(90%) },
+  stroke: none,
+
+  table.header[Day][Location][Hotel or Apartment][Activities],
+  [1], [Paris, France], [Hotel de L'Europe], [Arrival, Evening River Cruise],
+  [2], [Paris, France], [Hotel de L'Europe], [Louvre Museum, Eiffel Tower],
+ // ... remaining days omitted
+)
+\end{verbatim}
+
+\includegraphics[width=7.08333in,height=\textheight,keepaspectratio]{/assets/docs/ENpsdZXkKtSK7dBT6e9dAgAAAAAAAAAA.png}
+
+In the function, we calculate a horizontal and vertical alignment based
+on whether we are in the first column (
+\texttt{\ x\ }{\texttt{\ ==\ }}\texttt{\ }{\texttt{\ 0\ }}\texttt{\ } )
+or the first row (
+\texttt{\ y\ }{\texttt{\ ==\ }}\texttt{\ }{\texttt{\ 0\ }}\texttt{\ } ).
+We then make use of the fact that we can add horizontal and vertical
+alignments with \texttt{\ +\ } to receive a single, two-dimensional
+alignment.
+
+You can find an example of using \texttt{\ table.cell\ } to change a
+single cell\textquotesingle s alignment on
+\href{/docs/reference/model/table/\#definitions-cell}{its reference
+page} .
+
+\subsection{How to merge cells?}\label{merge-cells}
+
+When a table contains logical groupings or the same data in multiple
+adjacent cells, merging multiple cells into a single, larger cell can be
+advantageous. Another use case for cell groups are table headers with
+multiple rows: That way, you can group for example a sales data table by
+quarter in the first row and by months in the second row.
+
+A merged cell spans multiple rows and/or columns. You can achieve it
+with the
+\href{/docs/reference/model/table/\#definitions-cell}{\texttt{\ table.cell\ }}
+function\textquotesingle s \texttt{\ rowspan\ } and \texttt{\ colspan\ }
+arguments: Just specify how many rows or columns you want your cell to
+span.
+
+The example below contains an attendance calendar for an office with
+in-person and remote days for each team member. To make the table more
+glanceable, we merge adjacent cells with the same value:
+
+\begin{verbatim}
+#let ofi = [Office]
+#let rem = [_Remote_]
+#let lea = [*On leave*]
+
+#show table.cell.where(y: 0): set text(
+  fill: white,
+  weight: "bold",
+)
+
+#table(
+  columns: 6 * (1fr,),
+  align: (x, y) => if x == 0 or y == 0 { left } else { center },
+  stroke: (x, y) => (
+    // Separate black cells with white strokes.
+    left: if y == 0 and x > 0 { white } else { black },
+    rest: black,
+  ),
+  fill: (_, y) => if y == 0 { black },
+
+  table.header(
+    [Team member],
+    [Monday],
+    [Tuesday],
+    [Wednesday],
+    [Thursday],
+    [Friday]
+  ),
+  [Evelyn Archer],
+    table.cell(colspan: 2, ofi),
+    table.cell(colspan: 2, rem),
+    ofi,
+  [Lila Montgomery],
+    table.cell(colspan: 5, lea),
+  [Nolan Pearce],
+    rem,
+    table.cell(colspan: 2, ofi),
+    rem,
+    ofi,
+)
+\end{verbatim}
+
+\includegraphics[width=12.98958in,height=\textheight,keepaspectratio]{/assets/docs/yyaKf-LLQbyy3QccVJXb2wAAAAAAAAAA.png}
+
+In the example, we first define variables with "Office", "Remote", and
+"On leave" so we don\textquotesingle t have to write these labels out
+every time. We can then use these variables in the table body either
+directly or in a \texttt{\ table.cell\ } call if the team member spends
+multiple consecutive days in office, remote, or on leave.
+
+The example also contains a black header (created with
+\texttt{\ table\ } \textquotesingle s \texttt{\ fill\ } argument) with
+white strokes ( \texttt{\ table\ } \textquotesingle s
+\texttt{\ stroke\ } argument) and white text (set by the
+\texttt{\ table.cell\ } set rule). Finally, we align all the content of
+all table cells in the body in the center. If you want to know more
+about the functions passed to \texttt{\ align\ } , \texttt{\ stroke\ } ,
+and \texttt{\ fill\ } , you can check out the sections on
+\href{/docs/reference/layout/alignment/}{alignment} ,
+\hyperref[stroke-functions]{strokes} , and \hyperref[fills]{striped
+tables} .
+
+This table would be a great candidate for fully automated generation
+from an external data source! Check out the
+\hyperref[importing-data]{section about importing data} to learn more
+about that.
+
+\subsection{How to rotate a table?}\label{rotate-table}
+
+When tables have many columns, a portrait paper orientation can quickly
+get cramped. Hence, you\textquotesingle ll sometimes want to switch your
+tables to landscape orientation. There are two ways to accomplish this
+in Typst:
+
+\begin{itemize}
+\tightlist
+\item
+  If you want to rotate only the table but not the other content of the
+  page and the page itself, use the
+  \href{/docs/reference/layout/rotate/}{\texttt{\ rotate\ } function}
+  with the \texttt{\ reflow\ } argument set to
+  \texttt{\ }{\texttt{\ true\ }}\texttt{\ } .
+\item
+  If you want to rotate the whole page the table is on, you can use the
+  \href{/docs/reference/layout/page/}{\texttt{\ page\ } function} with
+  its \texttt{\ flipped\ } argument set to
+  \texttt{\ }{\texttt{\ true\ }}\texttt{\ } . The header, footer, and
+  page number will now also appear on the long edge of the page. This
+  has the advantage that the table will appear right side up when read
+  on a computer, but it also means that a page in your document has
+  different dimensions than all the others, which can be jarring to your
+  readers.
+\end{itemize}
+
+Below, we will demonstrate both techniques with a student grade book
+table.
+
+First, we will rotate the table on the page. The example also places
+some text on the right of the table.
+
+\begin{verbatim}
+#set page("a5", columns: 2, numbering: "â 1 â")
+#show table.cell.where(y: 0): set text(weight: "bold")
+
+#rotate(
+  -90deg,
+  reflow: true,
+
+  table(
+    columns: (1fr,) + 5 * (auto,),
+    inset: (x: 0.6em,),
+    stroke: (_, y) => (
+      x: 1pt,
+      top: if y <= 1 { 1pt } else {Â 0pt },
+      bottom: 1pt,
+    ),
+    align: (left, right, right, right, right, left),
+
+    table.header(
+      [Student Name],
+      [Assignment 1], [Assignment 2],
+      [Mid-term], [Final Exam],
+      [Total Grade],
+    ),
+    [Jane Smith], [78%], [82%], [75%], [80%], [B],
+    [Alex Johnson], [90%], [95%], [94%], [96%], [A+],
+    [John Doe], [85%], [90%], [88%], [92%], [A],
+    [Maria Garcia], [88%], [84%], [89%], [85%], [B+],
+    [Zhang Wei], [93%], [89%], [90%], [91%], [A-],
+    [Marina Musterfrau], [96%], [91%], [74%], [69%], [B-],
+  ),
+)
+
+#lorem(80)
+\end{verbatim}
+
+\includegraphics[width=8.73958in,height=\textheight,keepaspectratio]{/assets/docs/t_mhLmSe89ZV_R--e5hFagAAAAAAAAAA.png}
+
+What we have here is a two-column document on ISO A5 paper with page
+numbers on the bottom. The table has six columns and contains a few
+customizations to \hyperref[strokes]{stroke} , alignment and spacing.
+But the most important part is that the table is wrapped in a call to
+the \texttt{\ rotate\ } function with the \texttt{\ reflow\ } argument
+being \texttt{\ }{\texttt{\ true\ }}\texttt{\ } . This will make the
+table rotate 90 degrees counterclockwise. The reflow argument is needed
+so that the table\textquotesingle s rotation affects the layout. If it
+was omitted, Typst would lay out the page as if the table was not
+rotated ( \texttt{\ }{\texttt{\ true\ }}\texttt{\ } might become the
+default in the future).
+
+The example also shows how to produce many columns of the same size: To
+the initial \texttt{\ }{\texttt{\ 1fr\ }}\texttt{\ } column, we add an
+array with five \texttt{\ }{\texttt{\ auto\ }}\texttt{\ } items that we
+create by multiplying an array with one
+\texttt{\ }{\texttt{\ auto\ }}\texttt{\ } item by five. Note that arrays
+with just one item need a trailing comma to distinguish them from merely
+parenthesized expressions.
+
+The second example shows how to rotate the whole page, so that the table
+stays upright:
+
+\begin{verbatim}
+#set page("a5", numbering: "â 1 â")
+#show table.cell.where(y: 0): set text(weight: "bold")
+
+#page(flipped: true)[
+  #table(
+    columns: (1fr,) + 5 * (auto,),
+    inset: (x: 0.6em,),
+    stroke: (_, y) => (
+      x: 1pt,
+      top: if y <= 1 { 1pt } else {Â 0pt },
+      bottom: 1pt,
+    ),
+    align: (left, right, right, right, right, left),
+
+    table.header(
+      [Student Name],
+      [Assignment 1], [Assignment 2],
+      [Mid-term], [Final Exam],
+      [Total Grade],
+    ),
+    [Jane Smith], [78%], [82%], [75%], [80%], [B],
+    [Alex Johnson], [90%], [95%], [94%], [96%], [A+],
+    [John Doe], [85%], [90%], [88%], [92%], [A],
+    [Maria Garcia], [88%], [84%], [89%], [85%], [B+],
+    [Zhang Wei], [93%], [89%], [90%], [91%], [A-],
+    [Marina Musterfrau], [96%], [91%], [74%], [69%], [B-],
+  )
+
+  #pad(x: 15%, top: 1.5em)[
+    = Winter 2023/24 results
+    #lorem(80)
+  ]
+]
+\end{verbatim}
+
+\includegraphics[width=12.40625in,height=\textheight,keepaspectratio]{/assets/docs/9Goo6xTF0vprclhyFSb4zwAAAAAAAAAA.png}
+
+Here, we take the same table and the other content we want to set with
+it and put it into a call to the
+\href{/docs/reference/layout/page/}{\texttt{\ page\ }} function while
+supplying \texttt{\ }{\texttt{\ true\ }}\texttt{\ } to the
+\texttt{\ flipped\ } argument. This will instruct Typst to create new
+pages with width and height swapped and place the contents of the
+function call onto a new page. Notice how the page number is also on the
+long edge of the paper now. At the bottom of the page, we use the
+\href{/docs/reference/layout/pad/}{\texttt{\ pad\ }} function to
+constrain the width of the paragraph to achieve a nice and legible line
+length.
+
+\subsection{How to break a table across
+pages?}\label{table-across-pages}
+
+It is best to contain a table on a single page. However, some tables
+just have many rows, so breaking them across pages becomes unavoidable.
+Fortunately, Typst supports breaking tables across pages out of the box.
+If you are using the
+\href{/docs/reference/model/table/\#definitions-header}{\texttt{\ table.header\ }}
+and
+\href{/docs/reference/model/table/\#definitions-footer}{\texttt{\ table.footer\ }}
+functions, their contents will be repeated on each page as the first and
+last rows, respectively. If you want to disable this behavior, you can
+set \texttt{\ repeat\ } to \texttt{\ }{\texttt{\ false\ }}\texttt{\ } on
+either of them.
+
+If you have placed your table inside of a
+\href{/docs/reference/model/figure/}{figure} , it becomes unable to
+break across pages by default. However, you can change this behavior.
+Let\textquotesingle s take a look:
+
+\begin{verbatim}
+#set page(width: 9cm, height: 6cm)
+#show table.cell.where(y: 0): set text(weight: "bold")
+#show figure: set block(breakable: true)
+
+#figure(
+  caption: [Training regimen for Marathon],
+  table(
+    columns: 3,
+    fill: (_, y) => if y == 0 { gray.lighten(75%) },
+
+    table.header[Week][Distance (km)][Time (hh:mm:ss)],
+    [1], [5],  [00:30:00],
+    [2], [7],  [00:45:00],
+    [3], [10], [01:00:00],
+    [4], [12], [01:10:00],
+    [5], [15], [01:25:00],
+    [6], [18], [01:40:00],
+    [7], [20], [01:50:00],
+    [8], [22], [02:00:00],
+    [...], [...], [...],
+    table.footer[_Goal_][_42.195_][_02:45:00_],
+  )
+)
+\end{verbatim}
+
+\includegraphics[width=5.3125in,height=\textheight,keepaspectratio]{/assets/docs/LN81XNtn32FKL9Eh3VVjowAAAAAAAAAA.png}
+\includegraphics[width=5.3125in,height=\textheight,keepaspectratio]{/assets/docs/LN81XNtn32FKL9Eh3VVjowAAAAAAAAAB.png}
+
+A figure automatically produces a
+\href{/docs/reference/layout/block/}{block} which cannot break by
+default. However, we can reconfigure the block of the figure using a
+show rule to make it \texttt{\ breakable\ } . Now, the figure spans
+multiple pages with the headers and footers repeating.
+
+\subsection{How to import data into a table?}\label{importing-data}
+
+Often, you need to put data that you obtained elsewhere into a table.
+Sometimes, this is from Microsoft Excel or Google Sheets, sometimes it
+is from a dataset on the web or from your experiment. Fortunately, Typst
+can load many \href{/docs/reference/data-loading/}{common file formats}
+, so you can use scripting to include their data in a table.
+
+The most common file format for tabular data is CSV. You can obtain a
+CSV file from Excel by choosing "Save as" in the \emph{File} menu and
+choosing the file format "CSV UTF-8 (Comma-delimited) (.csv)". Save the
+file and, if you are using the web app, upload it to your project.
+
+In our case, we will be building a table about Moore\textquotesingle s
+Law. For this purpose, we are using a statistic with
+\href{https://ourworldindata.org/grapher/transistors-per-microprocessor}{how
+many transistors the average microprocessor consists of per year from
+Our World in Data} . Let\textquotesingle s start by pressing the
+"Download" button to get a CSV file with the raw data.
+
+Be sure to move the file to your project or somewhere Typst can see it,
+if you are using the CLI. Once you did that, we can open the file to see
+how it is structured:
+
+\begin{verbatim}
+Entity,Code,Year,Transistors per microprocessor
+World,OWID_WRL,1971,2308.2417
+World,OWID_WRL,1972,3554.5222
+World,OWID_WRL,1974,6097.5625
+\end{verbatim}
+
+The file starts with a header and contains four columns: Entity (which
+is to whom the metric applies), Code, the year, and the number of
+transistors per microprocessor. Only the last two columns change between
+each row, so we can disregard "Entity" and "Code".
+
+First, let\textquotesingle s start by loading this file with the
+\href{/docs/reference/data-loading/csv/}{\texttt{\ csv\ }} function. It
+accepts the file name of the file we want to load as a string argument:
+
+\begin{verbatim}
+#let moore = csv("moore.csv")
+\end{verbatim}
+
+We have loaded our file (assuming we named it \texttt{\ moore.csv\ } )
+and \href{/docs/reference/scripting/\#bindings}{bound it} to the new
+variable \texttt{\ moore\ } . This will not produce any output, so
+there\textquotesingle s nothing to see yet. If we want to examine what
+Typst loaded, we can either hover the name of the variable in the web
+app or print some items from the array:
+
+\begin{verbatim}
+#let moore = csv("moore.csv")
+
+#moore.slice(0, 3)
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/4Wrq2xnRY1_FUBMwiwPizQAAAAAAAAAA.png}
+
+With the arguments
+\texttt{\ }{\texttt{\ (\ }}\texttt{\ }{\texttt{\ 0\ }}\texttt{\ }{\texttt{\ ,\ }}\texttt{\ }{\texttt{\ 3\ }}\texttt{\ }{\texttt{\ )\ }}\texttt{\ }
+, the
+\href{/docs/reference/foundations/array/\#definitions-slice}{\texttt{\ slice\ }}
+method returns the first three items in the array (with the indices 0,
+1, and 2). We can see that each row is its own array with one item per
+cell.
+
+Now, let\textquotesingle s write a loop that will transform this data
+into an array of cells that we can use with the table function.
+
+\begin{verbatim}
+#let moore = csv("moore.csv")
+
+#table(
+  columns: 2,
+  ..for (.., year, count) in moore {
+    (year, count)
+  }
+)
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/1JHLF5egGPQD3C2V0wZONgAAAAAAAAAA.png}
+
+The example above uses a for loop that iterates over the rows in our CSV
+file and returns an array for each iteration. We use the for
+loop\textquotesingle s
+\href{/docs/reference/scripting/\#bindings}{destructuring} capability to
+discard all but the last two items of each row. We then create a new
+array with just these two. Because Typst will concatenate the array
+results of all the loop iterations, we get a one-dimensional array in
+which the year column and the number of transistors alternate. We can
+then insert the array as cells. For this we use the
+\href{/docs/reference/foundations/arguments/\#spreading}{spread
+operator} ( \texttt{\ ..\ } ). By prefixing an array, or, in our case an
+expression that yields an array, with two dots, we tell Typst that the
+array\textquotesingle s items should be used as positional arguments.
+
+Alternatively, we can also use the
+\href{/docs/reference/foundations/array/\#definitions-map}{\texttt{\ map\ }}
+,
+\href{/docs/reference/foundations/array/\#definitions-slice}{\texttt{\ slice\ }}
+, and
+\href{/docs/reference/foundations/array/\#definitions-flatten}{\texttt{\ flatten\ }}
+array methods to write this in a more functional style:
+
+\begin{verbatim}
+#let moore = csv("moore.csv")
+
+#table(
+   columns: moore.first().len(),
+   ..moore.map(m => m.slice(2)).flatten(),
+)
+\end{verbatim}
+
+This example renders the same as the previous one, but first uses the
+\texttt{\ map\ } function to change each row of the data. We pass a
+function to map that gets run on each row of the CSV and returns a new
+value to replace that row with. We use it to discard the first two
+columns with \texttt{\ slice\ } . Then, we spread the data into the
+\texttt{\ table\ } function. However, we need to pass a one-dimensional
+array and \texttt{\ moore\ } \textquotesingle s value is two-dimensional
+(that means that each of its row values contains an array with the cell
+data). That\textquotesingle s why we call \texttt{\ flatten\ } which
+converts it to a one-dimensional array. We also extract the number of
+columns from the data itself.
+
+Now that we have nice code for our table, we should try to also make the
+table itself nice! The transistor counts go from millions in 1995 to
+trillions in 2021 and changes are difficult to see with so many digits.
+We could try to present our data logarithmically to make it more
+digestible:
+
+\begin{verbatim}
+#let moore = csv("moore.csv")
+#let moore-log = moore.slice(1).map(m => {
+  let (.., year, count) = m
+  let log = calc.log(float(count))
+  let rounded = str(calc.round(log, digits: 2))
+  (year, rounded)
+})
+
+#show table.cell.where(x: 0): strong
+
+#table(
+   columns: moore-log.first().len(),
+   align: right,
+   fill: (_, y) => if calc.odd(y) { rgb("D7D9E0") },
+   stroke: none,
+
+   table.header[Year][Transistor count ($log_10$)],
+   table.hline(stroke: rgb("4D4C5B")),
+   ..moore-log.flatten(),
+)
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/ZOXJwHX6lPP_GLnz4eAxbQAAAAAAAAAA.png}
+
+In this example, we first drop the header row from the data since we are
+adding our own. Then, we discard all but the last two columns as above.
+We do this by \href{/docs/reference/scripting/\#bindings}{destructuring}
+the array \texttt{\ m\ } , discarding all but the two last items. We
+then convert the string in \texttt{\ count\ } to a floating point
+number, calculate its logarithm and store it in the variable
+\texttt{\ log\ } . Finally, we round it to two digits, convert it to a
+string, and store it in the variable \texttt{\ rounded\ } . Then, we
+return an array with \texttt{\ year\ } and \texttt{\ rounded\ } that
+replaces the original row. In our table, we have added our custom header
+that tells the reader that we\textquotesingle ve applied a logarithm to
+the values. Then, we spread the flattened data as above.
+
+We also styled the table with \hyperref[fills]{stripes} , a
+\hyperref[individual-lines]{horizontal line} below the first row,
+\hyperref[alignment]{aligned} everything to the right, and emboldened
+the first column. Click on the links to go to the relevant guide
+sections and see how it\textquotesingle s done!
+
+\subsection{What if I need the table function for something that
+isn\textquotesingle t a table?}\label{table-and-grid}
+
+Tabular layouts of content can be useful not only for matrices of
+closely related data, like shown in the examples throughout this guide,
+but also for presentational purposes. Typst differentiates between grids
+that are for layout and presentational purposes only and tables, in
+which the arrangement of the cells itself conveys information.
+
+To make this difference clear to other software and allow templates to
+heavily style tables, Typst has two functions for grid and table layout:
+
+\begin{itemize}
+\tightlist
+\item
+  The \href{/docs/reference/model/table/}{\texttt{\ table\ }} function
+  explained throughout this guide which is intended for tabular data.
+\item
+  The \href{/docs/reference/layout/grid/}{\texttt{\ grid\ }} function
+  which is intended for presentational purposes and page layout.
+\end{itemize}
+
+Both elements work the same way and have the same arguments. You can
+apply everything you have learned about tables in this guide to grids.
+There are only three differences:
+
+\begin{itemize}
+\tightlist
+\item
+  You\textquotesingle ll need to use the
+  \href{/docs/reference/layout/grid/\#definitions-cell}{\texttt{\ grid.cell\ }}
+  ,
+  \href{/docs/reference/layout/grid/\#definitions-vline}{\texttt{\ grid.vline\ }}
+  , and
+  \href{/docs/reference/layout/grid/\#definitions-hline}{\texttt{\ grid.hline\ }}
+  elements instead of
+  \href{/docs/reference/model/table/\#definitions-cell}{\texttt{\ table.cell\ }}
+  ,
+  \href{/docs/reference/model/table/\#definitions-vline}{\texttt{\ table.vline\ }}
+  , and
+  \href{/docs/reference/model/table/\#definitions-hline}{\texttt{\ table.hline\ }}
+  .
+\item
+  The grid has different defaults: It draws no strokes by default and
+  has no spacing ( \texttt{\ inset\ } ) inside of its cells.
+\item
+  Elements like \texttt{\ figure\ } do not react to grids since they are
+  supposed to have no semantical bearing on the document structure.
+\end{itemize}
+
+\href{/docs/guides/page-setup-guide/}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-arrow-right.svg}}}
+
+{ Page setup guide } { Previous page }
+
+\href{/docs/changelog/}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-arrow-right.svg}}}
+
+{ Changelog } { Next page }
+
+
+\title{typst.app/docs/guides/page-setup-guide}
+
+\begin{itemize}
+\tightlist
+\item
+  \href{/docs}{\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-docs-dark.svg}}
+\item
+  \includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-arrow-right.svg}
+\item
+  \href{/docs/guides/}{Guides}
+\item
+  \includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-arrow-right.svg}
+\item
+  \href{/docs/guides/page-setup-guide/}{Page setup guide}
+\end{itemize}
+
+\section{Page setup guide}\label{page-setup-guide}
+
+Your page setup is a big part of the first impression your document
+gives. Line lengths, margins, and columns influence
+\href{https://practicaltypography.com/page-margins.html}{appearance} and
+\href{https://designregression.com/article/line-length-revisited-following-the-research}{legibility}
+while the right headers and footers will help your reader easily
+navigate your document. This guide will help you to customize pages,
+margins, headers, footers, and page numbers so that they are the right
+fit for your content and you can get started with writing.
+
+In Typst, each page has a width, a height, and margins on all four
+sides. The top and bottom margins may contain a header and footer. The
+set rule of the \href{/docs/reference/layout/page/}{\texttt{\ page\ }}
+element is where you control all of the page setup. If you make changes
+with this set rule, Typst will ensure that there is a new and conforming
+empty page afterward, so it may insert a page break. Therefore, it is
+best to specify your
+\href{/docs/reference/layout/page/}{\texttt{\ page\ }} set rule at the
+start of your document or in your template.
+
+\begin{verbatim}
+#set rect(
+  width: 100%,
+  height: 100%,
+  inset: 4pt,
+)
+
+#set page(
+  paper: "iso-b7",
+  header: rect(fill: aqua)[Header],
+  footer: rect(fill: aqua)[Footer],
+  number-align: center,
+)
+
+#rect(fill: aqua.lighten(40%))
+\end{verbatim}
+
+\includegraphics[width=5.19792in,height=\textheight,keepaspectratio]{/assets/docs/f-lyLMO5vdXuAMoj28s3AgAAAAAAAAAA.png}
+
+This example visualizes the dimensions for page content, headers, and
+footers. The page content is the page size (ISO B7) minus each
+side\textquotesingle s default margin. In the top and the bottom margin,
+there are stroked rectangles visualizing the header and footer. They do
+not touch the main content, instead, they are offset by 30\% of the
+respective margin. You can control this offset by specifying the
+\href{/docs/reference/layout/page/\#parameters-header-ascent}{\texttt{\ header-ascent\ }}
+and
+\href{/docs/reference/layout/page/\#parameters-footer-descent}{\texttt{\ footer-descent\ }}
+arguments.
+
+Below, the guide will go more into detail on how to accomplish common
+page setup requirements with examples.
+
+\subsection{Customize page size and margins}\label{customize-margins}
+
+Typst\textquotesingle s default page size is A4 paper. Depending on your
+region and your use case, you will want to change this. You can do this
+by using the \href{/docs/reference/layout/page/}{\texttt{\ page\ }} set
+rule and passing it a string argument to use a common page size. Options
+include the complete ISO 216 series (e.g. \texttt{\ "iso-a4"\ } ,
+\texttt{\ "iso-c2"\ } ), customary US formats like
+\texttt{\ "us-legal"\ } or \texttt{\ "us-letter"\ } , and more. Check
+out the reference for the
+\href{/docs/reference/layout/page/\#parameters-paper}{page\textquotesingle s
+paper argument} to learn about all available options.
+
+\begin{verbatim}
+#set page("us-letter")
+
+This page likes freedom.
+\end{verbatim}
+
+\includegraphics[width=12.75in,height=\textheight,keepaspectratio]{/assets/docs/Qkb9fYb5SMfDaJ63aYycTwAAAAAAAAAA.png}
+
+If you need to customize your page size to some dimensions, you can
+specify the named arguments
+\href{/docs/reference/layout/page/\#parameters-width}{\texttt{\ width\ }}
+and
+\href{/docs/reference/layout/page/\#parameters-height}{\texttt{\ height\ }}
+instead.
+
+\begin{verbatim}
+#set page(width: 12cm, height: 12cm)
+
+This page is a square.
+\end{verbatim}
+
+\includegraphics[width=7.08333in,height=\textheight,keepaspectratio]{/assets/docs/RltrP5jjKi_qENhy9B-HyQAAAAAAAAAA.png}
+
+\subsubsection{Change the page\textquotesingle s
+margins}\label{change-margins}
+
+Margins are a vital ingredient for good typography:
+\href{http://webtypography.net/2.1.2}{Typographers consider lines that
+fit between 45 and 75 characters best length for legibility} and your
+margins and \hyperref[columns]{columns} help define line widths. By
+default, Typst will create margins proportional to the page size of your
+document. To set custom margins, you will use the
+\href{/docs/reference/layout/page/\#parameters-margin}{\texttt{\ margin\ }}
+argument in the \href{/docs/reference/layout/page/}{\texttt{\ page\ }}
+set rule.
+
+The \texttt{\ margin\ } argument will accept a length if you want to set
+all margins to the same width. However, you often want to set different
+margins on each side. To do this, you can pass a dictionary:
+
+\begin{verbatim}
+#set page(margin: (
+  top: 3cm,
+  bottom: 2cm,
+  x: 1.5cm,
+))
+
+#lorem(100)
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/yJb2DmVYA18DCHWDRA50QQAAAAAAAAAA.png}
+
+The page margin dictionary can have keys for each side (
+\texttt{\ top\ } , \texttt{\ bottom\ } , \texttt{\ left\ } ,
+\texttt{\ right\ } ), but you can also control left and right together
+by setting the \texttt{\ x\ } key of the margin dictionary, like in the
+example. Likewise, the top and bottom margins can be adjusted together
+by setting the \texttt{\ y\ } key.
+
+If you do not specify margins for all sides in the margin dictionary,
+the old margins will remain in effect for the unset sides. To prevent
+this and set all remaining margins to a common size, you can use the
+\texttt{\ rest\ } key. For example,
+\texttt{\ }{\texttt{\ \#\ }}\texttt{\ }{\texttt{\ set\ }}\texttt{\ }{\texttt{\ page\ }}\texttt{\ }{\texttt{\ (\ }}\texttt{\ margin\ }{\texttt{\ :\ }}\texttt{\ }{\texttt{\ (\ }}\texttt{\ left\ }{\texttt{\ :\ }}\texttt{\ }{\texttt{\ 1.5in\ }}\texttt{\ }{\texttt{\ ,\ }}\texttt{\ rest\ }{\texttt{\ :\ }}\texttt{\ }{\texttt{\ 1in\ }}\texttt{\ }{\texttt{\ )\ }}\texttt{\ }{\texttt{\ )\ }}\texttt{\ }
+will set the left margin to 1.5 inches and the remaining margins to one
+inch.
+
+\subsubsection{Different margins on alternating
+pages}\label{alternating-margins}
+
+Sometimes, you\textquotesingle ll need to alternate horizontal margins
+for even and odd pages, for example, to have more room towards the spine
+of a book than on the outsides of its pages. Typst keeps track of
+whether a page is to the left or right of the binding. You can use this
+information and set the \texttt{\ inside\ } or \texttt{\ outside\ } keys
+of the margin dictionary. The \texttt{\ inside\ } margin points towards
+the spine, and the \texttt{\ outside\ } margin points towards the edge
+of the bound book.
+
+\begin{verbatim}
+#set page(margin: (inside: 2.5cm, outside: 2cm, y: 1.75cm))
+\end{verbatim}
+
+Typst will assume that documents written in Left-to-Right scripts are
+bound on the left while books written in Right-to-Left scripts are bound
+on the right. However, you will need to change this in some cases: If
+your first page is output by a different app, the binding is reversed
+from Typst\textquotesingle s perspective. Also, some books, like
+English-language Mangas are customarily bound on the right, despite
+English using Left-to-Right script. To change the binding side and
+explicitly set where the \texttt{\ inside\ } and \texttt{\ outside\ }
+are, set the
+\href{/docs/reference/layout/page/\#parameters-binding}{\texttt{\ binding\ }}
+argument in the \href{/docs/reference/layout/page/}{\texttt{\ page\ }}
+set rule.
+
+\begin{verbatim}
+// Produce a book bound on the right,
+// even though it is set in Spanish.
+#set text(lang: "es")
+#set page(binding: right)
+\end{verbatim}
+
+If \texttt{\ binding\ } is \texttt{\ left\ } , \texttt{\ inside\ }
+margins will be on the left on odd pages, and vice versa.
+
+\subsection{Add headers and footers}\label{headers-and-footers}
+
+Headers and footers are inserted in the top and bottom margins of every
+page. You can add custom headers and footers or just insert a page
+number.
+
+In case you need more than just a page number, the best way to insert a
+header and a footer are the
+\href{/docs/reference/layout/page/\#parameters-header}{\texttt{\ header\ }}
+and
+\href{/docs/reference/layout/page/\#parameters-footer}{\texttt{\ footer\ }}
+arguments of the \href{/docs/reference/layout/page/}{\texttt{\ page\ }}
+set rule. You can pass any content as their values:
+
+\begin{verbatim}
+#set page(header: [
+  _Lisa Strassner's Thesis_
+  #h(1fr)
+  National Academy of Sciences
+])
+
+#lorem(150)
+\end{verbatim}
+
+\includegraphics[width=8.73958in,height=\textheight,keepaspectratio]{/assets/docs/8IFKrlz4CTSpYgWgKq02tAAAAAAAAAAA.png}
+
+Headers are bottom-aligned by default so that they do not collide with
+the top edge of the page. You can change this by wrapping your header in
+the \href{/docs/reference/layout/align/}{\texttt{\ align\ }} function.
+
+\subsubsection{Different header and footer on specific
+pages}\label{specific-pages}
+
+You\textquotesingle ll need different headers and footers on some pages.
+For example, you may not want a header and footer on the title page. The
+example below shows how to conditionally remove the header on the first
+page:
+
+\begin{verbatim}
+#set page(header: context {
+  if counter(page).get().first() > 1 [
+    _Lisa Strassner's Thesis_
+    #h(1fr)
+    National Academy of Sciences
+  ]
+})
+
+#lorem(150)
+\end{verbatim}
+
+This example may look intimidating, but let\textquotesingle s break it
+down: By using the \texttt{\ }{\texttt{\ context\ }}\texttt{\ } keyword,
+we are telling Typst that the header depends on where we are in the
+document. We then ask Typst if the page
+\href{/docs/reference/introspection/counter/}{counter} is larger than
+one at our (context-dependent) current position. The page counter starts
+at one, so we are skipping the header on a single page. Counters may
+have multiple levels. This feature is used for items like headings, but
+the page counter will always have a single level, so we can just look at
+the first one.
+
+You can, of course, add an \texttt{\ else\ } to this example to add a
+different header to the first page instead.
+
+\subsubsection{Adapt headers and footers on pages with specific
+elements}\label{specific-elements}
+
+The technique described in the previous section can be adapted to
+perform more advanced tasks using Typst\textquotesingle s labels. For
+example, pages with big tables could omit their headers to help keep
+clutter down. We will mark our tables with a
+\texttt{\ \textless{}big-table\textgreater{}\ }
+\href{/docs/reference/foundations/label/}{label} and use the
+\href{/docs/reference/introspection/query/}{query system} to find out if
+such a label exists on the current page:
+
+\begin{verbatim}
+#set page(header: context {
+  let page-counter =
+  let matches = query(<big-table>)
+  let current = counter(page).get()
+  let has-table = matches.any(m =>
+    counter(page).at(m.location()) == current
+  )
+
+  if not has-table [
+    _Lisa Strassner's Thesis_
+    #h(1fr)
+    National Academy of Sciences
+  ]
+}))
+
+#lorem(100)
+#pagebreak()
+
+#table(
+  columns: 2 * (1fr,),
+  [A], [B],
+  [C], [D],
+) <big-table>
+\end{verbatim}
+
+Here, we query for all instances of the
+\texttt{\ \textless{}big-table\textgreater{}\ } label. We then check
+that none of the tables are on the page at our current position. If so,
+we print the header. This example also uses variables to be more
+concise. Just as above, you could add an \texttt{\ else\ } to add
+another header instead of deleting it.
+
+\subsection{Add and customize page numbers}\label{page-numbers}
+
+Page numbers help readers keep track of and reference your document more
+easily. The simplest way to insert page numbers is the
+\href{/docs/reference/layout/page/\#parameters-numbering}{\texttt{\ numbering\ }}
+argument of the \href{/docs/reference/layout/page/}{\texttt{\ page\ }}
+set rule. You can pass a
+\href{/docs/reference/model/numbering/\#parameters-numbering}{\emph{numbering
+pattern}} string that shows how you want your pages to be numbered.
+
+\begin{verbatim}
+#set page(numbering: "1")
+
+This is a numbered page.
+\end{verbatim}
+
+\includegraphics[width=7.38542in,height=\textheight,keepaspectratio]{/assets/docs/tItTkMk79gxARzJosrxVsgAAAAAAAAAA.png}
+
+Above, you can check out the simplest conceivable example. It adds a
+single Arabic page number at the center of the footer. You can specify
+other characters than \texttt{\ "1"\ } to get other numerals. For
+example, \texttt{\ "i"\ } will yield lowercase Roman numerals. Any
+character that is not interpreted as a number will be output as-is. For
+example, put dashes around your page number by typing this:
+
+\begin{verbatim}
+#set page(numbering: "â 1 â")
+
+This is a â numbered â page.
+\end{verbatim}
+
+\includegraphics[width=7.38542in,height=\textheight,keepaspectratio]{/assets/docs/1_R2fSOS46hX8DevWO3SHwAAAAAAAAAA.png}
+
+You can add the total number of pages by entering a second number
+character in the string.
+
+\begin{verbatim}
+#set page(numbering: "1 of 1")
+
+This is one of many numbered pages.
+\end{verbatim}
+
+\includegraphics[width=7.38542in,height=\textheight,keepaspectratio]{/assets/docs/y7IZgFjQvtyaq__YsS98MAAAAAAAAAAA.png}
+
+Go to the
+\href{/docs/reference/model/numbering/\#parameters-numbering}{\texttt{\ numbering\ }
+function reference} to learn more about the arguments you can pass here.
+
+In case you need to right- or left-align the page number, use the
+\href{/docs/reference/layout/page/\#parameters-number-align}{\texttt{\ number-align\ }}
+argument of the \href{/docs/reference/layout/page/}{\texttt{\ page\ }}
+set rule. Alternating alignment between even and odd pages is not
+currently supported using this property. To do this,
+you\textquotesingle ll need to specify a custom footer with your
+footnote and query the page counter as described in the section on
+conditionally omitting headers and footers.
+
+\subsubsection{Custom footer with page
+numbers}\label{custom-footer-with-page-numbers}
+
+Sometimes, you need to add other content than a page number to your
+footer. However, once a footer is specified, the
+\href{/docs/reference/layout/page/\#parameters-numbering}{\texttt{\ numbering\ }}
+argument of the \href{/docs/reference/layout/page/}{\texttt{\ page\ }}
+set rule is ignored. This section shows you how to add a custom footer
+with page numbers and more.
+
+\begin{verbatim}
+#set page(footer: context [
+  *American Society of Proceedings*
+  #h(1fr)
+  #counter(page).display(
+    "1/1",
+    both: true,
+  )
+])
+
+This page has a custom footer.
+\end{verbatim}
+
+\includegraphics[width=7.38542in,height=\textheight,keepaspectratio]{/assets/docs/pa4FfkSAmZ8SbHMJhFhITAAAAAAAAAAA.png}
+
+First, we add some strongly emphasized text on the left and add free
+space to fill the line. Then, we call \texttt{\ counter(page)\ } to
+retrieve the page counter and use its \texttt{\ display\ } function to
+show its current value. We also set \texttt{\ both\ } to
+\texttt{\ }{\texttt{\ true\ }}\texttt{\ } so that our numbering pattern
+applies to the current \emph{and} final page number.
+
+We can also get more creative with the page number. For example,
+let\textquotesingle s insert a circle for each page.
+
+\begin{verbatim}
+#set page(footer: context [
+  *Fun Typography Club*
+  #h(1fr)
+  #let (num,) = counter(page).get()
+  #let circles = num * (
+    box(circle(
+      radius: 2pt,
+      fill: navy,
+    )),
+  )
+  #box(
+    inset: (bottom: 1pt),
+    circles.join(h(1pt))
+  )
+])
+
+This page has a custom footer.
+\end{verbatim}
+
+\includegraphics[width=7.38542in,height=\textheight,keepaspectratio]{/assets/docs/Px4MgFDGZh5TfTBwUSS_KAAAAAAAAAAA.png}
+
+In this example, we use the number of pages to create an array of
+\href{/docs/reference/visualize/circle/}{circles} . The circles are
+wrapped in a \href{/docs/reference/layout/box/}{box} so they can all
+appear on the same line because they are blocks and would otherwise
+create paragraph breaks. The length of this
+\href{/docs/reference/foundations/array/}{array} depends on the current
+page number.
+
+We then insert the circles at the right side of the footer, with 1pt of
+space between them. The join method of an array will attempt to
+\href{/docs/reference/scripting/\#blocks}{\emph{join}} the different
+values of an array into a single value, interspersed with its argument.
+In our case, we get a single content value with circles and spaces
+between them that we can use with the align function. Finally, we use
+another box to ensure that the text and the circles can share a line and
+use the
+\href{/docs/reference/layout/box/\#parameters-inset}{\texttt{\ inset\ }
+argument} to raise the circles a bit so they line up nicely with the
+text.
+
+\subsubsection{Reset the page number and skip pages}\label{skip-pages}
+
+Do you, at some point in your document, need to reset the page number?
+Maybe you want to start with the first page only after the title page.
+Or maybe you need to skip a few page numbers because you will insert
+pages into the final printed product.
+
+The right way to modify the page number is to manipulate the page
+\href{/docs/reference/introspection/counter/}{counter} . The simplest
+manipulation is to set the counter back to 1.
+
+\begin{verbatim}
+#counter(page).update(1)
+\end{verbatim}
+
+This line will reset the page counter back to one. It should be placed
+at the start of a page because it will otherwise create a page break.
+You can also update the counter given its previous value by passing a
+function:
+
+\begin{verbatim}
+#counter(page).update(n => n + 5)
+\end{verbatim}
+
+In this example, we skip five pages. \texttt{\ n\ } is the current value
+of the page counter and \texttt{\ n\ +\ 5\ } is the return value of our
+function.
+
+In case you need to retrieve the actual page number instead of the value
+of the page counter, you can use the
+\href{/docs/reference/introspection/location/\#definitions-page}{\texttt{\ page\ }}
+method on the return value of the
+\href{/docs/reference/introspection/here/}{\texttt{\ here\ }} function:
+
+\begin{verbatim}
+#counter(page).update(n => n + 5)
+
+// This returns one even though the
+// page counter was incremented by 5.
+#context here().page()
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/09ytRFFbm_ZOLxjka15n_QAAAAAAAAAA.png}
+
+You can also obtain the page numbering pattern from the location
+returned by \texttt{\ here\ } with the
+\href{/docs/reference/introspection/location/\#definitions-page-numbering}{\texttt{\ page-numbering\ }}
+method.
+
+\subsection{Add columns}\label{columns}
+
+Add columns to your document to fit more on a page while maintaining
+legible line lengths. Columns are vertical blocks of text which are
+separated by some whitespace. This space is called the gutter.
+
+To lay out your content in columns, just specify the desired number of
+columns in a
+\href{/docs/reference/layout/page/\#parameters-columns}{\texttt{\ page\ }}
+set rule. To adjust the amount of space between the columns, add a set
+rule on the \href{/docs/reference/layout/columns/}{\texttt{\ columns\ }
+function} , specifying the \texttt{\ gutter\ } parameter.
+
+\begin{verbatim}
+#set page(columns: 2)
+#set columns(gutter: 12pt)
+
+#lorem(30)
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/FgQ5mR5BdbOwdaPvmQss-wAAAAAAAAAA.png}
+
+Very commonly, scientific papers have a single-column title and
+abstract, while the main body is set in two-columns. To achieve this
+effect, Typst\textquotesingle s
+\href{/docs/reference/layout/place/}{\texttt{\ place\ } function} can
+temporarily escape the two-column layout by specifying
+\texttt{\ float:\ }{\texttt{\ true\ }}\texttt{\ } and
+\texttt{\ scope:\ }{\texttt{\ "parent"\ }}\texttt{\ } :
+
+\begin{verbatim}
+#set page(columns: 2)
+#set par(justify: true)
+
+#place(
+  top + center,
+  float: true,
+  scope: "parent",
+  text(1.4em, weight: "bold")[
+    Impacts of Odobenidae
+  ],
+)
+
+== About seals in the wild
+#lorem(80)
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/rwgbgpUV52923GFV_9bCEQAAAAAAAAAA.png}
+
+\emph{Floating placement} refers to elements being pushed to the top or
+bottom of the column or page, with the remaining content flowing in
+between. It is also frequently used for
+\href{/docs/reference/model/figure/\#parameters-placement}{figures} .
+
+\subsubsection{Use columns anywhere in your
+document}\label{columns-anywhere}
+
+To create columns within a nested layout, e.g. within a rectangle, you
+can use the \href{/docs/reference/layout/columns/}{\texttt{\ columns\ }
+function} directly. However, it really should only be used within nested
+layouts. At the page-level, the page set rule is preferrable because it
+has better interactions with things like page-level floats, footnotes,
+and line numbers.
+
+\begin{verbatim}
+#rect(
+  width: 6cm,
+  height: 3.5cm,
+  columns(2, gutter: 12pt)[
+    In the dimly lit gas station,
+    a solitary taxi stood silently,
+    its yellow paint fading with
+    time. Its windows were dark,
+    its engine idle, and its tires
+    rested on the cold concrete.
+  ]
+)
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/4ald2xJRDpaFMxVXu7aiUQAAAAAAAAAA.png}
+
+\subsubsection{Balanced columns}\label{balanced-columns}
+
+If the columns on the last page of a document differ greatly in length,
+they may create a lopsided and unappealing layout.
+That\textquotesingle s why typographers will often equalize the length
+of columns on the last page. This effect is called balancing columns.
+Typst cannot yet balance columns automatically. However, you can balance
+columns manually by placing
+\href{/docs/reference/layout/colbreak/}{\texttt{\ }{\texttt{\ \#\ }}\texttt{\ }{\texttt{\ colbreak\ }}\texttt{\ }{\texttt{\ (\ }}\texttt{\ }{\texttt{\ )\ }}\texttt{\ }}
+at an appropriate spot in your markup, creating the desired column break
+manually.
+
+\subsection{One-off modifications}\label{one-off-modifications}
+
+You do not need to override your page settings if you need to insert a
+single page with a different setup. For example, you may want to insert
+a page that\textquotesingle s flipped to landscape to insert a big table
+or change the margin and columns for your title page. In this case, you
+can call \href{/docs/reference/layout/page/}{\texttt{\ page\ }} as a
+function with your content as an argument and the overrides as the other
+arguments. This will insert enough new pages with your overridden
+settings to place your content on them. Typst will revert to the page
+settings from the set rule after the call.
+
+\begin{verbatim}
+#page(flipped: true)[
+  = Multiplication table
+
+  #table(
+    columns: 5 * (1fr,),
+    ..for x in range(1, 10) {
+      for y in range(1, 6) {
+        (str(x*y),)
+      }
+    }
+  )
+]
+\end{verbatim}
+
+\includegraphics[width=8.73958in,height=\textheight,keepaspectratio]{/assets/docs/U5FByA07ZCcGdizR_XbtEwAAAAAAAAAA.png}
+
+\href{/docs/guides/guide-for-latex-users/}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-arrow-right.svg}}}
+
+{ Guide for LaTeX users } { Previous page }
+
+\href{/docs/guides/table-guide/}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-arrow-right.svg}}}
+
+{ Table guide } { Next page }
+
+
+\title{typst.app/docs/guides/guide-for-latex-users}
+
+\begin{itemize}
+\tightlist
+\item
+  \href{/docs}{\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-docs-dark.svg}}
+\item
+  \includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-arrow-right.svg}
+\item
+  \href{/docs/guides/}{Guides}
+\item
+  \includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-arrow-right.svg}
+\item
+  \href{/docs/guides/guide-for-latex-users/}{Guide for LaTeX users}
+\end{itemize}
+
+\section{Guide for LaTeX users}\label{guide-for-latex-users}
+
+This page is a good starting point if you have used LaTeX before and
+want to try out Typst. We will explore the main differences between
+these two systems from a user perspective. Although Typst is not built
+upon LaTeX and has a different syntax, you will learn how to use your
+LaTeX skills to get a head start.
+
+Just like LaTeX, Typst is a markup-based typesetting system: You compose
+your document in a text file and mark it up with commands and other
+syntax. Then, you use a compiler to typeset the source file into a PDF.
+However, Typst also differs from LaTeX in several aspects: For one,
+Typst uses more dedicated syntax (like you may know from Markdown) for
+common tasks. Typst\textquotesingle s commands are also more principled:
+They all work the same, so unlike in LaTeX, you just need to understand
+a few general concepts instead of learning different conventions for
+each package. Moreover Typst compiles faster than LaTeX: Compilation
+usually takes milliseconds, not seconds, so the web app and the compiler
+can both provide instant previews.
+
+In the following, we will cover some of the most common questions a user
+switching from LaTeX will have when composing a document in Typst. If
+you prefer a step-by-step introduction to Typst, check out our
+\href{/docs/tutorial/}{tutorial} .
+
+\subsection{Installation}\label{installation}
+
+You have two ways to use Typst: In \href{https://typst.app/signup/}{our
+web app} or by \href{https://github.com/typst/typst/releases}{installing
+the compiler} on your computer. When you use the web app, we provide a
+batteries-included collaborative editor and run Typst in your browser,
+no installation required.
+
+If you choose to use Typst on your computer instead, you can download
+the compiler as a single, small binary which any user can run, no root
+privileges required. Unlike LaTeX, packages are downloaded when you
+first use them and then cached locally, keeping your Typst installation
+lean. You can use your own editor and decide where to store your files
+with the local compiler.
+
+\subsection{How do I create a new, empty
+document?}\label{getting-started}
+
+That\textquotesingle s easy. You just create a new, empty text file (the
+file extension is \texttt{\ .typ\ } ). No boilerplate is needed to get
+started. Simply start by writing your text. It will be set on an empty
+A4-sized page. If you are using the web app, click "+ Empty document" to
+create a new project with a file and enter the editor.
+\href{/docs/reference/model/parbreak/}{Paragraph breaks} work just as
+they do in LaTeX, just use a blank line.
+
+\begin{verbatim}
+Hey there!
+
+Here are two paragraphs. The
+output is shown to the right.
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/1Xaxf-Fz-W7agcXqKmLyjQAAAAAAAAAA.png}
+
+If you want to start from an preexisting LaTeX document instead, you can
+use \href{https://pandoc.org}{Pandoc} to convert your source code to
+Typst markup. This conversion is also built into our web app, so you can
+upload your \texttt{\ .tex\ } file to start your project in Typst.
+
+\subsection{How do I create section headings, emphasis,
+...?}\label{elements}
+
+LaTeX uses the command \texttt{\ \textbackslash{}section\ } to create a
+section heading. Nested headings are indicated with
+\texttt{\ \textbackslash{}subsection\ } ,
+\texttt{\ \textbackslash{}subsubsection\ } , etc. Depending on your
+document class, there is also \texttt{\ \textbackslash{}part\ } or
+\texttt{\ \textbackslash{}chapter\ } .
+
+In Typst, \href{/docs/reference/model/heading/}{headings} are less
+verbose: You prefix the line with the heading on it with an equals sign
+and a space to get a first-order heading:
+\texttt{\ }{\texttt{\ =\ Introduction\ }}\texttt{\ } . If you need a
+second-order heading, you use two equals signs:
+\texttt{\ }{\texttt{\ ==\ In\ this\ paper\ }}\texttt{\ } . You can nest
+headings as deeply as you\textquotesingle d like by adding more equals
+signs.
+
+Emphasis (usually rendered as italic text) is expressed by enclosing
+text in \texttt{\ }{\texttt{\ \_underscores\_\ }}\texttt{\ } and strong
+emphasis (usually rendered in boldface) by using
+\texttt{\ }{\texttt{\ *stars*\ }}\texttt{\ } instead.
+
+Here is a list of common markup commands used in LaTeX and their Typst
+equivalents. You can also check out the
+\href{/docs/reference/syntax/}{full syntax cheat sheet} .
+
+\begin{longtable}[]{@{}llll@{}}
+\toprule\noalign{}
+Element & LaTeX & Typst & See \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Strong emphasis & \texttt{\ \textbackslash{}textbf\{strong\}\ } &
+\texttt{\ }{\texttt{\ *strong*\ }}\texttt{\ } &
+\href{/docs/reference/model/strong/}{\texttt{\ strong\ }} \\
+Emphasis & \texttt{\ \textbackslash{}emph\{emphasis\}\ } &
+\texttt{\ }{\texttt{\ \_emphasis\_\ }}\texttt{\ } &
+\href{/docs/reference/model/emph/}{\texttt{\ emph\ }} \\
+Monospace / code & \texttt{\ \textbackslash{}texttt\{print(1)\}\ } &
+\texttt{\ }{\texttt{\ \textasciigrave{}print(1)\textasciigrave{}\ }}\texttt{\ }
+& \href{/docs/reference/text/raw/}{\texttt{\ raw\ }} \\
+Link & \texttt{\ \textbackslash{}url\{https://typst.app\}\ } &
+\texttt{\ }{\texttt{\ https://typst.app/\ }}\texttt{\ } &
+\href{/docs/reference/model/link/}{\texttt{\ link\ }} \\
+Label & \texttt{\ \textbackslash{}label\{intro\}\ } &
+\texttt{\ }{\texttt{\ \textless{}intro\textgreater{}\ }}\texttt{\ } &
+\href{/docs/reference/foundations/label/}{\texttt{\ label\ }} \\
+Reference & \texttt{\ \textbackslash{}ref\{intro\}\ } &
+\texttt{\ }{\texttt{\ @intro\ }}\texttt{\ } &
+\href{/docs/reference/model/ref/}{\texttt{\ ref\ }} \\
+Citation & \texttt{\ \textbackslash{}cite\{humphrey97\}\ } &
+\texttt{\ }{\texttt{\ @humphrey97\ }}\texttt{\ } &
+\href{/docs/reference/model/cite/}{\texttt{\ cite\ }} \\
+Bullet list & \texttt{\ itemize\ } environment &
+\texttt{\ }{\texttt{\ -\ }}\texttt{\ List\ } &
+\href{/docs/reference/model/list/}{\texttt{\ list\ }} \\
+Numbered list & \texttt{\ enumerate\ } environment &
+\texttt{\ }{\texttt{\ +\ }}\texttt{\ List\ } &
+\href{/docs/reference/model/enum/}{\texttt{\ enum\ }} \\
+Term list & \texttt{\ description\ } environment &
+\texttt{\ }{\texttt{\ /\ }}\texttt{\ }{\texttt{\ Term\ }}\texttt{\ }{\texttt{\ :\ }}\texttt{\ List\ }
+& \href{/docs/reference/model/terms/}{\texttt{\ terms\ }} \\
+Figure & \texttt{\ figure\ } environment & \texttt{\ figure\ } function
+& \href{/docs/reference/model/figure/}{\texttt{\ figure\ }} \\
+Table & \texttt{\ table\ } environment & \texttt{\ table\ } function &
+\href{/docs/reference/model/table/}{\texttt{\ table\ }} \\
+Equation & \texttt{\ \$x\$\ } , \texttt{\ align\ } /
+\texttt{\ equation\ } environments &
+\texttt{\ }{\texttt{\ \$\ }}\texttt{\ x\ }{\texttt{\ \$\ }}\texttt{\ } ,
+\texttt{\ }{\texttt{\ \$\ }}\texttt{\ x\ =\ y\ }{\texttt{\ \$\ }}\texttt{\ }
+& \href{/docs/reference/math/equation/}{\texttt{\ equation\ }} \\
+\end{longtable}
+
+\href{/docs/reference/model/list/}{Lists} do not rely on environments in
+Typst. Instead, they have lightweight syntax like headings. To create an
+unordered list ( \texttt{\ itemize\ } ), prefix each line of an item
+with a hyphen:
+
+\begin{verbatim}
+To write this list in Typst...
+
+```latex
+\begin{itemize}
+  \item Fast
+  \item Flexible
+  \item Intuitive
+\end{itemize}
+```
+
+...just type this:
+
+- Fast
+- Flexible
+- Intuitive
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/EtxJBpmzn-Q3caUem89mOQAAAAAAAAAA.png}
+
+Nesting lists works just by using proper indentation. Adding a blank
+line in between items results in a more
+\href{/docs/reference/model/list/\#parameters-tight}{widely} spaced
+list.
+
+To get a \href{/docs/reference/model/enum/}{numbered list} (
+\texttt{\ enumerate\ } ) instead, use a \texttt{\ +\ } instead of the
+hyphen. For a \href{/docs/reference/model/terms/}{term list} (
+\texttt{\ description\ } ), write
+\texttt{\ }{\texttt{\ /\ }}\texttt{\ }{\texttt{\ Term\ }}\texttt{\ }{\texttt{\ :\ }}\texttt{\ Description\ }
+instead.
+
+\subsection{How do I use a command?}\label{commands}
+
+LaTeX heavily relies on commands (prefixed by backslashes). It uses
+these \emph{macros} to affect the typesetting process and to insert and
+manipulate content. Some commands accept arguments, which are most
+frequently enclosed in curly braces:
+\texttt{\ \textbackslash{}cite\{rasmus\}\ } .
+
+Typst differentiates between
+\href{/docs/reference/scripting/\#blocks}{markup mode and code mode} .
+The default is markup mode, where you compose text and apply syntactic
+constructs such as
+\texttt{\ }{\texttt{\ *stars\ for\ bold\ text*\ }}\texttt{\ } . Code
+mode, on the other hand, parallels programming languages like Python,
+providing the option to input and execute segments of code.
+
+Within Typst\textquotesingle s markup, you can switch to code mode for a
+single command (or rather, \emph{expression} ) using a hash (
+\texttt{\ \#\ } ). This is how you call functions to, for example, split
+your project into different
+\href{/docs/reference/scripting/\#modules}{files} or render text based
+on some \href{/docs/reference/scripting/\#conditionals}{condition} .
+Within code mode, it is possible to include normal markup
+\href{/docs/reference/foundations/content/}{\emph{content}} by using
+square brackets. Within code mode, this content is treated just as any
+other normal value for a variable.
+
+\begin{verbatim}
+First, a rectangle:
+#rect()
+
+Let me show how to do
+#underline([_underlined_ text])
+
+We can also do some maths:
+#calc.max(3, 2 * 4)
+
+And finally a little loop:
+#for x in range(3) [
+  Hi #x.
+]
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/YRh-AUkIq4C1mI8DVTggswAAAAAAAAAA.png}
+
+A function call always involves the name of the function (
+\href{/docs/reference/visualize/rect/}{\texttt{\ rect\ }} ,
+\href{/docs/reference/text/underline/}{\texttt{\ underline\ }} ,
+\href{/docs/reference/foundations/calc/\#functions-max}{\texttt{\ calc.max\ }}
+,
+\href{/docs/reference/foundations/array/\#definitions-range}{\texttt{\ range\ }}
+) followed by parentheses (as opposed to LaTeX where the square brackets
+and curly braces are optional if the macro requires no arguments). The
+expected list of arguments passed within those parentheses depends on
+the concrete function and is specified in the
+\href{/docs/reference/}{reference} .
+
+\subsubsection{Arguments}\label{arguments}
+
+A function can have multiple arguments. Some arguments are positional,
+i.e., you just provide the value: The function
+\texttt{\ }{\texttt{\ \#\ }}\texttt{\ }{\texttt{\ lower\ }}\texttt{\ }{\texttt{\ (\ }}\texttt{\ }{\texttt{\ "SCREAM"\ }}\texttt{\ }{\texttt{\ )\ }}\texttt{\ }
+returns its argument in all-lowercase. Many functions use named
+arguments instead of positional arguments to increase legibility. For
+example, the dimensions and stroke of a rectangle are defined with named
+arguments:
+
+\begin{verbatim}
+#rect(
+  width: 2cm,
+  height: 1cm,
+  stroke: red,
+)
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/qhelTU2eEzhkL0zp__ciIAAAAAAAAAAA.png}
+
+You specify a named argument by first entering its name (above,
+it\textquotesingle s \texttt{\ width\ } , \texttt{\ height\ } , and
+\texttt{\ stroke\ } ), then a colon, followed by the value (
+\texttt{\ 2cm\ } , \texttt{\ 1cm\ } , \texttt{\ red\ } ). You can find
+the available named arguments in the \href{/docs/reference/}{reference
+page} for each function or in the autocomplete panel when typing. Named
+arguments are similar to how some LaTeX environments are configured, for
+example, you would type
+\texttt{\ \textbackslash{}begin\{enumerate\}{[}label=\{\textbackslash{}alph*)\}{]}\ }
+to start a list with the labels \texttt{\ a)\ } , \texttt{\ b)\ } , and
+so on.
+
+Often, you want to provide some
+\href{/docs/reference/foundations/content/}{content} to a function. For
+example, the LaTeX command
+\texttt{\ \textbackslash{}underline\{Alternative\ A\}\ } would translate
+to
+\texttt{\ }{\texttt{\ \#\ }}\texttt{\ }{\texttt{\ underline\ }}\texttt{\ }{\texttt{\ (\ }}\texttt{\ }{\texttt{\ {[}\ }}\texttt{\ Alternative\ A\ }{\texttt{\ {]}\ }}\texttt{\ }{\texttt{\ )\ }}\texttt{\ }
+in Typst. The square brackets indicate that a value is
+\href{/docs/reference/foundations/content/}{content} . Within these
+brackets, you can use normal markup. However, that\textquotesingle s a
+lot of parentheses for a pretty simple construct. This is why you can
+also move trailing content arguments after the parentheses (and omit the
+parentheses if they would end up empty).
+
+\begin{verbatim}
+Typst is an #underline[alternative]
+to LaTeX.
+
+#rect(fill: aqua)[Get started here!]
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/mXv-36m3C2iLosBLIxMjHwAAAAAAAAAA.png}
+
+\subsubsection{Data types}\label{data-types}
+
+You likely already noticed that the arguments have distinctive data
+types. Typst supports many \href{/docs/reference/foundations/type/}{data
+types} . Below, there is a table with some of the most important ones
+and how to write them. In order to specify values of any of these types,
+you have to be in code mode!
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Data type & Example \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\href{/docs/reference/foundations/content/}{Content} &
+\texttt{\ }{\texttt{\ {[}\ }}\texttt{\ }{\texttt{\ *fast*\ }}\texttt{\ typesetting\ }{\texttt{\ {]}\ }}\texttt{\ } \\
+\href{/docs/reference/foundations/str/}{String} &
+\texttt{\ }{\texttt{\ "Pietro\ S.\ Author"\ }}\texttt{\ } \\
+\href{/docs/reference/foundations/int/}{Integer} &
+\texttt{\ }{\texttt{\ 23\ }}\texttt{\ } \\
+\href{/docs/reference/foundations/float/}{Floating point number} &
+\texttt{\ }{\texttt{\ 1.459\ }}\texttt{\ } \\
+\href{/docs/reference/layout/length/}{Absolute length} &
+\texttt{\ }{\texttt{\ 12pt\ }}\texttt{\ } ,
+\texttt{\ }{\texttt{\ 5in\ }}\texttt{\ } ,
+\texttt{\ }{\texttt{\ 0.3cm\ }}\texttt{\ } , ... \\
+\href{/docs/reference/layout/ratio/}{Relative length} &
+\texttt{\ }{\texttt{\ 65\%\ }}\texttt{\ } \\
+\end{longtable}
+
+The difference between content and string is that content can contain
+markup, including function calls, while a string really is just a plain
+sequence of characters.
+
+Typst provides \href{/docs/reference/scripting/\#conditionals}{control
+flow constructs} and
+\href{/docs/reference/scripting/\#operators}{operators} such as
+\texttt{\ +\ } for adding things or \texttt{\ ==\ } for checking
+equality between two variables.
+
+You can also store values, including functions, in your own
+\href{/docs/reference/scripting/\#bindings}{variables} . This can be
+useful to perform computations on them, create reusable automations, or
+reference a value multiple times. The variable binding is accomplished
+with the let keyword, which works similar to
+\texttt{\ \textbackslash{}newcommand\ } :
+
+\begin{verbatim}
+// Store the integer `5`.
+#let five = 5
+
+// Define a function that
+// increments a value.
+#let inc(i) = i + 1
+
+// Reference the variables.
+I have #five fingers.
+
+If I had one more, I'd have
+#inc(five) fingers. Whoa!
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/B033fxNtvCwYya9MX4R6xwAAAAAAAAAA.png}
+
+\subsubsection{Commands to affect the remaining document}\label{rules}
+
+In LaTeX, some commands like
+\texttt{\ \textbackslash{}textbf\{bold\ text\}\ } receive an argument in
+curly braces and only affect that argument. Other commands such as
+\texttt{\ \textbackslash{}bfseries\ bold\ text\ } act as switches (LaTeX
+calls this a declaration), altering the appearance of all subsequent
+content within the document or current scope.
+
+In Typst, the same function can be used both to affect the appearance
+for the remainder of the document, a block (or scope), or just its
+arguments. For example,
+\texttt{\ }{\texttt{\ \#\ }}\texttt{\ }{\texttt{\ text\ }}\texttt{\ }{\texttt{\ (\ }}\texttt{\ weight\ }{\texttt{\ :\ }}\texttt{\ }{\texttt{\ "bold"\ }}\texttt{\ }{\texttt{\ )\ }}\texttt{\ }{\texttt{\ {[}\ }}\texttt{\ bold\ text\ }{\texttt{\ {]}\ }}\texttt{\ }
+will only embolden its argument, while
+\texttt{\ }{\texttt{\ \#\ }}\texttt{\ }{\texttt{\ set\ }}\texttt{\ }{\texttt{\ text\ }}\texttt{\ }{\texttt{\ (\ }}\texttt{\ weight\ }{\texttt{\ :\ }}\texttt{\ }{\texttt{\ "bold"\ }}\texttt{\ }{\texttt{\ )\ }}\texttt{\ }
+will embolden any text until the end of the current block, or, if there
+is none, document. The effects of a function are immediately obvious
+based on whether it is used in a call or a
+\href{/docs/reference/styling/\#set-rules}{set rule.}
+
+\begin{verbatim}
+I am starting out with small text.
+
+#set text(14pt)
+
+This is a bit #text(18pt)[larger,]
+don't you think?
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/aX-wYquEk7ekHdAWcGZ3-wAAAAAAAAAA.png}
+
+Set rules may appear anywhere in the document. They can be thought of as
+default argument values of their respective function:
+
+\begin{verbatim}
+#set enum(numbering: "I.")
+
+Good results can only be obtained by
++ following best practices
++ being aware of current results
+  of other researchers
++ checking the data for biases
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/FTzkApPthDlHdofpWCjnfwAAAAAAAAAA.png}
+
+The \texttt{\ +\ } is syntactic sugar (think of it as an abbreviation)
+for a call to the \href{/docs/reference/model/enum/}{\texttt{\ enum\ }}
+function, to which we apply a set rule above.
+\href{/docs/reference/syntax/}{Most syntax is linked to a function in
+this way.} If you need to style an element beyond what its arguments
+enable, you can completely redefine its appearance with a
+\href{/docs/reference/styling/\#show-rules}{show rule} (somewhat
+comparable to \texttt{\ \textbackslash{}renewcommand\ } ).
+
+You can achieve the effects of LaTeX commands like
+\texttt{\ \textbackslash{}textbf\ } ,
+\texttt{\ \textbackslash{}textsf\ } ,
+\texttt{\ \textbackslash{}rmfamily\ } ,
+\texttt{\ \textbackslash{}mdseries\ } , and
+\texttt{\ \textbackslash{}itshape\ } with the
+\href{/docs/reference/text/text/\#parameters-font}{\texttt{\ font\ }} ,
+\href{/docs/reference/text/text/\#parameters-style}{\texttt{\ style\ }}
+, and
+\href{/docs/reference/text/text/\#parameters-weight}{\texttt{\ weight\ }}
+arguments of the \texttt{\ text\ } function. The text function can be
+used in a set rule (declaration style) or with a content argument. To
+replace \texttt{\ \textbackslash{}textsc\ } , you can use the
+\href{/docs/reference/text/smallcaps/}{\texttt{\ smallcaps\ }} function,
+which renders its content argument as smallcaps. Should you want to use
+it declaration style (like \texttt{\ \textbackslash{}scshape\ } ), you
+can use an \href{/docs/reference/styling/\#show-rules}{\emph{everything}
+show rule} that applies the function to the rest of the scope:
+
+\begin{verbatim}
+#show: smallcaps
+
+Boisterous Accusations
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/uKURZLdKdC2JssMYxVk2sQAAAAAAAAAA.png}
+
+\subsection{How do I load a document class?}\label{templates}
+
+In LaTeX, you start your main \texttt{\ .tex\ } file with the
+\texttt{\ \textbackslash{}documentclass\{article\}\ } command to define
+how your document is supposed to look. In that command, you may have
+replaced \texttt{\ article\ } with another value such as
+\texttt{\ report\ } and \texttt{\ amsart\ } to select a different look.
+
+When using Typst, you style your documents with
+\href{/docs/reference/foundations/function/}{functions} . Typically, you
+use a template that provides a function that styles your whole document.
+First, you import the function from a template file. Then, you apply it
+to your whole document. This is accomplished with a
+\href{/docs/reference/styling/\#show-rules}{show rule} that wraps the
+following document in a given function. The following example
+illustrates how it works:
+
+\begin{verbatim}
+#import "conf.typ": conf
+#show: conf.with(
+  title: [
+    Towards Improved Modelling
+  ],
+  authors: (
+    (
+      name: "Theresa Tungsten",
+      affiliation: "Artos Institute",
+      email: "tung@artos.edu",
+    ),
+    (
+      name: "Eugene Deklan",
+      affiliation: "Honduras State",
+      email: "e.deklan@hstate.hn",
+    ),
+  ),
+  abstract: lorem(80),
+)
+
+Let's get started writing this
+article by putting insightful
+paragraphs right here!
+\end{verbatim}
+
+\includegraphics[width=12.75in,height=\textheight,keepaspectratio]{/assets/docs/k47Rrbrcbzmkzl-uxGd1cAAAAAAAAAAA.png}
+
+The
+\href{/docs/reference/scripting/\#modules}{\texttt{\ }{\texttt{\ import\ }}\texttt{\ }}
+statement makes \href{/docs/reference/foundations/function/}{functions}
+(and other definitions) from another file available. In this example, it
+imports the \texttt{\ conf\ } function from the \texttt{\ conf.typ\ }
+file. This function formats a document as a conference article. We use a
+show rule to apply it to the document and also configure some metadata
+of the article. After applying the show rule, we can start writing our
+article right away!
+
+You can also use templates from Typst Universe (which is
+Typst\textquotesingle s equivalent of CTAN) using an import statement
+like this:
+\texttt{\ }{\texttt{\ \#\ }}\texttt{\ }{\texttt{\ import\ }}\texttt{\ }{\texttt{\ "@preview/elsearticle:0.2.1"\ }}\texttt{\ }{\texttt{\ :\ }}\texttt{\ elsearticle\ }
+. Check the documentation of an individual template to learn the name of
+its template function. Templates and packages from Typst Universe are
+automatically downloaded when you first use them.
+
+In the web app, you can choose to create a project from a template on
+Typst Universe or even create your own using the template wizard.
+Locally, you can use the \texttt{\ typst\ init\ } CLI to create a new
+project from a template. Check out
+\href{https://typst.app/universe/search/?kind=templates}{the list of
+templates} published on Typst Universe. You can also take a look at the
+\href{https://github.com/qjcg/awesome-typst}{\texttt{\ awesome-typst\ }
+repository} to find community templates that aren\textquotesingle t
+available through Universe.
+
+You can also \href{/docs/tutorial/making-a-template/}{create your own,
+custom templates.} They are shorter and more readable than the
+corresponding LaTeX \texttt{\ .sty\ } files by orders of magnitude, so
+give it a try!
+
+Functions are Typst\textquotesingle s "commands" and can transform their
+arguments to an output value, including document \emph{content.}
+Functions are "pure", which means that they cannot have any effects
+beyond creating an output value / output content. This is in stark
+contrast to LaTeX macros that can have arbitrary effects on your
+document.
+
+To let a function style your whole document, the show rule processes
+everything that comes after it and calls the function specified after
+the colon with the result as an argument. The \texttt{\ .with\ } part is
+a \emph{method} that takes the \texttt{\ conf\ } function and
+pre-configures some if its arguments before passing it on to the show
+rule.
+
+\subsection{How do I load packages?}\label{packages}
+
+Typst is "batteries included," so the equivalent of many popular LaTeX
+packages is built right-in. Below, we compiled a table with frequently
+loaded packages and their corresponding Typst functions.
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+LaTeX Package & Typst Alternative \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+graphicx, svg &
+\href{/docs/reference/visualize/image/}{\texttt{\ image\ }} function \\
+tabularx & \href{/docs/reference/model/table/}{\texttt{\ table\ }} ,
+\href{/docs/reference/layout/grid/}{\texttt{\ grid\ }} functions \\
+fontenc, inputenc, unicode-math & Just start writing! \\
+babel, polyglossia &
+\href{/docs/reference/text/text/\#parameters-lang}{\texttt{\ text\ }}
+function:
+\texttt{\ }{\texttt{\ \#\ }}\texttt{\ }{\texttt{\ set\ }}\texttt{\ }{\texttt{\ text\ }}\texttt{\ }{\texttt{\ (\ }}\texttt{\ lang\ }{\texttt{\ :\ }}\texttt{\ }{\texttt{\ "zh"\ }}\texttt{\ }{\texttt{\ )\ }}\texttt{\ } \\
+amsmath & \href{/docs/reference/math/}{Math mode} \\
+amsfonts, amssymb & \href{/docs/reference/symbols/}{\texttt{\ sym\ }}
+module and \href{/docs/reference/syntax/\#math}{syntax} \\
+geometry, fancyhdr &
+\href{/docs/reference/layout/page/}{\texttt{\ page\ }} function \\
+xcolor &
+\href{/docs/reference/text/text/\#parameters-fill}{\texttt{\ text\ }}
+function:
+\texttt{\ }{\texttt{\ \#\ }}\texttt{\ }{\texttt{\ set\ }}\texttt{\ }{\texttt{\ text\ }}\texttt{\ }{\texttt{\ (\ }}\texttt{\ fill\ }{\texttt{\ :\ }}\texttt{\ }{\texttt{\ rgb\ }}\texttt{\ }{\texttt{\ (\ }}\texttt{\ }{\texttt{\ "\#0178A4"\ }}\texttt{\ }{\texttt{\ )\ }}\texttt{\ }{\texttt{\ )\ }}\texttt{\ } \\
+hyperref & \href{/docs/reference/model/link/}{\texttt{\ link\ }}
+function \\
+bibtex, biblatex, natbib &
+\href{/docs/reference/model/cite/}{\texttt{\ cite\ }} ,
+\href{/docs/reference/model/bibliography/}{\texttt{\ bibliography\ }}
+functions \\
+lstlisting, minted & \href{/docs/reference/text/raw/}{\texttt{\ raw\ }}
+function and syntax \\
+parskip &
+\href{/docs/reference/layout/block/\#parameters-spacing}{\texttt{\ block\ }}
+and
+\href{/docs/reference/model/par/\#parameters-first-line-indent}{\texttt{\ par\ }}
+functions \\
+csquotes & Set the
+\href{/docs/reference/text/text/\#parameters-lang}{\texttt{\ text\ }}
+language and type \texttt{\ "\ } or \texttt{\ \textquotesingle{}\ } \\
+caption & \href{/docs/reference/model/figure/}{\texttt{\ figure\ }}
+function \\
+enumitem & \href{/docs/reference/model/list/}{\texttt{\ list\ }} ,
+\href{/docs/reference/model/enum/}{\texttt{\ enum\ }} ,
+\href{/docs/reference/model/terms/}{\texttt{\ terms\ }} functions \\
+\end{longtable}
+
+Although \emph{many} things are built-in, not everything can be.
+That\textquotesingle s why Typst has its own
+\href{https://typst.app/universe/}{package ecosystem} where the
+community share its creations and automations. Let\textquotesingle s
+take, for instance, the \emph{cetz} package: This package allows you to
+create complex drawings and plots. To use cetz in your document, you can
+just write:
+
+\begin{verbatim}
+#import "@preview/cetz:0.2.1"
+\end{verbatim}
+
+(The \texttt{\ @preview\ } is a \emph{namespace} that is used while the
+package manager is still in its early and experimental state. It will be
+replaced in the future.)
+
+Aside from the official package hub, you might also want to check out
+the \href{https://github.com/qjcg/awesome-typst}{awesome-typst
+repository} , which compiles a curated list of resources created for
+Typst.
+
+If you need to load functions and variables from another file within
+your project, for example to use a template, you can use the same
+\href{/docs/reference/scripting/\#modules}{\texttt{\ import\ }}
+statement with a file name rather than a package specification. To
+instead include the textual content of another file, you can use an
+\href{/docs/reference/scripting/\#modules}{\texttt{\ include\ }}
+statement. It will retrieve the content of the specified file and put it
+in your document.
+
+\subsection{How do I input maths?}\label{maths}
+
+To enter math mode in Typst, just enclose your equation in dollar signs.
+You can enter display mode by adding spaces or newlines between the
+equation\textquotesingle s contents and its enclosing dollar signs.
+
+\begin{verbatim}
+The sum of the numbers from
+$1$ to $n$ is:
+
+$ sum_(k=1)^n k = (n(n+1))/2 $
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/_cQQzHlyveS6_BoZXnzzQQAAAAAAAAAA.png}
+
+\href{/docs/reference/math/}{Math mode} works differently than regular
+markup or code mode. Numbers and single characters are displayed
+verbatim, while multiple consecutive (non-number) characters will be
+interpreted as Typst variables.
+
+Typst pre-defines a lot of useful variables in math mode. All Greek (
+\texttt{\ alpha\ } , \texttt{\ beta\ } , ...) and some Hebrew letters (
+\texttt{\ alef\ } , \texttt{\ bet\ } , ...) are available through their
+name. Some symbols are additionally available through shorthands, such
+as \texttt{\ \textless{}=\ } , \texttt{\ \textgreater{}=\ } , and
+\texttt{\ -\textgreater{}\ } .
+
+Refer to the \href{/docs/reference/symbols/}{symbol pages} for a full
+list of the symbols. If a symbol is missing, you can also access it
+through a \href{/docs/reference/syntax/\#escapes}{Unicode escape
+sequence} .
+
+Alternate and related forms of symbols can often be selected by
+\href{/docs/reference/symbols/symbol/}{appending a modifier} after a
+period. For example, \texttt{\ arrow.l.squiggly\ } inserts a squiggly
+left-pointing arrow. If you want to insert multiletter text in your
+expression instead, enclose it in double quotes:
+
+\begin{verbatim}
+$ delta "if" x <= 5 $
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/jk1sG5lCs-ZQ-s2nXNTbTwAAAAAAAAAA.png}
+
+In Typst, delimiters will scale automatically for their expressions,
+just as if \texttt{\ \textbackslash{}left\ } and
+\texttt{\ \textbackslash{}right\ } commands were implicitly inserted in
+LaTeX. You can customize delimiter behaviour using the
+\href{/docs/reference/math/lr/\#functions-lr}{\texttt{\ lr\ } function}
+. To prevent a pair of delimiters from scaling, you can escape them with
+backslashes.
+
+Typst will automatically set terms around a slash \texttt{\ /\ } as a
+fraction while honoring operator precedence. All round parentheses not
+made redundant by the fraction will appear in the output.
+
+\begin{verbatim}
+$ f(x) = (x + 1) / x $
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/hWpFm1Wb3In32sS_SEIHvgAAAAAAAAAA.png}
+
+\href{/docs/reference/math/attach/\#functions-attach}{Sub- and
+superscripts} work similarly in Typst and LaTeX.
+\texttt{\ }{\texttt{\ \$\ }}\texttt{\ x\ }{\texttt{\ \^{}\ }}\texttt{\ 2\ }{\texttt{\ \$\ }}\texttt{\ }
+will produce a superscript,
+\texttt{\ }{\texttt{\ \$\ }}\texttt{\ x\ }{\texttt{\ \_\ }}\texttt{\ 2\ }{\texttt{\ \$\ }}\texttt{\ }
+yields a subscript. If you want to include more than one value in a sub-
+or superscript, enclose their contents in parentheses:
+\texttt{\ }{\texttt{\ \$\ }}\texttt{\ x\ }{\texttt{\ \_\ }}\texttt{\ }{\texttt{\ (\ }}\texttt{\ a\ }{\texttt{\ -\textgreater{}\ }}\texttt{\ }{\texttt{\ epsilon\ }}\texttt{\ }{\texttt{\ )\ }}\texttt{\ }{\texttt{\ \$\ }}\texttt{\ }
+.
+
+Since variables in math mode do not need to be prepended with a
+\texttt{\ \#\ } or a \texttt{\ /\ } , you can also call functions
+without these special characters:
+
+\begin{verbatim}
+$ f(x, y) := cases(
+  1 "if" (x dot y)/2 <= 0,
+  2 "if" x "is even",
+  3 "if" x in NN,
+  4 "else",
+) $
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/0X1AFPDieBd9jiawKpc0-AAAAAAAAAAA.png}
+
+The above example uses the
+\href{/docs/reference/math/cases/}{\texttt{\ cases\ } function} to
+describe f. Within the cases function, arguments are delimited using
+commas and the arguments are also interpreted as math. If you need to
+interpret arguments as Typst values instead, prefix them with a
+\texttt{\ \#\ } :
+
+\begin{verbatim}
+$ (a + b)^2
+  = a^2
+  + text(fill: #maroon, 2 a b)
+  + b^2 $
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/Wmx0wcFeGyknnvRFv8bI5QAAAAAAAAAA.png}
+
+You can use all Typst functions within math mode and insert any content.
+If you want them to work normally, with code mode in the argument list,
+you can prefix their call with a \texttt{\ \#\ } . Nobody can stop you
+from using rectangles or emoji as your variables anymore:
+
+\begin{verbatim}
+$ sum^10_(ð¥¸=1)
+  #rect(width: 4mm, height: 2mm)/ð¥¸
+  = ð§  maltese $
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/aSVPcEv5ICbnBtcXfhpmfgAAAAAAAAAA.png}
+
+If you\textquotesingle d like to enter your mathematical symbols
+directly as Unicode, that is possible, too!
+
+Math calls can have two-dimensional argument lists using \texttt{\ ;\ }
+as a delimiter. The most common use for this is the
+\href{/docs/reference/math/mat/}{\texttt{\ mat\ } function} that creates
+matrices:
+
+\begin{verbatim}
+$ mat(
+  1, 2, ..., 10;
+  2, 2, ..., 10;
+  dots.v, dots.v, dots.down, dots.v;
+  10, 10, ..., 10;
+) $
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/yiSilYGQ1wRBpIK3ON349AAAAAAAAAAA.png}
+
+\subsection{How do I get the "LaTeX look?"}\label{latex-look}
+
+Papers set in LaTeX have an unmistakeable look. This is mostly due to
+their font, Computer Modern, justification, narrow line spacing, and
+wide margins.
+
+The example below
+
+\begin{itemize}
+\tightlist
+\item
+  sets wide
+  \href{/docs/reference/layout/page/\#parameters-margin}{margins}
+\item
+  enables
+  \href{/docs/reference/model/par/\#parameters-justify}{justification} ,
+  \href{/docs/reference/model/par/\#parameters-leading}{tighter lines}
+  and
+  \href{/docs/reference/model/par/\#parameters-first-line-indent}{first-line-indent}
+\item
+  \href{/docs/reference/text/text/\#parameters-font}{sets the font} to
+  "New Computer Modern", an OpenType derivative of Computer Modern for
+  both text and \href{/docs/reference/text/raw/}{code blocks}
+\item
+  disables paragraph
+  \href{/docs/reference/layout/block/\#parameters-spacing}{spacing}
+\item
+  increases
+  \href{/docs/reference/layout/block/\#parameters-spacing}{spacing}
+  around \href{/docs/reference/model/heading/}{headings}
+\end{itemize}
+
+\begin{verbatim}
+#set page(margin: 1.75in)
+#set par(leading: 0.55em, spacing: 0.55em, first-line-indent: 1.8em, justify: true)
+#set text(font: "New Computer Modern")
+#show raw: set text(font: "New Computer Modern Mono")
+#show heading: set block(above: 1.4em, below: 1em)
+\end{verbatim}
+
+This should be a good starting point! If you want to go further, why not
+create a reusable template?
+
+\subsection{Bibliographies}\label{bibliographies}
+
+Typst includes a fully-featured bibliography system that is compatible
+with BibTeX files. You can continue to use your \texttt{\ .bib\ }
+literature libraries by loading them with the
+\href{/docs/reference/model/bibliography/}{\texttt{\ bibliography\ }}
+function. Another possibility is to use
+\href{https://github.com/typst/hayagriva/blob/main/docs/file-format.md}{Typst\textquotesingle s
+YAML-based native format} .
+
+Typst uses the Citation Style Language to define and process citation
+and bibliography styles. You can compare CSL files to
+BibLaTeX\textquotesingle s \texttt{\ .bbx\ } files. The compiler already
+includes
+\href{/docs/reference/model/bibliography/\#parameters-style}{over 80
+citation styles} , but you can use any CSL-compliant style from the
+\href{https://github.com/citation-style-language/styles}{CSL repository}
+or write your own.
+
+You can cite an entry in your bibliography or reference a label in your
+document with the same syntax: \texttt{\ }{\texttt{\ @key\ }}\texttt{\ }
+(this would reference an entry called \texttt{\ key\ } ). Alternatively,
+you can use the \href{/docs/reference/model/cite/}{\texttt{\ cite\ }}
+function.
+
+Alternative forms for your citation, such as year only and citations for
+natural use in prose (cf. \texttt{\ \textbackslash{}citet\ } and
+\texttt{\ \textbackslash{}textcite\ } ) are available with
+\href{/docs/reference/model/cite/\#parameters-form}{\texttt{\ }{\texttt{\ \#\ }}\texttt{\ }{\texttt{\ cite\ }}\texttt{\ }{\texttt{\ (\ }}\texttt{\ }{\texttt{\ \textless{}key\textgreater{}\ }}\texttt{\ }{\texttt{\ ,\ }}\texttt{\ form\ }{\texttt{\ :\ }}\texttt{\ }{\texttt{\ "prose"\ }}\texttt{\ }{\texttt{\ )\ }}\texttt{\ }}
+.
+
+You can find more information on the documentation page of the
+\href{/docs/reference/model/bibliography/}{\texttt{\ bibliography\ }}
+function.
+
+\subsection{What limitations does Typst currently have compared to
+LaTeX?}\label{limitations}
+
+Although Typst can be a LaTeX replacement for many today, there are
+still features that Typst does not (yet) support. Here is a list of them
+which, where applicable, contains possible workarounds.
+
+\begin{itemize}
+\item
+  \textbf{Well-established plotting ecosystem.} LaTeX users often create
+  elaborate charts along with their documents in PGF/TikZ. The Typst
+  ecosystem does not yet offer the same breadth of available options,
+  but the ecosystem around the
+  \href{https://github.com/cetz-package/cetz}{\texttt{\ cetz\ }} package
+  is catching up quickly.
+\item
+  \textbf{Change page margins without a pagebreak.} In LaTeX, margins
+  can always be adjusted, even without a pagebreak. To change margins in
+  Typst, you use the
+  \href{/docs/reference/layout/page/}{\texttt{\ page\ } function} which
+  will force a page break. If you just want a few paragraphs to stretch
+  into the margins, then reverting to the old margins, you can use the
+  \href{/docs/reference/layout/pad/}{\texttt{\ pad\ } function} with
+  negative padding.
+\item
+  \textbf{Include PDFs as images.} In LaTeX, it has become customary to
+  insert vector graphics as PDF or EPS files. Typst supports neither
+  format as an image format, but you can easily convert both into SVG
+  files with \href{https://cloudconvert.com/pdf-to-svg}{online tools} or
+  \href{https://inkscape.org/}{Inkscape} . The web app will
+  automatically convert PDF files to SVG files upon uploading them.
+\end{itemize}
+
+\href{/docs/guides/}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-arrow-right.svg}}}
+
+{ Guides } { Previous page }
+
+\href{/docs/guides/page-setup-guide/}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-arrow-right.svg}}}
+
+{ Page setup guide } { Next page }
+
+

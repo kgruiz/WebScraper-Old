@@ -13,6 +13,25 @@ def HTMLtoLatex(htmlFilePath: str) -> str:
     return pypandoc.convert_file(htmlFilePath, "tex")
 
 
+def HTMLRemoveSections(htmlFilePath: str):
+
+    with open(htmlFilePath, "r") as file:
+
+        content = file.read()
+
+    mainPattern = r"(<main>.*</main>)"
+
+    mainSection = re.search(pattern=mainPattern, string=content, flags=re.DOTALL)
+
+    if mainSection:
+
+        content = mainSection.group(1)
+
+        with open(htmlFilePath, "w") as file:
+
+            file.write(content)
+
+
 def HTMLDirtoLatex(htmlDir: str, latexDir: str, fileNameFull: bool = False) -> dict:
 
     if htmlDir[-1] != "/":
@@ -53,19 +72,11 @@ def HTMLDirtoLatex(htmlDir: str, latexDir: str, fileNameFull: bool = False) -> d
 
                     htmlFilePath = os.path.join(root, fileName)
 
+                    HTMLRemoveSections(htmlFilePath=htmlFilePath)
+
                     latexFile = HTMLtoLatex(htmlFilePath=htmlFilePath)
 
-                    displayName = rf"\\title{{{root.split(htmlDir)[1]}/{baseName}}}"
-
-                    pattern = r"(.*)(\\begin\{itemize\}((?:(?!\\begin\{itemize\}|\\end\{itemize\}).)*\\end\{itemize\})\s*\\section\{.*)"
-
-                    latexFile = re.sub(
-                        pattern,
-                        f"{displayName}\n\n\\2",
-                        latexFile,
-                        count=1,
-                        flags=re.DOTALL,
-                    )
+                    displayName = rf"\title{{{root.split(htmlDir)[1]}/{baseName}}}"
 
                     latexOutputPath = os.path.join(latexOutputDir, f"{baseName}.tex")
 
@@ -76,6 +87,8 @@ def HTMLDirtoLatex(htmlDir: str, latexDir: str, fileNameFull: bool = False) -> d
                         latexOutputPath = os.path.join(latexOutputDir, fullFileName)
 
                     with open(latexOutputPath, "w") as file:
+
+                        file.write(f"{displayName}\n\n")
 
                         file.write(latexFile)
 
@@ -131,6 +144,84 @@ def FlattenDir(dirName: str) -> None:
                     file.write(content)
 
 
+def CombineDirs(dirName: str, addFullName: bool = False) -> None:
+
+    if dirName.find(" ") == -1:
+
+        outDir = f"Combined-{dirName}"
+
+    else:
+
+        outDir = f"Combined {dirName}"
+
+    currentPath = os.path.abspath(dirName)
+
+    currentDir = currentPath[: currentPath.rfind("/")]
+
+    print(currentDir)
+
+    outDir = os.path.join(currentDir, outDir)
+
+    print(outDir)
+
+    os.makedirs(outDir, exist_ok=True)
+
+    directory = os.walk(dirName)
+
+    totalFiles = sum(
+        1 for _, _, files in directory for file in files if file.endswith(".html")
+    )
+
+    directory = os.walk(top=dirName)
+
+    with tqdm(total=totalFiles, desc=f"Combining {dirName}") as bar:
+
+        for root, dirs, files in directory:
+
+            for directory in dirs:
+
+                bar.set_postfix_str(f"{root.split("/")[-1]}/{directory}", True)
+
+                dirPath = os.path.join(root, directory)
+
+                combinedDirName = os.path.join(outDir, root.replace(f"{dirName}/", ""))
+
+                os.makedirs(combinedDirName, exist_ok=True)
+
+                combinedFileName = os.path.join(combinedDirName, f"{directory}.tex")
+
+                if addFullName:
+
+                    combinedFileName = os.path.join(
+                        combinedDirName,
+                        f"{root.replace(f"{dirName}/", "").replace("/", "-")}-{directory}.tex",
+                    )
+
+                dirFiles = os.listdir(dirPath)
+
+                dirContent = []
+
+                for entry in dirFiles:
+
+                    if os.path.isdir(os.path.join(dirPath, entry)):
+
+                        continue
+
+                    filePath = os.path.join(dirPath, entry)
+
+                    with open(filePath, "r") as file:
+
+                        dirContent.append(file.read())
+
+                with open(combinedFileName, "w") as file:
+
+                    for subFile in dirContent:
+
+                        file.write(subFile)
+
+                        file.write(f"\n\n")
+
+
 if __name__ == "__main__":
 
     htmlDir = "Raw HTML Files"
@@ -138,4 +229,7 @@ if __name__ == "__main__":
 
     # HTMLDirtoLatex(htmlDir=htmlDir, latexDir=latexDir, fileNameFull=True)
 
-    FlattenDir(dirName=f"Full Path Latex Pages")
+    # FlattenDir(dirName=f"Full Path Latex Pages")
+    # CombineDirs(dirName=latexDir)
+    FlattenDir(dirName=f"Combined Latex Pages")
+    # CombineDirs(dirName=latexDir, addFullName=True)

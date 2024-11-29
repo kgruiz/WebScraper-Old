@@ -1,0 +1,1572 @@
+\title{typst.app/docs/tutorial/advanced-styling}
+
+\begin{itemize}
+\tightlist
+\item
+  \href{/docs}{\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-docs-dark.svg}}
+\item
+  \includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-arrow-right.svg}
+\item
+  \href{/docs/tutorial/}{Tutorial}
+\item
+  \includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-arrow-right.svg}
+\item
+  \href{/docs/tutorial/advanced-styling/}{Advanced Styling}
+\end{itemize}
+
+\section{Advanced Styling}\label{advanced-styling}
+
+In the previous two chapters of this tutorial, you have learned how to
+write a document in Typst and how to change its formatting. The report
+you wrote throughout the last two chapters got a straight A and your
+supervisor wants to base a conference paper on it! The report will of
+course have to comply with the conference\textquotesingle s style guide.
+Let\textquotesingle s see how we can achieve that.
+
+Before we start, let\textquotesingle s create a team, invite your
+supervisor and add them to the team. You can do this by going back to
+the app dashboard with the back icon in the top left corner of the
+editor. Then, choose the plus icon in the left toolbar and create a
+team. Finally, click on the new team and go to its settings by clicking
+\textquotesingle manage team\textquotesingle{} next to the team name.
+Now you can invite your supervisor by email.
+
+\pandocbounded{\includegraphics[keepaspectratio]{/assets/docs/3-advanced-team-settings.png}}
+
+Next, move your project into the team: Open it, going to its settings by
+choosing the gear icon in the left toolbar and selecting your new team
+from the owners dropdown. Don\textquotesingle t forget to save your
+changes!
+
+Now, your supervisor can also edit the project and you can both see the
+changes in real time. You can join our
+\href{https://discord.gg/2uDybryKPe}{Discord server} to find other users
+and try teams with them!
+
+\subsection{The conference guidelines}\label{guidelines}
+
+The layout guidelines are available on the conference website.
+Let\textquotesingle s take a look at them:
+
+\begin{itemize}
+\tightlist
+\item
+  The font should be an 11pt serif font
+\item
+  The title should be in 17pt and bold
+\item
+  The paper contains a single-column abstract and two-column main text
+\item
+  The abstract should be centered
+\item
+  The main text should be justified
+\item
+  First level section headings should be 13pt, centered, and rendered in
+  small capitals
+\item
+  Second level headings are run-ins, italicized and have the same size
+  as the body text
+\item
+  Finally, the pages should be US letter sized, numbered in the center
+  of the footer and the top right corner of each page should contain the
+  title of the paper
+\end{itemize}
+
+We already know how to do many of these things, but for some of them,
+we\textquotesingle ll need to learn some new tricks.
+
+\subsection{Writing the right set rules}\label{set-rules}
+
+Let\textquotesingle s start by writing some set rules for the document.
+
+\begin{verbatim}
+#set page(
+  paper: "us-letter",
+  header: align(right)[
+    A fluid dynamic model for
+    glacier flow
+  ],
+  numbering: "1",
+)
+#set par(justify: true)
+#set text(
+  font: "Libertinus Serif",
+  size: 11pt,
+)
+
+#lorem(600)
+\end{verbatim}
+
+\includegraphics[width=12.75in,height=\textheight,keepaspectratio]{/assets/docs/p6Vtj1ockTIzscSwa5_kewAAAAAAAAAA.png}
+
+You are already familiar with most of what is going on here. We set the
+text size to \texttt{\ }{\texttt{\ 11pt\ }}\texttt{\ } and the font to
+Libertinus Serif. We also enable paragraph justification and set the
+page size to US letter.
+
+The \texttt{\ header\ } argument is new: With it, we can provide content
+to fill the top margin of every page. In the header, we specify our
+paper\textquotesingle s title as requested by the conference style
+guide. We use the \texttt{\ align\ } function to align the text to the
+right.
+
+Last but not least is the \texttt{\ numbering\ } argument. Here, we can
+provide a \href{/docs/reference/model/numbering/}{numbering pattern}
+that defines how to number the pages. By setting into to
+\texttt{\ }{\texttt{\ "1"\ }}\texttt{\ } , Typst only displays the bare
+page number. Setting it to \texttt{\ }{\texttt{\ "(1/1)"\ }}\texttt{\ }
+would have displayed the current page and total number of pages
+surrounded by parentheses. And we could even have provided a completely
+custom function here to format things to our liking.
+
+\subsection{Creating a title and abstract}\label{title-and-abstract}
+
+Now, let\textquotesingle s add a title and an abstract.
+We\textquotesingle ll start with the title. We center align it and
+increase its font weight by enclosing it in
+\texttt{\ }{\texttt{\ *stars*\ }}\texttt{\ } .
+
+\begin{verbatim}
+#align(center, text(17pt)[
+  *A fluid dynamic model
+  for glacier flow*
+])
+\end{verbatim}
+
+\includegraphics[width=6.25in,height=\textheight,keepaspectratio]{/assets/docs/EYkMw9AAwHWkDqrGblkKBgAAAAAAAAAA.png}
+
+This looks right. We used the \texttt{\ text\ } function to override the
+previous text set rule locally, increasing the size to 17pt for the
+function\textquotesingle s argument. Let\textquotesingle s also add the
+author list: Since we are writing this paper together with our
+supervisor, we\textquotesingle ll add our own and their name.
+
+\begin{verbatim}
+#grid(
+  columns: (1fr, 1fr),
+  align(center)[
+    Therese Tungsten \
+    Artos Institute \
+    #link("mailto:tung@artos.edu")
+  ],
+  align(center)[
+    Dr. John Doe \
+    Artos Institute \
+    #link("mailto:doe@artos.edu")
+  ]
+)
+\end{verbatim}
+
+\includegraphics[width=6.25in,height=\textheight,keepaspectratio]{/assets/docs/Iwl_3LT7ijX6dcpL71YOWAAAAAAAAAAA.png}
+
+The two author blocks are laid out next to each other. We use the
+\href{/docs/reference/layout/grid/}{\texttt{\ grid\ }} function to
+create this layout. With a grid, we can control exactly how large each
+column is and which content goes into which cell. The
+\texttt{\ columns\ } argument takes an array of
+\href{/docs/reference/layout/relative/}{relative lengths} or
+\href{/docs/reference/layout/fraction/}{fractions} . In this case, we
+passed it two equal fractional sizes, telling it to split the available
+space into two equal columns. We then passed two content arguments to
+the grid function. The first with our own details, and the second with
+our supervisors\textquotesingle. We again use the \texttt{\ align\ }
+function to center the content within the column. The grid takes an
+arbitrary number of content arguments specifying the cells. Rows are
+added automatically, but they can also be manually sized with the
+\texttt{\ rows\ } argument.
+
+Now, let\textquotesingle s add the abstract. Remember that the
+conference wants the abstract to be set ragged and centered.
+
+\begin{verbatim}
+...
+
+#align(center)[
+  #set par(justify: false)
+  *Abstract* \
+  #lorem(80)
+]
+\end{verbatim}
+
+\includegraphics[width=12.75in,height=\textheight,keepaspectratio]{/assets/docs/4IdrVTeq86rbgvB-RNog6gAAAAAAAAAA.png}
+
+Well done! One notable thing is that we used a set rule within the
+content argument of \texttt{\ align\ } to turn off justification for the
+abstract. This does not affect the remainder of the document even though
+it was specified after the first set rule because content blocks
+\emph{scope} styling. Anything set within a content block will only
+affect the content within that block.
+
+Another tweak could be to save the paper title in a variable, so that we
+do not have to type it twice, for header and title. We can do that with
+the \texttt{\ }{\texttt{\ let\ }}\texttt{\ } keyword:
+
+\begin{verbatim}
+#let title = [
+  A fluid dynamic model
+  for glacier flow
+]
+
+...
+
+#set page(
+  header: align(
+    right + horizon,
+    title
+  ),
+  ...
+)
+
+#align(center, text(17pt)[
+  *#title*
+])
+
+...
+\end{verbatim}
+
+\includegraphics[width=12.75in,height=\textheight,keepaspectratio]{/assets/docs/ZKsZ2Eei-RUgPTLeJrMEYgAAAAAAAAAA.png}
+
+After we bound the content to the \texttt{\ title\ } variable, we can
+use it in functions and also within markup (prefixed by \texttt{\ \#\ }
+, like functions). This way, if we decide on another title, we can
+easily change it in one place.
+
+\subsection{Adding columns and headings}\label{columns-and-headings}
+
+The paper above unfortunately looks like a wall of lead. To fix that,
+let\textquotesingle s add some headings and switch our paper to a
+two-column layout. Fortunately, that\textquotesingle s easy to do: We
+just need to amend our \texttt{\ page\ } set rule with the
+\texttt{\ columns\ } argument.
+
+By adding \texttt{\ columns:\ }{\texttt{\ 2\ }}\texttt{\ } to the
+argument list, we have wrapped the whole document in two columns.
+However, that would also affect the title and authors overview. To keep
+them spanning the whole page, we can wrap them in a function call to
+\href{/docs/reference/layout/place/}{\texttt{\ place\ }} . Place expects
+an alignment and the content it should place as positional arguments.
+Using the named \texttt{\ scope\ } argument, we can decide if the items
+should be placed relative to the current column or its parent (the
+page). There is one more thing to configure: If no other arguments are
+provided, \texttt{\ place\ } takes its content out of the flow of the
+document and positions it over the other content without affecting the
+layout of other content in its container:
+
+\begin{verbatim}
+#place(
+  top + center,
+  rect(fill: black),
+)
+#lorem(30)
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/30s7cU9X36lW286rJXE3RwAAAAAAAAAA.png}
+
+If we hadn\textquotesingle t used \texttt{\ place\ } here, the square
+would be in its own line, but here it overlaps the few lines of text
+following it. Likewise, that text acts like as if there was no square.
+To change this behavior, we can pass the argument
+\texttt{\ float:\ }{\texttt{\ true\ }}\texttt{\ } to ensure that the
+space taken up by the placed item at the top or bottom of the page is
+not occupied by any other content.
+
+\begin{verbatim}
+#set page(
+  paper: "us-letter",
+  header: align(
+    right + horizon,
+    title
+  ),
+  numbering: "1",
+  columns: 2,
+)
+
+#place(
+  top + center,
+  float: true,
+  scope: "parent",
+  clearance: 2em,
+)[
+  ...
+
+  #par(justify: false)[
+    *Abstract* \
+    #lorem(80)
+  ]
+]
+
+= Introduction
+#lorem(300)
+
+= Related Work
+#lorem(200)
+\end{verbatim}
+
+\includegraphics[width=12.75in,height=\textheight,keepaspectratio]{/assets/docs/dAJVP8paZmMvnK23cMA_0AAAAAAAAAAA.png}
+
+In this example, we also used the \texttt{\ clearance\ } argument of the
+\texttt{\ place\ } function to provide the space between it and the body
+instead of using the \href{/docs/reference/layout/v/}{\texttt{\ v\ }}
+function. We can also remove the explicit
+\texttt{\ }{\texttt{\ align\ }}\texttt{\ }{\texttt{\ (\ }}\texttt{\ center\ }{\texttt{\ ,\ }}\texttt{\ }{\texttt{\ ..\ }}\texttt{\ }{\texttt{\ )\ }}\texttt{\ }
+calls around the various parts since they inherit the center alignment
+from the placement.
+
+Now there is only one thing left to do: Style our headings. We need to
+make them centered and use small capitals. Because the
+\texttt{\ heading\ } function does not offer a way to set any of that,
+we need to write our own heading show rule.
+
+\begin{verbatim}
+#show heading: it => [
+  #set align(center)
+  #set text(13pt, weight: "regular")
+  #block(smallcaps(it.body))
+]
+
+...
+\end{verbatim}
+
+\includegraphics[width=5.52083in,height=\textheight,keepaspectratio]{/assets/docs/ZJxJWdUySZNKlj1_Vn1NWgAAAAAAAAAA.png}
+
+This looks great! We used a show rule that applies to all headings. We
+give it a function that gets passed the heading as a parameter. That
+parameter can be used as content but it also has some fields like
+\texttt{\ title\ } , \texttt{\ numbers\ } , and \texttt{\ level\ } from
+which we can compose a custom look. Here, we are center-aligning,
+setting the font weight to
+\texttt{\ }{\texttt{\ "regular"\ }}\texttt{\ } because headings are bold
+by default, and use the
+\href{/docs/reference/text/smallcaps/}{\texttt{\ smallcaps\ }} function
+to render the heading\textquotesingle s title in small capitals.
+
+The only remaining problem is that all headings look the same now. The
+"Motivation" and "Problem Statement" subsections ought to be italic run
+in headers, but right now, they look indistinguishable from the section
+headings. We can fix that by using a \texttt{\ where\ } selector on our
+set rule: This is a \href{/docs/reference/scripting/\#methods}{method}
+we can call on headings (and other elements) that allows us to filter
+them by their level. We can use it to differentiate between section and
+subsection headings:
+
+\begin{verbatim}
+#show heading.where(
+  level: 1
+): it => block(width: 100%)[
+  #set align(center)
+  #set text(13pt, weight: "regular")
+  #smallcaps(it.body)
+]
+
+#show heading.where(
+  level: 2
+): it => text(
+  size: 11pt,
+  weight: "regular",
+  style: "italic",
+  it.body + [.],
+)
+\end{verbatim}
+
+\includegraphics[width=5.52083in,height=\textheight,keepaspectratio]{/assets/docs/eBNymJDskGFkYVAXkF9cuAAAAAAAAAAA.png}
+
+This looks great! We wrote two show rules that each selectively apply to
+the first and second level headings. We used a \texttt{\ where\ }
+selector to filter the headings by their level. We then rendered the
+subsection headings as run-ins. We also automatically add a period to
+the end of the subsection headings.
+
+Let\textquotesingle s review the conference\textquotesingle s style
+guide:
+
+\begin{itemize}
+\tightlist
+\item
+  The font should be an 11pt serif font âœ``
+\item
+  The title should be in 17pt and bold âœ``
+\item
+  The paper contains a single-column abstract and two-column main text
+  âœ``
+\item
+  The abstract should be centered âœ``
+\item
+  The main text should be justified âœ``
+\item
+  First level section headings should be centered, rendered in small
+  caps and in 13pt âœ``
+\item
+  Second level headings are run-ins, italicized and have the same size
+  as the body text âœ``
+\item
+  Finally, the pages should be US letter sized, numbered in the center
+  and the top right corner of each page should contain the title of the
+  paper âœ``
+\end{itemize}
+
+We are now in compliance with all of these styles and can submit the
+paper to the conference! The finished paper looks like this:
+
+\pandocbounded{\includegraphics[keepaspectratio]{/assets/docs/3-advanced-paper.png}}
+
+\subsection{Review}\label{review}
+
+You have now learned how to create headers and footers, how to use
+functions and scopes to locally override styles, how to create more
+complex layouts with the
+\href{/docs/reference/layout/grid/}{\texttt{\ grid\ }} function and how
+to write show rules for individual functions, and the whole document.
+You also learned how to use the
+\href{/docs/reference/styling/\#show-rules}{\texttt{\ where\ } selector}
+to filter the headings by their level.
+
+The paper was a great success! You\textquotesingle ve met a lot of
+like-minded researchers at the conference and are planning a project
+which you hope to publish at the same venue next year.
+You\textquotesingle ll need to write a new paper using the same style
+guide though, so maybe now you want to create a time-saving template for
+you and your team?
+
+In the next section, we will learn how to create templates that can be
+reused in multiple documents. This is a more advanced topic, so feel
+free to come back to it later if you don\textquotesingle t feel up to it
+right now.
+
+\href{/docs/tutorial/formatting/}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-arrow-right.svg}}}
+
+{ Formatting } { Previous page }
+
+\href{/docs/tutorial/making-a-template/}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-arrow-right.svg}}}
+
+{ Making a Template } { Next page }
+
+
+\title{typst.app/docs/tutorial/formatting}
+
+\begin{itemize}
+\tightlist
+\item
+  \href{/docs}{\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-docs-dark.svg}}
+\item
+  \includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-arrow-right.svg}
+\item
+  \href{/docs/tutorial/}{Tutorial}
+\item
+  \includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-arrow-right.svg}
+\item
+  \href{/docs/tutorial/formatting/}{Formatting}
+\end{itemize}
+
+\section{Formatting}\label{formatting}
+
+So far, you have written a report with some text, a few equations and
+images. However, it still looks very plain. Your teaching assistant does
+not yet know that you are using a new typesetting system, and you want
+your report to fit in with the other student\textquotesingle s
+submissions. In this chapter, we will see how to format your report
+using Typst\textquotesingle s styling system.
+
+\subsection{Set rules}\label{set-rules}
+
+As we have seen in the previous chapter, Typst has functions that
+\emph{insert} content (e.g. the
+\href{/docs/reference/visualize/image/}{\texttt{\ image\ }} function)
+and others that \emph{manipulate} content that they received as
+arguments (e.g. the
+\href{/docs/reference/layout/align/}{\texttt{\ align\ }} function). The
+first impulse you might have when you want, for example, to justify the
+report, could be to look for a function that does that and wrap the
+complete document in it.
+
+\begin{verbatim}
+#par(justify: true)[
+  = Background
+  In the case of glaciers, fluid
+  dynamics principles can be used
+  to understand how the movement
+  and behaviour of the ice is
+  influenced by factors such as
+  temperature, pressure, and the
+  presence of other fluids (such as
+  water).
+]
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/Dijg8l-irnssXE7n_oJpJQAAAAAAAAAA.png}
+
+Wait, shouldn\textquotesingle t all arguments of a function be specified
+within parentheses? Why is there a second set of square brackets with
+content \emph{after} the parentheses? The answer is that, as passing
+content to a function is such a common thing to do in Typst, there is
+special syntax for it: Instead of putting the content inside of the
+argument list, you can write it in square brackets directly after the
+normal arguments, saving on punctuation.
+
+As seen above, that works. The
+\href{/docs/reference/model/par/}{\texttt{\ par\ }} function justifies
+all paragraphs within it. However, wrapping the document in countless
+functions and applying styles selectively and in-situ can quickly become
+cumbersome.
+
+Fortunately, Typst has a more elegant solution. With \emph{set rules,}
+you can apply style properties to all occurrences of some kind of
+content. You write a set rule by entering the
+\texttt{\ }{\texttt{\ set\ }}\texttt{\ } keyword, followed by the name
+of the function whose properties you want to set, and a list of
+arguments in parentheses.
+
+\begin{verbatim}
+#set par(justify: true)
+
+= Background
+In the case of glaciers, fluid
+dynamics principles can be used
+to understand how the movement
+and behaviour of the ice is
+influenced by factors such as
+temperature, pressure, and the
+presence of other fluids (such as
+water).
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/JHqbSYpLaF9kuNFQoo1lAgAAAAAAAAAA.png}
+
+Want to know in more technical terms what is happening here?
+
+Set rules can be conceptualized as setting default values for some of
+the parameters of a function for all future uses of that function.
+
+\subsection{The autocomplete panel}\label{autocomplete}
+
+If you followed along and tried a few things in the app, you might have
+noticed that always after you enter a \texttt{\ \#\ } character, a panel
+pops up to show you the available functions, and, within an argument
+list, the available parameters. That\textquotesingle s the autocomplete
+panel. It can be very useful while you are writing your document: You
+can apply its suggestions by hitting the Return key or navigate to the
+desired completion with the arrow keys. The panel can be dismissed by
+hitting the Escape key and opened again by typing \texttt{\ \#\ } or
+hitting { Ctrl } + { Space } . Use the autocomplete panel to discover
+the right arguments for functions. Most suggestions come with a small
+description of what they do.
+
+\pandocbounded{\includegraphics[keepaspectratio]{/assets/docs/2-formatting-autocomplete.png}}
+
+\subsection{Set up the page}\label{page-setup}
+
+Back to set rules: When writing a rule, you choose the function
+depending on what type of element you want to style. Here is a list of
+some functions that are commonly used in set rules:
+
+\begin{itemize}
+\tightlist
+\item
+  \href{/docs/reference/text/text/}{\texttt{\ text\ }} to set font
+  family, size, color, and other properties of text
+\item
+  \href{/docs/reference/layout/page/}{\texttt{\ page\ }} to set the page
+  size, margins, headers, enable columns, and footers
+\item
+  \href{/docs/reference/model/par/}{\texttt{\ par\ }} to justify
+  paragraphs, set line spacing, and more
+\item
+  \href{/docs/reference/model/heading/}{\texttt{\ heading\ }} to set the
+  appearance of headings and enable numbering
+\item
+  \href{/docs/reference/model/document/}{\texttt{\ document\ }} to set
+  the metadata contained in the PDF output, such as title and author
+\end{itemize}
+
+Not all function parameters can be set. In general, only parameters that
+tell a function \emph{how} to do something can be set, not those that
+tell it \emph{what} to do it with. The function reference pages indicate
+which parameters are settable.
+
+Let\textquotesingle s add a few more styles to our document. We want
+larger margins and a serif font. For the purposes of the example,
+we\textquotesingle ll also set another page size.
+
+\begin{verbatim}
+#set page(
+  paper: "a6",
+  margin: (x: 1.8cm, y: 1.5cm),
+)
+#set text(
+  font: "New Computer Modern",
+  size: 10pt
+)
+#set par(
+  justify: true,
+  leading: 0.52em,
+)
+
+= Introduction
+In this report, we will explore the
+various factors that influence fluid
+dynamics in glaciers and how they
+contribute to the formation and
+behaviour of these natural structures.
+
+...
+
+#align(center + bottom)[
+  #image("glacier.jpg", width: 70%)
+
+  *Glaciers form an important
+  part of the earth's climate
+  system.*
+]
+\end{verbatim}
+
+\includegraphics[width=6.19792in,height=\textheight,keepaspectratio]{/assets/docs/vXvjGwfGgpk5eo7U4CVWMQAAAAAAAAAA.png}
+
+There are a few things of note here.
+
+First is the \href{/docs/reference/layout/page/}{\texttt{\ page\ }} set
+rule. It receives two arguments: the page size and margins for the page.
+The page size is a string. Typst accepts
+\href{/docs/reference/layout/page/\#parameters-paper}{many standard page
+sizes,} but you can also specify a custom page size. The margins are
+specified as a
+\href{/docs/reference/foundations/dictionary/}{dictionary.} Dictionaries
+are a collection of key-value pairs. In this case, the keys are
+\texttt{\ x\ } and \texttt{\ y\ } , and the values are the horizontal
+and vertical margins, respectively. We could also have specified
+separate margins for each side by passing a dictionary with the keys
+\texttt{\ left\ } , \texttt{\ right\ } , \texttt{\ top\ } , and
+\texttt{\ bottom\ } .
+
+Next is the set \href{/docs/reference/text/text/}{\texttt{\ text\ }} set
+rule. Here, we set the font size to
+\texttt{\ }{\texttt{\ 10pt\ }}\texttt{\ } and font family to
+\texttt{\ }{\texttt{\ "New\ Computer\ Modern"\ }}\texttt{\ } . The Typst
+app comes with many fonts that you can try for your document. When you
+are in the text function\textquotesingle s argument list, you can
+discover the available fonts in the autocomplete panel.
+
+We have also set the spacing between lines (a.k.a. leading): It is
+specified as a \href{/docs/reference/layout/length/}{length} value, and
+we used the \texttt{\ em\ } unit to specify the leading relative to the
+size of the font: \texttt{\ }{\texttt{\ 1em\ }}\texttt{\ } is equivalent
+to the current font size (which defaults to
+\texttt{\ }{\texttt{\ 11pt\ }}\texttt{\ } ).
+
+Finally, we have bottom aligned our image by adding a vertical alignment
+to our center alignment. Vertical and horizontal alignments can be
+combined with the \texttt{\ }{\texttt{\ +\ }}\texttt{\ } operator to
+yield a 2D alignment.
+
+\subsection{A hint of sophistication}\label{sophistication}
+
+To structure our document more clearly, we now want to number our
+headings. We can do this by setting the \texttt{\ numbering\ } parameter
+of the \href{/docs/reference/model/heading/}{\texttt{\ heading\ }}
+function.
+
+\begin{verbatim}
+#set heading(numbering: "1.")
+
+= Introduction
+#lorem(10)
+
+== Background
+#lorem(12)
+
+== Methods
+#lorem(15)
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/4WtF0u81AczurIYrwpRdcwAAAAAAAAAA.png}
+
+We specified the string \texttt{\ }{\texttt{\ "1."\ }}\texttt{\ } as the
+numbering parameter. This tells Typst to number the headings with arabic
+numerals and to put a dot between the number of each level. We can also
+use \href{/docs/reference/model/numbering/}{letters, roman numerals, and
+symbols} for our headings:
+
+\begin{verbatim}
+#set heading(numbering: "1.a")
+
+= Introduction
+#lorem(10)
+
+== Background
+#lorem(12)
+
+== Methods
+#lorem(15)
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/Llv0DrZ6U-QKf1vju2wP4QAAAAAAAAAA.png}
+
+This example also uses the
+\href{/docs/reference/text/lorem/}{\texttt{\ lorem\ }} function to
+generate some placeholder text. This function takes a number as an
+argument and generates that many words of \emph{Lorem Ipsum} text.
+
+Did you wonder why the headings and text set rules apply to all text and
+headings, even if they are not produced with the respective functions?
+
+Typst internally calls the \texttt{\ heading\ } function every time you
+write \texttt{\ }{\texttt{\ =\ Conclusion\ }}\texttt{\ } . In fact, the
+function call
+\texttt{\ }{\texttt{\ \#\ }}\texttt{\ }{\texttt{\ heading\ }}\texttt{\ }{\texttt{\ {[}\ }}\texttt{\ Conclusion\ }{\texttt{\ {]}\ }}\texttt{\ }
+is equivalent to the heading markup above. Other markup elements work
+similarly, they are only \emph{syntax sugar} for the corresponding
+function calls.
+
+\subsection{Show rules}\label{show-rules}
+
+You are already pretty happy with how this turned out. But one last
+thing needs to be fixed: The report you are writing is intended for a
+larger project and that project\textquotesingle s name should always be
+accompanied by a logo, even in prose.
+
+You consider your options. You could add an
+\texttt{\ }{\texttt{\ \#\ }}\texttt{\ }{\texttt{\ image\ }}\texttt{\ }{\texttt{\ (\ }}\texttt{\ }{\texttt{\ "logo.svg"\ }}\texttt{\ }{\texttt{\ )\ }}\texttt{\ }
+call before every instance of the logo using search and replace. That
+sounds very tedious. Instead, you could maybe
+\href{/docs/reference/foundations/function/\#defining-functions}{define
+a custom function} that always yields the logo with its image. However,
+there is an even easier way:
+
+With show rules, you can redefine how Typst displays certain elements.
+You specify which elements Typst should show differently and how they
+should look. Show rules can be applied to instances of text, many
+functions, and even the whole document.
+
+\begin{verbatim}
+#show "ArtosFlow": name => box[
+  #box(image(
+    "logo.svg",
+    height: 0.7em,
+  ))
+  #name
+]
+
+This report is embedded in the
+ArtosFlow project. ArtosFlow is a
+project of the Artos Institute.
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/349_Itx4-rTeNxzJmNofvgAAAAAAAAAA.png}
+
+There is a lot of new syntax in this example: We write the
+\texttt{\ }{\texttt{\ show\ }}\texttt{\ } keyword, followed by a string
+of text we want to show differently and a colon. Then, we write a
+function that takes the content that shall be shown as an argument.
+Here, we called that argument \texttt{\ name\ } . We can now use the
+\texttt{\ name\ } variable in the function\textquotesingle s body to
+print the ArtosFlow name. Our show rule adds the logo image in front of
+the name and puts the result into a box to prevent linebreaks from
+occurring between logo and name. The image is also put inside of a box,
+so that it does not appear in its own paragraph.
+
+The calls to the first box function and the image function did not
+require a leading \texttt{\ \#\ } because they were not embedded
+directly in markup. When Typst expects code instead of markup, the
+leading \texttt{\ \#\ } is not needed to access functions, keywords, and
+variables. This can be observed in parameter lists, function
+definitions, and \href{/docs/reference/scripting/}{code blocks} .
+
+\subsection{Review}\label{review}
+
+You now know how to apply basic formatting to your Typst documents. You
+learned how to set the font, justify your paragraphs, change the page
+dimensions, and add numbering to your headings with set rules. You also
+learned how to use a basic show rule to change how text appears
+throughout your document.
+
+You have handed in your report. Your supervisor was so happy with it
+that they want to adapt it into a conference paper! In the next section,
+we will learn how to format your document as a paper using more advanced
+show rules and functions.
+
+\href{/docs/tutorial/writing-in-typst/}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-arrow-right.svg}}}
+
+{ Writing in Typst } { Previous page }
+
+\href{/docs/tutorial/advanced-styling/}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-arrow-right.svg}}}
+
+{ Advanced Styling } { Next page }
+
+
+\title{typst.app/docs/tutorial/writing-in-typst}
+
+\begin{itemize}
+\tightlist
+\item
+  \href{/docs}{\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-docs-dark.svg}}
+\item
+  \includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-arrow-right.svg}
+\item
+  \href{/docs/tutorial/}{Tutorial}
+\item
+  \includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-arrow-right.svg}
+\item
+  \href{/docs/tutorial/writing-in-typst/}{Writing in Typst}
+\end{itemize}
+
+\section{Writing in Typst}\label{writing-in-typst}
+
+Let\textquotesingle s get started! Suppose you got assigned to write a
+technical report for university. It will contain prose, maths, headings,
+and figures. To get started, you create a new project on the Typst app.
+You\textquotesingle ll be taken to the editor where you see two panels:
+A source panel where you compose your document and a preview panel where
+you see the rendered document.
+
+\pandocbounded{\includegraphics[keepaspectratio]{/assets/docs/1-writing-app.png}}
+
+You already have a good angle for your report in mind. So
+let\textquotesingle s start by writing the introduction. Enter some text
+in the editor panel. You\textquotesingle ll notice that the text
+immediately appears on the previewed page.
+
+\begin{verbatim}
+In this report, we will explore the
+various factors that influence fluid
+dynamics in glaciers and how they
+contribute to the formation and
+behaviour of these natural structures.
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/ePl1U-2a7w8qkmb3CLl_oAAAAAAAAAAA.png}
+
+\emph{Throughout this tutorial, we\textquotesingle ll show code examples
+like this one. Just like in the app, the first panel contains markup and
+the second panel shows a preview. We shrunk the page to fit the examples
+so you can see what\textquotesingle s going on.}
+
+The next step is to add a heading and emphasize some text. Typst uses
+simple markup for the most common formatting tasks. To add a heading,
+enter the \texttt{\ =\ } character and to emphasize some text with
+italics, enclose it in
+\texttt{\ }{\texttt{\ \_underscores\_\ }}\texttt{\ } .
+
+\begin{verbatim}
+= Introduction
+In this report, we will explore the
+various factors that influence _fluid
+dynamics_ in glaciers and how they
+contribute to the formation and
+behaviour of these natural structures.
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/p75v-z7QqVChplB2N8HZfwAAAAAAAAAA.png}
+
+That was easy! To add a new paragraph, just add a blank line in between
+two lines of text. If that paragraph needs a subheading, produce it by
+typing \texttt{\ ==\ } instead of \texttt{\ =\ } . The number of
+\texttt{\ =\ } characters determines the nesting level of the heading.
+
+Now we want to list a few of the circumstances that influence glacier
+dynamics. To do that, we use a numbered list. For each item of the list,
+we type a \texttt{\ +\ } character at the beginning of the line. Typst
+will automatically number the items.
+
+\begin{verbatim}
++ The climate
++ The topography
++ The geology
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/U3IHQbhSNQ8ndkXIv_gPrgAAAAAAAAAA.png}
+
+If we wanted to add a bulleted list, we would use the \texttt{\ -\ }
+character instead of the \texttt{\ +\ } character. We can also nest
+lists: For example, we can add a sub-list to the first item of the list
+above by indenting it.
+
+\begin{verbatim}
++ The climate
+  - Temperature
+  - Precipitation
++ The topography
++ The geology
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/xmS-BPiM_gDHkWk9_uhE_gAAAAAAAAAA.png}
+
+\subsection{Adding a figure}\label{figure}
+
+You think that your report would benefit from a figure.
+Let\textquotesingle s add one. Typst supports images in the formats PNG,
+JPEG, GIF, and SVG. To add an image file to your project, first open the
+\emph{file panel} by clicking the box icon in the left sidebar. Here,
+you can see a list of all files in your project. Currently, there is
+only one: The main Typst file you are writing in. To upload another
+file, click the button with the arrow in the top-right corner. This
+opens the upload dialog, in which you can pick files to upload from your
+computer. Select an image file for your report.
+
+\pandocbounded{\includegraphics[keepaspectratio]{/assets/docs/1-writing-upload.png}}
+
+We have seen before that specific symbols (called \emph{markup} ) have
+specific meaning in Typst. We can use \texttt{\ =\ } , \texttt{\ -\ } ,
+\texttt{\ +\ } , and \texttt{\ \_\ } to create headings, lists and
+emphasized text, respectively. However, having a special symbol for
+everything we want to insert into our document would soon become cryptic
+and unwieldy. For this reason, Typst reserves markup symbols only for
+the most common things. Everything else is inserted with
+\emph{functions.} For our image to show up on the page, we use
+Typst\textquotesingle s
+\href{/docs/reference/visualize/image/}{\texttt{\ image\ }} function.
+
+\begin{verbatim}
+#image("glacier.jpg")
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/KwKlYCVb2uFZqZ8abt3-ggAAAAAAAAAA.png}
+
+In general, a function produces some output for a set of
+\emph{arguments} . When you \emph{call} a function within markup, you
+provide the arguments and Typst inserts the result (the
+function\textquotesingle s \emph{return value} ) into the document. In
+our case, the \texttt{\ image\ } function takes one argument: The path
+to the image file. To call a function in markup, we first need to type
+the \texttt{\ \#\ } character, immediately followed by the name of the
+function. Then, we enclose the arguments in parentheses. Typst
+recognizes many different data types within argument lists. Our file
+path is a short \href{/docs/reference/foundations/str/}{string of text}
+, so we need to enclose it in double quotes.
+
+The inserted image uses the whole width of the page. To change that,
+pass the \texttt{\ width\ } argument to the \texttt{\ image\ } function.
+This is a \emph{named} argument and therefore specified as a
+\texttt{\ name:\ value\ } pair. If there are multiple arguments, they
+are separated by commas, so we first need to put a comma behind the
+path.
+
+\begin{verbatim}
+#image("glacier.jpg", width: 70%)
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/lpadKIOzcEsf_MGoSeZghAAAAAAAAAAA.png}
+
+The \texttt{\ width\ } argument is a
+\href{/docs/reference/layout/relative/}{relative length} . In our case,
+we specified a percentage, determining that the image shall take up
+\texttt{\ }{\texttt{\ 70\%\ }}\texttt{\ } of the page\textquotesingle s
+width. We also could have specified an absolute value like
+\texttt{\ }{\texttt{\ 1cm\ }}\texttt{\ } or
+\texttt{\ }{\texttt{\ 0.7in\ }}\texttt{\ } .
+
+Just like text, the image is now aligned at the left side of the page by
+default. It\textquotesingle s also lacking a caption.
+Let\textquotesingle s fix that by using the
+\href{/docs/reference/model/figure/}{figure} function. This function
+takes the figure\textquotesingle s contents as a positional argument and
+an optional caption as a named argument.
+
+Within the argument list of the \texttt{\ figure\ } function, Typst is
+already in code mode. This means, you now have to remove the hash before
+the image function call. The hash is only needed directly in markup (to
+disambiguate text from function calls).
+
+The caption consists of arbitrary markup. To give markup to a function,
+we enclose it in square brackets. This construct is called a
+\emph{content block.}
+
+\begin{verbatim}
+#figure(
+  image("glacier.jpg", width: 70%),
+  caption: [
+    _Glaciers_ form an important part
+    of the earth's climate system.
+  ],
+)
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/v5OnReUO8fD5Rfj2aJZVyQAAAAAAAAAA.png}
+
+You continue to write your report and now want to reference the figure.
+To do that, first attach a label to figure. A label uniquely identifies
+an element in your document. Add one after the figure by enclosing some
+name in angle brackets. You can then reference the figure in your text
+by writing an \texttt{\ }{\texttt{\ @\ }}\texttt{\ } symbol followed by
+that name. Headings and equations can also be labelled to make them
+referenceable.
+
+\begin{verbatim}
+Glaciers as the one shown in
+@glaciers will cease to exist if
+we don't take action soon!
+
+#figure(
+  image("glacier.jpg", width: 70%),
+  caption: [
+    _Glaciers_ form an important part
+    of the earth's climate system.
+  ],
+) <glaciers>
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/cwZ12iQ39B4L-_wQwhO2TAAAAAAAAAAA.png}
+
+So far, we\textquotesingle ve passed content blocks (markup in square
+brackets) and strings (text in double quotes) to our functions. Both
+seem to contain text. What\textquotesingle s the difference?
+
+A content block can contain text, but also any other kind of markup,
+function calls, and more, whereas a string is really just a
+\emph{sequence of characters} and nothing else.
+
+For example, the image function expects a path to an image file. It
+would not make sense to pass, e.g., a paragraph of text or another image
+as the image\textquotesingle s path parameter. That\textquotesingle s
+why only strings are allowed here. On the contrary, strings work
+wherever content is expected because text is a valid kind of content.
+
+\subsection{Adding a bibliography}\label{bibliography}
+
+As you write up your report, you need to back up some of your claims.
+You can add a bibliography to your document with the
+\href{/docs/reference/model/bibliography/}{\texttt{\ bibliography\ }}
+function. This function expects a path to a bibliography file.
+
+Typst\textquotesingle s native bibliography format is
+\href{https://github.com/typst/hayagriva/blob/main/docs/file-format.md}{Hayagriva}
+, but for compatibility you can also use BibLaTeX files. As your
+classmate has already done a literature survey and sent you a
+\texttt{\ .bib\ } file, you\textquotesingle ll use that one. Upload the
+file through the file panel to access it in Typst.
+
+Once the document contains a bibliography, you can start citing from it.
+Citations use the same syntax as references to a label. As soon as you
+cite a source for the first time, it will appear in the bibliography
+section of your document. Typst supports different citation and
+bibliography styles. Consult the
+\href{/docs/reference/model/bibliography/\#parameters-style}{reference}
+for more details.
+
+\begin{verbatim}
+= Methods
+We follow the glacier melting models
+established in @glacier-melt.
+
+#bibliography("works.bib")
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/QGPHT14ksdea0r_8vy01WAAAAAAAAAAA.png}
+
+\subsection{Maths}\label{maths}
+
+After fleshing out the methods section, you move on to the meat of the
+document: Your equations. Typst has built-in mathematical typesetting
+and uses its own math notation. Let\textquotesingle s start with a
+simple equation. We wrap it in \texttt{\ \$\ } signs to let Typst know
+it should expect a mathematical expression:
+
+\begin{verbatim}
+The equation $Q = rho A v + C$
+defines the glacial flow rate.
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/_u5BjLoMFBZU2zg1OWULdgAAAAAAAAAA.png}
+
+The equation is typeset inline, on the same line as the surrounding
+text. If you want to have it on its own line instead, you should insert
+a single space at its start and end:
+
+\begin{verbatim}
+The flow rate of a glacier is
+defined by the following equation:
+
+$ Q = rho A v + C $
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/GXI0mvGOqqSC165iRTK-QwAAAAAAAAAA.png}
+
+We can see that Typst displayed the single letters \texttt{\ Q\ } ,
+\texttt{\ A\ } , \texttt{\ v\ } , and \texttt{\ C\ } as-is, while it
+translated \texttt{\ rho\ } into a Greek letter. Math mode will always
+show single letters verbatim. Multiple letters, however, are interpreted
+as symbols, variables, or function names. To imply a multiplication
+between single letters, put spaces between them.
+
+If you want to have a variable that consists of multiple letters, you
+can enclose it in quotes:
+
+\begin{verbatim}
+The flow rate of a glacier is given
+by the following equation:
+
+$ Q = rho A v + "time offset" $
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/JSaojGBiKH-FLbIYqeWSgAAAAAAAAAAA.png}
+
+You\textquotesingle ll also need a sum formula in your paper. We can use
+the \texttt{\ sum\ } symbol and then specify the range of the summation
+in sub- and superscripts:
+
+\begin{verbatim}
+Total displaced soil by glacial flow:
+
+$ 7.32 beta +
+  sum_(i=0)^nabla Q_i / 2 $
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/rTDyTGxJlXKPRHJub3ALRgAAAAAAAAAA.png}
+
+To add a subscript to a symbol or variable, type a \texttt{\ \_\ }
+character and then the subscript. Similarly, use the \texttt{\ \^{}\ }
+character for a superscript. If your sub- or superscript consists of
+multiple things, you must enclose them in round parentheses.
+
+The above example also showed us how to insert fractions: Simply put a
+\texttt{\ /\ } character between the numerator and the denominator and
+Typst will automatically turn it into a fraction. Parentheses are
+smartly resolved, so you can enter your expression as you would into a
+calculator and Typst will replace parenthesized sub-expressions with the
+appropriate notation.
+
+\begin{verbatim}
+Total displaced soil by glacial flow:
+
+$ 7.32 beta +
+  sum_(i=0)^nabla
+    (Q_i (a_i - epsilon)) / 2 $
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/HgeB2Bx5Lh3a5NPfF6WEdwAAAAAAAAAA.png}
+
+Not all math constructs have special syntax. Instead, we use functions,
+just like the \texttt{\ image\ } function we have seen before. For
+example, to insert a column vector, we can use the
+\href{/docs/reference/math/vec/}{\texttt{\ vec\ }} function. Within math
+mode, function calls don\textquotesingle t need to start with the
+\texttt{\ \#\ } character.
+
+\begin{verbatim}
+$ v := vec(x_1, x_2, x_3) $
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/nj0pMnkuoX2t5FZ3_x6YKwAAAAAAAAAA.png}
+
+Some functions are only available within math mode. For example, the
+\href{/docs/reference/math/variants/\#functions-cal}{\texttt{\ cal\ }}
+function is used to typeset calligraphic letters commonly used for sets.
+The \href{/docs/reference/math/}{math section of the reference} provides
+a complete list of all functions that math mode makes available.
+
+One more thing: Many symbols, such as the arrow, have a lot of variants.
+You can select among these variants by appending a dot and a modifier
+name to a symbol\textquotesingle s name:
+
+\begin{verbatim}
+$ a arrow.squiggly b $
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/0GgQitNz41j-75F3FS6iAwAAAAAAAAAA.png}
+
+This notation is also available in markup mode, but the symbol name must
+be preceded with \texttt{\ \#sym.\ } there. See the
+\href{/docs/reference/symbols/sym/}{symbols section} for a list of all
+available symbols.
+
+\subsection{Review}\label{review}
+
+You have now seen how to write a basic document in Typst. You learned
+how to emphasize text, write lists, insert images, align content, and
+typeset mathematical expressions. You also learned about
+Typst\textquotesingle s functions. There are many more kinds of content
+that Typst lets you insert into your document, such as
+\href{/docs/reference/model/table/}{tables} ,
+\href{/docs/reference/visualize/}{shapes} , and
+\href{/docs/reference/text/raw/}{code blocks} . You can peruse the
+\href{/docs/reference/}{reference} to learn more about these and other
+features.
+
+For the moment, you have completed writing your report. You have already
+saved a PDF by clicking on the download button in the top right corner.
+However, you think the report could look a bit less plain. In the next
+section, we\textquotesingle ll learn how to customize the look of our
+document.
+
+\href{/docs/tutorial/}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-arrow-right.svg}}}
+
+{ Tutorial } { Previous page }
+
+\href{/docs/tutorial/formatting/}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-arrow-right.svg}}}
+
+{ Formatting } { Next page }
+
+
+\title{typst.app/docs/tutorial/making-a-template}
+
+\begin{itemize}
+\tightlist
+\item
+  \href{/docs}{\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-docs-dark.svg}}
+\item
+  \includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-arrow-right.svg}
+\item
+  \href{/docs/tutorial/}{Tutorial}
+\item
+  \includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-arrow-right.svg}
+\item
+  \href{/docs/tutorial/making-a-template/}{Making a Template}
+\end{itemize}
+
+\section{Making a Template}\label{making-a-template}
+
+In the previous three chapters of this tutorial, you have learned how to
+write a document in Typst, apply basic styles, and customize its
+appearance in-depth to comply with a publisher\textquotesingle s style
+guide. Because the paper you wrote in the previous chapter was a
+tremendous success, you have been asked to write a follow-up article for
+the same conference. This time, you want to take the style you created
+in the previous chapter and turn it into a reusable template. In this
+chapter you will learn how to create a template that you and your team
+can use with just one show rule. Let\textquotesingle s get started!
+
+\subsection{A toy template}\label{toy-template}
+
+In Typst, templates are functions in which you can wrap your whole
+document. To learn how to do that, let\textquotesingle s first review
+how to write your very own functions. They can do anything you want them
+to, so why not go a bit crazy?
+
+\begin{verbatim}
+#let amazed(term) = box[â¨ #term â¨]
+
+You are #amazed[beautiful]!
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/hf-0MuyTNtENvqMuqT5IlgAAAAAAAAAA.png}
+
+This function takes a single argument, \texttt{\ term\ } , and returns a
+content block with the \texttt{\ term\ } surrounded by sparkles. We also
+put the whole thing in a box so that the term we are amazed by cannot be
+separated from its sparkles by a line break.
+
+Many functions that come with Typst have optional named parameters. Our
+functions can also have them. Let\textquotesingle s add a parameter to
+our function that lets us choose the color of the text. We need to
+provide a default color in case the parameter isn\textquotesingle t
+given.
+
+\begin{verbatim}
+#let amazed(term, color: blue) = {
+  text(color, box[â¨ #term â¨])
+}
+
+You are #amazed[beautiful]!
+I am #amazed(color: purple)[amazed]!
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/DeOx9bmyxPapZywkKVbTFwAAAAAAAAAA.png}
+
+Templates now work by wrapping our whole document in a custom function
+like \texttt{\ amazed\ } . But wrapping a whole document in a giant
+function call would be cumbersome! Instead, we can use an "everything"
+show rule to achieve the same with cleaner code. To write such a show
+rule, put a colon directly behind the show keyword and then provide a
+function. This function is given the rest of the document as a
+parameter. The function can then do anything with this content. Since
+the \texttt{\ amazed\ } function can be called with a single content
+argument, we can just pass it by name to the show rule.
+Let\textquotesingle s try it:
+
+\begin{verbatim}
+#show: amazed
+I choose to focus on the good
+in my life and let go of any
+negative thoughts or beliefs.
+In fact, I am amazing!
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/gIv_i_LbdQ0VPwrL8LD78QAAAAAAAAAA.png}
+
+Our whole document will now be passed to the \texttt{\ amazed\ }
+function, as if we wrapped it around it. Of course, this is not
+especially useful with this particular function, but when combined with
+set rules and named arguments, it can be very powerful.
+
+\subsection{Embedding set and show rules}\label{set-and-show-rules}
+
+To apply some set and show rules to our template, we can use
+\texttt{\ set\ } and \texttt{\ show\ } within a content block in our
+function and then insert the document into that content block.
+
+\begin{verbatim}
+#let template(doc) = [
+  #set text(font: "Inria Serif")
+  #show "something cool": [Typst]
+  #doc
+]
+
+#show: template
+I am learning something cool today.
+It's going great so far!
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/A-HDnb3ZV5ZLdSR0m_DP1QAAAAAAAAAA.png}
+
+Just like we already discovered in the previous chapter, set rules will
+apply to everything within their content block. Since the everything
+show rule passes our whole document to the \texttt{\ template\ }
+function, the text set rule and string show rule in our template will
+apply to the whole document. Let\textquotesingle s use this knowledge to
+create a template that reproduces the body style of the paper we wrote
+in the previous chapter.
+
+\begin{verbatim}
+#let conf(title, doc) = {
+  set page(
+    paper: "us-letter",
+    header: align(
+      right + horizon,
+      title
+    ),
+    columns: 2,
+    ...
+  )
+  set par(justify: true)
+  set text(
+    font: "Libertinus Serif",
+    size: 11pt,
+  )
+
+  // Heading show rules.
+  ...
+
+  doc
+}
+
+#show: doc => conf(
+  [Paper title],
+  doc,
+)
+
+= Introduction
+#lorem(90)
+
+...
+\end{verbatim}
+
+\includegraphics[width=12.75in,height=\textheight,keepaspectratio]{/assets/docs/Zq1nZR6oWo-01oCtP5oKDAAAAAAAAAAA.png}
+
+We copy-pasted most of that code from the previous chapter. The two
+differences are this:
+
+\begin{enumerate}
+\item
+  We wrapped everything in the function \texttt{\ conf\ } using an
+  everything show rule. The function applies a few set and show rules
+  and echoes the content it has been passed at the end.
+\item
+  Moreover, we used a curly-braced code block instead of a content
+  block. This way, we don\textquotesingle t need to prefix all set rules
+  and function calls with a \texttt{\ \#\ } . In exchange, we cannot
+  write markup directly in the code block anymore.
+\end{enumerate}
+
+Also note where the title comes from: We previously had it inside of a
+variable. Now, we are receiving it as the first parameter of the
+template function. To do so, we passed a closure (that\textquotesingle s
+a function without a name that is used right away) to the everything
+show rule. We did that because the \texttt{\ conf\ } function expects
+two positional arguments, the title and the body, but the show rule will
+only pass the body. Therefore, we add a new function definition that
+allows us to set a paper title and use the single parameter from the
+show rule.
+
+\subsection{Templates with named arguments}\label{named-arguments}
+
+Our paper in the previous chapter had a title and an author list.
+Let\textquotesingle s add these things to our template. In addition to
+the title, we want our template to accept a list of authors with their
+affiliations and the paper\textquotesingle s abstract. To keep things
+readable, we\textquotesingle ll add those as named arguments. In the
+end, we want it to work like this:
+
+\begin{verbatim}
+#show: doc => conf(
+  title: [Towards Improved Modelling],
+  authors: (
+    (
+      name: "Theresa Tungsten",
+      affiliation: "Artos Institute",
+      email: "tung@artos.edu",
+    ),
+    (
+      name: "Eugene Deklan",
+      affiliation: "Honduras State",
+      email: "e.deklan@hstate.hn",
+    ),
+  ),
+  abstract: lorem(80),
+  doc,
+)
+
+...
+\end{verbatim}
+
+Let\textquotesingle s build this new template function. First, we add a
+default value to the \texttt{\ title\ } argument. This way, we can call
+the template without specifying a title. We also add the named
+\texttt{\ authors\ } and \texttt{\ abstract\ } parameters with empty
+defaults. Next, we copy the code that generates title, abstract and
+authors from the previous chapter into the template, replacing the fixed
+details with the parameters.
+
+The new \texttt{\ authors\ } parameter expects an
+\href{/docs/reference/foundations/array/}{array} of
+\href{/docs/reference/foundations/dictionary/}{dictionaries} with the
+keys \texttt{\ name\ } , \texttt{\ affiliation\ } and \texttt{\ email\ }
+. Because we can have an arbitrary number of authors, we dynamically
+determine if we need one, two or three columns for the author list.
+First, we determine the number of authors using the
+\href{/docs/reference/foundations/array/\#definitions-len}{\texttt{\ .len()\ }}
+method on the \texttt{\ authors\ } array. Then, we set the number of
+columns as the minimum of this count and three, so that we never create
+more than three columns. If there are more than three authors, a new row
+will be inserted instead. For this purpose, we have also added a
+\texttt{\ row-gutter\ } parameter to the \texttt{\ grid\ } function.
+Otherwise, the rows would be too close together. To extract the details
+about the authors from the dictionary, we use the
+\href{/docs/reference/scripting/\#fields}{field access syntax} .
+
+We still have to provide an argument to the grid for each author: Here
+is where the array\textquotesingle s
+\href{/docs/reference/foundations/array/\#definitions-map}{\texttt{\ map\ }
+method} comes in handy. It takes a function as an argument that gets
+called with each item of the array. We pass it a function that formats
+the details for each author and returns a new array containing content
+values. We\textquotesingle ve now got one array of values that
+we\textquotesingle d like to use as multiple arguments for the grid. We
+can do that by using the
+\href{/docs/reference/foundations/arguments/}{\texttt{\ spread\ }
+operator} . It takes an array and applies each of its items as a
+separate argument to the function.
+
+The resulting template function looks like this:
+
+\begin{verbatim}
+#let conf(
+  title: none,
+  authors: (),
+  abstract: [],
+  doc,
+) = {
+  // Set and show rules from before.
+  ...
+
+  set align(center)
+  text(17pt, title)
+
+  let count = authors.len()
+  let ncols = calc.min(count, 3)
+  grid(
+    columns: (1fr,) * ncols,
+    row-gutter: 24pt,
+    ..authors.map(author => [
+      #author.name \
+      #author.affiliation \
+      #link("mailto:" + author.email)
+    ]),
+  )
+
+  par(justify: false)[
+    *Abstract* \
+    #abstract
+  ]
+
+  set align(left)
+  doc
+}
+\end{verbatim}
+
+\subsection{A separate file}\label{separate-file}
+
+Most of the time, a template is specified in a different file and then
+imported into the document. This way, the main file you write in is kept
+clutter free and your template is easily reused. Create a new text file
+in the file panel by clicking the plus button and name it
+\texttt{\ conf.typ\ } . Move the \texttt{\ conf\ } function definition
+inside of that new file. Now you can access it from your main file by
+adding an import before the show rule. Specify the path of the file
+between the \texttt{\ }{\texttt{\ import\ }}\texttt{\ } keyword and a
+colon, then name the function that you want to import.
+
+Another thing that you can do to make applying templates just a bit more
+elegant is to use the
+\href{/docs/reference/foundations/function/\#definitions-with}{\texttt{\ .with\ }}
+method on functions to pre-populate all the named arguments. This way,
+you can avoid spelling out a closure and appending the content argument
+at the bottom of your template list. Templates on
+\href{https://typst.app/universe/}{Typst Universe} are designed to work
+with this style of function call.
+
+\begin{verbatim}
+#import "conf.typ": conf
+#show: conf.with(
+  title: [
+    Towards Improved Modelling
+  ],
+  authors: (
+    (
+      name: "Theresa Tungsten",
+      affiliation: "Artos Institute",
+      email: "tung@artos.edu",
+    ),
+    (
+      name: "Eugene Deklan",
+      affiliation: "Honduras State",
+      email: "e.deklan@hstate.hn",
+    ),
+  ),
+  abstract: lorem(80),
+)
+
+= Introduction
+#lorem(90)
+
+== Motivation
+#lorem(140)
+
+== Problem Statement
+#lorem(50)
+
+= Related Work
+#lorem(200)
+\end{verbatim}
+
+\includegraphics[width=12.75in,height=\textheight,keepaspectratio]{/assets/docs/BxllQV4yc0ikxppO7QP73AAAAAAAAAAA.png}
+
+We have now converted the conference paper into a reusable template for
+that conference! Why not share it in the
+\href{https://forum.typst.app/}{Forum} or on
+\href{https://discord.gg/2uDybryKPe}{Typst\textquotesingle s Discord
+server} so that others can use it too?
+
+\subsection{Review}\label{review}
+
+Congratulations, you have completed Typst\textquotesingle s Tutorial! In
+this section, you have learned how to define your own functions and how
+to create and apply templates that define reusable document styles.
+You\textquotesingle ve made it far and learned a lot. You can now use
+Typst to write your own documents and share them with others.
+
+We are still a super young project and are looking for feedback. If you
+have any questions, suggestions or you found a bug, please let us know
+in the \href{https://forum.typst.app/}{Forum} , on our
+\href{https://discord.gg/2uDybryKPe}{Discord server} , on
+\href{https://github.com/typst/typst/}{GitHub} , or via the web
+app\textquotesingle s feedback form (always available in the Help menu).
+
+So what are you waiting for? \href{https://typst.app}{Sign up} and write
+something!
+
+\href{/docs/tutorial/advanced-styling/}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-arrow-right.svg}}}
+
+{ Advanced Styling } { Previous page }
+
+\href{/docs/reference/}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-arrow-right.svg}}}
+
+{ Reference } { Next page }
+
+
