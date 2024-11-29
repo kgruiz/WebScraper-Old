@@ -1,4 +1,5 @@
 import json
+import os
 from typing import List
 from urllib.parse import urlparse
 
@@ -67,6 +68,7 @@ def GetUrls(
     baseUrl: str = None,
     verbose: bool = False,
     parentLink=None,
+    writeHtml: bool = True,  # New parameter to control HTML file writing
 ):
 
     if urlList is None:
@@ -79,10 +81,23 @@ def GetUrls(
     soup = BeautifulSoup(response.text, "html.parser")
     links = soup.find_all("a", href=True)
 
-    if response.status_code == 404:
+    if writeHtml:
+        # Create directory structure based on URL
+        parsedUrl = urlparse(url)
+        pathParts = parsedUrl.path.strip("/").split("/")
+        dirPath = os.path.join("Raw HTML Files", parsedUrl.netloc, *pathParts[:-1])
+        if not os.path.exists(dirPath):
+            os.makedirs(dirPath)
 
-        print(f"\n{url}\n")
-        print(f"\n{parentLink}\n")
+        # Save the HTML content to a file
+        filename = os.path.join(dirPath, f"{pathParts[-1] or 'index'}.html")
+        with open(filename, "w") as file:
+            file.write(BeautifulSoup.prettify(soup))
+            file.write("\n<!-- All hrefs on this page -->\n")
+            for link in links:
+                file.write(f"<!-- {link.get('href')} -->\n")
+
+    if response.status_code == 404:
 
         response = requests.get(parentLink)
         soup = BeautifulSoup(response.text, "html.parser")
@@ -98,7 +113,7 @@ def GetUrls(
 
                 file.write(f"<!-- {link.get('href')} -->\n")
 
-        raise SystemExit
+        raise Exception(f"404 Error on {url}. Parent link: {parentLink}")
 
     uniqueLinksLengthTest = []
 
@@ -136,10 +151,6 @@ def GetUrls(
     uniqueLinksLengthTest = set(uniqueLinksLengthTest)
     uniqueLinks = set(uniqueLinksLengthTest) - addedUrls
 
-    # total = bar.total + len(uniqueLinks)
-    # bar.total = total
-    # bar.refresh()
-
     for link in uniqueLinks:
 
         if "universe" in link:
@@ -164,6 +175,7 @@ def GetUrls(
                 baseUrl=baseUrl,
                 verbose=verbose,
                 parentLink=url,
+                writeHtml=writeHtml,  # Pass the parameter to recursive calls
             )
 
     return urlList
