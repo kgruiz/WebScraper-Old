@@ -1,0 +1,560 @@
+\title{typst.app/docs/reference/model/enum}
+
+\begin{itemize}
+\tightlist
+\item
+  \href{/docs}{\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-docs-dark.svg}}
+\item
+  \includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-arrow-right.svg}
+\item
+  \href{/docs/reference/}{Reference}
+\item
+  \includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-arrow-right.svg}
+\item
+  \href{/docs/reference/model/}{Model}
+\item
+  \includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-arrow-right.svg}
+\item
+  \href{/docs/reference/model/enum/}{Numbered List}
+\end{itemize}
+
+\section{\texorpdfstring{\texttt{\ enum\ } {{ Element
+}}}{ enum   Element }}\label{summary}
+
+\phantomsection\label{element-tooltip}
+Element functions can be customized with \texttt{\ set\ } and
+\texttt{\ show\ } rules.
+
+A numbered list.
+
+Displays a sequence of items vertically and numbers them consecutively.
+
+\subsection{Example}\label{example}
+
+\begin{verbatim}
+Automatically numbered:
++ Preparations
++ Analysis
++ Conclusions
+
+Manually numbered:
+2. What is the first step?
+5. I am confused.
++  Moving on ...
+
+Multiple lines:
++ This enum item has multiple
+  lines because the next line
+  is indented.
+
+Function call.
+#enum[First][Second]
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/HrnJ1mRKvbXNf6U4DmZCaAAAAAAAAAAA.png}
+
+You can easily switch all your enumerations to a different numbering
+style with a set rule.
+
+\begin{verbatim}
+#set enum(numbering: "a)")
+
++ Starting off ...
++ Don't forget step two
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/hFb68a8DC-Rvf_eMOYtVMwAAAAAAAAAA.png}
+
+You can also use
+\href{/docs/reference/model/enum/\#definitions-item}{\texttt{\ enum.item\ }}
+to programmatically customize the number of each item in the
+enumeration:
+
+\begin{verbatim}
+#enum(
+  enum.item(1)[First step],
+  enum.item(5)[Fifth step],
+  enum.item(10)[Tenth step]
+)
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/uRQbjXrkv7FwltBxluVMMAAAAAAAAAAA.png}
+
+\subsection{Syntax}\label{syntax}
+
+This functions also has dedicated syntax:
+
+\begin{itemize}
+\tightlist
+\item
+  Starting a line with a plus sign creates an automatically numbered
+  enumeration item.
+\item
+  Starting a line with a number followed by a dot creates an explicitly
+  numbered enumeration item.
+\end{itemize}
+
+Enumeration items can contain multiple paragraphs and other block-level
+content. All content that is indented more than an
+item\textquotesingle s marker becomes part of that item.
+
+\subsection{\texorpdfstring{{ Parameters
+}}{ Parameters }}\label{parameters}
+
+\phantomsection\label{parameters-tooltip}
+Parameters are the inputs to a function. They are specified in
+parentheses after the function name.
+
+{ enum } (
+
+{ \hyperref[parameters-tight]{tight :}
+\href{/docs/reference/foundations/bool/}{bool} , } {
+\hyperref[parameters-numbering]{numbering :}
+\href{/docs/reference/foundations/str/}{str}
+\href{/docs/reference/foundations/function/}{function} , } {
+\hyperref[parameters-start]{start :}
+\href{/docs/reference/foundations/int/}{int} , } {
+\hyperref[parameters-full]{full :}
+\href{/docs/reference/foundations/bool/}{bool} , } {
+\hyperref[parameters-indent]{indent :}
+\href{/docs/reference/layout/length/}{length} , } {
+\hyperref[parameters-body-indent]{body-indent :}
+\href{/docs/reference/layout/length/}{length} , } {
+\hyperref[parameters-spacing]{spacing :}
+\href{/docs/reference/foundations/auto/}{auto}
+\href{/docs/reference/layout/length/}{length} , } {
+\hyperref[parameters-number-align]{number-align :}
+\href{/docs/reference/layout/alignment/}{alignment} , } {
+\hyperref[parameters-children]{..}
+\href{/docs/reference/foundations/content/}{content}
+\href{/docs/reference/foundations/array/}{array} , }
+
+) -\textgreater{} \href{/docs/reference/foundations/content/}{content}
+
+\subsubsection{\texorpdfstring{\texttt{\ tight\ }}{ tight }}\label{parameters-tight}
+
+\href{/docs/reference/foundations/bool/}{bool}
+
+{{ Settable }}
+
+\phantomsection\label{parameters-tight-settable-tooltip}
+Settable parameters can be customized for all following uses of the
+function with a \texttt{\ set\ } rule.
+
+Defines the default
+\href{/docs/reference/model/enum/\#parameters-spacing}{spacing} of the
+enumeration. If it is \texttt{\ }{\texttt{\ false\ }}\texttt{\ } , the
+items are spaced apart with
+\href{/docs/reference/model/par/\#parameters-spacing}{paragraph spacing}
+. If it is \texttt{\ }{\texttt{\ true\ }}\texttt{\ } , they use
+\href{/docs/reference/model/par/\#parameters-leading}{paragraph leading}
+instead. This makes the list more compact, which can look better if the
+items are short.
+
+In markup mode, the value of this parameter is determined based on
+whether items are separated with a blank line. If items directly follow
+each other, this is set to \texttt{\ }{\texttt{\ true\ }}\texttt{\ } ;
+if items are separated by a blank line, this is set to
+\texttt{\ }{\texttt{\ false\ }}\texttt{\ } . The markup-defined
+tightness cannot be overridden with set rules.
+
+Default: \texttt{\ }{\texttt{\ true\ }}\texttt{\ }
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-arrow-right.svg}
+View example
+
+\begin{verbatim}
++ If an enum has a lot of text, and
+  maybe other inline content, it
+  should not be tight anymore.
+
++ To make an enum wide, simply
+  insert a blank line between the
+  items.
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/CGCi1WYCPLux25Xc9ZWwDQAAAAAAAAAA.png}
+
+\subsubsection{\texorpdfstring{\texttt{\ numbering\ }}{ numbering }}\label{parameters-numbering}
+
+\href{/docs/reference/foundations/str/}{str} {or}
+\href{/docs/reference/foundations/function/}{function}
+
+{{ Settable }}
+
+\phantomsection\label{parameters-numbering-settable-tooltip}
+Settable parameters can be customized for all following uses of the
+function with a \texttt{\ set\ } rule.
+
+How to number the enumeration. Accepts a
+\href{/docs/reference/model/numbering/}{numbering pattern or function} .
+
+If the numbering pattern contains multiple counting symbols, they apply
+to nested enums. If given a function, the function receives one argument
+if \texttt{\ full\ } is \texttt{\ }{\texttt{\ false\ }}\texttt{\ } and
+multiple arguments if \texttt{\ full\ } is
+\texttt{\ }{\texttt{\ true\ }}\texttt{\ } .
+
+Default: \texttt{\ }{\texttt{\ "1."\ }}\texttt{\ }
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-arrow-right.svg}
+View example
+
+\begin{verbatim}
+#set enum(numbering: "1.a)")
++ Different
++ Numbering
+  + Nested
+  + Items
++ Style
+
+#set enum(numbering: n => super[#n])
++ Superscript
++ Numbering!
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/b_5poTPc-SH9hcwOp4TcbAAAAAAAAAAA.png}
+
+\subsubsection{\texorpdfstring{\texttt{\ start\ }}{ start }}\label{parameters-start}
+
+\href{/docs/reference/foundations/int/}{int}
+
+{{ Settable }}
+
+\phantomsection\label{parameters-start-settable-tooltip}
+Settable parameters can be customized for all following uses of the
+function with a \texttt{\ set\ } rule.
+
+Which number to start the enumeration with.
+
+Default: \texttt{\ }{\texttt{\ 1\ }}\texttt{\ }
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-arrow-right.svg}
+View example
+
+\begin{verbatim}
+#enum(
+  start: 3,
+  [Skipping],
+  [Ahead],
+)
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/NqaMIUfLtrq2fhf9xChjagAAAAAAAAAA.png}
+
+\subsubsection{\texorpdfstring{\texttt{\ full\ }}{ full }}\label{parameters-full}
+
+\href{/docs/reference/foundations/bool/}{bool}
+
+{{ Settable }}
+
+\phantomsection\label{parameters-full-settable-tooltip}
+Settable parameters can be customized for all following uses of the
+function with a \texttt{\ set\ } rule.
+
+Whether to display the full numbering, including the numbers of all
+parent enumerations.
+
+Default: \texttt{\ }{\texttt{\ false\ }}\texttt{\ }
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-arrow-right.svg}
+View example
+
+\begin{verbatim}
+#set enum(numbering: "1.a)", full: true)
++ Cook
+  + Heat water
+  + Add ingredients
++ Eat
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/ecL0fn92ARx_6xbLZYFkVAAAAAAAAAAA.png}
+
+\subsubsection{\texorpdfstring{\texttt{\ indent\ }}{ indent }}\label{parameters-indent}
+
+\href{/docs/reference/layout/length/}{length}
+
+{{ Settable }}
+
+\phantomsection\label{parameters-indent-settable-tooltip}
+Settable parameters can be customized for all following uses of the
+function with a \texttt{\ set\ } rule.
+
+The indentation of each item.
+
+Default: \texttt{\ }{\texttt{\ 0pt\ }}\texttt{\ }
+
+\subsubsection{\texorpdfstring{\texttt{\ body-indent\ }}{ body-indent }}\label{parameters-body-indent}
+
+\href{/docs/reference/layout/length/}{length}
+
+{{ Settable }}
+
+\phantomsection\label{parameters-body-indent-settable-tooltip}
+Settable parameters can be customized for all following uses of the
+function with a \texttt{\ set\ } rule.
+
+The space between the numbering and the body of each item.
+
+Default: \texttt{\ }{\texttt{\ 0.5em\ }}\texttt{\ }
+
+\subsubsection{\texorpdfstring{\texttt{\ spacing\ }}{ spacing }}\label{parameters-spacing}
+
+\href{/docs/reference/foundations/auto/}{auto} {or}
+\href{/docs/reference/layout/length/}{length}
+
+{{ Settable }}
+
+\phantomsection\label{parameters-spacing-settable-tooltip}
+Settable parameters can be customized for all following uses of the
+function with a \texttt{\ set\ } rule.
+
+The spacing between the items of the enumeration.
+
+If set to \texttt{\ }{\texttt{\ auto\ }}\texttt{\ } , uses paragraph
+\href{/docs/reference/model/par/\#parameters-leading}{\texttt{\ leading\ }}
+for tight enumerations and paragraph
+\href{/docs/reference/model/par/\#parameters-spacing}{\texttt{\ spacing\ }}
+for wide (non-tight) enumerations.
+
+Default: \texttt{\ }{\texttt{\ auto\ }}\texttt{\ }
+
+\subsubsection{\texorpdfstring{\texttt{\ number-align\ }}{ number-align }}\label{parameters-number-align}
+
+\href{/docs/reference/layout/alignment/}{alignment}
+
+{{ Settable }}
+
+\phantomsection\label{parameters-number-align-settable-tooltip}
+Settable parameters can be customized for all following uses of the
+function with a \texttt{\ set\ } rule.
+
+The alignment that enum numbers should have.
+
+By default, this is set to
+\texttt{\ end\ }{\texttt{\ +\ }}\texttt{\ top\ } , which aligns enum
+numbers towards end of the current text direction (in left-to-right
+script, for example, this is the same as \texttt{\ right\ } ) and at the
+top of the line. The choice of \texttt{\ end\ } for horizontal alignment
+of enum numbers is usually preferred over \texttt{\ start\ } , as
+numbers then grow away from the text instead of towards it, avoiding
+certain visual issues. This option lets you override this behaviour,
+however. (Also to note is that the
+\href{/docs/reference/model/list/}{unordered list} uses a different
+method for this, by giving the \texttt{\ marker\ } content an alignment
+directly.).
+
+Default: \texttt{\ end\ }{\texttt{\ +\ }}\texttt{\ top\ }
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-arrow-right.svg}
+View example
+
+\begin{verbatim}
+#set enum(number-align: start + bottom)
+
+Here are some powers of two:
+1. One
+2. Two
+4. Four
+8. Eight
+16. Sixteen
+32. Thirty two
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/s-zUl9r9z6yKdW4VnsLi_AAAAAAAAAAA.png}
+
+\subsubsection{\texorpdfstring{\texttt{\ children\ }}{ children }}\label{parameters-children}
+
+\href{/docs/reference/foundations/content/}{content} {or}
+\href{/docs/reference/foundations/array/}{array}
+
+{Required} {{ Positional }}
+
+\phantomsection\label{parameters-children-positional-tooltip}
+Positional parameters are specified in order, without names.
+
+{{ Variadic }}
+
+\phantomsection\label{parameters-children-variadic-tooltip}
+Variadic parameters can be specified multiple times.
+
+The numbered list\textquotesingle s items.
+
+When using the enum syntax, adjacent items are automatically collected
+into enumerations, even through constructs like for loops.
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-arrow-right.svg}
+View example
+
+\begin{verbatim}
+#for phase in (
+   "Launch",
+   "Orbit",
+   "Descent",
+) [+ #phase]
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/9haSHPkr8gDAx-1cEtmf8QAAAAAAAAAA.png}
+
+\subsection{\texorpdfstring{{ Definitions
+}}{ Definitions }}\label{definitions}
+
+\phantomsection\label{definitions-tooltip}
+Functions and types and can have associated definitions. These are
+accessed by specifying the function or type, followed by a period, and
+then the definition\textquotesingle s name.
+
+\subsubsection{\texorpdfstring{\texttt{\ item\ } {{ Element
+}}}{ item   Element }}\label{definitions-item}
+
+\phantomsection\label{definitions-item-element-tooltip}
+Element functions can be customized with \texttt{\ set\ } and
+\texttt{\ show\ } rules.
+
+An enumeration item.
+
+enum { . } { item } (
+
+{ \hyperref[definitions-item-parameters-number]{}
+\href{/docs/reference/foundations/none/}{none}
+\href{/docs/reference/foundations/int/}{int} , } {
+\href{/docs/reference/foundations/content/}{content} , }
+
+) -\textgreater{} \href{/docs/reference/foundations/content/}{content}
+
+\paragraph{\texorpdfstring{\texttt{\ number\ }}{ number }}\label{definitions-item-number}
+
+\href{/docs/reference/foundations/none/}{none} {or}
+\href{/docs/reference/foundations/int/}{int}
+
+{{ Positional }}
+
+\phantomsection\label{definitions-item-number-positional-tooltip}
+Positional parameters are specified in order, without names.
+
+{{ Settable }}
+
+\phantomsection\label{definitions-item-number-settable-tooltip}
+Settable parameters can be customized for all following uses of the
+function with a \texttt{\ set\ } rule.
+
+The item\textquotesingle s number.
+
+Default: \texttt{\ }{\texttt{\ none\ }}\texttt{\ }
+
+\paragraph{\texorpdfstring{\texttt{\ body\ }}{ body }}\label{definitions-item-body}
+
+\href{/docs/reference/foundations/content/}{content}
+
+{Required} {{ Positional }}
+
+\phantomsection\label{definitions-item-body-positional-tooltip}
+Positional parameters are specified in order, without names.
+
+The item\textquotesingle s body.
+
+\href{/docs/reference/model/link/}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-arrow-right.svg}}}
+
+{ Link } { Previous page }
+
+\href{/docs/reference/model/numbering/}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-arrow-right.svg}}}
+
+{ Numbering } { Next page }
+
+\textbf{On this page}
+
+\begin{itemize}
+\tightlist
+\item
+  \hyperref[summary]{Summary}
+\item
+  \hyperref[example]{Example}
+\item
+  \hyperref[syntax]{Syntax}
+\item
+  \hyperref[parameters]{Parameters}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \hyperref[parameters-tight]{tight}
+  \item
+    \hyperref[parameters-numbering]{numbering}
+  \item
+    \hyperref[parameters-start]{start}
+  \item
+    \hyperref[parameters-full]{full}
+  \item
+    \hyperref[parameters-indent]{indent}
+  \item
+    \hyperref[parameters-body-indent]{body-indent}
+  \item
+    \hyperref[parameters-spacing]{spacing}
+  \item
+    \hyperref[parameters-number-align]{number-align}
+  \item
+    \hyperref[parameters-children]{children}
+  \end{itemize}
+\item
+  \hyperref[definitions]{Definitions}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \hyperref[definitions-item]{Numbered List Item}
+
+    \begin{itemize}
+    \tightlist
+    \item
+      \hyperref[definitions-item-number]{number}
+    \item
+      \hyperref[definitions-item-body]{body}
+    \end{itemize}
+  \end{itemize}
+\end{itemize}
+
+\begin{itemize}
+\tightlist
+\item
+  \href{/}{Home}
+\item
+  \href{/pricing/}{Pricing}
+\item
+  \href{/docs/}{Documentation}
+\item
+  \href{/universe/}{Universe}
+\item
+  \href{/about/}{About Us}
+\item
+  \href{/contact/}{Contact Us}
+\item
+  \href{/privacy/}{Privacy}
+\item
+  \href{https://typst.app/terms}{Terms and Conditions}
+\item
+  \href{/legal/}{Legal (Impressum)}
+\end{itemize}
+
+\begin{itemize}
+\tightlist
+\item
+  \href{https://forum.typst.app}{Forum}
+\item
+  \href{/tools/}{Tools}
+\item
+  \href{/blog/}{Blog}
+\item
+  \href{https://github.com/typst/}{GitHub}
+\item
+  \href{https://discord.gg/2uDybryKPe}{Discord}
+\item
+  \href{https://mastodon.social/@typst}{Mastodon}
+\item
+  \href{https://bsky.app/profile/typst.app}{Bluesky}
+\item
+  \href{https://www.linkedin.com/company/typst/}{LinkedIn}
+\item
+  \href{https://instagram.com/typstapp/}{Instagram}
+\end{itemize}
+
+Made in Berlin

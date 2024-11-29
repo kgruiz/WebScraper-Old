@@ -1,0 +1,715 @@
+\title{typst.app/docs/reference/model/figure}
+
+\begin{itemize}
+\tightlist
+\item
+  \href{/docs}{\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-docs-dark.svg}}
+\item
+  \includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-arrow-right.svg}
+\item
+  \href{/docs/reference/}{Reference}
+\item
+  \includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-arrow-right.svg}
+\item
+  \href{/docs/reference/model/}{Model}
+\item
+  \includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-arrow-right.svg}
+\item
+  \href{/docs/reference/model/figure/}{Figure}
+\end{itemize}
+
+\section{\texorpdfstring{\texttt{\ figure\ } {{ Element
+}}}{ figure   Element }}\label{summary}
+
+\phantomsection\label{element-tooltip}
+Element functions can be customized with \texttt{\ set\ } and
+\texttt{\ show\ } rules.
+
+A figure with an optional caption.
+
+Automatically detects its kind to select the correct counting track. For
+example, figures containing images will be numbered separately from
+figures containing tables.
+
+\subsection{Examples}\label{examples}
+
+The example below shows a basic figure with an image:
+
+\begin{verbatim}
+@glacier shows a glacier. Glaciers
+are complex systems.
+
+#figure(
+  image("glacier.jpg", width: 80%),
+  caption: [A curious figure.],
+) <glacier>
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/udw8J1zW8CDfoYB1XTzdLgAAAAAAAAAA.png}
+
+You can also insert \href{/docs/reference/model/table/}{tables} into
+figures to give them a caption. The figure will detect this and
+automatically use a separate counter.
+
+\begin{verbatim}
+#figure(
+  table(
+    columns: 4,
+    [t], [1], [2], [3],
+    [y], [0.3s], [0.4s], [0.8s],
+  ),
+  caption: [Timing results],
+)
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/_RaOJik9O5UoQO8Eq6OM9gAAAAAAAAAA.png}
+
+This behaviour can be overridden by explicitly specifying the
+figure\textquotesingle s \texttt{\ kind\ } . All figures of the same
+kind share a common counter.
+
+\subsection{Figure behaviour}\label{figure-behaviour}
+
+By default, figures are placed within the flow of content. To make them
+float to the top or bottom of the page, you can use the
+\href{/docs/reference/model/figure/\#parameters-placement}{\texttt{\ placement\ }}
+argument.
+
+If your figure is too large and its contents are breakable across pages
+(e.g. if it contains a large table), then you can make the figure itself
+breakable across pages as well with this show rule:
+
+\begin{verbatim}
+#show figure: set block(breakable: true)
+\end{verbatim}
+
+See the
+\href{/docs/reference/layout/block/\#parameters-breakable}{block}
+documentation for more information about breakable and non-breakable
+blocks.
+
+\subsection{Caption customization}\label{caption-customization}
+
+You can modify the appearance of the figure\textquotesingle s caption
+with its associated
+\href{/docs/reference/model/figure/\#definitions-caption}{\texttt{\ caption\ }}
+function. In the example below, we emphasize all captions:
+
+\begin{verbatim}
+#show figure.caption: emph
+
+#figure(
+  rect[Hello],
+  caption: [I am emphasized!],
+)
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/_XYhSBTt1dmjYR9A4n_aCgAAAAAAAAAA.png}
+
+By using a
+\href{/docs/reference/foundations/function/\#definitions-where}{\texttt{\ where\ }}
+selector, we can scope such rules to specific kinds of figures. For
+example, to position the caption above tables, but keep it below for all
+other kinds of figures, we could write the following show-set rule:
+
+\begin{verbatim}
+#show figure.where(
+  kind: table
+): set figure.caption(position: top)
+
+#figure(
+  table(columns: 2)[A][B][C][D],
+  caption: [I'm up here],
+)
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/5FXY-vQKID4Q1FYsR4Ix9AAAAAAAAAAA.png}
+
+\subsection{\texorpdfstring{{ Parameters
+}}{ Parameters }}\label{parameters}
+
+\phantomsection\label{parameters-tooltip}
+Parameters are the inputs to a function. They are specified in
+parentheses after the function name.
+
+{ figure } (
+
+{ \href{/docs/reference/foundations/content/}{content} , } {
+\hyperref[parameters-placement]{placement :}
+\href{/docs/reference/foundations/none/}{none}
+\href{/docs/reference/foundations/auto/}{auto}
+\href{/docs/reference/layout/alignment/}{alignment} , } {
+\hyperref[parameters-scope]{scope :}
+\href{/docs/reference/foundations/str/}{str} , } {
+\hyperref[parameters-caption]{caption :}
+\href{/docs/reference/foundations/none/}{none}
+\href{/docs/reference/foundations/content/}{content} , } {
+\hyperref[parameters-kind]{kind :}
+\href{/docs/reference/foundations/auto/}{auto}
+\href{/docs/reference/foundations/str/}{str}
+\href{/docs/reference/foundations/function/}{function} , } {
+\hyperref[parameters-supplement]{supplement :}
+\href{/docs/reference/foundations/none/}{none}
+\href{/docs/reference/foundations/auto/}{auto}
+\href{/docs/reference/foundations/content/}{content}
+\href{/docs/reference/foundations/function/}{function} , } {
+\hyperref[parameters-numbering]{numbering :}
+\href{/docs/reference/foundations/none/}{none}
+\href{/docs/reference/foundations/str/}{str}
+\href{/docs/reference/foundations/function/}{function} , } {
+\hyperref[parameters-gap]{gap :}
+\href{/docs/reference/layout/length/}{length} , } {
+\hyperref[parameters-outlined]{outlined :}
+\href{/docs/reference/foundations/bool/}{bool} , }
+
+) -\textgreater{} \href{/docs/reference/foundations/content/}{content}
+
+\subsubsection{\texorpdfstring{\texttt{\ body\ }}{ body }}\label{parameters-body}
+
+\href{/docs/reference/foundations/content/}{content}
+
+{Required} {{ Positional }}
+
+\phantomsection\label{parameters-body-positional-tooltip}
+Positional parameters are specified in order, without names.
+
+The content of the figure. Often, an
+\href{/docs/reference/visualize/image/}{image} .
+
+\subsubsection{\texorpdfstring{\texttt{\ placement\ }}{ placement }}\label{parameters-placement}
+
+\href{/docs/reference/foundations/none/}{none} {or}
+\href{/docs/reference/foundations/auto/}{auto} {or}
+\href{/docs/reference/layout/alignment/}{alignment}
+
+{{ Settable }}
+
+\phantomsection\label{parameters-placement-settable-tooltip}
+Settable parameters can be customized for all following uses of the
+function with a \texttt{\ set\ } rule.
+
+The figure\textquotesingle s placement on the page.
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ }{\texttt{\ none\ }}\texttt{\ } : The figure stays in-flow
+  exactly where it was specified like other content.
+\item
+  \texttt{\ }{\texttt{\ auto\ }}\texttt{\ } : The figure picks
+  \texttt{\ top\ } or \texttt{\ bottom\ } depending on which is closer.
+\item
+  \texttt{\ top\ } : The figure floats to the top of the page.
+\item
+  \texttt{\ bottom\ } : The figure floats to the bottom of the page.
+\end{itemize}
+
+The gap between the main flow content and the floating figure is
+controlled by the
+\href{/docs/reference/layout/place/\#parameters-clearance}{\texttt{\ clearance\ }}
+argument on the \texttt{\ place\ } function.
+
+Default: \texttt{\ }{\texttt{\ none\ }}\texttt{\ }
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-arrow-right.svg}
+View example
+
+\begin{verbatim}
+#set page(height: 200pt)
+
+= Introduction
+#figure(
+  placement: bottom,
+  caption: [A glacier],
+  image("glacier.jpg", width: 60%),
+)
+#lorem(60)
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/AvTTV4CvkxyZB8XrzNUT3wAAAAAAAAAA.png}
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/AvTTV4CvkxyZB8XrzNUT3wAAAAAAAAAB.png}
+
+\subsubsection{\texorpdfstring{\texttt{\ scope\ }}{ scope }}\label{parameters-scope}
+
+\href{/docs/reference/foundations/str/}{str}
+
+{{ Settable }}
+
+\phantomsection\label{parameters-scope-settable-tooltip}
+Settable parameters can be customized for all following uses of the
+function with a \texttt{\ set\ } rule.
+
+Relative to which containing scope the figure is placed.
+
+Set this to \texttt{\ }{\texttt{\ "parent"\ }}\texttt{\ } to create a
+full-width figure in a two-column document.
+
+Has no effect if \texttt{\ placement\ } is
+\texttt{\ }{\texttt{\ none\ }}\texttt{\ } .
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Variant & Details \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\texttt{\ "\ column\ "\ } & Place into the current column. \\
+\texttt{\ "\ parent\ "\ } & Place relative to the parent, letting the
+content span over all columns. \\
+\end{longtable}
+
+Default: \texttt{\ }{\texttt{\ "column"\ }}\texttt{\ }
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-arrow-right.svg}
+View example
+
+\begin{verbatim}
+#set page(height: 250pt, columns: 2)
+
+= Introduction
+#figure(
+  placement: bottom,
+  scope: "parent",
+  caption: [A glacier],
+  image("glacier.jpg", width: 60%),
+)
+#lorem(60)
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/_zX5K9NHfd2mYYCeJmag7wAAAAAAAAAA.png}
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/_zX5K9NHfd2mYYCeJmag7wAAAAAAAAAB.png}
+
+\subsubsection{\texorpdfstring{\texttt{\ caption\ }}{ caption }}\label{parameters-caption}
+
+\href{/docs/reference/foundations/none/}{none} {or}
+\href{/docs/reference/foundations/content/}{content}
+
+{{ Settable }}
+
+\phantomsection\label{parameters-caption-settable-tooltip}
+Settable parameters can be customized for all following uses of the
+function with a \texttt{\ set\ } rule.
+
+The figure\textquotesingle s caption.
+
+Default: \texttt{\ }{\texttt{\ none\ }}\texttt{\ }
+
+\subsubsection{\texorpdfstring{\texttt{\ kind\ }}{ kind }}\label{parameters-kind}
+
+\href{/docs/reference/foundations/auto/}{auto} {or}
+\href{/docs/reference/foundations/str/}{str} {or}
+\href{/docs/reference/foundations/function/}{function}
+
+{{ Settable }}
+
+\phantomsection\label{parameters-kind-settable-tooltip}
+Settable parameters can be customized for all following uses of the
+function with a \texttt{\ set\ } rule.
+
+The kind of figure this is.
+
+All figures of the same kind share a common counter.
+
+If set to \texttt{\ }{\texttt{\ auto\ }}\texttt{\ } , the figure will
+try to automatically determine its kind based on the type of its body.
+Automatically detected kinds are
+\href{/docs/reference/model/table/}{tables} and
+\href{/docs/reference/text/raw/}{code} . In other cases, the inferred
+kind is that of an \href{/docs/reference/visualize/image/}{image} .
+
+Setting this to something other than
+\texttt{\ }{\texttt{\ auto\ }}\texttt{\ } will override the automatic
+detection. This can be useful if
+
+\begin{itemize}
+\tightlist
+\item
+  you wish to create a custom figure type that is not an
+  \href{/docs/reference/visualize/image/}{image} , a
+  \href{/docs/reference/model/table/}{table} or
+  \href{/docs/reference/text/raw/}{code} ,
+\item
+  you want to force the figure to use a specific counter regardless of
+  its content.
+\end{itemize}
+
+You can set the kind to be an element function or a string. If you set
+it to an element function other than
+\href{/docs/reference/model/table/}{\texttt{\ table\ }} ,
+\href{/docs/reference/text/raw/}{\texttt{\ raw\ }} or
+\href{/docs/reference/visualize/image/}{\texttt{\ image\ }} , you will
+need to manually specify the figure\textquotesingle s supplement.
+
+Default: \texttt{\ }{\texttt{\ auto\ }}\texttt{\ }
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-arrow-right.svg}
+View example
+
+\begin{verbatim}
+#figure(
+  circle(radius: 10pt),
+  caption: [A curious atom.],
+  kind: "atom",
+  supplement: [Atom],
+)
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/gnEhUtPlQLC9DmHftY4vzQAAAAAAAAAA.png}
+
+\subsubsection{\texorpdfstring{\texttt{\ supplement\ }}{ supplement }}\label{parameters-supplement}
+
+\href{/docs/reference/foundations/none/}{none} {or}
+\href{/docs/reference/foundations/auto/}{auto} {or}
+\href{/docs/reference/foundations/content/}{content} {or}
+\href{/docs/reference/foundations/function/}{function}
+
+{{ Settable }}
+
+\phantomsection\label{parameters-supplement-settable-tooltip}
+Settable parameters can be customized for all following uses of the
+function with a \texttt{\ set\ } rule.
+
+The figure\textquotesingle s supplement.
+
+If set to \texttt{\ }{\texttt{\ auto\ }}\texttt{\ } , the figure will
+try to automatically determine the correct supplement based on the
+\texttt{\ kind\ } and the active
+\href{/docs/reference/text/text/\#parameters-lang}{text language} . If
+you are using a custom figure type, you will need to manually specify
+the supplement.
+
+If a function is specified, it is passed the first descendant of the
+specified \texttt{\ kind\ } (typically, the figure\textquotesingle s
+body) and should return content.
+
+Default: \texttt{\ }{\texttt{\ auto\ }}\texttt{\ }
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-arrow-right.svg}
+View example
+
+\begin{verbatim}
+#figure(
+  [The contents of my figure!],
+  caption: [My custom figure],
+  supplement: [Bar],
+  kind: "foo",
+)
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/_ow3s-d4xSBN6VX-nVHVzQAAAAAAAAAA.png}
+
+\subsubsection{\texorpdfstring{\texttt{\ numbering\ }}{ numbering }}\label{parameters-numbering}
+
+\href{/docs/reference/foundations/none/}{none} {or}
+\href{/docs/reference/foundations/str/}{str} {or}
+\href{/docs/reference/foundations/function/}{function}
+
+{{ Settable }}
+
+\phantomsection\label{parameters-numbering-settable-tooltip}
+Settable parameters can be customized for all following uses of the
+function with a \texttt{\ set\ } rule.
+
+How to number the figure. Accepts a
+\href{/docs/reference/model/numbering/}{numbering pattern or function} .
+
+Default: \texttt{\ }{\texttt{\ "1"\ }}\texttt{\ }
+
+\subsubsection{\texorpdfstring{\texttt{\ gap\ }}{ gap }}\label{parameters-gap}
+
+\href{/docs/reference/layout/length/}{length}
+
+{{ Settable }}
+
+\phantomsection\label{parameters-gap-settable-tooltip}
+Settable parameters can be customized for all following uses of the
+function with a \texttt{\ set\ } rule.
+
+The vertical gap between the body and caption.
+
+Default: \texttt{\ }{\texttt{\ 0.65em\ }}\texttt{\ }
+
+\subsubsection{\texorpdfstring{\texttt{\ outlined\ }}{ outlined }}\label{parameters-outlined}
+
+\href{/docs/reference/foundations/bool/}{bool}
+
+{{ Settable }}
+
+\phantomsection\label{parameters-outlined-settable-tooltip}
+Settable parameters can be customized for all following uses of the
+function with a \texttt{\ set\ } rule.
+
+Whether the figure should appear in an
+\href{/docs/reference/model/outline/}{\texttt{\ outline\ }} of figures.
+
+Default: \texttt{\ }{\texttt{\ true\ }}\texttt{\ }
+
+\subsection{\texorpdfstring{{ Definitions
+}}{ Definitions }}\label{definitions}
+
+\phantomsection\label{definitions-tooltip}
+Functions and types and can have associated definitions. These are
+accessed by specifying the function or type, followed by a period, and
+then the definition\textquotesingle s name.
+
+\subsubsection{\texorpdfstring{\texttt{\ caption\ } {{ Element
+}}}{ caption   Element }}\label{definitions-caption}
+
+\phantomsection\label{definitions-caption-element-tooltip}
+Element functions can be customized with \texttt{\ set\ } and
+\texttt{\ show\ } rules.
+
+The caption of a figure. This element can be used in set and show rules
+to customize the appearance of captions for all figures or figures of a
+specific kind.
+
+In addition to its \texttt{\ pos\ } and \texttt{\ body\ } , the
+\texttt{\ caption\ } also provides the figure\textquotesingle s
+\texttt{\ kind\ } , \texttt{\ supplement\ } , \texttt{\ counter\ } , and
+\texttt{\ numbering\ } as fields. These parts can be used in
+\href{/docs/reference/foundations/function/\#definitions-where}{\texttt{\ where\ }}
+selectors and show rules to build a completely custom caption.
+
+figure { . } { caption } (
+
+{ \hyperref[definitions-caption-parameters-position]{position :}
+\href{/docs/reference/layout/alignment/}{alignment} , } {
+\hyperref[definitions-caption-parameters-separator]{separator :}
+\href{/docs/reference/foundations/auto/}{auto}
+\href{/docs/reference/foundations/content/}{content} , } {
+\href{/docs/reference/foundations/content/}{content} , }
+
+) -\textgreater{} \href{/docs/reference/foundations/content/}{content}
+
+\begin{verbatim}
+#show figure.caption: emph
+
+#figure(
+  rect[Hello],
+  caption: [A rectangle],
+)
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/_9Rae3k-14dcb00bWW4ciAAAAAAAAAAA.png}
+
+\paragraph{\texorpdfstring{\texttt{\ position\ }}{ position }}\label{definitions-caption-position}
+
+\href{/docs/reference/layout/alignment/}{alignment}
+
+{{ Settable }}
+
+\phantomsection\label{definitions-caption-position-settable-tooltip}
+Settable parameters can be customized for all following uses of the
+function with a \texttt{\ set\ } rule.
+
+The caption\textquotesingle s position in the figure. Either
+\texttt{\ top\ } or \texttt{\ bottom\ } .
+
+Default: \texttt{\ bottom\ }
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-arrow-right.svg}
+View example
+
+\begin{verbatim}
+#show figure.where(
+  kind: table
+): set figure.caption(position: top)
+
+#figure(
+  table(columns: 2)[A][B],
+  caption: [I'm up here],
+)
+
+#figure(
+  rect[Hi],
+  caption: [I'm down here],
+)
+
+#figure(
+  table(columns: 2)[A][B],
+  caption: figure.caption(
+    position: bottom,
+    [I'm down here too!]
+  )
+)
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/IdFKmiavSqMTEqn8wUXuUgAAAAAAAAAA.png}
+
+\paragraph{\texorpdfstring{\texttt{\ separator\ }}{ separator }}\label{definitions-caption-separator}
+
+\href{/docs/reference/foundations/auto/}{auto} {or}
+\href{/docs/reference/foundations/content/}{content}
+
+{{ Settable }}
+
+\phantomsection\label{definitions-caption-separator-settable-tooltip}
+Settable parameters can be customized for all following uses of the
+function with a \texttt{\ set\ } rule.
+
+The separator which will appear between the number and body.
+
+If set to \texttt{\ }{\texttt{\ auto\ }}\texttt{\ } , the separator will
+be adapted to the current
+\href{/docs/reference/text/text/\#parameters-lang}{language} and
+\href{/docs/reference/text/text/\#parameters-region}{region} .
+
+Default: \texttt{\ }{\texttt{\ auto\ }}\texttt{\ }
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-arrow-right.svg}
+View example
+
+\begin{verbatim}
+#set figure.caption(separator: [ --- ])
+
+#figure(
+  rect[Hello],
+  caption: [A rectangle],
+)
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/F47AgUphmXiVn12oCb_ECAAAAAAAAAAA.png}
+
+\paragraph{\texorpdfstring{\texttt{\ body\ }}{ body }}\label{definitions-caption-body}
+
+\href{/docs/reference/foundations/content/}{content}
+
+{Required} {{ Positional }}
+
+\phantomsection\label{definitions-caption-body-positional-tooltip}
+Positional parameters are specified in order, without names.
+
+The caption\textquotesingle s body.
+
+Can be used alongside \texttt{\ kind\ } , \texttt{\ supplement\ } ,
+\texttt{\ counter\ } , \texttt{\ numbering\ } , and
+\texttt{\ location\ } to completely customize the caption.
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-arrow-right.svg}
+View example
+
+\begin{verbatim}
+#show figure.caption: it => [
+  #underline(it.body) |
+  #it.supplement
+  #context it.counter.display(it.numbering)
+]
+
+#figure(
+  rect[Hello],
+  caption: [A rectangle],
+)
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/JxID--FAnIhAECKLMVFiVwAAAAAAAAAA.png}
+
+\href{/docs/reference/model/emph/}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-arrow-right.svg}}}
+
+{ Emphasis } { Previous page }
+
+\href{/docs/reference/model/footnote/}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-arrow-right.svg}}}
+
+{ Footnote } { Next page }
+
+\textbf{On this page}
+
+\begin{itemize}
+\tightlist
+\item
+  \hyperref[summary]{Summary}
+\item
+  \hyperref[examples]{Examples}
+\item
+  \hyperref[figure-behaviour]{Figure Behaviour}
+\item
+  \hyperref[caption-customization]{Caption Customization}
+\item
+  \hyperref[parameters]{Parameters}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \hyperref[parameters-body]{body}
+  \item
+    \hyperref[parameters-placement]{placement}
+  \item
+    \hyperref[parameters-scope]{scope}
+  \item
+    \hyperref[parameters-caption]{caption}
+  \item
+    \hyperref[parameters-kind]{kind}
+  \item
+    \hyperref[parameters-supplement]{supplement}
+  \item
+    \hyperref[parameters-numbering]{numbering}
+  \item
+    \hyperref[parameters-gap]{gap}
+  \item
+    \hyperref[parameters-outlined]{outlined}
+  \end{itemize}
+\item
+  \hyperref[definitions]{Definitions}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \hyperref[definitions-caption]{Caption}
+
+    \begin{itemize}
+    \tightlist
+    \item
+      \hyperref[definitions-caption-position]{position}
+    \item
+      \hyperref[definitions-caption-separator]{separator}
+    \item
+      \hyperref[definitions-caption-body]{body}
+    \end{itemize}
+  \end{itemize}
+\end{itemize}
+
+\begin{itemize}
+\tightlist
+\item
+  \href{/}{Home}
+\item
+  \href{/pricing/}{Pricing}
+\item
+  \href{/docs/}{Documentation}
+\item
+  \href{/universe/}{Universe}
+\item
+  \href{/about/}{About Us}
+\item
+  \href{/contact/}{Contact Us}
+\item
+  \href{/privacy/}{Privacy}
+\item
+  \href{https://typst.app/terms}{Terms and Conditions}
+\item
+  \href{/legal/}{Legal (Impressum)}
+\end{itemize}
+
+\begin{itemize}
+\tightlist
+\item
+  \href{https://forum.typst.app}{Forum}
+\item
+  \href{/tools/}{Tools}
+\item
+  \href{/blog/}{Blog}
+\item
+  \href{https://github.com/typst/}{GitHub}
+\item
+  \href{https://discord.gg/2uDybryKPe}{Discord}
+\item
+  \href{https://mastodon.social/@typst}{Mastodon}
+\item
+  \href{https://bsky.app/profile/typst.app}{Bluesky}
+\item
+  \href{https://www.linkedin.com/company/typst/}{LinkedIn}
+\item
+  \href{https://instagram.com/typstapp/}{Instagram}
+\end{itemize}
+
+Made in Berlin

@@ -1,0 +1,243 @@
+\title{typst.app/docs/reference/layout/rotate}
+
+\begin{itemize}
+\tightlist
+\item
+  \href{/docs}{\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-docs-dark.svg}}
+\item
+  \includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-arrow-right.svg}
+\item
+  \href{/docs/reference/}{Reference}
+\item
+  \includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-arrow-right.svg}
+\item
+  \href{/docs/reference/layout/}{Layout}
+\item
+  \includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-arrow-right.svg}
+\item
+  \href{/docs/reference/layout/rotate/}{Rotate}
+\end{itemize}
+
+\section{\texorpdfstring{\texttt{\ rotate\ } {{ Element
+}}}{ rotate   Element }}\label{summary}
+
+\phantomsection\label{element-tooltip}
+Element functions can be customized with \texttt{\ set\ } and
+\texttt{\ show\ } rules.
+
+Rotates content without affecting layout.
+
+Rotates an element by a given angle. The layout will act as if the
+element was not rotated unless you specify
+\texttt{\ reflow:\ }{\texttt{\ true\ }}\texttt{\ } .
+
+\subsection{Example}\label{example}
+
+\begin{verbatim}
+#stack(
+  dir: ltr,
+  spacing: 1fr,
+  ..range(16)
+    .map(i => rotate(24deg * i)[X]),
+)
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/KRNlJxFzPXxwMsKBe0vSFQAAAAAAAAAA.png}
+
+\subsection{\texorpdfstring{{ Parameters
+}}{ Parameters }}\label{parameters}
+
+\phantomsection\label{parameters-tooltip}
+Parameters are the inputs to a function. They are specified in
+parentheses after the function name.
+
+{ rotate } (
+
+{ \hyperref[parameters-angle]{}
+\href{/docs/reference/layout/angle/}{angle} , } {
+\hyperref[parameters-origin]{origin :}
+\href{/docs/reference/layout/alignment/}{alignment} , } {
+\hyperref[parameters-reflow]{reflow :}
+\href{/docs/reference/foundations/bool/}{bool} , } {
+\href{/docs/reference/foundations/content/}{content} , }
+
+) -\textgreater{} \href{/docs/reference/foundations/content/}{content}
+
+\subsubsection{\texorpdfstring{\texttt{\ angle\ }}{ angle }}\label{parameters-angle}
+
+\href{/docs/reference/layout/angle/}{angle}
+
+{{ Positional }}
+
+\phantomsection\label{parameters-angle-positional-tooltip}
+Positional parameters are specified in order, without names.
+
+{{ Settable }}
+
+\phantomsection\label{parameters-angle-settable-tooltip}
+Settable parameters can be customized for all following uses of the
+function with a \texttt{\ set\ } rule.
+
+The amount of rotation.
+
+Default: \texttt{\ }{\texttt{\ 0deg\ }}\texttt{\ }
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-arrow-right.svg}
+View example
+
+\begin{verbatim}
+#rotate(-1.571rad)[Space!]
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/_kx75fW11u8TY_Zj6luytwAAAAAAAAAA.png}
+
+\subsubsection{\texorpdfstring{\texttt{\ origin\ }}{ origin }}\label{parameters-origin}
+
+\href{/docs/reference/layout/alignment/}{alignment}
+
+{{ Settable }}
+
+\phantomsection\label{parameters-origin-settable-tooltip}
+Settable parameters can be customized for all following uses of the
+function with a \texttt{\ set\ } rule.
+
+The origin of the rotation.
+
+If, for instance, you wanted the bottom left corner of the rotated
+element to stay aligned with the baseline, you would set it to
+\texttt{\ bottom\ +\ left\ } instead.
+
+Default: \texttt{\ center\ }{\texttt{\ +\ }}\texttt{\ horizon\ }
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-arrow-right.svg}
+View example
+
+\begin{verbatim}
+#set text(spacing: 8pt)
+#let square = square.with(width: 8pt)
+
+#box(square())
+#box(rotate(30deg, origin: center, square()))
+#box(rotate(30deg, origin: top + left, square()))
+#box(rotate(30deg, origin: bottom + right, square()))
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/ZzBCk0ymiIeT5xo4XXc-8QAAAAAAAAAA.png}
+
+\subsubsection{\texorpdfstring{\texttt{\ reflow\ }}{ reflow }}\label{parameters-reflow}
+
+\href{/docs/reference/foundations/bool/}{bool}
+
+{{ Settable }}
+
+\phantomsection\label{parameters-reflow-settable-tooltip}
+Settable parameters can be customized for all following uses of the
+function with a \texttt{\ set\ } rule.
+
+Whether the rotation impacts the layout.
+
+If set to \texttt{\ }{\texttt{\ false\ }}\texttt{\ } , the rotated
+content will retain the bounding box of the original content. If set to
+\texttt{\ }{\texttt{\ true\ }}\texttt{\ } , the bounding box will take
+the rotation of the content into account and adjust the layout
+accordingly.
+
+Default: \texttt{\ }{\texttt{\ false\ }}\texttt{\ }
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-arrow-right.svg}
+View example
+
+\begin{verbatim}
+Hello #rotate(90deg, reflow: true)[World]!
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/i8AMp2vxmKn3Nn0wwA1Z0wAAAAAAAAAA.png}
+
+\subsubsection{\texorpdfstring{\texttt{\ body\ }}{ body }}\label{parameters-body}
+
+\href{/docs/reference/foundations/content/}{content}
+
+{Required} {{ Positional }}
+
+\phantomsection\label{parameters-body-positional-tooltip}
+Positional parameters are specified in order, without names.
+
+The content to rotate.
+
+\href{/docs/reference/layout/repeat/}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-arrow-right.svg}}}
+
+{ Repeat } { Previous page }
+
+\href{/docs/reference/layout/scale/}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-arrow-right.svg}}}
+
+{ Scale } { Next page }
+
+\textbf{On this page}
+
+\begin{itemize}
+\tightlist
+\item
+  \hyperref[summary]{Summary}
+\item
+  \hyperref[example]{Example}
+\item
+  \hyperref[parameters]{Parameters}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \hyperref[parameters-angle]{angle}
+  \item
+    \hyperref[parameters-origin]{origin}
+  \item
+    \hyperref[parameters-reflow]{reflow}
+  \item
+    \hyperref[parameters-body]{body}
+  \end{itemize}
+\end{itemize}
+
+\begin{itemize}
+\tightlist
+\item
+  \href{/}{Home}
+\item
+  \href{/pricing/}{Pricing}
+\item
+  \href{/docs/}{Documentation}
+\item
+  \href{/universe/}{Universe}
+\item
+  \href{/about/}{About Us}
+\item
+  \href{/contact/}{Contact Us}
+\item
+  \href{/privacy/}{Privacy}
+\item
+  \href{https://typst.app/terms}{Terms and Conditions}
+\item
+  \href{/legal/}{Legal (Impressum)}
+\end{itemize}
+
+\begin{itemize}
+\tightlist
+\item
+  \href{https://forum.typst.app}{Forum}
+\item
+  \href{/tools/}{Tools}
+\item
+  \href{/blog/}{Blog}
+\item
+  \href{https://github.com/typst/}{GitHub}
+\item
+  \href{https://discord.gg/2uDybryKPe}{Discord}
+\item
+  \href{https://mastodon.social/@typst}{Mastodon}
+\item
+  \href{https://bsky.app/profile/typst.app}{Bluesky}
+\item
+  \href{https://www.linkedin.com/company/typst/}{LinkedIn}
+\item
+  \href{https://instagram.com/typstapp/}{Instagram}
+\end{itemize}
+
+Made in Berlin

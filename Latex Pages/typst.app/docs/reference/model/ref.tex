@@ -1,0 +1,279 @@
+\title{typst.app/docs/reference/model/ref}
+
+\begin{itemize}
+\tightlist
+\item
+  \href{/docs}{\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-docs-dark.svg}}
+\item
+  \includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-arrow-right.svg}
+\item
+  \href{/docs/reference/}{Reference}
+\item
+  \includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-arrow-right.svg}
+\item
+  \href{/docs/reference/model/}{Model}
+\item
+  \includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-arrow-right.svg}
+\item
+  \href{/docs/reference/model/ref/}{Reference}
+\end{itemize}
+
+\section{\texorpdfstring{\texttt{\ ref\ } {{ Element
+}}}{ ref   Element }}\label{summary}
+
+\phantomsection\label{element-tooltip}
+Element functions can be customized with \texttt{\ set\ } and
+\texttt{\ show\ } rules.
+
+A reference to a label or bibliography.
+
+Produces a textual reference to a label. For example, a reference to a
+heading will yield an appropriate string such as "Section 1" for a
+reference to the first heading. The references are also links to the
+respective element. Reference syntax can also be used to
+\href{/docs/reference/model/cite/}{cite} from a bibliography.
+
+Referenceable elements include
+\href{/docs/reference/model/heading/}{headings} ,
+\href{/docs/reference/model/figure/}{figures} ,
+\href{/docs/reference/math/equation/}{equations} , and
+\href{/docs/reference/model/footnote/}{footnotes} . To create a custom
+referenceable element like a theorem, you can create a figure of a
+custom
+\href{/docs/reference/model/figure/\#parameters-kind}{\texttt{\ kind\ }}
+and write a show rule for it. In the future, there might be a more
+direct way to define a custom referenceable element.
+
+If you just want to link to a labelled element and not get an automatic
+textual reference, consider using the
+\href{/docs/reference/model/link/}{\texttt{\ link\ }} function instead.
+
+\subsection{Example}\label{example}
+
+\begin{verbatim}
+#set heading(numbering: "1.")
+#set math.equation(numbering: "(1)")
+
+= Introduction <intro>
+Recent developments in
+typesetting software have
+rekindled hope in previously
+frustrated researchers. @distress
+As shown in @results, we ...
+
+= Results <results>
+We discuss our approach in
+comparison with others.
+
+== Performance <perf>
+@slow demonstrates what slow
+software looks like.
+$ T(n) = O(2^n) $ <slow>
+
+#bibliography("works.bib")
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/bzf3klNJ674BqVarCEGU8wAAAAAAAAAA.png}
+
+\subsection{Syntax}\label{syntax}
+
+This function also has dedicated syntax: A reference to a label can be
+created by typing an \texttt{\ @\ } followed by the name of the label
+(e.g.
+\texttt{\ }{\texttt{\ =\ Introduction\ }}\texttt{\ }{\texttt{\ \textless{}intro\textgreater{}\ }}\texttt{\ }
+can be referenced by typing \texttt{\ }{\texttt{\ @intro\ }}\texttt{\ }
+).
+
+To customize the supplement, add content in square brackets after the
+reference:
+\texttt{\ }{\texttt{\ @intro\ }{\texttt{\ {[}\ }}\texttt{\ Chapter\ }{\texttt{\ {]}\ }}\texttt{\ }}\texttt{\ }
+.
+
+\subsection{Customization}\label{customization}
+
+If you write a show rule for references, you can access the referenced
+element through the \texttt{\ element\ } field of the reference. The
+\texttt{\ element\ } may be \texttt{\ }{\texttt{\ none\ }}\texttt{\ }
+even if it exists if Typst hasn\textquotesingle t discovered it yet, so
+you always need to handle that case in your code.
+
+\begin{verbatim}
+#set heading(numbering: "1.")
+#set math.equation(numbering: "(1)")
+
+#show ref: it => {
+  let eq = math.equation
+  let el = it.element
+  if el != none and el.func() == eq {
+    // Override equation references.
+    link(el.location(),numbering(
+      el.numbering,
+      ..counter(eq).at(el.location())
+    ))
+  } else {
+    // Other references as usual.
+    it
+  }
+}
+
+= Beginnings <beginning>
+In @beginning we prove @pythagoras.
+$ a^2 + b^2 = c^2 $ <pythagoras>
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/_2kRnAjhpZZ-kvJsytflygAAAAAAAAAA.png}
+
+\subsection{\texorpdfstring{{ Parameters
+}}{ Parameters }}\label{parameters}
+
+\phantomsection\label{parameters-tooltip}
+Parameters are the inputs to a function. They are specified in
+parentheses after the function name.
+
+{ ref } (
+
+{ \href{/docs/reference/foundations/label/}{label} , } {
+\hyperref[parameters-supplement]{supplement :}
+\href{/docs/reference/foundations/none/}{none}
+\href{/docs/reference/foundations/auto/}{auto}
+\href{/docs/reference/foundations/content/}{content}
+\href{/docs/reference/foundations/function/}{function} , }
+
+) -\textgreater{} \href{/docs/reference/foundations/content/}{content}
+
+\subsubsection{\texorpdfstring{\texttt{\ target\ }}{ target }}\label{parameters-target}
+
+\href{/docs/reference/foundations/label/}{label}
+
+{Required} {{ Positional }}
+
+\phantomsection\label{parameters-target-positional-tooltip}
+Positional parameters are specified in order, without names.
+
+The target label that should be referenced.
+
+Can be a label that is defined in the document or an entry from the
+\href{/docs/reference/model/bibliography/}{\texttt{\ bibliography\ }} .
+
+\subsubsection{\texorpdfstring{\texttt{\ supplement\ }}{ supplement }}\label{parameters-supplement}
+
+\href{/docs/reference/foundations/none/}{none} {or}
+\href{/docs/reference/foundations/auto/}{auto} {or}
+\href{/docs/reference/foundations/content/}{content} {or}
+\href{/docs/reference/foundations/function/}{function}
+
+{{ Settable }}
+
+\phantomsection\label{parameters-supplement-settable-tooltip}
+Settable parameters can be customized for all following uses of the
+function with a \texttt{\ set\ } rule.
+
+A supplement for the reference.
+
+For references to headings or figures, this is added before the
+referenced number. For citations, this can be used to add a page number.
+
+If a function is specified, it is passed the referenced element and
+should return content.
+
+Default: \texttt{\ }{\texttt{\ auto\ }}\texttt{\ }
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-arrow-right.svg}
+View example
+
+\begin{verbatim}
+#set heading(numbering: "1.")
+#set ref(supplement: it => {
+  if it.func() == heading {
+    "Chapter"
+  } else {
+    "Thing"
+  }
+})
+
+= Introduction <intro>
+In @intro, we see how to turn
+Sections into Chapters. And
+in @intro[Part], it is done
+manually.
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/fh477CUxS1KmPvq1dqsQ5QAAAAAAAAAA.png}
+
+\href{/docs/reference/model/quote/}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-arrow-right.svg}}}
+
+{ Quote } { Previous page }
+
+\href{/docs/reference/model/strong/}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-arrow-right.svg}}}
+
+{ Strong Emphasis } { Next page }
+
+\textbf{On this page}
+
+\begin{itemize}
+\tightlist
+\item
+  \hyperref[summary]{Summary}
+\item
+  \hyperref[example]{Example}
+\item
+  \hyperref[syntax]{Syntax}
+\item
+  \hyperref[customization]{Customization}
+\item
+  \hyperref[parameters]{Parameters}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \hyperref[parameters-target]{target}
+  \item
+    \hyperref[parameters-supplement]{supplement}
+  \end{itemize}
+\end{itemize}
+
+\begin{itemize}
+\tightlist
+\item
+  \href{/}{Home}
+\item
+  \href{/pricing/}{Pricing}
+\item
+  \href{/docs/}{Documentation}
+\item
+  \href{/universe/}{Universe}
+\item
+  \href{/about/}{About Us}
+\item
+  \href{/contact/}{Contact Us}
+\item
+  \href{/privacy/}{Privacy}
+\item
+  \href{https://typst.app/terms}{Terms and Conditions}
+\item
+  \href{/legal/}{Legal (Impressum)}
+\end{itemize}
+
+\begin{itemize}
+\tightlist
+\item
+  \href{https://forum.typst.app}{Forum}
+\item
+  \href{/tools/}{Tools}
+\item
+  \href{/blog/}{Blog}
+\item
+  \href{https://github.com/typst/}{GitHub}
+\item
+  \href{https://discord.gg/2uDybryKPe}{Discord}
+\item
+  \href{https://mastodon.social/@typst}{Mastodon}
+\item
+  \href{https://bsky.app/profile/typst.app}{Bluesky}
+\item
+  \href{https://www.linkedin.com/company/typst/}{LinkedIn}
+\item
+  \href{https://instagram.com/typstapp/}{Instagram}
+\end{itemize}
+
+Made in Berlin

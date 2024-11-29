@@ -1,0 +1,312 @@
+\title{typst.app/docs/reference/foundations/bytes}
+
+\begin{itemize}
+\tightlist
+\item
+  \href{/docs}{\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-docs-dark.svg}}
+\item
+  \includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-arrow-right.svg}
+\item
+  \href{/docs/reference/}{Reference}
+\item
+  \includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-arrow-right.svg}
+\item
+  \href{/docs/reference/foundations/}{Foundations}
+\item
+  \includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-arrow-right.svg}
+\item
+  \href{/docs/reference/foundations/bytes/}{Bytes}
+\end{itemize}
+
+\section{\texorpdfstring{{ bytes }}{ bytes }}\label{summary}
+
+A sequence of bytes.
+
+This is conceptually similar to an array of
+\href{/docs/reference/foundations/int/}{integers} between
+\texttt{\ }{\texttt{\ 0\ }}\texttt{\ } and
+\texttt{\ }{\texttt{\ 255\ }}\texttt{\ } , but represented much more
+efficiently. You can iterate over it using a
+\href{/docs/reference/scripting/\#loops}{for loop} .
+
+You can convert
+
+\begin{itemize}
+\tightlist
+\item
+  a \href{/docs/reference/foundations/str/}{string} or an
+  \href{/docs/reference/foundations/array/}{array} of integers to bytes
+  with the \href{/docs/reference/foundations/bytes/}{\texttt{\ bytes\ }}
+  constructor
+\item
+  bytes to a string with the
+  \href{/docs/reference/foundations/str/}{\texttt{\ str\ }} constructor,
+  with UTF-8 encoding
+\item
+  bytes to an array of integers with the
+  \href{/docs/reference/foundations/array/}{\texttt{\ array\ }}
+  constructor
+\end{itemize}
+
+When \href{/docs/reference/data-loading/read/}{reading} data from a
+file, you can decide whether to load it as a string or as raw bytes.
+
+\begin{verbatim}
+#bytes((123, 160, 22, 0)) \
+#bytes("Hello ð")
+
+#let data = read(
+  "rhino.png",
+  encoding: none,
+)
+
+// Magic bytes.
+#array(data.slice(0, 4)) \
+#str(data.slice(1, 4))
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/sJtYFgVyQkDZELEHje5ywwAAAAAAAAAA.png}
+
+\subsection{\texorpdfstring{Constructor
+{}}{Constructor }}\label{constructor}
+
+\phantomsection\label{constructor-constructor-tooltip}
+If a type has a constructor, you can call it like a function to create a
+new value of the type.
+
+Converts a value to bytes.
+
+\begin{itemize}
+\tightlist
+\item
+  Strings are encoded in UTF-8.
+\item
+  Arrays of integers between \texttt{\ }{\texttt{\ 0\ }}\texttt{\ } and
+  \texttt{\ }{\texttt{\ 255\ }}\texttt{\ } are converted directly. The
+  dedicated byte representation is much more efficient than the array
+  representation and thus typically used for large byte buffers (e.g.
+  image data).
+\end{itemize}
+
+{ bytes } (
+
+{ \href{/docs/reference/foundations/str/}{str}
+\href{/docs/reference/foundations/bytes/}{bytes}
+\href{/docs/reference/foundations/array/}{array} }
+
+) -\textgreater{} \href{/docs/reference/foundations/bytes/}{bytes}
+
+\begin{verbatim}
+#bytes("Hello ð") \
+#bytes((123, 160, 22, 0))
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/PlfVajGmfDLMY6p8X4S3BwAAAAAAAAAA.png}
+
+\paragraph{\texorpdfstring{\texttt{\ value\ }}{ value }}\label{constructor-value}
+
+\href{/docs/reference/foundations/str/}{str} {or}
+\href{/docs/reference/foundations/bytes/}{bytes} {or}
+\href{/docs/reference/foundations/array/}{array}
+
+{Required} {{ Positional }}
+
+\phantomsection\label{constructor-value-positional-tooltip}
+Positional parameters are specified in order, without names.
+
+The value that should be converted to bytes.
+
+\subsection{\texorpdfstring{{ Definitions
+}}{ Definitions }}\label{definitions}
+
+\phantomsection\label{definitions-tooltip}
+Functions and types and can have associated definitions. These are
+accessed by specifying the function or type, followed by a period, and
+then the definition\textquotesingle s name.
+
+\subsubsection{\texorpdfstring{\texttt{\ len\ }}{ len }}\label{definitions-len}
+
+The length in bytes.
+
+self { . } { len } (
+
+) -\textgreater{} \href{/docs/reference/foundations/int/}{int}
+
+\subsubsection{\texorpdfstring{\texttt{\ at\ }}{ at }}\label{definitions-at}
+
+Returns the byte at the specified index. Returns the default value if
+the index is out of bounds or fails with an error if no default value
+was specified.
+
+self { . } { at } (
+
+{ \href{/docs/reference/foundations/int/}{int} , } {
+\hyperref[definitions-at-parameters-default]{default :} { any } , }
+
+) -\textgreater{} { any }
+
+\paragraph{\texorpdfstring{\texttt{\ index\ }}{ index }}\label{definitions-at-index}
+
+\href{/docs/reference/foundations/int/}{int}
+
+{Required} {{ Positional }}
+
+\phantomsection\label{definitions-at-index-positional-tooltip}
+Positional parameters are specified in order, without names.
+
+The index at which to retrieve the byte.
+
+\paragraph{\texorpdfstring{\texttt{\ default\ }}{ default }}\label{definitions-at-default}
+
+{ any }
+
+A default value to return if the index is out of bounds.
+
+\subsubsection{\texorpdfstring{\texttt{\ slice\ }}{ slice }}\label{definitions-slice}
+
+Extracts a subslice of the bytes. Fails with an error if the start or
+end index is out of bounds.
+
+self { . } { slice } (
+
+{ \href{/docs/reference/foundations/int/}{int} , } {
+\href{/docs/reference/foundations/none/}{none}
+\href{/docs/reference/foundations/int/}{int} , } {
+\hyperref[definitions-slice-parameters-count]{count :}
+\href{/docs/reference/foundations/int/}{int} , }
+
+) -\textgreater{} \href{/docs/reference/foundations/bytes/}{bytes}
+
+\paragraph{\texorpdfstring{\texttt{\ start\ }}{ start }}\label{definitions-slice-start}
+
+\href{/docs/reference/foundations/int/}{int}
+
+{Required} {{ Positional }}
+
+\phantomsection\label{definitions-slice-start-positional-tooltip}
+Positional parameters are specified in order, without names.
+
+The start index (inclusive).
+
+\paragraph{\texorpdfstring{\texttt{\ end\ }}{ end }}\label{definitions-slice-end}
+
+\href{/docs/reference/foundations/none/}{none} {or}
+\href{/docs/reference/foundations/int/}{int}
+
+{{ Positional }}
+
+\phantomsection\label{definitions-slice-end-positional-tooltip}
+Positional parameters are specified in order, without names.
+
+The end index (exclusive). If omitted, the whole slice until the end is
+extracted.
+
+Default: \texttt{\ }{\texttt{\ none\ }}\texttt{\ }
+
+\paragraph{\texorpdfstring{\texttt{\ count\ }}{ count }}\label{definitions-slice-count}
+
+\href{/docs/reference/foundations/int/}{int}
+
+The number of items to extract. This is equivalent to passing
+\texttt{\ start\ +\ count\ } as the \texttt{\ end\ } position. Mutually
+exclusive with \texttt{\ end\ } .
+
+\href{/docs/reference/foundations/bool/}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-arrow-right.svg}}}
+
+{ Boolean } { Previous page }
+
+\href{/docs/reference/foundations/calc/}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-arrow-right.svg}}}
+
+{ Calculation } { Next page }
+
+\textbf{On this page}
+
+\begin{itemize}
+\tightlist
+\item
+  \hyperref[summary]{Summary}
+\item
+  \hyperref[constructor]{Constructor}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \hyperref[constructor-value]{value}
+  \end{itemize}
+\item
+  \hyperref[definitions]{Definitions}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \hyperref[definitions-len]{Length}
+  \item
+    \hyperref[definitions-at]{At}
+
+    \begin{itemize}
+    \tightlist
+    \item
+      \hyperref[definitions-at-index]{index}
+    \item
+      \hyperref[definitions-at-default]{default}
+    \end{itemize}
+  \item
+    \hyperref[definitions-slice]{Slice}
+
+    \begin{itemize}
+    \tightlist
+    \item
+      \hyperref[definitions-slice-start]{start}
+    \item
+      \hyperref[definitions-slice-end]{end}
+    \item
+      \hyperref[definitions-slice-count]{count}
+    \end{itemize}
+  \end{itemize}
+\end{itemize}
+
+\begin{itemize}
+\tightlist
+\item
+  \href{/}{Home}
+\item
+  \href{/pricing/}{Pricing}
+\item
+  \href{/docs/}{Documentation}
+\item
+  \href{/universe/}{Universe}
+\item
+  \href{/about/}{About Us}
+\item
+  \href{/contact/}{Contact Us}
+\item
+  \href{/privacy/}{Privacy}
+\item
+  \href{https://typst.app/terms}{Terms and Conditions}
+\item
+  \href{/legal/}{Legal (Impressum)}
+\end{itemize}
+
+\begin{itemize}
+\tightlist
+\item
+  \href{https://forum.typst.app}{Forum}
+\item
+  \href{/tools/}{Tools}
+\item
+  \href{/blog/}{Blog}
+\item
+  \href{https://github.com/typst/}{GitHub}
+\item
+  \href{https://discord.gg/2uDybryKPe}{Discord}
+\item
+  \href{https://mastodon.social/@typst}{Mastodon}
+\item
+  \href{https://bsky.app/profile/typst.app}{Bluesky}
+\item
+  \href{https://www.linkedin.com/company/typst/}{LinkedIn}
+\item
+  \href{https://instagram.com/typstapp/}{Instagram}
+\end{itemize}
+
+Made in Berlin

@@ -1,63 +1,20 @@
 import json
 import os
 from typing import List
-from urllib.parse import urlparse
+from urllib.parse import urljoin, urlparse
 
 import requests
 from bs4 import BeautifulSoup
 from tqdm import tqdm
 
-
-def TransformNestedDictionary(nestedDict: dict) -> dict:
-
-    def Recurse(currentDict, parentKey=None):
-
-        keysToRemove = []
-        keyList = []
-
-        for key, value in currentDict.items():
-
-            if isinstance(value, dict):
-
-                if not value:
-
-                    keyList.append(key)
-                    keysToRemove.append(key)
-
-                else:
-
-                    Recurse(value, parentKey=key)
-
-        for key in keysToRemove:
-
-            del currentDict[key]
-
-        if (
-            keyList
-            and parentKey
-            and isinstance(currentDict.get(parentKey), list) is False
-        ):
-
-            currentDict[parentKey] = keyList
-
-    Recurse(nestedDict)
-
-    return nestedDict
+from DirStructure import DirStructureFromURLList
 
 
 def OutputJson(urlList: list, fileName: str):
 
-    if isinstance(urlList, list):
-
-        urlDict = {"all": urlList}
-
-    else:
-
-        urlDict = urlList
-
     with open(fileName, "w") as file:
 
-        json.dump(urlDict, file, indent=2)
+        json.dump(urlList, file, indent=2)
 
 
 def GetUrls(
@@ -181,36 +138,6 @@ def GetUrls(
     return urlList
 
 
-def MakeStructure(urlList: List[str]) -> dict:
-
-    urlStructure = {}
-
-    for url in urlList:
-
-        parsedUrl = urlparse(url)
-
-        netloc = parsedUrl.netloc
-        pathParts = parsedUrl.path.strip("/").split("/")
-
-        if netloc not in urlStructure:
-
-            urlStructure[netloc] = {}
-
-        currentLevel = urlStructure[netloc]
-
-        for part in pathParts:
-
-            if part not in currentLevel:
-
-                currentLevel[part] = {}
-
-            currentLevel = currentLevel[part]
-
-    urlStructure = TransformNestedDictionary(nestedDict=urlStructure)
-
-    return urlStructure
-
-
 if __name__ == r"__main__":
 
     # Example usage
@@ -225,6 +152,6 @@ if __name__ == r"__main__":
 
     fileName = "urlStructure.json"
 
-    urlStructure = MakeStructure(urlList)
+    urlStructure = DirStructureFromURLList(urlList)
 
     OutputJson(urlList=urlStructure, fileName=fileName)
