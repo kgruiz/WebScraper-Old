@@ -8,13 +8,32 @@ from tqdm import tqdm
 from DirStructure import PrintJsonWalk
 
 
-def HTMLtoLatex(htmlFilePath: str) -> str:
+def HtmlToLatex(htmlFilePath: str) -> str:
+    """
+    Convert an HTML file to LaTeX format.
 
+    Parameters
+    ----------
+    htmlFilePath : str
+        The file path to the input HTML file.
+
+    Returns
+    -------
+    str
+        The converted LaTeX string.
+    """
     return pypandoc.convert_file(htmlFilePath, "tex")
 
 
-def HTMLRemoveSections(htmlFilePath: str):
+def HtmlRemoveSections(htmlFilePath: str):
+    """
+    Remove specific sections from an HTML file.
 
+    Parameters
+    ----------
+    htmlFilePath : str
+        The file path to the input HTML file.
+    """
     with open(htmlFilePath, "r") as file:
 
         content = file.read()
@@ -32,8 +51,24 @@ def HTMLRemoveSections(htmlFilePath: str):
             file.write(content)
 
 
-def HTMLDirtoLatex(htmlDir: str, latexDir: str, fileNameFull: bool = False) -> dict:
+def HtmlDirToLatex(htmlDir: str, latexDir: str, fileNameFull: bool = False) -> dict:
+    """
+    Convert all HTML files in a directory to LaTeX format.
 
+    Parameters
+    ----------
+    htmlDir : str
+        The directory containing HTML files.
+    latexDir : str
+        The directory where LaTeX files will be saved.
+    fileNameFull : bool, optional
+        Whether to use the full file name, by default False.
+
+    Returns
+    -------
+    dict
+        A dictionary mapping original HTML files to their LaTeX counterparts.
+    """
     if htmlDir[-1] != "/":
 
         htmlDir += "/"
@@ -72,9 +107,9 @@ def HTMLDirtoLatex(htmlDir: str, latexDir: str, fileNameFull: bool = False) -> d
 
                     htmlFilePath = os.path.join(root, fileName)
 
-                    HTMLRemoveSections(htmlFilePath=htmlFilePath)
+                    HtmlRemoveSections(htmlFilePath=htmlFilePath)
 
-                    latexFile = HTMLtoLatex(htmlFilePath=htmlFilePath)
+                    latexFile = HtmlToLatex(htmlFilePath=htmlFilePath)
 
                     displayName = rf"\title{{{root.split(htmlDir)[1]}/{baseName}}}"
 
@@ -96,7 +131,14 @@ def HTMLDirtoLatex(htmlDir: str, latexDir: str, fileNameFull: bool = False) -> d
 
 
 def FlattenDir(dirName: str) -> None:
+    """
+    Flatten the directory structure by moving all HTML files to a single directory.
 
+    Parameters
+    ----------
+    dirName : str
+        The name of the directory to flatten.
+    """
     if dirName.find(" ") == -1:
 
         outDir = f"Flat-{dirName}"
@@ -145,7 +187,16 @@ def FlattenDir(dirName: str) -> None:
 
 
 def CombineDirs(dirName: str, addFullName: bool = False) -> None:
+    """
+    Combine multiple directories into one.
 
+    Parameters
+    ----------
+    dirName : str
+        The name of the directory to combine.
+    addFullName : bool, optional
+        Whether to add the full name of the files, by default False.
+    """
     if dirName.find(" ") == -1:
 
         outDir = f"Combined-{dirName}"

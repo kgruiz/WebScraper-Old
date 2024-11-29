@@ -9,7 +9,16 @@ from tqdm import tqdm
 
 
 def SavePageAsPdf(url, outputDir):
+    """
+    Save a web page as a PDF file.
 
+    Parameters
+    ----------
+    url : str
+        The URL of the web page to save.
+    outputDir : str
+        The directory where the PDF will be saved.
+    """
     # Ensure the output directory exists
     os.makedirs(outputDir, exist_ok=True)
 
@@ -29,7 +38,6 @@ def SavePageAsPdf(url, outputDir):
     soup = BeautifulSoup(response.text, "html.parser")
 
     with open("out1.html", "w") as file:
-
         file.write(BeautifulSoup.prettify(soup))
 
     # Remove "meta" elements with content attribute
@@ -41,7 +49,6 @@ def SavePageAsPdf(url, outputDir):
         tag.decompose()
 
     with open("out2.html", "w") as file:
-
         file.write(BeautifulSoup.prettify(soup))
 
     # Save as PDF
@@ -51,9 +58,20 @@ def SavePageAsPdf(url, outputDir):
 
 
 def LoadUrlsFromJson(jsonFilePath):
+    """
+    Load URLs from a JSON file.
 
+    Parameters
+    ----------
+    jsonFilePath : str
+        The file path to the JSON file containing URLs.
+
+    Returns
+    -------
+    list
+        A list of URLs.
+    """
     with open(jsonFilePath, "r") as file:
-
         data = json.load(file)
         urls = data.get("all", [])
 
@@ -61,17 +79,12 @@ def LoadUrlsFromJson(jsonFilePath):
 
 
 if __name__ == "__main__":
-
     jsonFilePath = "urlList.json"
     outputDirectory = "downloadedPdfs"
     urls = LoadUrlsFromJson(jsonFilePath)
 
     with tqdm(total=len(urls), desc="Processing URLs") as mainBar:
-
         for url in urls:
-
             mainBar.set_postfix_str(url)
-
             SavePageAsPdf(url, outputDirectory)
-
             mainBar.update(1)
