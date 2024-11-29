@@ -24,7 +24,7 @@ A Python-based web scraping tool designed to extract and convert HTML content in
 3. **Install the required dependencies:**
 
    ```bash
-   pip install -r requirements.txt
+   pip install requests beautifulsoup4 tqdm pypandoc weasyprint
    ```
 
 ## Usage
