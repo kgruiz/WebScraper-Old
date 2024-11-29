@@ -1,0 +1,575 @@
+\title{typst.app/docs/reference/text/raw}
+
+\begin{itemize}
+\tightlist
+\item
+  \href{/docs}{\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-docs-dark.svg}}
+\item
+  \includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-arrow-right.svg}
+\item
+  \href{/docs/reference/}{Reference}
+\item
+  \includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-arrow-right.svg}
+\item
+  \href{/docs/reference/text/}{Text}
+\item
+  \includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-arrow-right.svg}
+\item
+  \href{/docs/reference/text/raw/}{Raw Text / Code}
+\end{itemize}
+
+\section{\texorpdfstring{\texttt{\ raw\ } {{ Element
+}}}{ raw   Element }}\label{summary}
+
+\phantomsection\label{element-tooltip}
+Element functions can be customized with \texttt{\ set\ } and
+\texttt{\ show\ } rules.
+
+Raw text with optional syntax highlighting.
+
+Displays the text verbatim and in a monospace font. This is typically
+used to embed computer code into your document.
+
+\subsection{Example}\label{example}
+
+\begin{verbatim}
+Adding `rbx` to `rcx` gives
+the desired result.
+
+What is ```rust fn main()``` in Rust
+would be ```c int main()``` in C.
+
+```rust
+fn main() {
+    println!("Hello World!");
+}
+```
+
+This has ``` `backticks` ``` in it
+(but the spaces are trimmed). And
+``` here``` the leading space is
+also trimmed.
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/HG5qpETGRO7ndBI1Qrek9gAAAAAAAAAA.png}
+
+You can also construct a
+\href{/docs/reference/text/raw/}{\texttt{\ raw\ }} element
+programmatically from a string (and provide the language tag via the
+optional
+\href{/docs/reference/text/raw/\#parameters-lang}{\texttt{\ lang\ }}
+argument).
+
+\begin{verbatim}
+#raw("fn " + "main() {}", lang: "rust")
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/MNABiMKxTxPPaXzIwfuPPQAAAAAAAAAA.png}
+
+\subsection{Syntax}\label{syntax}
+
+This function also has dedicated syntax. You can enclose text in 1 or 3+
+backticks ( \texttt{\ \textasciigrave{}\ } ) to make it raw. Two
+backticks produce empty raw text. This works both in markup and code.
+
+When you use three or more backticks, you can additionally specify a
+language tag for syntax highlighting directly after the opening
+backticks. Within raw blocks, everything (except for the language tag,
+if applicable) is rendered as is, in particular, there are no escape
+sequences.
+
+The language tag is an identifier that directly follows the opening
+backticks only if there are three or more backticks. If your text starts
+with something that looks like an identifier, but no syntax highlighting
+is needed, start the text with a single space (which will be trimmed) or
+use the single backtick syntax. If your text should start or end with a
+backtick, put a space before or after it (it will be trimmed).
+
+\subsection{\texorpdfstring{{ Parameters
+}}{ Parameters }}\label{parameters}
+
+\phantomsection\label{parameters-tooltip}
+Parameters are the inputs to a function. They are specified in
+parentheses after the function name.
+
+{ raw } (
+
+{ \href{/docs/reference/foundations/str/}{str} , } {
+\hyperref[parameters-block]{block :}
+\href{/docs/reference/foundations/bool/}{bool} , } {
+\hyperref[parameters-lang]{lang :}
+\href{/docs/reference/foundations/none/}{none}
+\href{/docs/reference/foundations/str/}{str} , } {
+\hyperref[parameters-align]{align :}
+\href{/docs/reference/layout/alignment/}{alignment} , } {
+\hyperref[parameters-syntaxes]{syntaxes :}
+\href{/docs/reference/foundations/str/}{str}
+\href{/docs/reference/foundations/array/}{array} , } {
+\hyperref[parameters-theme]{theme :}
+\href{/docs/reference/foundations/none/}{none}
+\href{/docs/reference/foundations/auto/}{auto}
+\href{/docs/reference/foundations/str/}{str} , } {
+\hyperref[parameters-tab-size]{tab-size :}
+\href{/docs/reference/foundations/int/}{int} , }
+
+) -\textgreater{} \href{/docs/reference/foundations/content/}{content}
+
+\subsubsection{\texorpdfstring{\texttt{\ text\ }}{ text }}\label{parameters-text}
+
+\href{/docs/reference/foundations/str/}{str}
+
+{Required} {{ Positional }}
+
+\phantomsection\label{parameters-text-positional-tooltip}
+Positional parameters are specified in order, without names.
+
+The raw text.
+
+You can also use raw blocks creatively to create custom syntaxes for
+your automations.
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-arrow-right.svg}
+View example
+
+\begin{verbatim}
+// Parse numbers in raw blocks with the
+// `mydsl` tag and sum them up.
+#show raw.where(lang: "mydsl"): it => {
+  let sum = 0
+  for part in it.text.split("+") {
+    sum += int(part.trim())
+  }
+  sum
+}
+
+```mydsl
+1 + 2 + 3 + 4 + 5
+```
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/6VperjQoP8Ey0LiUk5m0HQAAAAAAAAAA.png}
+
+\subsubsection{\texorpdfstring{\texttt{\ block\ }}{ block }}\label{parameters-block}
+
+\href{/docs/reference/foundations/bool/}{bool}
+
+{{ Settable }}
+
+\phantomsection\label{parameters-block-settable-tooltip}
+Settable parameters can be customized for all following uses of the
+function with a \texttt{\ set\ } rule.
+
+Whether the raw text is displayed as a separate block.
+
+In markup mode, using one-backtick notation makes this
+\texttt{\ }{\texttt{\ false\ }}\texttt{\ } . Using three-backtick
+notation makes it \texttt{\ }{\texttt{\ true\ }}\texttt{\ } if the
+enclosed content contains at least one line break.
+
+Default: \texttt{\ }{\texttt{\ false\ }}\texttt{\ }
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-arrow-right.svg}
+View example
+
+\begin{verbatim}
+// Display inline code in a small box
+// that retains the correct baseline.
+#show raw.where(block: false): box.with(
+  fill: luma(240),
+  inset: (x: 3pt, y: 0pt),
+  outset: (y: 3pt),
+  radius: 2pt,
+)
+
+// Display block code in a larger block
+// with more padding.
+#show raw.where(block: true): block.with(
+  fill: luma(240),
+  inset: 10pt,
+  radius: 4pt,
+)
+
+With `rg`, you can search through your files quickly.
+This example searches the current directory recursively
+for the text `Hello World`:
+
+```bash
+rg "Hello World"
+```
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/PgXCmmr2Cn53ZnpWQOnMwwAAAAAAAAAA.png}
+
+\subsubsection{\texorpdfstring{\texttt{\ lang\ }}{ lang }}\label{parameters-lang}
+
+\href{/docs/reference/foundations/none/}{none} {or}
+\href{/docs/reference/foundations/str/}{str}
+
+{{ Settable }}
+
+\phantomsection\label{parameters-lang-settable-tooltip}
+Settable parameters can be customized for all following uses of the
+function with a \texttt{\ set\ } rule.
+
+The language to syntax-highlight in.
+
+Apart from typical language tags known from Markdown, this supports the
+\texttt{\ }{\texttt{\ "typ"\ }}\texttt{\ } ,
+\texttt{\ }{\texttt{\ "typc"\ }}\texttt{\ } , and
+\texttt{\ }{\texttt{\ "typm"\ }}\texttt{\ } tags for
+\href{/docs/reference/syntax/\#markup}{Typst markup} ,
+\href{/docs/reference/syntax/\#code}{Typst code} , and
+\href{/docs/reference/syntax/\#math}{Typst math} , respectively.
+
+Default: \texttt{\ }{\texttt{\ none\ }}\texttt{\ }
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-arrow-right.svg}
+View example
+
+\begin{verbatim}
+```typ
+This is *Typst!*
+```
+
+This is ```typ also *Typst*```, but inline!
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/bjU3PMlFs9msUi72QThHnAAAAAAAAAAA.png}
+
+\subsubsection{\texorpdfstring{\texttt{\ align\ }}{ align }}\label{parameters-align}
+
+\href{/docs/reference/layout/alignment/}{alignment}
+
+{{ Settable }}
+
+\phantomsection\label{parameters-align-settable-tooltip}
+Settable parameters can be customized for all following uses of the
+function with a \texttt{\ set\ } rule.
+
+The horizontal alignment that each line in a raw block should have. This
+option is ignored if this is not a raw block (if specified
+\texttt{\ block:\ false\ } or single backticks were used in markup
+mode).
+
+By default, this is set to \texttt{\ start\ } , meaning that raw text is
+aligned towards the start of the text direction inside the block by
+default, regardless of the current context\textquotesingle s alignment
+(allowing you to center the raw block itself without centering the text
+inside it, for example).
+
+Default: \texttt{\ start\ }
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-arrow-right.svg}
+View example
+
+\begin{verbatim}
+#set raw(align: center)
+
+```typc
+let f(x) = x
+code = "centered"
+```
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/QoY61HWjc7MIUABTr8mvwwAAAAAAAAAA.png}
+
+\subsubsection{\texorpdfstring{\texttt{\ syntaxes\ }}{ syntaxes }}\label{parameters-syntaxes}
+
+\href{/docs/reference/foundations/str/}{str} {or}
+\href{/docs/reference/foundations/array/}{array}
+
+{{ Settable }}
+
+\phantomsection\label{parameters-syntaxes-settable-tooltip}
+Settable parameters can be customized for all following uses of the
+function with a \texttt{\ set\ } rule.
+
+One or multiple additional syntax definitions to load. The syntax
+definitions should be in the
+\href{https://www.sublimetext.com/docs/syntax.html}{\texttt{\ sublime-syntax\ }
+file format} .
+
+Default:
+\texttt{\ }{\texttt{\ (\ }}\texttt{\ }{\texttt{\ )\ }}\texttt{\ }
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-arrow-right.svg}
+View example
+
+\begin{verbatim}
+#set raw(syntaxes: "SExpressions.sublime-syntax")
+
+```sexp
+(defun factorial (x)
+  (if (zerop x)
+    ; with a comment
+    1
+    (* x (factorial (- x 1)))))
+```
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/f1wEtKdjbuwy-LVNGIZ_igAAAAAAAAAA.png}
+
+\subsubsection{\texorpdfstring{\texttt{\ theme\ }}{ theme }}\label{parameters-theme}
+
+\href{/docs/reference/foundations/none/}{none} {or}
+\href{/docs/reference/foundations/auto/}{auto} {or}
+\href{/docs/reference/foundations/str/}{str}
+
+{{ Settable }}
+
+\phantomsection\label{parameters-theme-settable-tooltip}
+Settable parameters can be customized for all following uses of the
+function with a \texttt{\ set\ } rule.
+
+The theme to use for syntax highlighting. Theme files should be in the
+\href{https://www.sublimetext.com/docs/color_schemes_tmtheme.html}{\texttt{\ tmTheme\ }
+file format} .
+
+Applying a theme only affects the color of specifically highlighted
+text. It does not consider the theme\textquotesingle s foreground and
+background properties, so that you retain control over the color of raw
+text. You can apply the foreground color yourself with the
+\href{/docs/reference/text/text/}{\texttt{\ text\ }} function and the
+background with a
+\href{/docs/reference/layout/block/\#parameters-fill}{filled block} .
+You could also use the
+\href{/docs/reference/data-loading/xml/}{\texttt{\ xml\ }} function to
+extract these properties from the theme.
+
+Additionally, you can set the theme to
+\texttt{\ }{\texttt{\ none\ }}\texttt{\ } to disable highlighting.
+
+Default: \texttt{\ }{\texttt{\ auto\ }}\texttt{\ }
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-arrow-right.svg}
+View example
+
+\begin{verbatim}
+#set raw(theme: "halcyon.tmTheme")
+#show raw: it => block(
+  fill: rgb("#1d2433"),
+  inset: 8pt,
+  radius: 5pt,
+  text(fill: rgb("#a2aabc"), it)
+)
+
+```typ
+= Chapter 1
+#let hi = "Hello World"
+```
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/_3ndU0y1KsOpDAMv999GwwAAAAAAAAAA.png}
+
+\subsubsection{\texorpdfstring{\texttt{\ tab-size\ }}{ tab-size }}\label{parameters-tab-size}
+
+\href{/docs/reference/foundations/int/}{int}
+
+{{ Settable }}
+
+\phantomsection\label{parameters-tab-size-settable-tooltip}
+Settable parameters can be customized for all following uses of the
+function with a \texttt{\ set\ } rule.
+
+The size for a tab stop in spaces. A tab is replaced with enough spaces
+to align with the next multiple of the size.
+
+Default: \texttt{\ }{\texttt{\ 2\ }}\texttt{\ }
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-arrow-right.svg}
+View example
+
+\begin{verbatim}
+#set raw(tab-size: 8)
+```tsv
+Year    Month   Day
+2000    2   3
+2001    2   1
+2002    3   10
+```
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/OAN98lLQ4wUhrTrjbVCTywAAAAAAAAAA.png}
+
+\subsection{\texorpdfstring{{ Definitions
+}}{ Definitions }}\label{definitions}
+
+\phantomsection\label{definitions-tooltip}
+Functions and types and can have associated definitions. These are
+accessed by specifying the function or type, followed by a period, and
+then the definition\textquotesingle s name.
+
+\subsubsection{\texorpdfstring{\texttt{\ line\ } {{ Element
+}}}{ line   Element }}\label{definitions-line}
+
+\phantomsection\label{definitions-line-element-tooltip}
+Element functions can be customized with \texttt{\ set\ } and
+\texttt{\ show\ } rules.
+
+A highlighted line of raw text.
+
+This is a helper element that is synthesized by
+\href{/docs/reference/text/raw/}{\texttt{\ raw\ }} elements.
+
+It allows you to access various properties of the line, such as the line
+number, the raw non-highlighted text, the highlighted text, and whether
+it is the first or last line of the raw block.
+
+raw { . } { line } (
+
+{ \href{/docs/reference/foundations/int/}{int} , } {
+\href{/docs/reference/foundations/int/}{int} , } {
+\href{/docs/reference/foundations/str/}{str} , } {
+\href{/docs/reference/foundations/content/}{content} , }
+
+) -\textgreater{} \href{/docs/reference/foundations/content/}{content}
+
+\paragraph{\texorpdfstring{\texttt{\ number\ }}{ number }}\label{definitions-line-number}
+
+\href{/docs/reference/foundations/int/}{int}
+
+{Required} {{ Positional }}
+
+\phantomsection\label{definitions-line-number-positional-tooltip}
+Positional parameters are specified in order, without names.
+
+The line number of the raw line inside of the raw block, starts at 1.
+
+\paragraph{\texorpdfstring{\texttt{\ count\ }}{ count }}\label{definitions-line-count}
+
+\href{/docs/reference/foundations/int/}{int}
+
+{Required} {{ Positional }}
+
+\phantomsection\label{definitions-line-count-positional-tooltip}
+Positional parameters are specified in order, without names.
+
+The total number of lines in the raw block.
+
+\paragraph{\texorpdfstring{\texttt{\ text\ }}{ text }}\label{definitions-line-text}
+
+\href{/docs/reference/foundations/str/}{str}
+
+{Required} {{ Positional }}
+
+\phantomsection\label{definitions-line-text-positional-tooltip}
+Positional parameters are specified in order, without names.
+
+The line of raw text.
+
+\paragraph{\texorpdfstring{\texttt{\ body\ }}{ body }}\label{definitions-line-body}
+
+\href{/docs/reference/foundations/content/}{content}
+
+{Required} {{ Positional }}
+
+\phantomsection\label{definitions-line-body-positional-tooltip}
+Positional parameters are specified in order, without names.
+
+The highlighted raw text.
+
+\href{/docs/reference/text/overline/}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-arrow-right.svg}}}
+
+{ Overline } { Previous page }
+
+\href{/docs/reference/text/smallcaps/}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-arrow-right.svg}}}
+
+{ Small Capitals } { Next page }
+
+\textbf{On this page}
+
+\begin{itemize}
+\tightlist
+\item
+  \hyperref[summary]{Summary}
+\item
+  \hyperref[example]{Example}
+\item
+  \hyperref[syntax]{Syntax}
+\item
+  \hyperref[parameters]{Parameters}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \hyperref[parameters-text]{text}
+  \item
+    \hyperref[parameters-block]{block}
+  \item
+    \hyperref[parameters-lang]{lang}
+  \item
+    \hyperref[parameters-align]{align}
+  \item
+    \hyperref[parameters-syntaxes]{syntaxes}
+  \item
+    \hyperref[parameters-theme]{theme}
+  \item
+    \hyperref[parameters-tab-size]{tab-size}
+  \end{itemize}
+\item
+  \hyperref[definitions]{Definitions}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \hyperref[definitions-line]{Raw Text / Code Line}
+
+    \begin{itemize}
+    \tightlist
+    \item
+      \hyperref[definitions-line-number]{number}
+    \item
+      \hyperref[definitions-line-count]{count}
+    \item
+      \hyperref[definitions-line-text]{text}
+    \item
+      \hyperref[definitions-line-body]{body}
+    \end{itemize}
+  \end{itemize}
+\end{itemize}
+
+\begin{itemize}
+\tightlist
+\item
+  \href{/}{Home}
+\item
+  \href{/pricing/}{Pricing}
+\item
+  \href{/docs/}{Documentation}
+\item
+  \href{/universe/}{Universe}
+\item
+  \href{/about/}{About Us}
+\item
+  \href{/contact/}{Contact Us}
+\item
+  \href{/privacy/}{Privacy}
+\item
+  \href{https://typst.app/terms}{Terms and Conditions}
+\item
+  \href{/legal/}{Legal (Impressum)}
+\end{itemize}
+
+\begin{itemize}
+\tightlist
+\item
+  \href{https://forum.typst.app}{Forum}
+\item
+  \href{/tools/}{Tools}
+\item
+  \href{/blog/}{Blog}
+\item
+  \href{https://github.com/typst/}{GitHub}
+\item
+  \href{https://discord.gg/2uDybryKPe}{Discord}
+\item
+  \href{https://mastodon.social/@typst}{Mastodon}
+\item
+  \href{https://bsky.app/profile/typst.app}{Bluesky}
+\item
+  \href{https://www.linkedin.com/company/typst/}{LinkedIn}
+\item
+  \href{https://instagram.com/typstapp/}{Instagram}
+\end{itemize}
+
+Made in Berlin

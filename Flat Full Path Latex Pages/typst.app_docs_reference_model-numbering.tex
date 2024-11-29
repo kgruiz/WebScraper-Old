@@ -1,0 +1,226 @@
+\title{typst.app/docs/reference/model/numbering}
+
+\begin{itemize}
+\tightlist
+\item
+  \href{/docs}{\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-docs-dark.svg}}
+\item
+  \includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-arrow-right.svg}
+\item
+  \href{/docs/reference/}{Reference}
+\item
+  \includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-arrow-right.svg}
+\item
+  \href{/docs/reference/model/}{Model}
+\item
+  \includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-arrow-right.svg}
+\item
+  \href{/docs/reference/model/numbering/}{Numbering}
+\end{itemize}
+
+\section{\texorpdfstring{\texttt{\ numbering\ }}{ numbering }}\label{summary}
+
+Applies a numbering to a sequence of numbers.
+
+A numbering defines how a sequence of numbers should be displayed as
+content. It is defined either through a pattern string or an arbitrary
+function.
+
+A numbering pattern consists of counting symbols, for which the actual
+number is substituted, their prefixes, and one suffix. The prefixes and
+the suffix are repeated as-is.
+
+\subsection{Example}\label{example}
+
+\begin{verbatim}
+#numbering("1.1)", 1, 2, 3) \
+#numbering("1.a.i", 1, 2) \
+#numbering("I â 1", 12, 2) \
+#numbering(
+  (..nums) => nums
+    .pos()
+    .map(str)
+    .join(".") + ")",
+  1, 2, 3,
+)
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/ViM4jxlRNjTCcZLHAqTQsQAAAAAAAAAA.png}
+
+\subsection{Numbering patterns and numbering
+functions}\label{numbering-patterns-and-numbering-functions}
+
+There are multiple instances where you can provide a numbering pattern
+or function in Typst. For example, when defining how to number
+\href{/docs/reference/model/heading/}{headings} or
+\href{/docs/reference/model/figure/}{figures} . Every time, the expected
+format is the same as the one described below for the
+\href{/docs/reference/model/numbering/\#parameters-numbering}{\texttt{\ numbering\ }}
+parameter.
+
+The following example illustrates that a numbering function is just a
+regular \href{/docs/reference/foundations/function/}{function} that
+accepts numbers and returns
+\href{/docs/reference/foundations/content/}{\texttt{\ content\ }} .
+
+\begin{verbatim}
+#let unary(.., last) = "|" * last
+#set heading(numbering: unary)
+= First heading
+= Second heading
+= Third heading
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/y3Y2xT6PKYJ3nJF6y9bcPwAAAAAAAAAA.png}
+
+\subsection{\texorpdfstring{{ Parameters
+}}{ Parameters }}\label{parameters}
+
+\phantomsection\label{parameters-tooltip}
+Parameters are the inputs to a function. They are specified in
+parentheses after the function name.
+
+{ numbering } (
+
+{ \href{/docs/reference/foundations/str/}{str}
+\href{/docs/reference/foundations/function/}{function} , } {
+\hyperref[parameters-numbers]{..}
+\href{/docs/reference/foundations/int/}{int} , }
+
+) -\textgreater{} { any }
+
+\subsubsection{\texorpdfstring{\texttt{\ numbering\ }}{ numbering }}\label{parameters-numbering}
+
+\href{/docs/reference/foundations/str/}{str} {or}
+\href{/docs/reference/foundations/function/}{function}
+
+{Required} {{ Positional }}
+
+\phantomsection\label{parameters-numbering-positional-tooltip}
+Positional parameters are specified in order, without names.
+
+Defines how the numbering works.
+
+\textbf{Counting symbols} are \texttt{\ 1\ } , \texttt{\ a\ } ,
+\texttt{\ A\ } , \texttt{\ i\ } , \texttt{\ I\ } , \texttt{\ ä¸€\ } ,
+\texttt{\ å£¹\ } , \texttt{\ ã?‚\ } , \texttt{\ ã?„\ } ,
+\texttt{\ ã‚¢\ } , \texttt{\ ã‚¤\ } , \texttt{\ ×?\ } , \texttt{\ ê°€\ }
+, \texttt{\ ã„±\ } , \texttt{\ *\ } , \texttt{\ â‘\ } , and
+\texttt{\ â“µ\ } . They are replaced by the number in the sequence,
+preserving the original case.
+
+The \texttt{\ *\ } character means that symbols should be used to count,
+in the order of \texttt{\ *\ } , \texttt{\ â€\ } , \texttt{\ â€¡\ } ,
+\texttt{\ Â§\ } , \texttt{\ Â¶\ } , \texttt{\ â€–\ } . If there are more
+than six items, the number is represented using repeated symbols.
+
+\textbf{Suffixes} are all characters after the last counting symbol.
+They are repeated as-is at the end of any rendered number.
+
+\textbf{Prefixes} are all characters that are neither counting symbols
+nor suffixes. They are repeated as-is at in front of their rendered
+equivalent of their counting symbol.
+
+This parameter can also be an arbitrary function that gets each number
+as an individual argument. When given a function, the
+\texttt{\ numbering\ } function just forwards the arguments to that
+function. While this is not particularly useful in itself, it means that
+you can just give arbitrary numberings to the \texttt{\ numbering\ }
+function without caring whether they are defined as a pattern or
+function.
+
+\subsubsection{\texorpdfstring{\texttt{\ numbers\ }}{ numbers }}\label{parameters-numbers}
+
+\href{/docs/reference/foundations/int/}{int}
+
+{Required} {{ Positional }}
+
+\phantomsection\label{parameters-numbers-positional-tooltip}
+Positional parameters are specified in order, without names.
+
+{{ Variadic }}
+
+\phantomsection\label{parameters-numbers-variadic-tooltip}
+Variadic parameters can be specified multiple times.
+
+The numbers to apply the numbering to. Must be positive.
+
+If \texttt{\ numbering\ } is a pattern and more numbers than counting
+symbols are given, the last counting symbol with its prefix is repeated.
+
+\href{/docs/reference/model/enum/}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-arrow-right.svg}}}
+
+{ Numbered List } { Previous page }
+
+\href{/docs/reference/model/outline/}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-arrow-right.svg}}}
+
+{ Outline } { Next page }
+
+\textbf{On this page}
+
+\begin{itemize}
+\tightlist
+\item
+  \hyperref[summary]{Summary}
+\item
+  \hyperref[example]{Example}
+\item
+  \hyperref[numbering-patterns-and-numbering-functions]{Numbering
+  Patterns And Numbering Functions}
+\item
+  \hyperref[parameters]{Parameters}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \hyperref[parameters-numbering]{numbering}
+  \item
+    \hyperref[parameters-numbers]{numbers}
+  \end{itemize}
+\end{itemize}
+
+\begin{itemize}
+\tightlist
+\item
+  \href{/}{Home}
+\item
+  \href{/pricing/}{Pricing}
+\item
+  \href{/docs/}{Documentation}
+\item
+  \href{/universe/}{Universe}
+\item
+  \href{/about/}{About Us}
+\item
+  \href{/contact/}{Contact Us}
+\item
+  \href{/privacy/}{Privacy}
+\item
+  \href{https://typst.app/terms}{Terms and Conditions}
+\item
+  \href{/legal/}{Legal (Impressum)}
+\end{itemize}
+
+\begin{itemize}
+\tightlist
+\item
+  \href{https://forum.typst.app}{Forum}
+\item
+  \href{/tools/}{Tools}
+\item
+  \href{/blog/}{Blog}
+\item
+  \href{https://github.com/typst/}{GitHub}
+\item
+  \href{https://discord.gg/2uDybryKPe}{Discord}
+\item
+  \href{https://mastodon.social/@typst}{Mastodon}
+\item
+  \href{https://bsky.app/profile/typst.app}{Bluesky}
+\item
+  \href{https://www.linkedin.com/company/typst/}{LinkedIn}
+\item
+  \href{https://instagram.com/typstapp/}{Instagram}
+\end{itemize}
+
+Made in Berlin

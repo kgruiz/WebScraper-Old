@@ -1,0 +1,300 @@
+\title{typst.app/docs/reference/visualize/pattern}
+
+\begin{itemize}
+\tightlist
+\item
+  \href{/docs}{\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-docs-dark.svg}}
+\item
+  \includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-arrow-right.svg}
+\item
+  \href{/docs/reference/}{Reference}
+\item
+  \includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-arrow-right.svg}
+\item
+  \href{/docs/reference/visualize/}{Visualize}
+\item
+  \includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-arrow-right.svg}
+\item
+  \href{/docs/reference/visualize/pattern/}{Pattern}
+\end{itemize}
+
+\section{\texorpdfstring{{ pattern }}{ pattern }}\label{summary}
+
+A repeating pattern fill.
+
+Typst supports the most common pattern type of tiled patterns, where a
+pattern is repeated in a grid-like fashion, covering the entire area of
+an element that is filled or stroked. The pattern is defined by a tile
+size and a body defining the content of each cell. You can also add
+horizontal or vertical spacing between the cells of the pattern.
+
+\subsection{Examples}\label{examples}
+
+\begin{verbatim}
+#let pat = pattern(size: (30pt, 30pt))[
+  #place(line(start: (0%, 0%), end: (100%, 100%)))
+  #place(line(start: (0%, 100%), end: (100%, 0%)))
+]
+
+#rect(fill: pat, width: 100%, height: 60pt, stroke: 1pt)
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/coeD6IerbqenB1CPjs7dfAAAAAAAAAAA.png}
+
+Patterns are also supported on text, but only when setting the
+\href{/docs/reference/visualize/pattern/\#parameters-relative}{relativeness}
+to either \texttt{\ }{\texttt{\ auto\ }}\texttt{\ } (the default value)
+or \texttt{\ }{\texttt{\ "parent"\ }}\texttt{\ } . To create
+word-by-word or glyph-by-glyph patterns, you can wrap the words or
+characters of your text in \href{/docs/reference/layout/box/}{boxes}
+manually or through a \href{/docs/reference/styling/\#show-rules}{show
+rule} .
+
+\begin{verbatim}
+#let pat = pattern(
+  size: (30pt, 30pt),
+  relative: "parent",
+  square(
+    size: 30pt,
+    fill: gradient
+      .conic(..color.map.rainbow),
+  )
+)
+
+#set text(fill: pat)
+#lorem(10)
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/Vk9hYVErruhpSxeZVudFjQAAAAAAAAAA.png}
+
+You can also space the elements further or closer apart using the
+\href{/docs/reference/visualize/pattern/\#parameters-spacing}{\texttt{\ spacing\ }}
+feature of the pattern. If the spacing is lower than the size of the
+pattern, the pattern will overlap. If it is higher, the pattern will
+have gaps of the same color as the background of the pattern.
+
+\begin{verbatim}
+#let pat = pattern(
+  size: (30pt, 30pt),
+  spacing: (10pt, 10pt),
+  relative: "parent",
+  square(
+    size: 30pt,
+    fill: gradient
+     .conic(..color.map.rainbow),
+  ),
+)
+
+#rect(
+  width: 100%,
+  height: 60pt,
+  fill: pat,
+)
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/yPTj9FTOvqrbv-4eK83U7gAAAAAAAAAA.png}
+
+\subsection{Relativeness}\label{relativeness}
+
+The location of the starting point of the pattern is dependent on the
+dimensions of a container. This container can either be the shape that
+it is being painted on, or the closest surrounding container. This is
+controlled by the \texttt{\ relative\ } argument of a pattern
+constructor. By default, patterns are relative to the shape they are
+being painted on, unless the pattern is applied on text, in which case
+they are relative to the closest ancestor container.
+
+Typst determines the ancestor container as follows:
+
+\begin{itemize}
+\tightlist
+\item
+  For shapes that are placed at the root/top level of the document, the
+  closest ancestor is the page itself.
+\item
+  For other shapes, the ancestor is the innermost
+  \href{/docs/reference/layout/block/}{\texttt{\ block\ }} or
+  \href{/docs/reference/layout/box/}{\texttt{\ box\ }} that contains the
+  shape. This includes the boxes and blocks that are implicitly created
+  by show rules and elements. For example, a
+  \href{/docs/reference/layout/rotate/}{\texttt{\ rotate\ }} will not
+  affect the parent of a gradient, but a
+  \href{/docs/reference/layout/grid/}{\texttt{\ grid\ }} will.
+\end{itemize}
+
+\subsection{\texorpdfstring{Constructor
+{}}{Constructor }}\label{constructor}
+
+\phantomsection\label{constructor-constructor-tooltip}
+If a type has a constructor, you can call it like a function to create a
+new value of the type.
+
+Construct a new pattern.
+
+{ pattern } (
+
+{ \hyperref[constructor-parameters-size]{size :}
+\href{/docs/reference/foundations/auto/}{auto}
+\href{/docs/reference/foundations/array/}{array} , } {
+\hyperref[constructor-parameters-spacing]{spacing :}
+\href{/docs/reference/foundations/array/}{array} , } {
+\hyperref[constructor-parameters-relative]{relative :}
+\href{/docs/reference/foundations/auto/}{auto}
+\href{/docs/reference/foundations/str/}{str} , } {
+\href{/docs/reference/foundations/content/}{content} , }
+
+) -\textgreater{} \href{/docs/reference/visualize/pattern/}{pattern}
+
+\begin{verbatim}
+#let pat = pattern(
+  size: (20pt, 20pt),
+  relative: "parent",
+  place(
+    dx: 5pt,
+    dy: 5pt,
+    rotate(45deg, square(
+      size: 5pt,
+      fill: black,
+    )),
+  ),
+)
+
+#rect(width: 100%, height: 60pt, fill: pat)
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/s7EOLk1zJeZ_4afTw83qRwAAAAAAAAAA.png}
+
+\paragraph{\texorpdfstring{\texttt{\ size\ }}{ size }}\label{constructor-size}
+
+\href{/docs/reference/foundations/auto/}{auto} {or}
+\href{/docs/reference/foundations/array/}{array}
+
+The bounding box of each cell of the pattern.
+
+Default: \texttt{\ }{\texttt{\ auto\ }}\texttt{\ }
+
+\paragraph{\texorpdfstring{\texttt{\ spacing\ }}{ spacing }}\label{constructor-spacing}
+
+\href{/docs/reference/foundations/array/}{array}
+
+The spacing between cells of the pattern.
+
+Default:
+\texttt{\ }{\texttt{\ (\ }}\texttt{\ }{\texttt{\ 0pt\ }}\texttt{\ }{\texttt{\ ,\ }}\texttt{\ }{\texttt{\ 0pt\ }}\texttt{\ }{\texttt{\ )\ }}\texttt{\ }
+
+\paragraph{\texorpdfstring{\texttt{\ relative\ }}{ relative }}\label{constructor-relative}
+
+\href{/docs/reference/foundations/auto/}{auto} {or}
+\href{/docs/reference/foundations/str/}{str}
+
+The \hyperref[relativeness]{relative placement} of the pattern.
+
+For an element placed at the root/top level of the document, the parent
+is the page itself. For other elements, the parent is the innermost
+block, box, column, grid, or stack that contains the element.
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Variant & Details \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\texttt{\ "\ self\ "\ } & The gradient is relative to itself (its own
+bounding box). \\
+\texttt{\ "\ parent\ "\ } & The gradient is relative to its parent (the
+parent\textquotesingle s bounding box). \\
+\end{longtable}
+
+Default: \texttt{\ }{\texttt{\ auto\ }}\texttt{\ }
+
+\paragraph{\texorpdfstring{\texttt{\ body\ }}{ body }}\label{constructor-body}
+
+\href{/docs/reference/foundations/content/}{content}
+
+{Required} {{ Positional }}
+
+\phantomsection\label{constructor-body-positional-tooltip}
+Positional parameters are specified in order, without names.
+
+The content of each cell of the pattern.
+
+\href{/docs/reference/visualize/path/}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-arrow-right.svg}}}
+
+{ Path } { Previous page }
+
+\href{/docs/reference/visualize/polygon/}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-arrow-right.svg}}}
+
+{ Polygon } { Next page }
+
+\textbf{On this page}
+
+\begin{itemize}
+\tightlist
+\item
+  \hyperref[summary]{Summary}
+\item
+  \hyperref[examples]{Examples}
+\item
+  \hyperref[relativeness]{Relativeness}
+\item
+  \hyperref[constructor]{Constructor}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \hyperref[constructor-size]{size}
+  \item
+    \hyperref[constructor-spacing]{spacing}
+  \item
+    \hyperref[constructor-relative]{relative}
+  \item
+    \hyperref[constructor-body]{body}
+  \end{itemize}
+\end{itemize}
+
+\begin{itemize}
+\tightlist
+\item
+  \href{/}{Home}
+\item
+  \href{/pricing/}{Pricing}
+\item
+  \href{/docs/}{Documentation}
+\item
+  \href{/universe/}{Universe}
+\item
+  \href{/about/}{About Us}
+\item
+  \href{/contact/}{Contact Us}
+\item
+  \href{/privacy/}{Privacy}
+\item
+  \href{https://typst.app/terms}{Terms and Conditions}
+\item
+  \href{/legal/}{Legal (Impressum)}
+\end{itemize}
+
+\begin{itemize}
+\tightlist
+\item
+  \href{https://forum.typst.app}{Forum}
+\item
+  \href{/tools/}{Tools}
+\item
+  \href{/blog/}{Blog}
+\item
+  \href{https://github.com/typst/}{GitHub}
+\item
+  \href{https://discord.gg/2uDybryKPe}{Discord}
+\item
+  \href{https://mastodon.social/@typst}{Mastodon}
+\item
+  \href{https://bsky.app/profile/typst.app}{Bluesky}
+\item
+  \href{https://www.linkedin.com/company/typst/}{LinkedIn}
+\item
+  \href{https://instagram.com/typstapp/}{Instagram}
+\end{itemize}
+
+Made in Berlin
