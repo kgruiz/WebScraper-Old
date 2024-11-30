@@ -1,0 +1,311 @@
+\title{typst.app/universe/package/plotst}
+
+\phantomsection\label{banner}
+\section{plotst}\label{plotst}
+
+{ 0.2.0 }
+
+A library to draw a variety of graphs and plots to use in your papers
+
+\phantomsection\label{readme}
+A Typst library for drawing graphs and plots. Made by Gewi413 and
+Pegacraffft
+
+\subsection{Currently supported
+graphs}\label{currently-supported-graphs}
+
+\begin{itemize}
+\item
+  Scatter plots
+\item
+  Graph charts
+\item
+  Histograms
+\item
+  Bar charts
+\item
+  Pie charts
+\item
+  Overlaying plots/charts
+
+  (more to come)
+\end{itemize}
+
+\subsection{How to use}\label{how-to-use}
+
+To use the package you can import it through this command
+\texttt{\ import\ "@preview/plotst:0.2.0":\ *\ } . The documentation is
+found in the
+\href{https://github.com/Pegacraft/typst-plotting/blob/8d834689359b708ce75fe51be05eed45570e463e/docs/Docs.pdf}{Docs.pdf}
+file. It contains all functions necessary to use this library. It also
+includes a tutorial to create every available plot under their
+respective render methods.
+
+If you need some example code, check out
+\href{https://github.com/Pegacraft/typst-plotting/blob/8d834689359b708ce75fe51be05eed45570e463e/example/main.typ}{main.typ}
+. It also includes a
+\href{https://github.com/Pegacraft/typst-plotting/blob/8d834689359b708ce75fe51be05eed45570e463e/example/Plotting.pdf}{compiled
+version} .
+
+\subsection{Examples:}\label{examples}
+
+All these images were created using the
+\href{https://github.com/Pegacraft/typst-plotting/blob/8d834689359b708ce75fe51be05eed45570e463e/example/main.typ}{main.typ}
+.
+
+\subsubsection{Scatter plots}\label{scatter-plots}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{// Plot 1:}
+\CommentTok{// The data to be displayed  }
+\KeywordTok{let}\NormalTok{ gender\_data }\OperatorTok{=}\NormalTok{ (}
+\NormalTok{  (}\StringTok{"w"}\OperatorTok{,} \DecValTok{1}\NormalTok{)}\OperatorTok{,}\NormalTok{ (}\StringTok{"w"}\OperatorTok{,} \DecValTok{3}\NormalTok{)}\OperatorTok{,}\NormalTok{ (}\StringTok{"w"}\OperatorTok{,} \DecValTok{5}\NormalTok{)}\OperatorTok{,}\NormalTok{ (}\StringTok{"w"}\OperatorTok{,} \DecValTok{4}\NormalTok{)}\OperatorTok{,}\NormalTok{ (}\StringTok{"m"}\OperatorTok{,} \DecValTok{2}\NormalTok{)}\OperatorTok{,}\NormalTok{ (}\StringTok{"m"}\OperatorTok{,} \DecValTok{2}\NormalTok{)}\OperatorTok{,}
+\NormalTok{  (}\StringTok{"m"}\OperatorTok{,} \DecValTok{4}\NormalTok{)}\OperatorTok{,}\NormalTok{ (}\StringTok{"m"}\OperatorTok{,} \DecValTok{6}\NormalTok{)}\OperatorTok{,}\NormalTok{ (}\StringTok{"d"}\OperatorTok{,} \DecValTok{1}\NormalTok{)}\OperatorTok{,}\NormalTok{ (}\StringTok{"d"}\OperatorTok{,} \DecValTok{9}\NormalTok{)}\OperatorTok{,}\NormalTok{ (}\StringTok{"d"}\OperatorTok{,} \DecValTok{5}\NormalTok{)}\OperatorTok{,}\NormalTok{ (}\StringTok{"d"}\OperatorTok{,} \DecValTok{8}\NormalTok{)}\OperatorTok{,}
+\NormalTok{  (}\StringTok{"d"}\OperatorTok{,} \DecValTok{3}\NormalTok{)}\OperatorTok{,}\NormalTok{ (}\StringTok{"d"}\OperatorTok{,} \DecValTok{1}\NormalTok{)}\OperatorTok{,}\NormalTok{ (}\DecValTok{0}\OperatorTok{,} \DecValTok{11}\NormalTok{)}
+\NormalTok{)}
+
+\CommentTok{// Create the axes used for the chart}
+\KeywordTok{let}\NormalTok{ y\_axis }\OperatorTok{=} \FunctionTok{axis}\NormalTok{(min}\OperatorTok{:} \DecValTok{0}\OperatorTok{,}\NormalTok{ max}\OperatorTok{:} \DecValTok{11}\OperatorTok{,}\NormalTok{ step}\OperatorTok{:} \DecValTok{1}\OperatorTok{,}\NormalTok{ location}\OperatorTok{:} \StringTok{"left"}\OperatorTok{,}\NormalTok{ helper\_lines}\OperatorTok{:} \KeywordTok{true}\OperatorTok{,}\NormalTok{ invert\_markings}\OperatorTok{:} \KeywordTok{false}\OperatorTok{,}\NormalTok{ title}\OperatorTok{:} \StringTok{"foo"}\NormalTok{)}
+\KeywordTok{let}\NormalTok{ x\_axis }\OperatorTok{=} \FunctionTok{axis}\NormalTok{(values}\OperatorTok{:}\NormalTok{ (}\StringTok{""}\OperatorTok{,} \StringTok{"m"}\OperatorTok{,} \StringTok{"w"}\OperatorTok{,} \StringTok{"d"}\NormalTok{)}\OperatorTok{,}\NormalTok{ location}\OperatorTok{:} \StringTok{"bottom"}\OperatorTok{,}\NormalTok{ helper\_lines}\OperatorTok{:} \KeywordTok{true}\OperatorTok{,}\NormalTok{ invert\_markings}\OperatorTok{:} \KeywordTok{false}\OperatorTok{,}\NormalTok{ title}\OperatorTok{:} \StringTok{"Gender"}\NormalTok{)}
+
+\CommentTok{// Combine the axes and the data and feed it to the plot render function.}
+\KeywordTok{let}\NormalTok{ pl }\OperatorTok{=} \FunctionTok{plot}\NormalTok{(data}\OperatorTok{:}\NormalTok{ gender\_data}\OperatorTok{,}\NormalTok{ axes}\OperatorTok{:}\NormalTok{ (x\_axis}\OperatorTok{,}\NormalTok{ y\_axis))}
+\FunctionTok{scatter\_plot}\NormalTok{(pl}\OperatorTok{,}\NormalTok{ (}\DecValTok{100}\OperatorTok{\%,}\DecValTok{50}\OperatorTok{\%}\NormalTok{))}
+
+\CommentTok{// Plot 2:}
+\CommentTok{// Same as above}
+\KeywordTok{let}\NormalTok{ data }\OperatorTok{=}\NormalTok{ (}
+\NormalTok{  (}\DecValTok{0}\OperatorTok{,} \DecValTok{0}\NormalTok{)}\OperatorTok{,}\NormalTok{ (}\DecValTok{2}\OperatorTok{,} \DecValTok{2}\NormalTok{)}\OperatorTok{,}\NormalTok{ (}\DecValTok{3}\OperatorTok{,} \DecValTok{0}\NormalTok{)}\OperatorTok{,}\NormalTok{ (}\DecValTok{4}\OperatorTok{,} \DecValTok{4}\NormalTok{)}\OperatorTok{,}\NormalTok{ (}\DecValTok{5}\OperatorTok{,} \DecValTok{7}\NormalTok{)}\OperatorTok{,}\NormalTok{ (}\DecValTok{6}\OperatorTok{,} \DecValTok{6}\NormalTok{)}\OperatorTok{,}\NormalTok{ (}\DecValTok{7}\OperatorTok{,} \DecValTok{9}\NormalTok{)}\OperatorTok{,}\NormalTok{ (}\DecValTok{8}\OperatorTok{,} \DecValTok{5}\NormalTok{)}\OperatorTok{,}\NormalTok{ (}\DecValTok{9}\OperatorTok{,} \DecValTok{9}\NormalTok{)}\OperatorTok{,}\NormalTok{ (}\DecValTok{10}\OperatorTok{,} \DecValTok{1}\NormalTok{)}
+\NormalTok{)}
+\KeywordTok{let}\NormalTok{ x\_axis }\OperatorTok{=} \FunctionTok{axis}\NormalTok{(min}\OperatorTok{:} \DecValTok{0}\OperatorTok{,}\NormalTok{ max}\OperatorTok{:} \DecValTok{11}\OperatorTok{,}\NormalTok{ step}\OperatorTok{:} \DecValTok{2}\OperatorTok{,}\NormalTok{ location}\OperatorTok{:} \StringTok{"bottom"}\NormalTok{)}
+\KeywordTok{let}\NormalTok{ y\_axis }\OperatorTok{=} \FunctionTok{axis}\NormalTok{(min}\OperatorTok{:} \DecValTok{0}\OperatorTok{,}\NormalTok{ max}\OperatorTok{:} \DecValTok{11}\OperatorTok{,}\NormalTok{ step}\OperatorTok{:} \DecValTok{2}\OperatorTok{,}\NormalTok{ location}\OperatorTok{:} \StringTok{"left"}\OperatorTok{,}\NormalTok{ helper\_lines}\OperatorTok{:} \KeywordTok{false}\NormalTok{)}
+\KeywordTok{let}\NormalTok{ pl }\OperatorTok{=} \FunctionTok{plot}\NormalTok{(data}\OperatorTok{:}\NormalTok{ data}\OperatorTok{,}\NormalTok{ axes}\OperatorTok{:}\NormalTok{ (x\_axis}\OperatorTok{,}\NormalTok{ y\_axis))}
+\FunctionTok{scatter\_plot}\NormalTok{(pl}\OperatorTok{,}\NormalTok{ (}\DecValTok{100}\OperatorTok{\%,} \DecValTok{25}\OperatorTok{\%}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://raw.githubusercontent.com/Pegacraft/typst-plotting/8d834689359b708ce75fe51be05eed45570e463e/images/scatter.png}}
+
+\subsubsection{Graph charts}\label{graph-charts}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{// The data to be displayed}
+\KeywordTok{let}\NormalTok{ data }\OperatorTok{=}\NormalTok{ (}
+\NormalTok{  (}\DecValTok{0}\OperatorTok{,} \DecValTok{0}\NormalTok{)}\OperatorTok{,}\NormalTok{ (}\DecValTok{2}\OperatorTok{,} \DecValTok{2}\NormalTok{)}\OperatorTok{,}\NormalTok{ (}\DecValTok{3}\OperatorTok{,} \DecValTok{0}\NormalTok{)}\OperatorTok{,}\NormalTok{ (}\DecValTok{4}\OperatorTok{,} \DecValTok{4}\NormalTok{)}\OperatorTok{,}\NormalTok{ (}\DecValTok{5}\OperatorTok{,} \DecValTok{7}\NormalTok{)}\OperatorTok{,}\NormalTok{ (}\DecValTok{6}\OperatorTok{,} \DecValTok{6}\NormalTok{)}\OperatorTok{,}\NormalTok{ (}\DecValTok{7}\OperatorTok{,} \DecValTok{9}\NormalTok{)}\OperatorTok{,}\NormalTok{ (}\DecValTok{8}\OperatorTok{,} \DecValTok{5}\NormalTok{)}\OperatorTok{,}\NormalTok{ (}\DecValTok{9}\OperatorTok{,} \DecValTok{9}\NormalTok{)}\OperatorTok{,}\NormalTok{ (}\DecValTok{10}\OperatorTok{,} \DecValTok{1}\NormalTok{)}
+\NormalTok{)}
+
+\CommentTok{// Create the axes used for the chart }
+\KeywordTok{let}\NormalTok{ x\_axis }\OperatorTok{=} \FunctionTok{axis}\NormalTok{(min}\OperatorTok{:} \DecValTok{0}\OperatorTok{,}\NormalTok{ max}\OperatorTok{:} \DecValTok{11}\OperatorTok{,}\NormalTok{ step}\OperatorTok{:} \DecValTok{2}\OperatorTok{,}\NormalTok{ location}\OperatorTok{:} \StringTok{"bottom"}\NormalTok{)}
+\KeywordTok{let}\NormalTok{ y\_axis }\OperatorTok{=} \FunctionTok{axis}\NormalTok{(min}\OperatorTok{:} \DecValTok{0}\OperatorTok{,}\NormalTok{ max}\OperatorTok{:} \DecValTok{11}\OperatorTok{,}\NormalTok{ step}\OperatorTok{:} \DecValTok{2}\OperatorTok{,}\NormalTok{ location}\OperatorTok{:} \StringTok{"left"}\OperatorTok{,}\NormalTok{ helper\_lines}\OperatorTok{:} \KeywordTok{false}\NormalTok{)}
+
+\CommentTok{// Combine the axes and the data and feed it to the plot render function.}
+\KeywordTok{let}\NormalTok{ pl }\OperatorTok{=} \FunctionTok{plot}\NormalTok{(data}\OperatorTok{:}\NormalTok{ data}\OperatorTok{,}\NormalTok{ axes}\OperatorTok{:}\NormalTok{ (x\_axis}\OperatorTok{,}\NormalTok{ y\_axis))}
+\FunctionTok{graph\_plot}\NormalTok{(pl}\OperatorTok{,}\NormalTok{ (}\DecValTok{100}\OperatorTok{\%,} \DecValTok{25}\OperatorTok{\%}\NormalTok{))}
+\FunctionTok{graph\_plot}\NormalTok{(pl}\OperatorTok{,}\NormalTok{ (}\DecValTok{100}\OperatorTok{\%,} \DecValTok{25}\OperatorTok{\%}\NormalTok{)}\OperatorTok{,}\NormalTok{ rounding}\OperatorTok{:} \DecValTok{30}\OperatorTok{\%,}\NormalTok{ caption}\OperatorTok{:} \StringTok{"Graph Plot with caption and rounding"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://raw.githubusercontent.com/Pegacraft/typst-plotting/8d834689359b708ce75fe51be05eed45570e463e/images/graph.png}}
+
+\subsubsection{Histograms}\label{histograms}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{// Plot 1:}
+\CommentTok{// The data to be displayed}
+\KeywordTok{let}\NormalTok{ data }\OperatorTok{=}\NormalTok{ (}
+  \DecValTok{18000}\OperatorTok{,} \DecValTok{18000}\OperatorTok{,} \DecValTok{18000}\OperatorTok{,} \DecValTok{18000}\OperatorTok{,} \DecValTok{18000}\OperatorTok{,} \DecValTok{18000}\OperatorTok{,} \DecValTok{18000}\OperatorTok{,} \DecValTok{18000}\OperatorTok{,}
+  \DecValTok{18000}\OperatorTok{,} \DecValTok{18000}\OperatorTok{,} \DecValTok{28000}\OperatorTok{,} \DecValTok{28000}\OperatorTok{,} \DecValTok{28000}\OperatorTok{,} \DecValTok{28000}\OperatorTok{,} \DecValTok{28000}\OperatorTok{,} \DecValTok{28000}\OperatorTok{,}
+  \DecValTok{28000}\OperatorTok{,} \DecValTok{28000}\OperatorTok{,} \DecValTok{28000}\OperatorTok{,} \DecValTok{28000}\OperatorTok{,} \DecValTok{28000}\OperatorTok{,} \DecValTok{28000}\OperatorTok{,} \DecValTok{28000}\OperatorTok{,} \DecValTok{28000}\OperatorTok{,}
+  \DecValTok{28000}\OperatorTok{,} \DecValTok{28000}\OperatorTok{,} \DecValTok{28000}\OperatorTok{,} \DecValTok{28000}\OperatorTok{,} \DecValTok{28000}\OperatorTok{,} \DecValTok{28000}\OperatorTok{,} \DecValTok{28000}\OperatorTok{,} \DecValTok{28000}\OperatorTok{,}
+  \DecValTok{35000}\OperatorTok{,} \DecValTok{46000}\OperatorTok{,} \DecValTok{75000}\OperatorTok{,} \DecValTok{95000}
+\NormalTok{)}
+
+\CommentTok{// Classify the data}
+\KeywordTok{let}\NormalTok{ classes }\OperatorTok{=} \FunctionTok{class\_generator}\NormalTok{(}\DecValTok{10000}\OperatorTok{,} \DecValTok{50000}\OperatorTok{,} \DecValTok{4}\NormalTok{)}
+\NormalTok{classes}\OperatorTok{.}\FunctionTok{push}\NormalTok{(}\KeywordTok{class}\NormalTok{(}\DecValTok{50000}\OperatorTok{,} \DecValTok{100000}\NormalTok{))}
+\NormalTok{classes }\OperatorTok{=} \FunctionTok{classify}\NormalTok{(data}\OperatorTok{,}\NormalTok{ classes)}
+
+\CommentTok{// Create the axes used for the chart }
+\KeywordTok{let}\NormalTok{ x\_axis }\OperatorTok{=} \FunctionTok{axis}\NormalTok{(min}\OperatorTok{:} \DecValTok{0}\OperatorTok{,}\NormalTok{ max}\OperatorTok{:} \DecValTok{100000}\OperatorTok{,}\NormalTok{ step}\OperatorTok{:} \DecValTok{10000}\OperatorTok{,}\NormalTok{ location}\OperatorTok{:} \StringTok{"bottom"}\NormalTok{)}
+\KeywordTok{let}\NormalTok{ y\_axis }\OperatorTok{=} \FunctionTok{axis}\NormalTok{(min}\OperatorTok{:} \DecValTok{0}\OperatorTok{,}\NormalTok{ max}\OperatorTok{:} \DecValTok{31}\OperatorTok{,}\NormalTok{ step}\OperatorTok{:} \DecValTok{5}\OperatorTok{,}\NormalTok{ location}\OperatorTok{:} \StringTok{"left"}\OperatorTok{,}\NormalTok{ helper\_lines}\OperatorTok{:} \KeywordTok{true}\NormalTok{)}
+
+\CommentTok{// Combine the axes and the data and feed it to the plot render function.}
+\KeywordTok{let}\NormalTok{ pl }\OperatorTok{=} \FunctionTok{plot}\NormalTok{(data}\OperatorTok{:}\NormalTok{ classes}\OperatorTok{,}\NormalTok{ axes}\OperatorTok{:}\NormalTok{ (x\_axis}\OperatorTok{,}\NormalTok{ y\_axis))}
+\FunctionTok{histogram}\NormalTok{(pl}\OperatorTok{,}\NormalTok{ (}\DecValTok{100}\OperatorTok{\%,} \DecValTok{40}\OperatorTok{\%}\NormalTok{)}\OperatorTok{,}\NormalTok{ stroke}\OperatorTok{:}\NormalTok{ black}\OperatorTok{,}\NormalTok{ fill}\OperatorTok{:}\NormalTok{ (purple}\OperatorTok{,}\NormalTok{ blue}\OperatorTok{,}\NormalTok{ red}\OperatorTok{,}\NormalTok{ green}\OperatorTok{,}\NormalTok{ yellow))}
+
+\CommentTok{// Plot 2:}
+\CommentTok{// Create the different classes}
+\KeywordTok{let}\NormalTok{ classes }\OperatorTok{=}\NormalTok{ ()}
+\NormalTok{classes}\OperatorTok{.}\FunctionTok{push}\NormalTok{(}\KeywordTok{class}\NormalTok{(}\DecValTok{11}\OperatorTok{,} \DecValTok{13}\NormalTok{))}
+\NormalTok{classes}\OperatorTok{.}\FunctionTok{push}\NormalTok{(}\KeywordTok{class}\NormalTok{(}\DecValTok{13}\OperatorTok{,} \DecValTok{15}\NormalTok{))}
+\NormalTok{classes}\OperatorTok{.}\FunctionTok{push}\NormalTok{(}\KeywordTok{class}\NormalTok{(}\DecValTok{1}\OperatorTok{,} \DecValTok{6}\NormalTok{))}
+\NormalTok{classes}\OperatorTok{.}\FunctionTok{push}\NormalTok{(}\KeywordTok{class}\NormalTok{(}\DecValTok{6}\OperatorTok{,} \DecValTok{11}\NormalTok{))}
+\NormalTok{classes}\OperatorTok{.}\FunctionTok{push}\NormalTok{(}\KeywordTok{class}\NormalTok{(}\DecValTok{15}\OperatorTok{,} \DecValTok{30}\NormalTok{))}
+
+\CommentTok{// Define the data to map}
+\KeywordTok{let}\NormalTok{ data }\OperatorTok{=}\NormalTok{ ((}\DecValTok{20}\OperatorTok{,} \DecValTok{2}\NormalTok{)}\OperatorTok{,}\NormalTok{ (}\DecValTok{30}\OperatorTok{,} \DecValTok{7}\NormalTok{)}\OperatorTok{,}\NormalTok{ (}\DecValTok{16}\OperatorTok{,} \DecValTok{12}\NormalTok{)}\OperatorTok{,}\NormalTok{ (}\DecValTok{40}\OperatorTok{,} \DecValTok{13}\NormalTok{)}\OperatorTok{,}\NormalTok{ (}\DecValTok{5}\OperatorTok{,} \DecValTok{17}\NormalTok{))}
+
+\CommentTok{// Create the axes}
+\KeywordTok{let}\NormalTok{ x\_axis }\OperatorTok{=} \FunctionTok{axis}\NormalTok{(min}\OperatorTok{:} \DecValTok{0}\OperatorTok{,}\NormalTok{ max}\OperatorTok{:} \DecValTok{31}\OperatorTok{,}\NormalTok{ step}\OperatorTok{:} \DecValTok{1}\OperatorTok{,}\NormalTok{ location}\OperatorTok{:} \StringTok{"bottom"}\OperatorTok{,}\NormalTok{ show\_markings}\OperatorTok{:} \KeywordTok{false}\NormalTok{)}
+\KeywordTok{let}\NormalTok{ y\_axis }\OperatorTok{=} \FunctionTok{axis}\NormalTok{(min}\OperatorTok{:} \DecValTok{0}\OperatorTok{,}\NormalTok{ max}\OperatorTok{:} \DecValTok{41}\OperatorTok{,}\NormalTok{ step}\OperatorTok{:} \DecValTok{5}\OperatorTok{,}\NormalTok{ location}\OperatorTok{:} \StringTok{"left"}\OperatorTok{,}\NormalTok{ helper\_lines}\OperatorTok{:} \KeywordTok{true}\NormalTok{)}
+
+\CommentTok{// Classify the data}
+\NormalTok{classes }\OperatorTok{=} \FunctionTok{classify}\NormalTok{(data}\OperatorTok{,}\NormalTok{ classes)}
+
+\CommentTok{// Combine the axes and the data and feed it to the plot render function.}
+\KeywordTok{let}\NormalTok{ pl }\OperatorTok{=} \FunctionTok{plot}\NormalTok{(axes}\OperatorTok{:}\NormalTok{ (x\_axis}\OperatorTok{,}\NormalTok{ y\_axis)}\OperatorTok{,}\NormalTok{ data}\OperatorTok{:}\NormalTok{ classes)}
+\FunctionTok{histogram}\NormalTok{(pl}\OperatorTok{,}\NormalTok{ (}\DecValTok{100}\OperatorTok{\%,} \DecValTok{40}\OperatorTok{\%}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://raw.githubusercontent.com/Pegacraft/typst-plotting/8d834689359b708ce75fe51be05eed45570e463e/images/histogram.png}}
+
+\subsubsection{Bar charts}\label{bar-charts}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{// Plot 1:}
+\CommentTok{// The data to be displayed}
+\KeywordTok{let}\NormalTok{ data }\OperatorTok{=}\NormalTok{ ((}\DecValTok{10}\OperatorTok{,} \StringTok{"Monday"}\NormalTok{)}\OperatorTok{,}\NormalTok{ (}\DecValTok{5}\OperatorTok{,} \StringTok{"Tuesday"}\NormalTok{)}\OperatorTok{,}\NormalTok{ (}\DecValTok{15}\OperatorTok{,} \StringTok{"Wednesday"}\NormalTok{)}\OperatorTok{,}\NormalTok{ (}\DecValTok{9}\OperatorTok{,} \StringTok{"Thursday"}\NormalTok{)}\OperatorTok{,}\NormalTok{ (}\DecValTok{11}\OperatorTok{,} \StringTok{"Friday"}\NormalTok{))}
+
+\CommentTok{// Create the necessary axes}
+\KeywordTok{let}\NormalTok{ y\_axis }\OperatorTok{=} \FunctionTok{axis}\NormalTok{(values}\OperatorTok{:}\NormalTok{ (}\StringTok{""}\OperatorTok{,} \StringTok{"Monday"}\OperatorTok{,} \StringTok{"Tuesday"}\OperatorTok{,} \StringTok{"Wednesday"}\OperatorTok{,} \StringTok{"Thursday"}\OperatorTok{,} \StringTok{"Friday"}\NormalTok{)}\OperatorTok{,}\NormalTok{ location}\OperatorTok{:} \StringTok{"left"}\OperatorTok{,}\NormalTok{ show\_markings}\OperatorTok{:} \KeywordTok{true}\NormalTok{)}
+\KeywordTok{let}\NormalTok{ x\_axis }\OperatorTok{=} \FunctionTok{axis}\NormalTok{(min}\OperatorTok{:} \DecValTok{0}\OperatorTok{,}\NormalTok{ max}\OperatorTok{:} \DecValTok{20}\OperatorTok{,}\NormalTok{ step}\OperatorTok{:} \DecValTok{2}\OperatorTok{,}\NormalTok{ location}\OperatorTok{:} \StringTok{"bottom"}\OperatorTok{,}\NormalTok{ helper\_lines}\OperatorTok{:} \KeywordTok{true}\NormalTok{)}
+
+\CommentTok{// Combine the axes and the data and feed it to the plot render function.}
+\KeywordTok{let}\NormalTok{ pl }\OperatorTok{=} \FunctionTok{plot}\NormalTok{(axes}\OperatorTok{:}\NormalTok{ (x\_axis}\OperatorTok{,}\NormalTok{ y\_axis)}\OperatorTok{,}\NormalTok{ data}\OperatorTok{:}\NormalTok{ data)}
+\FunctionTok{bar\_chart}\NormalTok{(pl}\OperatorTok{,}\NormalTok{ (}\DecValTok{100}\OperatorTok{\%,} \DecValTok{33}\OperatorTok{\%}\NormalTok{)}\OperatorTok{,}\NormalTok{ fill}\OperatorTok{:}\NormalTok{ (purple}\OperatorTok{,}\NormalTok{ blue}\OperatorTok{,}\NormalTok{ red}\OperatorTok{,}\NormalTok{ green}\OperatorTok{,}\NormalTok{ yellow)}\OperatorTok{,}\NormalTok{ bar\_width}\OperatorTok{:} \DecValTok{70}\OperatorTok{\%,}\NormalTok{ rotated}\OperatorTok{:} \KeywordTok{true}\NormalTok{)}
+
+\CommentTok{// Plot 2:}
+\CommentTok{// Same as above, but with numbers as data}
+\KeywordTok{let}\NormalTok{ data\_2 }\OperatorTok{=}\NormalTok{ ((}\DecValTok{20}\OperatorTok{,} \DecValTok{2}\NormalTok{)}\OperatorTok{,}\NormalTok{ (}\DecValTok{30}\OperatorTok{,} \DecValTok{7}\NormalTok{)}\OperatorTok{,}\NormalTok{ (}\DecValTok{16}\OperatorTok{,} \DecValTok{12}\NormalTok{)}\OperatorTok{,}\NormalTok{ (}\DecValTok{40}\OperatorTok{,} \DecValTok{13}\NormalTok{)}\OperatorTok{,}\NormalTok{ (}\DecValTok{5}\OperatorTok{,} \DecValTok{17}\NormalTok{))}
+\KeywordTok{let}\NormalTok{ y\_axis\_2 }\OperatorTok{=} \FunctionTok{axis}\NormalTok{(min}\OperatorTok{:} \DecValTok{0}\OperatorTok{,}\NormalTok{ max}\OperatorTok{:} \DecValTok{41}\OperatorTok{,}\NormalTok{ step}\OperatorTok{:} \DecValTok{5}\OperatorTok{,}\NormalTok{ location}\OperatorTok{:} \StringTok{"left"}\OperatorTok{,}\NormalTok{ show\_markings}\OperatorTok{:} \KeywordTok{true}\OperatorTok{,}\NormalTok{ helper\_lines}\OperatorTok{:} \KeywordTok{true}\NormalTok{)}
+\KeywordTok{let}\NormalTok{ x\_axis\_2 }\OperatorTok{=} \FunctionTok{axis}\NormalTok{(min}\OperatorTok{:} \DecValTok{0}\OperatorTok{,}\NormalTok{ max}\OperatorTok{:} \DecValTok{21}\OperatorTok{,}\NormalTok{ step}\OperatorTok{:} \DecValTok{1}\OperatorTok{,}\NormalTok{ location}\OperatorTok{:} \StringTok{"bottom"}\NormalTok{)}
+\KeywordTok{let}\NormalTok{ pl\_2 }\OperatorTok{=} \FunctionTok{plot}\NormalTok{(axes}\OperatorTok{:}\NormalTok{ (x\_axis\_2}\OperatorTok{,}\NormalTok{ y\_axis\_2)}\OperatorTok{,}\NormalTok{ data}\OperatorTok{:}\NormalTok{ data\_2)}
+\FunctionTok{bar\_chart}\NormalTok{(pl\_2}\OperatorTok{,}\NormalTok{ (}\DecValTok{100}\OperatorTok{\%,} \DecValTok{60}\OperatorTok{\%}\NormalTok{)}\OperatorTok{,}\NormalTok{ bar\_width}\OperatorTok{:} \DecValTok{100}\OperatorTok{\%}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://raw.githubusercontent.com/Pegacraft/typst-plotting/8d834689359b708ce75fe51be05eed45570e463e/images/bar.png}}
+
+\subsubsection{Pie charts}\label{pie-charts}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{show}\OperatorTok{:}\NormalTok{ r }\KeywordTok{=\textgreater{}} \FunctionTok{columns}\NormalTok{(}\DecValTok{2}\OperatorTok{,}\NormalTok{ r)}
+
+\CommentTok{// create the sample data}
+\KeywordTok{let}\NormalTok{ data }\OperatorTok{=}\NormalTok{ ((}\DecValTok{10}\OperatorTok{,} \StringTok{"Male"}\NormalTok{)}\OperatorTok{,}\NormalTok{ (}\DecValTok{20}\OperatorTok{,} \StringTok{"Female"}\NormalTok{)}\OperatorTok{,}\NormalTok{ (}\DecValTok{15}\OperatorTok{,} \StringTok{"Divers"}\NormalTok{)}\OperatorTok{,}\NormalTok{ (}\DecValTok{2}\OperatorTok{,} \StringTok{"Other"}\NormalTok{)}
+
+\CommentTok{// Skip the axis step, as no axes are needed}
+
+\CommentTok{// Put the data into a plot }
+\KeywordTok{let}\NormalTok{ p }\OperatorTok{=} \FunctionTok{plot}\NormalTok{(data}\OperatorTok{:}\NormalTok{ data)}
+
+\CommentTok{// Display the pie\_charts in all different display ways}
+\FunctionTok{pie\_chart}\NormalTok{(p}\OperatorTok{,}\NormalTok{ (}\DecValTok{100}\OperatorTok{\%,} \DecValTok{20}\OperatorTok{\%}\NormalTok{)}\OperatorTok{,}\NormalTok{ display\_style}\OperatorTok{:} \StringTok{"legend{-}inside{-}chart"}\NormalTok{)}
+\FunctionTok{pie\_chart}\NormalTok{(p}\OperatorTok{,}\NormalTok{ (}\DecValTok{100}\OperatorTok{\%,} \DecValTok{20}\OperatorTok{\%}\NormalTok{)}\OperatorTok{,}\NormalTok{ display\_style}\OperatorTok{:} \StringTok{"hor{-}chart{-}legend"}\NormalTok{)}
+\FunctionTok{pie\_chart}\NormalTok{(p}\OperatorTok{,}\NormalTok{ (}\DecValTok{100}\OperatorTok{\%,} \DecValTok{20}\OperatorTok{\%}\NormalTok{)}\OperatorTok{,}\NormalTok{ display\_style}\OperatorTok{:} \StringTok{"hor{-}legend{-}chart"}\NormalTok{)}
+\FunctionTok{pie\_chart}\NormalTok{(p}\OperatorTok{,}\NormalTok{ (}\DecValTok{100}\OperatorTok{\%,} \DecValTok{20}\OperatorTok{\%}\NormalTok{)}\OperatorTok{,}\NormalTok{ display\_style}\OperatorTok{:} \StringTok{"vert{-}chart{-}legend"}\NormalTok{)}
+\FunctionTok{pie\_chart}\NormalTok{(p}\OperatorTok{,}\NormalTok{ (}\DecValTok{100}\OperatorTok{\%,} \DecValTok{20}\OperatorTok{\%}\NormalTok{)}\OperatorTok{,}\NormalTok{ display\_style}\OperatorTok{:} \StringTok{"vert{-}legend{-}chart"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://raw.githubusercontent.com/Pegacraft/typst-plotting/8d834689359b708ce75fe51be05eed45570e463e/images/pie.png}}
+
+\textbf{Overlayed Graphs}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{// Create the data for the two plots to overlay}
+\KeywordTok{let}\NormalTok{ data\_scatter }\OperatorTok{=}\NormalTok{ (}
+\NormalTok{  (}\DecValTok{0}\OperatorTok{,} \DecValTok{0}\NormalTok{)}\OperatorTok{,}\NormalTok{ (}\DecValTok{2}\OperatorTok{,} \DecValTok{2}\NormalTok{)}\OperatorTok{,}\NormalTok{ (}\DecValTok{3}\OperatorTok{,} \DecValTok{0}\NormalTok{)}\OperatorTok{,}\NormalTok{ (}\DecValTok{4}\OperatorTok{,} \DecValTok{4}\NormalTok{)}\OperatorTok{,}\NormalTok{ (}\DecValTok{5}\OperatorTok{,} \DecValTok{7}\NormalTok{)}\OperatorTok{,}\NormalTok{ (}\DecValTok{6}\OperatorTok{,} \DecValTok{6}\NormalTok{)}\OperatorTok{,}\NormalTok{ (}\DecValTok{7}\OperatorTok{,} \DecValTok{9}\NormalTok{)}\OperatorTok{,}\NormalTok{ (}\DecValTok{8}\OperatorTok{,} \DecValTok{5}\NormalTok{)}\OperatorTok{,}\NormalTok{ (}\DecValTok{9}\OperatorTok{,} \DecValTok{9}\NormalTok{)}\OperatorTok{,}\NormalTok{ (}\DecValTok{10}\OperatorTok{,} \DecValTok{1}\NormalTok{)}
+\NormalTok{)}
+\KeywordTok{let}\NormalTok{ data\_graph }\OperatorTok{=}\NormalTok{ (}
+\NormalTok{  (}\DecValTok{0}\OperatorTok{,} \DecValTok{3}\NormalTok{)}\OperatorTok{,}\NormalTok{ (}\DecValTok{1}\OperatorTok{,} \DecValTok{5}\NormalTok{)}\OperatorTok{,}\NormalTok{ (}\DecValTok{2}\OperatorTok{,} \DecValTok{1}\NormalTok{)}\OperatorTok{,}\NormalTok{ (}\DecValTok{3}\OperatorTok{,} \DecValTok{7}\NormalTok{)}\OperatorTok{,}\NormalTok{ (}\DecValTok{4}\OperatorTok{,} \DecValTok{3}\NormalTok{)}\OperatorTok{,}\NormalTok{ (}\DecValTok{5}\OperatorTok{,} \DecValTok{5}\NormalTok{)}\OperatorTok{,}\NormalTok{ (}\DecValTok{6}\OperatorTok{,} \DecValTok{7}\NormalTok{)}\OperatorTok{,}\NormalTok{(}\DecValTok{7}\OperatorTok{,} \DecValTok{4}\NormalTok{)}\OperatorTok{,}\NormalTok{(}\DecValTok{11}\OperatorTok{,} \DecValTok{6}\NormalTok{)}
+\NormalTok{)}
+
+\CommentTok{// Create the axes for the overlay plot}
+\KeywordTok{let}\NormalTok{ x\_axis }\OperatorTok{=} \FunctionTok{axis}\NormalTok{(min}\OperatorTok{:} \DecValTok{0}\OperatorTok{,}\NormalTok{ max}\OperatorTok{:} \DecValTok{11}\OperatorTok{,}\NormalTok{ step}\OperatorTok{:} \DecValTok{2}\OperatorTok{,}\NormalTok{ location}\OperatorTok{:} \StringTok{"bottom"}\NormalTok{)}
+\KeywordTok{let}\NormalTok{ y\_axis }\OperatorTok{=} \FunctionTok{axis}\NormalTok{(min}\OperatorTok{:} \DecValTok{0}\OperatorTok{,}\NormalTok{ max}\OperatorTok{:} \DecValTok{11}\OperatorTok{,}\NormalTok{ step}\OperatorTok{:} \DecValTok{2}\OperatorTok{,}\NormalTok{ location}\OperatorTok{:} \StringTok{"left"}\OperatorTok{,}\NormalTok{ helper\_lines}\OperatorTok{:} \KeywordTok{false}\NormalTok{)}
+
+\CommentTok{// create a plot for each individual plot type and save the render call}
+\KeywordTok{let}\NormalTok{ pl\_scatter }\OperatorTok{=} \FunctionTok{plot}\NormalTok{(data}\OperatorTok{:}\NormalTok{ data\_scatter}\OperatorTok{,}\NormalTok{ axes}\OperatorTok{:}\NormalTok{ (x\_axis}\OperatorTok{,}\NormalTok{ y\_axis))}
+\KeywordTok{let}\NormalTok{ scatter\_display }\OperatorTok{=} \FunctionTok{scatter\_plot}\NormalTok{(pl\_scatter}\OperatorTok{,}\NormalTok{ (}\DecValTok{100}\OperatorTok{\%,} \DecValTok{25}\OperatorTok{\%}\NormalTok{)}\OperatorTok{,}\NormalTok{ stroke}\OperatorTok{:}\NormalTok{ red)}
+\KeywordTok{let}\NormalTok{ pl\_graph }\OperatorTok{=} \FunctionTok{plot}\NormalTok{(data}\OperatorTok{:}\NormalTok{ data\_graph}\OperatorTok{,}\NormalTok{ axes}\OperatorTok{:}\NormalTok{ (x\_axis}\OperatorTok{,}\NormalTok{ y\_axis))}
+\KeywordTok{let}\NormalTok{ graph\_display }\OperatorTok{=} \FunctionTok{graph\_plot}\NormalTok{(pl\_graph}\OperatorTok{,}\NormalTok{ (}\DecValTok{100}\OperatorTok{\%,} \DecValTok{25}\OperatorTok{\%}\NormalTok{)}\OperatorTok{,}\NormalTok{ stroke}\OperatorTok{:}\NormalTok{ blue)}
+
+\CommentTok{// overlay the plots using the overlay function}
+\FunctionTok{overlay}\NormalTok{((scatter\_display}\OperatorTok{,}\NormalTok{ graph\_display)}\OperatorTok{,}\NormalTok{ (}\DecValTok{100}\OperatorTok{\%,} \DecValTok{25}\OperatorTok{\%}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://raw.githubusercontent.com/Pegacraft/typst-plotting/8d834689359b708ce75fe51be05eed45570e463e/images/overlay.png}}
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as \texttt{\ plotst\ }
+
+\begin{verbatim}
+#import "@preview/plotst:0.2.0"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author s :]
+Pegacraft \& Gewi413
+\item[License:]
+MIT
+\item[Current version:]
+0.2.0
+\item[Last updated:]
+October 28, 2023
+\item[First released:]
+July 2, 2023
+\item[Archive size:]
+15.2 kB
+\href{https://packages.typst.org/preview/plotst-0.2.0.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/Pegacraft/typst-plotting}{GitHub}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of Pegacraft and Gewi413 . Report issues on
+\href{https://github.com/Pegacraft/typst-plotting}{their repository} .
+You can also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.2.0 & October 28, 2023 \\
+\href{https://typst.app/universe/package/plotst/0.1.0/}{0.1.0} & July 2,
+2023 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.

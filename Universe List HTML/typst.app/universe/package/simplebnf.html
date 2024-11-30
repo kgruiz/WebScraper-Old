@@ -1,0 +1,348 @@
+<main>
+    <div id="banner" style="--banner-accent:#000000;--banner-primary:#000000;--banner-secondary:#000000;--banner-tertiary:#565565;--banner-background:#eff0f3">
+     <div class="package-icon" role="img">
+     </div>
+     <div>
+      <div class="title">
+       <h1 class="name">
+        simplebnf
+       </h1>
+       <span class="version">
+        0.1.1
+       </span>
+      </div>
+      <p class="description">
+       A simple package to format Backus-Naur form (BNF)
+      </p>
+     </div>
+    </div>
+    <div class="inner-grid">
+     <section id="readme">
+      <p>
+       simplebnf is a simple package to format Backus-Naur form. The package provides a simple way to format Backus-Naur form (BNF). It provides constructs to denote BNF expressions, possibly with annotations.
+      </p>
+      <p>
+       This is a sister package of
+       <a href="https://github.com/Zeta611/simplebnf" rel="nofollow ugc" target="_blank">
+        simplebnf
+       </a>
+       , a LaTeX package under the same name by the author.
+      </p>
+      <h2>
+       Usage
+      </h2>
+      <p>
+       Import simplebnf via
+      </p>
+      <pre><code class="language-typst"><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/simplebnf:0.1.1"</span><span class="typ-punct">:</span> <span class="typ-op">*</span>
+</code></code></pre>
+      <p>
+       Use the
+       <code>
+        bnf
+       </code>
+       function to display the BNF production rules. Each production rule can be created using the
+       <code>
+        Prod
+       </code>
+       constructor function, which accepts the (left-hand side) metavariable, an optional annotation for it, an optional delimiter (which defaults to â©´), and a list of (right-hand side) alternatives. Each alternative should be created using the
+       <code>
+        Or
+       </code>
+       constructor, which accepts a syntactic form and an annotation.
+      </p>
+      <p>
+       Below are some examples using simplebnf.
+      </p>
+      <pre><code class="language-typst"><code><span class="typ-func">#</span><span class="typ-func">bnf</span><span class="typ-punct">(</span>
+  <span class="typ-func">Prod</span><span class="typ-punct">(</span>
+    <span class="typ-math-delim">$</span>e<span class="typ-math-delim">$</span><span class="typ-punct">,</span>
+    annot<span class="typ-punct">:</span> <span class="typ-math-delim">$</span><span class="typ-func">sans</span><span class="typ-punct">(</span><span class="typ-str">"Expr"</span><span class="typ-punct">)</span><span class="typ-math-delim">$</span><span class="typ-punct">,</span>
+    <span class="typ-punct">{</span>
+      <span class="typ-func">Or</span><span class="typ-punct">[</span><span class="typ-math-delim">$</span>x<span class="typ-math-delim">$</span><span class="typ-punct">]</span><span class="typ-punct">[</span><span class="typ-emph">_variable_</span><span class="typ-punct">]</span>
+      <span class="typ-func">Or</span><span class="typ-punct">[</span><span class="typ-math-delim">$</span>Î» x. e<span class="typ-math-delim">$</span><span class="typ-punct">]</span><span class="typ-punct">[</span><span class="typ-emph">_abstraction_</span><span class="typ-punct">]</span>
+      <span class="typ-func">Or</span><span class="typ-punct">[</span><span class="typ-math-delim">$</span>e<span class="typ-math-delim">$</span> <span class="typ-math-delim">$</span>e<span class="typ-math-delim">$</span><span class="typ-punct">]</span><span class="typ-punct">[</span><span class="typ-emph">_application_</span><span class="typ-punct">]</span>
+    <span class="typ-punct">}</span><span class="typ-punct">,</span>
+  <span class="typ-punct">)</span><span class="typ-punct">,</span>
+<span class="typ-punct">)</span>
+</code></code></pre>
+      <p>
+       <img alt="lambda" src="https://github.com/typst/packages/raw/main/packages/preview/simplebnf/0.1.1/examples/lambda.svg"/>
+      </p>
+      <pre><code class="language-typst"><code><span class="typ-func">#</span><span class="typ-func">bnf</span><span class="typ-punct">(</span>
+  <span class="typ-func">Prod</span><span class="typ-punct">(</span>
+    <span class="typ-math-delim">$</span>e<span class="typ-math-delim">$</span><span class="typ-punct">,</span>
+    delim<span class="typ-punct">:</span> <span class="typ-math-delim">$</span>â<span class="typ-math-delim">$</span><span class="typ-punct">,</span>
+    <span class="typ-punct">{</span>
+      <span class="typ-func">Or</span><span class="typ-punct">[</span><span class="typ-math-delim">$</span>x<span class="typ-math-delim">$</span><span class="typ-punct">]</span><span class="typ-punct">[</span>variable<span class="typ-punct">]</span>
+      <span class="typ-func">Or</span><span class="typ-punct">[</span><span class="typ-math-delim">$</span>Î» x: Ï.e<span class="typ-math-delim">$</span><span class="typ-punct">]</span><span class="typ-punct">[</span>abstraction<span class="typ-punct">]</span>
+      <span class="typ-func">Or</span><span class="typ-punct">[</span><span class="typ-math-delim">$</span>e <span class="typ-pol">space</span> e<span class="typ-math-delim">$</span><span class="typ-punct">]</span><span class="typ-punct">[</span>application<span class="typ-punct">]</span>
+      <span class="typ-func">Or</span><span class="typ-punct">[</span><span class="typ-math-delim">$</span>Î» Ï.e <span class="typ-pol">space</span> e<span class="typ-math-delim">$</span><span class="typ-punct">]</span><span class="typ-punct">[</span>type abstraction<span class="typ-punct">]</span>
+      <span class="typ-func">Or</span><span class="typ-punct">[</span><span class="typ-math-delim">$</span>e <span class="typ-pol">space</span> [Ï]<span class="typ-math-delim">$</span><span class="typ-punct">]</span><span class="typ-punct">[</span>type application<span class="typ-punct">]</span>
+    <span class="typ-punct">}</span><span class="typ-punct">,</span>
+  <span class="typ-punct">)</span><span class="typ-punct">,</span>
+  <span class="typ-func">Prod</span><span class="typ-punct">(</span>
+    <span class="typ-math-delim">$</span>Ï<span class="typ-math-delim">$</span><span class="typ-punct">,</span>
+    delim<span class="typ-punct">:</span> <span class="typ-math-delim">$</span>â<span class="typ-math-delim">$</span><span class="typ-punct">,</span>
+    <span class="typ-punct">{</span>
+      <span class="typ-func">Or</span><span class="typ-punct">[</span><span class="typ-math-delim">$</span>X<span class="typ-math-delim">$</span><span class="typ-punct">]</span><span class="typ-punct">[</span>type variable<span class="typ-punct">]</span>
+      <span class="typ-func">Or</span><span class="typ-punct">[</span><span class="typ-math-delim">$</span>Ï â Ï<span class="typ-math-delim">$</span><span class="typ-punct">]</span><span class="typ-punct">[</span>type of functions<span class="typ-punct">]</span>
+      <span class="typ-func">Or</span><span class="typ-punct">[</span><span class="typ-math-delim">$</span>âX.Ï<span class="typ-math-delim">$</span><span class="typ-punct">]</span><span class="typ-punct">[</span>universal quantification<span class="typ-punct">]</span>
+    <span class="typ-punct">}</span><span class="typ-punct">,</span>
+  <span class="typ-punct">)</span><span class="typ-punct">,</span>
+<span class="typ-punct">)</span>
+</code></code></pre>
+      <p>
+       <img alt="System F" src="https://github.com/typst/packages/raw/main/packages/preview/simplebnf/0.1.1/examples/system-f.svg"/>
+      </p>
+      <h2>
+       Authors
+      </h2>
+      <ul>
+       <li>
+        Jay Lee
+        <a href="mailto:jaeho.lee@snu.ac.kr" rel="nofollow ugc" target="_blank">
+         jaeho.lee@snu.ac.kr
+        </a>
+       </li>
+      </ul>
+      <h2>
+       License
+      </h2>
+      <p>
+       simplebnf.typ is available under the MIT license. See the
+       <a href="https://github.com/Zeta611/simplebnf.typ/blob/master/LICENSE" rel="nofollow ugc" target="_blank">
+        LICENSE
+       </a>
+       file for more info.
+      </p>
+     </section>
+     <aside>
+      <section>
+       <h3>
+        How to add
+       </h3>
+       <p>
+        Copy this into your project and use the import as
+        <!-- -->
+        <code>
+         simplebnf
+        </code>
+       </p>
+       <div class="import-snippet">
+        <pre><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/simplebnf:0.1.1"</span></code></pre>
+        <button class="copy" title="Copy to clipboard">
+         <img alt="Copy" height="16" src="/assets/icons/16-copy.svg" width="16"/>
+        </button>
+       </div>
+       <p class="muted">
+        Check the docs for
+        <!-- -->
+        <a href="https://typst.app/docs/reference/scripting/#packages">
+         more information on how to import packages
+        </a>
+        .
+       </p>
+      </section>
+      <section id="about">
+       <h3>
+        About
+       </h3>
+       <dl>
+        <dt>
+         Author
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         <a href="https://github.com/Zeta611" rel="noopener noreferrer" target="_blank">
+          Jay Lee
+         </a>
+        </dd>
+        <dt>
+         License:
+        </dt>
+        <dd>
+         MIT
+        </dd>
+        <dt>
+         Current version:
+        </dt>
+        <dd>
+         0.1.1
+        </dd>
+        <dt>
+         Last updated:
+        </dt>
+        <dd>
+         July 15, 2024
+        </dd>
+        <dt>
+         First released:
+        </dt>
+        <dd>
+         May 23, 2024
+        </dd>
+        <dt>
+         Archive size:
+        </dt>
+        <dd class="archive-size-value">
+         2.10 kB
+         <a href="https://packages.typst.org/preview/simplebnf-0.1.1.tar.gz">
+          <img alt="Size icon" src="/assets/icons/16-download.svg"/>
+         </a>
+        </dd>
+        <dt>
+         Repository:
+        </dt>
+        <dd>
+         <a href="https://github.com/Zeta611/simplebnf.typ" rel="noopener noreferrer" target="_blank">
+          GitHub
+         </a>
+        </dd>
+        <dt>
+         Discipline
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         <ul class="list-without-icons">
+          <li>
+           <a href="https://typst.app/universe/search/?discipline=computer-science">
+            Computer Science
+           </a>
+          </li>
+         </ul>
+        </dd>
+        <dt>
+         Categor
+         <!-- -->
+         ies
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         <ul class="list-with-icons">
+          <li>
+           <img alt="Components icon" src="/assets/icons/16-package.svg"/>
+           <a href="https://typst.app/universe/search/?category=components">
+            Components
+           </a>
+          </li>
+          <li>
+           <img alt="Visualization icon" src="/assets/icons/16-chart.svg"/>
+           <a href="https://typst.app/universe/search/?category=visualization">
+            Visualization
+           </a>
+          </li>
+          <li>
+           <img alt="Integration icon" src="/assets/icons/16-integration.svg"/>
+           <a href="https://typst.app/universe/search/?category=integration">
+            Integration
+           </a>
+          </li>
+         </ul>
+        </dd>
+       </dl>
+      </section>
+      <section>
+       <h3>
+        Where to report issues?
+       </h3>
+       <p>
+        This
+        <!-- -->
+        package
+        <!-- -->
+        is a project of
+        <!-- -->
+        <!-- -->
+        Jay Lee
+        <!-- -->
+        .
+        <!-- -->
+        <!-- -->
+        Report issues on
+        <!-- -->
+        <a href="https://github.com/Zeta611/simplebnf.typ" rel="noopener noreferrer" target="_blank">
+         their repository
+        </a>
+        .
+        <!-- -->
+        <!-- -->
+        You can also try to ask for help with this
+        <!-- -->
+        package
+        <!-- -->
+        on the
+        <!-- -->
+        <a href="https://forum.typst.app" rel="noopener" target="_blank">
+         Forum
+        </a>
+        .
+       </p>
+       <p>
+        Please report this
+        <!-- -->
+        package
+        <!-- -->
+        to the Typst team using the
+        <!-- -->
+        <a href="https://typst.app/contact" rel="noreferrer" target="_blank">
+         contact form
+        </a>
+        <!-- -->
+        if you believe it is a safety hazard or infringes upon your rights.
+       </p>
+      </section>
+      <section id="versions">
+       <h3>
+        Version history
+       </h3>
+       <table>
+        <thead>
+         <tr>
+          <th align="left">
+           Version
+          </th>
+          <th align="left">
+           Release Date
+          </th>
+         </tr>
+        </thead>
+        <tbody>
+         <tr>
+          <td align="left">
+           0.1.1
+          </td>
+          <td align="left">
+           July 15, 2024
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/simplebnf/0.1.0/">
+            0.1.0
+           </a>
+          </td>
+          <td align="left">
+           May 23, 2024
+          </td>
+         </tr>
+        </tbody>
+       </table>
+      </section>
+      <p class="bottom-notice muted">
+       Typst GmbH did not create this
+       <!-- -->
+       package
+       <!-- -->
+       and cannot guarantee correct functionality of this
+       <!-- -->
+       package
+       <!-- -->
+       or compatibility with any version of the Typst compiler or app.
+      </p>
+     </aside>
+    </div>
+   </main>

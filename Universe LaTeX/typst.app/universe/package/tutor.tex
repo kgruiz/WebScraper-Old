@@ -1,0 +1,430 @@
+\title{typst.app/universe/package/tutor}
+
+\phantomsection\label{banner}
+\section{tutor}\label{tutor}
+
+{ 0.7.0 }
+
+Utilities to create exams.
+
+\phantomsection\label{readme}
+Utilities to write exams and exercises with integrated solutions. Set
+the variable \texttt{\ \#(cfg.sol\ =\ true)\ } to display the solutions
+of a document.
+
+Currently the following features are supported:
+
+\begin{itemize}
+\tightlist
+\item
+  Automatic total point calculation through the \texttt{\ \#points()\ }
+  and \texttt{\ \#totalpoints()\ } functions.
+\item
+  Checkboxes that are either blank or show the solution state using eg.
+  \texttt{\ \#checkbox(cfg,\ true)\ } .
+\item
+  Display blank lines allowing students to write their answer using eg.
+  \texttt{\ \#lines(cfg,\ 3)\ } .
+\item
+  A proposition for a project structure allowing self-contained
+  exercises and a mechanism to show or hide the solutions of an
+  exercise.
+\end{itemize}
+
+\subsection{Usage}\label{usage}
+
+\subsubsection{Minimal Example}\label{minimal-example}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@local/tutor:0.6.1": points, totalpoints, lines, checkbox, default{-}config}
+
+\NormalTok{\#let cfg = default{-}config()}
+\NormalTok{// enable solution mode}
+\NormalTok{\#(cfg.sol = true)}
+
+\NormalTok{// display 3 lines (for hand written answer)}
+\NormalTok{\#lines(cfg, 3)}
+\NormalTok{// checkbox for multiple choice (indicates correct state)}
+\NormalTok{\#checkbox(cfg, true)}
+
+\NormalTok{// show achievable points}
+\NormalTok{Max. points: \#points(2)}
+\NormalTok{Max. points: \#points(3)}
+\NormalTok{// show sum of all total achievable points (will show 5)}
+\NormalTok{Total points: \#totalpoints(cfg)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{Practical Example}\label{practical-example}
+
+Check
+\href{https://github.com/rangerjo/tutor/tree/main/example}{example} for
+a more practical example.
+
+\texttt{\ tutor\ } is best used with the following directory and file
+structure:
+
+\begin{verbatim}
+âââ main.typ
+âââ src
+â   âââ ex1
+â   â   âââ ex.typ
+â   âââ ex2
+â       âââ ex.typ
+âââ tutor.toml
+\end{verbatim}
+
+Every directory in \texttt{\ src\ } holds one self-contained exercise.
+The exercises can be imported into \texttt{\ main.typ\ } :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@local/tutor:0.6.1": totalpoints, lines, default{-}config}
+
+\NormalTok{\#import "src/ex1/ex.typ" as ex1}
+\NormalTok{\#import "src/ex2/ex.typ" as ex2}
+
+
+\NormalTok{\#let cfg = default{-}config()}
+\NormalTok{\#ex1.exercise(cfg)}
+\NormalTok{\#ex2.exercise(cfg)}
+\end{Highlighting}
+\end{Shaded}
+
+Supporting self-contained exercises is one of \texttt{\ tutor\ } s
+primary design goals. Each exercise lives within a folder and can easily
+be copied or referenced in a new document.
+
+An exercise is a folder that contains an \texttt{\ ex.typ\ } file along
+with any other assets (images, source code aso). The following exercise
+shows a practical usage of the \texttt{\ \#checkbox()\ } and
+\texttt{\ \#points()\ } functions.
+
+\texttt{\ src/ex1/ex.typ\ }
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@local/tutor:0.6.1": points, checkbox}
+
+\NormalTok{\#let exercise(cfg) = [}
+\NormalTok{\#heading(level:cfg.lvl, [Abbreviation FHIR (\#points(1) point)])}
+
+\NormalTok{What does FHIR stand for?}
+
+\NormalTok{\#set list(marker: none)}
+\NormalTok{{-} \#checkbox(cfg, false)  Finally He Is Real}
+\NormalTok{{-} \#checkbox(cfg, true)   Fast Health Interoperability Resources}
+\NormalTok{{-} \#checkbox(cfg, false)   First Health Inactivation Restriction}
+
+\NormalTok{\#if cfg.sol \{}
+\NormalTok{  [ Further explanation: FHIR is the new standard developed by HL7. ]}
+\NormalTok{\}}
+\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+Finally this second example shows the \texttt{\ \#lines()\ } function.
+\texttt{\ src/ex2/ex.typ\ }
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@local/tutor:0.6.1": points, lines }
+
+\NormalTok{\#let exercise(cfg) = [}
+\NormalTok{\#heading(level:cfg.lvl, [FHIR vs HL7v2 (\#points(4.5) points)])}
+
+\NormalTok{List two differences between HL7v2 and FHIR:}
+
+\NormalTok{+ \#if cfg.sol \{ [ HL7v2 uses a non{-}standard line format, where as FHIR uses XML or JSON] \} else \{ [ \#lines(cfg, 3) ] \}}
+\NormalTok{+ \#if cfg.sol \{ [ FHIR specifies various resources that can be queried, where as HL7v2 has a number of fixed fields that are either filled in or not]\} else \{ [ \#lines(cfg, 3) ] \}}
+\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+This would then give the following output in question mode (
+\texttt{\ \#(cfg.sol=false)\ } ) and in solution mode (
+\texttt{\ \#(cfg.sol=true)\ } ):
+\pandocbounded{\includegraphics[keepaspectratio]{https://raw.githubusercontent.com/rangerjo/tutor/main/imgs/example_mod.png}}
+
+\subsection{Utilities}\label{utilities}
+
+\subsubsection{lines}\label{lines}
+
+\texttt{\ \#lines(cfg,\ count)\ } prints \texttt{\ count\ } lines for
+students to write their answer.
+
+Configuration:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{// Vertical line spacing between rows. }
+\NormalTok{\#(cfg.utils.lines.spacing = 8mm)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{grid}\label{grid}
+
+\texttt{\ \#grid(cfg,\ width,\ height)\ } prints a grid for students to
+write their answer.
+
+Configuration:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{// Grid spacing. }
+\NormalTok{\#(cfg.utils.grid.spacing = 4mm)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{checkbox}\label{checkbox}
+
+\texttt{\ \#checkbox(cfg,\ answer)\ } shows a checkbox. In solution
+mode, the checkbox is shown filled out.
+
+Configuration:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{// Symbol to show if answer is true }
+\NormalTok{\#(cfg.utils.checkbox.sym\_true = "â")}
+\NormalTok{// Symbol to show if answer is false}
+\NormalTok{\#(cfg.utils.checkbox.sym\_false = "â")}
+\NormalTok{// Symbol to show in question mode}
+\NormalTok{\#(cfg.utils.checkbox.sym\_question = "â")}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{points}\label{points}
+
+\texttt{\ \#points(cfg,\ num)\ } displays the given \texttt{\ num\ }
+while adding its value to the total points counter.
+
+Configuration: none
+
+\subsubsection{totalpoints}\label{totalpoints}
+
+\texttt{\ \#totalpoints(cfg)\ } shows the final value of the total
+points counter.
+
+Configuration:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{// If points() is used in the outline, totalpoints value becomes doubled.}
+\NormalTok{// By setting outline to true, totalpoints gets divided by half.}
+\NormalTok{\#(cfg.utils.totalpoints.outline = false)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Modes}\label{modes}
+
+\texttt{\ tutor\ } comes with a solution and a test mode.
+
+\subsubsection{solution mode}\label{solution-mode}
+
+Solution mode controls wheter solutions are shown or not. This mode
+controls eg. the utility \texttt{\ \#checkbox(cfg,\ answer)\ } .
+
+\begin{enumerate}
+\tightlist
+\item
+  \texttt{\ (cfg.sol\ =\ false)\ } : Solutions are hidden. This is used
+  for the actual exam handed out to students.
+\item
+  \texttt{\ (cfg.sol\ =\ true)\ } : Solutions are shown. This is used to
+  create the exam solutions.
+\end{enumerate}
+
+You can also use the following helper functions:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ if-sol(cfg,{[}Content\ only\ shown\ in\ solution\ mode.{]})\ }
+\item
+  \texttt{\ if-sol-else(cfg,{[}Content\ only\ shown\ in\ solution\ mode.{]},\ {[}Content\ only\ shown\ in\ exam\ mode.{]})\ }
+\end{itemize}
+
+\subsubsection{test mode}\label{test-mode}
+
+Test mode can be used to show or hide additional information. In test
+mode, one might want
+
+\begin{enumerate}
+\item
+  \texttt{\ (cfg.test\ =\ true)\ } : Test information are shown. Use
+  this eg. to display \texttt{\ \#points(4)\ } . This is used in case
+  the document is used as an exam/test.
+\item
+  \texttt{\ (cfg.test\ =\ false)\ } : Test information are hidden. This
+  is used in case the document is used as an excerise.
+\end{enumerate}
+
+The following would show the points only in test mode.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#if cfg.test \{}
+\NormalTok{  \#points(4)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+Or you can use the following helper functions:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ if-test(cfg,{[}Content\ only\ shown\ in\ test\ mode.{]})\ }
+\item
+  \texttt{\ if-test-else(cfg,{[}Content\ only\ shown\ in\ test\ mode.{]},\ {[}Content\ only\ shown\ in\ exercise\ mode.{]})\ }
+\end{itemize}
+
+\subsection{Configuration}\label{configuration}
+
+\texttt{\ tutor\ } is designed to create exams and solutions with one
+single document source. Furthermore, the individual utilities provided
+by \texttt{\ tutor\ } can be configured. This can be done in one of
+three ways:
+
+\begin{enumerate}
+\tightlist
+\item
+  Use the \texttt{\ \#default-config()\ } function and patch your
+  configuration. The following example would configure the solution mode
+  and basic line spacings to 8 millimeters:
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let cfg = default{-}config()}
+\NormalTok{\#(cfg.sol = false)}
+\NormalTok{\#(cfg.utils.lines.spacing = 8mm)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{enumerate}
+\setcounter{enumi}{1}
+\tightlist
+\item
+  Use an external file to hold the configurations in your prefered
+  format. See
+  \href{https://github.com/rangerjo/tutor/blob/main/example/tutor.toml}{tutor.toml}
+  for a configuration in TOML. Load the configuration into your main
+  document using
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let cfg = toml("tutor.toml")}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{enumerate}
+\setcounter{enumi}{2}
+\tightlist
+\item
+  Use typstâ€™s input feature added with compiler version 0.11.0. Add
+  the following snippet to load the configuration, then overwrite it
+  from the CLI like this:
+  \texttt{\ typst\ compile\ -\/-input\ tutor\_sol=true\ main.typ\ }
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let cfg = toml("tutor.toml")}
+
+\NormalTok{\#if sys.inputs.tutor\_sol == "true" \{}
+\NormalTok{  (cfg.sol = true)}
+\NormalTok{\} else if sys.inputs.tutor\_sol == "false" \{}
+\NormalTok{  (cfg.sol = false)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as \texttt{\ tutor\ }
+
+\begin{verbatim}
+#import "@preview/tutor:0.7.0"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+Jonas Amstutz
+\item[License:]
+MIT
+\item[Current version:]
+0.7.0
+\item[Last updated:]
+October 9, 2024
+\item[First released:]
+October 17, 2023
+\item[Minimum Typst version:]
+0.11.0
+\item[Archive size:]
+4.82 kB
+\href{https://packages.typst.org/preview/tutor-0.7.0.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/rangerjo/tutor}{GitHub}
+\item[Discipline :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \href{https://typst.app/universe/search/?discipline=education}{Education}
+\end{itemize}
+\item[Categor y :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-package.svg}}
+  \href{https://typst.app/universe/search/?category=components}{Components}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of Jonas Amstutz . Report issues on
+\href{https://github.com/rangerjo/tutor}{their repository} . You can
+also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.7.0 & October 9, 2024 \\
+\href{https://typst.app/universe/package/tutor/0.6.1/}{0.6.1} & October
+9, 2024 \\
+\href{https://typst.app/universe/package/tutor/0.4.0/}{0.4.0} & March
+19, 2024 \\
+\href{https://typst.app/universe/package/tutor/0.3.0/}{0.3.0} & October
+17, 2023 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.

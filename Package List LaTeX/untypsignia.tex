@@ -1,0 +1,220 @@
+\title{typst.app/universe/package/untypsignia}
+
+\phantomsection\label{banner}
+\section{untypsignia}\label{untypsignia}
+
+{ 0.1.1 }
+
+Unofficial typesetter\textquotesingle s insignia emulations
+
+\phantomsection\label{readme}
+The \texttt{\ untypsignia\ } is a 3rd-party, unofficial, unendorsed
+Typst package that exposes commands for rendering, as
+\texttt{\ content\ } texts, some typesetters names in a stylized
+fashion, emulating their respective \emph{insignia} , i.e., marks by
+which they are known.
+
+\subsection{Name}\label{name}
+
+The package name is a blend of:
+
+\begin{itemize}
+\tightlist
+\item
+  â€œunâ€?, from â€œunofficialâ€?,
+\item
+  â€œtypâ€?, from â€œTypstâ€?, and
+\item
+  â€œsigniaâ€?, from â€œinsigniaâ€?, which means marks by which anything
+  is known.
+\end{itemize}
+
+\subsection{Description}\label{description}
+
+The typical use case of \texttt{\ untypsignia\ } in Typst is to emulate
+a given typesetting systemâ€™s mark, if available, when referring to
+them, in sentences like: â€œThis document is typeset in \texttt{\ XYZ\ }
+â€?, as traditionally done in \texttt{\ TeX\ } systems and derivatives
+thereof.
+
+Currently available insignia emulations include:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ TeX\ } ,
+\item
+  \texttt{\ LaTeX\ } , and
+\item
+  \texttt{\ Typst\ } (see below)
+\end{itemize}
+
+Despite thereâ€™s no such a thing as a Typst â€œofficialâ€? typography,
+according to this post on
+\href{https://discord.com/channels/1054443721975922748/1054443722592497796/1107039477714665522}{Discord}
+, it can be typeset with â€œwhatever fontâ€? the surrounding text is
+being typeset. Moreover, Typst
+\href{https://typst.app/legal/brand/}{branding page} requires
+capitalization of the initial â€œTâ€? whenever the name is used in
+prose. Therefore, the â€œTypstâ€? support in this package is a mere,
+still unofficial, implementation of the capitalization of â€œTypstâ€? in
+the currently used font.
+
+\subsection{Font Requirements}\label{font-requirements}
+
+For the \texttt{\ TeX\ } system and itâ€™s derivatives, the
+\texttt{\ "New\ Computer\ Modern"\ } font is required.
+
+\subsection{Usage}\label{usage}
+
+The package exposes the following few, parameterless, functions:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ \#texmark()\ } ,
+\item
+  \texttt{\ \#latexmark()\ } , and
+\item
+  \texttt{\ \#typstmark()\ } .
+\end{itemize}
+
+Except for the \texttt{\ \#typstmark()\ } , each such command outputs
+their respective namesake signus emulation, in the documentâ€™s current
+\texttt{\ text\ } settings, with the exception of font â€'' meaning text
+size, color, etcâ€¦ will apply to the signus emulation.
+
+Aditionally, the signus emulation is produced, as \texttt{\ contexts\ }
+text inside a \texttt{\ box\ } â€'' hence not images â€'' so as to avoid
+hyphenation to take place. This also applies to the
+\texttt{\ \#typstmark()\ } function, for lack of specific guidance, and
+also because â€œTypstâ€? is a short word.
+
+\subsection{Example}\label{example}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#set page(width: auto, height: auto, margin: 12pt, fill: rgb("19181f"))}
+\NormalTok{\#set par(leading: 1.5em)}
+\NormalTok{\#set text(font: "Rouge Script", fill: rgb("80f4b6"))}
+
+\NormalTok{\#import "@preview/untypsignia:0.1.1": *}
+
+\NormalTok{\#let say() = [I prefer \#typstmark() over \#texmark() or \#latexmark().]}
+
+\NormalTok{\#for sz in (20, 16, 14, 12, 10, 8) \{}
+\NormalTok{  set text(size: sz * 1pt)}
+\NormalTok{  say()}
+\NormalTok{  linebreak()}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+This example results in a 1-page document like this one:
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://raw.githubusercontent.com/cnaak/untypsignia.typ/86b221379931edcbfa91b50159a4ff930ecbec47/thumbnail.png}}
+
+\subsection{Citing}\label{citing}
+
+This package can be cited with the following bibliography database
+entry:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{untypsignia{-}package}\KeywordTok{:}
+\AttributeTok{  }\FunctionTok{type}\KeywordTok{:}\AttributeTok{ Web}
+\AttributeTok{  }\FunctionTok{author}\KeywordTok{:}\AttributeTok{ Naaktgeboren, C.}
+\AttributeTok{  }\FunctionTok{title}\KeywordTok{:}
+\AttributeTok{    }\FunctionTok{value}\KeywordTok{:}\AttributeTok{ }\StringTok{"untypsignia: unofficial typesetter\textquotesingle{}s insignia emulations"}
+\AttributeTok{  }\FunctionTok{url}\KeywordTok{:}\AttributeTok{ https://github.com/cnaak/untypsignia.typ}
+\AttributeTok{  }\FunctionTok{version}\KeywordTok{:}\AttributeTok{ }\FloatTok{0.1.1}
+\AttributeTok{  }\FunctionTok{date}\KeywordTok{:}\AttributeTok{ 2024{-}08}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as
+\texttt{\ untypsignia\ }
+
+\begin{verbatim}
+#import "@preview/untypsignia:0.1.1"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+Naaktgeboren, C.
+\item[License:]
+MIT
+\item[Current version:]
+0.1.1
+\item[Last updated:]
+August 21, 2024
+\item[First released:]
+August 14, 2024
+\item[Minimum Typst version:]
+0.11.1
+\item[Archive size:]
+2.13 kB
+\href{https://packages.typst.org/preview/untypsignia-0.1.1.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Discipline :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \href{https://typst.app/universe/search/?discipline=computer-science}{Computer
+  Science}
+\end{itemize}
+\item[Categor ies :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-chart.svg}}
+  \href{https://typst.app/universe/search/?category=visualization}{Visualization}
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-hammer.svg}}
+  \href{https://typst.app/universe/search/?category=utility}{Utility}
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-smile.svg}}
+  \href{https://typst.app/universe/search/?category=fun}{Fun}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of Naaktgeboren, C. . You can also try to ask
+for help with this package on the \href{https://forum.typst.app}{Forum}
+.
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.1.1 & August 21, 2024 \\
+\href{https://typst.app/universe/package/untypsignia/0.1.0/}{0.1.0} &
+August 14, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.

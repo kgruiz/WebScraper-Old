@@ -1,0 +1,370 @@
+<main>
+    <div id="banner" style="--banner-accent:#BF4705;--banner-primary:#330C00;--banner-secondary:#844523;--banner-tertiary:#C2764C;--banner-background:linear-gradient(90deg, #FFC174 0%, #FFD998 56%, #FFE4C4 100%)">
+     <div id="template-thumbnail">
+      <img alt="A preview of the unequivocal-ams Typst template." src="https://packages.typst.org/preview/thumbnails/unequivocal-ams-0.1.2-small.webp"/>
+      <div class="icon" role="img">
+      </div>
+     </div>
+     <div>
+      <div class="title">
+       <h1 class="name">
+        unequivocal-ams
+       </h1>
+       <span class="version">
+        0.1.2
+       </span>
+      </div>
+      <p class="description">
+       An AMS-style paper template to publish at conferences and journals for mathematicians
+      </p>
+     </div>
+     <p class="featured-label">
+      <span class="icon" role="img">
+      </span>
+      Featured
+      <!-- -->
+      Template
+     </p>
+    </div>
+    <div class="inner-grid">
+     <a class="create-project-button mobile" href="/app?template=unequivocal-ams&amp;version=0.1.2" rel="noopener noreferrer" target="_blank">
+      Create project in app
+     </a>
+     <section id="readme">
+      <p>
+       A single-column paper for the American Mathematical Society. The template comes with functions for theorems and proofs. It also is a nice starting point for a classy tech report or thesis.
+      </p>
+      <h2>
+       Usage
+      </h2>
+      <p>
+       You can use this template in the Typst web app by clicking âStart from templateâ on the dashboard and searching for
+       <code>
+        unequivocal-ams
+       </code>
+       .
+      </p>
+      <p>
+       Alternatively, you can use the CLI to kick this project off using the command
+      </p>
+      <pre><code>typst init @preview/unequivocal-ams
+</code></pre>
+      <p>
+       Typst will create a new directory with all the files needed to get you started.
+      </p>
+      <h2>
+       Configuration
+      </h2>
+      <p>
+       This template exports the
+       <code>
+        ams-article
+       </code>
+       function with the following named arguments:
+      </p>
+      <ul>
+       <li>
+        <code>
+         title
+        </code>
+        : The paperâs title as content.
+       </li>
+       <li>
+        <code>
+         authors
+        </code>
+        : An array of author dictionaries. Each of the author dictionaries must have a
+        <code>
+         name
+        </code>
+        key and can have the keys
+        <code>
+         department
+        </code>
+        ,
+        <code>
+         organization
+        </code>
+        ,
+        <code>
+         location
+        </code>
+        , and
+        <code>
+         email
+        </code>
+        . All keys accept content.
+       </li>
+       <li>
+        <code>
+         abstract
+        </code>
+        : The content of a brief summary of the paper or
+        <code>
+         none
+        </code>
+        . Appears at the top of the first column in boldface.
+       </li>
+       <li>
+        <code>
+         paper-size
+        </code>
+        : Defaults to
+        <code>
+         us-letter
+        </code>
+        . Specify a
+        <a href="https://typst.app/docs/reference/layout/page/#parameters-paper">
+         paper size string
+        </a>
+        to change the page format.
+       </li>
+       <li>
+        <code>
+         bibliography
+        </code>
+        : The result of a call to the
+        <code>
+         bibliography
+        </code>
+        function or
+        <code>
+         none
+        </code>
+        . Specifying this will configure numeric, Springer MathPhys-style citations.
+       </li>
+      </ul>
+      <p>
+       The function also accepts a single, positional argument for the body of the paper.
+      </p>
+      <p>
+       The template will initialize your package with a sample call to the
+       <code>
+        ams-article
+       </code>
+       function in a show rule. If you, however, want to change an existing project to use this template, you can add a show rule like this at the top of your file:
+      </p>
+      <pre><code class="language-typ"><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/unequivocal-ams:0.1.2"</span><span class="typ-punct">:</span> ams-article<span class="typ-punct">,</span> theorem<span class="typ-punct">,</span> proof
+
+<span class="typ-key">#</span><span class="typ-key">show</span><span class="typ-punct">:</span> ams-article<span class="typ-punct">.</span><span class="typ-func">with</span><span class="typ-punct">(</span>
+  title<span class="typ-punct">:</span> <span class="typ-punct">[</span>Mathematical Theorems<span class="typ-punct">]</span><span class="typ-punct">,</span>
+  authors<span class="typ-punct">:</span> <span class="typ-punct">(</span>
+    <span class="typ-punct">(</span>
+      name<span class="typ-punct">:</span> <span class="typ-str">"Ralph Howard"</span><span class="typ-punct">,</span>
+      department<span class="typ-punct">:</span> <span class="typ-punct">[</span>Department of Mathematics<span class="typ-punct">]</span><span class="typ-punct">,</span>
+      organization<span class="typ-punct">:</span> <span class="typ-punct">[</span>University of South Carolina<span class="typ-punct">]</span><span class="typ-punct">,</span>
+      location<span class="typ-punct">:</span> <span class="typ-punct">[</span>Columbia, SC 29208<span class="typ-punct">]</span><span class="typ-punct">,</span>
+      email<span class="typ-punct">:</span> <span class="typ-str">"howard@math.sc.edu"</span><span class="typ-punct">,</span>
+      url<span class="typ-punct">:</span> <span class="typ-str">"www.math.sc.edu/~howard"</span>
+    <span class="typ-punct">)</span><span class="typ-punct">,</span>
+  <span class="typ-punct">)</span><span class="typ-punct">,</span>
+  abstract<span class="typ-punct">:</span> <span class="typ-func">lorem</span><span class="typ-punct">(</span><span class="typ-num">100</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+  bibliography<span class="typ-punct">:</span> <span class="typ-func">bibliography</span><span class="typ-punct">(</span><span class="typ-str">"refs.bib"</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+<span class="typ-punct">)</span>
+
+<span class="typ-comment">// Your content goes below.</span>
+</code></code></pre>
+     </section>
+     <aside>
+      <a class="create-project-button desktop" href="/app?template=unequivocal-ams&amp;version=0.1.2" rel="noopener noreferrer" target="_blank">
+       Create project in app
+      </a>
+      <section>
+       <h3>
+        How to use
+       </h3>
+       <p>
+        Click the button above to create a new project using this template in the Typst app.
+       </p>
+       <p>
+        You can also use the Typst CLI to start a new project on your computer using this command:
+       </p>
+       <div class="init-snippet">
+        <pre><code>typst init @preview/<!-- -->unequivocal-ams<!-- -->:<!-- -->0.1.2</code></pre>
+        <button class="copy" title="Copy to clipboard">
+         <img alt="Copy" height="16" src="/assets/icons/16-copy.svg" width="16"/>
+        </button>
+       </div>
+      </section>
+      <section id="about">
+       <h3>
+        About
+       </h3>
+       <dl>
+        <dt>
+         Author
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         <a href="https://typst.app" rel="noopener noreferrer" target="_blank">
+          Typst GmbH
+         </a>
+        </dd>
+        <dt>
+         License:
+        </dt>
+        <dd>
+         MIT-0
+        </dd>
+        <dt>
+         Current version:
+        </dt>
+        <dd>
+         0.1.2
+        </dd>
+        <dt>
+         Last updated:
+        </dt>
+        <dd>
+         October 29, 2024
+        </dd>
+        <dt>
+         First released:
+        </dt>
+        <dd>
+         March 6, 2024
+        </dd>
+        <dt>
+         Minimum Typst version:
+        </dt>
+        <dd>
+         0.12.0
+        </dd>
+        <dt>
+         Archive size:
+        </dt>
+        <dd class="archive-size-value">
+         6.30 kB
+         <a href="https://packages.typst.org/preview/unequivocal-ams-0.1.2.tar.gz">
+          <img alt="Size icon" src="/assets/icons/16-download.svg"/>
+         </a>
+        </dd>
+        <dt>
+         Repository:
+        </dt>
+        <dd>
+         <a href="https://github.com/typst/templates" rel="noopener noreferrer" target="_blank">
+          GitHub
+         </a>
+        </dd>
+        <dt>
+         Discipline
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         <ul class="list-without-icons">
+          <li>
+           <a href="https://typst.app/universe/search/?discipline=mathematics">
+            Mathematics
+           </a>
+          </li>
+         </ul>
+        </dd>
+        <dt>
+         Categor
+         <!-- -->
+         y
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         <ul class="list-with-icons">
+          <li>
+           <img alt="Paper icon" src="/assets/icons/16-atom.svg"/>
+           <a href="https://typst.app/universe/search/?category=paper">
+            Paper
+           </a>
+          </li>
+         </ul>
+        </dd>
+       </dl>
+      </section>
+      <section>
+       <h3>
+        Where to report issues?
+       </h3>
+       <p>
+        This
+        <!-- -->
+        template
+        <!-- -->
+        is a project of
+        <!-- -->
+        <!-- -->
+        Typst GmbH
+        <!-- -->
+        .
+        <!-- -->
+        <!-- -->
+        Report issues on
+        <!-- -->
+        <a href="https://github.com/typst/templates" rel="noopener noreferrer" target="_blank">
+         their repository
+        </a>
+        .
+        <!-- -->
+        <!-- -->
+        You can also try to ask for help with this
+        <!-- -->
+        template
+        <!-- -->
+        on the
+        <!-- -->
+        <a href="https://forum.typst.app" rel="noopener" target="_blank">
+         Forum
+        </a>
+        .
+       </p>
+      </section>
+      <section id="versions">
+       <h3>
+        Version history
+       </h3>
+       <table>
+        <thead>
+         <tr>
+          <th align="left">
+           Version
+          </th>
+          <th align="left">
+           Release Date
+          </th>
+         </tr>
+        </thead>
+        <tbody>
+         <tr>
+          <td align="left">
+           0.1.2
+          </td>
+          <td align="left">
+           October 29, 2024
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/unequivocal-ams/0.1.1/">
+            0.1.1
+           </a>
+          </td>
+          <td align="left">
+           August 8, 2024
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/unequivocal-ams/0.1.0/">
+            0.1.0
+           </a>
+          </td>
+          <td align="left">
+           March 6, 2024
+          </td>
+         </tr>
+        </tbody>
+       </table>
+      </section>
+     </aside>
+    </div>
+   </main>

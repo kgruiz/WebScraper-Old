@@ -1,0 +1,240 @@
+\title{typst.app/universe/package/meppp}
+
+\phantomsection\label{banner}
+\phantomsection\label{template-thumbnail}
+\pandocbounded{\includegraphics[keepaspectratio]{https://packages.typst.org/preview/thumbnails/meppp-0.2.1-small.webp}}
+
+\section{meppp}\label{meppp}
+
+{ 0.2.1 }
+
+Template for modern physics experiment reports at the Physics School of
+PKU.
+
+\href{/app?template=meppp&version=0.2.1}{Create project in app}
+
+\phantomsection\label{readme}
+A simple template for modern physics experiments (MPE) courses at the
+Physics School of PKU.
+
+\subsection{meppp-lab-report}\label{meppp-lab-report}
+
+The recommended report format of MPE course. Default arguments are shown
+as below:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/meppp:0.2.1": *}
+
+\NormalTok{\#let meppp{-}lab{-}report(}
+\NormalTok{  title: "",}
+\NormalTok{  author: "",}
+\NormalTok{  info: [],}
+\NormalTok{  abstract: [],}
+\NormalTok{  keywords: (),}
+\NormalTok{  author{-}footnote: [],}
+\NormalTok{  heading{-}numbering{-}array: ("I" ,"A", "1", "a"),}
+\NormalTok{  heading{-}suffix: ". ",}
+\NormalTok{  doc,}
+\NormalTok{) = ...}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ title\ } is the title of the report.
+\item
+  \texttt{\ author\ } is the name of the author.
+\item
+  \texttt{\ info\ } is a line (or lines) of brief information of author
+  and the report (e.g. student ID, school, experiment dateâ€¦)
+\item
+  \texttt{\ abstract\ } is the abstract of the report, not shown when it
+  is empty.
+\item
+  \texttt{\ keywords\ } are keywords of the report, only shown when the
+  abstract is shown.
+\item
+  \texttt{\ author-footnote\ } is the phone number or the e-mail of the
+  author, shown in the footnote.
+\item
+  \texttt{\ heading-numbering-array\ } is the heading numbering of each
+  level. Only shows the numbering of the deepest level.
+\item
+  \texttt{\ heading-suffix\ } is the suffix of headings
+\end{itemize}
+
+It is recommended to use \texttt{\ \#show\ } to use the template:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#show: meppp{-}lab{-}report.with(}
+\NormalTok{    title: [Test title],}
+\NormalTok{    ..args}
+\NormalTok{)}
+\NormalTok{...your report below.}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{meppp-tl-table}\label{meppp-tl-table}
+
+Modify your input \texttt{\ table\ } to a three-lined table (AIP style),
+returned as a \texttt{\ figure\ } . Double-lines above and below the
+table, and a single line below the header.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let meppp{-}tl{-}table(}
+\NormalTok{  caption: none,}
+\NormalTok{  supplement: auto,}
+\NormalTok{  stroke: 0.5pt,}
+\NormalTok{  tbl}
+\NormalTok{) = ...}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ caption\ } is the caption above the table, center-aligned
+\item
+  \texttt{\ supplement\ } is same as the supplement in the figure.
+\item
+  \texttt{\ stroke\ } is the stroke used in the three lines (maybe five
+  lines).
+\item
+  \texttt{\ tbl\ } is the input table, which must contains a
+  \texttt{\ table.header\ }
+\end{itemize}
+
+Example:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#meppp{-}tl{-}table(}
+\NormalTok{  table(}
+\NormalTok{    columns: 4,}
+\NormalTok{    rows: 2,}
+\NormalTok{    table.header([Item1], [Item2], [Item3], [Item4]),}
+\NormalTok{    [Data1], [Data2], [Data3], [Data4],}
+\NormalTok{  )}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{subfigure}\label{subfigure}
+
+Counts subfigures and displays in the figure, mostly used when inserting
+multiple images.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let subfigure(}
+\NormalTok{  body,}
+\NormalTok{  caption: none,}
+\NormalTok{  numbering: "(a)",}
+\NormalTok{  inside: true,}
+\NormalTok{  dx: 10pt,}
+\NormalTok{  dy: 10pt,}
+\NormalTok{  boxargs: (fill: white, inset: 5pt),}
+\NormalTok{  alignment: top + left,}
+\NormalTok{) = ...}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{pku-logo}\label{pku-logo}
+
+The logo of PKU, returned as a \texttt{\ image\ }
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let pku{-}logo(..args) = image("pkulogo.png", ..args)}
+\end{Highlighting}
+\end{Shaded}
+
+Example:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#pku{-}logo(width: 50\%)}
+\NormalTok{\#pku{-}logo()}
+\end{Highlighting}
+\end{Shaded}
+
+\href{/app?template=meppp&version=0.2.1}{Create project in app}
+
+\subsubsection{How to use}\label{how-to-use}
+
+Click the button above to create a new project using this template in
+the Typst app.
+
+You can also use the Typst CLI to start a new project on your computer
+using this command:
+
+\begin{verbatim}
+typst init @preview/meppp:0.2.1
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+\href{https://github.com/CL4R3T}{CL4R3T}
+\item[License:]
+MIT
+\item[Current version:]
+0.2.1
+\item[Last updated:]
+September 22, 2024
+\item[First released:]
+May 8, 2024
+\item[Archive size:]
+103 kB
+\href{https://packages.typst.org/preview/meppp-0.2.1.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/pku-typst/meppp}{GitHub}
+\item[Categor y :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-speak.svg}}
+  \href{https://typst.app/universe/search/?category=report}{Report}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This template is a project of CL4R3T . Report issues on
+\href{https://github.com/pku-typst/meppp}{their repository} . You can
+also try to ask for help with this template on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this template to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.2.1 & September 22, 2024 \\
+\href{https://typst.app/universe/package/meppp/0.2.0/}{0.2.0} &
+September 14, 2024 \\
+\href{https://typst.app/universe/package/meppp/0.1.0/}{0.1.0} & May 8,
+2024 \\
+\end{longtable}
+
+Typst GmbH did not create this template and cannot guarantee correct
+functionality of this template or compatibility with any version of the
+Typst compiler or app.

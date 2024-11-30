@@ -1,0 +1,429 @@
+<main>
+    <div id="banner" style="--banner-accent:#000000;--banner-primary:#000000;--banner-secondary:#000000;--banner-tertiary:#565565;--banner-background:#eff0f3">
+     <div class="package-icon" role="img">
+     </div>
+     <div>
+      <div class="title">
+       <h1 class="name">
+        icu-datetime
+       </h1>
+       <span class="version">
+        0.1.2
+       </span>
+      </div>
+      <p class="description">
+       Date and time formatting using ICU4X via WASM
+      </p>
+     </div>
+    </div>
+    <div class="inner-grid">
+     <section id="readme">
+      <p>
+       This library is a wrapper around
+       <a href="https://github.com/unicode-org/icu4x" rel="nofollow ugc" target="_blank">
+        ICU4X
+       </a>
+       â
+       <code>
+        datetime
+       </code>
+       formatting for Typst which provides internationalized formatting for dates, times, and timezones.
+      </p>
+      <p>
+       As the WASM bundle includes all localization data, itâs quite large (about 8 MiB).
+      </p>
+      <p>
+       See
+       <a href="https://nerixyz.github.io/icu-typ" rel="nofollow ugc" target="_blank">
+        nerixyz.github.io/icu-typ
+       </a>
+       for a full API reference with more examples.
+      </p>
+      <h2>
+       Example
+      </h2>
+      <pre><code class="language-typ"><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/icu-datetime:0.1.2"</span><span class="typ-punct">:</span> fmt-date<span class="typ-punct">,</span> fmt-time<span class="typ-punct">,</span> fmt-datetime<span class="typ-punct">,</span> experimental
+<span class="typ-comment">// These functions may change at any time</span>
+<span class="typ-key">#</span><span class="typ-key">import</span> experimental<span class="typ-punct">:</span> fmt-timezone<span class="typ-punct">,</span> fmt-zoned-datetime
+
+<span class="typ-key">#</span><span class="typ-key">let</span> day <span class="typ-op">=</span> <span class="typ-func">datetime</span><span class="typ-punct">(</span>
+  year<span class="typ-punct">:</span> <span class="typ-num">2024</span><span class="typ-punct">,</span>
+  month<span class="typ-punct">:</span> <span class="typ-num">5</span><span class="typ-punct">,</span>
+  day<span class="typ-punct">:</span> <span class="typ-num">31</span><span class="typ-punct">,</span>
+<span class="typ-punct">)</span>
+<span class="typ-key">#</span><span class="typ-key">let</span> time <span class="typ-op">=</span> <span class="typ-func">datetime</span><span class="typ-punct">(</span>
+  hour<span class="typ-punct">:</span> <span class="typ-num">18</span><span class="typ-punct">,</span>
+  minute<span class="typ-punct">:</span> <span class="typ-num">2</span><span class="typ-punct">,</span>
+  second<span class="typ-punct">:</span> <span class="typ-num">23</span><span class="typ-punct">,</span>
+<span class="typ-punct">)</span>
+<span class="typ-key">#</span><span class="typ-key">let</span> dt <span class="typ-op">=</span> <span class="typ-func">datetime</span><span class="typ-punct">(</span>
+  year<span class="typ-punct">:</span> <span class="typ-num">2024</span><span class="typ-punct">,</span>
+  month<span class="typ-punct">:</span> <span class="typ-num">5</span><span class="typ-punct">,</span>
+  day<span class="typ-punct">:</span> <span class="typ-num">31</span><span class="typ-punct">,</span>
+  hour<span class="typ-punct">:</span> <span class="typ-num">18</span><span class="typ-punct">,</span>
+  minute<span class="typ-punct">:</span> <span class="typ-num">2</span><span class="typ-punct">,</span>
+  second<span class="typ-punct">:</span> <span class="typ-num">23</span><span class="typ-punct">,</span>
+<span class="typ-punct">)</span>
+<span class="typ-key">#</span><span class="typ-key">let</span> tz <span class="typ-op">=</span> <span class="typ-punct">(</span>
+  offset<span class="typ-punct">:</span> <span class="typ-str">"-07"</span><span class="typ-punct">,</span>
+  iana<span class="typ-punct">:</span> <span class="typ-str">"America/Los_Angeles"</span><span class="typ-punct">,</span>
+  zone-variant<span class="typ-punct">:</span> <span class="typ-str">"st"</span><span class="typ-punct">,</span> <span class="typ-comment">// standard</span>
+<span class="typ-punct">)</span>
+
+<span class="typ-heading">= Dates</span>
+<span class="typ-func">#</span><span class="typ-func">fmt-date</span><span class="typ-punct">(</span>day<span class="typ-punct">,</span> locale<span class="typ-punct">:</span> <span class="typ-str">"km"</span><span class="typ-punct">,</span> length<span class="typ-punct">:</span> <span class="typ-str">"full"</span><span class="typ-punct">)</span> <span class="typ-escape">\</span>
+<span class="typ-func">#</span><span class="typ-func">fmt-date</span><span class="typ-punct">(</span>day<span class="typ-punct">,</span> locale<span class="typ-punct">:</span> <span class="typ-str">"af"</span><span class="typ-punct">,</span> length<span class="typ-punct">:</span> <span class="typ-str">"full"</span><span class="typ-punct">)</span> <span class="typ-escape">\</span>
+<span class="typ-func">#</span><span class="typ-func">fmt-date</span><span class="typ-punct">(</span>day<span class="typ-punct">,</span> locale<span class="typ-punct">:</span> <span class="typ-str">"za"</span><span class="typ-punct">,</span> length<span class="typ-punct">:</span> <span class="typ-str">"full"</span><span class="typ-punct">)</span> <span class="typ-escape">\</span>
+
+<span class="typ-heading">= Time</span>
+<span class="typ-func">#</span><span class="typ-func">fmt-time</span><span class="typ-punct">(</span>time<span class="typ-punct">,</span> locale<span class="typ-punct">:</span> <span class="typ-str">"id"</span><span class="typ-punct">,</span> length<span class="typ-punct">:</span> <span class="typ-str">"medium"</span><span class="typ-punct">)</span> <span class="typ-escape">\</span>
+<span class="typ-func">#</span><span class="typ-func">fmt-time</span><span class="typ-punct">(</span>time<span class="typ-punct">,</span> locale<span class="typ-punct">:</span> <span class="typ-str">"en"</span><span class="typ-punct">,</span> length<span class="typ-punct">:</span> <span class="typ-str">"medium"</span><span class="typ-punct">)</span> <span class="typ-escape">\</span>
+<span class="typ-func">#</span><span class="typ-func">fmt-time</span><span class="typ-punct">(</span>time<span class="typ-punct">,</span> locale<span class="typ-punct">:</span> <span class="typ-str">"ga"</span><span class="typ-punct">,</span> length<span class="typ-punct">:</span> <span class="typ-str">"medium"</span><span class="typ-punct">)</span> <span class="typ-escape">\</span>
+
+<span class="typ-heading">= Date and Time</span>
+<span class="typ-func">#</span><span class="typ-func">fmt-datetime</span><span class="typ-punct">(</span>dt<span class="typ-punct">,</span> locale<span class="typ-punct">:</span> <span class="typ-str">"ru"</span><span class="typ-punct">,</span> date-length<span class="typ-punct">:</span> <span class="typ-str">"full"</span><span class="typ-punct">)</span> <span class="typ-escape">\</span>
+<span class="typ-func">#</span><span class="typ-func">fmt-datetime</span><span class="typ-punct">(</span>dt<span class="typ-punct">,</span> locale<span class="typ-punct">:</span> <span class="typ-str">"en-US"</span><span class="typ-punct">,</span> date-length<span class="typ-punct">:</span> <span class="typ-str">"full"</span><span class="typ-punct">)</span> <span class="typ-escape">\</span>
+<span class="typ-func">#</span><span class="typ-func">fmt-datetime</span><span class="typ-punct">(</span>dt<span class="typ-punct">,</span> locale<span class="typ-punct">:</span> <span class="typ-str">"zh-Hans-CN"</span><span class="typ-punct">,</span> date-length<span class="typ-punct">:</span> <span class="typ-str">"full"</span><span class="typ-punct">)</span> <span class="typ-escape">\</span>
+<span class="typ-func">#</span><span class="typ-func">fmt-datetime</span><span class="typ-punct">(</span>dt<span class="typ-punct">,</span> locale<span class="typ-punct">:</span> <span class="typ-str">"ar"</span><span class="typ-punct">,</span> date-length<span class="typ-punct">:</span> <span class="typ-str">"full"</span><span class="typ-punct">)</span> <span class="typ-escape">\</span>
+<span class="typ-func">#</span><span class="typ-func">fmt-datetime</span><span class="typ-punct">(</span>dt<span class="typ-punct">,</span> locale<span class="typ-punct">:</span> <span class="typ-str">"fi"</span><span class="typ-punct">,</span> date-length<span class="typ-punct">:</span> <span class="typ-str">"full"</span><span class="typ-punct">)</span>
+
+<span class="typ-heading">= Timezones (experimental)</span>
+<span class="typ-func">#</span><span class="typ-func">fmt-timezone</span><span class="typ-punct">(</span>
+  <span class="typ-op">..</span>tz<span class="typ-punct">,</span>
+  local-date<span class="typ-punct">:</span> datetime<span class="typ-punct">.</span><span class="typ-func">today</span><span class="typ-punct">(</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+  format<span class="typ-punct">:</span> <span class="typ-str">"specific-non-location-long"</span>
+<span class="typ-punct">)</span> <span class="typ-escape">\</span>
+<span class="typ-func">#</span><span class="typ-func">fmt-timezone</span><span class="typ-punct">(</span>
+  <span class="typ-op">..</span>tz<span class="typ-punct">,</span>
+  format<span class="typ-punct">:</span> <span class="typ-punct">(</span>
+    iso8601<span class="typ-punct">:</span> <span class="typ-punct">(</span>
+      format<span class="typ-punct">:</span> <span class="typ-str">"utc-extended"</span><span class="typ-punct">,</span>
+      minutes<span class="typ-punct">:</span> <span class="typ-str">"required"</span><span class="typ-punct">,</span>
+      seconds<span class="typ-punct">:</span> <span class="typ-str">"optional"</span><span class="typ-punct">,</span>
+    <span class="typ-punct">)</span>
+  <span class="typ-punct">)</span>
+<span class="typ-punct">)</span>
+
+<span class="typ-heading">= Zoned Datetimes (experimental)</span>
+<span class="typ-func">#</span><span class="typ-func">fmt-zoned-datetime</span><span class="typ-punct">(</span>dt<span class="typ-punct">,</span> tz<span class="typ-punct">)</span> <span class="typ-escape">\</span>
+<span class="typ-func">#</span><span class="typ-func">fmt-zoned-datetime</span><span class="typ-punct">(</span>dt<span class="typ-punct">,</span> tz<span class="typ-punct">,</span> locale<span class="typ-punct">:</span> <span class="typ-str">"lv"</span><span class="typ-punct">)</span> <span class="typ-escape">\</span>
+<span class="typ-func">#</span><span class="typ-func">fmt-zoned-datetime</span><span class="typ-punct">(</span>dt<span class="typ-punct">,</span> tz<span class="typ-punct">,</span> locale<span class="typ-punct">:</span> <span class="typ-str">"en-CA-u-hc-h24-ca-buddhist"</span><span class="typ-punct">)</span>
+</code></code></pre>
+      <p>
+       <img alt="Example" src="https://github.com/typst/packages/raw/main/packages/preview/icu-datetime/0.1.2/res/example.png"/>
+      </p>
+      <p>
+       Locales must be
+       <a href="https://unicode.org/reports/tr35/tr35.html#Unicode_locale_identifier" rel="nofollow ugc" target="_blank">
+        Unicode Locale Identifier
+       </a>
+       s. Use
+       <a href="https://nerixyz.github.io/icu-typ/locale-info/" rel="nofollow ugc" target="_blank">
+        <code>
+         locale-info(locale)
+        </code>
+       </a>
+       to get information on how a locale is parsed. Unicode extensions are supported, so you can, for example, set the hour cycle with
+       <code>
+        hc-h12
+       </code>
+       or set the calendar with
+       <code>
+        ca-buddhist
+       </code>
+       (e.g.
+       <code>
+        en-CA-u-hc-h24-ca-buddhist
+       </code>
+       ).
+      </p>
+      <h2>
+       Documentation
+      </h2>
+      <p>
+       Documentation can be found on
+       <a href="https://nerixyz.github.io/icu-typ" rel="nofollow ugc" target="_blank">
+        nerixyz.github.io/icu-typ
+       </a>
+       .
+      </p>
+      <h2>
+       Using Locally
+      </h2>
+      <p>
+       Download the
+       <a href="https://github.com/Nerixyz/icu-typ/releases" rel="nofollow ugc" target="_blank">
+        latest release
+       </a>
+       , unzip it to your
+       <a href="https://github.com/typst/packages#local-packages" rel="nofollow ugc" target="_blank">
+        local Typst packages
+       </a>
+       , and use
+       <code>
+        #import "@local/icu-datetime:0.1.2"
+       </code>
+       .
+      </p>
+      <h2>
+       Building
+      </h2>
+      <p>
+       To build the library, you need to have
+       <a href="https://www.rust-lang.org/" rel="nofollow ugc" target="_blank">
+        Rust
+       </a>
+       ,
+       <a href="https://just.systems/" rel="nofollow ugc" target="_blank">
+        just
+       </a>
+       , and
+       <a href="https://github.com/WebAssembly/binaryen" rel="nofollow ugc" target="_blank">
+        <code>
+         wasm-opt
+        </code>
+       </a>
+       installed.
+      </p>
+      <pre><code class="language-sh">just build
+# to deploy the package locally, use `just deploy`
+</code></pre>
+      <p>
+       While developing, you can symlink the WASM file into the root of the repository (itâs in the
+       <code>
+        .gitignore
+       </code>
+       ):
+      </p>
+      <pre><code class="language-sh"># Windows (PowerShell)
+New-Item icu-datetime.wasm -ItemType SymbolicLink -Value ./target/wasm32-unknown-unknown/debug/icu_typ.wasm
+# Unix
+ln -s ./target/wasm32-unknown-unknown/debug/icu_typ.wasm icu-datetime.wasm
+</code></pre>
+      <p>
+       Use
+       <code>
+        cargo b --target wasm32-unknown-unknown
+       </code>
+       to build in debug mode.
+      </p>
+     </section>
+     <aside>
+      <section>
+       <h3>
+        How to add
+       </h3>
+       <p>
+        Copy this into your project and use the import as
+        <!-- -->
+        <code>
+         icu-datetime
+        </code>
+       </p>
+       <div class="import-snippet">
+        <pre><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/icu-datetime:0.1.2"</span></code></pre>
+        <button class="copy" title="Copy to clipboard">
+         <img alt="Copy" height="16" src="/assets/icons/16-copy.svg" width="16"/>
+        </button>
+       </div>
+       <p class="muted">
+        Check the docs for
+        <!-- -->
+        <a href="https://typst.app/docs/reference/scripting/#packages">
+         more information on how to import packages
+        </a>
+        .
+       </p>
+      </section>
+      <section id="about">
+       <h3>
+        About
+       </h3>
+       <dl>
+        <dt>
+         Author
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         <a href="https://github.com/Nerixyz" rel="noopener noreferrer" target="_blank">
+          Nerixyz
+         </a>
+        </dd>
+        <dt>
+         License:
+        </dt>
+        <dd>
+         MIT
+        </dd>
+        <dt>
+         Current version:
+        </dt>
+        <dd>
+         0.1.2
+        </dd>
+        <dt>
+         Last updated:
+        </dt>
+        <dd>
+         June 14, 2024
+        </dd>
+        <dt>
+         First released:
+        </dt>
+        <dd>
+         June 3, 2024
+        </dd>
+        <dt>
+         Minimum Typst version:
+        </dt>
+        <dd>
+         0.11.0
+        </dd>
+        <dt>
+         Archive size:
+        </dt>
+        <dd class="archive-size-value">
+         1.55 MB
+         <a href="https://packages.typst.org/preview/icu-datetime-0.1.2.tar.gz">
+          <img alt="Size icon" src="/assets/icons/16-download.svg"/>
+         </a>
+        </dd>
+        <dt>
+         Repository:
+        </dt>
+        <dd>
+         <a href="https://github.com/Nerixyz/icu-typ" rel="noopener noreferrer" target="_blank">
+          GitHub
+         </a>
+        </dd>
+        <dt>
+         Categor
+         <!-- -->
+         y
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         <ul class="list-with-icons">
+          <li>
+           <img alt="Languages icon" src="/assets/icons/16-world.svg"/>
+           <a href="https://typst.app/universe/search/?category=languages">
+            Languages
+           </a>
+          </li>
+         </ul>
+        </dd>
+       </dl>
+      </section>
+      <section>
+       <h3>
+        Where to report issues?
+       </h3>
+       <p>
+        This
+        <!-- -->
+        package
+        <!-- -->
+        is a project of
+        <!-- -->
+        <!-- -->
+        Nerixyz
+        <!-- -->
+        .
+        <!-- -->
+        <!-- -->
+        Report issues on
+        <!-- -->
+        <a href="https://github.com/Nerixyz/icu-typ" rel="noopener noreferrer" target="_blank">
+         their repository
+        </a>
+        .
+        <!-- -->
+        <!-- -->
+        You can also try to ask for help with this
+        <!-- -->
+        package
+        <!-- -->
+        on the
+        <!-- -->
+        <a href="https://forum.typst.app" rel="noopener" target="_blank">
+         Forum
+        </a>
+        .
+       </p>
+       <p>
+        Please report this
+        <!-- -->
+        package
+        <!-- -->
+        to the Typst team using the
+        <!-- -->
+        <a href="https://typst.app/contact" rel="noreferrer" target="_blank">
+         contact form
+        </a>
+        <!-- -->
+        if you believe it is a safety hazard or infringes upon your rights.
+       </p>
+      </section>
+      <section id="versions">
+       <h3>
+        Version history
+       </h3>
+       <table>
+        <thead>
+         <tr>
+          <th align="left">
+           Version
+          </th>
+          <th align="left">
+           Release Date
+          </th>
+         </tr>
+        </thead>
+        <tbody>
+         <tr>
+          <td align="left">
+           0.1.2
+          </td>
+          <td align="left">
+           June 14, 2024
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/icu-datetime/0.1.1/">
+            0.1.1
+           </a>
+          </td>
+          <td align="left">
+           June 10, 2024
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/icu-datetime/0.1.0/">
+            0.1.0
+           </a>
+          </td>
+          <td align="left">
+           June 3, 2024
+          </td>
+         </tr>
+        </tbody>
+       </table>
+      </section>
+      <p class="bottom-notice muted">
+       Typst GmbH did not create this
+       <!-- -->
+       package
+       <!-- -->
+       and cannot guarantee correct functionality of this
+       <!-- -->
+       package
+       <!-- -->
+       or compatibility with any version of the Typst compiler or app.
+      </p>
+     </aside>
+    </div>
+   </main>

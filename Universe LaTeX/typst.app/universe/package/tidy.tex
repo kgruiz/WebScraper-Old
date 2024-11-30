@@ -1,0 +1,377 @@
+\title{typst.app/universe/package/tidy}
+
+\phantomsection\label{banner}
+\section{tidy}\label{tidy}
+
+{ 0.3.0 }
+
+Documentation generator for Typst code in Typst.
+
+{ } Featured Package
+
+\phantomsection\label{readme}
+\emph{Keep it tidy.}
+
+\href{https://typst.app/universe/package/tidy}{\pandocbounded{\includegraphics[keepaspectratio]{https://img.shields.io/badge/dynamic/toml?url=https\%3A\%2F\%2Fraw.githubusercontent.com\%2FMc-Zen\%2Ftidy\%2Fmain\%2Ftypst.toml&query=\%24.package.version&prefix=v&logo=typst&label=package&color=239DAD}}}
+\href{https://github.com/Mc-Zen/tidy/blob/main/LICENSE}{\pandocbounded{\includegraphics[keepaspectratio]{https://img.shields.io/badge/license-MIT-blue}}}
+\href{https://github.com/Mc-Zen/tidy/releases/download/v0.3.0/tidy-guide.pdf}{\pandocbounded{\includegraphics[keepaspectratio]{https://img.shields.io/badge/manual-.pdf-purple}}}
+
+\textbf{tidy} is a package that generates documentation directly in
+\href{https://typst.app/}{Typst} for your Typst modules. It parses
+docstring comments similar to javadoc and co. and can be used to easily
+build a beautiful reference section for the parsed module. Within the
+docstring you may use (almost) any Typst syntax âˆ' so markup, equations
+and even figures are no problem!
+
+Features:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Customizable} output styles.
+\item
+  Automatically
+  \href{https://github.com/typst/packages/raw/main/packages/preview/tidy/0.3.0/\#example}{\textbf{render
+  code examples}} .
+\item
+  \textbf{Annotate types} of parameters and return values.
+\item
+  Automatically read off default values for named parameters.
+\item
+  \href{https://github.com/typst/packages/raw/main/packages/preview/tidy/0.3.0/\#generate-a-help-command-for-you-package}{\textbf{Help}
+  feature} for your package.
+\item
+  \href{https://github.com/typst/packages/raw/main/packages/preview/tidy/0.3.0/\#docstring-tests}{Docstring
+  tests} .
+\end{itemize}
+
+The
+\href{https://github.com/Mc-Zen/tidy/releases/download/v0.3.0/tidy-guide.pdf}{guide}
+fully describes the usage of this module and defines the format for the
+docstrings.
+
+\subsection{Usage}\label{usage}
+
+Using \texttt{\ tidy\ } is as simple as writing some docstrings and
+calling:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/tidy:0.3.0"}
+
+\NormalTok{\#let docs = tidy.parse{-}module(read("my{-}module.typ"))}
+\NormalTok{\#tidy.show{-}module(docs, style: tidy.styles.default)}
+\end{Highlighting}
+\end{Shaded}
+
+The available predefined styles are currenty
+\texttt{\ tidy.styles.default\ } and \texttt{\ tidy.styles.minimal\ } .
+Custom styles can be added by hand (take a look at the
+\href{https://github.com/Mc-Zen/tidy/releases/download/v0.3.0/tidy-guide.pdf}{guide}
+).
+
+\subsection{Example}\label{example}
+
+A full example on how to use this module for your own package (maybe
+even consisting of multiple files) can be found at
+\href{https://github.com/Mc-Zen/tidy/tree/main/examples}{examples} .
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{/// This function computes the cardinal sine, $sinc(x)=sin(x)/x$. }
+\NormalTok{///}
+\NormalTok{/// \#example(\textasciigrave{}\#sinc(0)\textasciigrave{}, mode: "markup")}
+\NormalTok{///}
+\NormalTok{/// {-} x (int, float): The argument for the cardinal sine function. }
+\NormalTok{/// {-}\textgreater{} float}
+\NormalTok{\#let sinc(x) = if x == 0 \{1\} else \{calc.sin(x) / x\}}
+\end{Highlighting}
+\end{Shaded}
+
+\textbf{tidy} turns this into:
+
+\subsubsection{\texorpdfstring{\protect\pandocbounded{\includesvg[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/tidy/0.3.0/docs/images/sincx-docs.svg}}}{Tidy example output}}\label{tidy-example-output}
+
+\subsection{Access user-defined functions and
+images}\label{access-user-defined-functions-and-images}
+
+The code in the docstrings is evaluated via \texttt{\ eval()\ } . In
+order to access user-defined functions and images, you can make use of
+the \texttt{\ scope\ } argument of \texttt{\ tidy.parse-module()\ } :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#\{}
+\NormalTok{    import "my{-}module.typ"}
+\NormalTok{    let module = tidy.parse{-}module(read("my{-}module.typ"))}
+\NormalTok{    let an{-}image = image("img.png")}
+\NormalTok{    tidy.show{-}module(}
+\NormalTok{        module,}
+\NormalTok{        style: tidy.styles.default,}
+\NormalTok{        scope: (my{-}module: my{-}module, img: an{-}image)}
+\NormalTok{    )}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+The docstrings in \texttt{\ my-module.typ\ } may now access the image
+with \texttt{\ \#img\ } and can call any function or variable from
+\texttt{\ my-module\ } in the style of
+\texttt{\ \#my-module.my-function()\ } . This makes rendering examples
+right in the docstrings as easy as a breeze!
+
+\subsection{Generate a help command for you
+package}\label{generate-a-help-command-for-you-package}
+
+With \textbf{tidy} , you can add a help command to you package that
+allows users to obtain the documentation of a specific definition or
+parameter right in the document. This is similar to CLI-style help
+commands. If you have already written docstrings for your package, it is
+quite low-effort to add this feature. Once set up, the end-user can use
+it like this:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{// happily coding, but how do I use this one complex function again?}
+
+\NormalTok{\#mypackage.help("func")}
+\NormalTok{\#mypackage.help("func(param1)") // print only parameter description of param1}
+\end{Highlighting}
+\end{Shaded}
+
+This will print the documentation of \texttt{\ func\ } directly into the
+document â€'' no need to look it up in a manual. Read up in the
+\href{https://github.com/Mc-Zen/tidy/releases/download/v0.3.0/tidy-guide.pdf}{guide}
+for setup instructions.
+
+\subsection{Docstring tests}\label{docstring-tests}
+
+It is possible to add simple docstring tests â€'' assertions that will
+be run when the documentation is generated. This is useful if you want
+to keep small tests and documentation in one place.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{/// \#test(}
+\NormalTok{///   \textasciigrave{}num.my{-}square(2) == 4\textasciigrave{},}
+\NormalTok{///   \textasciigrave{}num.my{-}square(4) == 16\textasciigrave{},}
+\NormalTok{/// )}
+\NormalTok{\#let my{-}square(n) = n * n}
+\end{Highlighting}
+\end{Shaded}
+
+With the short-hand syntax, a unfulfilled assertion will even print the
+line number of the failed test:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{/// \textgreater{}\textgreater{}\textgreater{} my{-}square(2) == 4}
+\NormalTok{/// \textgreater{}\textgreater{}\textgreater{} my{-}square(4) == 16}
+\NormalTok{\#let my{-}square(n) = n * n}
+\end{Highlighting}
+\end{Shaded}
+
+A few test assertion functions are available to improve readability,
+simplicity, and error messages. Currently, these are
+\texttt{\ eq(a,\ b)\ } for equality tests, \texttt{\ ne(a,\ b)\ } for
+inequality tests and \texttt{\ approx(a,\ b,\ eps:\ 1e-10)\ } for
+floating point comparisons. These assertion helper functions are always
+available within docstring tests (with both \texttt{\ test()\ } and
+\texttt{\ \textgreater{}\textgreater{}\textgreater{}\ } syntax).
+
+\subsection{Changelog}\label{changelog}
+
+\subsubsection{v0.3.0}\label{v0.3.0}
+
+\begin{itemize}
+\tightlist
+\item
+  New features:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Help feature.
+  \item
+    \texttt{\ preamble\ } option for examples (e.g., to add
+    \texttt{\ import\ } statements).
+  \item
+    more options for \texttt{\ show-module\ } :
+    \texttt{\ omit-private-definitions\ } ,
+    \texttt{\ omit-private-parameters\ } ,
+    \texttt{\ enable-cross-references\ } , \texttt{\ local-names\ } (for
+    configuring language-specific strings).
+  \end{itemize}
+\item
+  Improvements:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Allow using \texttt{\ show-example()\ } as standalone.
+  \item
+    Updated type names that changed with Typst 0.8.0, e.g., integer
+    -\textgreater{} int.
+  \end{itemize}
+\item
+  Fixes:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    allow examples with ratio widths if \texttt{\ scale-preview\ } is
+    not \texttt{\ auto\ } .
+  \item
+    \texttt{\ show-outline\ }
+  \item
+    explicitly use \texttt{\ raw(lang:\ none)\ } for types and function
+    names.
+  \end{itemize}
+\end{itemize}
+
+\subsubsection{v0.2.0}\label{v0.2.0}
+
+\begin{itemize}
+\tightlist
+\item
+  New features:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Add executable examples to docstrings.
+  \item
+    Documentation for variables (as well as functions).
+  \item
+    Docstring tests.
+  \item
+    Rainbow-colored types \texttt{\ color\ } and \texttt{\ gradient\ } .
+  \end{itemize}
+\item
+  Improvements:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Allow customization of cross-references through
+    \texttt{\ show-reference()\ } .
+  \item
+    Allow customization of spacing between functions through styles.
+  \item
+    Allow color customization (especially for the \texttt{\ default\ }
+    theme).
+  \end{itemize}
+\item
+  Fixes:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Empty parameter descriptions are omitted (if the corresponding
+    option is set).
+  \item
+    Trim newline characters from parameter descriptions.
+  \end{itemize}
+\item
+  âš~ï¸? Breaking changes:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Before, cross-references for functions using the \texttt{\ @@\ }
+    syntax could omit the function parentheses. Now this is not possible
+    anymore, since such references refer to variables now.
+  \item
+    (only concerning custom styles) The style functions
+    \texttt{\ show-outline()\ } , \texttt{\ show-parameter-list\ } , and
+    \texttt{\ show-type()\ } now take \texttt{\ style-args\ } arguments
+    as well.
+  \end{itemize}
+\end{itemize}
+
+\subsubsection{v0.1.0}\label{v0.1.0}
+
+Initial Release.
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as \texttt{\ tidy\ }
+
+\begin{verbatim}
+#import "@preview/tidy:0.3.0"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+\href{https://github.com/Mc-Zen}{Mc-Zen}
+\item[License:]
+MIT
+\item[Current version:]
+0.3.0
+\item[Last updated:]
+May 14, 2024
+\item[First released:]
+August 8, 2023
+\item[Minimum Typst version:]
+0.6.0
+\item[Archive size:]
+17.6 kB
+\href{https://packages.typst.org/preview/tidy-0.3.0.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/Mc-Zen/tidy}{GitHub}
+\item[Categor ies :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-hammer.svg}}
+  \href{https://typst.app/universe/search/?category=utility}{Utility}
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-code.svg}}
+  \href{https://typst.app/universe/search/?category=scripting}{Scripting}
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-list-unordered.svg}}
+  \href{https://typst.app/universe/search/?category=model}{Model}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of Mc-Zen . Report issues on
+\href{https://github.com/Mc-Zen/tidy}{their repository} . You can also
+try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.3.0 & May 14, 2024 \\
+\href{https://typst.app/universe/package/tidy/0.2.0/}{0.2.0} & January
+3, 2024 \\
+\href{https://typst.app/universe/package/tidy/0.1.0/}{0.1.0} & August 8,
+2023 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.

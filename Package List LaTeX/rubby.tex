@@ -1,0 +1,225 @@
+\title{typst.app/universe/package/rubby}
+
+\phantomsection\label{banner}
+\section{rubby}\label{rubby}
+
+{ 0.10.1 }
+
+Add ruby (furigana) next to base text.
+
+\phantomsection\label{readme}
+\subsection{Usage}\label{usage}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/rubby:0.10.1": get{-}ruby}
+
+\NormalTok{\#let ruby = get{-}ruby(}
+\NormalTok{  size: 0.5em,         // Ruby font size}
+\NormalTok{  dy: 0pt,             // Vertical offset of the ruby}
+\NormalTok{  pos: top,            // Ruby position (top or bottom)}
+\NormalTok{  alignment: "center", // Ruby alignment ("center", "start", "between", "around")}
+\NormalTok{  delimiter: "|",      // The delimiter between words}
+\NormalTok{  auto{-}spacing: true,  // Automatically add necessary space around words}
+\NormalTok{)}
+
+\NormalTok{// Ruby goes first, base text {-} second.}
+\NormalTok{\#ruby[ãµãããª][æ¯ãä»®å]}
+
+\NormalTok{Treat each kanji as a separate word:}
+\NormalTok{\#ruby[ã¨ã|ããã|ãã|ããã|ã ã|ãã][æ±|äº¬|å·¥|æ¥­|å¤§|å­¦]}
+\end{Highlighting}
+\end{Shaded}
+
+If you donâ€™t want automatically wrap text with delimiter:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let ruby = get{-}ruby(auto{-}spacing: false)}
+\end{Highlighting}
+\end{Shaded}
+
+See also \url{https://github.com/rinmyo/ruby-typ/blob/main/manual.pdf}
+and \texttt{\ example.typ\ } .
+
+\subsection{Notes}\label{notes}
+
+Original project is at \url{https://github.com/rinmyo/ruby-typ} which
+itself is based on
+\href{https://zenn.dev/saito_atsushi/articles/ff9490458570e1}{the post}
+of é½Šè---¤æ•¦å¿--- (Saito Atsushi). This project is a modified version
+of
+\href{https://github.com/rinmyo/ruby-typ/commit/23ca86180757cf70f2b9f5851abb5ea5a3b4c6a1}{this
+commit} .
+
+\texttt{\ auto-spacing\ } adds missing delimiter around the
+\texttt{\ content\ } / \texttt{\ string\ } which then adds space around
+base text if ruby is wider than the base text.
+
+Problems appear only if ruby is wider than its base text and
+\texttt{\ auto-spacing\ } is not set to \texttt{\ true\ } (default is
+\texttt{\ true\ } ).
+
+You can always use a one-letter function (variable) name to shorten the
+function call length (if you have to use it a lot), e.g.,
+\texttt{\ \#let\ r\ =\ get-ruby()\ } (or \texttt{\ f\ } â€'' short for
+furigana). But be careful as there are functions with names
+\texttt{\ v\ } and \texttt{\ h\ } and there could be a new built-in
+function with a name \texttt{\ r\ } or \texttt{\ f\ } which may break
+your document (Typst right now is in beta, so breaking changes are
+possible).
+
+Although you can open issues or send PRs, I wonâ€™t be able to always
+reply quickly (sometimes Iâ€™m very busy).
+
+\subsection{Development}\label{development}
+
+This repository should exist as a \texttt{\ @local\ } package with the
+version from the \texttt{\ typst.toml\ } .
+
+Here is a short description of the development process:
+
+\begin{enumerate}
+\tightlist
+\item
+  run \texttt{\ git\ checkout\ dev\ \&\&\ git\ pull\ } ;
+\item
+  make changes;
+\item
+  test changes, if not done or something isnâ€™t working then go to step
+  1;
+\item
+  when finished, run
+  \texttt{\ just\ change-version\ \textless{}new\ semantic\ version\textgreater{}\ }
+  ;
+\item
+  document changes in the \texttt{\ CHANGELOG.md\ } ;
+\item
+  commit all changes (only locally);
+\item
+  create a \texttt{\ @local\ } Typst package with the new version and
+  test it;
+\item
+  if everything is working then run \texttt{\ git\ push\ } ;
+\item
+  realize that youâ€™ve missed something and fix it (then push changes
+  again);
+\item
+  run \texttt{\ git\ checkout\ master\ \&\&\ git\ merge\ dev\ } to sync
+  \texttt{\ master\ } to \texttt{\ dev\ } ;
+\item
+  run \texttt{\ just\ create-release\ } .
+\end{enumerate}
+
+\subsection{Publishing a Typst
+package}\label{publishing-a-typst-package}
+
+\begin{enumerate}
+\tightlist
+\item
+  To make a new package version for merging into
+  \texttt{\ typst/packages\ } repository run
+  \texttt{\ just\ mark-PR-version\ } ;
+\item
+  copy newly created directory (with a version name) and place it in the
+  appropriate place in your fork of the \texttt{\ typst/packages\ }
+  repository;
+\item
+  run
+  \texttt{\ git\ fetch\ upstream\ \&\&\ git\ merge\ upstream\ main\ } to
+  sync fork with \texttt{\ typst/packages\ } ;
+\item
+  go to a new branch with
+  \texttt{\ git\ checkout\ -b\ \textless{}package-version\textgreater{}\ }
+  ;
+\item
+  commit newly added directory with commit message:
+  \texttt{\ package:version\ } ;
+\item
+  run \texttt{\ gh\ pr\ create\ } and follow further CLI instructions.
+\end{enumerate}
+
+\subsection{Changelog}\label{changelog}
+
+You can view the change log in the \texttt{\ CHANGELOG.md\ } file in the
+root of the project.
+
+\subsection{License}\label{license}
+
+This Typst package is licensed under AGPL v3.0. You can view the license
+in the LICENSE file in the root of the project or at
+\url{https://www.gnu.org/licenses/agpl-3.0.txt} . There is also a NOTICE
+file for 3rd party copyright notices.
+
+Copyright Â© 2023 Andrew Voynov
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as \texttt{\ rubby\ }
+
+\begin{verbatim}
+#import "@preview/rubby:0.10.1"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+Andrew Voynov
+\item[License:]
+AGPL-3.0-only
+\item[Current version:]
+0.10.1
+\item[Last updated:]
+December 3, 2023
+\item[First released:]
+July 3, 2023
+\item[Minimum Typst version:]
+0.8.0
+\item[Archive size:]
+16.0 kB
+\href{https://packages.typst.org/preview/rubby-0.10.1.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/Andrew15-5/rubby}{GitHub}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of Andrew Voynov . Report issues on
+\href{https://github.com/Andrew15-5/rubby}{their repository} . You can
+also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\href{https://typst.app/universe/package/rubby/0.9.2/}{0.9.2} &
+September 15, 2023 \\
+\href{https://typst.app/universe/package/rubby/0.8.0/}{0.8.0} & July 3,
+2023 \\
+0.10.1 & December 3, 2023 \\
+\href{https://typst.app/universe/package/rubby/0.10.0/}{0.10.0} &
+November 25, 2023 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.

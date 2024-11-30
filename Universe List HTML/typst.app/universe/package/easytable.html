@@ -1,0 +1,364 @@
+<main>
+    <div id="banner" style="--banner-accent:#000000;--banner-primary:#000000;--banner-secondary:#000000;--banner-tertiary:#565565;--banner-background:#eff0f3">
+     <div class="package-icon" role="img">
+     </div>
+     <div>
+      <div class="title">
+       <h1 class="name">
+        easytable
+       </h1>
+       <span class="version">
+        0.1.0
+       </span>
+      </div>
+      <p class="description">
+       Simple Table Package
+      </p>
+     </div>
+    </div>
+    <div class="inner-grid">
+     <section id="readme">
+      <p>
+       A Typst library for writing simple tables.
+      </p>
+      <h2>
+       Usage
+      </h2>
+      <pre><code class="language-typst"><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/easytable:0.1.0"</span><span class="typ-punct">:</span> easytable<span class="typ-punct">,</span> elem
+<span class="typ-key">#</span><span class="typ-key">import</span> elem<span class="typ-punct">:</span> <span class="typ-op">*</span>
+</code></code></pre>
+      <h2>
+       Manual
+      </h2>
+      <ul>
+       <li>
+        You can create a table by specifying data or layout elements as arguments to the
+        <code>
+         easytable
+        </code>
+        function.
+       </li>
+       <li>
+        The following elements are provided in the
+        <code>
+         elem
+        </code>
+        module.
+        <ul>
+         <li>
+          <code>
+           elem.tr
+          </code>
+          : a data row
+         </li>
+         <li>
+          <code>
+           elem.th
+          </code>
+          : a header row
+         </li>
+         <li>
+          <code>
+           elem.hline
+          </code>
+          : a horizontal line
+         </li>
+         <li>
+          <code>
+           elem.vline
+          </code>
+          : a vertical line
+         </li>
+         <li>
+          <code>
+           elem.cwidth
+          </code>
+          : a column-width specifier
+         </li>
+         <li>
+          <code>
+           elem.cstyle
+          </code>
+          : a column-style (font, alignment, etc.) specifier
+         </li>
+        </ul>
+       </li>
+      </ul>
+      <p>
+       See
+       <a href="https://github.com/typst/packages/raw/main/packages/preview/easytable/0.1.0/manual.pdf" rel="nofollow ugc" target="_blank">
+        manual
+       </a>
+       in detail.
+      </p>
+      <h2>
+       Examples
+      </h2>
+      <h3>
+       A Simple Table
+      </h3>
+      <pre><code class="language-typst"><code><span class="typ-func">#</span><span class="typ-func">easytable</span><span class="typ-punct">(</span><span class="typ-punct">{</span>
+  <span class="typ-func">th</span><span class="typ-punct">[</span>Header 1 <span class="typ-punct">]</span><span class="typ-punct">[</span>Header 2<span class="typ-punct">]</span><span class="typ-punct">[</span>Header 3  <span class="typ-punct">]</span>
+  <span class="typ-func">tr</span><span class="typ-punct">[</span>How      <span class="typ-punct">]</span><span class="typ-punct">[</span>I       <span class="typ-punct">]</span><span class="typ-punct">[</span>want      <span class="typ-punct">]</span>
+  <span class="typ-func">tr</span><span class="typ-punct">[</span>a        <span class="typ-punct">]</span><span class="typ-punct">[</span>drink,  <span class="typ-punct">]</span><span class="typ-punct">[</span>alcoholic <span class="typ-punct">]</span>
+  <span class="typ-func">tr</span><span class="typ-punct">[</span>of       <span class="typ-punct">]</span><span class="typ-punct">[</span>course, <span class="typ-punct">]</span><span class="typ-punct">[</span>after     <span class="typ-punct">]</span>
+  <span class="typ-func">tr</span><span class="typ-punct">[</span>the      <span class="typ-punct">]</span><span class="typ-punct">[</span>heavy   <span class="typ-punct">]</span><span class="typ-punct">[</span>lectures  <span class="typ-punct">]</span>
+  <span class="typ-func">tr</span><span class="typ-punct">[</span>involving<span class="typ-punct">]</span><span class="typ-punct">[</span>quantum <span class="typ-punct">]</span><span class="typ-punct">[</span>mechanics.<span class="typ-punct">]</span>
+<span class="typ-punct">}</span><span class="typ-punct">)</span>
+</code></code></pre>
+      <p>
+       <img alt="image" src="https://github.com/monaqa/typst-easytable/assets/48883418/690b466b-56d9-4660-8ca5-25cc25e379f9"/>
+      </p>
+      <h3>
+       Setting Column Alignment and Width
+      </h3>
+      <pre><code class="language-typst"><code><span class="typ-func">#</span><span class="typ-func">easytable</span><span class="typ-punct">(</span><span class="typ-punct">{</span>
+  <span class="typ-func">cwidth</span><span class="typ-punct">(</span><span class="typ-num">100pt</span><span class="typ-punct">,</span> <span class="typ-num">1fr</span><span class="typ-punct">,</span> <span class="typ-num">20%</span><span class="typ-punct">)</span>
+  <span class="typ-func">cstyle</span><span class="typ-punct">(</span>left<span class="typ-punct">,</span> center<span class="typ-punct">,</span> right<span class="typ-punct">)</span>
+  <span class="typ-func">th</span><span class="typ-punct">[</span>Header 1 <span class="typ-punct">]</span><span class="typ-punct">[</span>Header 2<span class="typ-punct">]</span><span class="typ-punct">[</span>Header 3  <span class="typ-punct">]</span>
+  <span class="typ-func">tr</span><span class="typ-punct">[</span>How      <span class="typ-punct">]</span><span class="typ-punct">[</span>I       <span class="typ-punct">]</span><span class="typ-punct">[</span>want      <span class="typ-punct">]</span>
+  <span class="typ-func">tr</span><span class="typ-punct">[</span>a        <span class="typ-punct">]</span><span class="typ-punct">[</span>drink,  <span class="typ-punct">]</span><span class="typ-punct">[</span>alcoholic <span class="typ-punct">]</span>
+  <span class="typ-func">tr</span><span class="typ-punct">[</span>of       <span class="typ-punct">]</span><span class="typ-punct">[</span>course, <span class="typ-punct">]</span><span class="typ-punct">[</span>after     <span class="typ-punct">]</span>
+  <span class="typ-func">tr</span><span class="typ-punct">[</span>the      <span class="typ-punct">]</span><span class="typ-punct">[</span>heavy   <span class="typ-punct">]</span><span class="typ-punct">[</span>lectures  <span class="typ-punct">]</span>
+  <span class="typ-func">tr</span><span class="typ-punct">[</span>involving<span class="typ-punct">]</span><span class="typ-punct">[</span>quantum <span class="typ-punct">]</span><span class="typ-punct">[</span>mechanics.<span class="typ-punct">]</span>
+<span class="typ-punct">}</span><span class="typ-punct">)</span>
+</code></code></pre>
+      <p>
+       <img alt="image" src="https://github.com/monaqa/typst-easytable/assets/48883418/8ff574b4-bf1f-46ca-8a2d-584ab701a989"/>
+      </p>
+      <h3>
+       Customizing Styles
+      </h3>
+      <pre><code class="language-typst"><code><span class="typ-func">#</span><span class="typ-func">easytable</span><span class="typ-punct">(</span><span class="typ-punct">{</span>
+  <span class="typ-key">let</span> tr <span class="typ-op">=</span> tr<span class="typ-punct">.</span><span class="typ-func">with</span><span class="typ-punct">(</span>trans<span class="typ-punct">:</span> pad<span class="typ-punct">.</span><span class="typ-func">with</span><span class="typ-punct">(</span>x<span class="typ-punct">:</span> <span class="typ-num">3pt</span><span class="typ-punct">)</span><span class="typ-punct">)</span>
+
+  <span class="typ-func">th</span><span class="typ-punct">[</span>Header 1<span class="typ-punct">]</span><span class="typ-punct">[</span>Header 2<span class="typ-punct">]</span><span class="typ-punct">[</span>Header 3<span class="typ-punct">]</span>
+  <span class="typ-func">tr</span><span class="typ-punct">[</span>How<span class="typ-punct">]</span><span class="typ-punct">[</span>I<span class="typ-punct">]</span><span class="typ-punct">[</span>want<span class="typ-punct">]</span>
+  <span class="typ-func">tr</span><span class="typ-punct">[</span>a<span class="typ-punct">]</span><span class="typ-punct">[</span>drink,<span class="typ-punct">]</span><span class="typ-punct">[</span>alcoholic<span class="typ-punct">]</span>
+  <span class="typ-func">tr</span><span class="typ-punct">[</span>of<span class="typ-punct">]</span><span class="typ-punct">[</span>course,<span class="typ-punct">]</span><span class="typ-punct">[</span>after<span class="typ-punct">]</span>
+  <span class="typ-func">tr</span><span class="typ-punct">[</span>the<span class="typ-punct">]</span><span class="typ-punct">[</span>heavy<span class="typ-punct">]</span><span class="typ-punct">[</span>lectures<span class="typ-punct">]</span>
+  <span class="typ-func">tr</span><span class="typ-punct">[</span>involving<span class="typ-punct">]</span><span class="typ-punct">[</span>quantum<span class="typ-punct">]</span><span class="typ-punct">[</span>mechanics.<span class="typ-punct">]</span>
+<span class="typ-punct">}</span><span class="typ-punct">)</span>
+</code></code></pre>
+      <p>
+       <img alt="image" src="https://github.com/monaqa/typst-easytable/assets/48883418/8a1ed0d0-4a9e-4a28-a0ff-b8f7a09cb8a8"/>
+      </p>
+      <pre><code class="language-typst"><code><span class="typ-func">#</span><span class="typ-func">easytable</span><span class="typ-punct">(</span><span class="typ-punct">{</span>
+  <span class="typ-key">let</span> th <span class="typ-op">=</span> th<span class="typ-punct">.</span><span class="typ-func">with</span><span class="typ-punct">(</span>trans<span class="typ-punct">:</span> emph<span class="typ-punct">)</span>
+  <span class="typ-key">let</span> tr <span class="typ-op">=</span> tr<span class="typ-punct">.</span><span class="typ-func">with</span><span class="typ-punct">(</span>
+    cell_style<span class="typ-punct">:</span> <span class="typ-punct">(</span>x<span class="typ-punct">:</span> <span class="typ-key">none</span><span class="typ-punct">,</span> y<span class="typ-punct">:</span> <span class="typ-key">none</span><span class="typ-punct">)</span>
+      <span class="typ-op">=&gt;</span> <span class="typ-punct">(</span>fill<span class="typ-punct">:</span> <span class="typ-key">if</span> calc<span class="typ-punct">.</span><span class="typ-func">even</span><span class="typ-punct">(</span>y<span class="typ-punct">)</span> <span class="typ-punct">{</span>
+        <span class="typ-func">luma</span><span class="typ-punct">(</span><span class="typ-num">95%</span><span class="typ-punct">)</span>
+      <span class="typ-punct">}</span> <span class="typ-key">else</span> <span class="typ-punct">{</span>
+        <span class="typ-key">none</span>
+      <span class="typ-punct">}</span><span class="typ-punct">)</span>
+  <span class="typ-punct">)</span>
+
+  <span class="typ-func">th</span><span class="typ-punct">[</span>Header 1<span class="typ-punct">]</span><span class="typ-punct">[</span>Header 2<span class="typ-punct">]</span><span class="typ-punct">[</span>Header 3<span class="typ-punct">]</span>
+  <span class="typ-func">tr</span><span class="typ-punct">[</span>How<span class="typ-punct">]</span><span class="typ-punct">[</span>I<span class="typ-punct">]</span><span class="typ-punct">[</span>want<span class="typ-punct">]</span>
+  <span class="typ-func">tr</span><span class="typ-punct">[</span>a<span class="typ-punct">]</span><span class="typ-punct">[</span>drink,<span class="typ-punct">]</span><span class="typ-punct">[</span>alcoholic<span class="typ-punct">]</span>
+  <span class="typ-func">tr</span><span class="typ-punct">[</span>of<span class="typ-punct">]</span><span class="typ-punct">[</span>course,<span class="typ-punct">]</span><span class="typ-punct">[</span>after<span class="typ-punct">]</span>
+  <span class="typ-func">tr</span><span class="typ-punct">[</span>the<span class="typ-punct">]</span><span class="typ-punct">[</span>heavy<span class="typ-punct">]</span><span class="typ-punct">[</span>lectures<span class="typ-punct">]</span>
+  <span class="typ-func">tr</span><span class="typ-punct">[</span>involving<span class="typ-punct">]</span><span class="typ-punct">[</span>quantum<span class="typ-punct">]</span><span class="typ-punct">[</span>mechanics.<span class="typ-punct">]</span>
+<span class="typ-punct">}</span><span class="typ-punct">)</span>
+</code></code></pre>
+      <p>
+       <img alt="image" src="https://github.com/monaqa/typst-easytable/assets/48883418/5f8bf796-b2bd-41c4-a79e-fd97c2824ecd"/>
+      </p>
+      <pre><code class="language-typst"><code><span class="typ-func">#</span><span class="typ-func">easytable</span><span class="typ-punct">(</span><span class="typ-punct">{</span>
+  <span class="typ-func">th</span><span class="typ-punct">[</span>Header 1<span class="typ-punct">]</span><span class="typ-punct">[</span>Header 2<span class="typ-punct">]</span><span class="typ-punct">[</span>Header 3<span class="typ-punct">]</span>
+  <span class="typ-func">tr</span><span class="typ-punct">[</span>How<span class="typ-punct">]</span><span class="typ-punct">[</span>I<span class="typ-punct">]</span><span class="typ-punct">[</span>want<span class="typ-punct">]</span>
+  <span class="typ-func">hline</span><span class="typ-punct">(</span>stroke<span class="typ-punct">:</span> red<span class="typ-punct">)</span>
+  <span class="typ-func">tr</span><span class="typ-punct">[</span>a<span class="typ-punct">]</span><span class="typ-punct">[</span>drink,<span class="typ-punct">]</span><span class="typ-punct">[</span>alcoholic<span class="typ-punct">]</span>
+  <span class="typ-func">tr</span><span class="typ-punct">[</span>of<span class="typ-punct">]</span><span class="typ-punct">[</span>course,<span class="typ-punct">]</span><span class="typ-punct">[</span>after<span class="typ-punct">]</span>
+  <span class="typ-func">tr</span><span class="typ-punct">[</span>the<span class="typ-punct">]</span><span class="typ-punct">[</span>heavy<span class="typ-punct">]</span><span class="typ-punct">[</span>lectures<span class="typ-punct">]</span>
+  <span class="typ-func">tr</span><span class="typ-punct">[</span>involving<span class="typ-punct">]</span><span class="typ-punct">[</span>quantum<span class="typ-punct">]</span><span class="typ-punct">[</span>mechanics.<span class="typ-punct">]</span>
+
+  <span class="typ-comment">// Specifying the insertion point directly</span>
+  <span class="typ-func">hline</span><span class="typ-punct">(</span>stroke<span class="typ-punct">:</span> <span class="typ-num">2pt</span> <span class="typ-op">+</span> green<span class="typ-punct">,</span> y<span class="typ-punct">:</span> <span class="typ-num">4</span><span class="typ-punct">)</span>
+  <span class="typ-func">vline</span><span class="typ-punct">(</span>
+    stroke<span class="typ-punct">:</span> <span class="typ-punct">(</span>paint<span class="typ-punct">:</span> blue<span class="typ-punct">,</span> thickness<span class="typ-punct">:</span> <span class="typ-num">1pt</span><span class="typ-punct">,</span> dash<span class="typ-punct">:</span> <span class="typ-str">"dashed"</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+    x<span class="typ-punct">:</span> <span class="typ-num">2</span><span class="typ-punct">,</span>
+    start<span class="typ-punct">:</span> <span class="typ-num">1</span><span class="typ-punct">,</span>
+    end<span class="typ-punct">:</span> <span class="typ-num">5</span><span class="typ-punct">,</span>
+  <span class="typ-punct">)</span>
+<span class="typ-punct">}</span><span class="typ-punct">)</span>
+</code></code></pre>
+      <p>
+       <img alt="image" src="https://github.com/monaqa/typst-easytable/assets/48883418/cf400dad-a7fc-4f3a-991d-9611adab41c6"/>
+      </p>
+     </section>
+     <aside>
+      <section>
+       <h3>
+        How to add
+       </h3>
+       <p>
+        Copy this into your project and use the import as
+        <!-- -->
+        <code>
+         easytable
+        </code>
+       </p>
+       <div class="import-snippet">
+        <pre><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/easytable:0.1.0"</span></code></pre>
+        <button class="copy" title="Copy to clipboard">
+         <img alt="Copy" height="16" src="/assets/icons/16-copy.svg" width="16"/>
+        </button>
+       </div>
+       <p class="muted">
+        Check the docs for
+        <!-- -->
+        <a href="https://typst.app/docs/reference/scripting/#packages">
+         more information on how to import packages
+        </a>
+        .
+       </p>
+      </section>
+      <section id="about">
+       <h3>
+        About
+       </h3>
+       <dl>
+        <dt>
+         Author
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         monaqa
+        </dd>
+        <dt>
+         License:
+        </dt>
+        <dd>
+         MIT
+        </dd>
+        <dt>
+         Current version:
+        </dt>
+        <dd>
+         0.1.0
+        </dd>
+        <dt>
+         Last updated:
+        </dt>
+        <dd>
+         February 24, 2024
+        </dd>
+        <dt>
+         First released:
+        </dt>
+        <dd>
+         February 24, 2024
+        </dd>
+        <dt>
+         Archive size:
+        </dt>
+        <dd class="archive-size-value">
+         3.36 kB
+         <a href="https://packages.typst.org/preview/easytable-0.1.0.tar.gz">
+          <img alt="Size icon" src="/assets/icons/16-download.svg"/>
+         </a>
+        </dd>
+        <dt>
+         Repository:
+        </dt>
+        <dd>
+         <a href="https://github.com/monaqa/typst-easytable" rel="noopener noreferrer" target="_blank">
+          GitHub
+         </a>
+        </dd>
+       </dl>
+      </section>
+      <section>
+       <h3>
+        Where to report issues?
+       </h3>
+       <p>
+        This
+        <!-- -->
+        package
+        <!-- -->
+        is a project of
+        <!-- -->
+        <!-- -->
+        monaqa
+        <!-- -->
+        .
+        <!-- -->
+        <!-- -->
+        Report issues on
+        <!-- -->
+        <a href="https://github.com/monaqa/typst-easytable" rel="noopener noreferrer" target="_blank">
+         their repository
+        </a>
+        .
+        <!-- -->
+        <!-- -->
+        You can also try to ask for help with this
+        <!-- -->
+        package
+        <!-- -->
+        on the
+        <!-- -->
+        <a href="https://forum.typst.app" rel="noopener" target="_blank">
+         Forum
+        </a>
+        .
+       </p>
+       <p>
+        Please report this
+        <!-- -->
+        package
+        <!-- -->
+        to the Typst team using the
+        <!-- -->
+        <a href="https://typst.app/contact" rel="noreferrer" target="_blank">
+         contact form
+        </a>
+        <!-- -->
+        if you believe it is a safety hazard or infringes upon your rights.
+       </p>
+      </section>
+      <section id="versions">
+       <h3>
+        Version history
+       </h3>
+       <table>
+        <thead>
+         <tr>
+          <th align="left">
+           Version
+          </th>
+          <th align="left">
+           Release Date
+          </th>
+         </tr>
+        </thead>
+        <tbody>
+         <tr>
+          <td align="left">
+           0.1.0
+          </td>
+          <td align="left">
+           February 24, 2024
+          </td>
+         </tr>
+        </tbody>
+       </table>
+      </section>
+      <p class="bottom-notice muted">
+       Typst GmbH did not create this
+       <!-- -->
+       package
+       <!-- -->
+       and cannot guarantee correct functionality of this
+       <!-- -->
+       package
+       <!-- -->
+       or compatibility with any version of the Typst compiler or app.
+      </p>
+     </aside>
+    </div>
+   </main>

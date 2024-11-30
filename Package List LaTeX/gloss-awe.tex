@@ -1,0 +1,411 @@
+\title{typst.app/universe/package/gloss-awe}
+
+\phantomsection\label{banner}
+\section{gloss-awe}\label{gloss-awe}
+
+{ 0.0.5 }
+
+Awesome Glossary for Typst.
+
+\phantomsection\label{readme}
+Automatically create a glossary in \href{https://typst.app/}{typst} .
+
+This typst component creates a glossary page from a given pool of
+potential glossary entries using only those entries, that are marked
+with the \texttt{\ gls\ } or \texttt{\ gls-add\ } functions in the
+document.
+
+âš~ï¸? Typst is in beta and evolving, and this package evolves with it.
+As a result, no backward compatibility is guaranteed yet. Also, the
+package itself is under development and fine-tuning.
+
+\subsection{Table of Contents}\label{table-of-contents}
+
+\begin{itemize}
+\tightlist
+\item
+  \href{https://github.com/typst/packages/raw/main/packages/preview/gloss-awe/0.0.5/\#usage}{Usage}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \href{https://github.com/typst/packages/raw/main/packages/preview/gloss-awe/0.0.5/\#marking-the-entries}{Marking
+    the Entries}
+  \item
+    \href{https://github.com/typst/packages/raw/main/packages/preview/gloss-awe/0.0.5/\#controlling-the-show}{Controlling
+    the Show}
+  \item
+    \href{https://github.com/typst/packages/raw/main/packages/preview/gloss-awe/0.0.5/\#hiding-entries-from-the-glossary-page}{Hiding
+    Entries from the Glossary Page}
+  \item
+    \href{https://github.com/typst/packages/raw/main/packages/preview/gloss-awe/0.0.5/\#pool-of-entries}{Pool
+    of Entries}
+  \item
+    \href{https://github.com/typst/packages/raw/main/packages/preview/gloss-awe/0.0.5/\#unknown-entries}{Unknown
+    Entries}
+  \item
+    \href{https://github.com/typst/packages/raw/main/packages/preview/gloss-awe/0.0.5/\#creating-the-glossary-page}{Creating
+    the glossary page}
+  \end{itemize}
+\item
+  \href{https://github.com/typst/packages/raw/main/packages/preview/gloss-awe/0.0.5/\#changelog}{Changelog}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \href{https://github.com/typst/packages/raw/main/packages/preview/gloss-awe/0.0.5/\#v005}{v0.0.5}
+  \item
+    \href{https://github.com/typst/packages/raw/main/packages/preview/gloss-awe/0.0.5/\#v004}{v0.0.4}
+  \item
+    \href{https://github.com/typst/packages/raw/main/packages/preview/gloss-awe/0.0.5/\#v003}{v0.0.3}
+  \item
+    \href{https://github.com/typst/packages/raw/main/packages/preview/gloss-awe/0.0.5/\#v002}{v0.0.2}
+  \end{itemize}
+\end{itemize}
+
+\subsection{Usage}\label{usage}
+
+\subsubsection{Marking the Entries}\label{marking-the-entries}
+
+To include a term into the glossary, it can be marked with the
+\texttt{\ gls\ } function. The simplest form is like this:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{This is how to mark something for the glossary in \#gls[Typst].}
+\end{Highlighting}
+\end{Shaded}
+
+The function will render as defined with the specified show rule (see
+below!).
+
+\subsubsection{Controlling the Show}\label{controlling-the-show}
+
+To control, how the markers are rendered in the document, a show rule
+has to be defined. It usually looks like the following:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{// marker display : this rule makes the glossary marker in the document visible.}
+\NormalTok{\#show figure.where(kind: "jkrb\_glossary"): it =\textgreater{} \{it.body\}}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{Hiding Entries from the Glossary
+Page}\label{hiding-entries-from-the-glossary-page}
+
+It is also possible to hide entries (temporarily) from the generated
+glossary page without removing any markers for them from the document.
+
+The following sample will hide the entries for â€œAmaranthâ€? and
+â€œButterscotchâ€? from the glossary, even if it is marked with
+\texttt{\ gls{[}...{]}\ } or \texttt{\ gls-add{[}...{]}\ } somewhere in
+the document.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{    \#let hidden{-}entries = (}
+\NormalTok{        "Amaranth",}
+\NormalTok{        "Butterscotch"}
+\NormalTok{    )}
+
+\NormalTok{    \#make{-}glossary(glossary{-}pool, excluded: hidden{-}entries)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{Pool of Entries}\label{pool-of-entries}
+
+A â€œpool of entriesâ€? is a typst dictionary. It can be read from a
+file or may be the result of other operations.
+
+One or more pool(s) are then given to the \texttt{\ make-glossary()\ }
+function. This will create a glossary page of all referenced entries. If
+given more than one pool, the order pools are searched in the order they
+are given to the method. The first match wins. This can be used to have
+a global pool to be used in different documents, and another one for
+local usage only.
+
+The pool consists of a dictionary of definition entries. The key of an
+entry is the term. Note, that it is case-sensitive. Each entry itself is
+also a dictionary, and its main key is \texttt{\ description\ } . This
+is the content for the term. There may be other keys in an entry in the
+future. For now, it supports:
+
+\begin{itemize}
+\tightlist
+\item
+  description
+\item
+  link
+\end{itemize}
+
+An entry in the pool for the term â€œEngineâ€? file may look like this:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{    Engine: (}
+\NormalTok{        description: [}
+
+\NormalTok{            In the context of software, an engine...}
+
+\NormalTok{        ],}
+\NormalTok{        link: [}
+
+\NormalTok{            (1) Software engine {-} Wikipedia.}
+\NormalTok{            https://en.wikipedia.org/wiki/Software\_engine}
+\NormalTok{            (13.5.2023).}
+
+\NormalTok{        ]}
+\NormalTok{    ),}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{Unknown Entries}\label{unknown-entries}
+
+If the document marks a term that is not contained in the pool, an entry
+will be generated anyway, but it will be visually marked as missing.
+This is convenient for the workflow, where one can mark the desired
+entries while writing the document, and provide missing entries later.
+
+There is a parameter for the \texttt{\ make-glossary()\ } function named
+\texttt{\ missing\ } , where a function can be provided to format or
+even suppress the missing entries.
+
+\subsubsection{Creating the Glossary
+Page}\label{creating-the-glossary-page}
+
+To create the glossary page, provide the pool of potential entries to
+the make-glossary function. The following listing shows a complete
+sample document with a glossary. The sample glossary pool is contained
+in the main document as well:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{    \#import "@preview/gloss{-}awe:0.0.5": *}
+
+\NormalTok{    // Text settings}
+\NormalTok{    \#set text(font: ("Arial", "Trebuchet MS"), size: 12pt)}
+
+\NormalTok{    // Defining the Glossary Pool with definitions.}
+\NormalTok{    \#let glossary{-}pool = (}
+\NormalTok{        Cloud: (}
+\NormalTok{            description: [}
+
+\NormalTok{                Cloud computing is a model where computer resources are made available}
+\NormalTok{                over the internet. Such resources can be assigned on demand in a very short}
+\NormalTok{                time, and only as long as they are required by the user.}
+
+\NormalTok{            ]}
+\NormalTok{        ),}
+
+\NormalTok{        Marker: (}
+\NormalTok{            description: [}
+
+\NormalTok{                A Marker in \textasciigrave{}gloss{-}awe\textasciigrave{} is a typst function to mark a word or phrase to appear}
+\NormalTok{                in the documents glossary. The marker is also linked to the glossary section}
+\NormalTok{                by referencing the label \textasciigrave{}\textless{}Glossary\textgreater{}\textasciigrave{}.}
+
+\NormalTok{            ]}
+\NormalTok{        ),}
+
+\NormalTok{        Glossary: (}
+\NormalTok{            description: [}
+
+\NormalTok{                A glossary is a list of terms and their definitions that are specific to a}
+\NormalTok{                particular subject or field. It is used to define the intended meaning of}
+\NormalTok{                terms used in a document and to agree on a common definition of those terms. A}
+\NormalTok{                well{-}defined glossary can be very helpful in documents where very specific}
+\NormalTok{                meanings of certain terms are used.}
+
+\NormalTok{            ]}
+\NormalTok{        ),}
+
+\NormalTok{        "Glossary Pool": (}
+\NormalTok{            description: [}
+
+\NormalTok{                A glossary pool is a collection of glossary entries. An automated tool can}
+\NormalTok{                pull needed definitions from this pool to create the glossary pages for a}
+\NormalTok{                specific context.}
+
+\NormalTok{            ]}
+\NormalTok{        ),}
+
+\NormalTok{        REST: (}
+\NormalTok{            description: [}
+
+\NormalTok{                Representational State Transfer (abgekÃ¼rzt REST) ist ein Paradigma fÃ¼r die}
+\NormalTok{                Softwarearchitektur von verteilten Systemen, insbesondere fÃ¼r Webservices.}
+\NormalTok{                REST ist eine Abstraktion der Struktur und des Verhaltens des World Wide}
+\NormalTok{                Web. REST hat das Ziel, einen Architekturstil zu schaffen, der den}
+\NormalTok{                Anforderungen des modernen Web besser genÃ¼gt.}
+
+\NormalTok{            ]}
+\NormalTok{        ),}
+
+\NormalTok{        XML: (}
+\NormalTok{            description: [}
+
+\NormalTok{                XML stands for \textasciigrave{}\textquotesingle{}eXtensible Markup Language\textquotesingle{}\textasciigrave{}.}
+
+\NormalTok{            ],}
+\NormalTok{            link: [https://www.w3.org/XML]}
+\NormalTok{        ),}
+\NormalTok{    )}
+
+\NormalTok{    // Defining, how marked glossary entries in the document appear}
+\NormalTok{    \#show figure.where(kind: "jkrb\_glossary"): it =\textgreater{} \{it.body\}}
+
+\NormalTok{    // This alternate rule, creates links to the glossary for marked entries.}
+\NormalTok{    // \#show figure.where(kind: "jkrb\_glossary"): it =\textgreater{} [\#link(\textless{}Glossar\textgreater{})[\#it.body]]}
+
+\NormalTok{    = My Sample Document with \textasciigrave{}gloss{-}awe\textasciigrave{}}
+
+\NormalTok{    In this document the usage of the \textasciigrave{}gloss{-}awe\textasciigrave{} package is demonstrated to create a glossary}
+\NormalTok{    with the help of a simple and small sample glossary pool. We have defined the pool in a}
+\NormalTok{    dictionary named \#gls[Glossary Pool] above. It contains the definitions the \textasciigrave{}gloss{-}awe\textasciigrave{}}
+\NormalTok{    can use to build the glossary in the \#gls[Glossary] section of this document. The pool}
+\NormalTok{    could also come from external files, like \#gls[JSON] or \#gls[XML] or other sources. Only}
+\NormalTok{    those definitions are shown in the glossary, that are marked in this document with one of}
+\NormalTok{    the \#gls(entry: "Marker")[marker] functions \textasciigrave{}gloss{-}awe\textasciigrave{} provides.}
+
+\NormalTok{    If a Word is marked, that is not in the Glossary Pool, it gets a special markup in the}
+\NormalTok{    resulting glossary, making it easy for the Author to spot the missing information an}
+\NormalTok{    providing a definition. In this sample, there is no definition for "JSON" provided,}
+\NormalTok{    resulting in an Entry with a red remark "\#text(fill: red)[No\textasciitilde{}glossary\textasciitilde{}entry]".}
+
+\NormalTok{    There is also a way to include Entries in the glossary for Words that are not contained in}
+\NormalTok{    the documents text:}
+
+\NormalTok{    \#gls{-}add("Cloud")}
+\NormalTok{    \#gls{-}add("REST")}
+
+
+\NormalTok{    = Glossary \textless{}Glossary\textgreater{}}
+
+\NormalTok{    This section contains the generated Glossary, in a nice two{-}column{-}layout. It also bears a}
+\NormalTok{    label, to enable the linking from marked words to the glossary.}
+
+\NormalTok{    \#line(length: 100\%)}
+\NormalTok{    \#set text(font: ("Arial", "Trebuchet MS"), size: 10pt)}
+\NormalTok{    \#columns(2)[}
+\NormalTok{        \#make{-}glossary(glossary{-}pool)}
+\NormalTok{    ]}
+\end{Highlighting}
+\end{Shaded}
+
+More usage samples are shown in the document
+\texttt{\ sample-usage.typ\ } on
+\href{https://github.com/typst/packages/raw/main/packages/preview/gloss-awe/0.0.5/\%5BTitle\%5D(https://github.com/RolfBremer/typst-glossary)}{gloss-aweÂ´s
+GitHub} .
+
+A more complex sample PDF is available there as well.
+
+\subsection{Changelog}\label{changelog}
+
+\subsubsection{v0.0.5}\label{v0.0.5}
+
+\begin{itemize}
+\tightlist
+\item
+  Address change in \texttt{\ figure.caption\ } in typst (commit:
+  976abdf ).
+\end{itemize}
+
+\subsubsection{v0.0.4}\label{v0.0.4}
+
+\begin{itemize}
+\tightlist
+\item
+  Breaking: Renamed the main file from \texttt{\ glossary.typ\ } to
+  \texttt{\ gloss-awe.typ\ } to match package.
+\item
+  Added support for hidden glossary entries.
+\item
+  Added a Changelog to this readme.
+\end{itemize}
+
+\subsubsection{v0.0.3}\label{v0.0.3}
+
+\begin{itemize}
+\tightlist
+\item
+  Added support for package manager in Typst.
+\item
+  Add \texttt{\ gls-add{[}...{]}\ } function for entries that are not in
+  the document.
+\end{itemize}
+
+\subsubsection{v.0.0.2}\label{v.0.0.2}
+
+\begin{itemize}
+\tightlist
+\item
+  Moved version to Github.
+\end{itemize}
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as \texttt{\ gloss-awe\ }
+
+\begin{verbatim}
+#import "@preview/gloss-awe:0.0.5"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+\href{https://github.com/RolfBremer}{JKRB}
+\item[License:]
+Apache-2.0
+\item[Current version:]
+0.0.5
+\item[Last updated:]
+September 13, 2023
+\item[First released:]
+July 3, 2023
+\item[Archive size:]
+8.39 kB
+\href{https://packages.typst.org/preview/gloss-awe-0.0.5.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/RolfBremer/gloss-awe}{GitHub}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of JKRB . Report issues on
+\href{https://github.com/RolfBremer/gloss-awe}{their repository} . You
+can also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.0.5 & September 13, 2023 \\
+\href{https://typst.app/universe/package/gloss-awe/0.0.4/}{0.0.4} & July
+6, 2023 \\
+\href{https://typst.app/universe/package/gloss-awe/0.0.3/}{0.0.3} & July
+3, 2023 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.

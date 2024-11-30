@@ -1,0 +1,633 @@
+\title{typst.app/universe/package/showybox}
+
+\phantomsection\label{banner}
+\section{showybox}\label{showybox}
+
+{ 2.0.3 }
+
+Colorful and customizable boxes for Typst
+
+{ } Featured Package
+
+\phantomsection\label{readme}
+\textbf{Showybox} is a Typst package for creating colorful and
+customizable boxes.
+
+\subsection{Usage}\label{usage}
+
+To use this library through the Typst package manager (for Typst 0.6.0
+or greater), write
+\texttt{\ \#import\ "@preview/showybox:2.0.2":\ showybox\ } at the
+beginning of your Typst file.
+
+Once imported, you can create an empty showybox by using the function
+\texttt{\ showybox()\ } and giving a default body content inside the
+parenthesis or outside them using squared brackets \texttt{\ {[}{]}\ } .
+
+By default a \texttt{\ showybox\ } with these properties will be
+created:
+
+\begin{itemize}
+\tightlist
+\item
+  No title
+\item
+  No shadow
+\item
+  Not breakable
+\item
+  Black borders
+\item
+  White background
+\item
+  \texttt{\ 5pt\ } of border radius
+\item
+  \texttt{\ 1pt\ } of border thickness
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/showybox:2.0.3": showybox}
+
+\NormalTok{\#showybox(}
+\NormalTok{  [Hello world!]}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{\texorpdfstring{\protect\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/showybox/2.0.3/assets/hello-world.png}}}{Hello world! example}}\label{hello-world-example}
+
+Looks quite simple, but the â€œmagicâ€? starts when adding a title,
+color and shadows. The following code creates two â€œuniqueâ€? boxes
+with defined colors and custom borders:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{// First showybox}
+\NormalTok{\#showybox(}
+\NormalTok{  frame: (}
+\NormalTok{    border{-}color: red.darken(50\%),}
+\NormalTok{    title{-}color: red.lighten(60\%),}
+\NormalTok{    body{-}color: red.lighten(80\%)}
+\NormalTok{  ),}
+\NormalTok{  title{-}style: (}
+\NormalTok{    color: black,}
+\NormalTok{    weight: "regular",}
+\NormalTok{    align: center}
+\NormalTok{  ),}
+\NormalTok{  shadow: (}
+\NormalTok{    offset: 3pt,}
+\NormalTok{  ),}
+\NormalTok{  title: "Red{-}ish showybox with separated sections!",}
+\NormalTok{  lorem(20),}
+\NormalTok{  lorem(12)}
+\NormalTok{)}
+
+\NormalTok{// Second showybox}
+\NormalTok{\#showybox(}
+\NormalTok{  frame: (}
+\NormalTok{    dash: "dashed",}
+\NormalTok{    border{-}color: red.darken(40\%)}
+\NormalTok{  ),}
+\NormalTok{  body{-}style: (}
+\NormalTok{    align: center}
+\NormalTok{  ),}
+\NormalTok{  sep: (}
+\NormalTok{    dash: "dashed"}
+\NormalTok{  ),}
+\NormalTok{  shadow: (}
+\NormalTok{      offset: (x: 2pt, y: 3pt),}
+\NormalTok{    color: yellow.lighten(70\%)}
+\NormalTok{  ),}
+\NormalTok{  [This is an important message!],}
+\NormalTok{  [Be careful outside. There are dangerous bananas!]}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{\texorpdfstring{\protect\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/showybox/2.0.3/assets/two-easy-examples.png}}}{Further examples}}\label{further-examples}
+
+\subsection{Reference}\label{reference}
+
+The \texttt{\ showybox()\ } function can receive the following
+parameters:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ title\ } : A string used as the title of the showybox
+\item
+  \texttt{\ footer\ } : A string used as the footer of the showybox
+\item
+  \texttt{\ frame\ } : A dictionary containing the frameâ€™s properties
+\item
+  \texttt{\ title-style\ } : A dictionary containing the titleâ€™s
+  styles
+\item
+  \texttt{\ body-style\ } : A dictionary containing the bodyâ€™s styles
+\item
+  \texttt{\ footer-style\ } : A dictionary containing the footerâ€™s
+  styles
+\item
+  \texttt{\ sep\ } : A dictionary containing the separatorâ€™s
+  properties
+\item
+  \texttt{\ shadow\ } : A dictionary containing the shadowâ€™s
+  properties
+\item
+  \texttt{\ width\ } : A relative length indicating the showyboxâ€™s
+  width
+\item
+  \texttt{\ align\ } : An unidimensional alignement for the showybox in
+  the page
+\item
+  \texttt{\ breakable\ } : A boolean indicating whether a showybox can
+  break if it reached an end of page
+\item
+  \texttt{\ spacing\ } : Space above and below the showybox
+\item
+  \texttt{\ above\ } : Space above the showybox
+\item
+  \texttt{\ below\ } : Space below the showybox
+\item
+  \texttt{\ body\ } : The content of the showybox
+\end{itemize}
+
+\subsubsection{Frame properties}\label{frame-properties}
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ title-color\ } : Color used as background color where the
+  title goes (default is \texttt{\ black\ } )
+\item
+  \texttt{\ body-color\ } : Color used as background color where the
+  body goes (default is \texttt{\ white\ } )
+\item
+  \texttt{\ footer-color\ } : Color used as background color where the
+  footer goes (default is \texttt{\ luma(85)\ } )
+\item
+  \texttt{\ border-color\ } : Color used for the showyboxâ€™s border
+  (default is \texttt{\ black\ } )
+\item
+  \texttt{\ inset\ } : Inset used for title, body and footer elements
+  (default is \texttt{\ (x:\ 1em,\ y:\ 0.65em)\ } ) if none of the
+  followings are given:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \texttt{\ title-inset\ } : Inset used for the title
+  \item
+    \texttt{\ body-inset\ } : Inset used for the body
+  \item
+    \texttt{\ footer-inset\ } : Inset used for the body
+  \end{itemize}
+\item
+  \texttt{\ radius\ } : Showyboxâ€™s radius (default is \texttt{\ 5pt\ }
+  )
+\item
+  \texttt{\ thickness\ } : Border thickness of the showybox (default is
+  \texttt{\ 1pt\ } )
+\item
+  \texttt{\ dash\ } : Showyboxâ€™s border style (default is
+  \texttt{\ solid\ } )
+\end{itemize}
+
+\subsubsection{Title styles}\label{title-styles}
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ color\ } : Text color (default is \texttt{\ white\ } )
+\item
+  \texttt{\ weight\ } : Text weight (default is \texttt{\ bold\ } )
+\item
+  \texttt{\ align\ } : Text align (default is \texttt{\ left\ } )
+\item
+  \texttt{\ sep-thickness\ } : Thickness of the separator between title
+  and body (default is \texttt{\ 1pt\ } )
+\item
+  \texttt{\ boxed-style\ } : If itâ€™s a dictionary of properties,
+  indicates that the title must appear like a â€œfloating boxâ€? above
+  the showybox. If itâ€™s \texttt{\ none\ } , the title appears normally
+  (default is \texttt{\ none\ } )
+\end{itemize}
+
+\paragraph{Boxed styles}\label{boxed-styles}
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ anchor\ } : Anchor of the boxed title
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \texttt{\ y\ } : Vertical anchor ( \texttt{\ top\ } ,
+    \texttt{\ horizon\ } or \texttt{\ bottom\ } â€`` default is
+    \texttt{\ horizon\ } )
+  \item
+    \texttt{\ x\ } : Horizontal anchor ( \texttt{\ left\ } ,
+    \texttt{\ start\ } , \texttt{\ center\ } , \texttt{\ right\ } ,
+    \texttt{\ end\ } â€`` default is \texttt{\ left\ } )
+  \end{itemize}
+\item
+  \texttt{\ offset\ } : How much to offset the boxed title in x and y
+  direction as a dictionary with keys \texttt{\ x\ } and \texttt{\ y\ }
+  (default is \texttt{\ 0pt\ } )
+\item
+  \texttt{\ radius\ } : Boxed title radius as a dictionary or relative
+  length (default is \texttt{\ 5pt\ } )
+\end{itemize}
+
+\subsubsection{Body styles}\label{body-styles}
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ color\ } : Text color (default is \texttt{\ black\ } )
+\item
+  \texttt{\ align\ } : Text align (default is \texttt{\ left\ } )
+\end{itemize}
+
+\subsubsection{Footer styles}\label{footer-styles}
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ color\ } : Text color (default is \texttt{\ luma(85)\ } )
+\item
+  \texttt{\ weight\ } : Text weight (default is \texttt{\ regular\ } )
+\item
+  \texttt{\ align\ } : Text align (default is \texttt{\ left\ } )
+\item
+  \texttt{\ sep-thickness\ } : Thickness of the separator between body
+  and footer (default is \texttt{\ 1pt\ } )
+\end{itemize}
+
+\subsubsection{Separator properties}\label{separator-properties}
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ thickness\ } : Separatorâ€™s thickness (default is
+  \texttt{\ 1pt\ } )
+\item
+  \texttt{\ dash\ } : Separatorâ€™s style (as a \texttt{\ line\ } dash
+  style, default is \texttt{\ "solid"\ } )
+\item
+  \texttt{\ gutter\ } : Separatorâ€™s space above and below (defalut is
+  \texttt{\ 0.65em\ } )
+\end{itemize}
+
+\subsubsection{Shadow properties}\label{shadow-properties}
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ color\ } : Shadow color (default is \texttt{\ black\ } )
+\item
+  \texttt{\ offset\ } : How much to offset the shadow in x and y
+  direction either as a length or a dictionary with keys \texttt{\ x\ }
+  and \texttt{\ y\ } (default is \texttt{\ 4pt\ } )
+\end{itemize}
+
+\subsection{Gallery}\label{gallery}
+
+\subsubsection{Colors for title, body and footer example (Stokesâ€™
+theorem)}\label{colors-for-title-body-and-footer-example-stokesuxe2-theorem}
+
+\subsubsection{\texorpdfstring{\protect\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/showybox/2.0.3/assets/stokes-example.png}}}{Encapsulation}}\label{encapsulation}
+
+\subsubsection{Boxed-title example (Clairautâ€™s
+theorem)}\label{boxed-title-example-clairautuxe2s-theorem}
+
+\subsubsection{\texorpdfstring{\protect\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/showybox/2.0.3/assets/clairaut-example.png}}}{Encapsulation}}\label{encapsulation-1}
+
+\subsubsection{Encapsulation example}\label{encapsulation-example}
+
+\subsubsection{\texorpdfstring{\protect\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/showybox/2.0.3/assets/encapsulation-example.png}}}{Encapsulation}}\label{encapsulation-2}
+
+\subsubsection{Breakable showybox example (Newtonâ€™s second
+law)}\label{breakable-showybox-example-newtonuxe2s-second-law}
+
+\subsubsection{\texorpdfstring{\protect\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/showybox/2.0.3/assets/newton-example.png}}}{Enabling breakable}}\label{enabling-breakable}
+
+\subsubsection{Custom radius and titleâ€™s separator thickness example
+(Carnotâ€™s cycle
+efficency)}\label{custom-radius-and-titleuxe2s-separator-thickness-example-carnotuxe2s-cycle-efficency}
+
+\subsubsection{\texorpdfstring{\protect\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/showybox/2.0.3/assets/carnot-example.png}}}{Custom radius}}\label{custom-radius}
+
+\subsubsection{Custom border dash and inset example (Gaussâ€™s
+law)}\label{custom-border-dash-and-inset-example-gaussuxe2s-law}
+
+\subsubsection{\texorpdfstring{\protect\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/showybox/2.0.3/assets/gauss-example.png}}}{Custom radius}}\label{custom-radius-1}
+
+\subsubsection{Custom footerâ€™s separator thickness example
+(Divergenceâ€™s
+theorem)}\label{custom-footeruxe2s-separator-thickness-example-divergenceuxe2s-theorem}
+
+\subsubsection{\texorpdfstring{\protect\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/showybox/2.0.3/assets/divergence-example.png}}}{Custom radius}}\label{custom-radius-2}
+
+\subsubsection{Colorful shadow example (Coulombâ€™s
+law)}\label{colorful-shadow-example-coulombuxe2s-law}
+
+\subsubsection{\texorpdfstring{\protect\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/showybox/2.0.3/assets/coulomb-example.png}}}{Custom radius}}\label{custom-radius-3}
+
+\subsection{Changelog}\label{changelog}
+
+\subsubsection{Version 2.0.3}\label{version-2.0.3}
+
+\begin{itemize}
+\tightlist
+\item
+  Revert fix breakable box empty before new page. Layout didnâ€™t
+  converge
+\end{itemize}
+
+\subsubsection{Version 2.0.2}\label{version-2.0.2}
+
+\begin{itemize}
+\tightlist
+\item
+  Remove deprecated functions in Typst 0.12.0
+\item
+  Fix breakable box empty before new page
+\end{itemize}
+
+\subsubsection{Version 2.0.1}\label{version-2.0.1}
+
+\begin{itemize}
+\tightlist
+\item
+  Fix bad behaviours of boxed-titles \texttt{\ anchor\ } inside a
+  \texttt{\ figure\ }
+\item
+  Fix wrong \texttt{\ breakable\ } behaviour of showyboxes inside a
+  \texttt{\ figure\ }
+\item
+  Fix Manual and READMEâ€™s Stokes theorem example
+\end{itemize}
+
+\subsubsection{Version 2.0.0}\label{version-2.0.0}
+
+\emph{Special thanks to Andrew Voynov (
+\url{https://github.com/Andrew15-5} ) for the feedback while creating
+the new behaviours for boxed-titles}
+
+\begin{itemize}
+\tightlist
+\item
+  Update \texttt{\ type()\ } conditionals to Typst 0.8.0 standards
+\item
+  Add \texttt{\ boxed-style\ } property, with \texttt{\ anchor\ } ,
+  \texttt{\ offset\ } and \texttt{\ radius\ } properties.
+\item
+  Refactor \texttt{\ showy-inset()\ } for being general-purpose. Now
+  itâ€™s called \texttt{\ showy-value-in-direction()\ } and has a
+  default value for handling properties defaults
+\item
+  Now sharp corners can be set by giving a dictionary to frame
+  \texttt{\ radius\ } (e.g.
+  \texttt{\ radius:\ (top:\ 5pt,\ bottom:\ 0pt)\ } ). Before this only
+  was possible for untitled showyboxes.
+\item
+  Refactor shadow functions to be in a separated file.
+\item
+  Fix bug of bad behaviour while writing too long titles.
+\item
+  Fix bug while rendering separators with custom thickness. Now the
+  thickness is gotten properly.
+\item
+  Fix bad shadow drawing in showyboxes with a boxed-title that has a
+  â€œextremeâ€? \texttt{\ offset\ } value.
+\item
+  Fix bad sizing while creating showyboxes with a \texttt{\ width\ } of
+  less than \texttt{\ 100\%\ } , and a shadow.
+\end{itemize}
+
+\subsubsection{Version 1.1.0}\label{version-1.1.0}
+
+\begin{itemize}
+\tightlist
+\item
+  Added \texttt{\ boxed\ } option in title styles
+\item
+  Added \texttt{\ boxed-align\ } in title styles
+\item
+  Added \texttt{\ sep-thickness\ } for title and footer
+\item
+  Refactored repositoryâ€™s files layout
+\end{itemize}
+
+\subsubsection{Version 1.0.0}\label{version-1.0.0}
+
+\begin{itemize}
+\tightlist
+\item
+  Fixed shadow displacement
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \textbf{Details:} Instead of displacing the showyboxâ€™s body from
+    the shadow, now the shadow is displaced from the body.
+  \end{itemize}
+\end{itemize}
+
+\emph{Changes below were performed by Jonas Neugebauer (
+\url{https://github.com/jneug} )}
+
+\begin{itemize}
+\tightlist
+\item
+  Added \texttt{\ title-inset\ } , \texttt{\ body-inset\ } ,
+  \texttt{\ footer-inset\ } and \texttt{\ inset\ } options
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \textbf{Details:} \texttt{\ title-inset\ } , \texttt{\ body-inset\ }
+    and \texttt{\ footer-inset\ } will set the inset of the title, body
+    and footer area respectively. \texttt{\ inset\ } is a fallback for
+    those areas.
+  \end{itemize}
+\item
+  Added a \texttt{\ sep.gutter\ } option to set the spacing around
+  separator lines
+\item
+  Added option \texttt{\ width\ } to set the width of a showybox
+\item
+  Added option \texttt{\ align\ } to move a showybox with
+  \texttt{\ width\ } \textless{} 100\% along the x-axis
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \textbf{Details:} A showybox is now wrapped in another block to
+    allow alignment. This also makes it possible to pass the spacing
+    options \texttt{\ spacing\ } , \texttt{\ above\ } and
+    \texttt{\ below\ } to \texttt{\ \#showybox()\ } .
+  \end{itemize}
+\item
+  Added \texttt{\ footer\ } and \texttt{\ footer-style\ } options
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \textbf{Details:} The optional footer is added at the bottom of the
+    box.
+  \end{itemize}
+\end{itemize}
+
+\subsubsection{Version 0.2.1}\label{version-0.2.1}
+
+\emph{All changes listed here were performed by Jonas Neugebauer (
+\url{https://github.com/jneug} )}
+
+\begin{itemize}
+\tightlist
+\item
+  Added the \texttt{\ shadow\ } option
+\item
+  Enabled auto-break ( \texttt{\ breakable\ } ) functionality for titled
+  showyboxes
+\item
+  Removed a thin line that appears in showyboxes with no borders or
+  dashed borders
+\end{itemize}
+
+\subsubsection{Version 0.2.0}\label{version-0.2.0}
+
+\begin{itemize}
+\tightlist
+\item
+  Improved code documentation
+\item
+  Enabled an auto-break functionality for non-titled showyboxes
+\item
+  Created a separator functionality to separate content inside a
+  showybox with a horizontal line
+\end{itemize}
+
+\subsubsection{Version 0.1.1}\label{version-0.1.1}
+
+\begin{itemize}
+\tightlist
+\item
+  Changed package name from colorbox to showybox
+\item
+  Fixed a spacing bug in encapsulated showyboxes
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \textbf{Details:} When a showybox was encapsulated inside another,
+    the spacing after that showybox was \texttt{\ 0pt\ } , probably due
+    to some â€œfixesâ€? improved to manage default spacing between
+    \texttt{\ rect\ } elements. The issue was solved by avoiding
+    \texttt{\ \#set\ } statements and adding a \texttt{\ \#v(-1.1em)\ }
+    to correct extra spacing between the title \texttt{\ rect\ } and the
+    body \texttt{\ rect\ } .
+  \end{itemize}
+\end{itemize}
+
+\subsubsection{Version 0.1.0}\label{version-0.1.0}
+
+\begin{itemize}
+\tightlist
+\item
+  Initial release
+\end{itemize}
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as \texttt{\ showybox\ }
+
+\begin{verbatim}
+#import "@preview/showybox:2.0.3"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author s :]
+Pablo GonzÃ¡lez CalderÃ³n \& Showybox Contributors
+\item[License:]
+MIT
+\item[Current version:]
+2.0.3
+\item[Last updated:]
+October 24, 2024
+\item[First released:]
+July 3, 2023
+\item[Minimum Typst version:]
+0.12.0
+\item[Archive size:]
+9.41 kB
+\href{https://packages.typst.org/preview/showybox-2.0.3.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/Pablo-Gonzalez-Calderon/showybox-package}{GitHub}
+\item[Categor y :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-package.svg}}
+  \href{https://typst.app/universe/search/?category=components}{Components}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of Pablo GonzÃ¡lez CalderÃ³n and Showybox
+Contributors . Report issues on
+\href{https://github.com/Pablo-Gonzalez-Calderon/showybox-package}{their
+repository} . You can also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+2.0.3 & October 24, 2024 \\
+\href{https://typst.app/universe/package/showybox/2.0.2/}{2.0.2} &
+October 21, 2024 \\
+\href{https://typst.app/universe/package/showybox/2.0.1/}{2.0.1} &
+October 4, 2023 \\
+\href{https://typst.app/universe/package/showybox/2.0.0/}{2.0.0} &
+October 1, 2023 \\
+\href{https://typst.app/universe/package/showybox/1.1.0/}{1.1.0} &
+August 3, 2023 \\
+\href{https://typst.app/universe/package/showybox/1.0.0/}{1.0.0} & July
+31, 2023 \\
+\href{https://typst.app/universe/package/showybox/0.2.1/}{0.2.1} & July
+31, 2023 \\
+\href{https://typst.app/universe/package/showybox/0.2.0/}{0.2.0} & July
+10, 2023 \\
+\href{https://typst.app/universe/package/showybox/0.1.1/}{0.1.1} & July
+3, 2023 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.

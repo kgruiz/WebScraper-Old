@@ -1,0 +1,229 @@
+\title{typst.app/universe/package/pyrunner}
+
+\phantomsection\label{banner}
+\section{pyrunner}\label{pyrunner}
+
+{ 0.2.0 }
+
+Run python code in typst.
+
+\phantomsection\label{readme}
+Run python code in \href{https://typst.app/}{typst} using
+\href{https://github.com/RustPython/RustPython}{RustPython} .
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/pyrunner:0.1.0" as py}
+
+\NormalTok{\#let compiled = py.compile(}
+\NormalTok{\textasciigrave{}\textasciigrave{}\textasciigrave{}python}
+\NormalTok{def find\_emails(string):}
+\NormalTok{    import re}
+\NormalTok{    return re.findall(r"\textbackslash{}b[a{-}zA{-}Z0{-}9.\_\%+{-}]+@[a{-}zA{-}Z0{-}9.{-}]+\textbackslash{}.[a{-}zA{-}Z]\{2,\}\textbackslash{}b", string)}
+
+\NormalTok{def sum\_all(*array):}
+\NormalTok{    return sum(array)}
+\NormalTok{\textasciigrave{}\textasciigrave{}\textasciigrave{})}
+
+\NormalTok{\#let txt = "My email address is john.doe@example.com and my friend\textquotesingle{}s email address is jane.doe@example.net."}
+
+\NormalTok{\#py.call(compiled, "find\_emails", txt)}
+\NormalTok{\#py.call(compiled, "sum\_all", 1, 2, 3)}
+\end{Highlighting}
+\end{Shaded}
+
+Block mode is also available.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let code = \textasciigrave{}\textasciigrave{}\textasciigrave{}}
+\NormalTok{f\textquotesingle{}\{a+b=\}\textquotesingle{}}
+\NormalTok{\textasciigrave{}\textasciigrave{}\textasciigrave{}}
+
+\NormalTok{\#py.block(code, globals: (a: 1, b: 2))}
+
+\NormalTok{\#py.block(code, globals: (a: "1", b: "2"))}
+\end{Highlighting}
+\end{Shaded}
+
+The result will be \texttt{\ a+b=3\ } and
+\texttt{\ a+b=\textquotesingle{}12\textquotesingle{}\ } .
+
+\subsection{Current limitations}\label{current-limitations}
+
+Due to restrictions of typst and its plugin system, some Python function
+will not work as expected:
+
+\begin{itemize}
+\tightlist
+\item
+  File and network IO will always raise an exception.
+\item
+  \texttt{\ datatime.now\ } will always return 1970-01-01.
+\end{itemize}
+
+Also, there is no way to import third-party modules. Only bundled stdlib
+modules are available. We might find a way to lift this restriction, so
+feel free to submit an issue if you want this functionality.
+
+\subsection{API}\label{api}
+
+\subsubsection{\texorpdfstring{\texttt{\ block\ }}{ block }}\label{block}
+
+Run Python code block and get its result.
+
+\paragraph{Arguments}\label{arguments}
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ code\ } : string \textbar{} raw content - The Python code to
+  run.
+\item
+  \texttt{\ globals\ } : dict (named optional) - The global variables to
+  bring into scope.
+\end{itemize}
+
+\paragraph{Returns}\label{returns}
+
+The last expression of the code block.
+
+\subsubsection{\texorpdfstring{\texttt{\ compile\ }}{ compile }}\label{compile}
+
+Compile Python code to bytecode.
+
+\paragraph{Arguments}\label{arguments-1}
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ code\ } : string \textbar{} raw content - The Python code to
+  compile.
+\end{itemize}
+
+\paragraph{Returns}\label{returns-1}
+
+The bytecode representation in \texttt{\ bytes\ } .
+
+\subsubsection{\texorpdfstring{\texttt{\ call\ }}{ call }}\label{call}
+
+Call a python function with arguments.
+
+\paragraph{Arguments}\label{arguments-2}
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ compiled\ } : bytes - The bytecode representation of Python
+  code.
+\item
+  \texttt{\ fn\_name\ } : string - The name of the function to be
+  called.
+\item
+  \texttt{\ ..args\ } : any - The arguments to pass to the function.
+\end{itemize}
+
+\paragraph{Returns}\label{returns-2}
+
+The result of the function call.
+
+\subsection{Build from source}\label{build-from-source}
+
+Install
+\href{https://github.com/astrale-sharp/wasm-minimal-protocol}{\texttt{\ wasi-stub\ }}
+. You should use a slightly modified one. See
+\href{https://github.com/astrale-sharp/wasm-minimal-protocol/issues/22\#issuecomment-1827379467}{the
+related issue} .
+
+Build pyrunner.
+
+\begin{verbatim}
+rustup target add wasm32-wasi
+cargo build --target wasm32-wasi
+make pkg/typst-pyrunner.wasm
+\end{verbatim}
+
+Add to local package.
+
+\begin{verbatim}
+mkdir -p ~/.local/share/typst/packages/local/pyrunner/0.0.1
+cp pkg/* ~/.local/share/typst/packages/local/pyrunner/0.0.1
+\end{verbatim}
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as \texttt{\ pyrunner\ }
+
+\begin{verbatim}
+#import "@preview/pyrunner:0.2.0"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+Peng Guanwen
+\item[License:]
+MIT
+\item[Current version:]
+0.2.0
+\item[Last updated:]
+March 18, 2024
+\item[First released:]
+December 4, 2023
+\item[Minimum Typst version:]
+0.10.0
+\item[Archive size:]
+5.89 MB
+\href{https://packages.typst.org/preview/pyrunner-0.2.0.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/peng1999/typst-pyrunner}{GitHub}
+\item[Categor ies :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-code.svg}}
+  \href{https://typst.app/universe/search/?category=scripting}{Scripting}
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-integration.svg}}
+  \href{https://typst.app/universe/search/?category=integration}{Integration}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of Peng Guanwen . Report issues on
+\href{https://github.com/peng1999/typst-pyrunner}{their repository} .
+You can also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.2.0 & March 18, 2024 \\
+\href{https://typst.app/universe/package/pyrunner/0.1.0/}{0.1.0} &
+December 4, 2023 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.

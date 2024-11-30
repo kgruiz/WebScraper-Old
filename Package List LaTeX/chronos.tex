@@ -1,0 +1,268 @@
+\title{typst.app/universe/package/chronos}
+
+\phantomsection\label{banner}
+\section{chronos}\label{chronos}
+
+{ 0.2.0 }
+
+A package to draw sequence diagrams with CeTZ
+
+\phantomsection\label{readme}
+A Typst package to draw sequence diagrams with CeTZ
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+This package lets you render sequence diagrams directly in Typst. The
+following boilerplate code creates an empty sequence diagram with two
+participants:
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.5000}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.5000}}@{}}
+\toprule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{Typst} & \textbf{Result} \\
+\begin{minipage}[t]{\linewidth}\raggedright
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/chronos:0.2.0"}
+\NormalTok{\#chronos.diagram(\{}
+\NormalTok{  import chronos: *}
+\NormalTok{  \_par("Alice")}
+\NormalTok{  \_par("Bob")}
+\NormalTok{\})}
+\end{Highlighting}
+\end{Shaded}
+\end{minipage} &
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/chronos/0.2.0/gallery/readme/boilerplate.png}} \\
+\end{longtable}
+
+\begin{quote}
+\emph{Disclaimer}\\
+The package cannot parse PlantUML syntax for the moment, and thus
+requires the use of element functions, as shown in the examples. A
+PlantUML parser is in the TODO list, just not the top priority
+\end{quote}
+
+\subsection{Basic sequences}\label{basic-sequences}
+
+You can make basic sequences using the \texttt{\ \_seq\ } function:
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.5000}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.5000}}@{}}
+\toprule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{Typst} & \textbf{Result} \\
+\begin{minipage}[t]{\linewidth}\raggedright
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#chronos.diagram(\{}
+\NormalTok{  import chronos: *}
+\NormalTok{  \_par("Alice")}
+\NormalTok{  \_par("Bob")}
+
+\NormalTok{  \_seq("Alice", "Bob", comment: "Hello")}
+\NormalTok{  \_seq("Bob", "Bob", comment: "Think")}
+\NormalTok{  \_seq("Bob", "Alice", comment: "Hi")}
+\NormalTok{\})}
+\end{Highlighting}
+\end{Shaded}
+\end{minipage} &
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/chronos/0.2.0/gallery/readme/simple_sequence.png}} \\
+\end{longtable}
+
+You can make lifelines using the following parameters of the
+\texttt{\ \_seq\ } function:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ enable-dst\ } : enables the destination lifeline
+\item
+  \texttt{\ create-dst\ } : creates the destination lifeline and
+  participant
+\item
+  \texttt{\ disable-dst\ } : disables the destination lifeline
+\item
+  \texttt{\ destroy-dst\ } : destroys the destination lifeline and
+  participant
+\item
+  \texttt{\ disable-src\ } : disables the source lifeline
+\item
+  \texttt{\ destroy-src\ } : destroy the source lifeline and participant
+\end{itemize}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.5000}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.5000}}@{}}
+\toprule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{Typst} & \textbf{Result} \\
+\begin{minipage}[t]{\linewidth}\raggedright
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#chronos.diagram(\{}
+\NormalTok{  import chronos: *}
+\NormalTok{  \_par("A", display{-}name: "Alice")}
+\NormalTok{  \_par("B", display{-}name: "Bob")}
+\NormalTok{  \_par("C", display{-}name: "Charlie")}
+\NormalTok{  \_par("D", display{-}name: "Derek")}
+
+\NormalTok{  \_seq("A", "B", comment: "hello", enable{-}dst: true)}
+\NormalTok{  \_seq("B", "B", comment: "self call", enable{-}dst: true)}
+\NormalTok{  \_seq("C", "B", comment: "hello from thread 2", enable{-}dst: true, lifeline{-}style: (fill: rgb("\#005500")))}
+\NormalTok{  \_seq("B", "D", comment: "create", create{-}dst: true)}
+\NormalTok{  \_seq("B", "C", comment: "done in thread 2", disable{-}src: true, dashed: true)}
+\NormalTok{  \_seq("B", "B", comment: "rc", disable{-}src: true, dashed: true)}
+\NormalTok{  \_seq("B", "D", comment: "delete", destroy{-}dst: true)}
+\NormalTok{  \_seq("B", "A", comment: "success", disable{-}src: true, dashed: true)}
+\NormalTok{\})}
+\end{Highlighting}
+\end{Shaded}
+\end{minipage} &
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/chronos/0.2.0/gallery/readme/lifelines.png}} \\
+\end{longtable}
+
+\subsection{Showcase}\label{showcase}
+
+Several features have already been implemented in Chronos. Donâ€™t
+hesitate to checkout the examples in the
+\href{https://github.com/typst/packages/raw/main/packages/preview/chronos/0.2.0/gallery}{gallery}
+folder to see what you can do.
+
+\paragraph{Quick example reference:}\label{quick-example-reference}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.5000}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.5000}}@{}}
+\toprule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{Example} & \textbf{Features} \\
+\begin{minipage}[t]{\linewidth}\raggedright
+\texttt{\ example1\ }\strut \\
+(
+\href{https://github.com/typst/packages/raw/main/packages/preview/chronos/0.2.0/gallery/example1.pdf}{PDF}
+\textbar{}
+\href{https://github.com/typst/packages/raw/main/packages/preview/chronos/0.2.0/gallery/example1.typ}{Typst}
+)\strut
+\end{minipage} & Simple cases, color sequences, groups, separators,
+gaps, self-sequences \\
+\begin{minipage}[t]{\linewidth}\raggedright
+\texttt{\ example2\ }\strut \\
+(
+\href{https://github.com/typst/packages/raw/main/packages/preview/chronos/0.2.0/gallery/example2.pdf}{PDF}
+\textbar{}
+\href{https://github.com/typst/packages/raw/main/packages/preview/chronos/0.2.0/gallery/example2.typ}{Typst}
+)\strut
+\end{minipage} & Lifelines, found/lost messages, synchronized sequences,
+slanted sequences \\
+\begin{minipage}[t]{\linewidth}\raggedright
+\texttt{\ example3\ }\strut \\
+(
+\href{https://github.com/typst/packages/raw/main/packages/preview/chronos/0.2.0/gallery/example3.pdf}{PDF}
+\textbar{}
+\href{https://github.com/typst/packages/raw/main/packages/preview/chronos/0.2.0/gallery/example3.typ}{Typst}
+)\strut
+\end{minipage} & Participant shapes, sequence tips, hidden partipicant
+ends \\
+\begin{minipage}[t]{\linewidth}\raggedright
+\texttt{\ notes\ }\strut \\
+(
+\href{https://github.com/typst/packages/raw/main/packages/preview/chronos/0.2.0/gallery/notes.pdf}{PDF}
+\textbar{}
+\href{https://github.com/typst/packages/raw/main/packages/preview/chronos/0.2.0/gallery/notes.typ}{Typst}
+)\strut
+\end{minipage} & Notes (duh), deferred participant creation \\
+\end{longtable}
+
+\begin{quote}
+{[}!NOTE{]}
+
+Many examples were taken/adapted from the PlantUML
+\href{https://plantuml.com/sequence-diagram}{documentation} on sequence
+diagrams
+\end{quote}
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as \texttt{\ chronos\ }
+
+\begin{verbatim}
+#import "@preview/chronos:0.2.0"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+\href{https://git.kb28.ch/HEL}{Louis Heredero}
+\item[License:]
+Apache-2.0
+\item[Current version:]
+0.2.0
+\item[Last updated:]
+November 12, 2024
+\item[First released:]
+October 1, 2024
+\item[Minimum Typst version:]
+0.12.0
+\item[Archive size:]
+537 kB
+\href{https://packages.typst.org/preview/chronos-0.2.0.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://git.kb28.ch/HEL/chronos}{git.kb28.ch}
+\item[Categor y :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-chart.svg}}
+  \href{https://typst.app/universe/search/?category=visualization}{Visualization}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of Louis Heredero . Report issues on
+\href{https://git.kb28.ch/HEL/chronos}{their repository} . You can also
+try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.2.0 & November 12, 2024 \\
+\href{https://typst.app/universe/package/chronos/0.1.0/}{0.1.0} &
+October 1, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.

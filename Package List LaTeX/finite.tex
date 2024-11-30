@@ -1,0 +1,224 @@
+\title{typst.app/universe/package/finite}
+
+\phantomsection\label{banner}
+\section{finite}\label{finite}
+
+{ 0.3.2 }
+
+Typst-setting finite automata with CeTZ
+
+{ } Featured Package
+
+\phantomsection\label{readme}
+\textbf{finite} is a \href{https://github.com/typst/typst}{Typst}
+package for rendering finite automata on top of
+\href{https://github.com/johannes-wolf/typst-canvas}{CeTZ} .
+
+\subsection{Usage}\label{usage}
+
+For Typst 0.6.0 or later, import the package from the typst preview
+repository:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import }\StringTok{"@preview/finite:0.3.2"}\OperatorTok{:}\NormalTok{ automaton}
+\end{Highlighting}
+\end{Shaded}
+
+After importing the package, simply call \texttt{\ \#automaton()\ } with
+a dictionary holding a transition table:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import }\StringTok{"@preview/finite:0.3.2"}\OperatorTok{:}\NormalTok{ automaton}
+
+\NormalTok{\#}\FunctionTok{automaton}\NormalTok{((}
+\NormalTok{  q0}\OperatorTok{:}\NormalTok{ (q1}\OperatorTok{:}\DecValTok{0}\OperatorTok{,}\NormalTok{ q0}\OperatorTok{:}\StringTok{"0,1"}\NormalTok{)}\OperatorTok{,}
+\NormalTok{  q1}\OperatorTok{:}\NormalTok{ (q0}\OperatorTok{:}\NormalTok{(}\DecValTok{0}\OperatorTok{,}\DecValTok{1}\NormalTok{)}\OperatorTok{,}\NormalTok{ q2}\OperatorTok{:}\StringTok{"0"}\NormalTok{)}\OperatorTok{,}
+\NormalTok{  q2}\OperatorTok{:}\NormalTok{ ()}\OperatorTok{,}
+\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+The output should look like this:
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/finite/0.3.2/assets/example.png}}
+
+\subsection{Further documentation}\label{further-documentation}
+
+See \texttt{\ manual.pdf\ } for a full manual of the package.
+
+\subsection{Development}\label{development}
+
+The documentation is created using
+\href{https://github.com/jneug/typst-mantys}{Mantys} , a Typst template
+for creating package documentation.
+
+To compile the manual, Mantys needs to be available as a local package.
+Refer to Mantysâ€™ manual for instructions on how to do so.
+
+\subsection{Changelog}\label{changelog}
+
+\subsubsection{Version 0.3.2}\label{version-0.3.2}
+
+\begin{itemize}
+\tightlist
+\item
+  Fixed an issue with final states not beeing recognized properly (\#5)
+\end{itemize}
+
+\subsubsection{Version 0.3.1}\label{version-0.3.1}
+
+\begin{itemize}
+\tightlist
+\item
+  Added styling options for intial states:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \texttt{\ stroke\ } sets a stroke for the marking.
+  \item
+    \texttt{\ scale\ } scales the marking by a factor.
+  \end{itemize}
+\item
+  Updated manual.
+\end{itemize}
+
+\subsubsection{Version 0.3.0}\label{version-0.3.0}
+
+\begin{itemize}
+\tightlist
+\item
+  Bumped tools4typst to v0.3.2.
+\item
+  Introducing automaton specs as a data structure.
+\item
+  Changes to \texttt{\ automaton\ } command:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Changed \texttt{\ label-format\ } argument to
+    \texttt{\ state-format\ } and \texttt{\ input-format\ } .
+  \item
+    \texttt{\ layout\ } can now take a dictionary with (
+    \texttt{\ state\ } : \texttt{\ coordinate\ } ) pairs to position
+    states.
+  \end{itemize}
+\item
+  Added \texttt{\ \#powerset\ } command, to transform a NFA into a DFA.
+\item
+  Added \texttt{\ \#add-trap\ } command, to complete a partial DFA.
+\item
+  Added \texttt{\ \#accepts\ } command, to test a word against an NFA or
+  DFA.
+\item
+  Added \texttt{\ transpose-table\ } and \texttt{\ get-inputs\ }
+  utilities.
+\item
+  Added â€œStartâ€? label to the mark for initial states.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Added option to modify the mark label for initial states.
+  \end{itemize}
+\item
+  Added anchor option for loops, to position the loop at one of the
+  eight default anchors.
+\item
+  Changed \texttt{\ curve\ } option to be the height of the arc of the
+  transition.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    This makes styling more consistent over longer distances.
+  \end{itemize}
+\item
+  Added \texttt{\ rest\ } key to custom layouts.
+\end{itemize}
+
+\subsubsection{Version 0.2.0}\label{version-0.2.0}
+
+\begin{itemize}
+\tightlist
+\item
+  Bumped CeTZ to v0.1.1.
+\end{itemize}
+
+\subsubsection{Version 0.1.0}\label{version-0.1.0}
+
+\begin{itemize}
+\tightlist
+\item
+  Initial release submitted to
+  \href{https://github.com/typst/packages}{typst/packages} .
+\end{itemize}
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as \texttt{\ finite\ }
+
+\begin{verbatim}
+#import "@preview/finite:0.3.2"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+Jonas Neugebauer
+\item[License:]
+MIT
+\item[Current version:]
+0.3.2
+\item[Last updated:]
+September 30, 2024
+\item[First released:]
+September 3, 2023
+\item[Archive size:]
+13.6 kB
+\href{https://packages.typst.org/preview/finite-0.3.2.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/jneug/typst-finite}{GitHub}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of Jonas Neugebauer . Report issues on
+\href{https://github.com/jneug/typst-finite}{their repository} . You can
+also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.3.2 & September 30, 2024 \\
+\href{https://typst.app/universe/package/finite/0.3.0/}{0.3.0} &
+September 23, 2023 \\
+\href{https://typst.app/universe/package/finite/0.1.0/}{0.1.0} &
+September 3, 2023 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.

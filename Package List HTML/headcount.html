@@ -1,0 +1,532 @@
+<main>
+    <div id="banner" style="--banner-accent:#000000;--banner-primary:#000000;--banner-secondary:#000000;--banner-tertiary:#565565;--banner-background:#eff0f3">
+     <div class="package-icon" role="img">
+     </div>
+     <div>
+      <div class="title">
+       <h1 class="name">
+        headcount
+       </h1>
+       <span class="version">
+        0.1.0
+       </span>
+      </div>
+      <p class="description">
+       Make counters inherit from the heading counter.
+      </p>
+     </div>
+    </div>
+    <div class="inner-grid">
+     <section id="readme">
+      <p>
+       This package allows you to make
+       <strong>
+        counters depend on the current chapter/section number
+       </strong>
+       .
+      </p>
+      <p>
+       This works for
+       <strong>
+        figures, theorems, and any other counters
+       </strong>
+       .
+      </p>
+      <p>
+       The advantage compared to
+       <a href="https://typst.app/universe/package/rich-counters/">
+        rich-counters
+       </a>
+       is that you stick with native
+       <code>
+        counter
+       </code>
+       s and you can influence e.g. the
+       <code>
+        figure
+       </code>
+       counter directly without writing a new
+       <code>
+        show
+       </code>
+       rule with a custom counter or so.
+      </p>
+      <h2>
+       Showcase
+      </h2>
+      <p>
+       In the following example, we demonstrate how you can inherit 1 level of the heading counter for figures and 2 levels for theorems.
+      </p>
+      <pre><code class="language-typ"><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/headcount:0.1.0"</span><span class="typ-punct">:</span> <span class="typ-op">*</span>
+<span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/great-theorems:0.1.0"</span><span class="typ-punct">:</span> <span class="typ-op">*</span>
+
+<span class="typ-key">#</span><span class="typ-key">show</span><span class="typ-punct">:</span> <span class="typ-func">great-theorems-init</span>
+
+<span class="typ-key">#</span><span class="typ-key">set</span> <span class="typ-func">heading</span><span class="typ-punct">(</span>numbering<span class="typ-punct">:</span> <span class="typ-str">"1.1"</span><span class="typ-punct">)</span>
+
+<span class="typ-comment">// contruct theorem environment with counter that inherits 2 levels from heading</span>
+<span class="typ-key">#</span><span class="typ-key">let</span> thmcounter <span class="typ-op">=</span> <span class="typ-func">counter</span><span class="typ-punct">(</span><span class="typ-str">"hello"</span><span class="typ-punct">)</span>
+<span class="typ-key">#</span><span class="typ-key">let</span> theorem <span class="typ-op">=</span> <span class="typ-func">mathblock</span><span class="typ-punct">(</span>
+  blocktitle<span class="typ-punct">:</span> <span class="typ-punct">[</span>Theorem<span class="typ-punct">]</span><span class="typ-punct">,</span>
+  counter<span class="typ-punct">:</span> thmcounter<span class="typ-punct">,</span>
+  numbering<span class="typ-punct">:</span> <span class="typ-func">dependent-numbering</span><span class="typ-punct">(</span><span class="typ-str">"1.1"</span><span class="typ-punct">,</span> levels<span class="typ-punct">:</span> <span class="typ-num">2</span><span class="typ-punct">)</span>
+<span class="typ-punct">)</span>
+<span class="typ-key">#</span><span class="typ-key">show</span> <span class="typ-func">heading</span><span class="typ-punct">:</span> <span class="typ-func">reset-counter</span><span class="typ-punct">(</span>thmcounter<span class="typ-punct">,</span> levels<span class="typ-punct">:</span> <span class="typ-num">2</span><span class="typ-punct">)</span>
+
+<span class="typ-comment">// set figure counter so that it inherits 1 level from heading</span>
+<span class="typ-key">#</span><span class="typ-key">set</span> <span class="typ-func">figure</span><span class="typ-punct">(</span>numbering<span class="typ-punct">:</span> <span class="typ-func">dependent-numbering</span><span class="typ-punct">(</span><span class="typ-str">"1.1"</span><span class="typ-punct">)</span><span class="typ-punct">)</span>
+<span class="typ-key">#</span><span class="typ-key">show</span> <span class="typ-func">heading</span><span class="typ-punct">:</span> <span class="typ-func">reset-counter</span><span class="typ-punct">(</span><span class="typ-func">counter</span><span class="typ-punct">(</span>figure<span class="typ-punct">.</span><span class="typ-func">where</span><span class="typ-punct">(</span>kind<span class="typ-punct">:</span> image<span class="typ-punct">)</span><span class="typ-punct">)</span><span class="typ-punct">)</span>
+
+<span class="typ-heading">= First heading</span>
+
+The theorems inherit 2 levels from the headings and the figures inherit 1 level from the headings.
+
+<span class="typ-func">#</span><span class="typ-func">theorem</span><span class="typ-punct">[</span>Some theorem.<span class="typ-punct">]</span>
+<span class="typ-func">#</span><span class="typ-func">theorem</span><span class="typ-punct">[</span>Some theorem.<span class="typ-punct">]</span>
+<span class="typ-func">#</span><span class="typ-func">figure</span><span class="typ-punct">(</span><span class="typ-punct">[</span>SOME FIGURE<span class="typ-punct">]</span><span class="typ-punct">,</span> caption<span class="typ-punct">:</span> <span class="typ-punct">[</span>some figure<span class="typ-punct">]</span><span class="typ-punct">)</span>
+<span class="typ-func">#</span><span class="typ-func">figure</span><span class="typ-punct">(</span><span class="typ-punct">[</span>SOME FIGURE<span class="typ-punct">]</span><span class="typ-punct">,</span> caption<span class="typ-punct">:</span> <span class="typ-punct">[</span>some figure<span class="typ-punct">]</span><span class="typ-punct">)</span>
+
+<span class="typ-heading">== Subheading</span>
+
+<span class="typ-func">#</span><span class="typ-func">theorem</span><span class="typ-punct">[</span>Some theorem.<span class="typ-punct">]</span>
+<span class="typ-func">#</span><span class="typ-func">figure</span><span class="typ-punct">(</span><span class="typ-punct">[</span>SOME FIGURE<span class="typ-punct">]</span><span class="typ-punct">,</span> caption<span class="typ-punct">:</span> <span class="typ-punct">[</span>some figure<span class="typ-punct">]</span><span class="typ-punct">)</span>
+<span class="typ-func">#</span><span class="typ-func">figure</span><span class="typ-punct">(</span><span class="typ-punct">[</span>SOME FIGURE<span class="typ-punct">]</span><span class="typ-punct">,</span> caption<span class="typ-punct">:</span> <span class="typ-punct">[</span>some figure<span class="typ-punct">]</span><span class="typ-punct">)</span>
+
+<span class="typ-heading">= Second heading</span>
+
+<span class="typ-func">#</span><span class="typ-func">theorem</span><span class="typ-punct">[</span>Some theorem.<span class="typ-punct">]</span>
+<span class="typ-func">#</span><span class="typ-func">figure</span><span class="typ-punct">(</span><span class="typ-punct">[</span>SOME FIGURE<span class="typ-punct">]</span><span class="typ-punct">,</span> caption<span class="typ-punct">:</span> <span class="typ-punct">[</span>some figure<span class="typ-punct">]</span><span class="typ-punct">)</span>
+<span class="typ-func">#</span><span class="typ-func">theorem</span><span class="typ-punct">[</span>Some theorem.<span class="typ-punct">]</span>
+</code></code></pre>
+      <p>
+       <img alt="" src="https://github.com/typst/packages/raw/main/packages/preview/headcount/0.1.0/example.png"/>
+      </p>
+      <h2>
+       Usage
+      </h2>
+      <p>
+       To make another
+       <code>
+        counter
+       </code>
+       inherit from the heading counter, you have to do
+       <strong>
+        two
+       </strong>
+       things.
+      </p>
+      <ol>
+       <li>
+        <p>
+         For the numbering of your counter, you have to use
+         <code>
+          dependent-numbering(...)
+         </code>
+         .
+        </p>
+        <ul>
+         <li>
+          <p>
+           <code>
+            dependent-numbering(style, level: 1)
+           </code>
+           (needs
+           <code>
+            context
+           </code>
+           )
+          </p>
+          <p>
+           Is a replacement for the
+           <code>
+            numbering
+           </code>
+           function, with the difference that it precedes any counter value with
+           <code>
+            level
+           </code>
+           many values of the heading counter.
+          </p>
+         </li>
+        </ul>
+        <pre><code class="language-typ"><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/headcount:0.1.0"</span><span class="typ-punct">:</span> <span class="typ-op">*</span>
+
+<span class="typ-key">#</span><span class="typ-key">set</span> <span class="typ-func">heading</span><span class="typ-punct">(</span>numbering<span class="typ-punct">:</span> <span class="typ-str">"1.1"</span><span class="typ-punct">)</span>
+
+<span class="typ-key">#</span><span class="typ-key">let</span> mycounter <span class="typ-op">=</span> <span class="typ-func">counter</span><span class="typ-punct">(</span><span class="typ-str">"hello"</span><span class="typ-punct">)</span>
+
+<span class="typ-heading">= First heading</span>
+
+<span class="typ-key">#</span><span class="typ-key">context</span> mycounter<span class="typ-punct">.</span><span class="typ-func">step</span><span class="typ-punct">(</span><span class="typ-punct">)</span>
+<span class="typ-key">#</span><span class="typ-key">context</span> mycounter<span class="typ-punct">.</span><span class="typ-func">display</span><span class="typ-punct">(</span><span class="typ-func">dependent-numbering</span><span class="typ-punct">(</span><span class="typ-str">"1.1"</span><span class="typ-punct">)</span><span class="typ-punct">)</span>
+
+<span class="typ-heading">= Second heading</span>
+
+<span class="typ-key">#</span><span class="typ-key">context</span> mycounter<span class="typ-punct">.</span><span class="typ-func">step</span><span class="typ-punct">(</span><span class="typ-punct">)</span>
+<span class="typ-key">#</span><span class="typ-key">context</span> mycounter<span class="typ-punct">.</span><span class="typ-func">display</span><span class="typ-punct">(</span><span class="typ-func">dependent-numbering</span><span class="typ-punct">(</span><span class="typ-str">"1.1"</span><span class="typ-punct">)</span><span class="typ-punct">)</span>
+
+<span class="typ-key">#</span><span class="typ-key">context</span> mycounter<span class="typ-punct">.</span><span class="typ-func">step</span><span class="typ-punct">(</span><span class="typ-punct">)</span>
+<span class="typ-key">#</span><span class="typ-key">context</span> mycounter<span class="typ-punct">.</span><span class="typ-func">display</span><span class="typ-punct">(</span><span class="typ-func">dependent-numbering</span><span class="typ-punct">(</span><span class="typ-str">"1.1"</span><span class="typ-punct">)</span><span class="typ-punct">)</span>
+</code></code></pre>
+        <p>
+         This displays the desired amount of levels of the heading counter in front of the actual counter. However, as you can see in the code above, our actual counter does not yet reset in each section.
+        </p>
+       </li>
+       <li>
+        <p>
+         For resetting the counter at the appropriate places, you need to equip
+         <code>
+          heading
+         </code>
+         with the
+         <code>
+          show
+         </code>
+         rule that
+         <code>
+          reset-counter(...)
+         </code>
+         returns.
+        </p>
+        <ul>
+         <li>
+          <p>
+           <code>
+            reset-counter(counter, level: 1)
+           </code>
+           (needs
+           <code>
+            context
+           </code>
+           )
+          </p>
+          <p>
+           Returns a function that should be used as a
+           <code>
+            show
+           </code>
+           rule for
+           <code>
+            heading
+           </code>
+           . It will reset
+           <code>
+            counter
+           </code>
+           if the level of the heading is less than or equal to
+           <code>
+            level
+           </code>
+           .
+          </p>
+         </li>
+        </ul>
+        <p>
+         <strong>
+          Important:
+         </strong>
+         This
+         <code>
+          show
+         </code>
+         rule should be placed as the
+         <em>
+          last
+         </em>
+         <code>
+          show
+         </code>
+         rule for
+         <code>
+          heading
+         </code>
+         , or at least after
+         <code>
+          show
+         </code>
+         rules for
+         <code>
+          heading
+         </code>
+         that employ a custom design, see
+         <a href="https://forum.typst.app/t/i-figured-broken-with-custom-template/1730/10?u=jbirnick" rel="nofollow ugc" target="_blank">
+          here
+         </a>
+         for an explanation.
+        </p>
+        <pre><code class="language-typ"><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/headcount:0.1.0"</span><span class="typ-punct">:</span> <span class="typ-op">*</span>
+
+<span class="typ-key">#</span><span class="typ-key">set</span> <span class="typ-func">heading</span><span class="typ-punct">(</span>numbering<span class="typ-punct">:</span> <span class="typ-str">"1.1"</span><span class="typ-punct">)</span>
+<span class="typ-key">#</span><span class="typ-key">show</span> <span class="typ-func">heading</span><span class="typ-punct">:</span> <span class="typ-func">reset-counter</span><span class="typ-punct">(</span>mycounter<span class="typ-punct">,</span> levels<span class="typ-punct">:</span> <span class="typ-num">1</span><span class="typ-punct">)</span>
+
+<span class="typ-key">#</span><span class="typ-key">let</span> mycounter <span class="typ-op">=</span> <span class="typ-func">counter</span><span class="typ-punct">(</span><span class="typ-str">"hello"</span><span class="typ-punct">)</span>
+
+<span class="typ-heading">= First heading</span>
+
+<span class="typ-key">#</span><span class="typ-key">context</span> mycounter<span class="typ-punct">.</span><span class="typ-func">step</span><span class="typ-punct">(</span><span class="typ-punct">)</span>
+<span class="typ-key">#</span><span class="typ-key">context</span> mycounter<span class="typ-punct">.</span><span class="typ-func">display</span><span class="typ-punct">(</span><span class="typ-func">dependent-numbering</span><span class="typ-punct">(</span><span class="typ-str">"1.1"</span><span class="typ-punct">)</span><span class="typ-punct">)</span>
+
+<span class="typ-heading">= Second heading</span>
+
+<span class="typ-key">#</span><span class="typ-key">context</span> mycounter<span class="typ-punct">.</span><span class="typ-func">step</span><span class="typ-punct">(</span><span class="typ-punct">)</span>
+<span class="typ-key">#</span><span class="typ-key">context</span> mycounter<span class="typ-punct">.</span><span class="typ-func">display</span><span class="typ-punct">(</span><span class="typ-func">dependent-numbering</span><span class="typ-punct">(</span><span class="typ-str">"1.1"</span><span class="typ-punct">)</span><span class="typ-punct">)</span>
+
+<span class="typ-key">#</span><span class="typ-key">context</span> mycounter<span class="typ-punct">.</span><span class="typ-func">step</span><span class="typ-punct">(</span><span class="typ-punct">)</span>
+<span class="typ-key">#</span><span class="typ-key">context</span> mycounter<span class="typ-punct">.</span><span class="typ-func">display</span><span class="typ-punct">(</span><span class="typ-func">dependent-numbering</span><span class="typ-punct">(</span><span class="typ-str">"1.1"</span><span class="typ-punct">)</span><span class="typ-punct">)</span>
+</code></code></pre>
+       </li>
+      </ol>
+      <p>
+       <strong>
+        Note:
+       </strong>
+       The
+       <code>
+        level
+       </code>
+       that you pass to
+       <code>
+        dependent-numbering(...)
+       </code>
+       and the
+       <code>
+        level
+       </code>
+       that you pass to
+       <code>
+        reset-counter(...)
+       </code>
+       must be the
+       <em>
+        same
+       </em>
+       .
+      </p>
+      <h2>
+       Limitations
+      </h2>
+      <p>
+       Due to current Typst limitations, there is no way to detect manual updates or steps of the heading counter, like
+       <code>
+        counter(heading).update(...)
+       </code>
+       or
+       <code>
+        counter(heading).step(...)
+       </code>
+       . Only occurrences of actual
+       <code>
+        heading
+       </code>
+       s can be detected. So make sure that after you call e.g.
+       <code>
+        counter(heading).update(...)
+       </code>
+       , you place a heading directly after it, before you use any counters that depend on the heading counter.
+      </p>
+     </section>
+     <aside>
+      <section>
+       <h3>
+        How to add
+       </h3>
+       <p>
+        Copy this into your project and use the import as
+        <!-- -->
+        <code>
+         headcount
+        </code>
+       </p>
+       <div class="import-snippet">
+        <pre><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/headcount:0.1.0"</span></code></pre>
+        <button class="copy" title="Copy to clipboard">
+         <img alt="Copy" height="16" src="/assets/icons/16-copy.svg" width="16"/>
+        </button>
+       </div>
+       <p class="muted">
+        Check the docs for
+        <!-- -->
+        <a href="https://typst.app/docs/reference/scripting/#packages">
+         more information on how to import packages
+        </a>
+        .
+       </p>
+      </section>
+      <section id="about">
+       <h3>
+        About
+       </h3>
+       <dl>
+        <dt>
+         Author
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         <a href="https://jbirnick.net" rel="noopener noreferrer" target="_blank">
+          Johann Birnick
+         </a>
+        </dd>
+        <dt>
+         License:
+        </dt>
+        <dd>
+         MIT
+        </dd>
+        <dt>
+         Current version:
+        </dt>
+        <dd>
+         0.1.0
+        </dd>
+        <dt>
+         Last updated:
+        </dt>
+        <dd>
+         October 16, 2024
+        </dd>
+        <dt>
+         First released:
+        </dt>
+        <dd>
+         October 16, 2024
+        </dd>
+        <dt>
+         Archive size:
+        </dt>
+        <dd class="archive-size-value">
+         2.67 kB
+         <a href="https://packages.typst.org/preview/headcount-0.1.0.tar.gz">
+          <img alt="Size icon" src="/assets/icons/16-download.svg"/>
+         </a>
+        </dd>
+        <dt>
+         Repository:
+        </dt>
+        <dd>
+         <a href="https://github.com/jbirnick/typst-headcount" rel="noopener noreferrer" target="_blank">
+          GitHub
+         </a>
+        </dd>
+        <dt>
+         Categor
+         <!-- -->
+         ies
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         <ul class="list-with-icons">
+          <li>
+           <img alt="Model icon" src="/assets/icons/16-list-unordered.svg"/>
+           <a href="https://typst.app/universe/search/?category=model">
+            Model
+           </a>
+          </li>
+          <li>
+           <img alt="Scripting icon" src="/assets/icons/16-code.svg"/>
+           <a href="https://typst.app/universe/search/?category=scripting">
+            Scripting
+           </a>
+          </li>
+          <li>
+           <img alt="Utility icon" src="/assets/icons/16-hammer.svg"/>
+           <a href="https://typst.app/universe/search/?category=utility">
+            Utility
+           </a>
+          </li>
+         </ul>
+        </dd>
+       </dl>
+      </section>
+      <section>
+       <h3>
+        Where to report issues?
+       </h3>
+       <p>
+        This
+        <!-- -->
+        package
+        <!-- -->
+        is a project of
+        <!-- -->
+        <!-- -->
+        Johann Birnick
+        <!-- -->
+        .
+        <!-- -->
+        <!-- -->
+        Report issues on
+        <!-- -->
+        <a href="https://github.com/jbirnick/typst-headcount" rel="noopener noreferrer" target="_blank">
+         their repository
+        </a>
+        .
+        <!-- -->
+        <!-- -->
+        You can also try to ask for help with this
+        <!-- -->
+        package
+        <!-- -->
+        on the
+        <!-- -->
+        <a href="https://forum.typst.app" rel="noopener" target="_blank">
+         Forum
+        </a>
+        .
+       </p>
+       <p>
+        Please report this
+        <!-- -->
+        package
+        <!-- -->
+        to the Typst team using the
+        <!-- -->
+        <a href="https://typst.app/contact" rel="noreferrer" target="_blank">
+         contact form
+        </a>
+        <!-- -->
+        if you believe it is a safety hazard or infringes upon your rights.
+       </p>
+      </section>
+      <section id="versions">
+       <h3>
+        Version history
+       </h3>
+       <table>
+        <thead>
+         <tr>
+          <th align="left">
+           Version
+          </th>
+          <th align="left">
+           Release Date
+          </th>
+         </tr>
+        </thead>
+        <tbody>
+         <tr>
+          <td align="left">
+           0.1.0
+          </td>
+          <td align="left">
+           October 16, 2024
+          </td>
+         </tr>
+        </tbody>
+       </table>
+      </section>
+      <p class="bottom-notice muted">
+       Typst GmbH did not create this
+       <!-- -->
+       package
+       <!-- -->
+       and cannot guarantee correct functionality of this
+       <!-- -->
+       package
+       <!-- -->
+       or compatibility with any version of the Typst compiler or app.
+      </p>
+     </aside>
+    </div>
+   </main>

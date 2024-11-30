@@ -1,0 +1,271 @@
+\title{typst.app/universe/package/chordx}
+
+\phantomsection\label{banner}
+\section{chordx}\label{chordx}
+
+{ 0.5.0 }
+
+A package to write song lyrics with chord diagrams in Typst.
+
+\phantomsection\label{readme}
+A package to write song lyrics with chord diagrams in Typst.
+
+\textbf{Table of Contents}
+
+\begin{itemize}
+\tightlist
+\item
+  \href{https://github.com/typst/packages/raw/main/packages/preview/chordx/0.5.0/\#introduction}{Introduction}
+\item
+  \href{https://github.com/typst/packages/raw/main/packages/preview/chordx/0.5.0/\#usage}{Usage}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \href{https://github.com/typst/packages/raw/main/packages/preview/chordx/0.5.0/\#typst-packages}{Typst
+    Packages}
+  \item
+    \href{https://github.com/typst/packages/raw/main/packages/preview/chordx/0.5.0/\#local-packages}{Local
+    Packages}
+  \end{itemize}
+\item
+  \href{https://github.com/typst/packages/raw/main/packages/preview/chordx/0.5.0/\#documentation}{Documentation}
+\item
+  \href{https://github.com/typst/packages/raw/main/packages/preview/chordx/0.5.0/\#examples}{Examples}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \href{https://github.com/typst/packages/raw/main/packages/preview/chordx/0.5.0/\#chart-chords}{Chart
+    Chords}
+  \item
+    \href{https://github.com/typst/packages/raw/main/packages/preview/chordx/0.5.0/\#piano-chords}{Piano
+    Chords}
+  \item
+    \href{https://github.com/typst/packages/raw/main/packages/preview/chordx/0.5.0/\#single-chords}{Single
+    Chords}
+  \end{itemize}
+\item
+  \href{https://github.com/typst/packages/raw/main/packages/preview/chordx/0.5.0/\#changelog}{Changelog}
+\item
+  \href{https://github.com/typst/packages/raw/main/packages/preview/chordx/0.5.0/\#license}{License}
+\end{itemize}
+
+\subsection{Introduction}\label{introduction}
+
+With \texttt{\ chordx\ } you can easily generate song lyrics with chords
+for writing songbooks.
+
+\texttt{\ chordx\ } generates chord charts for stringed instruments
+(e.g. guitar, ukulele, etc.), piano chords (with diferent piano layouts)
+and single chords that are chords without charts used to write the
+chords over a word to write songbooks.
+
+\subsection{Usage}\label{usage}
+
+\texttt{\ chordx\ } exports 3 functions to generate diferents types fo
+charts:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ chart-chord\ } : used to generate chart chords for stringed
+  instruments.
+\item
+  \texttt{\ piano-chord\ } : used to generate piano chords.
+\item
+  \texttt{\ single-chord\ } : used to show the chord name over a word.
+\end{itemize}
+
+\subsubsection{Typst Packages}\label{typst-packages}
+
+Typst added an experimental package repository and you can import
+\texttt{\ chordx\ } as follows:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/chordx:0.5.0": *}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{Local Packages}\label{local-packages}
+
+If the package hasnâ€™t been released yet, or if you just want to use it
+from this repository, you can use \emph{\emph{local-packages}} .
+
+You can read the documentation about typst
+\href{https://github.com/typst/packages\#local-packages}{local-packages}
+and learn about the path folders used in differents operating systems
+(Linux / MacOS / Windows).
+
+In Linux you can do:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{git}\NormalTok{ clone https://github.com/ljgago/typst{-}chords \textasciitilde{}/.local/share/typst/packages/local/chordx/0.5.0}
+\end{Highlighting}
+\end{Shaded}
+
+And import the package in your file:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@local/chordx:0.5.0": *}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Documentation}\label{documentation}
+
+Here
+\href{https://github.com/ljgago/typst-chords/blob/v0.5.0/docs/chordx-docs.pdf}{chordx-docs}
+you have the reference documentation that describes the functions and
+parameters used in this package. ( \emph{Generated with
+\href{https://github.com/Mc-Zen/tidy}{tidy}} )
+
+\subsection{Examples:}\label{examples}
+
+\subsubsection{Chart Chords}\label{chart-chords}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/chordx:0.5.0": chart{-}chord}
+
+\NormalTok{\#let chart{-}chord{-}sharp = chart{-}chord.with(size: 18pt)}
+\NormalTok{\#let chart{-}chord{-}round = chart{-}chord.with(size: 1.5em, design: "round")}
+
+\NormalTok{// Design "sharp"}
+\NormalTok{\#chart{-}chord{-}sharp(tabs: "x32o1o", fingers: "n32n1n")[C]}
+\NormalTok{\#chart{-}chord{-}sharp(tabs: "ooo3", fingers: "ooo3")[C]}
+
+\NormalTok{// Desigh "round" with position "bottom"}
+\NormalTok{\#chart{-}chord{-}round(tabs: "xn332n", fingers: "o13421", fret: 3, capos: "115", position: "bottom")[Cm]}
+\NormalTok{\#chart{-}chord{-}round(tabs: "onnn", fingers: "n111", capos: "313", position: "bottom")[Cm]}
+
+\NormalTok{// Design "round" with background color in chord name}
+\NormalTok{\#chart{-}chord{-}round(tabs: "xn332n", fingers: "o13421", fret: 3, capos: "115", background: silver)[Cm]}
+\NormalTok{\#chart{-}chord{-}round(tabs: "onnn", fingers: "n111", capos: "313", background: silver)[Cm]}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{\texorpdfstring{\href{https://github.com/ljgago/typst-chords/blob/v0.5.0/examples/chart-chords.typ}{\protect\pandocbounded{\includesvg[keepaspectratio]{https://raw.githubusercontent.com/ljgago/typst-chords/v0.5.0/examples/chart-chords.svg}}}}{Chart Chord}}\label{chart-chord}
+
+\subsubsection{Piano Chords}\label{piano-chords}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/chordx:0.5.0": piano{-}chord}
+
+\NormalTok{\#let piano{-}chord{-}sharp = piano{-}chord.with(layout: "F", size: 18pt)}
+\NormalTok{\#let piano{-}chord{-}round = piano{-}chord.with(layout: "F", size: 1.5em, design: "round")}
+
+\NormalTok{\#piano{-}chord{-}sharp(keys: "B1, D2\#, F2\#", fill{-}key: blue)[B]}
+\NormalTok{\#piano{-}chord{-}round(keys: "B1, D2\#, F2\#", fill{-}key: yellow, position: "bottom")[B]}
+\NormalTok{\#piano{-}chord{-}round(keys: "B1, D2\#, F2\#", fill{-}key: red)[B]}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{\texorpdfstring{\href{https://github.com/ljgago/typst-chords/blob/v0.5.0/examples/piano-chords.typ}{\protect\pandocbounded{\includesvg[keepaspectratio]{https://raw.githubusercontent.com/ljgago/typst-chords/v0.5.0/examples/piano-chords.svg}}}}{Piano Chord}}\label{piano-chord}
+
+\subsubsection{Single Chords}\label{single-chords}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/chordx:0.5.0": single{-}chord}
+
+\NormalTok{\#let chord = single{-}chord.with(}
+\NormalTok{  font: "PT Sans",}
+\NormalTok{  size: 12pt,}
+\NormalTok{  weight: "semibold",}
+\NormalTok{  background: silver}
+\NormalTok{)}
+
+\NormalTok{\#chord[Jingle][G][2] bells, jingle bells, jingle \#chord[all][C][2] the \#chord[way!][G][2] \textbackslash{}}
+\NormalTok{\#chord[Oh][C][] what fun it \#chord[is][G][] to ride \textbackslash{}}
+\NormalTok{In a \#chord[one{-}horse][A7][2] open \#chord[sleigh,][D7][3] hey!}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{\texorpdfstring{\href{https://github.com/ljgago/typst-chords/blob/v0.5.0/examples/single-chords.typ}{\protect\pandocbounded{\includesvg[keepaspectratio]{https://raw.githubusercontent.com/ljgago/typst-chords/v0.5.0/examples/single-chords.svg}}}}{Single Chord}}\label{single-chord}
+
+\subsection{Changelog}\label{changelog}
+
+You can read the latest changes in
+\href{https://github.com/typst/packages/raw/main/packages/preview/chordx/0.5.0/CHANGELOG.md}{CHANGELOG.md}
+
+\subsection{License}\label{license}
+
+\href{https://github.com/typst/packages/raw/main/packages/preview/chordx/0.5.0/LICENSE}{MIT
+License}
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as \texttt{\ chordx\ }
+
+\begin{verbatim}
+#import "@preview/chordx:0.5.0"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+\href{https://github.com/ljgago}{Leonardo Gago}
+\item[License:]
+MIT
+\item[Current version:]
+0.5.0
+\item[Last updated:]
+November 4, 2024
+\item[First released:]
+July 17, 2023
+\item[Minimum Typst version:]
+0.12.0
+\item[Archive size:]
+10.3 kB
+\href{https://packages.typst.org/preview/chordx-0.5.0.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/ljgago/typst-chords}{GitHub}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of Leonardo Gago . Report issues on
+\href{https://github.com/ljgago/typst-chords}{their repository} . You
+can also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.5.0 & November 4, 2024 \\
+\href{https://typst.app/universe/package/chordx/0.4.0/}{0.4.0} & July
+10, 2024 \\
+\href{https://typst.app/universe/package/chordx/0.3.0/}{0.3.0} & March
+3, 2024 \\
+\href{https://typst.app/universe/package/chordx/0.2.0/}{0.2.0} &
+September 3, 2023 \\
+\href{https://typst.app/universe/package/chordx/0.1.0/}{0.1.0} & July
+17, 2023 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.

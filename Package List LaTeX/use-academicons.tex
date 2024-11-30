@@ -1,0 +1,247 @@
+\title{typst.app/universe/package/use-academicons}
+
+\phantomsection\label{banner}
+\section{use-academicons}\label{use-academicons}
+
+{ 0.1.0 }
+
+A Typst library for Academicons the desktop fonts.
+
+\phantomsection\label{readme}
+A Typst library for Academicons through the desktop fonts.
+
+This is based on the code from \texttt{\ duskmoon314\ } and the package
+for
+\href{https://github.com/duskmoon314/typst-fontawesome}{\textbf{typst-fontawesome}}
+.
+
+p.s. The library is based on the Academicons desktop fonts (v1.9.4)
+
+\subsection{Usage}\label{usage}
+
+\subsubsection{Install the fonts}\label{install-the-fonts}
+
+You can download the fonts from the
+\href{https://jpswalsh.github.io/academicons/}{official website}
+
+After downloading the zip file, you can install the fonts depending on
+your OS.
+
+\paragraph{Typst web app}\label{typst-web-app}
+
+You can simply upload the \texttt{\ ttf\ } files to the web app and use
+them with this package.
+
+\paragraph{Mac}\label{mac}
+
+You can double click the \texttt{\ ttf\ } files to install them.
+
+\paragraph{Windows}\label{windows}
+
+You can right-click the \texttt{\ ttf\ } files and select
+\texttt{\ Install\ } .
+
+\subsubsection{Import the library}\label{import-the-library}
+
+\paragraph{Using the typst packages}\label{using-the-typst-packages}
+
+You can install the library using the typst packages:
+
+\texttt{\ \#import\ "@preview/use-academicons:0.1.0":\ *\ }
+
+\paragraph{Manually install}\label{manually-install}
+
+Copy all files start with \texttt{\ lib\ } to your project and import
+the library:
+
+\texttt{\ \#import\ "lib.typ":\ *\ }
+
+There are three files:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ lib.typ\ } : The main entrypoint of the library.
+\item
+  \texttt{\ lib-impl.typ\ } : The implementation of \texttt{\ ai-icon\ }
+  .
+\item
+  \texttt{\ lib-gen.typ\ } : The generated icon map and functions.
+\end{itemize}
+
+I recommend renaming these files to avoid conflicts with other
+libraries.
+
+\subsubsection{Use the icons}\label{use-the-icons}
+
+You can use the \texttt{\ ai-icon\ } function to create an icon with its
+name:
+
+\texttt{\ \#ai-icon("lattes")\ }
+
+Or you can use the \texttt{\ ai-\ } prefix to create an icon with its
+name:
+
+\texttt{\ \#ai-lattes()\ } (This is equivalent to
+\texttt{\ \#ai-icon().with("lattes")\ } )
+
+\paragraph{Full list of icons}\label{full-list-of-icons}
+
+You can find all icons on the
+\href{https://jpswalsh.github.io/academicons/}{official website}
+
+\paragraph{Customization}\label{customization}
+
+The \texttt{\ ai-icon\ } function passes args to \texttt{\ text\ } , so
+you can customize the icon by passing parameters to it:
+
+\texttt{\ \#ai-icon("lattes",\ fill:\ blue)\ }
+
+\paragraph{Stacking icons}\label{stacking-icons}
+
+The \texttt{\ ai-stack\ } function can be used to create stacked icons:
+
+\texttt{\ \#ai-stack(ai-icon-args:\ (fill:\ black),\ "doi",\ ("cv",\ (fill:\ blue,\ size:\ 20pt)))\ }
+
+Declaration is
+\texttt{\ ai-stack(box-args:\ (:),\ grid-args:\ (:),\ ai-icon-args:\ (:),\ ..icons)\ }
+
+\begin{itemize}
+\tightlist
+\item
+  The order of the icons is from the bottom to the top.
+\item
+  \texttt{\ ai-icon-args\ } is used to set the default args for all
+  icons.
+\item
+  You can also control the internal \texttt{\ box\ } and
+  \texttt{\ grid\ } by passing the \texttt{\ box-args\ } and
+  \texttt{\ grid-args\ } to the \texttt{\ ai-stack\ } function.
+\item
+  Currently, four types of icons are supported. The first three types
+  leverage the \texttt{\ ai-icon\ } function, and the last type is just
+  a content you want to put in the stack.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \texttt{\ str\ } , e.g., \texttt{\ "lattes"\ }
+  \item
+    \texttt{\ array\ } , e.g.,
+    \texttt{\ ("lattes",\ (fill:\ white,\ size:\ 5.5pt))\ }
+  \item
+    \texttt{\ arguments\ } , e.g.
+    \texttt{\ arguments("lattes",\ fill:\ white)\ }
+  \item
+    \texttt{\ content\ } , e.g. \texttt{\ ai-lattes(fill:\ white)\ }
+  \end{itemize}
+\end{itemize}
+
+\subsection{Example}\label{example}
+
+See the
+\href{https://typst.app/project/rsgOFC4YkwpN7OqtRyiXP3}{\texttt{\ use-academicons.typ\ }}
+file for a complete example.
+
+\subsection{Contribution}\label{contribution}
+
+Feel free to open an issue or a pull request if you find any problems or
+have any suggestions.
+
+\subsubsection{R helper}\label{r-helper}
+
+The \texttt{\ helper.R\ } script is used to get unicodes for icons and
+generate typst code.
+
+\subsubsection{Repo structure}\label{repo-structure}
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ helper.R\ } : The helper script to get unicodes and generate
+  typst code.
+\item
+  \texttt{\ lib.typ\ } : The main entrypoint of the library.
+\item
+  \texttt{\ lib-impl.typ\ } : The implementation of \texttt{\ ai-icon\ }
+  .
+\item
+  \texttt{\ lib-gen.typ\ } : The generated functions of icons.
+\item
+  \texttt{\ example.typ\ } : An example file to show how to use the
+  library.
+\item
+  \texttt{\ gallery.typ\ } : The generated gallery of icons. It is used
+  in the example file.
+\end{itemize}
+
+\subsection{License}\label{license}
+
+This library is licensed under the MIT license. Feel free to use it in
+your project.
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as
+\texttt{\ use-academicons\ }
+
+\begin{verbatim}
+#import "@preview/use-academicons:0.1.0"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author s :]
+\href{mailto:kp.campbell.he@duskmoon314.com}{duskmoon (Campbell He)} \&
+\href{mailto:philipp.kleer@posteo.com}{bpkleer (Philipp Kleer)}
+\item[License:]
+MIT
+\item[Current version:]
+0.1.0
+\item[Last updated:]
+August 8, 2024
+\item[First released:]
+August 8, 2024
+\item[Archive size:]
+5.41 kB
+\href{https://packages.typst.org/preview/use-academicons-0.1.0.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/bpkleer/typst-academicons}{GitHub}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of duskmoon (Campbell He) and bpkleer (Philipp
+Kleer) . Report issues on
+\href{https://github.com/bpkleer/typst-academicons}{their repository} .
+You can also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.1.0 & August 8, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.

@@ -1,0 +1,2343 @@
+<main>
+    <div id="banner" style="--banner-accent:#000000;--banner-primary:#000000;--banner-secondary:#000000;--banner-tertiary:#565565;--banner-background:#eff0f3">
+     <div class="package-icon" role="img">
+     </div>
+     <div>
+      <div class="title">
+       <h1 class="name">
+        t4t
+       </h1>
+       <span class="version">
+        0.3.2
+       </span>
+      </div>
+      <p class="description">
+       A utility package for typst package authors
+      </p>
+     </div>
+    </div>
+    <div class="inner-grid">
+     <section id="readme">
+      <blockquote>
+       <p>
+        A utility package for typst package authors.
+       </p>
+      </blockquote>
+      <p>
+       <strong>
+        Tools for Typst
+       </strong>
+       (
+       <code>
+        t4t
+       </code>
+       in short) is a utility package for
+       <a href="https://github.com/typst/packages/raw/main/packages/preview/t4t/0.3.2/typst/typst" rel="nofollow ugc" target="_blank">
+        Typst
+       </a>
+       package and template authors. It provides solutions to some recurring tasks in package development.
+      </p>
+      <p>
+       The package can be imported or any useful parts of it copied into a project. It is perfectly fine to treat
+       <code>
+        t4t
+       </code>
+       as a snippet collection and to pick and choose only some useful functions. For this reason, most functions are implemented without further dependencies.
+      </p>
+      <p>
+       Hopefully, this collection will grow over time with
+       <em>
+        Typst
+       </em>
+       to provide solutions for common problems.
+      </p>
+      <h2>
+       Usage
+      </h2>
+      <p>
+       Either import the package from the Typst preview repository:
+      </p>
+      <pre><code class="language-js">#import "@preview/t4t:0.3.2": *
+</code></pre>
+      <p>
+       If only a few functions from
+       <code>
+        t4t
+       </code>
+       are needed, simply copy the necessary code to the beginning of the document.
+      </p>
+      <h2>
+       Reference
+      </h2>
+      <hr/>
+      <p>
+       <strong>
+        Note:
+       </strong>
+       This reference might be out of date. Please refer to the manual for a complete overview of all functions.
+      </p>
+      <hr/>
+      <p>
+       The functions are categorized into different submodules that can be imported separately.
+      </p>
+      <p>
+       The modules are:
+      </p>
+      <ul>
+       <li>
+        <code>
+         is
+        </code>
+       </li>
+       <li>
+        <code>
+         def
+        </code>
+       </li>
+       <li>
+        <code>
+         assert
+        </code>
+       </li>
+       <li>
+        <code>
+         alias
+        </code>
+       </li>
+       <li>
+        <code>
+         math
+        </code>
+       </li>
+       <li>
+        <code>
+         get
+        </code>
+       </li>
+      </ul>
+      <p>
+       Any or all modules can be imported the usual way:
+      </p>
+      <pre><code class="language-js">// Import as "t4t"
+#import "@preview/t4t:0.3.2"
+// Import all modules
+#import "@preview/t4t:0.3.2": *
+// Import specific modules
+#import "@preview/t4t:0.3.2": is, def
+</code></pre>
+      <p>
+       In general, the main value is passed last to the utility functions.
+       <code>
+        #def.if-none()
+       </code>
+       , for example, takes the default value first and the value to test second. This is somewhat counterintuitive at first, but allows the use of
+       <code>
+        .with()
+       </code>
+       to generate derivative functions:
+      </p>
+      <pre><code class="language-js">#let is-foo = eq.with("foo")
+</code></pre>
+      <h3>
+       Test functions
+      </h3>
+      <pre><code class="language-js">#import "@preview/t4t:0.3.2": is
+</code></pre>
+      <p>
+       These functions provide shortcuts to common tests like
+       <code>
+        #is.eq()
+       </code>
+       . Some of these are not shorter as writing pure Typst code (e.g.
+       <code>
+        a == b
+       </code>
+       ), but can easily be used in
+       <code>
+        .any()
+       </code>
+       or
+       <code>
+        .find()
+       </code>
+       calls:
+      </p>
+      <pre><code class="language-js">// check all values for none
+if some-array.any(is-none) {
+	...
+}
+
+// find first not none value
+let x = (none, none, 5, none).find(is.not-none)
+
+// find position of a value
+let pos-bar = args.pos().position(is.eq.with("|"))
+</code></pre>
+      <p>
+       There are two exceptions:
+       <code>
+        is-none
+       </code>
+       and
+       <code>
+        is-auto
+       </code>
+       . Since keywords canât be used as function names, the
+       <code>
+        is
+       </code>
+       module canât define a function to do
+       <code>
+        is.none()
+       </code>
+       . Therefore the methods
+       <code>
+        is-none
+       </code>
+       and
+       <code>
+        is-auto
+       </code>
+       are provided in the base module of
+       <code>
+        t4t
+       </code>
+       :
+      </p>
+      <pre><code class="language-js">#import "@preview/t4t:0.3.2": is-none, is-auto
+</code></pre>
+      <p>
+       The
+       <code>
+        is
+       </code>
+       submodule still has these tests, but under different names (
+       <code>
+        is.n
+       </code>
+       and
+       <code>
+        is.non
+       </code>
+       for
+       <code>
+        none
+       </code>
+       and
+       <code>
+        is.a
+       </code>
+       and
+       <code>
+        is.aut
+       </code>
+       for
+       <code>
+        auto
+       </code>
+       ).
+      </p>
+      <ul>
+       <li>
+        <p>
+         <code>
+          #is.neq( test )
+         </code>
+         : Creates a new test function that is
+         <code>
+          true
+         </code>
+         when
+         <code>
+          test
+         </code>
+         is
+         <code>
+          false
+         </code>
+         . Can be used to create negations of tests like
+         <code>
+          #let not-raw = is.neg(is.raw)
+         </code>
+         .
+        </p>
+       </li>
+       <li>
+        <p>
+         <code>
+          #is.eq( a, b )
+         </code>
+         : Tests if values
+         <code>
+          a
+         </code>
+         and
+         <code>
+          b
+         </code>
+         are equal.
+        </p>
+       </li>
+       <li>
+        <p>
+         <code>
+          #is.neq( a, b )
+         </code>
+         : Tests if values
+         <code>
+          a
+         </code>
+         and
+         <code>
+          b
+         </code>
+         are not equal.
+        </p>
+       </li>
+       <li>
+        <p>
+         <code>
+          #is.n( ..values )
+         </code>
+         : Tests if any of the passed
+         <code>
+          values
+         </code>
+         is
+         <code>
+          none
+         </code>
+         .
+        </p>
+       </li>
+       <li>
+        <p>
+         <code>
+          #is.non( ..values )
+         </code>
+         : Alias for
+         <code>
+          is.n
+         </code>
+         .
+        </p>
+       </li>
+       <li>
+        <p>
+         <code>
+          #is.not-none( ..values )
+         </code>
+         : Tests if all of the passed
+         <code>
+          values
+         </code>
+         are not
+         <code>
+          none
+         </code>
+         .
+        </p>
+       </li>
+       <li>
+        <p>
+         <code>
+          #is.not-n( ..values )
+         </code>
+         : Alias for
+         <code>
+          is.not-none
+         </code>
+         .
+        </p>
+       </li>
+       <li>
+        <p>
+         <code>
+          #is.a( ..values )
+         </code>
+         : Tests if any of the passed
+         <code>
+          values
+         </code>
+         is
+         <code>
+          auto
+         </code>
+         .
+        </p>
+       </li>
+       <li>
+        <p>
+         <code>
+          #is.aut( ..values )
+         </code>
+         : Alias for
+         <code>
+          is-a
+         </code>
+         .
+        </p>
+       </li>
+       <li>
+        <p>
+         <code>
+          #is.not-auto( ..values )
+         </code>
+         : Tests if all of the passed
+         <code>
+          values
+         </code>
+         are not
+         <code>
+          auto
+         </code>
+         .
+        </p>
+       </li>
+       <li>
+        <p>
+         <code>
+          #is.not-a( ..values )
+         </code>
+         : Alias for
+         <code>
+          is.not-auto
+         </code>
+         .
+        </p>
+       </li>
+       <li>
+        <p>
+         <code>
+          #is.empty( value )
+         </code>
+         : Tests if
+         <code>
+          value
+         </code>
+         is
+         <em>
+          empty
+         </em>
+         . A value is considered
+         <em>
+          empty
+         </em>
+         if it is an empty array, dictionary or string or
+         <code>
+          none
+         </code>
+         otherwise.
+        </p>
+       </li>
+       <li>
+        <p>
+         <code>
+          #is.not-empty( value )
+         </code>
+         : Tests if
+         <code>
+          value
+         </code>
+         is not empty.
+        </p>
+       </li>
+       <li>
+        <p>
+         <code>
+          #is.any( ..compare, value )
+         </code>
+         : Tests if
+         <code>
+          value
+         </code>
+         is equal to any one of the other passed-in values.
+        </p>
+       </li>
+       <li>
+        <p>
+         <code>
+          #is.not-any( ..compare, value)
+         </code>
+         : Tests if
+         <code>
+          value
+         </code>
+         is not equal to any one of the other passed-in values.
+        </p>
+       </li>
+       <li>
+        <p>
+         <code>
+          #is.has( ..keys, value )
+         </code>
+         : Tests if
+         <code>
+          value
+         </code>
+         contains all the passed
+         <code>
+          keys
+         </code>
+         . Either as keys in a dictionary or elements in an array. If
+         <code>
+          value
+         </code>
+         is neither of those types,
+         <code>
+          false
+         </code>
+         is returned.
+        </p>
+       </li>
+       <li>
+        <p>
+         <code>
+          #is.type( t, value )
+         </code>
+         : Tests if
+         <code>
+          value
+         </code>
+         is of type
+         <code>
+          t
+         </code>
+         .
+        </p>
+       </li>
+       <li>
+        <p>
+         <code>
+          #is.dict( value )
+         </code>
+         : Tests if
+         <code>
+          value
+         </code>
+         is a dictionary.
+        </p>
+       </li>
+       <li>
+        <p>
+         <code>
+          #is.arr( value )
+         </code>
+         : Tests if
+         <code>
+          value
+         </code>
+         is an array.
+        </p>
+       </li>
+       <li>
+        <p>
+         <code>
+          #is.content( value )
+         </code>
+         : Tests if
+         <code>
+          value
+         </code>
+         is of type content.
+        </p>
+       </li>
+       <li>
+        <p>
+         <code>
+          #is.color( value )
+         </code>
+         : Tests if
+         <code>
+          value
+         </code>
+         is a color.
+        </p>
+       </li>
+       <li>
+        <p>
+         <code>
+          #is.stroke( value )
+         </code>
+         : Tests if
+         <code>
+          value
+         </code>
+         is a stroke.
+        </p>
+       </li>
+       <li>
+        <p>
+         <code>
+          #is.loc( value )
+         </code>
+         : Tests if
+         <code>
+          value
+         </code>
+         is a location.
+        </p>
+       </li>
+       <li>
+        <p>
+         <code>
+          #is.bool( value )
+         </code>
+         : Tests if
+         <code>
+          value
+         </code>
+         is a boolean.
+        </p>
+       </li>
+       <li>
+        <p>
+         <code>
+          #is.str( value )
+         </code>
+         : Tests if
+         <code>
+          value
+         </code>
+         is a string.
+        </p>
+       </li>
+       <li>
+        <p>
+         <code>
+          #is.int( value )
+         </code>
+         : Tests if
+         <code>
+          value
+         </code>
+         is an integer.
+        </p>
+       </li>
+       <li>
+        <p>
+         <code>
+          #is.float( value )
+         </code>
+         : Tests if
+         <code>
+          value
+         </code>
+         is a float.
+        </p>
+       </li>
+       <li>
+        <p>
+         <code>
+          #is.num( value )
+         </code>
+         : Tests if
+         <code>
+          value
+         </code>
+         is a numeric value (
+         <code>
+          integer
+         </code>
+         or
+         <code>
+          float
+         </code>
+         ).
+        </p>
+       </li>
+       <li>
+        <p>
+         <code>
+          #is.frac( value )
+         </code>
+         : Tests if
+         <code>
+          value
+         </code>
+         is a fraction.
+        </p>
+       </li>
+       <li>
+        <p>
+         <code>
+          #is.length( value )
+         </code>
+         : Tests if
+         <code>
+          value
+         </code>
+         is a length.
+        </p>
+       </li>
+       <li>
+        <p>
+         <code>
+          #is.rlength( value )
+         </code>
+         : Tests if
+         <code>
+          value
+         </code>
+         is a relative length.
+        </p>
+       </li>
+       <li>
+        <p>
+         <code>
+          #is.ratio( value )
+         </code>
+         : Tests if
+         <code>
+          value
+         </code>
+         is a ratio.
+        </p>
+       </li>
+       <li>
+        <p>
+         <code>
+          #is.align( value )
+         </code>
+         : Tests if
+         <code>
+          value
+         </code>
+         is an alignment.
+        </p>
+       </li>
+       <li>
+        <p>
+         <code>
+          #is.align2d( value )
+         </code>
+         : Tests if
+         <code>
+          value
+         </code>
+         is a 2d alignment.
+        </p>
+       </li>
+       <li>
+        <p>
+         <code>
+          #is.func( value )
+         </code>
+         : Tests if
+         <code>
+          value
+         </code>
+         is a function.
+        </p>
+       </li>
+       <li>
+        <p>
+         <code>
+          #is.any-type( ..types, value )
+         </code>
+         : Tests if
+         <code>
+          value
+         </code>
+         has any of the passed-in types.
+        </p>
+       </li>
+       <li>
+        <p>
+         <code>
+          #is.same-type( ..values )
+         </code>
+         : Tests if all passed-in values have the same type.
+        </p>
+       </li>
+       <li>
+        <p>
+         <code>
+          #is.all-of-type( t, ..values )
+         </code>
+         : Tests if all of the passed-in values have the type
+         <code>
+          t
+         </code>
+         .
+        </p>
+       </li>
+       <li>
+        <p>
+         <code>
+          #is.none-of-type( t, ..values )
+         </code>
+         : Tests if none of the passed-in values has the type
+         <code>
+          t
+         </code>
+         .
+        </p>
+       </li>
+       <li>
+        <p>
+         <code>
+          #is.one-not-none( ..values )
+         </code>
+         : Checks, if at least one value in
+         <code>
+          values
+         </code>
+         is not equal to
+         <code>
+          none
+         </code>
+         . Useful for checking multiple optional arguments for a valid value:
+         <code>
+          #if is.one-not-none(..args.pos()) [ #args.pos().find(is.not-none) ]
+         </code>
+        </p>
+       </li>
+       <li>
+        <p>
+         <code>
+          #is.elem( func, value )
+         </code>
+         : Tests if
+         <code>
+          value
+         </code>
+         is a content element with
+         <code>
+          value.func() == func
+         </code>
+         . If
+         <code>
+          func
+         </code>
+         is a string,
+         <code>
+          value
+         </code>
+         will be compared to
+         <code>
+          repr(value.func())
+         </code>
+         instead.
+        </p>
+        <p>
+         Both of these effectively do the same:
+        </p>
+        <pre><code class="language-js">#is.elem(raw, some_content)
+#is.elem("raw", some_content)
+</code></pre>
+       </li>
+       <li>
+        <p>
+         <code>
+          #is.sequence( value )
+         </code>
+         : Tests if
+         <code>
+          value
+         </code>
+         is a sequence of content.
+        </p>
+       </li>
+       <li>
+        <p>
+         <code>
+          #is.raw( value )
+         </code>
+         : Tests if
+         <code>
+          value
+         </code>
+         is a raw element.
+        </p>
+       </li>
+       <li>
+        <p>
+         <code>
+          #is.table( value )
+         </code>
+         : Tests if
+         <code>
+          value
+         </code>
+         is a table element.
+        </p>
+       </li>
+       <li>
+        <p>
+         <code>
+          #is.list( value )
+         </code>
+         : Tests if
+         <code>
+          value
+         </code>
+         is a list element.
+        </p>
+       </li>
+       <li>
+        <p>
+         <code>
+          #is.enum( value )
+         </code>
+         : Tests if
+         <code>
+          value
+         </code>
+         is an enum element.
+        </p>
+       </li>
+       <li>
+        <p>
+         <code>
+          #is.terms( value )
+         </code>
+         : Tests if
+         <code>
+          value
+         </code>
+         is a terms element.
+        </p>
+       </li>
+       <li>
+        <p>
+         <code>
+          #is.cols( value )
+         </code>
+         : Tests if
+         <code>
+          value
+         </code>
+         is a columns element.
+        </p>
+       </li>
+       <li>
+        <p>
+         <code>
+          #is.grid( value )
+         </code>
+         : Tests if
+         <code>
+          value
+         </code>
+         is a grid element.
+        </p>
+       </li>
+       <li>
+        <p>
+         <code>
+          #is.stack( value )
+         </code>
+         : Tests if
+         <code>
+          value
+         </code>
+         is a stack element.
+        </p>
+       </li>
+       <li>
+        <p>
+         <code>
+          #is.label( value )
+         </code>
+         : Tests if
+         <code>
+          value
+         </code>
+         is of type
+         <code>
+          label
+         </code>
+         .
+        </p>
+       </li>
+      </ul>
+      <h3>
+       Default values
+      </h3>
+      <pre><code class="language-js">#import "@preview/t4t:0.3.2": def
+</code></pre>
+      <p>
+       These functions perform a test to decide if a given
+       <code>
+        value
+       </code>
+       is
+       <em>
+        invalid
+       </em>
+       . If the test
+       <em>
+        passes
+       </em>
+       , the
+       <code>
+        default
+       </code>
+       is returned, the
+       <code>
+        value
+       </code>
+       otherwise.
+      </p>
+      <p>
+       Almost all functions support an optional
+       <code>
+        do
+       </code>
+       argument, to be set to a function of one argument, that will be applied to the value if the test fails. For example:
+      </p>
+      <pre><code class="language-js">// Sets date to a datetime from an optional
+// string argument in the format "YYYY-MM-DD"
+#let date = def.if-none(
+	datetime.today(), 	// default
+	passed_date, 		// passed-in argument
+	do: (d) &gt;= {		// post-processor
+		d = d.split("-")
+		datetime(year=d[0], month=d[1], day=d[2])
+	}
+)
+</code></pre>
+      <ul>
+       <li>
+        <code>
+         #def.if-true( test, default, do:none, value )
+        </code>
+        : Returns
+        <code>
+         default
+        </code>
+        if
+        <code>
+         test
+        </code>
+        is
+        <code>
+         true
+        </code>
+        ,
+        <code>
+         value
+        </code>
+        otherwise.
+       </li>
+       <li>
+        <code>
+         #def.if-false( test, default, do:none, value )
+        </code>
+        : Returns
+        <code>
+         default
+        </code>
+        if
+        <code>
+         test
+        </code>
+        is
+        <code>
+         false
+        </code>
+        ,
+        <code>
+         value
+        </code>
+        otherwise.
+       </li>
+       <li>
+        <code>
+         #def.if-none( default, do:none, value )
+        </code>
+        : Returns
+        <code>
+         default
+        </code>
+        if
+        <code>
+         value
+        </code>
+        is
+        <code>
+         none
+        </code>
+        ,
+        <code>
+         value
+        </code>
+        otherwise.
+       </li>
+       <li>
+        <code>
+         #def.if-auto( default, do:none, value )
+        </code>
+        : Returns
+        <code>
+         default
+        </code>
+        if
+        <code>
+         value
+        </code>
+        is
+        <code>
+         auto
+        </code>
+        ,
+        <code>
+         value
+        </code>
+        otherwise.
+       </li>
+       <li>
+        <code>
+         #def.if-any( ..compare, default, do:none, value )
+        </code>
+        : Returns
+        <code>
+         default
+        </code>
+        if
+        <code>
+         value
+        </code>
+        is equal to any of the passed-in values,
+        <code>
+         value
+        </code>
+        otherwise. (
+        <code>
+         #def.if-any(none, auto, 1pt, width)
+        </code>
+        )
+       </li>
+       <li>
+        <code>
+         #def.if-not-any( ..compare, default, do:none, value )
+        </code>
+        : Returns
+        <code>
+         default
+        </code>
+        if
+        <code>
+         value
+        </code>
+        is not equal to any of the passed-in values,
+        <code>
+         value
+        </code>
+        otherwise. (
+        <code>
+         #def.if-not-any(left, right, top, bottom, position)
+        </code>
+        )
+       </li>
+       <li>
+        <code>
+         #def.if-empty( default, do:none, value )
+        </code>
+        : Returns
+        <code>
+         default
+        </code>
+        if
+        <code>
+         value
+        </code>
+        is
+        <em>
+         empty
+        </em>
+        ,
+        <code>
+         value
+        </code>
+        otherwise.
+       </li>
+       <li>
+        <code>
+         #def.as-arr( ..values )
+        </code>
+        : Always returns an array containing all
+        <code>
+         values
+        </code>
+        . Any arrays in
+        <code>
+         values
+        </code>
+        will be flattened into the result. This is useful for arguments, that can have one element or an array of elements:
+        <code>
+         #def.as-arr(author).join(", ")
+        </code>
+        .
+       </li>
+      </ul>
+      <h3>
+       Assertions
+      </h3>
+      <pre><code class="language-js">#import "@preview/t4t:0.3.2": assert
+</code></pre>
+      <p>
+       This submodule overloads the default
+       <code>
+        assert
+       </code>
+       function and provides more asserts to quickly check if given values are valid. All functions use
+       <code>
+        assert
+       </code>
+       in the background.
+      </p>
+      <p>
+       Since a module in Typst is not callable, the
+       <code>
+        assert
+       </code>
+       function is now available as
+       <code>
+        assert.that()
+       </code>
+       .
+       <code>
+        assert.eq
+       </code>
+       and
+       <code>
+        assert.ne
+       </code>
+       work as expected.
+      </p>
+      <p>
+       All assert functions take an optional argument
+       <code>
+        message
+       </code>
+       to set the error message shown if the assert fails.
+      </p>
+      <ul>
+       <li>
+        <p>
+         <code>
+          #assert.that( test )
+         </code>
+         : Asserts that the passed
+         <code>
+          test
+         </code>
+         is
+         <code>
+          true
+         </code>
+         .
+        </p>
+       </li>
+       <li>
+        <p>
+         <code>
+          #assert.that-not( test )
+         </code>
+         : Asserts that the passed
+         <code>
+          test
+         </code>
+         is
+         <code>
+          false
+         </code>
+         .
+        </p>
+       </li>
+       <li>
+        <p>
+         <code>
+          #assert.eq( a, b )
+         </code>
+         : Asserts that
+         <code>
+          a
+         </code>
+         is equal to
+         <code>
+          b
+         </code>
+         .
+        </p>
+       </li>
+       <li>
+        <p>
+         <code>
+          #assert.ne( a, b )
+         </code>
+         : Asserts that
+         <code>
+          a
+         </code>
+         is not equal to
+         <code>
+          b
+         </code>
+         .
+        </p>
+       </li>
+       <li>
+        <p>
+         <code>
+          #assert.neq( a, b )
+         </code>
+         : Alias for
+         <code>
+          assert.ne
+         </code>
+         .
+        </p>
+       </li>
+       <li>
+        <p>
+         <code>
+          #assert.not-none( value )
+         </code>
+         : Asserts that
+         <code>
+          value
+         </code>
+         is not equal to
+         <code>
+          none
+         </code>
+         .
+        </p>
+       </li>
+       <li>
+        <p>
+         <code>
+          #assert.any( ..values, value )
+         </code>
+         : Asserts that
+         <code>
+          value
+         </code>
+         is one of the passed
+         <code>
+          values
+         </code>
+         .
+        </p>
+       </li>
+       <li>
+        <p>
+         <code>
+          #assert.not-any( ..values, value )
+         </code>
+         : Asserts that
+         <code>
+          value
+         </code>
+         is not one of the passed
+         <code>
+          values
+         </code>
+         .
+        </p>
+       </li>
+       <li>
+        <p>
+         <code>
+          #assert.any-type( ..types, value )
+         </code>
+         : Asserts that the type of
+         <code>
+          value
+         </code>
+         is one of the passed
+         <code>
+          types
+         </code>
+         .
+        </p>
+       </li>
+       <li>
+        <p>
+         <code>
+          #assert.not-any-type( ..types, value )
+         </code>
+         : Asserts that the type of
+         <code>
+          value
+         </code>
+         is not one of the passed
+         <code>
+          types
+         </code>
+         .
+        </p>
+       </li>
+       <li>
+        <p>
+         <code>
+          #assert.all-of-type( t, ..values )
+         </code>
+         : Asserts that the type of all passed
+         <code>
+          values
+         </code>
+         is equal to
+         <code>
+          t
+         </code>
+         .
+        </p>
+       </li>
+       <li>
+        <p>
+         <code>
+          #assert.none-of-type( t, ..values )
+         </code>
+         : Asserts that the type of all passed
+         <code>
+          values
+         </code>
+         is not equal to
+         <code>
+          t
+         </code>
+         .
+        </p>
+       </li>
+       <li>
+        <p>
+         <code>
+          #assert.not-empty( value )
+         </code>
+         : Asserts that
+         <code>
+          value
+         </code>
+         is not
+         <em>
+          empty
+         </em>
+         .
+        </p>
+       </li>
+       <li>
+        <p>
+         <code>
+          #assert.new( test )
+         </code>
+         : Creates a new assert function that uses the passed
+         <code>
+          test
+         </code>
+         .
+         <code>
+          test
+         </code>
+         is a function with signature
+         <code>
+          (any) =&gt; boolean
+         </code>
+         . This is a quick way to create an assertion from any of the
+         <code>
+          is
+         </code>
+         functions:
+        </p>
+        <pre><code class="language-js">#let assert-foo = assert.new(is.eq.with("foo"))
+
+#let assert-length = assert.new(is.length)
+</code></pre>
+       </li>
+      </ul>
+      <h2>
+       Element helpers
+      </h2>
+      <pre><code class="language-js">#import "@preview/t4t:0.3.2": get
+</code></pre>
+      <p>
+       This submodule is a collection of functions, that mostly deal with content elements and
+       <em>
+        get
+       </em>
+       some information from them. Though some handle other types like dictionaries.
+      </p>
+      <ul>
+       <li>
+        <p>
+         <code>
+          #get.dict( ..values )
+         </code>
+         : Create a new dictionary from the passed
+         <code>
+          values
+         </code>
+         . All named arguments are stored in the new dictionary as is. All positional arguments are grouped in key-value pairs and inserted into the dictionary:
+        </p>
+        <pre><code class="language-js">#get.dict("a", 1, "b", 2, "c", d:4, e:5)
+
+// (a:1, b:2, c:none, d:4, e:5)
+</code></pre>
+       </li>
+       <li>
+        <p>
+         <code>
+          #get.dict-merge( ..dicts )
+         </code>
+         : Recursively merges the passed-in dictionaries:
+        </p>
+        <pre><code class="language-js">#get.dict-merge(
+	(a: 1),
+	(a: (one: 1, two:2)),
+	(a: (two: 4, three:3))
+)
+
+// (a:(one:1, two:4, three:3))
+</code></pre>
+       </li>
+       <li>
+        <p>
+         <code>
+          #get.args( args, prefix: "" )
+         </code>
+         : Creates a function to extract values from an argument sink
+         <code>
+          args
+         </code>
+         .
+        </p>
+        <p>
+         The resulting function takes any number of positional and named arguments and creates a dictionary with values from
+         <code>
+          args.named()
+         </code>
+         . Positional arguments are present in the result if they are present in
+         <code>
+          args.named()
+         </code>
+         . Named arguments are always present, either with their value from
+         <code>
+          args.named()
+         </code>
+         or with the provided value.
+        </p>
+        <p>
+         A
+         <code>
+          prefix
+         </code>
+         can be specified, to extract only specific arguments. The resulting dictionary will have all keys with the prefix removed, though.
+        </p>
+        <pre><code class="language-js">#let my-func( ..options, title ) = block(
+	..get.args(options)(
+		"spacing", "above", "below",
+		width:100%
+	)
+)[
+	#text(..get.args(options, prefix:"text-")(
+		fill:black, size:0.8em
+	), title)
+]
+
+#my-func(
+	width: 50%,
+	text-fill: red, text-size: 1.2em
+)[#lorem(5)]
+</code></pre>
+       </li>
+       <li>
+        <p>
+         <code>
+          #get.text( element, sep: "" )
+         </code>
+         : Recursively extracts the text content of a content element. If present, all child elements are converted to text and joined with
+         <code>
+          sep
+         </code>
+         .
+        </p>
+       </li>
+       <li>
+        <p>
+         <code>
+          #get.stroke-paint( stroke, default: black )
+         </code>
+         : Returns the color of
+         <code>
+          stroke
+         </code>
+         . If no color information is available,
+         <code>
+          default
+         </code>
+         is used. (Deprecated, use
+         <code>
+          stroke.paint
+         </code>
+         instead.)
+        </p>
+       </li>
+       <li>
+        <p>
+         <code>
+          #get.stroke-thickness( stroke, default: 1pt )
+         </code>
+         : Returns the thickness of
+         <code>
+          stroke
+         </code>
+         . If no thickness information is available,
+         <code>
+          default
+         </code>
+         is used. (Deprecated, use
+         <code>
+          stroke.thickness
+         </code>
+         instead.)
+        </p>
+       </li>
+       <li>
+        <p>
+         <code>
+          #get.stroke-dict( stroke, ..overrides )
+         </code>
+         : Creates a dictionary with the keys necessary for a stroke. The returned dictionary is guaranteed to have the keys
+         <code>
+          paint
+         </code>
+         ,
+         <code>
+          thickness
+         </code>
+         ,
+         <code>
+          dash
+         </code>
+         ,
+         <code>
+          cap
+         </code>
+         and
+         <code>
+          join
+         </code>
+         .
+        </p>
+        <p>
+         If
+         <code>
+          stroke
+         </code>
+         is a dictionary itself, all key-value pairs are copied to the resulting stroke. Any named arguments in
+         <code>
+          overrides
+         </code>
+         will override the previous value.
+        </p>
+       </li>
+       <li>
+        <p>
+         <code>
+          #get.inset-at( direction, inset, default: 0pt )
+         </code>
+         : Returns the inset (or outset) in a given
+         <code>
+          direction
+         </code>
+         , ascertained from
+         <code>
+          inset
+         </code>
+         .
+        </p>
+       </li>
+       <li>
+        <p>
+         <code>
+          #get.inset-dict( inset, ..overrides )
+         </code>
+         : Creates a dictionary usable as an inset (or outset) argument.
+        </p>
+        <p>
+         The resulting dictionary is guaranteed to have the keys
+         <code>
+          top
+         </code>
+         ,
+         <code>
+          left
+         </code>
+         ,
+         <code>
+          bottom
+         </code>
+         and
+         <code>
+          right
+         </code>
+         .
+        </p>
+        <p>
+         If
+         <code>
+          inset
+         </code>
+         is a dictionary itself, all key-value pairs are copied to the resulting stroke. Any named arguments in
+         <code>
+          overrides
+         </code>
+         will override the previous value.
+        </p>
+       </li>
+       <li>
+        <p>
+         <code>
+          #get.x-align( align, default:left )
+         </code>
+         : Returns the alignment along the x-axis from the passed-in
+         <code>
+          align
+         </code>
+         value. If none is present,
+         <code>
+          default
+         </code>
+         is returned. (Deprecated, use
+         <code>
+          align.x
+         </code>
+         instead.)
+        </p>
+        <pre><code class="language-js">#get.x-align(top + center) // center
+</code></pre>
+       </li>
+       <li>
+        <p>
+         <code>
+          #get.y-align( align, default:top )
+         </code>
+         : Returns the alignment along the y-axis from the passed-in
+         <code>
+          align
+         </code>
+         value. If none is present,
+         <code>
+          default
+         </code>
+         is returned. (Deprecated, use
+         <code>
+          align.y
+         </code>
+         instead.)
+        </p>
+       </li>
+      </ul>
+      <h2>
+       Math functions
+      </h2>
+      <pre><code class="language-js">#import "@preview/t4t:0.3.2": math
+</code></pre>
+      <p>
+       Some functions to complement the native
+       <code>
+        calc
+       </code>
+       module.
+      </p>
+      <ul>
+       <li>
+        <p>
+         <code>
+          #math.minmax( a, b )
+         </code>
+         : Returns an array with the minimum of
+         <code>
+          a
+         </code>
+         and
+         <code>
+          b
+         </code>
+         as the first element and the maximum as the second:
+        </p>
+        <pre><code class="language-js">#let (min, max) = math.minmax(a, b)
+</code></pre>
+       </li>
+       <li>
+        <p>
+         <code>
+          #math.clamp( min, max, value )
+         </code>
+         : Clamps a value between
+         <code>
+          min
+         </code>
+         and
+         <code>
+          max
+         </code>
+         . In contrast to
+         <code>
+          calc.clamp()
+         </code>
+         this function works for other values than numbers, as long as they are comparable.
+        </p>
+        <pre><code class="language-js">text-size = math.clamp(0.8em, 1.2em, text-size)
+</code></pre>
+       </li>
+       <li>
+        <p>
+         <code>
+          #lerp( min, max, t )
+         </code>
+         : Calculates the linear interpolation of
+         <code>
+          t
+         </code>
+         between
+         <code>
+          min
+         </code>
+         and
+         <code>
+          max
+         </code>
+         .
+        </p>
+        <pre><code class="language-js">#let width = math.lerp(0%, 100%, x)
+</code></pre>
+        <p>
+         <code>
+          t
+         </code>
+         should be a value between 0 and 1, but the interpolation works with other values, too. To constrain the result into the given interval, use
+         <code>
+          math.clamp
+         </code>
+         :
+        </p>
+        <pre><code class="language-js">#let width = math.lerp(0%, 100%, math.clamp(0, 1, x))
+</code></pre>
+       </li>
+       <li>
+        <p>
+         <code>
+          #map( min, max, range-min, range-max, value )
+         </code>
+         : Maps a
+         <code>
+          value
+         </code>
+         from the interval
+         <code>
+          [min, max]
+         </code>
+         into the interval
+         <code>
+          [range-min, range-max]
+         </code>
+         :
+        </p>
+        <pre><code class="language-js">#let text-weight = int(math.map(8pt, 16pt, 400, 800, text-size))
+</code></pre>
+       </li>
+      </ul>
+      <h2>
+       Alias functions
+      </h2>
+      <pre><code class="language-js">#import "@preview/t4t:0.3.2": alias
+</code></pre>
+      <p>
+       Some of the native Typst function as aliases, to prevent collisions with some common argument names.
+      </p>
+      <p>
+       For example using
+       <code>
+        numbering
+       </code>
+       as an argument is not possible if the value is supposed to be passed to the
+       <code>
+        numbering()
+       </code>
+       function. To still allow argument names that are in line with the common Typst names (like
+       <code>
+        numbering
+       </code>
+       ,
+       <code>
+        align
+       </code>
+       â¦), these alias functions can be used:
+      </p>
+      <pre><code class="language-js">#let excercise( no, numbering: "1)" ) = [
+	Exercise #alias.numbering(numbering, no)
+]
+</code></pre>
+      <p>
+       The following functions have aliases right now:
+      </p>
+      <ul>
+       <li>
+        <code>
+         numbering
+        </code>
+       </li>
+       <li>
+        <code>
+         align
+        </code>
+       </li>
+       <li>
+        <code>
+         type
+        </code>
+       </li>
+       <li>
+        <code>
+         label
+        </code>
+       </li>
+       <li>
+        <code>
+         text
+        </code>
+       </li>
+       <li>
+        <code>
+         raw
+        </code>
+       </li>
+       <li>
+        <code>
+         table
+        </code>
+       </li>
+       <li>
+        <code>
+         list
+        </code>
+       </li>
+       <li>
+        <code>
+         enum
+        </code>
+       </li>
+       <li>
+        <code>
+         terms
+        </code>
+       </li>
+       <li>
+        <code>
+         grid
+        </code>
+       </li>
+       <li>
+        <code>
+         stack
+        </code>
+       </li>
+       <li>
+        <code>
+         columns
+        </code>
+       </li>
+      </ul>
+      <h2>
+       Changelog
+      </h2>
+      <h3>
+       Version 0.3.2
+      </h3>
+      <ul>
+       <li>
+        Fixed issue with the new
+        <code>
+         #type
+        </code>
+        function in Typst 0.8.0.
+       </li>
+      </ul>
+      <h3>
+       Version 0.3.1
+      </h3>
+      <ul>
+       <li>
+        Some fixes for message evaluation in
+        <code>
+         assert
+        </code>
+        module.
+       </li>
+      </ul>
+      <h3>
+       Version 0.3.0
+      </h3>
+      <ul>
+       <li>
+        Added a manual (build with
+        <a href="https://github.com/Mc-Zen/tidy" rel="nofollow ugc" target="_blank">
+         tidy
+        </a>
+        and
+        <a href="https://github.com/jneug/typst-mantys" rel="nofollow ugc" target="_blank">
+         Mantys
+        </a>
+        ).
+       </li>
+       <li>
+        Added simple tests for all functions.
+       </li>
+       <li>
+        Fixed bug in
+        <code>
+         is.elem
+        </code>
+        (see #2).
+       </li>
+       <li>
+        Added
+        <code>
+         assert.has-pos
+        </code>
+        ,
+        <code>
+         assert.no-pos
+        </code>
+        ,
+        <code>
+         assert.has-named
+        </code>
+        and
+        <code>
+         assert.no-named
+        </code>
+        .
+       </li>
+       <li>
+        Added meaningful messages to asserts.
+        <ul>
+         <li>
+          Asserts now support functions as message arguments that can dynamically build an error message from the arguments.
+         </li>
+        </ul>
+       </li>
+       <li>
+        Improved spelling. (Thanks to @cherryblossom000 for proofreading.)
+       </li>
+      </ul>
+      <h3>
+       Version 0.2.0
+      </h3>
+      <ul>
+       <li>
+        Added
+        <code>
+         is.neg
+        </code>
+        function to negate a test function.
+       </li>
+       <li>
+        Added
+        <code>
+         alias.label
+        </code>
+        .
+       </li>
+       <li>
+        Added
+        <code>
+         is.label
+        </code>
+        test.
+       </li>
+       <li>
+        Added
+        <code>
+         def.as-arr
+        </code>
+        to create an array of the supplied values. Useful if an argument can be both a single value or an array.
+       </li>
+       <li>
+        Added
+        <code>
+         assert.that-not
+        </code>
+        for negated assertions.
+       </li>
+       <li>
+        Added
+        <code>
+         is.one-not-none
+        </code>
+        test to check multiple values, if at least one is not none.
+       </li>
+       <li>
+        Added
+        <code>
+         do
+        </code>
+        argument to all functions in
+        <code>
+         def
+        </code>
+        .
+       </li>
+       <li>
+        Allowed strings in
+        <code>
+         is.elem
+        </code>
+        (see #1).
+        <ul>
+         <li>
+          Added
+          <code>
+           is.sequence
+          </code>
+          test.
+         </li>
+        </ul>
+       </li>
+       <li>
+        Deprecated
+        <code>
+         get.stroke-paint
+        </code>
+        ,
+        <code>
+         get.stroke-thickness
+        </code>
+        ,
+        <code>
+         get.x-align
+        </code>
+        and
+        <code>
+         get.y-align
+        </code>
+        in favor of new Typst 0.7.0 features.
+       </li>
+      </ul>
+      <h3>
+       Version 0.1.0
+      </h3>
+      <ul>
+       <li>
+        Initial release
+       </li>
+      </ul>
+     </section>
+     <aside>
+      <section>
+       <h3>
+        How to add
+       </h3>
+       <p>
+        Copy this into your project and use the import as
+        <!-- -->
+        <code>
+         t4t
+        </code>
+       </p>
+       <div class="import-snippet">
+        <pre><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/t4t:0.3.2"</span></code></pre>
+        <button class="copy" title="Copy to clipboard">
+         <img alt="Copy" height="16" src="/assets/icons/16-copy.svg" width="16"/>
+        </button>
+       </div>
+       <p class="muted">
+        Check the docs for
+        <!-- -->
+        <a href="https://typst.app/docs/reference/scripting/#packages">
+         more information on how to import packages
+        </a>
+        .
+       </p>
+      </section>
+      <section id="about">
+       <h3>
+        About
+       </h3>
+       <dl>
+        <dt>
+         Author
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         Jonas Neugebauer
+        </dd>
+        <dt>
+         License:
+        </dt>
+        <dd>
+         MIT
+        </dd>
+        <dt>
+         Current version:
+        </dt>
+        <dd>
+         0.3.2
+        </dd>
+        <dt>
+         Last updated:
+        </dt>
+        <dd>
+         September 15, 2023
+        </dd>
+        <dt>
+         First released:
+        </dt>
+        <dd>
+         July 31, 2023
+        </dd>
+        <dt>
+         Archive size:
+        </dt>
+        <dd class="archive-size-value">
+         15.5 kB
+         <a href="https://packages.typst.org/preview/t4t-0.3.2.tar.gz">
+          <img alt="Size icon" src="/assets/icons/16-download.svg"/>
+         </a>
+        </dd>
+        <dt>
+         Repository:
+        </dt>
+        <dd>
+         <a href="https://github.com/jneug/typst-tools4typst" rel="noopener noreferrer" target="_blank">
+          GitHub
+         </a>
+        </dd>
+       </dl>
+      </section>
+      <section>
+       <h3>
+        Where to report issues?
+       </h3>
+       <p>
+        This
+        <!-- -->
+        package
+        <!-- -->
+        is a project of
+        <!-- -->
+        <!-- -->
+        Jonas Neugebauer
+        <!-- -->
+        .
+        <!-- -->
+        <!-- -->
+        Report issues on
+        <!-- -->
+        <a href="https://github.com/jneug/typst-tools4typst" rel="noopener noreferrer" target="_blank">
+         their repository
+        </a>
+        .
+        <!-- -->
+        <!-- -->
+        You can also try to ask for help with this
+        <!-- -->
+        package
+        <!-- -->
+        on the
+        <!-- -->
+        <a href="https://forum.typst.app" rel="noopener" target="_blank">
+         Forum
+        </a>
+        .
+       </p>
+       <p>
+        Please report this
+        <!-- -->
+        package
+        <!-- -->
+        to the Typst team using the
+        <!-- -->
+        <a href="https://typst.app/contact" rel="noreferrer" target="_blank">
+         contact form
+        </a>
+        <!-- -->
+        if you believe it is a safety hazard or infringes upon your rights.
+       </p>
+      </section>
+      <section id="versions">
+       <h3>
+        Version history
+       </h3>
+       <table>
+        <thead>
+         <tr>
+          <th align="left">
+           Version
+          </th>
+          <th align="left">
+           Release Date
+          </th>
+         </tr>
+        </thead>
+        <tbody>
+         <tr>
+          <td align="left">
+           0.3.2
+          </td>
+          <td align="left">
+           September 15, 2023
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/t4t/0.3.1/">
+            0.3.1
+           </a>
+          </td>
+          <td align="left">
+           September 7, 2023
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/t4t/0.3.0/">
+            0.3.0
+           </a>
+          </td>
+          <td align="left">
+           August 24, 2023
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/t4t/0.2.0/">
+            0.2.0
+           </a>
+          </td>
+          <td align="left">
+           August 8, 2023
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/t4t/0.1.0/">
+            0.1.0
+           </a>
+          </td>
+          <td align="left">
+           July 31, 2023
+          </td>
+         </tr>
+        </tbody>
+       </table>
+      </section>
+      <p class="bottom-notice muted">
+       Typst GmbH did not create this
+       <!-- -->
+       package
+       <!-- -->
+       and cannot guarantee correct functionality of this
+       <!-- -->
+       package
+       <!-- -->
+       or compatibility with any version of the Typst compiler or app.
+      </p>
+     </aside>
+    </div>
+   </main>

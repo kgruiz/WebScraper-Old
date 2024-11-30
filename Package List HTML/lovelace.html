@@ -1,0 +1,1237 @@
+<main>
+    <div id="banner" style="--banner-accent:#58990B;--banner-primary:#191C16;--banner-secondary:#34550B;--banner-tertiary:#8DA76D;--banner-background:linear-gradient(90deg, #F2FA95 0%, #F0FFC4 61.43%, #F3FDE7 100%)">
+     <div class="package-icon" role="img">
+     </div>
+     <div>
+      <div class="title">
+       <h1 class="name">
+        lovelace
+       </h1>
+       <span class="version">
+        0.3.0
+       </span>
+      </div>
+      <p class="description">
+       Algorithms in pseudocode, unopinionated and flexible
+      </p>
+     </div>
+     <p class="featured-label">
+      <span class="icon" role="img">
+      </span>
+      Featured
+      <!-- -->
+      Package
+     </p>
+    </div>
+    <div class="inner-grid">
+     <section id="readme">
+      <p>
+       This is a package for writing pseudocode in
+       <a href="https://typst.app/">
+        Typst
+       </a>
+       . It is named after the computer science pioneer
+       <a href="https://en.wikipedia.org/wiki/Ada_Lovelace" rel="nofollow ugc" target="_blank">
+        Ada Lovelace
+       </a>
+       and inspired by the
+       <a href="https://ctan.org/pkg/pseudo" rel="nofollow ugc" target="_blank">
+        pseudo package
+       </a>
+       for LaTeX.
+      </p>
+      <p>
+       <img alt="GitHub license" src="https://img.shields.io/github/license/andreasKroepelin/lovelace"/>
+       <img alt="GitHub release (latest by date)" src="https://img.shields.io/github/v/release/andreasKroepelin/lovelace"/>
+       <img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/andreasKroepelin/lovelace"/>
+      </p>
+      <p>
+       Pseudocode is not a programming language, it doesnât have strict syntax, so you should be able to write it however you need to in your specific situation. Lovelace lets you do exactly that.
+      </p>
+      <p>
+       Main features include:
+      </p>
+      <ul>
+       <li>
+        arbitrary keywords and syntax structures
+       </li>
+       <li>
+        optional line numbering
+       </li>
+       <li>
+        line labels
+       </li>
+       <li>
+        lots of customisation with sensible defaults
+       </li>
+      </ul>
+      <h2>
+       Usage
+      </h2>
+      <ul>
+       <li>
+        <a href="https://github.com/typst/packages/raw/main/packages/preview/lovelace/0.3.0/#getting-started" rel="nofollow ugc" target="_blank">
+         Getting started
+        </a>
+       </li>
+       <li>
+        <a href="https://github.com/typst/packages/raw/main/packages/preview/lovelace/0.3.0/#lower-level-interface" rel="nofollow ugc" target="_blank">
+         Lower level interface
+        </a>
+       </li>
+       <li>
+        <a href="https://github.com/typst/packages/raw/main/packages/preview/lovelace/0.3.0/#line-numbers" rel="nofollow ugc" target="_blank">
+         Line numbers
+        </a>
+       </li>
+       <li>
+        <a href="https://github.com/typst/packages/raw/main/packages/preview/lovelace/0.3.0/#referencing-lines" rel="nofollow ugc" target="_blank">
+         Referencing lines
+        </a>
+       </li>
+       <li>
+        <a href="https://github.com/typst/packages/raw/main/packages/preview/lovelace/0.3.0/#indentation-guides" rel="nofollow ugc" target="_blank">
+         Indentation guides
+        </a>
+       </li>
+       <li>
+        <a href="https://github.com/typst/packages/raw/main/packages/preview/lovelace/0.3.0/#spacing" rel="nofollow ugc" target="_blank">
+         Spacing
+        </a>
+       </li>
+       <li>
+        <a href="https://github.com/typst/packages/raw/main/packages/preview/lovelace/0.3.0/#decorations" rel="nofollow ugc" target="_blank">
+         Decorations
+        </a>
+       </li>
+       <li>
+        <a href="https://github.com/typst/packages/raw/main/packages/preview/lovelace/0.3.0/#algorithm-as-figure" rel="nofollow ugc" target="_blank">
+         Algorithm as figure
+        </a>
+       </li>
+       <li>
+        <a href="https://github.com/typst/packages/raw/main/packages/preview/lovelace/0.3.0/#customisation-overview" rel="nofollow ugc" target="_blank">
+         Customisation overview
+        </a>
+       </li>
+       <li>
+        <a href="https://github.com/typst/packages/raw/main/packages/preview/lovelace/0.3.0/#exported-functions" rel="nofollow ugc" target="_blank">
+         Exported functions
+        </a>
+       </li>
+      </ul>
+      <h3>
+       Getting started
+      </h3>
+      <p>
+       Import the package using
+      </p>
+      <pre><code class="language-typ"><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/lovelace:0.3.0"</span><span class="typ-punct">:</span> <span class="typ-op">*</span>
+</code></code></pre>
+      <p>
+       The simplest usage is via
+       <code>
+        pseudocode-list
+       </code>
+       which transforms a nested list into pseudocode:
+      </p>
+      <pre><code class="language-typ"><code><span class="typ-func">#</span><span class="typ-func">pseudocode-list</span><span class="typ-punct">[</span>
+  <span class="typ-marker">+</span> do something
+  <span class="typ-marker">+</span> do something else
+  <span class="typ-marker">+</span> <span class="typ-strong">*while*</span> still something to do
+    <span class="typ-marker">+</span> do even more
+    <span class="typ-marker">+</span> <span class="typ-strong">*if*</span> not done yet <span class="typ-strong">*then*</span>
+      <span class="typ-marker">+</span> wait a bit
+      <span class="typ-marker">+</span> resume working
+    <span class="typ-marker">+</span> <span class="typ-strong">*else*</span>
+      <span class="typ-marker">+</span> go home
+    <span class="typ-marker">+</span> <span class="typ-strong">*end*</span>
+  <span class="typ-marker">+</span> <span class="typ-strong">*end*</span>
+<span class="typ-punct">]</span>
+</code></code></pre>
+      <p>
+       resulting in:
+      </p>
+      <p>
+       <img alt="simple" src="https://github.com/typst/packages/raw/main/packages/preview/lovelace/0.3.0/examples/simple.svg"/>
+      </p>
+      <p>
+       As you can see, every list item becomes one line of code and nested lists become indented blocks. There are no special commands for common keywords and control structures, you just use whatever you like.
+      </p>
+      <p>
+       Maybe in your domain very uncommon structures make more sense? No problem!
+      </p>
+      <pre><code class="language-typ"><code><span class="typ-func">#</span><span class="typ-func">pseudocode-list</span><span class="typ-punct">[</span>
+  <span class="typ-marker">+</span> <span class="typ-strong">*in parallel for each*</span> <span class="typ-math-delim">$</span>i = 1, <span class="typ-escape">...</span>, n<span class="typ-math-delim">$</span> <span class="typ-strong">*do*</span>
+    <span class="typ-marker">+</span> fetch chunk of data <span class="typ-math-delim">$</span>i<span class="typ-math-delim">$</span>
+    <span class="typ-marker">+</span> <span class="typ-strong">*with probability*</span> <span class="typ-math-delim">$</span><span class="typ-func">exp</span><span class="typ-punct">(</span><span class="typ-escape">-</span><span class="typ-pol">epsilon</span><span class="typ-math-op">_</span>i <span class="typ-pol">slash</span> k T<span class="typ-punct">)</span><span class="typ-math-delim">$</span> <span class="typ-strong">*do*</span>
+      <span class="typ-marker">+</span> perform update
+    <span class="typ-marker">+</span> <span class="typ-strong">*end*</span>
+  <span class="typ-marker">+</span> <span class="typ-strong">*end*</span>
+<span class="typ-punct">]</span>
+</code></code></pre>
+      <p>
+       <img alt="custom" src="https://github.com/typst/packages/raw/main/packages/preview/lovelace/0.3.0/examples/custom.svg"/>
+      </p>
+      <h3>
+       Lower level interface
+      </h3>
+      <p>
+       If you feel uncomfortable with abusing Typstâs lists like we do here, you can also use the
+       <code>
+        pseudocode
+       </code>
+       function directly:
+      </p>
+      <pre><code class="language-typ"><code><span class="typ-func">#</span><span class="typ-func">pseudocode</span><span class="typ-punct">(</span>
+  <span class="typ-punct">[</span>do something<span class="typ-punct">]</span><span class="typ-punct">,</span>
+  <span class="typ-punct">[</span>do something else<span class="typ-punct">]</span><span class="typ-punct">,</span>
+  <span class="typ-punct">[</span><span class="typ-strong">*while*</span> still something to do<span class="typ-punct">]</span><span class="typ-punct">,</span>
+  <span class="typ-func">indent</span><span class="typ-punct">(</span>
+    <span class="typ-punct">[</span>do even more<span class="typ-punct">]</span><span class="typ-punct">,</span>
+    <span class="typ-punct">[</span><span class="typ-strong">*if*</span> not done yet <span class="typ-strong">*then*</span><span class="typ-punct">]</span><span class="typ-punct">,</span>
+    <span class="typ-func">indent</span><span class="typ-punct">(</span>
+      <span class="typ-punct">[</span>wait a bit<span class="typ-punct">]</span><span class="typ-punct">,</span>
+      <span class="typ-punct">[</span>resume working<span class="typ-punct">]</span><span class="typ-punct">,</span>
+    <span class="typ-punct">)</span><span class="typ-punct">,</span>
+    <span class="typ-punct">[</span><span class="typ-strong">*else*</span><span class="typ-punct">]</span><span class="typ-punct">,</span>
+    <span class="typ-func">indent</span><span class="typ-punct">(</span>
+      <span class="typ-punct">[</span>go home<span class="typ-punct">]</span><span class="typ-punct">,</span>
+    <span class="typ-punct">)</span><span class="typ-punct">,</span>
+    <span class="typ-punct">[</span><span class="typ-strong">*end*</span><span class="typ-punct">]</span><span class="typ-punct">,</span>
+  <span class="typ-punct">)</span><span class="typ-punct">,</span>
+  <span class="typ-punct">[</span><span class="typ-strong">*end*</span><span class="typ-punct">]</span><span class="typ-punct">,</span>
+<span class="typ-punct">)</span>
+</code></code></pre>
+      <p>
+       This is equivalent to the first example. Note that each line is given as one content argument and you indent a block by using the
+       <code>
+        indent
+       </code>
+       function.
+      </p>
+      <p>
+       This approach has the advantage that you do not rely on significant whitespace and code formatters can automatically correctly indent your Typst code.
+      </p>
+      <h3>
+       Line numbers
+      </h3>
+      <p>
+       Lovelace puts a number in front of each line by default. If you want no numbers at all, you can set the
+       <code>
+        line-numbering
+       </code>
+       option to
+       <code>
+        none
+       </code>
+       . The initial example then looks like this:
+      </p>
+      <pre><code class="language-typ"><code><span class="typ-func">#</span><span class="typ-func">pseudocode-list</span><span class="typ-punct">(</span>line-numbering<span class="typ-punct">:</span> <span class="typ-key">none</span><span class="typ-punct">)</span><span class="typ-punct">[</span>
+  <span class="typ-marker">+</span> do something
+  <span class="typ-marker">+</span> do something else
+  <span class="typ-marker">+</span> <span class="typ-strong">*while*</span> still something to do
+    <span class="typ-marker">+</span> do even more
+    <span class="typ-marker">+</span> <span class="typ-strong">*if*</span> not done yet <span class="typ-strong">*then*</span>
+      <span class="typ-marker">+</span> wait a bit
+      <span class="typ-marker">+</span> resume working
+    <span class="typ-marker">+</span> <span class="typ-strong">*else*</span>
+      <span class="typ-marker">+</span> go home
+    <span class="typ-marker">+</span> <span class="typ-strong">*end*</span>
+  <span class="typ-marker">+</span> <span class="typ-strong">*end*</span>
+<span class="typ-punct">]</span>
+</code></code></pre>
+      <p>
+       <img alt="no-number" src="https://github.com/typst/packages/raw/main/packages/preview/lovelace/0.3.0/examples/simple-no-numbers.svg"/>
+      </p>
+      <p>
+       (You can also pass this keyword argument to
+       <code>
+        pseudocode
+       </code>
+       .)
+      </p>
+      <p>
+       If you do want line numbers in general but need to turn them off for specific lines, you can use
+       <code>
+        -
+       </code>
+       items instead of
+       <code>
+        +
+       </code>
+       items in
+       <code>
+        pseudocode-list
+       </code>
+       :
+      </p>
+      <pre><code class="language-typ"><code><span class="typ-func">#</span><span class="typ-func">pseudocode-list</span><span class="typ-punct">[</span>
+  <span class="typ-marker">+</span> normal line with a number
+  <span class="typ-marker">-</span> this line has no number
+  <span class="typ-marker">+</span> this one has a number again
+<span class="typ-punct">]</span>
+</code></code></pre>
+      <p>
+       <img alt="number-no-number" src="https://github.com/typst/packages/raw/main/packages/preview/lovelace/0.3.0/examples/number-no-number.svg"/>
+      </p>
+      <p>
+       Itâs easy to remember:
+       <code>
+        -
+       </code>
+       items usually produce unnumbered lists and
+       <code>
+        +
+       </code>
+       items produce numbered lists!
+      </p>
+      <p>
+       When using the
+       <code>
+        pseudocode
+       </code>
+       function, you can achieve the same using
+       <code>
+        no-number
+       </code>
+       :
+      </p>
+      <pre><code class="language-typ"><code><span class="typ-func">#</span><span class="typ-func">pseudocode</span><span class="typ-punct">(</span>
+  <span class="typ-punct">[</span>normal line with a number<span class="typ-punct">]</span><span class="typ-punct">,</span>
+  <span class="typ-func">no-number</span><span class="typ-punct">[</span>this line has no number<span class="typ-punct">]</span><span class="typ-punct">,</span>
+  <span class="typ-punct">[</span>this one has a number again<span class="typ-punct">]</span><span class="typ-punct">,</span>
+<span class="typ-punct">)</span>
+</code></code></pre>
+      <h4>
+       More line number customisation
+      </h4>
+      <p>
+       Other than
+       <code>
+        none
+       </code>
+       , you can assign anything listed
+       <a href="https://typst.app/docs/reference/model/numbering/#parameters-numbering">
+        here
+       </a>
+       to
+       <code>
+        line-numbering
+       </code>
+       .
+      </p>
+      <p>
+       So maybe you happen to think about the Roman Empire a lot and want to reflect that in your pseudocode?
+      </p>
+      <pre><code class="language-typ"><code><span class="typ-key">#</span><span class="typ-key">set</span> <span class="typ-func">text</span><span class="typ-punct">(</span>font<span class="typ-punct">:</span> <span class="typ-str">"Cinzel"</span><span class="typ-punct">)</span>
+
+<span class="typ-func">#</span><span class="typ-func">pseudocode-list</span><span class="typ-punct">(</span>line-numbering<span class="typ-punct">:</span> <span class="typ-str">"I:"</span><span class="typ-punct">)</span><span class="typ-punct">[</span>
+  <span class="typ-marker">+</span> explore European tribes
+  <span class="typ-marker">+</span> <span class="typ-strong">*while*</span> not all tribes conquered
+    <span class="typ-marker">+</span> <span class="typ-strong">*for each*</span> tribe <span class="typ-strong">*in*</span> unconquered tribes
+      <span class="typ-marker">+</span> try to conquer tribe
+    <span class="typ-marker">+</span> <span class="typ-strong">*end*</span>
+  <span class="typ-marker">+</span> <span class="typ-strong">*end*</span>
+<span class="typ-punct">]</span>
+</code></code></pre>
+      <p>
+       <img alt="roman" src="https://github.com/typst/packages/raw/main/packages/preview/lovelace/0.3.0/examples/roman.svg"/>
+      </p>
+      <h3>
+       Referencing lines
+      </h3>
+      <p>
+       You can reference an inividual line of a pseudocode by giving it a label. Inside
+       <code>
+        pseudocode-list
+       </code>
+       , you can use
+       <code>
+        line-label
+       </code>
+       :
+      </p>
+      <pre><code class="language-typ"><code><span class="typ-func">#</span><span class="typ-func">pseudocode-list</span><span class="typ-punct">[</span>
+  <span class="typ-marker">+</span> <span class="typ-func">#</span><span class="typ-func">line-label</span><span class="typ-punct">(</span><span class="typ-label">&lt;start&gt;</span><span class="typ-punct">)</span> do something
+  <span class="typ-marker">+</span> <span class="typ-func">#</span><span class="typ-func">line-label</span><span class="typ-punct">(</span><span class="typ-label">&lt;important&gt;</span><span class="typ-punct">)</span> do something important
+  <span class="typ-marker">+</span> go back to <span class="typ-ref">@start</span>
+<span class="typ-punct">]</span>
+
+The relevance of the step in <span class="typ-ref">@important</span> cannot be overstated.
+</code></code></pre>
+      <p>
+       <img alt="label" src="https://github.com/typst/packages/raw/main/packages/preview/lovelace/0.3.0/examples/label.svg"/>
+      </p>
+      <p>
+       When using
+       <code>
+        pseudocode
+       </code>
+       , you can use
+       <code>
+        with-line-label
+       </code>
+       :
+      </p>
+      <pre><code class="language-typ"><code><span class="typ-func">#</span><span class="typ-func">pseudocode</span><span class="typ-punct">(</span>
+  <span class="typ-func">with-line-label</span><span class="typ-punct">(</span><span class="typ-label">&lt;start&gt;</span><span class="typ-punct">)</span><span class="typ-punct">[</span>do something<span class="typ-punct">]</span><span class="typ-punct">,</span>
+  <span class="typ-func">with-line-label</span><span class="typ-punct">(</span><span class="typ-label">&lt;important&gt;</span><span class="typ-punct">)</span><span class="typ-punct">[</span>do something important<span class="typ-punct">]</span><span class="typ-punct">,</span>
+  <span class="typ-punct">[</span>go back to <span class="typ-ref">@start</span><span class="typ-punct">]</span><span class="typ-punct">,</span>
+<span class="typ-punct">)</span>
+
+The relevance of the step in <span class="typ-ref">@important</span> cannot be overstated.
+</code></code></pre>
+      <p>
+       This has the same effect as the previous example.
+      </p>
+      <p>
+       The number shown in the reference uses the numbering scheme defined in the
+       <code>
+        line-numbering
+       </code>
+       option (see previous section).
+      </p>
+      <p>
+       By default,
+       <code>
+        "Line"
+       </code>
+       is used as the supplement for referencing lines. You can change that using the
+       <code>
+        line-number-supplement
+       </code>
+       option to
+       <code>
+        pseudocode
+       </code>
+       or
+       <code>
+        pseudocode-list
+       </code>
+       .
+      </p>
+      <h3>
+       Indentation guides
+      </h3>
+      <p>
+       By default, Lovelace puts a thin gray (
+       <code>
+        gray + 1pt
+       </code>
+       ) line to the left of each indented block, which guides the reader in understanding the indentations, just like a code editor would. You can customise this using the
+       <code>
+        stroke
+       </code>
+       option which takes any value that is a valid
+       <a href="https://typst.app/docs/reference/visualize/stroke/">
+        Typst stroke
+       </a>
+       . You can especially set it to
+       <code>
+        none
+       </code>
+       to have no indentation guides.
+      </p>
+      <p>
+       The example from the beginning becomes:
+      </p>
+      <pre><code class="language-typ"><code><span class="typ-func">#</span><span class="typ-func">pseudocode-list</span><span class="typ-punct">(</span>stroke<span class="typ-punct">:</span> <span class="typ-key">none</span><span class="typ-punct">)</span><span class="typ-punct">[</span>
+  <span class="typ-marker">+</span> do something
+  <span class="typ-marker">+</span> do something else
+  <span class="typ-marker">+</span> <span class="typ-strong">*while*</span> still something to do
+    <span class="typ-marker">+</span> do even more
+    <span class="typ-marker">+</span> <span class="typ-strong">*if*</span> not done yet <span class="typ-strong">*then*</span>
+      <span class="typ-marker">+</span> wait a bit
+      <span class="typ-marker">+</span> resume working
+    <span class="typ-marker">+</span> <span class="typ-strong">*else*</span>
+      <span class="typ-marker">+</span> go home
+    <span class="typ-marker">+</span> <span class="typ-strong">*end*</span>
+  <span class="typ-marker">+</span> <span class="typ-strong">*end*</span>
+<span class="typ-punct">]</span>
+</code></code></pre>
+      <p>
+       <img alt="no-stroke" src="https://github.com/typst/packages/raw/main/packages/preview/lovelace/0.3.0/examples/simple-no-stroke.svg"/>
+      </p>
+      <h4>
+       End blocks with hooks
+      </h4>
+      <p>
+       Some people prefer using the indentation guide to signal the end of a block instead of writing something like â
+       <strong>
+        end
+       </strong>
+       â by having a small âhookâ at the end. To achieve that in Lovelace, you can make use of the
+       <code>
+        hook
+       </code>
+       option and specify how far a line should extend to the right from the indentation guide:
+      </p>
+      <pre><code class="language-typ"><code><span class="typ-func">#</span><span class="typ-func">pseudocode-list</span><span class="typ-punct">(</span>hooks<span class="typ-punct">:</span> <span class="typ-num">.5em</span><span class="typ-punct">)</span><span class="typ-punct">[</span>
+  <span class="typ-marker">+</span> do something
+  <span class="typ-marker">+</span> do something else
+  <span class="typ-marker">+</span> <span class="typ-strong">*while*</span> still something to do
+    <span class="typ-marker">+</span> do even more
+    <span class="typ-marker">+</span> <span class="typ-strong">*if*</span> not done yet <span class="typ-strong">*then*</span>
+      <span class="typ-marker">+</span> wait a bit
+      <span class="typ-marker">+</span> resume working
+    <span class="typ-marker">+</span> <span class="typ-strong">*else*</span>
+      <span class="typ-marker">+</span> go home
+<span class="typ-punct">]</span>
+</code></code></pre>
+      <p>
+       <img alt="hooks" src="https://github.com/typst/packages/raw/main/packages/preview/lovelace/0.3.0/examples/hooks.svg"/>
+      </p>
+      <h3>
+       Spacing
+      </h3>
+      <p>
+       You can control how far indented lines are shifted right by the
+       <code>
+        indentation
+       </code>
+       option. To change the space between lines, use the
+       <code>
+        line-gap
+       </code>
+       option.
+      </p>
+      <pre><code class="language-typ"><code><span class="typ-func">#</span><span class="typ-func">pseudocode-list</span><span class="typ-punct">(</span>indentation<span class="typ-punct">:</span> <span class="typ-num">3em</span><span class="typ-punct">,</span> line-gap<span class="typ-punct">:</span> <span class="typ-num">1.5em</span><span class="typ-punct">)</span><span class="typ-punct">[</span>
+  <span class="typ-marker">+</span> do something
+  <span class="typ-marker">+</span> do something else
+  <span class="typ-marker">+</span> <span class="typ-strong">*while*</span> still something to do
+    <span class="typ-marker">+</span> do even more
+    <span class="typ-marker">+</span> <span class="typ-strong">*if*</span> not done yet <span class="typ-strong">*then*</span>
+      <span class="typ-marker">+</span> wait a bit
+      <span class="typ-marker">+</span> resume working
+    <span class="typ-marker">+</span> <span class="typ-strong">*else*</span>
+      <span class="typ-marker">+</span> go home
+    <span class="typ-marker">+</span> <span class="typ-strong">*end*</span>
+  <span class="typ-marker">+</span> <span class="typ-strong">*end*</span>
+<span class="typ-punct">]</span>
+</code></code></pre>
+      <p>
+       <img alt="spacing" src="https://github.com/typst/packages/raw/main/packages/preview/lovelace/0.3.0/examples/spacing.svg"/>
+      </p>
+      <h3>
+       Decorations
+      </h3>
+      <p>
+       You can also add a title and/or a frame around your algorithm if you like:
+      </p>
+      <h4>
+       Title
+      </h4>
+      <p>
+       Using the
+       <code>
+        title
+       </code>
+       option, you can give your pseudocode a title (surprise!). For example, to achieve
+       <a href="https://en.wikipedia.org/wiki/Introduction_to_Algorithms" rel="nofollow ugc" target="_blank">
+        CLRS style
+       </a>
+       , you can do something like
+      </p>
+      <pre><code class="language-typ"><code><span class="typ-func">#</span><span class="typ-func">pseudocode-list</span><span class="typ-punct">(</span>stroke<span class="typ-punct">:</span> <span class="typ-key">none</span><span class="typ-punct">,</span> title<span class="typ-punct">:</span> <span class="typ-func">smallcaps</span><span class="typ-punct">[</span>Fancy-Algorithm<span class="typ-punct">]</span><span class="typ-punct">)</span><span class="typ-punct">[</span>
+  <span class="typ-marker">+</span> do something
+  <span class="typ-marker">+</span> do something else
+  <span class="typ-marker">+</span> <span class="typ-strong">*while*</span> still something to do
+    <span class="typ-marker">+</span> do even more
+    <span class="typ-marker">+</span> <span class="typ-strong">*if*</span> not done yet <span class="typ-strong">*then*</span>
+      <span class="typ-marker">+</span> wait a bit
+      <span class="typ-marker">+</span> resume working
+    <span class="typ-marker">+</span> <span class="typ-strong">*else*</span>
+      <span class="typ-marker">+</span> go home
+    <span class="typ-marker">+</span> <span class="typ-strong">*end*</span>
+  <span class="typ-marker">+</span> <span class="typ-strong">*end*</span>
+<span class="typ-punct">]</span>
+</code></code></pre>
+      <p>
+       <img alt="title" src="https://github.com/typst/packages/raw/main/packages/preview/lovelace/0.3.0/examples/title.svg"/>
+      </p>
+      <h4>
+       Booktabs
+      </h4>
+      <p>
+       If you like wrapping your algorithm in elegant horizontal lines, you can do so by setting the
+       <code>
+        booktabs
+       </code>
+       option to
+       <code>
+        true
+       </code>
+       .
+      </p>
+      <pre><code class="language-typ"><code><span class="typ-func">#</span><span class="typ-func">pseudocode-list</span><span class="typ-punct">(</span>booktabs<span class="typ-punct">:</span> <span class="typ-key">true</span><span class="typ-punct">)</span><span class="typ-punct">[</span>
+  <span class="typ-marker">+</span> do something
+  <span class="typ-marker">+</span> do something else
+  <span class="typ-marker">+</span> <span class="typ-strong">*while*</span> still something to do
+    <span class="typ-marker">+</span> do even more
+    <span class="typ-marker">+</span> <span class="typ-strong">*if*</span> not done yet <span class="typ-strong">*then*</span>
+      <span class="typ-marker">+</span> wait a bit
+      <span class="typ-marker">+</span> resume working
+    <span class="typ-marker">+</span> <span class="typ-strong">*else*</span>
+      <span class="typ-marker">+</span> go home
+    <span class="typ-marker">+</span> <span class="typ-strong">*end*</span>
+  <span class="typ-marker">+</span> <span class="typ-strong">*end*</span>
+<span class="typ-punct">]</span>
+</code></code></pre>
+      <p>
+       <img alt="booktabs" src="https://github.com/typst/packages/raw/main/packages/preview/lovelace/0.3.0/examples/booktabs.svg"/>
+      </p>
+      <p>
+       Together with the
+       <code>
+        title
+       </code>
+       option, you can produce
+      </p>
+      <pre><code class="language-typ"><code><span class="typ-func">#</span><span class="typ-func">pseudocode-list</span><span class="typ-punct">(</span>booktabs<span class="typ-punct">:</span> <span class="typ-key">true</span><span class="typ-punct">,</span> title<span class="typ-punct">:</span> <span class="typ-punct">[</span>My cool title<span class="typ-punct">]</span><span class="typ-punct">)</span><span class="typ-punct">[</span>
+  <span class="typ-marker">+</span> do something
+  <span class="typ-marker">+</span> do something else
+  <span class="typ-marker">+</span> <span class="typ-strong">*while*</span> still something to do
+    <span class="typ-marker">+</span> do even more
+    <span class="typ-marker">+</span> <span class="typ-strong">*if*</span> not done yet <span class="typ-strong">*then*</span>
+      <span class="typ-marker">+</span> wait a bit
+      <span class="typ-marker">+</span> resume working
+    <span class="typ-marker">+</span> <span class="typ-strong">*else*</span>
+      <span class="typ-marker">+</span> go home
+    <span class="typ-marker">+</span> <span class="typ-strong">*end*</span>
+  <span class="typ-marker">+</span> <span class="typ-strong">*end*</span>
+<span class="typ-punct">]</span>
+</code></code></pre>
+      <p>
+       <img alt="booktabs-title" src="https://github.com/typst/packages/raw/main/packages/preview/lovelace/0.3.0/examples/booktabs-title.svg"/>
+      </p>
+      <p>
+       By default, the outer booktab strokes are
+       <code>
+        black + 2pt
+       </code>
+       . You can change that with the option
+       <code>
+        booktabs-stroke
+       </code>
+       to any valid
+       <a href="https://typst.app/docs/reference/visualize/stroke/">
+        Typst stroke
+       </a>
+       . The inner line will always have the same stroke as the outer ones, just with half the thickness.
+      </p>
+      <h3>
+       Algorithm as figure
+      </h3>
+      <p>
+       To make algorithms referencable and being able to float in the document, you can use Typstâs
+       <code>
+        figure
+       </code>
+       function with a custom
+       <code>
+        kind
+       </code>
+       .
+      </p>
+      <pre><code class="language-typ"><code><span class="typ-func">#</span><span class="typ-func">figure</span><span class="typ-punct">(</span>
+  kind<span class="typ-punct">:</span> <span class="typ-str">"algorithm"</span><span class="typ-punct">,</span>
+  supplement<span class="typ-punct">:</span> <span class="typ-punct">[</span>Algorithm<span class="typ-punct">]</span><span class="typ-punct">,</span>
+  caption<span class="typ-punct">:</span> <span class="typ-punct">[</span>My cool algorithm<span class="typ-punct">]</span><span class="typ-punct">,</span>
+
+  <span class="typ-func">pseudocode-list</span><span class="typ-punct">[</span>
+    <span class="typ-marker">+</span> do something
+    <span class="typ-marker">+</span> do something else
+    <span class="typ-marker">+</span> <span class="typ-strong">*while*</span> still something to do
+      <span class="typ-marker">+</span> do even more
+      <span class="typ-marker">+</span> <span class="typ-strong">*if*</span> not done yet <span class="typ-strong">*then*</span>
+        <span class="typ-marker">+</span> wait a bit
+        <span class="typ-marker">+</span> resume working
+      <span class="typ-marker">+</span> <span class="typ-strong">*else*</span>
+        <span class="typ-marker">+</span> go home
+      <span class="typ-marker">+</span> <span class="typ-strong">*end*</span>
+    <span class="typ-marker">+</span> <span class="typ-strong">*end*</span>
+  <span class="typ-punct">]</span>
+<span class="typ-punct">)</span>
+</code></code></pre>
+      <p>
+       <img alt="figure" src="https://github.com/typst/packages/raw/main/packages/preview/lovelace/0.3.0/examples/figure.svg"/>
+      </p>
+      <p>
+       If you want to have the algorithm counter inside the title instead (see previous section), there is the option
+       <code>
+        numbered-title
+       </code>
+       :
+      </p>
+      <pre><code class="language-typ"><code><span class="typ-func">#</span><span class="typ-func">figure</span><span class="typ-punct">(</span>
+  kind<span class="typ-punct">:</span> <span class="typ-str">"algorithm"</span><span class="typ-punct">,</span>
+  supplement<span class="typ-punct">:</span> <span class="typ-punct">[</span>Algorithm<span class="typ-punct">]</span><span class="typ-punct">,</span>
+
+  <span class="typ-func">pseudocode-list</span><span class="typ-punct">(</span>booktabs<span class="typ-punct">:</span> <span class="typ-key">true</span><span class="typ-punct">,</span> numbered-title<span class="typ-punct">:</span> <span class="typ-punct">[</span>My cool algorithm<span class="typ-punct">]</span><span class="typ-punct">)</span><span class="typ-punct">[</span>
+    <span class="typ-marker">+</span> do something
+    <span class="typ-marker">+</span> do something else
+    <span class="typ-marker">+</span> <span class="typ-strong">*while*</span> still something to do
+      <span class="typ-marker">+</span> do even more
+      <span class="typ-marker">+</span> <span class="typ-strong">*if*</span> not done yet <span class="typ-strong">*then*</span>
+        <span class="typ-marker">+</span> wait a bit
+        <span class="typ-marker">+</span> resume working
+      <span class="typ-marker">+</span> <span class="typ-strong">*else*</span>
+        <span class="typ-marker">+</span> go home
+      <span class="typ-marker">+</span> <span class="typ-strong">*end*</span>
+    <span class="typ-marker">+</span> <span class="typ-strong">*end*</span>
+  <span class="typ-punct">]</span>
+<span class="typ-punct">)</span> <span class="typ-label">&lt;cool&gt;</span>
+
+See <span class="typ-ref">@cool</span> for details on how to do something cool.
+</code></code></pre>
+      <p>
+       <img alt="figure-title" src="https://github.com/typst/packages/raw/main/packages/preview/lovelace/0.3.0/examples/figure-title.svg"/>
+      </p>
+      <p>
+       Note that the
+       <code>
+        numbered-title
+       </code>
+       option only makes sense when nesting your pseudocode inside a figure with
+       <code>
+        kind: "algorithm"
+       </code>
+       , otherwise it produces undefined results.
+      </p>
+      <h3>
+       Customisation overview
+      </h3>
+      <p>
+       Both
+       <code>
+        pseudocode
+       </code>
+       and
+       <code>
+        pseudocode-list
+       </code>
+       accept the following configuration arguments:
+      </p>
+      <table>
+       <thead>
+        <tr>
+         <th>
+          <strong>
+           option
+          </strong>
+         </th>
+         <th>
+          <strong>
+           type
+          </strong>
+         </th>
+         <th>
+          <strong>
+           default
+          </strong>
+         </th>
+        </tr>
+       </thead>
+       <tbody>
+        <tr>
+         <td>
+          <a href="https://github.com/typst/packages/raw/main/packages/preview/lovelace/0.3.0/#line-numbers" rel="nofollow ugc" target="_blank">
+           <code>
+            line-numbering
+           </code>
+          </a>
+         </td>
+         <td>
+          <code>
+           none
+          </code>
+          or a
+          <a href="https://typst.app/docs/reference/model/numbering/#parameters-numbering">
+           numbering
+          </a>
+         </td>
+         <td>
+          <code>
+           "1"
+          </code>
+         </td>
+        </tr>
+        <tr>
+         <td>
+          <a href="https://github.com/typst/packages/raw/main/packages/preview/lovelace/0.3.0/#more-line-number-customisation" rel="nofollow ugc" target="_blank">
+           <code>
+            line-number-supplement
+           </code>
+          </a>
+         </td>
+         <td>
+          content
+         </td>
+         <td>
+          <code>
+           "Line"
+          </code>
+         </td>
+        </tr>
+        <tr>
+         <td>
+          <a href="https://github.com/typst/packages/raw/main/packages/preview/lovelace/0.3.0/#indentation-guides" rel="nofollow ugc" target="_blank">
+           <code>
+            stroke
+           </code>
+          </a>
+         </td>
+         <td>
+          stroke
+         </td>
+         <td>
+          <code>
+           1pt + gray
+          </code>
+         </td>
+        </tr>
+        <tr>
+         <td>
+          <a href="https://github.com/typst/packages/raw/main/packages/preview/lovelace/0.3.0/#end-blocks-with-hooks" rel="nofollow ugc" target="_blank">
+           <code>
+            hooks
+           </code>
+          </a>
+         </td>
+         <td>
+          length
+         </td>
+         <td>
+          <code>
+           0pt
+          </code>
+         </td>
+        </tr>
+        <tr>
+         <td>
+          <a href="https://github.com/typst/packages/raw/main/packages/preview/lovelace/0.3.0/#spacing" rel="nofollow ugc" target="_blank">
+           <code>
+            indentation
+           </code>
+          </a>
+         </td>
+         <td>
+          length
+         </td>
+         <td>
+          <code>
+           1em
+          </code>
+         </td>
+        </tr>
+        <tr>
+         <td>
+          <a href="https://github.com/typst/packages/raw/main/packages/preview/lovelace/0.3.0/#spacing" rel="nofollow ugc" target="_blank">
+           <code>
+            line-gap
+           </code>
+          </a>
+         </td>
+         <td>
+          length
+         </td>
+         <td>
+          <code>
+           .8em
+          </code>
+         </td>
+        </tr>
+        <tr>
+         <td>
+          <a href="https://github.com/typst/packages/raw/main/packages/preview/lovelace/0.3.0/#booktabs" rel="nofollow ugc" target="_blank">
+           <code>
+            booktabs
+           </code>
+          </a>
+         </td>
+         <td>
+          bool
+         </td>
+         <td>
+          <code>
+           false
+          </code>
+         </td>
+        </tr>
+        <tr>
+         <td>
+          <a href="https://github.com/typst/packages/raw/main/packages/preview/lovelace/0.3.0/#booktabs" rel="nofollow ugc" target="_blank">
+           <code>
+            booktabs-stroke
+           </code>
+          </a>
+         </td>
+         <td>
+          stroke
+         </td>
+         <td>
+          <code>
+           2pt + black
+          </code>
+         </td>
+        </tr>
+        <tr>
+         <td>
+          <a href="https://github.com/typst/packages/raw/main/packages/preview/lovelace/0.3.0/#title" rel="nofollow ugc" target="_blank">
+           <code>
+            title
+           </code>
+          </a>
+         </td>
+         <td>
+          content or
+          <code>
+           none
+          </code>
+         </td>
+         <td>
+          <code>
+           none
+          </code>
+         </td>
+        </tr>
+        <tr>
+         <td>
+          <a href="https://github.com/typst/packages/raw/main/packages/preview/lovelace/0.3.0/#algorithm-as-figure" rel="nofollow ugc" target="_blank">
+           <code>
+            numbered-title
+           </code>
+          </a>
+         </td>
+         <td>
+          content or
+          <code>
+           none
+          </code>
+         </td>
+         <td>
+          <code>
+           none
+          </code>
+         </td>
+        </tr>
+       </tbody>
+      </table>
+      <p>
+       Until Typst supports user defined types, we can use the following trick when wanting to set own default values for these options. Say, you always want your algorithms to have colons after the line numbers, no indentation guides and, if present, blue booktabs. In this case, you would put the following at the top of your document:
+      </p>
+      <pre><code class="language-typ"><code><span class="typ-key">#</span><span class="typ-key">let</span> my-lovelace-defaults <span class="typ-op">=</span> <span class="typ-punct">(</span>
+  line-numbering<span class="typ-punct">:</span> <span class="typ-str">"1:"</span><span class="typ-punct">,</span>
+  stroke<span class="typ-punct">:</span> <span class="typ-key">none</span><span class="typ-punct">,</span>
+  booktabs-stroke<span class="typ-punct">:</span> <span class="typ-num">2pt</span> <span class="typ-op">+</span> blue<span class="typ-punct">,</span>
+<span class="typ-punct">)</span>
+
+<span class="typ-key">#</span><span class="typ-key">let</span> pseudocode <span class="typ-op">=</span> pseudocode<span class="typ-punct">.</span><span class="typ-func">with</span><span class="typ-punct">(</span><span class="typ-op">..</span>my-lovelace-defaults<span class="typ-punct">)</span>
+<span class="typ-key">#</span><span class="typ-key">let</span> pseudocode-list <span class="typ-op">=</span> pseudocode-list<span class="typ-punct">.</span><span class="typ-func">with</span><span class="typ-punct">(</span><span class="typ-op">..</span>my-lovelace-defaults<span class="typ-punct">)</span>
+</code></code></pre>
+      <h3>
+       Exported functions
+      </h3>
+      <p>
+       Lovelace exports the following functions:
+      </p>
+      <ul>
+       <li>
+        <code>
+         pseudocode
+        </code>
+        : Typeset pseudocode with each line as an individual content argument, see
+        <a href="https://github.com/typst/packages/raw/main/packages/preview/lovelace/0.3.0/#lower-level-interface" rel="nofollow ugc" target="_blank">
+         here
+        </a>
+        for details. Has
+        <a href="https://github.com/typst/packages/raw/main/packages/preview/lovelace/0.3.0/#customisation-overview" rel="nofollow ugc" target="_blank">
+         these
+        </a>
+        optional arguments.
+       </li>
+       <li>
+        <code>
+         pseudocode-list
+        </code>
+        : Takes a standard Typst list and transforms it into a pseudocode. Has
+        <a href="https://github.com/typst/packages/raw/main/packages/preview/lovelace/0.3.0/#customisation-overview" rel="nofollow ugc" target="_blank">
+         these
+        </a>
+        optional arguments.
+       </li>
+       <li>
+        <code>
+         indent
+        </code>
+        : Inside the argument list of
+        <code>
+         pseudocode
+        </code>
+        , use
+        <code>
+         indent
+        </code>
+        to specify an indented block, see
+        <a href="https://github.com/typst/packages/raw/main/packages/preview/lovelace/0.3.0/#lower-level-interface" rel="nofollow ugc" target="_blank">
+         here
+        </a>
+        for details.
+       </li>
+       <li>
+        <code>
+         no-number
+        </code>
+        : Wrap an argument to
+        <code>
+         pseudocode
+        </code>
+        in this function to have the corresponding line be unnumbered, see
+        <a href="https://github.com/typst/packages/raw/main/packages/preview/lovelace/0.3.0/#line-numbers" rel="nofollow ugc" target="_blank">
+         here
+        </a>
+        for details.
+       </li>
+       <li>
+        <code>
+         with-line-label
+        </code>
+        : Use this function in the
+        <code>
+         pseudocode
+        </code>
+        arguments to add a label to a specific line, see
+        <a href="https://github.com/typst/packages/raw/main/packages/preview/lovelace/0.3.0/#referencing-lines" rel="nofollow ugc" target="_blank">
+         here
+        </a>
+        for details.
+       </li>
+       <li>
+        <code>
+         line-label
+        </code>
+        : When using
+        <code>
+         pseudocode-list
+        </code>
+        , you do
+        <em>
+         not
+        </em>
+        use
+        <code>
+         with-line-label
+        </code>
+        but insert a call to
+        <code>
+         line-label
+        </code>
+        somewhere in a line to add a label, see
+        <a href="https://github.com/typst/packages/raw/main/packages/preview/lovelace/0.3.0/#referencing-lines" rel="nofollow ugc" target="_blank">
+         here
+        </a>
+        for details.
+       </li>
+      </ul>
+     </section>
+     <aside>
+      <section>
+       <h3>
+        How to add
+       </h3>
+       <p>
+        Copy this into your project and use the import as
+        <!-- -->
+        <code>
+         lovelace
+        </code>
+       </p>
+       <div class="import-snippet">
+        <pre><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/lovelace:0.3.0"</span></code></pre>
+        <button class="copy" title="Copy to clipboard">
+         <img alt="Copy" height="16" src="/assets/icons/16-copy.svg" width="16"/>
+        </button>
+       </div>
+       <p class="muted">
+        Check the docs for
+        <!-- -->
+        <a href="https://typst.app/docs/reference/scripting/#packages">
+         more information on how to import packages
+        </a>
+        .
+       </p>
+      </section>
+      <section id="about">
+       <h3>
+        About
+       </h3>
+       <dl>
+        <dt>
+         Author
+         <!-- -->
+         s
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         Andreas KrÃ¶pelin
+         <!-- -->
+         &amp;
+         <!-- -->
+         Lovelace contributors
+        </dd>
+        <dt>
+         License:
+        </dt>
+        <dd>
+         MIT
+        </dd>
+        <dt>
+         Current version:
+        </dt>
+        <dd>
+         0.3.0
+        </dd>
+        <dt>
+         Last updated:
+        </dt>
+        <dd>
+         July 1, 2024
+        </dd>
+        <dt>
+         First released:
+        </dt>
+        <dd>
+         September 6, 2023
+        </dd>
+        <dt>
+         Archive size:
+        </dt>
+        <dd class="archive-size-value">
+         3.44 kB
+         <a href="https://packages.typst.org/preview/lovelace-0.3.0.tar.gz">
+          <img alt="Size icon" src="/assets/icons/16-download.svg"/>
+         </a>
+        </dd>
+        <dt>
+         Repository:
+        </dt>
+        <dd>
+         <a href="https://github.com/andreasKroepelin/lovelace" rel="noopener noreferrer" target="_blank">
+          GitHub
+         </a>
+        </dd>
+       </dl>
+      </section>
+      <section>
+       <h3>
+        Where to report issues?
+       </h3>
+       <p>
+        This
+        <!-- -->
+        package
+        <!-- -->
+        is a project of
+        <!-- -->
+        <!-- -->
+        Andreas KrÃ¶pelin and Lovelace contributors
+        <!-- -->
+        .
+        <!-- -->
+        <!-- -->
+        Report issues on
+        <!-- -->
+        <a href="https://github.com/andreasKroepelin/lovelace" rel="noopener noreferrer" target="_blank">
+         their repository
+        </a>
+        .
+        <!-- -->
+        <!-- -->
+        You can also try to ask for help with this
+        <!-- -->
+        package
+        <!-- -->
+        on the
+        <!-- -->
+        <a href="https://forum.typst.app" rel="noopener" target="_blank">
+         Forum
+        </a>
+        .
+       </p>
+       <p>
+        Please report this
+        <!-- -->
+        package
+        <!-- -->
+        to the Typst team using the
+        <!-- -->
+        <a href="https://typst.app/contact" rel="noreferrer" target="_blank">
+         contact form
+        </a>
+        <!-- -->
+        if you believe it is a safety hazard or infringes upon your rights.
+       </p>
+      </section>
+      <section id="versions">
+       <h3>
+        Version history
+       </h3>
+       <table>
+        <thead>
+         <tr>
+          <th align="left">
+           Version
+          </th>
+          <th align="left">
+           Release Date
+          </th>
+         </tr>
+        </thead>
+        <tbody>
+         <tr>
+          <td align="left">
+           0.3.0
+          </td>
+          <td align="left">
+           July 1, 2024
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/lovelace/0.2.0/">
+            0.2.0
+           </a>
+          </td>
+          <td align="left">
+           January 9, 2024
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/lovelace/0.1.0/">
+            0.1.0
+           </a>
+          </td>
+          <td align="left">
+           September 6, 2023
+          </td>
+         </tr>
+        </tbody>
+       </table>
+      </section>
+      <p class="bottom-notice muted">
+       Typst GmbH did not create this
+       <!-- -->
+       package
+       <!-- -->
+       and cannot guarantee correct functionality of this
+       <!-- -->
+       package
+       <!-- -->
+       or compatibility with any version of the Typst compiler or app.
+      </p>
+     </aside>
+    </div>
+   </main>

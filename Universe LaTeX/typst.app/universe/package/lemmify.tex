@@ -1,0 +1,585 @@
+\title{typst.app/universe/package/lemmify}
+
+\phantomsection\label{banner}
+\section{lemmify}\label{lemmify}
+
+{ 0.1.6 }
+
+Theorem typesetting library.
+
+\phantomsection\label{readme}
+Lemmify is a library for typesetting mathematical theorems in typst. It
+aims to be easy to use while trying to be as flexible and idiomatic as
+possible. This means that the interface might change with updates to
+typst (for example if user-defined element functions are introduced).
+But no functionality should be lost.
+
+\subsection{Basic Usage}\label{basic-usage}
+
+To get started with Lemmify, follow these steps:
+
+\begin{enumerate}
+\tightlist
+\item
+  Import the Lemmify library:
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/lemmify:0.1.6": *}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{enumerate}
+\setcounter{enumi}{1}
+\tightlist
+\item
+  Define the default styling for a few default theorem types:
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let (}
+\NormalTok{  theorem, lemma, corollary,}
+\NormalTok{  remark, proposition, example,}
+\NormalTok{  proof, rules: thm{-}rules}
+\NormalTok{) = default{-}theorems("thm{-}group", lang: "en")}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{enumerate}
+\setcounter{enumi}{2}
+\tightlist
+\item
+  Apply the generated styling:
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#show: thm{-}rules}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{enumerate}
+\setcounter{enumi}{3}
+\tightlist
+\item
+  Create theorems, lemmas, and proofs using the defined styling:
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#theorem(name: "Some theorem")[}
+\NormalTok{  Theorem content goes here.}
+\NormalTok{]\textless{}thm\textgreater{}}
+
+\NormalTok{\#proof[}
+\NormalTok{  Complicated proof.}
+\NormalTok{]\textless{}proof\textgreater{}}
+
+\NormalTok{@proof and @thm[theorem]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{enumerate}
+\setcounter{enumi}{4}
+\tightlist
+\item
+  Customize the styling further using show rules. For example, to add a
+  red box around proofs:
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#show thm{-}selector("thm{-}group", subgroup: "proof"): it =\textgreater{} box(}
+\NormalTok{  it,}
+\NormalTok{  stroke: red + 1pt,}
+\NormalTok{  inset: 1em}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+The result should now look something like this:
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/Marmare314/lemmify/assets/49279081/ba5e7ed4-336d-4b1a-8470-99fa23bf5119}}
+
+\subsection{Useful examples}\label{useful-examples}
+
+If you do not want to reset the theorem counter on headings you can use
+the \texttt{\ max-reset-level\ } parameter:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{default{-}theorems("thm{-}group", max{-}reset{-}level: 0)}
+\end{Highlighting}
+\end{Shaded}
+
+It specifies the highest level at which the counter is reset. To
+manually reset the counter you can use the
+\texttt{\ thm-reset-counter\ } function.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+By specifying \texttt{\ numbering:\ none\ } you can create unnumbered
+theorems.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#example(numbering: none)[}
+\NormalTok{  Some example.}
+\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+To make all examples unnumbered you could use the following code:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let example = example.with(numbering: none)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+To create other types (or subgroups) of theorems you can use the
+\texttt{\ new-theorems\ } function.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let (note, rules) = new{-}theorems("thm{-}group", ("note": text(red)[Note]))}
+\NormalTok{\#show: rules}
+\end{Highlighting}
+\end{Shaded}
+
+If you have already defined custom styling you will notice that the
+newly created theorem does not use it. You can create a dictionary to
+make applying it again easier.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let my{-}styling = (}
+\NormalTok{  thm{-}styling: thm{-}styling{-}simple,}
+\NormalTok{  thm{-}numbering: ..,}
+\NormalTok{  ref{-}styling: ..}
+\NormalTok{)}
+
+\NormalTok{\#let (note, rules) = new{-}theorems("thm{-}group", ("note": "Note), ..my{-}styling)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+By varying the \texttt{\ group\ } parameter you can create independently
+numbered theorems:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let (}
+\NormalTok{  theorem, proof,}
+\NormalTok{  rules: thm{-}rules{-}a}
+\NormalTok{) = default{-}theorems("thm{-}group{-}a")}
+\NormalTok{\#let (}
+\NormalTok{  definition,}
+\NormalTok{  rules: thm{-}rules{-}b}
+\NormalTok{) = default{-}theorems("thm{-}group{-}b")}
+
+\NormalTok{\#show: thm{-}rules{-}a}
+\NormalTok{\#show: thm{-}rules{-}b}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+To specify parameters of the
+\href{https://github.com/typst/packages/raw/main/packages/preview/lemmify/0.1.6/\#styling-parameters}{styling}
+functions the \texttt{\ .with\ } function is used.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let (}
+\NormalTok{  theorem,}
+\NormalTok{  rules: thm{-}rules}
+\NormalTok{) = default{-}theorems(}
+\NormalTok{  "thm{-}group",}
+\NormalTok{  thm{-}numbering: thm{-}numbering{-}heading.with(max{-}heading{-}level: 2)}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Example}\label{example}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/lemmify:0.1.6": *}
+
+\NormalTok{\#let my{-}thm{-}style(}
+\NormalTok{  thm{-}type, name, number, body}
+\NormalTok{) = grid(}
+\NormalTok{  columns: (1fr, 3fr),}
+\NormalTok{  column{-}gutter: 1em,}
+\NormalTok{  stack(spacing: .5em, strong(thm{-}type), number, emph(name)),}
+\NormalTok{  body}
+\NormalTok{)}
+
+\NormalTok{\#let my{-}styling = (}
+\NormalTok{  thm{-}styling: my{-}thm{-}style}
+\NormalTok{)}
+
+\NormalTok{\#let (}
+\NormalTok{  theorem, rules}
+\NormalTok{) = default{-}theorems("thm{-}group", lang: "en", ..my{-}styling)}
+\NormalTok{\#show: rules}
+\NormalTok{\#show thm{-}selector("thm{-}group"): box.with(inset: 1em)}
+
+\NormalTok{\#lorem(20)}
+\NormalTok{\#theorem[}
+\NormalTok{  \#lorem(40)}
+\NormalTok{]}
+\NormalTok{\#lorem(20)}
+\NormalTok{\#theorem(name: "Some theorem")[}
+\NormalTok{  \#lorem(30)}
+\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/Marmare314/lemmify/assets/49279081/b3c72b3e-7e21-4acd-82bb-3d63f87ec84b}}
+
+\subsection{Documentation}\label{documentation}
+
+The two most important functions are:
+
+\texttt{\ default-theorems\ } : Create a default set of theorems based
+on the given language and styling.
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ group\ } : The group id.
+\item
+  \texttt{\ lang\ } : The language to which the theorems are adapted.
+\item
+  \texttt{\ thm-styling\ } , \texttt{\ thm-numbering\ } ,
+  \texttt{\ ref-styling\ } : Styling parameters are explained in further
+  detail in the
+  \href{https://github.com/typst/packages/raw/main/packages/preview/lemmify/0.1.6/\#styling-parameters}{Styling}
+  section.
+\item
+  \texttt{\ proof-styling\ } : Styling which is only applied to proofs.
+\item
+  \texttt{\ max-reset-level\ } : The highest heading level on which
+  theorems are still reset.
+\end{itemize}
+
+\texttt{\ new-theorems\ } : Create custom sets of theorems with the
+given styling.
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ group\ } : The group id.
+\item
+  \texttt{\ subgroup-map\ } : Mapping from group id to some argument.
+  The simple styles use \texttt{\ thm-type\ } as the argument (ie
+  â€œBeispielâ€? or â€œExampleâ€? for group id â€œexampleâ€?)
+\item
+  \texttt{\ thm-styling\ } , \texttt{\ thm-numbering\ } ,
+  \texttt{\ ref-styling\ } , \texttt{\ ref-numbering\ } : Styling which
+  to apply to all subgroups.
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\texttt{\ use-proof-numbering\ } : Decreases the numbering of a theorem
+function by one. See
+\href{https://github.com/typst/packages/raw/main/packages/preview/lemmify/0.1.6/\#styling}{Styling}
+for more information.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\texttt{\ thm-selector\ } : Returns a selector for all theorems of the
+specified group. If subgroup is specified, only the theorems belonging
+to it will be selected.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+There are also a few functions to help with resetting counters.
+
+\texttt{\ thm-reset-counter\ } : Reset theorem group counter manually.
+Returned content needs to added to the document.
+
+\texttt{\ thm-reset-counter-heading-at\ } : Reset theorem group counter
+at headings of the specified level. Returns a rule that needs to be
+shown.
+
+\texttt{\ thm-reset-counter-heading\ } : Reset theorem group counter at
+headings of at most the specified level. Returns a rule that needs to be
+shown.
+
+\subsubsection{Styling parameters}\label{styling-parameters}
+
+If possible the best way to adapt the look of theorems is to use show
+rules as shown
+\href{https://github.com/typst/packages/raw/main/packages/preview/lemmify/0.1.6/\#basic-usage}{above}
+, but this is not always possible. For example if we wanted theorems to
+start with \texttt{\ 1.1\ Theorem\ } instead of
+\texttt{\ Theorem\ 1.1\ } . You can provide the following functions to
+adapt the look of the theorems.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\texttt{\ thm-styling\ } : A function:
+\texttt{\ (arg,\ name,\ number,\ body)\ -\textgreater{}\ content\ } ,
+that allows you to define the styling for different types of theorems.
+Below only the \texttt{\ arg\ } will be specified.
+
+Pre-defined functions
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ thm-style-simple(thm-type)\ } : \textbf{thm-type num}
+  \emph{(name)} body
+\item
+  \texttt{\ thm-style-proof(thm-type)\ } : \textbf{thm-type num}
+  \emph{(name)} body â--¡
+\item
+  \texttt{\ thm-style-reversed(thm-type)\ } : \textbf{num thm-type}
+  \emph{(name)} body
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\texttt{\ thm-numbering\ } : A function:
+\texttt{\ figure\ -\textgreater{}\ content\ } , that determines how
+theorems are numbered.
+
+Pre-defined functions: (Assume heading is 1.1 and theorem count is 2)
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ thm-numbering-heading\ } : 1.1.2
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \texttt{\ max-heading-level\ } : only use the a limited number of
+    subheadings. In this case if it is set to \texttt{\ 1\ } the result
+    would be \texttt{\ 1.2\ } instead.
+  \end{itemize}
+\item
+  \texttt{\ thm-numbering-linear\ } : 2
+\item
+  \texttt{\ thm-numbering-proof\ } : No visible content is returned, but
+  the counter is reduced by 1 (so that the proof keeps the same count as
+  the theorem). Useful in combination with
+  \texttt{\ use-proof-numbering\ } to create theorems that reference the
+  previous theorem (like proofs).
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\texttt{\ ref-styling\ } : A function:
+\texttt{\ (arg,\ thm-numbering,\ ref)\ -\textgreater{}\ content\ } , to
+style theorem references.
+
+Pre-defined functions:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ thm-ref-style-simple(thm-type)\ }
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \texttt{\ @thm\ -\textgreater{}\ thm-type\ 1.1\ }
+  \item
+    \texttt{\ @thm{[}custom{]}\ -\textgreater{}\ custom\ 1.1\ }
+  \end{itemize}
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\texttt{\ ref-numbering\ } : Same as \texttt{\ thm-numbering\ } but only
+applies to the references.
+
+\subsection{Roadmap}\label{roadmap}
+
+\begin{itemize}
+\tightlist
+\item
+  More pre-defined styles.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Referencing theorems by name.
+  \end{itemize}
+\item
+  Support more languages.
+\item
+  Better documentation.
+\item
+  Outlining theorems.
+\end{itemize}
+
+If you are encountering any bugs, have questions or are missing
+features, feel free to open an issue on
+\href{https://github.com/Marmare314/lemmify}{Github} .
+
+\subsection{Changelog}\label{changelog}
+
+\begin{itemize}
+\item
+  Version 0.1.6
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Add Portuguese translation (
+    \href{https://github.com/PgBiel}{@PgBiel} )
+  \item
+    Add Catalan translation (
+    \href{https://github.com/Eloitor}{@Eloitor} )
+  \item
+    Add Spanish translation (
+    \href{https://github.com/mismorgano}{@mismorgano} )
+  \item
+    Remove extra space before empty supplements (
+    \href{https://github.com/PgBiel}{@PgBiel} )
+  \item
+    Use ref-styling parameter of default-theorems
+  \end{itemize}
+\item
+  Version 0.1.5
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Add Russian translation (
+    \href{https://github.com/WeetHet}{@WeetHet} )
+  \end{itemize}
+\item
+  Version 0.1.4
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Fix error on unnamed theorems
+  \end{itemize}
+\item
+  Version 0.1.3
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Allow â€œ1.1.â€? numbering style by default
+  \item
+    Ignore unnumbered subheadings
+  \item
+    Add max-heading-level parameter to thm-numbering-heading
+  \item
+    Adapt lemmify to typst version 0.8.0
+  \end{itemize}
+\item
+  Version 0.1.2
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Better error message on unnumbered headings
+  \item
+    Add Italian translations (
+    \href{https://github.com/porcaror}{@porcaror} )
+  \end{itemize}
+\item
+  Version 0.1.1
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Add Dutch translations (
+    \href{https://github.com/BroodjeKroepoek}{@BroodjeKroepoek} )
+  \item
+    Add French translations ( \href{https://github.com/MDLC01}{@MDLC01}
+    )
+  \item
+    Fix size of default styles and make them breakable
+  \end{itemize}
+\end{itemize}
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as \texttt{\ lemmify\ }
+
+\begin{verbatim}
+#import "@preview/lemmify:0.1.6"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+Marmare314
+\item[License:]
+GPL-3.0-only
+\item[Current version:]
+0.1.6
+\item[Last updated:]
+August 29, 2024
+\item[First released:]
+July 2, 2023
+\item[Archive size:]
+18.2 kB
+\href{https://packages.typst.org/preview/lemmify-0.1.6.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/Marmare314/lemmify}{GitHub}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of Marmare314 . Report issues on
+\href{https://github.com/Marmare314/lemmify}{their repository} . You can
+also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.1.6 & August 29, 2024 \\
+\href{https://typst.app/universe/package/lemmify/0.1.5/}{0.1.5} &
+December 3, 2023 \\
+\href{https://typst.app/universe/package/lemmify/0.1.4/}{0.1.4} &
+September 26, 2023 \\
+\href{https://typst.app/universe/package/lemmify/0.1.3/}{0.1.3} &
+September 22, 2023 \\
+\href{https://typst.app/universe/package/lemmify/0.1.2/}{0.1.2} & July
+24, 2023 \\
+\href{https://typst.app/universe/package/lemmify/0.1.1/}{0.1.1} & July
+8, 2023 \\
+\href{https://typst.app/universe/package/lemmify/0.1.0/}{0.1.0} & July
+2, 2023 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.

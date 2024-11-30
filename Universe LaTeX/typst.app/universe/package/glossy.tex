@@ -1,0 +1,485 @@
+\title{typst.app/universe/package/glossy}
+
+\phantomsection\label{banner}
+\section{glossy}\label{glossy}
+
+{ 0.2.0 }
+
+A very simple glossary system with easily customizable output.
+
+\phantomsection\label{readme}
+This package provides utilities to manage and render glossaries within
+documents. It includes functions to define and use glossary terms, track
+their usage, and generate a glossary list with references to where terms
+are used in the document.
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/glossy/0.2.0/thumbnail.png}}
+
+\subsection{Motivation}\label{motivation}
+
+Glossy is heavily inspired by
+\href{https://typst.app/universe/package/glossarium}{glossarium} , with
+a few key different goals:
+
+\begin{enumerate}
+\tightlist
+\item
+  Provide a simple interface which allows for complete control over
+  glossary display. To do this, \texttt{\ glossy\ } â€™s
+  \texttt{\ \#glossary()\ } function accepts a theme parameter. The goal
+  here is to separate presentation and logic.
+\item
+  Simplify the user interface as much as possible. Glossy has exactly
+  two exports, \texttt{\ init-glossary\ } and \texttt{\ glossary\ } .
+\item
+  Double-down on \texttt{\ glossy\ } â€™s excellent \texttt{\ @term\ }
+  reference approach, completely eliminating the need to make any calls
+  to \texttt{\ gls()\ } and friends.
+\item
+  Mimic established patterns and best practices. For example,
+  \texttt{\ glossy\ } â€™s \texttt{\ \#glossary()\ } function is
+  intentionally similar (in naming and parameters) to \texttt{\ typst\ }
+  â€™s built-in \texttt{\ \#bibliography\ } , to the degree possible.
+\item
+  Simplify the implementation. The \texttt{\ glossy\ } code is
+  significantly shorter and easier to understand.
+\end{enumerate}
+
+\subsection{Features}\label{features}
+
+\begin{itemize}
+\tightlist
+\item
+  Define glossary terms with short and long forms, descriptions, and
+  grouping
+\item
+  Automatically tracks term usage in the document through
+  \texttt{\ @labels\ }
+\item
+  Supports modifiers to adjust how terms are displayed (capitalize,
+  pluralize, etc.)
+\item
+  Generates a formatted glossary section with backlinks to term
+  occurrences
+\item
+  Customizable themes for rendering glossary sections, groups, and
+  entries
+\item
+  Automatic pluralization of terms with custom override options
+\item
+  Page number references back to term usage locations
+\end{itemize}
+
+\subsection{Usage}\label{usage}
+
+\subsubsection{Import the package}\label{import-the-package}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/glossy:0.2.0": *}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{Defining Glossary Terms}\label{defining-glossary-terms}
+
+Use the \texttt{\ init-glossary\ } function to initialize glossary
+entries:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let myGlossary = (}
+\NormalTok{    html: (}
+\NormalTok{      short: "HTML",}
+\NormalTok{      long: "Hypertext Markup Language",}
+\NormalTok{      description: "A standard language for creating web pages",}
+\NormalTok{      group: "Web"}
+\NormalTok{    ),}
+\NormalTok{    css: (}
+\NormalTok{      short: "CSS",}
+\NormalTok{      long: "Cascading Style Sheets",}
+\NormalTok{      description: "A stylesheet language used for describing the presentation of a document",}
+\NormalTok{      group: "Web"}
+\NormalTok{    ),}
+\NormalTok{    tps: (}
+\NormalTok{      short: "TPS",}
+\NormalTok{      long: "test procedure specification",}
+\NormalTok{      description: "A formal document describing test steps and expected results",}
+\NormalTok{      // Optional: Override automatic pluralization}
+\NormalTok{      plural: "TPSes",}
+\NormalTok{      longplural: "test procedure specifications"}
+\NormalTok{    )}
+\NormalTok{)}
+
+\NormalTok{\#show: init{-}glossary.with(myGlossary)}
+\end{Highlighting}
+\end{Shaded}
+
+Each glossary entry supports the following fields:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ short\ } (required): Short form of the term
+\item
+  \texttt{\ long\ } (optional): Long form of the term
+\item
+  \texttt{\ description\ } (optional): Term description (often a
+  definition)
+\item
+  \texttt{\ group\ } (optional): Category grouping
+\item
+  \texttt{\ plural\ } (optional): Override automatic pluralization of
+  short form
+\item
+  \texttt{\ longplural\ } (optional): Override automatic pluralization
+  of long form
+\end{itemize}
+
+You can also load glossary entries from a data file using \#yaml(),
+\#json(), or similar.
+
+For example, the above glossary could be in this YAML file:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{html}\KeywordTok{:}
+\AttributeTok{  }\FunctionTok{short}\KeywordTok{:}\AttributeTok{ HTML}
+\AttributeTok{  }\FunctionTok{long}\KeywordTok{:}\AttributeTok{ Hypertext Markup Language}
+\AttributeTok{  }\FunctionTok{description}\KeywordTok{:}\AttributeTok{ A standard language for creating web pages}
+\AttributeTok{  }\FunctionTok{group}\KeywordTok{:}\AttributeTok{ Web}
+
+\FunctionTok{css}\KeywordTok{:}
+\AttributeTok{  }\FunctionTok{short}\KeywordTok{:}\AttributeTok{ CSS}
+\AttributeTok{  }\FunctionTok{long}\KeywordTok{:}\AttributeTok{ Cascading Style Sheets}
+\AttributeTok{  }\FunctionTok{description}\KeywordTok{:}\AttributeTok{ A stylesheet language used for describing the presentation of a document}
+\AttributeTok{  }\FunctionTok{group}\KeywordTok{:}\AttributeTok{ Web}
+
+\FunctionTok{tps}\KeywordTok{:}
+\AttributeTok{  }\FunctionTok{short}\KeywordTok{:}\AttributeTok{ TPS}
+\AttributeTok{  }\FunctionTok{long}\KeywordTok{:}\AttributeTok{ test procedure specification}
+\AttributeTok{  }\FunctionTok{description}\KeywordTok{:}\AttributeTok{ A formal document describing test steps and expected results}
+\AttributeTok{  }\FunctionTok{plural}\KeywordTok{:}\AttributeTok{ TPSes}
+\AttributeTok{  }\FunctionTok{longplural}\KeywordTok{:}\AttributeTok{ test procedure specifications}
+\end{Highlighting}
+\end{Shaded}
+
+And then loaded during initialization as follows:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#show: init{-}glossary.with(yaml("glossary.yaml"))}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{Using Glossary Terms}\label{using-glossary-terms}
+
+Reference glossary terms using Typstâ€™s \texttt{\ @reference\ } syntax:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{In modern web development, languages like @html and @css are essential.}
+\NormalTok{The @tps:pl need to be submitted by Friday.}
+\end{Highlighting}
+\end{Shaded}
+
+Available modifiers:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{cap} : Capitalizes the term
+\item
+  \textbf{pl} : Uses the plural form
+\item
+  \textbf{both} : Shows â€œLong Form (Short Form)â€?
+\item
+  \textbf{short} : Shows only short form
+\item
+  \textbf{long} : Shows only long form
+\item
+  \textbf{def} or \textbf{desc} : Shows the description
+\end{itemize}
+
+Modifiers can be combined with colons:
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+\textbf{Input} & \textbf{Output} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\texttt{\ @tps\ } (first use) & â€œtest procedure specification
+(TPS)â€? \\
+\texttt{\ @tps\ } (subsequent) & â€œTPSâ€? \\
+\texttt{\ @tps:short\ } & â€œTPSâ€? \\
+\texttt{\ @tps:long\ } & â€œtest procedure specificationâ€? \\
+\texttt{\ @tps:both\ } & â€œtest procedure specification (TPS)â€? \\
+\texttt{\ @tps:long:cap\ } & â€œTest procedure specificationâ€? \\
+\texttt{\ @tps:long:pl\ } & â€œtest procedure specificationsâ€? \\
+\texttt{\ @tps:short:pl\ } & â€œTPSesâ€? \\
+\texttt{\ @tps:both:pl:cap\ } & â€œTechnical procedure specifications
+(TPSes)â€? \\
+\texttt{\ @tps:def\ } & â€œA formal document describing test steps and
+expected resultsâ€? \\
+\end{longtable}
+
+\subsubsection{Generating the Glossary}\label{generating-the-glossary}
+
+Display the glossary using the \texttt{\ glossary()\ } function:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#glossary(}
+\NormalTok{  title: "Web Development Glossary",}
+\NormalTok{  theme: my{-}theme,}
+\NormalTok{  groups: ("Web")  // Optional: Filter to specific groups}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{Customizing Term Display}\label{customizing-term-display}
+
+Control how terms appear in the document by providing a custom
+\texttt{\ show-term\ } function:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let emph{-}term(term{-}body) = \{ emph(term{-}body) \}}
+
+\NormalTok{\#show: init{-}glossary.with(}
+\NormalTok{  myGlossary,}
+\NormalTok{  show{-}term: emph{-}term}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{Glossary Themes}\label{glossary-themes}
+
+\paragraph{Included Themes}\label{included-themes}
+
+Glossy comes with several built-in themes that can be used directly or
+serve as examples for custom themes:
+
+\subparagraph{theme-twocol}\label{theme-twocol}
+
+A professional two-column layout ideal for technical documentation.
+Features:
+
+\begin{itemize}
+\tightlist
+\item
+  Two-column layout for efficient space usage
+\item
+  Dotted leaders to page numbers
+\item
+  Clear hierarchy with optional group headings
+\item
+  Compact but readable formatting
+\item
+  Terms in regular weight with long forms and descriptions inline
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#glossary(theme: theme{-}twocol)}
+\end{Highlighting}
+\end{Shaded}
+
+\subparagraph{theme-basic}\label{theme-basic}
+
+A traditional single-column layout similar to book glossaries. Features:
+
+\begin{itemize}
+\tightlist
+\item
+  Bold terms with indented content
+\item
+  Clear separation between entries
+\item
+  Hanging indentation for wrapped lines
+\item
+  Parenthetical long forms
+\item
+  Page numbers with â€œpp.â€? prefix
+\item
+  Simple, clean design
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#glossary(theme: theme{-}basic)}
+\end{Highlighting}
+\end{Shaded}
+
+\subparagraph{theme-compact}\label{theme-compact}
+
+A space-efficient layout perfect for technical documents or appendices.
+Features:
+
+\begin{itemize}
+\tightlist
+\item
+  Reduced vertical spacing
+\item
+  Smaller font sizes for secondary information
+\item
+  Color-coded term components
+\item
+  Grid-based alignment
+\item
+  Minimal decorative elements
+\item
+  Gray text for supplementary information
+\item
+  Bullet separators between components
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#glossary(theme: theme{-}compact)}
+\end{Highlighting}
+\end{Shaded}
+
+\paragraph{Custom Themes}\label{custom-themes}
+
+Customize glossary appearance by defining a theme with three functions:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let my{-}theme = (}
+\NormalTok{  // Main glossary section}
+\NormalTok{  section: (title, body) =\textgreater{} \{}
+\NormalTok{    heading(level: 1, title)}
+\NormalTok{    body}
+\NormalTok{  \},}
+
+\NormalTok{  // Group of related terms}
+\NormalTok{  group: (name, index, total, body) =\textgreater{} \{}
+\NormalTok{    // index = group index, total = total groups}
+\NormalTok{    if name != "" and total \textgreater{} 1 \{}
+\NormalTok{      heading(level: 2, name)}
+\NormalTok{    \}}
+\NormalTok{    body}
+\NormalTok{  \},}
+
+\NormalTok{  // Individual glossary entry}
+\NormalTok{  entry: (entry, index, total) =\textgreater{} \{}
+\NormalTok{    // index = entry index, total = total entries in group}
+\NormalTok{    let output = [\#entry.short]}
+\NormalTok{    if entry.long != none \{}
+\NormalTok{      output = [\#output {-}{-} \#entry.long]}
+\NormalTok{    \}}
+\NormalTok{    if entry.description != none \{}
+\NormalTok{      output = [\#output: \#entry.description]}
+\NormalTok{    \}}
+\NormalTok{    block(}
+\NormalTok{      grid(}
+\NormalTok{        columns: (auto, 1fr, auto),}
+\NormalTok{        output,}
+\NormalTok{        repeat([\#h(0.25em) . \#h(0.25em)]),}
+\NormalTok{        entry.pages,}
+\NormalTok{      )}
+\NormalTok{    )}
+\NormalTok{  \}}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+Entry fields available to themes:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ short\ } : Short form (always present)
+\item
+  \texttt{\ long\ } : Long form (can be \texttt{\ none\ } )
+\item
+  \texttt{\ description\ } : Term description (can be \texttt{\ none\ }
+  )
+\item
+  \texttt{\ label\ } : Termâ€™s dictionary label
+\item
+  \texttt{\ pages\ } : Linked page numbers where term appears
+\end{itemize}
+
+\subsection{License}\label{license}
+
+This project is licensed under the MIT License.
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as \texttt{\ glossy\ }
+
+\begin{verbatim}
+#import "@preview/glossy:0.2.0"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+\href{mailto:steve@waits.net}{Stephen Waits}
+\item[License:]
+MIT
+\item[Current version:]
+0.2.0
+\item[Last updated:]
+November 26, 2024
+\item[First released:]
+October 23, 2024
+\item[Archive size:]
+10.2 kB
+\href{https://packages.typst.org/preview/glossy-0.2.0.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/swaits/typst-collection}{GitHub}
+\item[Categor y :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-list-unordered.svg}}
+  \href{https://typst.app/universe/search/?category=model}{Model}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of Stephen Waits . Report issues on
+\href{https://github.com/swaits/typst-collection}{their repository} .
+You can also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.2.0 & November 26, 2024 \\
+\href{https://typst.app/universe/package/glossy/0.1.2/}{0.1.2} & October
+31, 2024 \\
+\href{https://typst.app/universe/package/glossy/0.1.1/}{0.1.1} & October
+24, 2024 \\
+\href{https://typst.app/universe/package/glossy/0.1.0/}{0.1.0} & October
+23, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.

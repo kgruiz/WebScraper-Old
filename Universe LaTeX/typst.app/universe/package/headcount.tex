@@ -1,0 +1,257 @@
+\title{typst.app/universe/package/headcount}
+
+\phantomsection\label{banner}
+\section{headcount}\label{headcount}
+
+{ 0.1.0 }
+
+Make counters inherit from the heading counter.
+
+\phantomsection\label{readme}
+This package allows you to make \textbf{counters depend on the current
+chapter/section number} .
+
+This works for \textbf{figures, theorems, and any other counters} .
+
+The advantage compared to
+\href{https://typst.app/universe/package/rich-counters/}{rich-counters}
+is that you stick with native \texttt{\ counter\ } s and you can
+influence e.g. the \texttt{\ figure\ } counter directly without writing
+a new \texttt{\ show\ } rule with a custom counter or so.
+
+\subsection{Showcase}\label{showcase}
+
+In the following example, we demonstrate how you can inherit 1 level of
+the heading counter for figures and 2 levels for theorems.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/headcount:0.1.0": *}
+\NormalTok{\#import "@preview/great{-}theorems:0.1.0": *}
+
+\NormalTok{\#show: great{-}theorems{-}init}
+
+\NormalTok{\#set heading(numbering: "1.1")}
+
+\NormalTok{// contruct theorem environment with counter that inherits 2 levels from heading}
+\NormalTok{\#let thmcounter = counter("hello")}
+\NormalTok{\#let theorem = mathblock(}
+\NormalTok{  blocktitle: [Theorem],}
+\NormalTok{  counter: thmcounter,}
+\NormalTok{  numbering: dependent{-}numbering("1.1", levels: 2)}
+\NormalTok{)}
+\NormalTok{\#show heading: reset{-}counter(thmcounter, levels: 2)}
+
+\NormalTok{// set figure counter so that it inherits 1 level from heading}
+\NormalTok{\#set figure(numbering: dependent{-}numbering("1.1"))}
+\NormalTok{\#show heading: reset{-}counter(counter(figure.where(kind: image)))}
+
+\NormalTok{= First heading}
+
+\NormalTok{The theorems inherit 2 levels from the headings and the figures inherit 1 level from the headings.}
+
+\NormalTok{\#theorem[Some theorem.]}
+\NormalTok{\#theorem[Some theorem.]}
+\NormalTok{\#figure([SOME FIGURE], caption: [some figure])}
+\NormalTok{\#figure([SOME FIGURE], caption: [some figure])}
+
+\NormalTok{== Subheading}
+
+\NormalTok{\#theorem[Some theorem.]}
+\NormalTok{\#figure([SOME FIGURE], caption: [some figure])}
+\NormalTok{\#figure([SOME FIGURE], caption: [some figure])}
+
+\NormalTok{= Second heading}
+
+\NormalTok{\#theorem[Some theorem.]}
+\NormalTok{\#figure([SOME FIGURE], caption: [some figure])}
+\NormalTok{\#theorem[Some theorem.]}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/headcount/0.1.0/example.png}}
+
+\subsection{Usage}\label{usage}
+
+To make another \texttt{\ counter\ } inherit from the heading counter,
+you have to do \textbf{two} things.
+
+\begin{enumerate}
+\item
+  For the numbering of your counter, you have to use
+  \texttt{\ dependent-numbering(...)\ } .
+
+  \begin{itemize}
+  \item
+    \texttt{\ dependent-numbering(style,\ level:\ 1)\ } (needs
+    \texttt{\ context\ } )
+
+    Is a replacement for the \texttt{\ numbering\ } function, with the
+    difference that it precedes any counter value with
+    \texttt{\ level\ } many values of the heading counter.
+  \end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/headcount:0.1.0": *}
+
+\NormalTok{\#set heading(numbering: "1.1")}
+
+\NormalTok{\#let mycounter = counter("hello")}
+
+\NormalTok{= First heading}
+
+\NormalTok{\#context mycounter.step()}
+\NormalTok{\#context mycounter.display(dependent{-}numbering("1.1"))}
+
+\NormalTok{= Second heading}
+
+\NormalTok{\#context mycounter.step()}
+\NormalTok{\#context mycounter.display(dependent{-}numbering("1.1"))}
+
+\NormalTok{\#context mycounter.step()}
+\NormalTok{\#context mycounter.display(dependent{-}numbering("1.1"))}
+\end{Highlighting}
+\end{Shaded}
+
+  This displays the desired amount of levels of the heading counter in
+  front of the actual counter. However, as you can see in the code
+  above, our actual counter does not yet reset in each section.
+\item
+  For resetting the counter at the appropriate places, you need to equip
+  \texttt{\ heading\ } with the \texttt{\ show\ } rule that
+  \texttt{\ reset-counter(...)\ } returns.
+
+  \begin{itemize}
+  \item
+    \texttt{\ reset-counter(counter,\ level:\ 1)\ } (needs
+    \texttt{\ context\ } )
+
+    Returns a function that should be used as a \texttt{\ show\ } rule
+    for \texttt{\ heading\ } . It will reset \texttt{\ counter\ } if the
+    level of the heading is less than or equal to \texttt{\ level\ } .
+  \end{itemize}
+
+  \textbf{Important:} This \texttt{\ show\ } rule should be placed as
+  the \emph{last} \texttt{\ show\ } rule for \texttt{\ heading\ } , or
+  at least after \texttt{\ show\ } rules for \texttt{\ heading\ } that
+  employ a custom design, see
+  \href{https://forum.typst.app/t/i-figured-broken-with-custom-template/1730/10?u=jbirnick}{here}
+  for an explanation.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/headcount:0.1.0": *}
+
+\NormalTok{\#set heading(numbering: "1.1")}
+\NormalTok{\#show heading: reset{-}counter(mycounter, levels: 1)}
+
+\NormalTok{\#let mycounter = counter("hello")}
+
+\NormalTok{= First heading}
+
+\NormalTok{\#context mycounter.step()}
+\NormalTok{\#context mycounter.display(dependent{-}numbering("1.1"))}
+
+\NormalTok{= Second heading}
+
+\NormalTok{\#context mycounter.step()}
+\NormalTok{\#context mycounter.display(dependent{-}numbering("1.1"))}
+
+\NormalTok{\#context mycounter.step()}
+\NormalTok{\#context mycounter.display(dependent{-}numbering("1.1"))}
+\end{Highlighting}
+\end{Shaded}
+\end{enumerate}
+
+\textbf{Note:} The \texttt{\ level\ } that you pass to
+\texttt{\ dependent-numbering(...)\ } and the \texttt{\ level\ } that
+you pass to \texttt{\ reset-counter(...)\ } must be the \emph{same} .
+
+\subsection{Limitations}\label{limitations}
+
+Due to current Typst limitations, there is no way to detect manual
+updates or steps of the heading counter, like
+\texttt{\ counter(heading).update(...)\ } or
+\texttt{\ counter(heading).step(...)\ } . Only occurrences of actual
+\texttt{\ heading\ } s can be detected. So make sure that after you call
+e.g. \texttt{\ counter(heading).update(...)\ } , you place a heading
+directly after it, before you use any counters that depend on the
+heading counter.
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as \texttt{\ headcount\ }
+
+\begin{verbatim}
+#import "@preview/headcount:0.1.0"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+\href{https://jbirnick.net}{Johann Birnick}
+\item[License:]
+MIT
+\item[Current version:]
+0.1.0
+\item[Last updated:]
+October 16, 2024
+\item[First released:]
+October 16, 2024
+\item[Archive size:]
+2.67 kB
+\href{https://packages.typst.org/preview/headcount-0.1.0.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/jbirnick/typst-headcount}{GitHub}
+\item[Categor ies :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-list-unordered.svg}}
+  \href{https://typst.app/universe/search/?category=model}{Model}
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-code.svg}}
+  \href{https://typst.app/universe/search/?category=scripting}{Scripting}
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-hammer.svg}}
+  \href{https://typst.app/universe/search/?category=utility}{Utility}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of Johann Birnick . Report issues on
+\href{https://github.com/jbirnick/typst-headcount}{their repository} .
+You can also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.1.0 & October 16, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.

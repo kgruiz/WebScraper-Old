@@ -1,0 +1,623 @@
+\title{typst.app/universe/package/tada}
+
+\phantomsection\label{banner}
+\section{tada}\label{tada}
+
+{ 0.1.0 }
+
+Easy, composable tabular data manipulation
+
+\phantomsection\label{readme}
+TaDa provides a set of simple but powerful operations on rows of data. A
+full manual is available online:
+\url{https://github.com/ntjess/typst-tada/blob/v0.1.0/docs/manual.pdf}
+
+Key features include:
+
+\begin{itemize}
+\item
+  \textbf{Arithmetic expressions} : Row-wise operations are as simple as
+  string expressions with field names
+\item
+  \textbf{Aggregation} : Any function that operates on an array of
+  values can perform row-wise or column-wise aggregation
+\item
+  \textbf{Data representation} : Handle displaying currencies, floats,
+  integers, and more with ease and arbitrary customization
+\end{itemize}
+
+Note: This library is in early development. The API is subject to change
+especially as typst adds more support for user-defined types.
+\textbf{Backwards compatibility is not guaranteed!} Handling of field
+info, value types, and more may change substantially with more user
+feedback.
+
+\subsection{Importing}\label{importing}
+
+TaDa can be imported as follows:
+
+\subsubsection{From the official packages repository
+(recommended):}\label{from-the-official-packages-repository-recommended}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/tada:0.1.0"}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{From the source code (not
+recommended)}\label{from-the-source-code-not-recommended}
+
+\textbf{Option 1:} You can clone the package directly into your project
+directory:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# In your project directory}
+\FunctionTok{git}\NormalTok{ clone https://github.com/ntjess/typst{-}tada.git tada}
+\end{Highlighting}
+\end{Shaded}
+
+Then import the functionality with
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "./tada/lib.typ" }
+\end{Highlighting}
+\end{Shaded}
+
+\textbf{Option 2:} If Python is available on your system, use the
+provided packaging script to install TaDa in typstâ€™s
+\texttt{\ local\ } directory:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Anywhere on your system}
+  \FunctionTok{git}\NormalTok{ clone https://github.com/ntjess/typst{-}tada.git}
+  \BuiltInTok{cd}\NormalTok{ typst{-}tada}
+  
+  \CommentTok{\# Replace $XDG\_CACHE\_HOME with the appropriate directory based on}
+  \CommentTok{\# https://github.com/typst/packages\#downloads}
+  \ExtensionTok{python}\NormalTok{ package.py ./typst.toml }\StringTok{"}\VariableTok{$XDG\_CACHE\_HOME}\StringTok{/typst/packages"} \DataTypeTok{\textbackslash{}}
+    \AttributeTok{{-}{-}namespace}\NormalTok{ local}
+  
+\end{Highlighting}
+\end{Shaded}
+
+Now, TaDa is available under the local namespace:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@local/tada:0.1.0"}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Creation}\label{creation}
+
+TaDa provides three main ways to construct tables â€`` from columns,
+rows, or records.
+
+\begin{itemize}
+\item
+  \textbf{Columns} are a dictionary of field names to column values.
+  Alternatively, a 2D array of columns can be passed to
+  \texttt{\ from-columns\ } , where \texttt{\ values.at(0)\ } is a
+  column (belongs to one field).
+\item
+  \textbf{Records} are a 1D array of dictionaries where each dictionary
+  is a row.
+\item
+  \textbf{Rows} are a 2D array where \texttt{\ values.at(0)\ } is a row
+  (has one value for each field). Note that if \texttt{\ rows\ } are
+  given without field names, they default to (0, 1, â€¦\$n\$).
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let column{-}data = (}
+\NormalTok{  name: ("Bread", "Milk", "Eggs"),}
+\NormalTok{  price: (1.25, 2.50, 1.50),}
+\NormalTok{  quantity: (2, 1, 3),}
+\NormalTok{)}
+\NormalTok{\#let record{-}data = (}
+\NormalTok{  (name: "Bread", price: 1.25, quantity: 2),}
+\NormalTok{  (name: "Milk", price: 2.50, quantity: 1),}
+\NormalTok{  (name: "Eggs", price: 1.50, quantity: 3),}
+\NormalTok{)}
+\NormalTok{\#let row{-}data = (}
+\NormalTok{  ("Bread", 1.25, 2),}
+\NormalTok{  ("Milk", 2.50, 1),}
+\NormalTok{  ("Eggs", 1.50, 3),}
+\NormalTok{)}
+
+\NormalTok{\#import tada: TableData}
+\NormalTok{\#let td = TableData(data: column{-}data)}
+\NormalTok{// Equivalent to:}
+\NormalTok{\#let td2 = tada.from{-}records(record{-}data)}
+\NormalTok{// \_Not\_ equivalent to (since field names are unknown):}
+\NormalTok{\#let td3 = tada.from{-}rows(row{-}data)}
+
+\NormalTok{\#to{-}tablex(td)}
+\NormalTok{\#to{-}tablex(td2)}
+\NormalTok{\#to{-}tablex(td3)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://raw.githubusercontent.com/ntjess/typst-tada/v0.1.0/assets/example-01.png}}
+
+\subsection{Title formatting}\label{title-formatting}
+
+You can pass any \texttt{\ content\ } as a fieldâ€™s \texttt{\ title\ }
+. \textbf{Note} : if you pass a string, it will be evaluated as markup.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let fmt(it) = \{}
+\NormalTok{  heading(outlined: false,}
+\NormalTok{    upper(it.at(0))}
+\NormalTok{    + it.slice(1).replace("\_", " ")}
+\NormalTok{  )}
+\NormalTok{\}}
+
+\NormalTok{\#let titles = (}
+\NormalTok{  // As a function}
+\NormalTok{  name: (title: fmt),}
+\NormalTok{  // As a string}
+\NormalTok{  quantity: (title: fmt("Qty")),}
+\NormalTok{)}
+\NormalTok{\#let td = TableData(..td, field{-}info: titles)}
+
+\NormalTok{\#to{-}tablex(td)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://raw.githubusercontent.com/ntjess/typst-tada/v0.1.0/assets/example-02.png}}
+
+\subsection{Adapting default behavior}\label{adapting-default-behavior}
+
+You can specify defaults for any field not explicitly populated by
+passing information to \texttt{\ field-defaults\ } . Observe in the last
+example that \texttt{\ price\ } was not given a title. We can indicate
+it should be formatted the same as \texttt{\ name\ } by passing
+\texttt{\ title:\ fmt\ } to \texttt{\ field-defaults\ } . \textbf{Note}
+that any field that is explicitly given a value will not be affected by
+\texttt{\ field-defaults\ } (i.e., \texttt{\ quantity\ } will retain its
+string title â€œQtyâ€?)
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let defaults = (title: fmt)}
+\NormalTok{\#let td = TableData(..td, field{-}defaults: defaults)}
+\NormalTok{\#to{-}tablex(td)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://raw.githubusercontent.com/ntjess/typst-tada/v0.1.0/assets/example-03.png}}
+
+\subsection{\texorpdfstring{Using
+\texttt{\ \_\_index\ }}{Using  \_\_index }}\label{using-__index}
+
+TaDa will automatically add an \texttt{\ \_\_index\ } field to each row
+that is hidden by default. If you want it displayed, update its
+information to set \texttt{\ hide:\ false\ } :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{// Use the helper function \textasciigrave{}update{-}fields\textasciigrave{} to update multiple fields}
+\NormalTok{// and/or attributes}
+\NormalTok{\#import tada: update{-}fields}
+\NormalTok{\#let td = update{-}fields(}
+\NormalTok{  td, \_\_index: (hide: false, title: "\textbackslash{}\#")}
+\NormalTok{)}
+\NormalTok{// You can also insert attributes directly:}
+\NormalTok{// \#td.field{-}info.\_\_index.insert("hide", false)}
+\NormalTok{// etc.}
+\NormalTok{\#to{-}tablex(td)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://raw.githubusercontent.com/ntjess/typst-tada/v0.1.0/assets/example-04.png}}
+
+\subsection{Value formatting}\label{value-formatting}
+
+\subsubsection{\texorpdfstring{\texttt{\ type\ }}{ type }}\label{type}
+
+Type information can have attached metadata that specifies alignment,
+display formats, and more. Available types and their metadata are:
+
+\begin{itemize}
+\item
+  \textbf{string} : (default-value: "", align: left)
+\item
+  \textbf{content} : (display: , align: left)
+\item
+  \textbf{float} : (align: right)
+\item
+  \textbf{integer} : (align: right)
+\item
+  \textbf{percent} : (display: , align: right)
+\item
+  \textbf{index} : (align: right)
+\end{itemize}
+
+While adding your own default types is not yet supported, you can simply
+defined a dictionary of specifications and pass its keys to the field
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let currency{-}info = (}
+\NormalTok{  display: tada.display.format{-}usd, align: right}
+\NormalTok{)}
+\NormalTok{\#td.field{-}info.insert("price", (type: "currency"))}
+\NormalTok{\#let td = TableData(..td, type{-}info: ("currency": currency{-}info))}
+\NormalTok{\#to{-}tablex(td)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://raw.githubusercontent.com/ntjess/typst-tada/v0.1.0/assets/example-05.png}}
+
+\subsection{Transposing}\label{transposing}
+
+\texttt{\ transpose\ } is supported, but keep in mind if columns have
+different types, an error will be a frequent result. To avoid the error,
+explicitly pass \texttt{\ ignore-types:\ true\ } . You can choose
+whether to keep field names as an additional column by passing a string
+to \texttt{\ fields-name\ } that is evaluated as markup:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#to{-}tablex(}
+\NormalTok{  tada.transpose(}
+\NormalTok{    td, ignore{-}types: true, fields{-}name: ""}
+\NormalTok{  )}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://raw.githubusercontent.com/ntjess/typst-tada/v0.1.0/assets/example-06.png}}
+
+\subsubsection{\texorpdfstring{\texttt{\ display\ }}{ display }}\label{display}
+
+If your type is not available or you want to customize its display, pass
+a \texttt{\ display\ } function that formats the value, or a string that
+accesses \texttt{\ value\ } in its scope:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#td.field{-}info.at("quantity").insert(}
+\NormalTok{  "display",}
+\NormalTok{  val =\textgreater{} ("/", "One", "Two", "Three").at(val),}
+\NormalTok{)}
+
+\NormalTok{\#let td = TableData(..td)}
+\NormalTok{\#to{-}tablex(td)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://raw.githubusercontent.com/ntjess/typst-tada/v0.1.0/assets/example-07.png}}
+
+\subsubsection{\texorpdfstring{\texttt{\ align\ }
+etc.}{ align  etc.}}\label{align-etc.}
+
+You can pass \texttt{\ align\ } and \texttt{\ width\ } to a given
+fieldâ€™s metadata to determine how content aligns in the cell and how
+much horizontal space it takes up. In the future, more
+\texttt{\ tablex\ } setup arguments will be accepted.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let adjusted = update{-}fields(}
+\NormalTok{  td, name: (align: center, width: 1.4in)}
+\NormalTok{)}
+\NormalTok{\#to{-}tablex(adjusted)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://raw.githubusercontent.com/ntjess/typst-tada/v0.1.0/assets/example-08.png}}
+
+\subsection{\texorpdfstring{Deeper \texttt{\ tablex\ }
+customization}{Deeper  tablex  customization}}\label{deeper-tablex-customization}
+
+TaDa uses \texttt{\ tablex\ } to display the table. So any argument that
+\texttt{\ tablex\ } accepts can be passed to TableData as well:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let mapper = (index, row) =\textgreater{} \{}
+\NormalTok{  let fill = if index == 0 \{rgb("\#8888")\} else \{none\}}
+\NormalTok{  row.map(cell =\textgreater{} (..cell, fill: fill))}
+\NormalTok{\}}
+\NormalTok{\#let td = TableData(}
+\NormalTok{  ..td,}
+\NormalTok{  tablex{-}kwargs: (}
+\NormalTok{    map{-}rows: mapper, auto{-}vlines: false}
+\NormalTok{  ),}
+\NormalTok{)}
+\NormalTok{\#to{-}tablex(td)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://raw.githubusercontent.com/ntjess/typst-tada/v0.1.0/assets/example-09.png}}
+
+\subsection{Subselection}\label{subselection}
+
+You can select a subset of fields or rows to display:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import tada: subset}
+\NormalTok{\#to{-}tablex(}
+\NormalTok{  subset(td, indexes: (0,2), fields: ("name", "price"))}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://raw.githubusercontent.com/ntjess/typst-tada/v0.1.0/assets/example-10.png}}
+
+Note that \texttt{\ indexes\ } is based on the tableâ€™s
+\texttt{\ \_\_index\ } column, \emph{not} itâ€™s positional index within
+the table:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let td2 = td}
+\NormalTok{\#td2.data.insert("\_\_index", (1, 2, 2))}
+\NormalTok{\#to{-}tablex(}
+\NormalTok{  subset(td2, indexes: 2, fields: ("\_\_index", "name"))}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://raw.githubusercontent.com/ntjess/typst-tada/v0.1.0/assets/example-11.png}}
+
+Rows can also be selected by whether they fulfill a field condition:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#to{-}tablex(}
+\NormalTok{  tada.filter(td, expression: "price \textless{} 1.5")}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://raw.githubusercontent.com/ntjess/typst-tada/v0.1.0/assets/example-12.png}}
+
+\subsection{Concatenation}\label{concatenation}
+
+Concatenating rows and columns are both supported operations, but only
+in the simple sense of stacking the data. Currently, there is no ability
+to join on a field or otherwise intelligently merge data.
+
+\begin{itemize}
+\item
+  \texttt{\ axis:\ 0\ } places new rows below current rows
+\item
+  \texttt{\ axis:\ 1\ } places new columns to the right of current
+  columns
+\item
+  Unless you specify a fill value for missing values, the function will
+  panic if the tables do not match exactly along their concatenation
+  axis.
+\item
+  You cannot stack with \texttt{\ axis:\ 1\ } unless every column has a
+  unique field name.
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import tada: stack}
+
+\NormalTok{\#let td2 = TableData(}
+\NormalTok{  data: (}
+\NormalTok{    name: ("Cheese", "Butter"),}
+\NormalTok{    price: (2.50, 1.75),}
+\NormalTok{  )}
+\NormalTok{)}
+\NormalTok{\#let td3 = TableData(}
+\NormalTok{  data: (}
+\NormalTok{    rating: (4.5, 3.5, 5.0, 4.0, 2.5),}
+\NormalTok{  )}
+\NormalTok{)}
+
+\NormalTok{// This would fail without specifying the fill}
+\NormalTok{// since \textasciigrave{}quantity\textasciigrave{} is missing from \textasciigrave{}td2\textasciigrave{}}
+\NormalTok{\#let stack{-}a = stack(td, td2, missing{-}fill: 0)}
+\NormalTok{\#let stack{-}b = stack(stack{-}a, td3, axis: 1)}
+\NormalTok{\#to{-}tablex(stack{-}b)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://raw.githubusercontent.com/ntjess/typst-tada/v0.1.0/assets/example-13.png}}
+
+\subsection{Expressions}\label{expressions}
+
+The easiest way to leverage TaDaâ€™s flexibility is through expressions.
+They can be strings that treat field names as variables, or functions
+that take keyword-only arguments.
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Note} ! When passing functions, every field is passed as a
+  named argument to the function. So, make sure to capture unused fields
+  with \texttt{\ ..rest\ } (the name is unimportant) to avoid errors.
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let make{-}dict(field, expression) = \{}
+\NormalTok{  let out = (:)}
+\NormalTok{  out.insert(}
+\NormalTok{    field,}
+\NormalTok{    (expression: expression, type: "currency"),}
+\NormalTok{  )}
+\NormalTok{  out}
+\NormalTok{\}}
+
+\NormalTok{\#let td = update{-}fields(}
+\NormalTok{  td, ..make{-}dict("total", "price * quantity" )}
+\NormalTok{)}
+
+\NormalTok{\#let tax{-}expr(total: none, ..rest) = \{ total * 0.2 \}}
+\NormalTok{\#let taxed = update{-}fields(}
+\NormalTok{  td, ..make{-}dict("tax", tax{-}expr),}
+\NormalTok{)}
+
+\NormalTok{\#to{-}tablex(}
+\NormalTok{  subset(taxed, fields: ("name", "total", "tax"))}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://raw.githubusercontent.com/ntjess/typst-tada/v0.1.0/assets/example-14.png}}
+
+\subsection{Chaining}\label{chaining}
+
+It is inconvenient to require several temporary variables as above, or
+deep function nesting, to perform multiple operations on a table. TaDa
+provides a \texttt{\ chain\ } function to make this easier. Furthermore,
+when you need to compute several fields at once and donâ€™t need extra
+field information, you can use \texttt{\ add-expressions\ } as a
+shorthand:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import tada: chain, add{-}expressions}
+\NormalTok{\#let totals = chain(td,}
+\NormalTok{  add{-}expressions.with(}
+\NormalTok{    total: "price * quantity",}
+\NormalTok{    tax: "total * 0.2",}
+\NormalTok{    after{-}tax: "total + tax",}
+\NormalTok{  ),}
+\NormalTok{  subset.with(}
+\NormalTok{    fields: ("name", "total", "after{-}tax")}
+\NormalTok{  ),}
+\NormalTok{  // Add type information}
+\NormalTok{  update{-}fields.with(}
+\NormalTok{    after{-}tax: (type: "currency", title: fmt("w/ Tax")),}
+\NormalTok{  ),}
+\NormalTok{)}
+\NormalTok{\#to{-}tablex(totals)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://raw.githubusercontent.com/ntjess/typst-tada/v0.1.0/assets/example-15.png}}
+
+\subsection{Sorting}\label{sorting}
+
+You can sort by ascending/descending values of any field, or provide
+your own transformation function to the \texttt{\ key\ } argument to
+customize behavior further:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import tada: sort{-}values}
+\NormalTok{\#to{-}tablex(sort{-}values(}
+\NormalTok{  td, by: "quantity", descending: true}
+\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://raw.githubusercontent.com/ntjess/typst-tada/v0.1.0/assets/example-16.png}}
+
+\subsection{Aggregation}\label{aggregation}
+
+Column-wise reduction is supported through \texttt{\ agg\ } , using
+either functions or string expressions:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import tada: agg, item}
+\NormalTok{\#let grand{-}total = chain(}
+\NormalTok{  totals,}
+\NormalTok{  agg.with(after{-}tax: array.sum),}
+\NormalTok{  // use "item" to extract exactly one element}
+\NormalTok{  item}
+\NormalTok{)}
+\NormalTok{// "Output" is a helper function just for these docs.}
+\NormalTok{// It is not necessary in your code.}
+\NormalTok{\#output[}
+\NormalTok{  *Grand total: \#tada.display.format{-}usd(grand{-}total)*}
+\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://raw.githubusercontent.com/ntjess/typst-tada/v0.1.0/assets/example-17.png}}
+
+It is also easy to aggregate several expressions at once:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let agg{-}exprs = (}
+\NormalTok{  "\# items": "quantity.sum()",}
+\NormalTok{  "Longest name": "[\#name.sorted(key: str.len).at({-}1)]",}
+\NormalTok{)}
+\NormalTok{\#let agg{-}td = tada.agg(td, ..agg{-}exprs)}
+\NormalTok{\#to{-}tablex(agg{-}td)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://raw.githubusercontent.com/ntjess/typst-tada/v0.1.0/assets/example-18.png}}
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as \texttt{\ tada\ }
+
+\begin{verbatim}
+#import "@preview/tada:0.1.0"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+Nathan Jessurun
+\item[License:]
+Unlicense
+\item[Current version:]
+0.1.0
+\item[Last updated:]
+December 15, 2023
+\item[First released:]
+December 15, 2023
+\item[Archive size:]
+16.2 kB
+\href{https://packages.typst.org/preview/tada-0.1.0.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/ntjess/typst-tada}{GitHub}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of Nathan Jessurun . Report issues on
+\href{https://github.com/ntjess/typst-tada}{their repository} . You can
+also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.1.0 & December 15, 2023 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.

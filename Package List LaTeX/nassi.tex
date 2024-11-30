@@ -1,0 +1,242 @@
+\title{typst.app/universe/package/nassi}
+
+\phantomsection\label{banner}
+\section{nassi}\label{nassi}
+
+{ 0.1.2 }
+
+Draw Nassi-Shneiderman diagrams (Struktogramme) with Typst.
+
+\phantomsection\label{readme}
+\textbf{nassi} is a package for \href{https://typst.app/}{Typst} to draw
+\href{https://en.wikipedia.org/wiki/Nassi\%E2\%80\%93Shneiderman_diagram}{Nassi-Shneiderman
+diagrams} (Struktogramme).
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/nassi/0.1.2/assets/example-1.png}}
+
+\subsection{Usage}\label{usage}
+
+Import \textbf{nassi} in your document:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/nassi:0.1.2"}
+\end{Highlighting}
+\end{Shaded}
+
+There are several options to draw diagrams. One is to parse all
+code-blocks with the language â€œnassiâ€?. Simply add a show-rule like
+this:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/nassi:0.1.2"}
+\NormalTok{\#show: nassi.shneiderman()}
+
+\NormalTok{\textasciigrave{}\textasciigrave{}\textasciigrave{}nassi}
+\NormalTok{function ggt(a, b)}
+\NormalTok{  while a \textgreater{} 0 and b \textgreater{} 0}
+\NormalTok{    if a \textgreater{} b}
+\NormalTok{      a \textless{}{-} a {-} b}
+\NormalTok{    else}
+\NormalTok{      b \textless{}{-} b {-} a}
+\NormalTok{    endif}
+\NormalTok{  endwhile}
+\NormalTok{  if b == 0}
+\NormalTok{    return a}
+\NormalTok{  else}
+\NormalTok{    return b}
+\NormalTok{  endif}
+\NormalTok{endfunction}
+\NormalTok{\textasciigrave{}\textasciigrave{}\textasciigrave{}}
+\end{Highlighting}
+\end{Shaded}
+
+In this case, the diagram is created from a simple pseudocode. To have
+more control over the output, you can add blocks manually using the
+element functions provided in \texttt{\ nassi.elements\ } :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/nassi:0.1.2"}
+
+\NormalTok{\#nassi.diagram(\{}
+\NormalTok{    import nassi.elements: *}
+
+\NormalTok{    function("ggt(a, b)", \{}
+\NormalTok{        loop("a \textgreater{} b and b \textgreater{} 0", \{}
+\NormalTok{            branch("a \textgreater{} b", \{}
+\NormalTok{                assign("a", "a {-} b")}
+\NormalTok{            \}, \{}
+\NormalTok{                assign("b", "b {-} a",}
+\NormalTok{                    fill: gradient.linear(..color.map.rainbow),}
+\NormalTok{                    stroke:red + 2pt}
+\NormalTok{                )}
+\NormalTok{            \})}
+\NormalTok{        \})}
+\NormalTok{        branch("b == 0", \{ process("return a") \}, \{ process("return b") \})}
+\NormalTok{    \})}
+\NormalTok{\})}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/nassi/0.1.2/assets/example-3.png}}
+
+Since \textbf{nassi} uses \textbf{cetz} for drawing, you can add
+diagrams directly to a canvas. Each block gets a name within the diagram
+group to reference it in the drawing:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/cetz:0.2.2"}
+\NormalTok{\#import "@preview/nassi:0.1.2"}
+
+\NormalTok{\#cetz.canvas(\{}
+\NormalTok{  import nassi.draw: diagram}
+\NormalTok{  import nassi.elements: *}
+\NormalTok{  import cetz.draw: *}
+
+\NormalTok{  diagram((4,4), \{}
+\NormalTok{    function("ggt(a, b)", \{}
+\NormalTok{      loop("a \textgreater{} b and b \textgreater{} 0", \{}
+\NormalTok{        branch("a \textgreater{} b", \{}
+\NormalTok{          assign("a", "a {-} b")}
+\NormalTok{        \}, \{}
+\NormalTok{          assign("b", "b {-} a")}
+\NormalTok{        \})}
+\NormalTok{      \})}
+\NormalTok{      branch("b == 0", \{ process("return a") \}, \{ process("return b") \})}
+\NormalTok{    \})}
+\NormalTok{  \})}
+
+\NormalTok{  for i in range(8) \{}
+\NormalTok{    content(}
+\NormalTok{      "nassi.e" + str(i+1) + ".north{-}west",}
+\NormalTok{      stroke:red,}
+\NormalTok{      fill:red.transparentize(50\%),}
+\NormalTok{      frame:"circle",}
+\NormalTok{      padding:.05,}
+\NormalTok{      anchor:"north{-}west",}
+\NormalTok{      text(white, weight:"bold", "e"+str(i)),}
+\NormalTok{    )}
+\NormalTok{  \}}
+\NormalTok{\})}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/nassi/0.1.2/assets/example-cetz-2.png}}
+
+This can be useful to annotate a diagram:
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/nassi/0.1.2/assets/example-cetz.png}}
+
+See \texttt{\ assets/\ } for usage examples.
+
+\subsection{Changelog}\label{changelog}
+
+\subsubsection{Version 0.1.2}\label{version-0.1.2}
+
+\begin{itemize}
+\tightlist
+\item
+  Fix for deprecation warnings in Typst 0.12.
+\end{itemize}
+
+\subsubsection{Version 0.1.1}\label{version-0.1.1}
+
+\begin{itemize}
+\tightlist
+\item
+  Fixed labels option not working for branches in other elements.
+\item
+  Added \texttt{\ switch\ } statements (thanks to @Geronymos).
+\end{itemize}
+
+\subsubsection{Version 0.1.0}\label{version-0.1.0}
+
+Initial release of \textbf{nassi} .
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as \texttt{\ nassi\ }
+
+\begin{verbatim}
+#import "@preview/nassi:0.1.2"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+Jonas Neugebauer
+\item[License:]
+MIT
+\item[Current version:]
+0.1.2
+\item[Last updated:]
+October 23, 2024
+\item[First released:]
+June 3, 2024
+\item[Minimum Typst version:]
+0.11.0
+\item[Archive size:]
+5.93 kB
+\href{https://packages.typst.org/preview/nassi-0.1.2.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/jneug/typst-nassi}{GitHub}
+\item[Discipline :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \href{https://typst.app/universe/search/?discipline=computer-science}{Computer
+  Science}
+\end{itemize}
+\item[Categor y :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-chart.svg}}
+  \href{https://typst.app/universe/search/?category=visualization}{Visualization}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of Jonas Neugebauer . Report issues on
+\href{https://github.com/jneug/typst-nassi}{their repository} . You can
+also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.1.2 & October 23, 2024 \\
+\href{https://typst.app/universe/package/nassi/0.1.1/}{0.1.1} & October
+2, 2024 \\
+\href{https://typst.app/universe/package/nassi/0.1.0/}{0.1.0} & June 3,
+2024 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.

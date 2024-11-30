@@ -1,0 +1,1140 @@
+\title{typst.app/universe/package/tabut}
+
+\phantomsection\label{banner}
+\section{tabut}\label{tabut}
+
+{ 1.0.2 }
+
+Display data as tables.
+
+\phantomsection\label{readme}
+\emph{Powerful, Simple, Concise}
+
+A Typst plugin for turning data into tables.
+
+\subsection{Outline}\label{outline}
+
+\begin{itemize}
+\item
+  \href{https://github.com/typst/packages/raw/main/packages/preview/tabut/1.0.2/\#examples}{Examples}
+
+  \begin{itemize}
+  \item
+    \href{https://github.com/typst/packages/raw/main/packages/preview/tabut/1.0.2/\#input-format-and-creation}{Input
+    Format and Creation}
+  \item
+    \href{https://github.com/typst/packages/raw/main/packages/preview/tabut/1.0.2/\#basic-table}{Basic
+    Table}
+  \item
+    \href{https://github.com/typst/packages/raw/main/packages/preview/tabut/1.0.2/\#table-styling}{Table
+    Styling}
+  \item
+    \href{https://github.com/typst/packages/raw/main/packages/preview/tabut/1.0.2/\#header-formatting}{Header
+    Formatting}
+  \item
+    \href{https://github.com/typst/packages/raw/main/packages/preview/tabut/1.0.2/\#remove-headers}{Remove
+    Headers}
+  \item
+    \href{https://github.com/typst/packages/raw/main/packages/preview/tabut/1.0.2/\#cell-expressions-and-formatting}{Cell
+    Expressions and Formatting}
+  \item
+    \href{https://github.com/typst/packages/raw/main/packages/preview/tabut/1.0.2/\#index}{Index}
+  \item
+    \href{https://github.com/typst/packages/raw/main/packages/preview/tabut/1.0.2/\#transpose}{Transpose}
+  \item
+    \href{https://github.com/typst/packages/raw/main/packages/preview/tabut/1.0.2/\#alignment}{Alignment}
+  \item
+    \href{https://github.com/typst/packages/raw/main/packages/preview/tabut/1.0.2/\#column-width}{Column
+    Width}
+  \item
+    \href{https://github.com/typst/packages/raw/main/packages/preview/tabut/1.0.2/\#get-cells-only}{Get
+    Cells Only}
+  \item
+    \href{https://github.com/typst/packages/raw/main/packages/preview/tabut/1.0.2/\#use-with-tablex}{Use
+    with Tablex}
+  \end{itemize}
+\item
+  \href{https://github.com/typst/packages/raw/main/packages/preview/tabut/1.0.2/\#data-operation-examples}{Data
+  Operation Examples}
+
+  \begin{itemize}
+  \item
+    \href{https://github.com/typst/packages/raw/main/packages/preview/tabut/1.0.2/\#csv-data}{CSV
+    Data}
+  \item
+    \href{https://github.com/typst/packages/raw/main/packages/preview/tabut/1.0.2/\#slice}{Slice}
+  \item
+    \href{https://github.com/typst/packages/raw/main/packages/preview/tabut/1.0.2/\#sorting-and-reversing}{Sorting
+    and Reversing}
+  \item
+    \href{https://github.com/typst/packages/raw/main/packages/preview/tabut/1.0.2/\#filter}{Filter}
+  \item
+    \href{https://github.com/typst/packages/raw/main/packages/preview/tabut/1.0.2/\#aggregation-using-map-and-sum}{Aggregation
+    using Map and Sum}
+  \item
+    \href{https://github.com/typst/packages/raw/main/packages/preview/tabut/1.0.2/\#grouping}{Grouping}
+  \end{itemize}
+\item
+  \href{https://github.com/typst/packages/raw/main/packages/preview/tabut/1.0.2/\#function-definitions}{Function
+  Definitions}
+
+  \begin{itemize}
+  \item
+    \href{https://github.com/typst/packages/raw/main/packages/preview/tabut/1.0.2/\#tabut}{\texttt{\ tabut\ }}
+  \item
+    \href{https://github.com/typst/packages/raw/main/packages/preview/tabut/1.0.2/\#tabut-cells}{\texttt{\ tabut-cells\ }}
+  \item
+    \href{https://github.com/typst/packages/raw/main/packages/preview/tabut/1.0.2/\#rows-to-records}{\texttt{\ rows-to-records\ }}
+  \item
+    \href{https://github.com/typst/packages/raw/main/packages/preview/tabut/1.0.2/\#records-from-csv}{\texttt{\ records-from-csv\ }}
+  \item
+    \href{https://github.com/typst/packages/raw/main/packages/preview/tabut/1.0.2/\#group}{\texttt{\ group\ }}
+  \end{itemize}
+\end{itemize}
+
+\subsection[Input Format and Creation ]{\texorpdfstring{Input Format and
+Creation \protect\hypertarget{input-format-and-creation}{}{
+}}{Input Format and Creation  }}\label{input-format-and-creation}
+
+The \texttt{\ tabut\ } function takes input in â€œrecordâ€? format, an
+array of dictionaries, with each dictionary representing a single
+â€œobjectâ€? or â€œrecordâ€?.
+
+In the example below, each record is a listing for an office supply
+product.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let supplies = (}
+\NormalTok{  (name: "Notebook", price: 3.49, quantity: 5),}
+\NormalTok{  (name: "Ballpoint Pens", price: 5.99, quantity: 2),}
+\NormalTok{  (name: "Printer Paper", price: 6.99, quantity: 3),}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection[Basic Table ]{\texorpdfstring{Basic Table
+\protect\hypertarget{basic-table}{}{
+}}{Basic Table  }}\label{basic-table}
+
+Now create a basic table from the data.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/tabut:1.0.2": tabut}
+\NormalTok{\#import "example{-}data/supplies.typ": supplies}
+
+\NormalTok{\#tabut(}
+\NormalTok{  supplies, // the source of the data used to generate the table}
+\NormalTok{  ( // column definitions}
+\NormalTok{    (}
+\NormalTok{      header: [Name], // label, takes content.}
+\NormalTok{      func: r =\textgreater{} r.name // generates the cell content.}
+\NormalTok{    ), }
+\NormalTok{    (header: [Price], func: r =\textgreater{} r.price), }
+\NormalTok{    (header: [Quantity], func: r =\textgreater{} r.quantity), }
+\NormalTok{  )}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/tabut/1.0.2/doc/compiled-snippets/basic.svg}}
+
+\texttt{\ funct\ } takes a function which generates content for a given
+cell corrosponding to the defined column for each record. \texttt{\ r\ }
+is the record, so \texttt{\ r\ =\textgreater{}\ r.name\ } returns the
+\texttt{\ name\ } property of each record in the input data if it has
+one.
+
+The philosphy of \texttt{\ tabut\ } is that the display of data should
+be simple and clearly defined, therefore each column and itâ€™s content
+and formatting should be defined within a single clear column defintion.
+One consequence is you can comment out, remove or move, any column
+easily, for example:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/tabut:1.0.2": tabut}
+\NormalTok{\#import "example{-}data/supplies.typ": supplies}
+
+\NormalTok{\#tabut(}
+\NormalTok{  supplies,}
+\NormalTok{  (}
+\NormalTok{    (header: [Price], func: r =\textgreater{} r.price), // This column is moved to the front}
+\NormalTok{    (header: [Name], func: r =\textgreater{} r.name), }
+\NormalTok{    (header: [Name 2], func: r =\textgreater{} r.name), // copied}
+\NormalTok{    // (header: [Quantity], func: r =\textgreater{} r.quantity), // removed via comment}
+\NormalTok{  )}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/tabut/1.0.2/doc/compiled-snippets/rearrange.svg}}
+
+\subsection[Table Styling ]{\texorpdfstring{Table Styling
+\protect\hypertarget{table-styling}{}{
+}}{Table Styling  }}\label{table-styling}
+
+Any default Table style options can be tacked on and are passed to the
+final table function.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/tabut:1.0.2": tabut}
+\NormalTok{\#import "example{-}data/supplies.typ": supplies}
+
+\NormalTok{\#tabut(}
+\NormalTok{  supplies,}
+\NormalTok{  ( }
+\NormalTok{    (header: [Name], func: r =\textgreater{} r.name), }
+\NormalTok{    (header: [Price], func: r =\textgreater{} r.price), }
+\NormalTok{    (header: [Quantity], func: r =\textgreater{} r.quantity),}
+\NormalTok{  ),}
+\NormalTok{  fill: (\_, row) =\textgreater{} if calc.odd(row) \{ luma(240) \} else \{ luma(220) \}, }
+\NormalTok{  stroke: none}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/tabut/1.0.2/doc/compiled-snippets/styling.svg}}
+
+\subsection[Header Formatting ]{\texorpdfstring{Header Formatting
+\protect\hypertarget{header-formatting}{}{
+}}{Header Formatting  }}\label{header-formatting}
+
+You can pass any content or expression into the header property.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/tabut:1.0.2": tabut}
+\NormalTok{\#import "example{-}data/supplies.typ": supplies}
+
+\NormalTok{\#let fmt(it) = \{}
+\NormalTok{  heading(}
+\NormalTok{    outlined: false,}
+\NormalTok{    upper(it)}
+\NormalTok{  )}
+\NormalTok{\}}
+
+\NormalTok{\#tabut(}
+\NormalTok{  supplies,}
+\NormalTok{  ( }
+\NormalTok{    (header: fmt([Name]), func: r =\textgreater{} r.name ), }
+\NormalTok{    (header: fmt([Price]), func: r =\textgreater{} r.price), }
+\NormalTok{    (header: fmt([Quantity]), func: r =\textgreater{} r.quantity), }
+\NormalTok{  ),}
+\NormalTok{  fill: (\_, row) =\textgreater{} if calc.odd(row) \{ luma(240) \} else \{ luma(220) \}, }
+\NormalTok{  stroke: none}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/tabut/1.0.2/doc/compiled-snippets/title.svg}}
+
+\subsection[Remove Headers ]{\texorpdfstring{Remove Headers
+\protect\hypertarget{remove-headers}{}{
+}}{Remove Headers  }}\label{remove-headers}
+
+You can prevent from being generated with the \texttt{\ headers\ }
+paramater. This is useful with the \texttt{\ tabut-cells\ } function as
+demonstrated in itâ€™s section.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/tabut:1.0.2": tabut}
+\NormalTok{\#import "example{-}data/supplies.typ": supplies}
+
+\NormalTok{\#tabut(}
+\NormalTok{  supplies,}
+\NormalTok{  (}
+\NormalTok{    (header: [*Name*], func: r =\textgreater{} r.name), }
+\NormalTok{    (header: [*Price*], func: r =\textgreater{} r.price), }
+\NormalTok{    (header: [*Quantity*], func: r =\textgreater{} r.quantity), }
+\NormalTok{  ),}
+\NormalTok{  headers: false, // Prevents Headers from being generated}
+\NormalTok{  fill: (\_, row) =\textgreater{} if calc.odd(row) \{ luma(240) \} else \{ luma(220) \}, }
+\NormalTok{  stroke: none,}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/tabut/1.0.2/doc/compiled-snippets/no-headers.svg}}
+
+\subsection[Cell Expressions and Formatting ]{\texorpdfstring{Cell
+Expressions and Formatting
+\protect\hypertarget{cell-expressions-and-formatting}{}{
+}}{Cell Expressions and Formatting  }}\label{cell-expressions-and-formatting}
+
+Just like the headers, cell contents can be modified and formatted like
+any content in Typst.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/tabut:1.0.2": tabut}
+\NormalTok{\#import "usd.typ": usd}
+\NormalTok{\#import "example{-}data/supplies.typ": supplies}
+
+\NormalTok{\#tabut(}
+\NormalTok{  supplies,}
+\NormalTok{  ( }
+\NormalTok{    (header: [*Name*], func: r =\textgreater{} r.name ), }
+\NormalTok{    (header: [*Price*], func: r =\textgreater{} usd(r.price)), }
+\NormalTok{  ),}
+\NormalTok{  fill: (\_, row) =\textgreater{} if calc.odd(row) \{ luma(240) \} else \{ luma(220) \}, }
+\NormalTok{  stroke: none}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/tabut/1.0.2/doc/compiled-snippets/format.svg}}
+
+You can have the cell content function do calculations on a record
+property.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/tabut:1.0.2": tabut}
+\NormalTok{\#import "usd.typ": usd}
+\NormalTok{\#import "example{-}data/supplies.typ": supplies}
+
+\NormalTok{\#tabut(}
+\NormalTok{  supplies,}
+\NormalTok{  ( }
+\NormalTok{    (header: [*Name*], func: r =\textgreater{} r.name ), }
+\NormalTok{    (header: [*Price*], func: r =\textgreater{} usd(r.price)), }
+\NormalTok{    (header: [*Tax*], func: r =\textgreater{} usd(r.price * .2)), }
+\NormalTok{    (header: [*Total*], func: r =\textgreater{} usd(r.price * 1.2)), }
+\NormalTok{  ),}
+\NormalTok{  fill: (\_, row) =\textgreater{} if calc.odd(row) \{ luma(240) \} else \{ luma(220) \}, }
+\NormalTok{  stroke: none}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/tabut/1.0.2/doc/compiled-snippets/calculation.svg}}
+
+Or even combine multiple record properties, go wild.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/tabut:1.0.2": tabut}
+
+\NormalTok{\#let employees = (}
+\NormalTok{    (id: 3251, first: "Alice", last: "Smith", middle: "Jane"),}
+\NormalTok{    (id: 4872, first: "Carlos", last: "Garcia", middle: "Luis"),}
+\NormalTok{    (id: 5639, first: "Evelyn", last: "Chen", middle: "Ming")}
+\NormalTok{);}
+
+\NormalTok{\#tabut(}
+\NormalTok{  employees,}
+\NormalTok{  ( }
+\NormalTok{    (header: [*ID*], func: r =\textgreater{} r.id ),}
+\NormalTok{    (header: [*Full Name*], func: r =\textgreater{} [\#r.first \#r.middle.first(), \#r.last] ),}
+\NormalTok{  ),}
+\NormalTok{  fill: (\_, row) =\textgreater{} if calc.odd(row) \{ luma(240) \} else \{ luma(220) \}, }
+\NormalTok{  stroke: none}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/tabut/1.0.2/doc/compiled-snippets/combine.svg}}
+
+\subsection[Index ]{\texorpdfstring{Index \protect\hypertarget{index}{}{
+}}{Index  }}\label{index}
+
+\texttt{\ tabut\ } automatically adds an \texttt{\ \_index\ } property
+to each record.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/tabut:1.0.2": tabut}
+\NormalTok{\#import "example{-}data/supplies.typ": supplies}
+
+\NormalTok{\#tabut(}
+\NormalTok{  supplies,}
+\NormalTok{  ( }
+\NormalTok{    (header: [*\textbackslash{}\#*], func: r =\textgreater{} r.\_index),}
+\NormalTok{    (header: [*Name*], func: r =\textgreater{} r.name ), }
+\NormalTok{  ),}
+\NormalTok{  fill: (\_, row) =\textgreater{} if calc.odd(row) \{ luma(240) \} else \{ luma(220) \}, }
+\NormalTok{  stroke: none}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/tabut/1.0.2/doc/compiled-snippets/index.svg}}
+
+You can also prevent the \texttt{\ index\ } property being generated by
+setting it to \texttt{\ none\ } , or you can also set an alternate name
+of the index property as shown below.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/tabut:1.0.2": tabut}
+\NormalTok{\#import "example{-}data/supplies.typ": supplies}
+
+\NormalTok{\#tabut(}
+\NormalTok{  supplies,}
+\NormalTok{  ( }
+\NormalTok{    (header: [*\textbackslash{}\#*], func: r =\textgreater{} r.index{-}alt ),}
+\NormalTok{    (header: [*Name*], func: r =\textgreater{} r.name ), }
+\NormalTok{  ),}
+\NormalTok{  index: "index{-}alt", // set an aternate name for the automatically generated index property.}
+\NormalTok{  fill: (\_, row) =\textgreater{} if calc.odd(row) \{ luma(240) \} else \{ luma(220) \}, }
+\NormalTok{  stroke: none}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/tabut/1.0.2/doc/compiled-snippets/index-alternate.svg}}
+
+\subsection[Transpose ]{\texorpdfstring{Transpose
+\protect\hypertarget{transpose}{}{ }}{Transpose  }}\label{transpose}
+
+This was annoying to implement, and I donâ€™t know when youâ€™d actually
+use this, but here.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/tabut:1.0.2": tabut}
+\NormalTok{\#import "usd.typ": usd}
+\NormalTok{\#import "example{-}data/supplies.typ": supplies}
+
+\NormalTok{\#tabut(}
+\NormalTok{  supplies,}
+\NormalTok{  (}
+\NormalTok{    (header: [*\textbackslash{}\#*], func: r =\textgreater{} r.\_index),}
+\NormalTok{    (header: [*Name*], func: r =\textgreater{} r.name), }
+\NormalTok{    (header: [*Price*], func: r =\textgreater{} usd(r.price)), }
+\NormalTok{    (header: [*Quantity*], func: r =\textgreater{} r.quantity),}
+\NormalTok{  ),}
+\NormalTok{  transpose: true,  // set optional name arg \textasciigrave{}transpose\textasciigrave{} to \textasciigrave{}true\textasciigrave{}}
+\NormalTok{  fill: (\_, row) =\textgreater{} if calc.odd(row) \{ luma(240) \} else \{ luma(220) \}, }
+\NormalTok{  stroke: none}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/tabut/1.0.2/doc/compiled-snippets/transpose.svg}}
+
+\subsection[Alignment ]{\texorpdfstring{Alignment
+\protect\hypertarget{alignment}{}{ }}{Alignment  }}\label{alignment}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/tabut:1.0.2": tabut}
+\NormalTok{\#import "usd.typ": usd}
+\NormalTok{\#import "example{-}data/supplies.typ": supplies}
+
+\NormalTok{\#tabut(}
+\NormalTok{  supplies,}
+\NormalTok{  ( // Include \textasciigrave{}align\textasciigrave{} as an optional arg to a column def}
+\NormalTok{    (header: [*\textbackslash{}\#*], func: r =\textgreater{} r.\_index),}
+\NormalTok{    (header: [*Name*], align: right, func: r =\textgreater{} r.name), }
+\NormalTok{    (header: [*Price*], align: right, func: r =\textgreater{} usd(r.price)), }
+\NormalTok{    (header: [*Quantity*], align: right, func: r =\textgreater{} r.quantity),}
+\NormalTok{  ),}
+\NormalTok{  fill: (\_, row) =\textgreater{} if calc.odd(row) \{ luma(240) \} else \{ luma(220) \}, }
+\NormalTok{  stroke: none}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/tabut/1.0.2/doc/compiled-snippets/align.svg}}
+
+You can also define Alignment manually as in the the standard Table
+Function.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/tabut:1.0.2": tabut}
+\NormalTok{\#import "usd.typ": usd}
+\NormalTok{\#import "example{-}data/supplies.typ": supplies}
+
+\NormalTok{\#tabut(}
+\NormalTok{  supplies,}
+\NormalTok{  ( }
+\NormalTok{    (header: [*\textbackslash{}\#*], func: r =\textgreater{} r.\_index),}
+\NormalTok{    (header: [*Name*], func: r =\textgreater{} r.name), }
+\NormalTok{    (header: [*Price*], func: r =\textgreater{} usd(r.price)), }
+\NormalTok{    (header: [*Quantity*], func: r =\textgreater{} r.quantity),}
+\NormalTok{  ),}
+\NormalTok{  align: (auto, right, right, right), // Alignment defined as in standard table function}
+\NormalTok{  fill: (\_, row) =\textgreater{} if calc.odd(row) \{ luma(240) \} else \{ luma(220) \}, }
+\NormalTok{  stroke: none}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/tabut/1.0.2/doc/compiled-snippets/align-manual.svg}}
+
+\subsection[Column Width ]{\texorpdfstring{Column Width
+\protect\hypertarget{column-width}{}{
+}}{Column Width  }}\label{column-width}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/tabut:1.0.2": tabut}
+\NormalTok{\#import "usd.typ": usd}
+\NormalTok{\#import "example{-}data/supplies.typ": supplies}
+
+\NormalTok{\#box(}
+\NormalTok{  width: 300pt,}
+\NormalTok{  tabut(}
+\NormalTok{    supplies,}
+\NormalTok{    ( // Include \textasciigrave{}width\textasciigrave{} as an optional arg to a column def}
+\NormalTok{      (header: [*\textbackslash{}\#*], func: r =\textgreater{} r.\_index),}
+\NormalTok{      (header: [*Name*], width: 1fr, func: r =\textgreater{} r.name), }
+\NormalTok{      (header: [*Price*], width: 20\%, func: r =\textgreater{} usd(r.price)), }
+\NormalTok{      (header: [*Quantity*], width: 1.5in, func: r =\textgreater{} r.quantity),}
+\NormalTok{    ),}
+\NormalTok{    fill: (\_, row) =\textgreater{} if calc.odd(row) \{ luma(240) \} else \{ luma(220) \}, }
+\NormalTok{    stroke: none,}
+\NormalTok{  )}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/tabut/1.0.2/doc/compiled-snippets/width.svg}}
+
+You can also define Columns manually as in the the standard Table
+Function.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/tabut:1.0.2": tabut}
+\NormalTok{\#import "usd.typ": usd}
+\NormalTok{\#import "example{-}data/supplies.typ": supplies}
+
+\NormalTok{\#box(}
+\NormalTok{  width: 300pt,}
+\NormalTok{  tabut(}
+\NormalTok{    supplies,}
+\NormalTok{    (}
+\NormalTok{      (header: [*\textbackslash{}\#*], func: r =\textgreater{} r.\_index),}
+\NormalTok{      (header: [*Name*], func: r =\textgreater{} r.name), }
+\NormalTok{      (header: [*Price*], func: r =\textgreater{} usd(r.price)), }
+\NormalTok{      (header: [*Quantity*], func: r =\textgreater{} r.quantity),}
+\NormalTok{    ),}
+\NormalTok{    columns: (auto, 1fr, 20\%, 1.5in),  // Columns defined as in standard table}
+\NormalTok{    fill: (\_, row) =\textgreater{} if calc.odd(row) \{ luma(240) \} else \{ luma(220) \}, }
+\NormalTok{    stroke: none,}
+\NormalTok{  )}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/tabut/1.0.2/doc/compiled-snippets/width-manual.svg}}
+
+\subsection[Get Cells Only ]{\texorpdfstring{Get Cells Only
+\protect\hypertarget{get-cells-only}{}{
+}}{Get Cells Only  }}\label{get-cells-only}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/tabut:1.0.2": tabut{-}cells}
+\NormalTok{\#import "usd.typ": usd}
+\NormalTok{\#import "example{-}data/supplies.typ": supplies}
+
+\NormalTok{\#tabut{-}cells(}
+\NormalTok{  supplies,}
+\NormalTok{  ( }
+\NormalTok{    (header: [Name], func: r =\textgreater{} r.name), }
+\NormalTok{    (header: [Price], func: r =\textgreater{} usd(r.price)), }
+\NormalTok{    (header: [Quantity], func: r =\textgreater{} r.quantity),}
+\NormalTok{  )}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/tabut/1.0.2/doc/compiled-snippets/only-cells.svg}}
+
+\subsection[Use with Tablex ]{\texorpdfstring{Use with Tablex
+\protect\hypertarget{use-with-tablex}{}{
+}}{Use with Tablex  }}\label{use-with-tablex}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/tabut:1.0.2": tabut{-}cells}
+\NormalTok{\#import "usd.typ": usd}
+\NormalTok{\#import "example{-}data/supplies.typ": supplies}
+
+\NormalTok{\#import "@preview/tablex:0.0.8": tablex, rowspanx, colspanx}
+
+\NormalTok{\#tablex(}
+\NormalTok{  auto{-}vlines: false,}
+\NormalTok{  header{-}rows: 2,}
+
+\NormalTok{  /* {-}{-}{-} header {-}{-}{-} */}
+\NormalTok{  rowspanx(2)[*Name*], colspanx(2)[*Price*], (), rowspanx(2)[*Quantity*],}
+\NormalTok{  (),                 [*Base*], [*W/Tax*], (),}
+\NormalTok{  /* {-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-} */}
+
+\NormalTok{  ..tabut{-}cells(}
+\NormalTok{    supplies,}
+\NormalTok{    ( }
+\NormalTok{      (header: [], func: r =\textgreater{} r.name), }
+\NormalTok{      (header: [], func: r =\textgreater{} usd(r.price)), }
+\NormalTok{      (header: [], func: r =\textgreater{} usd(r.price * 1.3)), }
+\NormalTok{      (header: [], func: r =\textgreater{} r.quantity),}
+\NormalTok{    ),}
+\NormalTok{    headers: false}
+\NormalTok{  )}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/tabut/1.0.2/doc/compiled-snippets/tablex.svg}}
+
+While technically seperate from table display, the following are
+examples of how to perform operations on data before it is displayed
+with \texttt{\ tabut\ } .
+
+Since \texttt{\ tabut\ } assumes an â€œarray of dictionariesâ€? format,
+then most data operations can be performed easily with Typstâ€™s native
+array functions. \texttt{\ tabut\ } also provides several functions to
+provide additional functionality.
+
+\subsection[CSV Data ]{\texorpdfstring{CSV Data
+\protect\hypertarget{csv-data}{}{ }}{CSV Data  }}\label{csv-data}
+
+By default, imported CSV gives a â€œrowsâ€? or â€œarray of arraysâ€?
+data format, which can not be directly used by \texttt{\ tabut\ } . To
+convert, \texttt{\ tabut\ } includes a function
+\texttt{\ rows-to-records\ } demonstrated below.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/tabut:1.0.2": tabut, rows{-}to{-}records}
+\NormalTok{\#import "example{-}data/supplies.typ": supplies}
+
+\NormalTok{\#let titanic = \{}
+\NormalTok{  let titanic{-}raw = csv("example{-}data/titanic.csv");}
+\NormalTok{  rows{-}to{-}records(}
+\NormalTok{    titanic{-}raw.first(), // The header row}
+\NormalTok{    titanic{-}raw.slice(1, {-}1), // The rest of the rows}
+\NormalTok{  )}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+Imported CSV data are all strings, so itâ€™s usefull to convert them to
+\texttt{\ int\ } or \texttt{\ float\ } when possible.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/tabut:1.0.2": tabut, rows{-}to{-}records}
+\NormalTok{\#import "example{-}data/supplies.typ": supplies}
+
+\NormalTok{\#let auto{-}type(input) = \{}
+\NormalTok{  let is{-}int = (input.match(regex("\^{}{-}?\textbackslash{}d+$")) != none);}
+\NormalTok{  if is{-}int \{ return int(input); \}}
+\NormalTok{  let is{-}float = (input.match(regex("\^{}{-}?(inf|nan|\textbackslash{}d+|\textbackslash{}d*(\textbackslash{}.\textbackslash{}d+))$")) != none);}
+\NormalTok{  if is{-}float \{ return float(input) \}}
+\NormalTok{  input}
+\NormalTok{\}}
+
+\NormalTok{\#let titanic = \{}
+\NormalTok{  let titanic{-}raw = csv("example{-}data/titanic.csv");}
+\NormalTok{  rows{-}to{-}records( titanic{-}raw.first(), titanic{-}raw.slice(1, {-}1) )}
+\NormalTok{  .map( r =\textgreater{} \{}
+\NormalTok{    let new{-}record = (:);}
+\NormalTok{    for (k, v) in r.pairs() \{ new{-}record.insert(k, auto{-}type(v)); \}}
+\NormalTok{    new{-}record}
+\NormalTok{  \})}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\texttt{\ tabut\ } includes a function, \texttt{\ records-from-csv\ } ,
+to automatically perform this process.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/tabut:1.0.2": records{-}from{-}csv}
+
+\NormalTok{\#let titanic = records{-}from{-}csv(csv("example{-}data/titanic.csv"));}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection[Slice ]{\texorpdfstring{Slice \protect\hypertarget{slice}{}{
+}}{Slice  }}\label{slice}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/tabut:1.0.2": tabut, records{-}from{-}csv}
+\NormalTok{\#import "usd.typ": usd}
+\NormalTok{\#import "example{-}data/titanic.typ": titanic}
+
+\NormalTok{\#let classes = (}
+\NormalTok{  "N/A",}
+\NormalTok{  "First", }
+\NormalTok{  "Second", }
+\NormalTok{  "Third"}
+\NormalTok{);}
+
+\NormalTok{\#let titanic{-}head = titanic.slice(0, 5);}
+
+\NormalTok{\#tabut(}
+\NormalTok{  titanic{-}head,}
+\NormalTok{  ( }
+\NormalTok{    (header: [*Name*], func: r =\textgreater{} r.Name), }
+\NormalTok{    (header: [*Class*], func: r =\textgreater{} classes.at(r.Pclass)),}
+\NormalTok{    (header: [*Fare*], func: r =\textgreater{} usd(r.Fare)), }
+\NormalTok{    (header: [*Survived?*], func: r =\textgreater{} ("No", "Yes").at(r.Survived)), }
+\NormalTok{  ),}
+\NormalTok{  fill: (\_, row) =\textgreater{} if calc.odd(row) \{ luma(240) \} else \{ luma(220) \}, }
+\NormalTok{  stroke: none}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/tabut/1.0.2/doc/compiled-snippets/slice.svg}}
+
+\subsection[Sorting and Reversing ]{\texorpdfstring{Sorting and
+Reversing \protect\hypertarget{sorting-and-reversing}{}{
+}}{Sorting and Reversing  }}\label{sorting-and-reversing}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/tabut:1.0.2": tabut}
+\NormalTok{\#import "usd.typ": usd}
+\NormalTok{\#import "example{-}data/titanic.typ": titanic, classes}
+
+\NormalTok{\#tabut(}
+\NormalTok{  titanic}
+\NormalTok{  .sorted(key: r =\textgreater{} r.Fare)}
+\NormalTok{  .rev()}
+\NormalTok{  .slice(0, 5),}
+\NormalTok{  ( }
+\NormalTok{    (header: [*Name*], func: r =\textgreater{} r.Name), }
+\NormalTok{    (header: [*Class*], func: r =\textgreater{} classes.at(r.Pclass)),}
+\NormalTok{    (header: [*Fare*], func: r =\textgreater{} usd(r.Fare)), }
+\NormalTok{    (header: [*Survived?*], func: r =\textgreater{} ("No", "Yes").at(r.Survived)), }
+\NormalTok{  ),}
+\NormalTok{  fill: (\_, row) =\textgreater{} if calc.odd(row) \{ luma(240) \} else \{ luma(220) \}, }
+\NormalTok{  stroke: none}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/tabut/1.0.2/doc/compiled-snippets/sort.svg}}
+
+\subsection[Filter ]{\texorpdfstring{Filter
+\protect\hypertarget{filter}{}{ }}{Filter  }}\label{filter}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/tabut:1.0.2": tabut}
+\NormalTok{\#import "usd.typ": usd}
+\NormalTok{\#import "example{-}data/titanic.typ": titanic, classes}
+
+\NormalTok{\#tabut(}
+\NormalTok{  titanic}
+\NormalTok{  .filter(r =\textgreater{} r.Pclass == 1)}
+\NormalTok{  .slice(0, 5),}
+\NormalTok{  ( }
+\NormalTok{    (header: [*Name*], func: r =\textgreater{} r.Name), }
+\NormalTok{    (header: [*Class*], func: r =\textgreater{} classes.at(r.Pclass)),}
+\NormalTok{    (header: [*Fare*], func: r =\textgreater{} usd(r.Fare)), }
+\NormalTok{    (header: [*Survived?*], func: r =\textgreater{} ("No", "Yes").at(r.Survived)), }
+\NormalTok{  ),}
+\NormalTok{  fill: (\_, row) =\textgreater{} if calc.odd(row) \{ luma(240) \} else \{ luma(220) \}, }
+\NormalTok{  stroke: none}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/tabut/1.0.2/doc/compiled-snippets/filter.svg}}
+
+\subsection[Aggregation using Map and Sum ]{\texorpdfstring{Aggregation
+using Map and Sum \protect\hypertarget{aggregation-using-map-and-sum}{}{
+}}{Aggregation using Map and Sum  }}\label{aggregation-using-map-and-sum}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "usd.typ": usd}
+\NormalTok{\#import "example{-}data/titanic.typ": titanic, classes}
+
+\NormalTok{\#table(}
+\NormalTok{  columns: (auto, auto),}
+\NormalTok{  [*Fare, Total:*], [\#usd(titanic.map(r =\textgreater{} r.Fare).sum())],}
+\NormalTok{  [*Fare, Avg:*], [\#usd(titanic.map(r =\textgreater{} r.Fare).sum() / titanic.len())], }
+\NormalTok{  stroke: none}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/tabut/1.0.2/doc/compiled-snippets/aggregation.svg}}
+
+\subsection[Grouping ]{\texorpdfstring{Grouping
+\protect\hypertarget{grouping}{}{ }}{Grouping  }}\label{grouping}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/tabut:1.0.2": tabut, group}
+\NormalTok{\#import "example{-}data/titanic.typ": titanic, classes}
+
+\NormalTok{\#tabut(}
+\NormalTok{  group(titanic, r =\textgreater{} r.Pclass),}
+\NormalTok{  (}
+\NormalTok{    (header: [*Class*], func: r =\textgreater{} classes.at(r.value)), }
+\NormalTok{    (header: [*Passengers*], func: r =\textgreater{} r.group.len()), }
+\NormalTok{  ),}
+\NormalTok{  fill: (\_, row) =\textgreater{} if calc.odd(row) \{ luma(240) \} else \{ luma(220) \}, }
+\NormalTok{  stroke: none}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/tabut/1.0.2/doc/compiled-snippets/group.svg}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/tabut:1.0.2": tabut, group}
+\NormalTok{\#import "usd.typ": usd}
+\NormalTok{\#import "example{-}data/titanic.typ": titanic, classes}
+
+\NormalTok{\#tabut(}
+\NormalTok{  group(titanic, r =\textgreater{} r.Pclass),}
+\NormalTok{  (}
+\NormalTok{    (header: [*Class*], func: r =\textgreater{} classes.at(r.value)), }
+\NormalTok{    (header: [*Total Fare*], func: r =\textgreater{} usd(r.group.map(r =\textgreater{} r.Fare).sum())), }
+\NormalTok{    (}
+\NormalTok{      header: [*Avg Fare*], }
+\NormalTok{      func: r =\textgreater{} usd(r.group.map(r =\textgreater{} r.Fare).sum() / r.group.len())}
+\NormalTok{    ), }
+\NormalTok{  ),}
+\NormalTok{  fill: (\_, row) =\textgreater{} if calc.odd(row) \{ luma(240) \} else \{ luma(220) \}, }
+\NormalTok{  stroke: none}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/tabut/1.0.2/doc/compiled-snippets/group-aggregation.svg}}
+
+\subsection[\texttt{\ tabut\ } ]{\texorpdfstring{\texttt{\ tabut\ }
+\protect\hypertarget{tabut}{}{ }}{ tabut   }}\label{tabut-1}
+
+Takes data and column definitions and outputs a table.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tabut(}
+\NormalTok{  data{-}raw, }
+\NormalTok{  colDefs, }
+\NormalTok{  columns: auto,}
+\NormalTok{  align: auto,}
+\NormalTok{  index: "\_index",}
+\NormalTok{  transpose: false,}
+\NormalTok{  headers: true,}
+\NormalTok{  ..tableArgs}
+\NormalTok{) {-}\textgreater{} content}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{Parameters}\label{parameters}
+
+\texttt{\ data-raw\ }\strut \\
+This is the raw data that will be used to generate the table. The data
+is expected to be in an array of dictionaries, where each dictionary
+represents a single record or object.
+
+\texttt{\ colDefs\ }\strut \\
+These are the column definitions. An array of dictionaries, each
+representing column definition. Must include the properties
+\texttt{\ header\ } and a \texttt{\ func\ } . \texttt{\ header\ }
+expects content, and specifies the label of the column.
+\texttt{\ func\ } expects a function, the function takes a record
+dictionary as input and returns the value to be displayed in the cell
+corresponding to that record and column. There are also two optional
+properties; \texttt{\ align\ } sets the alignment of the content within
+the cells of the column, \texttt{\ width\ } sets the width of the
+column.
+
+\texttt{\ columns\ }\strut \\
+(optional, default: \texttt{\ auto\ } ) Specifies the column widths. If
+set to \texttt{\ auto\ } , the function automatically generates column
+widths by each columnâ€™s column definition. Otherwise functions exactly
+the \texttt{\ columns\ } paramater of the standard Typst
+\texttt{\ table\ } function. Unlike the \texttt{\ tabut-cells\ } setting
+this to \texttt{\ none\ } will break.
+
+\texttt{\ align\ }\strut \\
+(optional, default: \texttt{\ auto\ } ) Specifies the column alignment.
+If set to \texttt{\ auto\ } , the function automatically generates
+column alignment by each columnâ€™s column definition. If set to
+\texttt{\ none\ } no \texttt{\ align\ } property is added to the output
+arg. Otherwise functions exactly the \texttt{\ align\ } paramater of the
+standard Typst \texttt{\ table\ } function.
+
+\texttt{\ index\ }\strut \\
+(optional, default: \texttt{\ "\_index"\ } ) Specifies the property name
+for the index of each record. By default, an \texttt{\ \_index\ }
+property is automatically added to each record. If set to
+\texttt{\ none\ } , no index property is added.
+
+\texttt{\ transpose\ }\strut \\
+(optional, default: \texttt{\ false\ } ) If set to \texttt{\ true\ } ,
+transposes the table, swapping rows and columns.
+
+\texttt{\ headers\ }\strut \\
+(optional, default: \texttt{\ true\ } ) Determines whether headers
+should be included in the output. If set to \texttt{\ false\ } , headers
+are not generated.
+
+\texttt{\ tableArgs\ }\strut \\
+(optional) Any additional arguments are passed to the \texttt{\ table\ }
+function, can be used for styling or anything else.
+
+\subsection[\texttt{\ tabut-cells\ }
+]{\texorpdfstring{\texttt{\ tabut-cells\ }
+\protect\hypertarget{tabut-cells}{}{
+}}{ tabut-cells   }}\label{tabut-cells}
+
+The \texttt{\ tabut-cells\ } function functions as \texttt{\ tabut\ } ,
+but returns \texttt{\ arguments\ } for use in either the standard
+\texttt{\ table\ } function or other tools such as \texttt{\ tablex\ } .
+If you just want the array of cells, use the \texttt{\ pos\ } function
+on the returned value, ex \texttt{\ tabut-cells(...).pos\ } .
+
+\texttt{\ tabut-cells\ } is particularly useful when you need to
+generate only the cell contents of a table or when these cells need to
+be passed to another function for further processing or customization.
+
+\subsubsection{Function Signature}\label{function-signature}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tabut{-}cells(}
+\NormalTok{  data{-}raw, }
+\NormalTok{  colDefs, }
+\NormalTok{  columns: auto,}
+\NormalTok{  align: auto,}
+\NormalTok{  index: "\_index",}
+\NormalTok{  transpose: false,}
+\NormalTok{  headers: true,}
+\NormalTok{) {-}\textgreater{} arguments}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{Parameters}\label{parameters-1}
+
+\texttt{\ data-raw\ }\strut \\
+This is the raw data that will be used to generate the table. The data
+is expected to be in an array of dictionaries, where each dictionary
+represents a single record or object.
+
+\texttt{\ colDefs\ }\strut \\
+These are the column definitions. An array of dictionaries, each
+representing column definition. Must include the properties
+\texttt{\ header\ } and a \texttt{\ func\ } . \texttt{\ header\ }
+expects content, and specifies the label of the column.
+\texttt{\ func\ } expects a function, the function takes a record
+dictionary as input and returns the value to be displayed in the cell
+corresponding to that record and column. There are also two optional
+properties; \texttt{\ align\ } sets the alignment of the content within
+the cells of the column, \texttt{\ width\ } sets the width of the
+column.
+
+\texttt{\ columns\ }\strut \\
+(optional, default: \texttt{\ auto\ } ) Specifies the column widths. If
+set to \texttt{\ auto\ } , the function automatically generates column
+widths by each columnâ€™s column definition. If set to \texttt{\ none\ }
+no \texttt{\ column\ } property is added to the output arg. Otherwise
+functions exactly the \texttt{\ columns\ } paramater of the standard
+typst \texttt{\ table\ } function.
+
+\texttt{\ align\ }\strut \\
+(optional, default: \texttt{\ auto\ } ) Specifies the column alignment.
+If set to \texttt{\ auto\ } , the function automatically generates
+column alignment by each columnâ€™s column definition. If set to
+\texttt{\ none\ } no \texttt{\ align\ } property is added to the output
+arg. Otherwise functions exactly the \texttt{\ align\ } paramater of the
+standard typst \texttt{\ table\ } function.
+
+\texttt{\ index\ }\strut \\
+(optional, default: \texttt{\ "\_index"\ } ) Specifies the property name
+for the index of each record. By default, an \texttt{\ \_index\ }
+property is automatically added to each record. If set to
+\texttt{\ none\ } , no index property is added.
+
+\texttt{\ transpose\ }\strut \\
+(optional, default: \texttt{\ false\ } ) If set to \texttt{\ true\ } ,
+transposes the table, swapping rows and columns.
+
+\texttt{\ headers\ }\strut \\
+(optional, default: \texttt{\ true\ } ) Determines whether headers
+should be included in the output. If set to \texttt{\ false\ } , headers
+are not generated.
+
+\subsection[\texttt{\ records-from-csv\ }
+]{\texorpdfstring{\texttt{\ records-from-csv\ }
+\protect\hypertarget{records-from-csv}{}{
+}}{ records-from-csv   }}\label{records-from-csv}
+
+Automatically converts a CSV data into an array of records.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{records{-}from{-}csv(}
+\NormalTok{  data}
+\NormalTok{) {-}\textgreater{} array}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{Parameters}\label{parameters-2}
+
+\texttt{\ data\ }\strut \\
+The CSV data that needs to be converted, this can be obtained using the
+native \texttt{\ csv\ } function, like
+\texttt{\ records-from-csv(csv(file-path))\ } .
+
+This function simplifies the process of converting CSV data into a
+format compatible with \texttt{\ tabut\ } . It reads the CSV data,
+extracts the headers, and converts each row into a dictionary, using the
+headers as keys.
+
+It also automatically converts data into floats or integers when
+possible.
+
+\subsection[\texttt{\ rows-to-records\ }
+]{\texorpdfstring{\texttt{\ rows-to-records\ }
+\protect\hypertarget{rows-to-records}{}{
+}}{ rows-to-records   }}\label{rows-to-records}
+
+Converts rows of data into an array of records based on specified
+headers.
+
+This function is useful for converting data in a â€œrowsâ€? format
+(commonly found in CSV files) into an array of dictionaries format,
+which is required for \texttt{\ tabut\ } and allows easy data processing
+using the built in array functions.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{rows{-}to{-}records(}
+\NormalTok{  headers, }
+\NormalTok{  rows, }
+\NormalTok{  default: none}
+\NormalTok{) {-}\textgreater{} array}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{Parameters}\label{parameters-3}
+
+\texttt{\ headers\ }\strut \\
+An array representing the headers of the table. Each item in this array
+corresponds to a column header.
+
+\texttt{\ rows\ }\strut \\
+An array of arrays, each representing a row of data. Each sub-array
+contains the cell data for a corresponding row.
+
+\texttt{\ default\ }\strut \\
+(optional, default: \texttt{\ none\ } ) A default value to use when a
+cell is empty or there is an error.
+
+\subsection[\texttt{\ group\ } ]{\texorpdfstring{\texttt{\ group\ }
+\protect\hypertarget{group}{}{ }}{ group   }}\label{group}
+
+Groups data based on a specified function and returns an array of
+grouped records.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{group(}
+\NormalTok{  data, }
+\NormalTok{  function}
+\NormalTok{) {-}\textgreater{} array}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{Parameters}\label{parameters-4}
+
+\texttt{\ data\ }\strut \\
+An array of dictionaries. Each dictionary represents a single record or
+object.
+
+\texttt{\ function\ }\strut \\
+A function that takes a record as input and returns a value based on
+which the grouping is to be performed.
+
+This function iterates over each record in the \texttt{\ data\ } ,
+applies the \texttt{\ function\ } to determine the grouping value, and
+organizes the records into groups based on this value. Each group record
+is represented as a dictionary with two properties: \texttt{\ value\ }
+(the result of the grouping function) and \texttt{\ group\ } (an array
+of records belonging to this group).
+
+In the context of \texttt{\ tabut\ } , the \texttt{\ group\ } function
+is particularly useful for creating summary tables where records need to
+be categorized and aggregated based on certain criteria, such as
+calculating total or average values for each group.
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as \texttt{\ tabut\ }
+
+\begin{verbatim}
+#import "@preview/tabut:1.0.2"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+\href{https://github.com/Amelia-Mowers}{Amelia Mowers}
+\item[License:]
+MIT
+\item[Current version:]
+1.0.2
+\item[Last updated:]
+April 16, 2024
+\item[First released:]
+January 29, 2024
+\item[Archive size:]
+9.40 kB
+\href{https://packages.typst.org/preview/tabut-1.0.2.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/Amelia-Mowers/typst-tabut}{GitHub}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of Amelia Mowers . Report issues on
+\href{https://github.com/Amelia-Mowers/typst-tabut}{their repository} .
+You can also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+1.0.2 & April 16, 2024 \\
+\href{https://typst.app/universe/package/tabut/1.0.1/}{1.0.1} & January
+31, 2024 \\
+\href{https://typst.app/universe/package/tabut/1.0.0/}{1.0.0} & January
+29, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.

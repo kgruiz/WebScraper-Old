@@ -6,7 +6,7 @@ from tqdm import tqdm
 
 from DirStructure import DirStructureFromURLList, OutputJsonWalk
 from Downloader import LoadUrlsFromJson, SavePageAsPdf
-from HTMLtoLatex import CombineDirs, FlattenDir, HtmlDirToLatex
+from HTMLtoLatex import CombineDirs, CombineFiles, FlattenDir, HtmlDirToLatex
 from Scraper import GetUrls, OutputJson
 
 
@@ -157,4 +157,8 @@ def main():
 
 if __name__ == "__main__":
 
-    main()
+    # main()
+
+    # HtmlDirToLatex(htmlDir="Package List HTML", latexDir="Package List LaTeX")
+
+    CombineFiles(dirName="Package List LaTeX", maxLength=5000, addedPrefix="Package")

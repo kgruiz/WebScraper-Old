@@ -1,0 +1,492 @@
+\title{typst.app/universe/package/datify}
+
+\phantomsection\label{banner}
+\section{datify}\label{datify}
+
+{ 0.1.3 }
+
+Datify is a simple date package that allows users to format dates in new
+ways and addresses the issue of lacking date formats in different
+languages.
+
+\phantomsection\label{readme}
+Datify is a simple date package that allows users to format dates in new
+ways and addresses the issue of lacking date formats in different
+languages.
+
+\subsection{Installation}\label{installation}
+
+To include this package in your Typst project, add the following to your
+project file:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/datify:0.1.3": day{-}name, month{-}name, custom{-}date{-}format}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Reference}\label{reference}
+
+\subsubsection{\texorpdfstring{\texttt{\ day-name\ }}{ day-name }}\label{day-name}
+
+Returns the name of the weekday.
+
+\paragraph{Example}\label{example}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/datify:0.1.3": day{-}name}
+
+\NormalTok{\#day{-}name(2)}
+\NormalTok{\#day{-}name(1,"fr",true)}
+\end{Highlighting}
+\end{Shaded}
+
+Output:
+
+\begin{verbatim}
+tuesday
+Lundi
+\end{verbatim}
+
+\paragraph{Parameters}\label{parameters}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{day{-}name(weekday: int or str, lang: str, upper: boolean) {-}{-}\textgreater{} str}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[]{@{}lll@{}}
+\toprule\noalign{}
+Parameter & Description & Default \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+weekday* & The weekday as an integer (1-7) or a string
+(â€œ1â€?-â€œ7â€?). & none \\
+lang & An ISO 639-1 code representing the language. & en \\
+upper & A boolean that sets the first letter to be uppercase. & false \\
+\end{longtable}
+
+* required
+
+\subsubsection{\texorpdfstring{\texttt{\ month-name\ }}{ month-name }}\label{month-name}
+
+Returns the name of the month.
+
+\paragraph{Example}\label{example-1}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/datify:0.1.3": month{-}name}
+
+\NormalTok{\#month{-}name(2)}
+\NormalTok{\#month{-}name(1, "fr", true)}
+\end{Highlighting}
+\end{Shaded}
+
+Output:
+
+\begin{verbatim}
+february
+Janvier
+\end{verbatim}
+
+\paragraph{Parameters}\label{parameters-1}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{month{-}name(month: int or str, lang: str = \textquotesingle{}en\textquotesingle{}, upper: bool = false) {-}\textgreater{} str}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[]{@{}lll@{}}
+\toprule\noalign{}
+Parameter & Description & Default \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+month* & The month as an integer (1-12) or a string (â€œ1â€?-â€œ12â€?).
+& none \\
+lang & An ISO 639-1 code representing the language. & en \\
+upper & A boolean that sets the first letter to be uppercase. & false \\
+\end{longtable}
+
+* required
+
+\subsubsection{\texorpdfstring{\texttt{\ custom-date-format\ }}{ custom-date-format }}\label{custom-date-format}
+
+Formats a given date according to a specified format and language.
+
+\paragraph{Example}\label{example-2}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/datify:0.1.3": custom{-}date{-}format}
+
+\NormalTok{\#let my{-}date = datetime(year: 2024, month: 8, day: 4)}
+\NormalTok{\#custom{-}date{-}format(my{-}date, "MMMM DDth, YYYY")}
+\end{Highlighting}
+\end{Shaded}
+
+Output:
+
+\begin{verbatim}
+August 04th, 2024
+\end{verbatim}
+
+\paragraph{Parameters}\label{parameters-2}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{custom{-}date{-}format(date: datetime, format: str, lang: str = \textquotesingle{}en\textquotesingle{}) {-}\textgreater{} str}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[]{@{}lll@{}}
+\toprule\noalign{}
+Parameter & Description & Default \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+date* & A datetime object representing the date. & none \\
+format* & A string representing the desired date format. & none \\
+lang & An ISO 639-1 code representing the language. & en \\
+\end{longtable}
+
+* required
+
+\paragraph{Format Types}\label{format-types}
+
+Below is a table of all possible format types that can be used in the
+format string:
+
+\begin{longtable}[]{@{}lll@{}}
+\toprule\noalign{}
+Format & Description & Example \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\texttt{\ DD\ } & Day of the month, 2 digits & 05 \\
+\texttt{\ day\ } & Full name of the day & tuesday \\
+\texttt{\ Day\ } & Capitalized full name of the day & Tuesday \\
+\texttt{\ DAY\ } & Uppercase full name of the day & TUESDAY \\
+\texttt{\ MMMM\ } & Capitalized full name of the month & May \\
+\texttt{\ MMM\ } & Short name of the month (first 3 chars) & May \\
+\texttt{\ MM\ } & Month number, 2 digits & 05 \\
+\texttt{\ month\ } & Full name of the month & may \\
+\texttt{\ Month\ } & Capitalized full name of the month & May \\
+\texttt{\ MONTH\ } & Uppercase full name of the month & MAY \\
+\texttt{\ YYYY\ } & 4-digit year & 2023 \\
+\texttt{\ YY\ } & Last 2 digits of the year & 23 \\
+\end{longtable}
+
+\subsection{Examples}\label{examples}
+
+Here are some examples demonstrating the usage of the functions provided
+by the Datify package:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let my{-}date = datetime(year: 2024, month: 12, day: 25)}
+
+\NormalTok{\#custom{-}date{-}format(my{-}date, "DD{-}MM{-}YYYY")  // Output: 25{-}12{-}2024}
+\NormalTok{\#custom{-}date{-}format(my{-}date, "Day, DD Month YYYY", "fr")  // Output: Mercredi, 25 DÃ©cembre 2024}
+\NormalTok{\#custom{-}date{-}format(my{-}date, "day, DD de month de YYYY", "es") // Output: miÃ©rcoles, 25 de diciembre de 2024}
+\NormalTok{\#custom{-}date{-}format(my{-}date, "day, DD de month de YYYY", "pt") // Output: terÃ§a{-}feira, 25 de dezembro de 2024}
+
+\NormalTok{\#day{-}name(4)  // Output: thursday}
+
+\NormalTok{\#month{-}name(12)  // Output: december}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Supported language}\label{supported-language}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+ISO 639-1 code & Status \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+aa & â?Œ \\
+ab & â?Œ \\
+ae & â?Œ \\
+af & â?Œ \\
+ak & â?Œ \\
+am & â?Œ \\
+an & â?Œ \\
+ar & â?Œ \\
+as & â?Œ \\
+av & â?Œ \\
+ay & â?Œ \\
+az & â?Œ \\
+ba & â?Œ \\
+be & â?Œ \\
+bg & â?Œ \\
+bh & â?Œ \\
+bi & â?Œ \\
+bm & â?Œ \\
+bn & â?Œ \\
+bo & â?Œ \\
+br & â?Œ \\
+bs & â?Œ \\
+ca & â?Œ \\
+ce & â?Œ \\
+ch & â?Œ \\
+co & â?Œ \\
+cr & â?Œ \\
+cs & â?Œ \\
+cu & â?Œ \\
+cv & â?Œ \\
+cy & â?Œ \\
+da & â?Œ \\
+de & âœ \\
+dv & â?Œ \\
+dz & â?Œ \\
+ee & â?Œ \\
+el & â?Œ \\
+en & âœ \\
+eo & â?Œ \\
+es & âœ \\
+et & â?Œ \\
+eu & â?Œ \\
+fa & â?Œ \\
+ff & â?Œ \\
+fi & â?Œ \\
+fj & â?Œ \\
+fo & â?Œ \\
+fr & âœ \\
+fy & â?Œ \\
+ga & â?Œ \\
+gd & â?Œ \\
+gl & â?Œ \\
+gn & â?Œ \\
+gu & â?Œ \\
+gv & â?Œ \\
+ha & â?Œ \\
+he & â?Œ \\
+hi & â?Œ \\
+ho & â?Œ \\
+hr & â?Œ \\
+ht & â?Œ \\
+hu & â?Œ \\
+hy & â?Œ \\
+hz & â?Œ \\
+ia & â?Œ \\
+id & â?Œ \\
+ie & â?Œ \\
+ig & â?Œ \\
+ii & â?Œ \\
+ik & â?Œ \\
+io & â?Œ \\
+is & â?Œ \\
+it & â?Œ \\
+iu & â?Œ \\
+ja & â?Œ \\
+jv & â?Œ \\
+ka & â?Œ \\
+kg & â?Œ \\
+ki & â?Œ \\
+kj & â?Œ \\
+kk & â?Œ \\
+kl & â?Œ \\
+km & â?Œ \\
+kn & â?Œ \\
+ko & â?Œ \\
+kr & â?Œ \\
+ks & â?Œ \\
+ku & â?Œ \\
+kv & â?Œ \\
+kw & â?Œ \\
+ky & â?Œ \\
+la & â?Œ \\
+lb & â?Œ \\
+lg & â?Œ \\
+li & â?Œ \\
+ln & â?Œ \\
+lo & â?Œ \\
+lt & â?Œ \\
+lu & â?Œ \\
+lv & â?Œ \\
+mg & â?Œ \\
+mh & â?Œ \\
+mi & â?Œ \\
+mk & â?Œ \\
+ml & â?Œ \\
+mn & â?Œ \\
+mr & â?Œ \\
+ms & â?Œ \\
+mt & â?Œ \\
+my & â?Œ \\
+na & â?Œ \\
+nb & â?Œ \\
+nd & â?Œ \\
+ne & â?Œ \\
+ng & â?Œ \\
+nl & â?Œ \\
+nn & â?Œ \\
+no & â?Œ \\
+nr & â?Œ \\
+nv & â?Œ \\
+ny & â?Œ \\
+oc & â?Œ \\
+oj & â?Œ \\
+om & â?Œ \\
+or & â?Œ \\
+os & â?Œ \\
+pa & â?Œ \\
+pi & â?Œ \\
+pl & â?Œ \\
+ps & â?Œ \\
+pt & âœ \\
+qu & â?Œ \\
+rm & â?Œ \\
+rn & â?Œ \\
+ro & â?Œ \\
+ru & â?Œ \\
+rw & â?Œ \\
+sa & â?Œ \\
+sc & â?Œ \\
+sd & â?Œ \\
+se & â?Œ \\
+sg & â?Œ \\
+si & â?Œ \\
+sk & â?Œ \\
+sl & â?Œ \\
+sm & â?Œ \\
+sn & â?Œ \\
+so & â?Œ \\
+sq & â?Œ \\
+sr & â?Œ \\
+ss & â?Œ \\
+st & â?Œ \\
+su & â?Œ \\
+sv & â?Œ \\
+sw & â?Œ \\
+ta & â?Œ \\
+te & â?Œ \\
+tg & â?Œ \\
+th & â?Œ \\
+ti & â?Œ \\
+tk & â?Œ \\
+tl & â?Œ \\
+tn & â?Œ \\
+to & â?Œ \\
+tr & â?Œ \\
+ts & â?Œ \\
+tt & â?Œ \\
+tw & â?Œ \\
+ty & â?Œ \\
+ug & â?Œ \\
+uk & â?Œ \\
+ur & â?Œ \\
+uz & â?Œ \\
+ve & â?Œ \\
+vi & â?Œ \\
+vo & â?Œ \\
+wa & â?Œ \\
+wo & â?Œ \\
+xh & â?Œ \\
+yi & â?Œ \\
+yo & â?Œ \\
+za & â?Œ \\
+zh & â?Œ \\
+zu & â?Œ \\
+\end{longtable}
+
+\subsection{Contributing}\label{contributing}
+
+Contributions are welcome! Please feel free to submit a pull request or
+open an issue if you encounter any problems.
+
+\subsection{License}\label{license}
+
+This project is licensed under the MIT License.
+
+\subsection{Planned}\label{planned}
+
+\begin{itemize}
+\tightlist
+\item
+  Adding support for more language
+\item
+  Adding set and get method to set default language for a whole document
+\item
+  Adding new methods
+\end{itemize}
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as \texttt{\ datify\ }
+
+\begin{verbatim}
+#import "@preview/datify:0.1.3"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+Jeomhps
+\item[License:]
+MIT
+\item[Current version:]
+0.1.3
+\item[Last updated:]
+November 4, 2024
+\item[First released:]
+May 27, 2024
+\item[Minimum Typst version:]
+0.11.1
+\item[Archive size:]
+4.81 kB
+\href{https://packages.typst.org/preview/datify-0.1.3.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/Jeomhps/datify}{GitHub}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of Jeomhps . Report issues on
+\href{https://github.com/Jeomhps/datify}{their repository} . You can
+also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.1.3 & November 4, 2024 \\
+\href{https://typst.app/universe/package/datify/0.1.2/}{0.1.2} & May 31,
+2024 \\
+\href{https://typst.app/universe/package/datify/0.1.1/}{0.1.1} & May 27,
+2024 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.

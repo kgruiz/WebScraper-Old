@@ -1,0 +1,388 @@
+<main>
+    <div id="banner" style="--banner-accent:#000000;--banner-primary:#000000;--banner-secondary:#000000;--banner-tertiary:#565565;--banner-background:#eff0f3">
+     <div id="template-thumbnail">
+      <img alt="A preview of the quick-sip Typst template." src="https://packages.typst.org/preview/thumbnails/quick-sip-0.1.0-small.webp"/>
+      <div class="icon" role="img">
+      </div>
+     </div>
+     <div>
+      <div class="title">
+       <h1 class="name">
+        quick-sip
+       </h1>
+       <span class="version">
+        0.1.0
+       </span>
+      </div>
+      <p class="description">
+       A template for creating quick reference handbook style checklists.
+      </p>
+     </div>
+    </div>
+    <div class="inner-grid">
+     <a class="create-project-button mobile" href="/app?template=quick-sip&amp;version=0.1.0" rel="noopener noreferrer" target="_blank">
+      Create project in app
+     </a>
+     <section id="readme">
+      <p>
+       Creates aviation style checklists like Quick Reference Handbooks.
+      </p>
+      <img src="https://github.com/typst/packages/raw/main/packages/preview/quick-sip/0.1.0/thumbnail.png" width="300"/>
+      <h3>
+       Features:
+      </h3>
+      <ul>
+       <li>
+        Index
+       </li>
+       <li>
+        Section
+       </li>
+       <li>
+        Conditions
+       </li>
+       <li>
+        Objective
+       </li>
+       <li>
+        Step (When/If)
+       </li>
+       <li>
+        Sub Step
+       </li>
+       <li>
+        Caution
+       </li>
+       <li>
+        Note
+       </li>
+       <li>
+        Choose One
+       </li>
+       <li>
+        Go to step
+       </li>
+       <li>
+        End section now
+       </li>
+      </ul>
+      <h2>
+       Start with
+      </h2>
+      <pre><code class="language-typst"><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/quick-sip:0.1.0"</span><span class="typ-punct">:</span> <span class="typ-op">*</span>
+<span class="typ-key">#</span><span class="typ-key">show</span><span class="typ-punct">:</span> QRH<span class="typ-punct">.</span><span class="typ-func">with</span><span class="typ-punct">(</span>title<span class="typ-punct">:</span> <span class="typ-str">"Cup of Tea"</span><span class="typ-punct">)</span>
+</code></code></pre>
+      <p>
+       Then add a section:
+      </p>
+      <pre><code class="language-typst"><code><span class="typ-func">#</span><span class="typ-func">section</span><span class="typ-punct">(</span><span class="typ-str">"Cup of Tea preparation"</span><span class="typ-punct">)</span><span class="typ-punct">[</span>
+  <span class="typ-func">#</span><span class="typ-func">step</span><span class="typ-punct">(</span><span class="typ-str">"KETTLE"</span><span class="typ-punct">,</span> <span class="typ-str">"Filled to 1 CUP"</span><span class="typ-punct">)</span>
+  <span class="typ-func">#</span><span class="typ-func">step</span><span class="typ-punct">(</span><span class="typ-punct">[</span><span class="typ-strong">*When*</span> KETTLE boiled:<span class="typ-punct">]</span><span class="typ-punct">,</span> <span class="typ-str">""</span><span class="typ-punct">)</span>
+  <span class="typ-func">#</span><span class="typ-func">step</span><span class="typ-punct">(</span><span class="typ-punct">[</span><span class="typ-strong">*If*</span> sugar required<span class="typ-punct">]</span><span class="typ-punct">,</span> <span class="typ-str">""</span><span class="typ-punct">)</span>
+    <span class="typ-comment">//.. Rest of section goes here</span>
+<span class="typ-punct">]</span>
+</code></code></pre>
+      <h4>
+       Index
+      </h4>
+      <p>
+       An index with an entry for each section in the document.
+      </p>
+      <pre><code class="language-typst"><code><span class="typ-func">#</span><span class="typ-func">index</span><span class="typ-punct">(</span><span class="typ-punct">)</span>
+</code></code></pre>
+      <h4>
+       Section
+      </h4>
+      <p>
+       A section title, forces capitalisation.
+      </p>
+      <pre><code class="language-typst"><code><span class="typ-func">#</span><span class="typ-func">section</span><span class="typ-punct">(</span><span class="typ-str">"Cup of Tea preparation"</span><span class="typ-punct">)</span><span class="typ-punct">[</span>
+    <span class="typ-comment">//.. Rest of section goes here</span>
+<span class="typ-punct">]</span>
+</code></code></pre>
+      <h4>
+       Conditions
+      </h4>
+      <p>
+       Conditionals for this section.
+      </p>
+      <pre><code class="language-typst"><code><span class="typ-func">#</span><span class="typ-func">condition</span><span class="typ-punct">[</span>
+    <span class="typ-marker">-</span> Dehydration
+    <span class="typ-marker">-</span> Fatigue
+    <span class="typ-marker">-</span> Inability to Concentrate
+<span class="typ-punct">]</span>
+</code></code></pre>
+      <h4>
+       Objective
+      </h4>
+      <p>
+       An objective for this section (optional).
+      </p>
+      <pre><code class="language-typst"><code><span class="typ-func">#</span><span class="typ-func">objective</span><span class="typ-punct">[</span>To replenish fluids.<span class="typ-punct">]</span>
+</code></code></pre>
+      <h4>
+       Step
+      </h4>
+      <p>
+       A numbered step in the checklist. The first parameter is to the left of the dotted line, the second is to the right. If the second parameter is
+       <code>
+        ""
+       </code>
+       then there is no dotted line.
+      </p>
+      <pre><code class="language-typst"><code><span class="typ-func">#</span><span class="typ-func">step</span><span class="typ-punct">(</span><span class="typ-str">"KETTLE"</span><span class="typ-punct">,</span> <span class="typ-str">"Filled to 1 CUP"</span><span class="typ-punct">)</span>
+<span class="typ-func">#</span><span class="typ-func">step</span><span class="typ-punct">(</span><span class="typ-punct">[</span><span class="typ-strong">*When*</span> KETTLE boiled:<span class="typ-punct">]</span><span class="typ-punct">,</span> <span class="typ-str">""</span><span class="typ-punct">)</span>
+<span class="typ-func">#</span><span class="typ-func">step</span><span class="typ-punct">(</span><span class="typ-punct">[</span><span class="typ-strong">*If*</span> sugar required<span class="typ-punct">]</span><span class="typ-punct">,</span> <span class="typ-str">""</span><span class="typ-punct">)</span>
+</code></code></pre>
+      <h4>
+       Tab
+      </h4>
+      <p>
+       Indents contents by one tab.
+      </p>
+      <pre><code class="language-typst"><code><span class="typ-func">#</span><span class="typ-func">tab</span><span class="typ-punct">(</span><span class="typ-func">goto</span><span class="typ-punct">(</span><span class="typ-str">"9"</span><span class="typ-punct">)</span><span class="typ-punct">)</span>
+<span class="typ-func">#</span><span class="typ-func">tab</span><span class="typ-punct">(</span><span class="typ-func">tab</span><span class="typ-punct">(</span><span class="typ-str">"Large mugs may require more water."</span><span class="typ-punct">)</span><span class="typ-punct">)</span>
+</code></code></pre>
+      <h4>
+       Caution
+      </h4>
+      <p>
+       Adds a caution element.
+      </p>
+      <pre><code class="language-typst"><code><span class="typ-func">#</span><span class="typ-func">caution</span><span class="typ-punct">(</span><span class="typ-punct">[</span>HOT WATER <span class="typ-func">#</span><span class="typ-func">linebreak</span><span class="typ-punct">(</span><span class="typ-punct">)</span>Adult supervision required.<span class="typ-punct">]</span><span class="typ-punct">)</span>
+</code></code></pre>
+      <h4>
+       Note
+      </h4>
+      <p>
+       Adds a note.
+      </p>
+      <pre><code class="language-typst"><code><span class="typ-func">#</span><span class="typ-func">note</span><span class="typ-punct">(</span><span class="typ-str">"Stir after each step"</span><span class="typ-punct">)</span>
+</code></code></pre>
+      <h4>
+       Choose One
+      </h4>
+      <p>
+       A numbered step with options.
+      </p>
+      <pre><code class="language-typst"><code> <span class="typ-func">#</span><span class="typ-func">choose-one</span><span class="typ-punct">[</span>
+    <span class="typ-func">#</span><span class="typ-func">option</span><span class="typ-punct">[</span>Black tea <span class="typ-strong">*required:*</span><span class="typ-punct">]</span>
+    <span class="typ-func">#</span><span class="typ-func">option</span><span class="typ-punct">[</span>Tea with MILK <span class="typ-strong">*required:*</span><span class="typ-punct">]</span>
+  <span class="typ-punct">]</span>
+</code></code></pre>
+      <h4>
+       Go to step
+      </h4>
+      <p>
+       Two right facing arrow heads followed by Go to step
+       <code>
+        step number
+       </code>
+       . Links to step in pdf.
+      </p>
+      <pre><code class="language-typst"><code><span class="typ-func">#</span><span class="typ-func">goto</span><span class="typ-punct">(</span><span class="typ-str">"9"</span><span class="typ-punct">)</span>
+</code></code></pre>
+      <h4>
+       End
+      </h4>
+      <p>
+       Ends the section here with 4 dots.
+      </p>
+      <pre><code class="language-typst"><code><span class="typ-func">#</span><span class="typ-func">end</span><span class="typ-punct">(</span><span class="typ-punct">)</span>
+</code></code></pre>
+      <h4>
+       Wait
+      </h4>
+      <p>
+       Long small dotted line for waiting for a task to complete.
+      </p>
+      <pre><code class="language-typst"><code><span class="typ-func">#</span><span class="typ-func">wait</span><span class="typ-punct">(</span><span class="typ-punct">)</span>
+</code></code></pre>
+     </section>
+     <aside>
+      <a class="create-project-button desktop" href="/app?template=quick-sip&amp;version=0.1.0" rel="noopener noreferrer" target="_blank">
+       Create project in app
+      </a>
+      <section>
+       <h3>
+        How to use
+       </h3>
+       <p>
+        Click the button above to create a new project using this template in the Typst app.
+       </p>
+       <p>
+        You can also use the Typst CLI to start a new project on your computer using this command:
+       </p>
+       <div class="init-snippet">
+        <pre><code>typst init @preview/<!-- -->quick-sip<!-- -->:<!-- -->0.1.0</code></pre>
+        <button class="copy" title="Copy to clipboard">
+         <img alt="Copy" height="16" src="/assets/icons/16-copy.svg" width="16"/>
+        </button>
+       </div>
+      </section>
+      <section id="about">
+       <h3>
+        About
+       </h3>
+       <dl>
+        <dt>
+         Author
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         <a href="https://github.com/artomweb" rel="noopener noreferrer" target="_blank">
+          Archie Webster
+         </a>
+        </dd>
+        <dt>
+         License:
+        </dt>
+        <dd>
+         MIT
+        </dd>
+        <dt>
+         Current version:
+        </dt>
+        <dd>
+         0.1.0
+        </dd>
+        <dt>
+         Last updated:
+        </dt>
+        <dd>
+         October 16, 2024
+        </dd>
+        <dt>
+         First released:
+        </dt>
+        <dd>
+         October 16, 2024
+        </dd>
+        <dt>
+         Archive size:
+        </dt>
+        <dd class="archive-size-value">
+         4.28 kB
+         <a href="https://packages.typst.org/preview/quick-sip-0.1.0.tar.gz">
+          <img alt="Size icon" src="/assets/icons/16-download.svg"/>
+         </a>
+        </dd>
+        <dt>
+         Repository:
+        </dt>
+        <dd>
+         <a href="https://github.com/artomweb/Quick-Sip-Typst-Template" rel="noopener noreferrer" target="_blank">
+          GitHub
+         </a>
+        </dd>
+        <dt>
+         Categor
+         <!-- -->
+         y
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         <ul class="list-with-icons">
+          <li>
+           <img alt="Utility icon" src="/assets/icons/16-hammer.svg"/>
+           <a href="https://typst.app/universe/search/?category=utility">
+            Utility
+           </a>
+          </li>
+         </ul>
+        </dd>
+       </dl>
+      </section>
+      <section>
+       <h3>
+        Where to report issues?
+       </h3>
+       <p>
+        This
+        <!-- -->
+        template
+        <!-- -->
+        is a project of
+        <!-- -->
+        <!-- -->
+        Archie Webster
+        <!-- -->
+        .
+        <!-- -->
+        <!-- -->
+        Report issues on
+        <!-- -->
+        <a href="https://github.com/artomweb/Quick-Sip-Typst-Template" rel="noopener noreferrer" target="_blank">
+         their repository
+        </a>
+        .
+        <!-- -->
+        <!-- -->
+        You can also try to ask for help with this
+        <!-- -->
+        template
+        <!-- -->
+        on the
+        <!-- -->
+        <a href="https://forum.typst.app" rel="noopener" target="_blank">
+         Forum
+        </a>
+        .
+       </p>
+       <p>
+        Please report this
+        <!-- -->
+        template
+        <!-- -->
+        to the Typst team using the
+        <!-- -->
+        <a href="https://typst.app/contact" rel="noreferrer" target="_blank">
+         contact form
+        </a>
+        <!-- -->
+        if you believe it is a safety hazard or infringes upon your rights.
+       </p>
+      </section>
+      <section id="versions">
+       <h3>
+        Version history
+       </h3>
+       <table>
+        <thead>
+         <tr>
+          <th align="left">
+           Version
+          </th>
+          <th align="left">
+           Release Date
+          </th>
+         </tr>
+        </thead>
+        <tbody>
+         <tr>
+          <td align="left">
+           0.1.0
+          </td>
+          <td align="left">
+           October 16, 2024
+          </td>
+         </tr>
+        </tbody>
+       </table>
+      </section>
+      <p class="bottom-notice muted">
+       Typst GmbH did not create this
+       <!-- -->
+       template
+       <!-- -->
+       and cannot guarantee correct functionality of this
+       <!-- -->
+       template
+       <!-- -->
+       or compatibility with any version of the Typst compiler or app.
+      </p>
+     </aside>
+    </div>
+   </main>

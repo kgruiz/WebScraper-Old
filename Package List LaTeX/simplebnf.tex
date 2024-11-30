@@ -1,0 +1,186 @@
+\title{typst.app/universe/package/simplebnf}
+
+\phantomsection\label{banner}
+\section{simplebnf}\label{simplebnf}
+
+{ 0.1.1 }
+
+A simple package to format Backus-Naur form (BNF)
+
+\phantomsection\label{readme}
+simplebnf is a simple package to format Backus-Naur form. The package
+provides a simple way to format Backus-Naur form (BNF). It provides
+constructs to denote BNF expressions, possibly with annotations.
+
+This is a sister package of
+\href{https://github.com/Zeta611/simplebnf}{simplebnf} , a LaTeX package
+under the same name by the author.
+
+\subsection{Usage}\label{usage}
+
+Import simplebnf via
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/simplebnf:0.1.1": *}
+\end{Highlighting}
+\end{Shaded}
+
+Use the \texttt{\ bnf\ } function to display the BNF production rules.
+Each production rule can be created using the \texttt{\ Prod\ }
+constructor function, which accepts the (left-hand side) metavariable,
+an optional annotation for it, an optional delimiter (which defaults to
+â©´), and a list of (right-hand side) alternatives. Each alternative
+should be created using the \texttt{\ Or\ } constructor, which accepts a
+syntactic form and an annotation.
+
+Below are some examples using simplebnf.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#bnf(}
+\NormalTok{  Prod(}
+\NormalTok{    $e$,}
+\NormalTok{    annot: $sans("Expr")$,}
+\NormalTok{    \{}
+\NormalTok{      Or[$x$][\_variable\_]}
+\NormalTok{      Or[$Î» x. e$][\_abstraction\_]}
+\NormalTok{      Or[$e$ $e$][\_application\_]}
+\NormalTok{    \},}
+\NormalTok{  ),}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/simplebnf/0.1.1/examples/lambda.svg}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#bnf(}
+\NormalTok{  Prod(}
+\NormalTok{    $e$,}
+\NormalTok{    delim: $â$,}
+\NormalTok{    \{}
+\NormalTok{      Or[$x$][variable]}
+\NormalTok{      Or[$Î» x: Ï.e$][abstraction]}
+\NormalTok{      Or[$e space e$][application]}
+\NormalTok{      Or[$Î» Ï.e space e$][type abstraction]}
+\NormalTok{      Or[$e space [Ï]$][type application]}
+\NormalTok{    \},}
+\NormalTok{  ),}
+\NormalTok{  Prod(}
+\NormalTok{    $Ï$,}
+\NormalTok{    delim: $â$,}
+\NormalTok{    \{}
+\NormalTok{      Or[$X$][type variable]}
+\NormalTok{      Or[$Ï â Ï$][type of functions]}
+\NormalTok{      Or[$âX.Ï$][universal quantification]}
+\NormalTok{    \},}
+\NormalTok{  ),}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/simplebnf/0.1.1/examples/system-f.svg}}
+
+\subsection{Authors}\label{authors}
+
+\begin{itemize}
+\tightlist
+\item
+  Jay Lee
+  \href{mailto:jaeho.lee@snu.ac.kr}{\nolinkurl{jaeho.lee@snu.ac.kr}}
+\end{itemize}
+
+\subsection{License}\label{license}
+
+simplebnf.typ is available under the MIT license. See the
+\href{https://github.com/Zeta611/simplebnf.typ/blob/master/LICENSE}{LICENSE}
+file for more info.
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as \texttt{\ simplebnf\ }
+
+\begin{verbatim}
+#import "@preview/simplebnf:0.1.1"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+\href{https://github.com/Zeta611}{Jay Lee}
+\item[License:]
+MIT
+\item[Current version:]
+0.1.1
+\item[Last updated:]
+July 15, 2024
+\item[First released:]
+May 23, 2024
+\item[Archive size:]
+2.10 kB
+\href{https://packages.typst.org/preview/simplebnf-0.1.1.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/Zeta611/simplebnf.typ}{GitHub}
+\item[Discipline :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \href{https://typst.app/universe/search/?discipline=computer-science}{Computer
+  Science}
+\end{itemize}
+\item[Categor ies :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-package.svg}}
+  \href{https://typst.app/universe/search/?category=components}{Components}
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-chart.svg}}
+  \href{https://typst.app/universe/search/?category=visualization}{Visualization}
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-integration.svg}}
+  \href{https://typst.app/universe/search/?category=integration}{Integration}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of Jay Lee . Report issues on
+\href{https://github.com/Zeta611/simplebnf.typ}{their repository} . You
+can also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.1.1 & July 15, 2024 \\
+\href{https://typst.app/universe/package/simplebnf/0.1.0/}{0.1.0} & May
+23, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.

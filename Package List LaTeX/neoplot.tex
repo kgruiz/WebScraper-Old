@@ -1,0 +1,184 @@
+\title{typst.app/universe/package/neoplot}
+
+\phantomsection\label{banner}
+\section{neoplot}\label{neoplot}
+
+{ 0.0.2 }
+
+Gnuplot in Typst
+
+\phantomsection\label{readme}
+A Typst package to use \href{http://www.gnuplot.info/}{gnuplot} in
+Typst.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/neoplot:0.0.2" as gp}
+\end{Highlighting}
+\end{Shaded}
+
+Execute gnuplot commands:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#gp.exec(}
+\NormalTok{    kind: "command",}
+\NormalTok{    \textasciigrave{}\textasciigrave{}\textasciigrave{}gnuplot}
+\NormalTok{    reset;}
+\NormalTok{    set samples 1000;}
+\NormalTok{    plot sin(x),}
+\NormalTok{         cos(x)}
+\NormalTok{    \textasciigrave{}\textasciigrave{}\textasciigrave{}}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+Execute a gnuplot script:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#gp.exec(}
+\NormalTok{    \textasciigrave{}\textasciigrave{}\textasciigrave{}gnuplot}
+\NormalTok{    reset}
+\NormalTok{    \# Can add comments since it is a script}
+\NormalTok{    set samples 1000}
+\NormalTok{    \# Use a backslash to extend commands}
+\NormalTok{    plot sin(x), \textbackslash{}}
+\NormalTok{         cos(x)}
+\NormalTok{    \textasciigrave{}\textasciigrave{}\textasciigrave{}}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+To read a data file:
+
+\begin{verbatim}
+# datafile.dat
+# x  y
+  0  0
+  2  4
+  4  0
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#gp.exec(}
+\NormalTok{    \textasciigrave{}\textasciigrave{}\textasciigrave{}gnuplot}
+\NormalTok{    $data \textless{}\textless{}EOD}
+\NormalTok{    0  0}
+\NormalTok{    2  4}
+\NormalTok{    4  0}
+\NormalTok{    EOD}
+\NormalTok{    plot $data with linespoints}
+\NormalTok{    \textasciigrave{}\textasciigrave{}\textasciigrave{}}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+or
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#gp.exec(}
+\NormalTok{    // Use a datablock since Typst doesn\textquotesingle{}t support WASI}
+\NormalTok{    "$data \textless{}\textless{}EOD\textbackslash{}n" +}
+\NormalTok{    // Load "datafile.dat" using Typst}
+\NormalTok{    read("datafile.dat") +}
+\NormalTok{    "EOD\textbackslash{}n" +}
+\NormalTok{    "plot $data with linespoints"}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+To print \texttt{\ \$data\ } :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#gp.exec("print $data")}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as \texttt{\ neoplot\ }
+
+\begin{verbatim}
+#import "@preview/neoplot:0.0.2"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+\href{https://github.com/KNnut}{KNnut}
+\item[License:]
+BSD-3-Clause
+\item[Current version:]
+0.0.2
+\item[Last updated:]
+July 16, 2024
+\item[First released:]
+June 17, 2024
+\item[Minimum Typst version:]
+0.11.1
+\item[Archive size:]
+512 kB
+\href{https://packages.typst.org/preview/neoplot-0.0.2.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/KNnut/neoplot}{GitHub}
+\item[Discipline :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \href{https://typst.app/universe/search/?discipline=mathematics}{Mathematics}
+\end{itemize}
+\item[Categor ies :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-chart.svg}}
+  \href{https://typst.app/universe/search/?category=visualization}{Visualization}
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-integration.svg}}
+  \href{https://typst.app/universe/search/?category=integration}{Integration}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of KNnut . Report issues on
+\href{https://github.com/KNnut/neoplot}{their repository} . You can also
+try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.0.2 & July 16, 2024 \\
+\href{https://typst.app/universe/package/neoplot/0.0.1/}{0.0.1} & June
+17, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.

@@ -1,0 +1,263 @@
+\title{typst.app/universe/package/abiding-ifacconf}
+
+\phantomsection\label{banner}
+\phantomsection\label{template-thumbnail}
+\pandocbounded{\includegraphics[keepaspectratio]{https://packages.typst.org/preview/thumbnails/abiding-ifacconf-0.1.0-small.webp}}
+
+\section{abiding-ifacconf}\label{abiding-ifacconf}
+
+{ 0.1.0 }
+
+An IFAC-style paper template to publish at conferences for International
+Federation of Automatic Control
+
+\href{/app?template=abiding-ifacconf&version=0.1.0}{Create project in
+app}
+
+\phantomsection\label{readme}
+\subsection{(unofficial) IFAC Conference Template for
+Typst}\label{unofficial-ifac-conference-template-for-typst}
+
+IFAC stands for \href{https://ifac-control.org/}{International
+Federation of Automatic Control} . This repository is meant to be a port
+of the existing author tools for conference papers (e.g., for LaTeX, see
+\href{https://www.ifac-control.org/conferences/author-guide/copy_of_ifacconf_latex.zip/view}{ifacconf\_latex.zip}
+) for Typst.
+
+\subsection{Usage}\label{usage}
+
+Running the following command will create a new directory with all the
+files that are needed:
+
+\begin{verbatim}
+typst init @preview/abiding-ifacconf
+\end{verbatim}
+
+\subsection{Configuration}\label{configuration}
+
+This template exports the \texttt{\ ifacconf\ } function with the
+following named arguments:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ authors\ } : (default: ()) array of authors. For each author
+  you can specify a name, email (optional), and affiliation. The
+  affiliation must be an integer corresponding to an entry in the
+  1-indexed affiliations list (or 0 for no affiliation).
+\item
+  \texttt{\ affiliations\ } : (default: ()) array of affiliations. For
+  each affiliation you can specify a department, organization, and
+  address. Everything is optional (i.e., an affiliation can be an empty
+  array).
+\item
+  \texttt{\ abstract\ } : (default: none) the paperâ€™s abstract. Can be
+  omitted if you donâ€™t have one.
+\item
+  \texttt{\ keywords\ } : (default: ()) array of keywords to display
+  after the abstract
+\item
+  \texttt{\ sponsor\ } : (default: none) acknowledgment of sponsor or
+  financial support (appears as a footnote on the first page)
+\end{itemize}
+
+\subsection{Minimal Working Example}\label{minimal-working-example}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview:abiding{-}ifacconf:0.1.0": *}
+\NormalTok{\#show: ifacconf{-}rules}
+\NormalTok{\#show: ifacconf.with(}
+\NormalTok{  title: "Minimal Working Example",}
+\NormalTok{  authors: (}
+\NormalTok{    (}
+\NormalTok{      name: "First A. Author",}
+\NormalTok{      email: "author@boulder.nist.gov",}
+\NormalTok{      affiliation: 1,}
+\NormalTok{    ),}
+\NormalTok{  ),}
+\NormalTok{  affiliations: (}
+\NormalTok{    (}
+\NormalTok{      department: "Engineering",}
+\NormalTok{      organization: "National Institute of Standards and Technology",}
+\NormalTok{      address: "Boulder, CO 80305 USA",}
+\NormalTok{    ),}
+\NormalTok{  ),}
+\NormalTok{  abstract: [}
+\NormalTok{    Abstract should be 50{-}100 words.}
+\NormalTok{  ],}
+\NormalTok{  keywords: ("keyword1", "keyword2"),}
+\NormalTok{  sponsor: [}
+\NormalTok{    Sponsor information.}
+\NormalTok{  ],}
+\NormalTok{)}
+
+\NormalTok{= Introduction}
+
+\NormalTok{A minimum working example (with bibliography) @Abl56.}
+
+\NormalTok{\#lorem(80)}
+
+\NormalTok{\#lorem(80)}
+
+\NormalTok{\#bibliography("refs.bib")}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Full(er) Example}\label{fuller-example}
+
+See
+\href{https://github.com/avonmoll/ifacconf-typst/blob/main/template/main.typ}{\texttt{\ main.typ\ }}
+.
+
+\subsection{Dependencies}\label{dependencies}
+
+\begin{itemize}
+\tightlist
+\item
+  typst 0.11.0
+\item
+  ctheorems 1.1.0 (a Typst package for handling theorem-like
+  environments)
+\end{itemize}
+
+\subsection{Notes, features, etc.}\label{notes-features-etc.}
+
+\begin{itemize}
+\tightlist
+\item
+  the call to \texttt{\ \#show:\ ifacconf-rules\ } is necessary for some
+  show rules defined in \texttt{\ template.typ\ } to get activated
+\item
+  \texttt{\ ifac-conference.csl\ } is a lightly modified version of
+  \texttt{\ apa.csl\ } and is included in order to change the citation
+  format from, e.g., \texttt{\ (Able\ 1956)\ } to
+  \texttt{\ Able\ (1956)\ } in order to match
+  \texttt{\ ifacconf\_latex\ }
+\item
+  Tables have formatting rules that get activated inside calls to
+  \texttt{\ figure\ } with \texttt{\ kind:\ "table"\ } ; a convenience
+  function \texttt{\ tablefig\ } is provided which sets this
+  automatically
+\item
+  all theorem-like environments that were available in
+  \texttt{\ ifacconf\_latex\ } are defined in \texttt{\ template.typ\ }
+  ; simply call, for example,
+  \texttt{\ \#theorem{[}Content...{]}\ ...\ \#proof{[}Proof...{]}\ }
+\item
+  the LaTeX version does not include a QED symbol at the end of proofs,
+  however one is included here (this is easy to change)
+\item
+  Typst did not seem to like BibTeX citation keys containing colons
+  (which was how they came from \texttt{\ ifacconf\_latex\ } )
+\item
+  alignment for linebreaks in long equations is somewhat manual (e.g.,
+  for equation (2) in \texttt{\ ifacconf.typ\ } ) but probably there is
+  a better way to handle this now or in the future
+\item
+  the files \texttt{\ refs.bib\ } (essentially) and
+  \texttt{\ bifurcation.jpg\ } come from \texttt{\ ifacconf\_latex\ }
+\item
+  the file \texttt{\ ifacconf.typ\ } is modeled directly after
+  \texttt{\ ifacconf.tex\ } by Juan a. de la Puente
+\item
+  the \texttt{\ citep\ } function renders citations like
+  \texttt{\ (Keohane,\ 1958)\ } instead of the default style of
+  \texttt{\ Keohane\ (1958)\ }
+\end{itemize}
+
+\subsection{License}\label{license}
+
+This template is licensed according to the MIT No Attribution license
+(see \texttt{\ LICENSE.MD\ } ).
+
+The files in the \texttt{\ CSL\ } folder are licensed according to
+\texttt{\ CSL/LICENSE.md\ } (CC BY/SA 4.0) because it is a lightly
+modified version of \texttt{\ apa.csl\ } by Brenton M. Wiernik which is
+also licensed by a CC BY/SA license.
+
+\href{/app?template=abiding-ifacconf&version=0.1.0}{Create project in
+app}
+
+\subsubsection{How to use}\label{how-to-use}
+
+Click the button above to create a new project using this template in
+the Typst app.
+
+You can also use the Typst CLI to start a new project on your computer
+using this command:
+
+\begin{verbatim}
+typst init @preview/abiding-ifacconf:0.1.0
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+\href{https://avonmoll.github.io}{Alexander Von Moll}
+\item[License:]
+MIT-0
+\item[Current version:]
+0.1.0
+\item[Last updated:]
+March 21, 2024
+\item[First released:]
+March 21, 2024
+\item[Minimum Typst version:]
+0.11.0
+\item[Archive size:]
+27.8 kB
+\href{https://packages.typst.org/preview/abiding-ifacconf-0.1.0.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/avonmoll/ifacconf-typst}{GitHub}
+\item[Discipline s :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \href{https://typst.app/universe/search/?discipline=computer-science}{Computer
+  Science}
+\item
+  \href{https://typst.app/universe/search/?discipline=engineering}{Engineering}
+\end{itemize}
+\item[Categor y :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-atom.svg}}
+  \href{https://typst.app/universe/search/?category=paper}{Paper}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This template is a project of Alexander Von Moll . Report issues on
+\href{https://github.com/avonmoll/ifacconf-typst}{their repository} .
+You can also try to ask for help with this template on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this template to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.1.0 & March 21, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this template and cannot guarantee correct
+functionality of this template or compatibility with any version of the
+Typst compiler or app.

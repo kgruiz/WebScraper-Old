@@ -1,0 +1,416 @@
+<main>
+    <div id="banner" style="--banner-accent:#000000;--banner-primary:#000000;--banner-secondary:#000000;--banner-tertiary:#565565;--banner-background:#eff0f3">
+     <div id="template-thumbnail">
+      <img alt="A preview of the meppp Typst template." src="https://packages.typst.org/preview/thumbnails/meppp-0.2.1-small.webp"/>
+      <div class="icon" role="img">
+      </div>
+     </div>
+     <div>
+      <div class="title">
+       <h1 class="name">
+        meppp
+       </h1>
+       <span class="version">
+        0.2.1
+       </span>
+      </div>
+      <p class="description">
+       Template for modern physics experiment reports at the Physics School of PKU.
+      </p>
+     </div>
+    </div>
+    <div class="inner-grid">
+     <a class="create-project-button mobile" href="/app?template=meppp&amp;version=0.2.1" rel="noopener noreferrer" target="_blank">
+      Create project in app
+     </a>
+     <section id="readme">
+      <p>
+       A simple template for modern physics experiments (MPE) courses at the Physics School of PKU.
+      </p>
+      <h2>
+       meppp-lab-report
+      </h2>
+      <p>
+       The recommended report format of MPE course. Default arguments are shown as below:
+      </p>
+      <pre><code class="language-typ"><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/meppp:0.2.1"</span><span class="typ-punct">:</span> <span class="typ-op">*</span>
+
+<span class="typ-key">#</span><span class="typ-key">let</span> <span class="typ-func">meppp-lab-report</span><span class="typ-punct">(</span>
+  title<span class="typ-punct">:</span> <span class="typ-str">""</span><span class="typ-punct">,</span>
+  author<span class="typ-punct">:</span> <span class="typ-str">""</span><span class="typ-punct">,</span>
+  info<span class="typ-punct">:</span> <span class="typ-punct">[</span><span class="typ-punct">]</span><span class="typ-punct">,</span>
+  abstract<span class="typ-punct">:</span> <span class="typ-punct">[</span><span class="typ-punct">]</span><span class="typ-punct">,</span>
+  keywords<span class="typ-punct">:</span> <span class="typ-punct">(</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+  author-footnote<span class="typ-punct">:</span> <span class="typ-punct">[</span><span class="typ-punct">]</span><span class="typ-punct">,</span>
+  heading-numbering-array<span class="typ-punct">:</span> <span class="typ-punct">(</span><span class="typ-str">"I"</span> <span class="typ-punct">,</span><span class="typ-str">"A"</span><span class="typ-punct">,</span> <span class="typ-str">"1"</span><span class="typ-punct">,</span> <span class="typ-str">"a"</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+  heading-suffix<span class="typ-punct">:</span> <span class="typ-str">". "</span><span class="typ-punct">,</span>
+  doc<span class="typ-punct">,</span>
+<span class="typ-punct">)</span> <span class="typ-op">=</span> <span class="typ-escape">...</span>
+</code></code></pre>
+      <ul>
+       <li>
+        <code>
+         title
+        </code>
+        is the title of the report.
+       </li>
+       <li>
+        <code>
+         author
+        </code>
+        is the name of the author.
+       </li>
+       <li>
+        <code>
+         info
+        </code>
+        is a line (or lines) of brief information of author and the report (e.g. student ID, school, experiment dateâ¦)
+       </li>
+       <li>
+        <code>
+         abstract
+        </code>
+        is the abstract of the report, not shown when it is empty.
+       </li>
+       <li>
+        <code>
+         keywords
+        </code>
+        are keywords of the report, only shown when the abstract is shown.
+       </li>
+       <li>
+        <code>
+         author-footnote
+        </code>
+        is the phone number or the e-mail of the author, shown in the footnote.
+       </li>
+       <li>
+        <code>
+         heading-numbering-array
+        </code>
+        is the heading numbering of each level. Only shows the numbering of the deepest level.
+       </li>
+       <li>
+        <code>
+         heading-suffix
+        </code>
+        is the suffix of headings
+       </li>
+      </ul>
+      <p>
+       It is recommended to use
+       <code>
+        #show
+       </code>
+       to use the template:
+      </p>
+      <pre><code class="language-typ"><code><span class="typ-key">#</span><span class="typ-key">show</span><span class="typ-punct">:</span> meppp-lab-report<span class="typ-punct">.</span><span class="typ-func">with</span><span class="typ-punct">(</span>
+    title<span class="typ-punct">:</span> <span class="typ-punct">[</span>Test title<span class="typ-punct">]</span><span class="typ-punct">,</span>
+    <span class="typ-op">..</span>args
+<span class="typ-punct">)</span>
+<span class="typ-escape">...</span>your report below.
+</code></code></pre>
+      <h2>
+       meppp-tl-table
+      </h2>
+      <p>
+       Modify your input
+       <code>
+        table
+       </code>
+       to a three-lined table (AIP style), returned as a
+       <code>
+        figure
+       </code>
+       . Double-lines above and below the table, and a single line below the header.
+      </p>
+      <pre><code class="language-typ"><code><span class="typ-key">#</span><span class="typ-key">let</span> <span class="typ-func">meppp-tl-table</span><span class="typ-punct">(</span>
+  caption<span class="typ-punct">:</span> <span class="typ-key">none</span><span class="typ-punct">,</span>
+  supplement<span class="typ-punct">:</span> <span class="typ-key">auto</span><span class="typ-punct">,</span>
+  stroke<span class="typ-punct">:</span> <span class="typ-num">0.5pt</span><span class="typ-punct">,</span>
+  tbl
+<span class="typ-punct">)</span> <span class="typ-op">=</span> <span class="typ-escape">...</span>
+</code></code></pre>
+      <ul>
+       <li>
+        <code>
+         caption
+        </code>
+        is the caption above the table, center-aligned
+       </li>
+       <li>
+        <code>
+         supplement
+        </code>
+        is same as the supplement in the figure.
+       </li>
+       <li>
+        <code>
+         stroke
+        </code>
+        is the stroke used in the three lines (maybe five lines).
+       </li>
+       <li>
+        <code>
+         tbl
+        </code>
+        is the input table, which must contains a
+        <code>
+         table.header
+        </code>
+       </li>
+      </ul>
+      <p>
+       Example:
+      </p>
+      <pre><code class="language-typ"><code><span class="typ-func">#</span><span class="typ-func">meppp-tl-table</span><span class="typ-punct">(</span>
+  <span class="typ-func">table</span><span class="typ-punct">(</span>
+    columns<span class="typ-punct">:</span> <span class="typ-num">4</span><span class="typ-punct">,</span>
+    rows<span class="typ-punct">:</span> <span class="typ-num">2</span><span class="typ-punct">,</span>
+    table<span class="typ-punct">.</span><span class="typ-func">header</span><span class="typ-punct">(</span><span class="typ-punct">[</span>Item1<span class="typ-punct">]</span><span class="typ-punct">,</span> <span class="typ-punct">[</span>Item2<span class="typ-punct">]</span><span class="typ-punct">,</span> <span class="typ-punct">[</span>Item3<span class="typ-punct">]</span><span class="typ-punct">,</span> <span class="typ-punct">[</span>Item4<span class="typ-punct">]</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+    <span class="typ-punct">[</span>Data1<span class="typ-punct">]</span><span class="typ-punct">,</span> <span class="typ-punct">[</span>Data2<span class="typ-punct">]</span><span class="typ-punct">,</span> <span class="typ-punct">[</span>Data3<span class="typ-punct">]</span><span class="typ-punct">,</span> <span class="typ-punct">[</span>Data4<span class="typ-punct">]</span><span class="typ-punct">,</span>
+  <span class="typ-punct">)</span>
+<span class="typ-punct">)</span>
+</code></code></pre>
+      <h2>
+       subfigure
+      </h2>
+      <p>
+       Counts subfigures and displays in the figure, mostly used when inserting multiple images.
+      </p>
+      <pre><code class="language-typ"><code><span class="typ-key">#</span><span class="typ-key">let</span> <span class="typ-func">subfigure</span><span class="typ-punct">(</span>
+  body<span class="typ-punct">,</span>
+  caption<span class="typ-punct">:</span> <span class="typ-key">none</span><span class="typ-punct">,</span>
+  numbering<span class="typ-punct">:</span> <span class="typ-str">"(a)"</span><span class="typ-punct">,</span>
+  inside<span class="typ-punct">:</span> <span class="typ-key">true</span><span class="typ-punct">,</span>
+  dx<span class="typ-punct">:</span> <span class="typ-num">10pt</span><span class="typ-punct">,</span>
+  dy<span class="typ-punct">:</span> <span class="typ-num">10pt</span><span class="typ-punct">,</span>
+  boxargs<span class="typ-punct">:</span> <span class="typ-punct">(</span>fill<span class="typ-punct">:</span> white<span class="typ-punct">,</span> inset<span class="typ-punct">:</span> <span class="typ-num">5pt</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+  alignment<span class="typ-punct">:</span> top <span class="typ-op">+</span> left<span class="typ-punct">,</span>
+<span class="typ-punct">)</span> <span class="typ-op">=</span> <span class="typ-escape">...</span>
+</code></code></pre>
+      <h2>
+       pku-logo
+      </h2>
+      <p>
+       The logo of PKU, returned as a
+       <code>
+        image
+       </code>
+      </p>
+      <pre><code class="language-typ"><code><span class="typ-key">#</span><span class="typ-key">let</span> <span class="typ-func">pku-logo</span><span class="typ-punct">(</span><span class="typ-op">..</span>args<span class="typ-punct">)</span> <span class="typ-op">=</span> <span class="typ-func">image</span><span class="typ-punct">(</span><span class="typ-str">"pkulogo.png"</span><span class="typ-punct">,</span> <span class="typ-op">..</span>args<span class="typ-punct">)</span>
+</code></code></pre>
+      <p>
+       Example:
+      </p>
+      <pre><code class="language-typ"><code><span class="typ-func">#</span><span class="typ-func">pku-logo</span><span class="typ-punct">(</span>width<span class="typ-punct">:</span> <span class="typ-num">50%</span><span class="typ-punct">)</span>
+<span class="typ-func">#</span><span class="typ-func">pku-logo</span><span class="typ-punct">(</span><span class="typ-punct">)</span>
+</code></code></pre>
+     </section>
+     <aside>
+      <a class="create-project-button desktop" href="/app?template=meppp&amp;version=0.2.1" rel="noopener noreferrer" target="_blank">
+       Create project in app
+      </a>
+      <section>
+       <h3>
+        How to use
+       </h3>
+       <p>
+        Click the button above to create a new project using this template in the Typst app.
+       </p>
+       <p>
+        You can also use the Typst CLI to start a new project on your computer using this command:
+       </p>
+       <div class="init-snippet">
+        <pre><code>typst init @preview/<!-- -->meppp<!-- -->:<!-- -->0.2.1</code></pre>
+        <button class="copy" title="Copy to clipboard">
+         <img alt="Copy" height="16" src="/assets/icons/16-copy.svg" width="16"/>
+        </button>
+       </div>
+      </section>
+      <section id="about">
+       <h3>
+        About
+       </h3>
+       <dl>
+        <dt>
+         Author
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         <a href="https://github.com/CL4R3T" rel="noopener noreferrer" target="_blank">
+          CL4R3T
+         </a>
+        </dd>
+        <dt>
+         License:
+        </dt>
+        <dd>
+         MIT
+        </dd>
+        <dt>
+         Current version:
+        </dt>
+        <dd>
+         0.2.1
+        </dd>
+        <dt>
+         Last updated:
+        </dt>
+        <dd>
+         September 22, 2024
+        </dd>
+        <dt>
+         First released:
+        </dt>
+        <dd>
+         May 8, 2024
+        </dd>
+        <dt>
+         Archive size:
+        </dt>
+        <dd class="archive-size-value">
+         103 kB
+         <a href="https://packages.typst.org/preview/meppp-0.2.1.tar.gz">
+          <img alt="Size icon" src="/assets/icons/16-download.svg"/>
+         </a>
+        </dd>
+        <dt>
+         Repository:
+        </dt>
+        <dd>
+         <a href="https://github.com/pku-typst/meppp" rel="noopener noreferrer" target="_blank">
+          GitHub
+         </a>
+        </dd>
+        <dt>
+         Categor
+         <!-- -->
+         y
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         <ul class="list-with-icons">
+          <li>
+           <img alt="Report icon" src="/assets/icons/16-speak.svg"/>
+           <a href="https://typst.app/universe/search/?category=report">
+            Report
+           </a>
+          </li>
+         </ul>
+        </dd>
+       </dl>
+      </section>
+      <section>
+       <h3>
+        Where to report issues?
+       </h3>
+       <p>
+        This
+        <!-- -->
+        template
+        <!-- -->
+        is a project of
+        <!-- -->
+        <!-- -->
+        CL4R3T
+        <!-- -->
+        .
+        <!-- -->
+        <!-- -->
+        Report issues on
+        <!-- -->
+        <a href="https://github.com/pku-typst/meppp" rel="noopener noreferrer" target="_blank">
+         their repository
+        </a>
+        .
+        <!-- -->
+        <!-- -->
+        You can also try to ask for help with this
+        <!-- -->
+        template
+        <!-- -->
+        on the
+        <!-- -->
+        <a href="https://forum.typst.app" rel="noopener" target="_blank">
+         Forum
+        </a>
+        .
+       </p>
+       <p>
+        Please report this
+        <!-- -->
+        template
+        <!-- -->
+        to the Typst team using the
+        <!-- -->
+        <a href="https://typst.app/contact" rel="noreferrer" target="_blank">
+         contact form
+        </a>
+        <!-- -->
+        if you believe it is a safety hazard or infringes upon your rights.
+       </p>
+      </section>
+      <section id="versions">
+       <h3>
+        Version history
+       </h3>
+       <table>
+        <thead>
+         <tr>
+          <th align="left">
+           Version
+          </th>
+          <th align="left">
+           Release Date
+          </th>
+         </tr>
+        </thead>
+        <tbody>
+         <tr>
+          <td align="left">
+           0.2.1
+          </td>
+          <td align="left">
+           September 22, 2024
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/meppp/0.2.0/">
+            0.2.0
+           </a>
+          </td>
+          <td align="left">
+           September 14, 2024
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/meppp/0.1.0/">
+            0.1.0
+           </a>
+          </td>
+          <td align="left">
+           May 8, 2024
+          </td>
+         </tr>
+        </tbody>
+       </table>
+      </section>
+      <p class="bottom-notice muted">
+       Typst GmbH did not create this
+       <!-- -->
+       template
+       <!-- -->
+       and cannot guarantee correct functionality of this
+       <!-- -->
+       template
+       <!-- -->
+       or compatibility with any version of the Typst compiler or app.
+      </p>
+     </aside>
+    </div>
+   </main>

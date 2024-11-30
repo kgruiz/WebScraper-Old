@@ -1,0 +1,148 @@
+\title{typst.app/universe/package/titleize}
+
+\phantomsection\label{banner}
+\section{titleize}\label{titleize}
+
+{ 0.1.1 }
+
+Turn strings into title case
+
+\phantomsection\label{readme}
+Small wrapper around the
+\href{https://crates.io/crates/titlecase}{titlecase} library to convert
+text to title case. It follows the
+\href{https://daringfireball.net/2008/05/title_case}{rules defined by
+John Gruber} . For more details, refer to the library.
+
+\texttt{\ titlecase\ } applies a show rule, that by default transforms
+every string of at least four characters. This limit can be changed with
+the \texttt{\ limit\ } parameter. Especially with equations, the results
+can be a bit unpredictable, so proceed with care.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/titleize:0.1.1": titlecase}
+
+\NormalTok{\#for s in (}
+\NormalTok{  "Being productive on linux",}
+\NormalTok{  "Finding an alternative to Mac OS X â part 2",}
+\NormalTok{  [an example with small words and sub{-}phrases: "the example"],}
+\NormalTok{) [}
+\NormalTok{  \#s =\textgreater{} \#titlecase(s) \textbackslash{}}
+\NormalTok{]}
+
+\NormalTok{\#let debug{-}print(x) = \{}
+\NormalTok{  if type(x) == content \{}
+\NormalTok{    let fields = x.fields()}
+\NormalTok{    let func = x.func()}
+\NormalTok{    [}
+\NormalTok{      \#repr(func)}
+\NormalTok{      \#for (k, v) in fields [}
+\NormalTok{        {-} \#k: \#debug{-}print(v)}
+\NormalTok{      ]}
+\NormalTok{    ]}
+\NormalTok{  \} else \{}
+\NormalTok{    if type(x) == array [}
+\NormalTok{      array}
+\NormalTok{      \#for y in x [}
+\NormalTok{        {-} \#debug{-}print(y)}
+\NormalTok{      ]}
+\NormalTok{    ] else [}
+\NormalTok{      \#repr(type(x)) (\#repr(x))}
+\NormalTok{    ]}
+\NormalTok{  \}}
+\NormalTok{\}}
+
+\NormalTok{\#show: titlecase}
+
+\NormalTok{= This is a test, even with math $a = b + c$}
+
+\NormalTok{In math, text can appear in various places:}
+
+\NormalTok{$}
+\NormalTok{  a\_"for example in a subscript" \&= "or in a longer text" \textbackslash{}}
+\NormalTok{  f(x) \&= sin(x)}
+\NormalTok{$}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/titleize/0.1.1/example.png}}
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as \texttt{\ titleize\ }
+
+\begin{verbatim}
+#import "@preview/titleize:0.1.1"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+\href{mailto:mail@solidtux.de}{Daniel Hauck}
+\item[License:]
+MIT
+\item[Current version:]
+0.1.1
+\item[Last updated:]
+October 15, 2024
+\item[First released:]
+October 7, 2024
+\item[Archive size:]
+253 kB
+\href{https://packages.typst.org/preview/titleize-0.1.1.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://gitlab.com/SolidTux/titleize}{GitLab}
+\item[Categor ies :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-text.svg}}
+  \href{https://typst.app/universe/search/?category=text}{Text}
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-code.svg}}
+  \href{https://typst.app/universe/search/?category=scripting}{Scripting}
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-hammer.svg}}
+  \href{https://typst.app/universe/search/?category=utility}{Utility}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of Daniel Hauck . Report issues on
+\href{https://gitlab.com/SolidTux/titleize}{their repository} . You can
+also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.1.1 & October 15, 2024 \\
+\href{https://typst.app/universe/package/titleize/0.1.0/}{0.1.0} &
+October 7, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.

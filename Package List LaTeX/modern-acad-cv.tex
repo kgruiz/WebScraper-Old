@@ -1,0 +1,753 @@
+\title{typst.app/universe/package/modern-acad-cv}
+
+\phantomsection\label{banner}
+\phantomsection\label{template-thumbnail}
+\pandocbounded{\includegraphics[keepaspectratio]{https://packages.typst.org/preview/thumbnails/modern-acad-cv-0.1.1-small.webp}}
+
+\section{modern-acad-cv}\label{modern-acad-cv}
+
+{ 0.1.1 }
+
+A CV template for academics based on moderncv LaTeX package.
+
+\href{/app?template=modern-acad-cv&version=0.1.1}{Create project in app}
+
+\phantomsection\label{readme}
+This template for an academic CV serves the peculiarities of academic
+CVs. If you are not an academic, this template is not useful. Most of
+the times in academics, applicants need to show everything they have
+done. This makes it a bit cumbersome doing it by single entries. In
+addition, academics might apply to institutions around the globe, making
+it necessary to send translated CVs or at least translations of some
+parts (i.e., title of papers in different languages).
+
+This template serves these special needs in introducting automated
+sections based on indicated \texttt{\ yaml\ } -files. Furthermore, it
+has a simplified multilingual support by setting different headers,
+title etc. for different languages (by the user in the \texttt{\ yaml\ }
+-fields). With this template, it might be more handy to keep your CV
+easier on track, especially when you need in different languages, since
+managing a \texttt{\ yaml\ } -file is easier than checking typesetting
+files against each other.
+
+This template is influenced by LaTeXâ€™s
+\href{https://github.com/moderncv/moderncv}{moderncv} and its typst
+translation
+\href{https://github.com/DeveloperPaul123/modern-cv}{moderner-cv} .
+
+\subsection{Fonts}\label{fonts}
+
+In this template, the use of FontAwesome icons via the
+\href{https://typst.app/universe/package/fontawesome}{fontawesome typst
+package} is possible, as well as the icons from Academicons
+\href{https://typst.app/universe/package/use-academicons}{use-academicons
+typst package} . To use these icons properly, you need to install each
+fonts on your system. You can download
+\href{https://fontawesome.com/download}{fontawesome here} and
+\href{https://jpswalsh.github.io/academicons/}{academicons here} . Both
+typst packages will be load by the template itself.
+
+Furthermore, I included my favorite font
+\href{https://fonts.google.com/specimen/Fira+Sans}{Fira Sans} . You can
+download it here
+\href{https://fonts.google.com/specimen/Fira+Sans}{here} , or just
+change the font argument in \texttt{\ modern-acad-cv()\ } .
+
+\subsection{Usage}\label{usage}
+
+The main function to load the construct of the academic CV is
+\texttt{\ modern-acad-cv()\ } . After importing the template, you can
+call it right away. If you donâ€™t have
+\href{https://fonts.google.com/specimen/Fira+Sans}{Fira Sans} installed,
+choose a different font. Examples are given below.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/modern{-}acad{-}cv:0.1.1": *}
+
+\NormalTok{\#show: modern{-}acad{-}cv.with(}
+\NormalTok{  metadata,}
+\NormalTok{  multilingual,}
+\NormalTok{  lang: "en",}
+\NormalTok{  font: ("Fira Sans", "Andale Mono", "Roboto"),}
+\NormalTok{  show{-}date: true,}
+\NormalTok{  body}
+\NormalTok{)    }
+
+\NormalTok{// ...}
+\end{Highlighting}
+\end{Shaded}
+
+In the remainder, I show basic settings and how to use the automated
+functions with the corresponding \texttt{\ yaml\ } -file.
+
+\subsubsection{\texorpdfstring{Setting up the main file and the access
+to the \texttt{\ yaml\ }
+-files}{Setting up the main file and the access to the  yaml  -files}}\label{setting-up-the-main-file-and-the-access-to-the-yaml--files}
+
+A first step in your document is to invoke the template. Second, since
+this template works with \texttt{\ yaml\ } -files in the background you
+need to specify paths to each \texttt{\ yaml\ } -file you want to use
+throughout the document.
+
+The template comes along with the \texttt{\ metadata.yaml\ } . In the
+beginning of this yaml-file you set colors. Feel free to change it to
+your preferred color scheme.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{colors}\KeywordTok{:}
+\AttributeTok{  }\FunctionTok{main\_color}\KeywordTok{:}\AttributeTok{ }\StringTok{"\#579D90"}
+\AttributeTok{  }\FunctionTok{lightgray\_color}\KeywordTok{:}\AttributeTok{ }\StringTok{"\#d5d5d5"}
+\AttributeTok{  }\FunctionTok{gray\_color}\KeywordTok{:}\AttributeTok{ }\StringTok{"\#737373"}
+\AttributeTok{  ...}
+\end{Highlighting}
+\end{Shaded}
+
+At the beginning of your document, you just set then set the
+metadata-object:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/modern{-}acad{-}cv:0.1.0": *}
+
+\NormalTok{\#let metadata = yaml("metadata.yaml")}
+\end{Highlighting}
+\end{Shaded}
+
+Initially, the \texttt{\ metadata.yaml\ } is located on the same level
+as the \texttt{\ example.typ\ } . All other \texttt{\ yaml\ } -files are
+saved in the folder \texttt{\ dbs\ } . Since \texttt{\ typ\ } -documents
+search for paths from the root of the document in that the function is
+called, you have to give the databases for the entry along the
+\texttt{\ metadata.yaml\ } within each function call.
+
+\subsubsection{socials}\label{socials}
+
+Contact details are important. In this CV template, you have the
+possibility to use fontawesome icons and academicons. To use socials,
+you just need to specify in \texttt{\ metadata.yaml\ } , the wanted
+entries.
+
+As you can see below, you set a category, i.e. email or lattes and then
+you have to define four arguments: \texttt{\ username\ } ,
+\texttt{\ prefix\ } , \texttt{\ icon\ } , and \texttt{\ set\ } . The
+\texttt{\ username\ } will be used for constructing the link and will be
+shown next to the logo. The \texttt{\ prefix\ } is needed to build the
+valid link. The \texttt{\ icon\ } is the name of the icon in the
+respective set, which is chosen in \texttt{\ set\ } .
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{personal}\KeywordTok{:}
+\AttributeTok{  }\FunctionTok{name}\KeywordTok{:}\AttributeTok{ }\KeywordTok{[}\StringTok{"Mustermensch, Momo"}\KeywordTok{]}
+\AttributeTok{  }\FunctionTok{socials}\KeywordTok{:}
+\AttributeTok{    }\FunctionTok{email}\KeywordTok{:}
+\AttributeTok{      }\FunctionTok{username}\KeywordTok{:}\AttributeTok{ momo@mustermensch.com}
+\AttributeTok{      }\FunctionTok{prefix}\KeywordTok{:}\AttributeTok{ }\StringTok{"mailto:"}
+\AttributeTok{      }\FunctionTok{icon}\KeywordTok{:}\AttributeTok{ paper{-}plane}
+\AttributeTok{      }\FunctionTok{set}\KeywordTok{:}\AttributeTok{ fa}
+\AttributeTok{    }\FunctionTok{homepage}\KeywordTok{:}
+\AttributeTok{      }\FunctionTok{username}\KeywordTok{:}\AttributeTok{ momo.github.io}
+\AttributeTok{      }\FunctionTok{prefix}\KeywordTok{:}\AttributeTok{ https://}
+\AttributeTok{      }\FunctionTok{icon}\KeywordTok{:}\AttributeTok{ globe}
+\AttributeTok{      }\FunctionTok{set}\KeywordTok{:}\AttributeTok{ fa}
+\AttributeTok{    }\FunctionTok{orcid}\KeywordTok{:}
+\AttributeTok{      }\FunctionTok{username}\KeywordTok{:}\AttributeTok{ 0000{-}0000{-}0000{-}0000}
+\AttributeTok{      }\FunctionTok{prefix}\KeywordTok{:}\AttributeTok{ https://orcid.org}
+\AttributeTok{      }\FunctionTok{icon}\KeywordTok{:}\AttributeTok{ orcid}
+\AttributeTok{      }\FunctionTok{set}\KeywordTok{:}\AttributeTok{ ai}
+\AttributeTok{    }\FunctionTok{lattes}\KeywordTok{:}
+\AttributeTok{      }\FunctionTok{username}\KeywordTok{:}\AttributeTok{ }\StringTok{"1234567891234567"}
+\AttributeTok{      }\FunctionTok{prefix}\KeywordTok{:}\AttributeTok{ http://lattes.cnpq.br/}
+\AttributeTok{      }\FunctionTok{icon}\KeywordTok{:}\AttributeTok{ lattes}
+\AttributeTok{      }\FunctionTok{set}\KeywordTok{:}\AttributeTok{ ai}
+\AttributeTok{    ...}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{Language setting \&
+headers}\label{language-setting-headers}
+
+In order to support changing headers, you need to specify the language
+and the different content for each header in each language in the
+\texttt{\ i18n.yaml\ } in the folder \texttt{\ dbs\ } .
+
+The structure of the yaml is simple:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{lang}\KeywordTok{:}
+\AttributeTok{  }\FunctionTok{de}\KeywordTok{:}
+\AttributeTok{    }\FunctionTok{subtitle}\KeywordTok{:}\AttributeTok{ Short CV}
+\AttributeTok{    }\FunctionTok{education}\KeywordTok{:}\AttributeTok{ Hochschulbildung}
+\AttributeTok{    }\FunctionTok{work}\KeywordTok{:}\AttributeTok{ Akademische Berufserfahrung (Auswahl)}
+\AttributeTok{    }\FunctionTok{grants}\KeywordTok{:}\AttributeTok{ FÃ¶rdermittel, Stipendien \& Preise}
+\AttributeTok{    ...}
+\AttributeTok{  }\FunctionTok{en}\KeywordTok{:}
+\AttributeTok{    }\FunctionTok{subtitle}\KeywordTok{:}\AttributeTok{ Short CV}
+\AttributeTok{    }\FunctionTok{education}\KeywordTok{:}\AttributeTok{ Higher education}
+\AttributeTok{    }\FunctionTok{work}\KeywordTok{:}\AttributeTok{ Academic work experience (selection)}
+\AttributeTok{    }\FunctionTok{grants}\KeywordTok{:}\AttributeTok{ Scholarships \& awards}
+\AttributeTok{    ...}
+\AttributeTok{  }\FunctionTok{pt}\KeywordTok{:}
+\AttributeTok{    }\FunctionTok{subtitle}\KeywordTok{:}\AttributeTok{ CurrÃ­culo}
+\AttributeTok{    }\FunctionTok{education}\KeywordTok{:}\AttributeTok{ FormaÃ§Ã£o acadÃªmica}
+\AttributeTok{    }\FunctionTok{work}\KeywordTok{:}\AttributeTok{ AtuaÃ§Ã£o profissional (seleÃ§Ã£o)}
+\AttributeTok{    }\FunctionTok{grants}\KeywordTok{:}\AttributeTok{ Bolsas de estudo e prÃ©mios}
+\AttributeTok{    ...}
+\end{Highlighting}
+\end{Shaded}
+
+For each language, you want to use later, you have to define all the
+entries. Reminder, donâ€™t change the entry names, since the functions
+wonâ€™t find it under different names without changing the functions.
+
+First you have to set up a variable that inherits the ISO-language code,
+save the database into an object (here \texttt{\ multilingual\ } ) and
+then give the object \texttt{\ multilingual\ } and \texttt{\ language\ }
+to the function \texttt{\ create-headers\ } :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{// set the language of the document}
+\NormalTok{\#let language = "pt"      }
+
+\NormalTok{// loading multilingual database}
+\NormalTok{\#let multilingual = yaml("dbs/i18n.yaml")}
+
+\NormalTok{// defining variables}
+\NormalTok{\#let headerLabs = create{-}headers(multilingual, lang: language)}
+\end{Highlighting}
+\end{Shaded}
+
+You create an object \texttt{\ headerLabs\ } that uses the function
+\texttt{\ create-headers()\ } which will define the headers as you
+provided in the \texttt{\ yaml\ } . Then by switching the language
+object, all headers (if used accordingly to the naming in the
+\texttt{\ yaml\ } ) will change directly.
+
+Throughout the document you then reference the created
+\texttt{\ headerLabs\ } object. If you change language, and values are
+provided, these automatically change.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{= \#headerLabs.at("work")}
+
+\NormalTok{...}
+
+\NormalTok{= \#headerLabs.at("education")}
+
+\NormalTok{...}
+
+\NormalTok{= \#headerLabs.at("grants")}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{Automated functions}\label{automated-functions}
+
+All of the following functions share common arguments: \texttt{\ what\ }
+, \texttt{\ multilingual\ } , and \texttt{\ lang\ } . In
+\texttt{\ what\ } , you always declare the database you want to use with
+the function.
+
+For example, to get work entries, you choose \texttt{\ work\ } , which
+you defined beforehand as input from \texttt{\ work.yaml\ } . In the
+\texttt{\ multilingual\ } argument, you just pass the
+\texttt{\ multilingual\ } object. In \texttt{\ lang\ } you pass your
+\texttt{\ language\ } object.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let multilingual = yaml("dbs/multilingual.yaml")}
+\NormalTok{\#let work = yaml("dbs/work.yaml")}
+\NormalTok{\#let language = "pt"}
+
+\NormalTok{// Function call with objects}
+\NormalTok{\#cv{-}auto{-}stc(work, multilingual, lang: language)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{Sorting publications and referencing your own name or
+correpsonding}\label{sorting-publications-and-referencing-your-own-name-or-correpsonding}
+
+Since \texttt{\ typst\ } so far does not support multiple bibliographies
+or subsetting these, this function let you choose specific entries via
+the \texttt{\ entries\ } argument or group of entries by the
+\texttt{\ tag\ } argument. Furthermore, you can indicate a string in
+\texttt{\ me\ } that can be highlighted in every output entry (i.e.,
+your formatted name). So far, this function leads to another function
+that create APA-style format, if you want to use any other citation
+style, you need to download the template on
+\href{https://github.com/bpkleer/modern-acad-cv}{github} , introduce
+your own styling and then add it in the \texttt{\ cv-refs()\ } function.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let multilingual = yaml("dbs/multilingual.yaml")}
+\NormalTok{\#let refs = yaml("dbs/refs/yaml")}
+
+\NormalTok{// function call of group of peer{-}reviewed with tag \textasciigrave{}peer\textasciigrave{}}
+\NormalTok{\#cv{-}refs(refs, multilingual, tag: "peer", me: [Mustermensch, M.], lang: language)}
+\end{Highlighting}
+\end{Shaded}
+
+You see in the example pictures that I used this function to built five
+different subheaders, i.e. for peer reviewed articles (
+\texttt{\ tag:\ "peer"\ } ) and chapters in edited books (
+\texttt{\ tag:\ "edited"\ } ). You can define the tags how you want,
+however, they need to put them into
+\texttt{\ tag:\ \textless{}str\textgreater{}\ } .
+
+Sometimes, it is not only necessary to highlight your own name, you
+might also want to indicate yourself as corresponding author. This can
+be done through the \texttt{\ refs.yaml\ } which adhere to
+\href{https://github.com/typst/hayagriva}{Hayagriva} . By adding an
+argument \texttt{\ corresponding\ } in the yaml and setting the value to
+\texttt{\ true\ } , a small \texttt{\ C\ } will appear next to your
+name.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{Mustermensch2023}\KeywordTok{:}
+\AttributeTok{  }\FunctionTok{type}\KeywordTok{:}\AttributeTok{ }\StringTok{"article"}
+\AttributeTok{  }\FunctionTok{date}\KeywordTok{:}\AttributeTok{ }\DecValTok{2023}
+\AttributeTok{  }\FunctionTok{page{-}range}\KeywordTok{:}\AttributeTok{ 55{-}78}
+\AttributeTok{  }\FunctionTok{title}\KeywordTok{:}\AttributeTok{ }\StringTok{"Populism and Social Media: A Comparative Study of Political Mobilization"}
+\AttributeTok{  }\FunctionTok{tags}\KeywordTok{:}\AttributeTok{ }\StringTok{"peer"}
+\AttributeTok{  }\FunctionTok{author}\KeywordTok{:}\AttributeTok{ }\KeywordTok{[}\AttributeTok{ }\StringTok{"Mustermensch, Momo"}\KeywordTok{,}\AttributeTok{ }\StringTok{"Rivera, Casey"}\AttributeTok{ }\KeywordTok{]}
+\AttributeTok{  }\FunctionTok{corresponding}\KeywordTok{:}\AttributeTok{ }\CharTok{true}
+\AttributeTok{  }\FunctionTok{parent}\KeywordTok{:}
+\AttributeTok{    }\FunctionTok{title}\KeywordTok{:}\AttributeTok{ }\StringTok{"Journal of Political Communication"}
+\AttributeTok{    }\FunctionTok{volume}\KeywordTok{:}\AttributeTok{ }\DecValTok{41}
+\AttributeTok{    }\FunctionTok{issue}\KeywordTok{:}\AttributeTok{ }\DecValTok{3}
+\AttributeTok{  }\FunctionTok{serial{-}number}\KeywordTok{:}
+\AttributeTok{    }\FunctionTok{doi}\KeywordTok{:}\AttributeTok{ }\StringTok{"10.1016/j.jpolcom.2023.102865"}
+\end{Highlighting}
+\end{Shaded}
+
+For applications abroad, it might be worth to translate at least title
+of the publications so that other persons easily can see what the paper
+is about. In every \texttt{\ title\ } argument, you can therefore
+provide a dictionary with the language codes and the titles. Keep the
+original title in \texttt{\ main\ } and the translations with the
+corresponding language shortcut (i.e., \texttt{\ "en"\ } or
+\texttt{\ "pt"\ } ). The function prints the main and translated title,
+depending on the provided translation in the \texttt{\ refs.yaml\ } . Be
+aware, here you find not \texttt{\ de\ } in the dictionary, instead you
+find \texttt{\ main\ } . The original title needs to be wrapped in
+\texttt{\ main\ } .
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{Mustermensch2023}\KeywordTok{:}
+\AttributeTok{  }\FunctionTok{type}\KeywordTok{:}\AttributeTok{ }\StringTok{"article"}
+\AttributeTok{  }\FunctionTok{date}\KeywordTok{:}\AttributeTok{ }\DecValTok{2023}
+\AttributeTok{  }\FunctionTok{page{-}range}\KeywordTok{:}\AttributeTok{ 55{-}78}
+\AttributeTok{  }\FunctionTok{title}\KeywordTok{:}\AttributeTok{ }
+\AttributeTok{    }\FunctionTok{main}\KeywordTok{:}\AttributeTok{ }\StringTok{"Populismus und soziale Medien: Eine vergleichende Studie zur politischen Mobilisierung"}
+\AttributeTok{    }\FunctionTok{en}\KeywordTok{:}\AttributeTok{ }\StringTok{"Populism and Social Media: A Comparative Study of Political Mobilization"}
+\AttributeTok{    }\FunctionTok{pt}\KeywordTok{:}\AttributeTok{ }\StringTok{"Populismo e redes sociais: Um Estudo Comparativo de MobilizaÃ§Ã£o PolÃ­tica"}
+\AttributeTok{  }\FunctionTok{tags}\KeywordTok{:}\AttributeTok{ }\StringTok{"peer"}
+\AttributeTok{  }\FunctionTok{author}\KeywordTok{:}\AttributeTok{ }\KeywordTok{[}\AttributeTok{ }\StringTok{"Mustermensch, Momo"}\KeywordTok{,}\AttributeTok{ }\StringTok{"Rivera, Casey"}\AttributeTok{ }\KeywordTok{]}
+\AttributeTok{  }\FunctionTok{corresponding}\KeywordTok{:}\AttributeTok{ }\CharTok{true}
+\AttributeTok{  }\FunctionTok{parent}\KeywordTok{:}
+\AttributeTok{    }\FunctionTok{title}\KeywordTok{:}\AttributeTok{ }\StringTok{"Journal of Political Communication"}
+\AttributeTok{    }\FunctionTok{volume}\KeywordTok{:}\AttributeTok{ }\DecValTok{41}
+\AttributeTok{    }\FunctionTok{issue}\KeywordTok{:}\AttributeTok{ }\DecValTok{3}
+\AttributeTok{  }\FunctionTok{serial{-}number}\KeywordTok{:}
+\AttributeTok{    }\FunctionTok{doi}\KeywordTok{:}\AttributeTok{ }\StringTok{"10.1016/j.jpolcom.2023.102865"}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{cv-auto-skills()}\label{cv-auto-skills}
+
+Instead of just enumerating your skills or your knowledge of specific
+software, you can build a skill-matrix with this function. In this
+skill-matrix, you can have sections, i.e. \emph{Computer Languages} ,
+\emph{Programs} and \emph{Languages} . These sections are the highest
+level in the corresponding \texttt{\ skills.yaml\ } :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{computer}\KeywordTok{:}
+\AttributeTok{  ...}
+\FunctionTok{programs}\KeywordTok{:}
+\AttributeTok{  ...}
+\FunctionTok{languages}\KeywordTok{:}
+\AttributeTok{  ...}
+\end{Highlighting}
+\end{Shaded}
+
+You can then define in each categories specific skills, i.e. German and
+Portuguese in \texttt{\ languages\ } :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{computer}\KeywordTok{:}
+\AttributeTok{  ...}
+\FunctionTok{programs}\KeywordTok{:}
+\AttributeTok{  ...}
+\FunctionTok{languages}\KeywordTok{:}
+\AttributeTok{  }\FunctionTok{german}\KeywordTok{:}
+\AttributeTok{    ...}
+\AttributeTok{  }\FunctionTok{portugues}\KeywordTok{:}
+\AttributeTok{   ...}
+\end{Highlighting}
+\end{Shaded}
+
+For each entry, you have to define \texttt{\ name\ } ,
+\texttt{\ level\ } and \texttt{\ description\ } .
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{languages}\KeywordTok{:}\AttributeTok{ }
+\AttributeTok{  ...}
+\AttributeTok{  }\FunctionTok{pt}\KeywordTok{:}\AttributeTok{ }
+\AttributeTok{    }\FunctionTok{name}\KeywordTok{:}
+\AttributeTok{      }\FunctionTok{de}\KeywordTok{:}\AttributeTok{ Portugiesisch}
+\AttributeTok{      }\FunctionTok{en}\KeywordTok{:}\AttributeTok{ Portuguese}
+\AttributeTok{      }\FunctionTok{pt}\KeywordTok{:}\AttributeTok{ PortuguÃªs}
+\AttributeTok{    }\FunctionTok{level}\KeywordTok{:}\AttributeTok{ }\DecValTok{3}
+\AttributeTok{    }\FunctionTok{description}\KeywordTok{:}
+\AttributeTok{      }\FunctionTok{de}\KeywordTok{:}\AttributeTok{ fortgeschritten}
+\AttributeTok{      }\FunctionTok{en}\KeywordTok{:}\AttributeTok{ advanced}
+\AttributeTok{      }\FunctionTok{pt}\KeywordTok{:}\AttributeTok{ avanÃ§ado}
+\end{Highlighting}
+\end{Shaded}
+
+As you can see, you can again define language-dependent names in
+\texttt{\ name\ } and descriptions in \texttt{\ description\ } .
+\texttt{\ level\ } is a numeric value and indicates how many of the four
+boxes are filled to indicate you level of proficiency. If you donâ€™t
+have the need for a CV of different languages, you can directly define
+\texttt{\ name\ } or \texttt{\ description\ } .
+
+You have to call the function with three objects \texttt{\ skills\ } ,
+\texttt{\ multilingual\ } , and \texttt{\ metadata\ } and the
+corresponding \texttt{\ language\ } of the document:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let skills = yaml("dbs/skills.yaml")}
+\NormalTok{\#let multilingual = yaml("dbs/multilingual.yaml")}
+\NormalTok{\#let metadata = yaml("dbs/metadata.yaml")}
+\NormalTok{\#let language = "pt"}
+
+\NormalTok{\#cv{-}auto{-}skills(skills, multilingual, metadata, lang: language)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{Print your info without any
+formatting}\label{print-your-info-without-any-formatting}
+
+The function \texttt{\ cv-auto\ } is the base function for printing the
+provided infos in the specified \texttt{\ yaml\ } file with no further
+formatting. The functions \texttt{\ cv-auto-stc\ } and
+\texttt{\ cv-auto-stp\ } do only differ in the point that
+\texttt{\ cv-auto-stc\ } both give the title in bold,
+\texttt{\ cv-auto-stp\ } puts the subtitle in parentheses and
+\texttt{\ cv-auto-stc\ } puts the subtitle after a comma.
+
+The structure of the corresponding \texttt{\ yaml\ } files is simple: in
+each entry you can have the following entries: \texttt{\ title\ } ,
+\texttt{\ subtitle\ } , \texttt{\ location\ } , \texttt{\ description\ }
+and \texttt{\ left\ } . \texttt{\ title\ } is mandatory,
+\texttt{\ subtitle\ } , \texttt{\ location\ } , and
+\texttt{\ description\ } are voluntary. In all functions you need to
+specify \texttt{\ left\ } , which indicates period of time, or year. For
+\texttt{\ title\ } , \texttt{\ subtitle\ } , \texttt{\ location\ } , and
+\texttt{\ description\ } , you can provide a dictionary for different
+languages (see below).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{master}\KeywordTok{:}
+\AttributeTok{  }\FunctionTok{title}\KeywordTok{:}
+\AttributeTok{    }\FunctionTok{de}\KeywordTok{:}\AttributeTok{ Master of Arts}
+\AttributeTok{    }\FunctionTok{en}\KeywordTok{:}\AttributeTok{ Master of Arts}
+\AttributeTok{    }\FunctionTok{pt}\KeywordTok{:}\AttributeTok{ PÃ³s{-}GraduaÃ§Ã£o}
+\AttributeTok{  }\FunctionTok{subtitle}\KeywordTok{:}
+\AttributeTok{    }\FunctionTok{de}\KeywordTok{:}\AttributeTok{ Sozialwissenschaften}
+\AttributeTok{    }\FunctionTok{en}\KeywordTok{:}\AttributeTok{ Social Sciences}
+\AttributeTok{    }\FunctionTok{pt}\KeywordTok{:}\AttributeTok{ CiÃªncias Sociais}
+\AttributeTok{  }\FunctionTok{location}\KeywordTok{:}
+\AttributeTok{    }\FunctionTok{de}\KeywordTok{:}\AttributeTok{ Exzellenz{-}UniversitÃ¤t}
+\AttributeTok{    }\FunctionTok{en}\KeywordTok{:}\AttributeTok{ University of Excellence}
+\AttributeTok{    }\FunctionTok{pt}\KeywordTok{:}\AttributeTok{ Universidade de ExcelÃªncia}
+\AttributeTok{  }\FunctionTok{description}\KeywordTok{:}
+\AttributeTok{    }\FunctionTok{de}\KeywordTok{:}\AttributeTok{ mit Auszeichnung}
+\AttributeTok{    }\FunctionTok{en}\KeywordTok{:}\AttributeTok{ with distinction}
+\AttributeTok{    }\FunctionTok{pt}\KeywordTok{:}\AttributeTok{ com distinÃ§Ã£o}
+\AttributeTok{  }\FunctionTok{left}\KeywordTok{:}\AttributeTok{ }\StringTok{"2014"}
+\end{Highlighting}
+\end{Shaded}
+
+In your main document, you then easily call the function and transfer
+the standard arguments \texttt{\ what\ } , \texttt{\ metadata\ } , and
+\texttt{\ lang\ } .
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{// section of education }
+\NormalTok{\#let education = yaml("dbs/education.yaml")}
+\NormalTok{\#let multilingual = yaml("dbs/multilingual.yaml")}
+\NormalTok{\#let language = "pt"}
+
+\NormalTok{\#cv{-}auto{-}stp(education, multilingual, lang: language) }
+
+\NormalTok{// section of work positions}
+\NormalTok{\#let work = yaml("dbs/work.yaml")}
+\NormalTok{\#let multilingual = yaml("dbs/multilingual.yaml")}
+\NormalTok{\#let language = "pt"}
+
+\NormalTok{\#cv{-}auto{-}stc(work, multilingual, lang: language)}
+
+\NormalTok{// section of given talks}
+\NormalTok{\#let talks = yaml("dbs/talks.yaml")}
+\NormalTok{\#let multilingual = yaml("dbs/multilingual.yaml")}
+\NormalTok{\#let language = "pt"}
+
+\NormalTok{\#cv{-}auto(talks, multilingual, lang: language)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{Creating a list instead of single
+entrie}\label{creating-a-list-instead-of-single-entrie}
+
+Sometimes, instead of giving every entry, you want to group by year.
+Another example for this case could be that you want to summarize your
+memberships or reviewer duties.
+
+The function \texttt{\ cv-auto-list\ } uses just the standard input:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let conferences = yaml("dbs/conferences.yaml")}
+\NormalTok{\#let multilingual = yaml("dbs/multilingual.yaml")}
+\NormalTok{\#let language = "pt"}
+
+\NormalTok{\#cv{-}auto{-}list(conferences, multilingual, lang: language)}
+\end{Highlighting}
+\end{Shaded}
+
+The corresponding \texttt{\ yaml\ } file is differently organized: The
+entry point in the file is the corresponding year. In every year, you
+organize your entries (i.e. conference participations). In each entry in
+a year, you have the \texttt{\ name\ } and \texttt{\ action\ } entry.
+You can provide a dictionary for the \texttt{\ name\ } . For
+\texttt{\ action\ } , I used \texttt{\ P\ } and \texttt{\ C\ } , for
+\emph{paper/presentation} and \emph{chair} . You can then manually
+define this upfront the function call for the reader, or you use the
+\texttt{\ i18n.yaml\ } , indicate the explanations for each language in
+\texttt{\ exp-confs\ } and then it automatically changes with the
+specific language code.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{"2024"}\KeywordTok{:}
+\AttributeTok{  }\FunctionTok{conference2}\KeywordTok{:}
+\AttributeTok{    }\FunctionTok{name}\KeywordTok{:}\AttributeTok{ European Conference on Gender and Politics}
+\AttributeTok{    }\FunctionTok{action}\KeywordTok{:}\AttributeTok{ P}
+\AttributeTok{  }\FunctionTok{conference1}\KeywordTok{:}
+\AttributeTok{    }\FunctionTok{name}\KeywordTok{:}\AttributeTok{ ECPR General Conference}
+\AttributeTok{    }\FunctionTok{action}\KeywordTok{:}\AttributeTok{ P, C}
+\end{Highlighting}
+\end{Shaded}
+
+The action will be added after each conference name in superscripts.
+
+\subsubsection{Creating a table}\label{creating-a-table}
+
+This case is mostly used for listing your prior teaching experience. The
+corresponding \texttt{\ teaching.yaml\ } for this description, is
+organized as followed:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{"2024"}\KeywordTok{:}
+\AttributeTok{  }\FunctionTok{course1}\KeywordTok{:}
+\AttributeTok{    }\FunctionTok{summer}\KeywordTok{:}\AttributeTok{ T}
+\AttributeTok{    }\FunctionTok{name}\KeywordTok{:}
+\AttributeTok{      }\FunctionTok{de}\KeywordTok{:}\AttributeTok{ }\StringTok{"Statistik+: Einstieg in R leicht gemacht"}
+\AttributeTok{      }\FunctionTok{en}\KeywordTok{:}\AttributeTok{ }\StringTok{"Statistics+: Starting with R (de)"}
+\AttributeTok{      }\FunctionTok{pt}\KeywordTok{:}\AttributeTok{ }\StringTok{"EstatÃ­stica+: ComeÃ§ando com R (de)"}
+\AttributeTok{    }\FunctionTok{study}\KeywordTok{:}
+\AttributeTok{      }\FunctionTok{de}\KeywordTok{:}\AttributeTok{ Bachelor}
+\AttributeTok{      }\FunctionTok{en}\KeywordTok{:}\AttributeTok{ Bachelor}
+\AttributeTok{      }\FunctionTok{pt}\KeywordTok{:}\AttributeTok{ GraduaÃ§Ã£o}
+\AttributeTok{  ...}
+\end{Highlighting}
+\end{Shaded}
+
+First you indicate the year \texttt{\ "2024"\ } and then you organize
+all courses you gave within that year (i.e. here \texttt{\ course1\ } ).
+Mandatory are \texttt{\ name\ } and \texttt{\ study\ } . For both you
+can indicate a single value or a dictionary corresponding to your chosen
+languages. You can provide \texttt{\ summer\ } if you want to indicate
+differences for terms. This is \texttt{\ boolean\ } , the specific word
+is then given in the \texttt{\ i18n.yaml\ } under
+\texttt{\ table-winter\ } resp. \texttt{\ table-summer\ } .
+
+The function then uses again just the standard arguments and plots a
+table with the indicated year, name, and study area.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let teaching = yaml("dbs/teaching.yaml")}
+\NormalTok{\#let multilingual = yaml("dbs/multilingual.yaml")}
+\NormalTok{\#let language = "pt"}
+
+\NormalTok{\#cv{-}table{-}teaching(teaching, multilingual, lang: language)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{cv-auto-cats()}\label{cv-auto-cats}
+
+In case you want to directly print entries from categories that belong
+to one \texttt{\ yaml\ } -file, you can use \texttt{\ cv-auto-cats\ } .
+This will print the header for each subcategory and then the belonging
+entries.
+
+An example is given in \texttt{\ training.yaml\ } . In this file,
+further training is given by categories (i.e., methods and didactics).
+Within the categories you have here courses and then \texttt{\ title\ }
+, \texttt{\ location\ } , and \texttt{\ left\ } . \texttt{\ location\ }
+and \texttt{\ title\ } can be dictionaries if you want to translate
+between different languages.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{methods}\KeywordTok{:}
+\AttributeTok{  }\FunctionTok{course2}\KeywordTok{:}
+\AttributeTok{    }\FunctionTok{title}\KeywordTok{:}\AttributeTok{ Bayesian modelling in the Social Sciences}
+\AttributeTok{    }\FunctionTok{location}\KeywordTok{:}\AttributeTok{ An expensive Spring Seminar}
+\AttributeTok{    }\FunctionTok{left}\KeywordTok{:}\AttributeTok{ }\StringTok{"2024"}
+\AttributeTok{  ...}
+\FunctionTok{didactics}\KeywordTok{:}
+\AttributeTok{  }\FunctionTok{course2}\KeywordTok{:}
+\AttributeTok{    }\FunctionTok{title}\KeywordTok{:}
+\AttributeTok{      }\FunctionTok{de}\KeywordTok{:}\AttributeTok{ Konfliktkompetenz I + II}
+\AttributeTok{      }\FunctionTok{en}\KeywordTok{:}\AttributeTok{ Conflict competence I + II}
+\AttributeTok{      }\FunctionTok{pt}\KeywordTok{:}\AttributeTok{ CompetÃªncia de conflitos I + II}
+\AttributeTok{    }\FunctionTok{location}\KeywordTok{:}\AttributeTok{ }
+\AttributeTok{      }\FunctionTok{de}\KeywordTok{:}\AttributeTok{ UniversitÃ¤tsallianz}
+\AttributeTok{      }\FunctionTok{en}\KeywordTok{:}\AttributeTok{ University Alliance}
+\AttributeTok{      }\FunctionTok{pt}\KeywordTok{:}\AttributeTok{ AlianÃ§a UniversitÃ¡ria}
+\AttributeTok{    }\FunctionTok{left}\KeywordTok{:}\AttributeTok{ }\StringTok{"2019"}
+\end{Highlighting}
+\end{Shaded}
+
+Call the function as usal:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let training = yaml("dbs/training.yaml")}
+\NormalTok{\#let multilingual = yaml("dbs/multilingual.yaml")}
+\NormalTok{\#let language = "pt"}
+\NormalTok{\#let headerLabs = create{-}headers(multilingual, lang: language)}
+
+\NormalTok{\#cv{-}auto{-}cats(training, multilingual, headerLabs, lang: language)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{Special cases: long
+names}\label{special-cases-long-names}
+
+If you have a long name that crosses the social media side, just set the
+argument \texttt{\ split\ } to \texttt{\ true\ } within
+\texttt{\ metadata.yaml\ } :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{...}
+\CommentTok{  personal:}
+\CommentTok{    name: ["Mustermensch, Momo"]}
+\CommentTok{    split: true}
+\CommentTok{  ...    }
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Examples}\label{examples}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/modern-acad-cv/0.1.1/assets/example1.png}}
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/modern-acad-cv/0.1.1/assets/example2.png}}
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/modern-acad-cv/0.1.1/assets/example3.png}}
+
+\href{/app?template=modern-acad-cv&version=0.1.1}{Create project in app}
+
+\subsubsection{How to use}\label{how-to-use}
+
+Click the button above to create a new project using this template in
+the Typst app.
+
+You can also use the Typst CLI to start a new project on your computer
+using this command:
+
+\begin{verbatim}
+typst init @preview/modern-acad-cv:0.1.1
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+\href{mailto:philipp.kleer@posteo.com}{bpkleer (Philipp Kleer)}
+\item[License:]
+MIT
+\item[Current version:]
+0.1.1
+\item[Last updated:]
+November 28, 2024
+\item[First released:]
+August 23, 2024
+\item[Minimum Typst version:]
+0.12.0
+\item[Archive size:]
+25.1 kB
+\href{https://packages.typst.org/preview/modern-acad-cv-0.1.1.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/bpkleer/typst-modern-acad-cv}{GitHub}
+\item[Categor y :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-user.svg}}
+  \href{https://typst.app/universe/search/?category=cv}{CV}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This template is a project of bpkleer (Philipp Kleer) . Report issues on
+\href{https://github.com/bpkleer/typst-modern-acad-cv}{their repository}
+. You can also try to ask for help with this template on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this template to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.1.1 & November 28, 2024 \\
+\href{https://typst.app/universe/package/modern-acad-cv/0.1.0/}{0.1.0} &
+August 23, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this template and cannot guarantee correct
+functionality of this template or compatibility with any version of the
+Typst compiler or app.

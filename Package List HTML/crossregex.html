@@ -1,0 +1,379 @@
+<main>
+    <div id="banner" style="--banner-accent:#000000;--banner-primary:#000000;--banner-secondary:#000000;--banner-tertiary:#565565;--banner-background:#eff0f3">
+     <div class="package-icon" role="img">
+     </div>
+     <div>
+      <div class="title">
+       <h1 class="name">
+        crossregex
+       </h1>
+       <span class="version">
+        0.2.0
+       </span>
+      </div>
+      <p class="description">
+       A crossword-like regex game written in Typst.
+      </p>
+     </div>
+    </div>
+    <div class="inner-grid">
+     <section id="readme">
+      <p>
+       A crossword-like game written in Typst. You should fill in letters to satisfy regular expression constraints. Currently,
+       <em>
+        squares
+       </em>
+       and
+       <em>
+        regular hexagons
+       </em>
+       are supported.
+      </p>
+      <blockquote>
+       <p>
+        [!note] This is not a puzzle solver, but a puzzle layout builder.
+       </p>
+      </blockquote>
+      <p>
+       It takes inspiration from a web image, which derives our standard example.
+      </p>
+      <p>
+       <img alt="standard" src="https://github.com/typst/packages/raw/main/packages/preview/crossregex/0.2.0/examples/standard.svg"/>
+      </p>
+      <p>
+       <img alt="sudoku" src="https://github.com/typst/packages/raw/main/packages/preview/crossregex/0.2.0/examples/sudoku-main.svg"/>
+      </p>
+      <p>
+       More examples and source code:
+       <a href="https://github.com/QuadnucYard/crossregex-typ" rel="nofollow ugc" target="_blank">
+        https://github.com/QuadnucYard/crossregex-typ
+       </a>
+      </p>
+      <h2>
+       Basic Usage
+      </h2>
+      <p>
+       We use
+       <code>
+        crossregex-square
+       </code>
+       and
+       <code>
+        crossregex-hex
+       </code>
+       to build square and hex layouts respectively. They have the same argument formats. A
+       <code>
+        crossregex
+       </code>
+       dispatcher function can be used for dynamic grid kind, which is compatible with version 0.1.0.
+      </p>
+      <pre><code class="language-typst"><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/crossregex:0.2.0"</span><span class="typ-punct">:</span> crossregex
+<span class="typ-comment">// or import and use `crossregex-hex`</span>
+
+<span class="typ-func">#</span><span class="typ-func">crossregex</span><span class="typ-punct">(</span>
+  <span class="typ-num">3</span><span class="typ-punct">,</span>
+  constraints<span class="typ-punct">:</span> <span class="typ-punct">(</span>
+    <span class="typ-raw">`A.*`</span><span class="typ-punct">,</span> <span class="typ-raw">`B.*`</span><span class="typ-punct">,</span> <span class="typ-raw">`C.*`</span><span class="typ-punct">,</span> <span class="typ-raw">`D.*`</span><span class="typ-punct">,</span> <span class="typ-raw">`E.*`</span><span class="typ-punct">,</span>
+    <span class="typ-raw">`F.*`</span><span class="typ-punct">,</span> <span class="typ-raw">`G.*`</span><span class="typ-punct">,</span> <span class="typ-raw">`H.*`</span><span class="typ-punct">,</span> <span class="typ-raw">`I.*`</span><span class="typ-punct">,</span> <span class="typ-raw">`J.*`</span><span class="typ-punct">,</span>
+    <span class="typ-raw">`K.*`</span><span class="typ-punct">,</span> <span class="typ-raw">`L.*`</span><span class="typ-punct">,</span> <span class="typ-raw">`M.*`</span><span class="typ-punct">,</span> <span class="typ-raw">`N.*`</span><span class="typ-punct">,</span> <span class="typ-raw">`O.*`</span><span class="typ-punct">,</span>
+  <span class="typ-punct">)</span><span class="typ-punct">,</span>
+  answer<span class="typ-punct">:</span> <span class="typ-punct">(</span>
+    <span class="typ-str">"ABC"</span><span class="typ-punct">,</span>
+    <span class="typ-str">"DEFG"</span><span class="typ-punct">,</span>
+    <span class="typ-str">"HIJKL"</span><span class="typ-punct">,</span>
+    <span class="typ-str">"MNOP"</span><span class="typ-punct">,</span>
+    <span class="typ-str">"QRS"</span><span class="typ-punct">,</span>
+  <span class="typ-punct">)</span><span class="typ-punct">,</span>
+<span class="typ-punct">)</span>
+</code></code></pre>
+      <pre><code class="language-typst"><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/crossregex:0.2.0"</span><span class="typ-punct">:</span> crossregex-square
+
+<span class="typ-func">#</span><span class="typ-func">crossregex-square</span><span class="typ-punct">(</span>
+  <span class="typ-num">9</span><span class="typ-punct">,</span>
+  alphabet<span class="typ-punct">:</span> <span class="typ-func">regex</span><span class="typ-punct">(</span><span class="typ-str">"[0-9]"</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+  constraints<span class="typ-punct">:</span> <span class="typ-punct">(</span>
+    <span class="typ-raw">`.*`</span><span class="typ-punct">,</span>
+    <span class="typ-raw">`.*`</span><span class="typ-punct">,</span>
+    <span class="typ-raw">`.*`</span><span class="typ-punct">,</span>
+    <span class="typ-raw">`.*`</span><span class="typ-punct">,</span>
+    <span class="typ-raw">`.*[12]{2}8`</span><span class="typ-punct">,</span>
+    <span class="typ-raw">`[1-9]9.*`</span><span class="typ-punct">,</span>
+    <span class="typ-raw">`.*`</span><span class="typ-punct">,</span>
+    <span class="typ-raw">`.*`</span><span class="typ-punct">,</span>
+    <span class="typ-raw">`.*`</span><span class="typ-punct">,</span>
+    <span class="typ-raw">`[1-9]7[29]{2}8.6.*`</span><span class="typ-punct">,</span>
+    <span class="typ-raw">`.*2[^3]{2}1.`</span><span class="typ-punct">,</span>
+    <span class="typ-raw">`.9.315[^6]+`</span><span class="typ-punct">,</span>
+    <span class="typ-raw">`.+4[15]{2}79.`</span><span class="typ-punct">,</span>
+    <span class="typ-raw">`[75]{2}18.63[1-9]+`</span><span class="typ-punct">,</span>
+    <span class="typ-raw">`8.*[^2][^3][^1]+56[^6]`</span><span class="typ-punct">,</span>
+    <span class="typ-raw">`[^5-6][0-9][56]{2}.*9`</span><span class="typ-punct">,</span>
+    <span class="typ-raw">`.*`</span><span class="typ-punct">,</span>
+    <span class="typ-raw">`[98]{2}5.*[27]{2}6`</span><span class="typ-punct">,</span>
+  <span class="typ-punct">)</span><span class="typ-punct">,</span>
+  answer<span class="typ-punct">:</span> <span class="typ-punct">(</span>
+    <span class="typ-str">"934872651"</span><span class="typ-punct">,</span>
+    <span class="typ-str">"812456937"</span><span class="typ-punct">,</span>
+    <span class="typ-str">"576913482"</span><span class="typ-punct">,</span>
+    <span class="typ-str">"125784369"</span><span class="typ-punct">,</span>
+    <span class="typ-str">"467395128"</span><span class="typ-punct">,</span>
+    <span class="typ-str">"398261574"</span><span class="typ-punct">,</span>
+    <span class="typ-str">"241537896"</span><span class="typ-punct">,</span>
+    <span class="typ-str">"783649215"</span><span class="typ-punct">,</span>
+    <span class="typ-str">"659128743"</span><span class="typ-punct">,</span>
+  <span class="typ-punct">)</span><span class="typ-punct">,</span>
+  cell<span class="typ-punct">:</span> <span class="typ-func">rect</span><span class="typ-punct">(</span>width<span class="typ-punct">:</span> <span class="typ-num">1.4em</span><span class="typ-punct">,</span> height<span class="typ-punct">:</span> <span class="typ-num">1.4em</span><span class="typ-punct">,</span> radius<span class="typ-punct">:</span> <span class="typ-num">0.1em</span><span class="typ-punct">,</span> stroke<span class="typ-punct">:</span> <span class="typ-num">1pt</span> <span class="typ-op">+</span> orange<span class="typ-punct">,</span> fill<span class="typ-punct">:</span> orange<span class="typ-punct">.</span><span class="typ-func">transparentize</span><span class="typ-punct">(</span><span class="typ-num">80%</span><span class="typ-punct">)</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+  cell-config<span class="typ-punct">:</span> <span class="typ-punct">(</span>size<span class="typ-punct">:</span> <span class="typ-num">1.6em</span><span class="typ-punct">,</span> text-style<span class="typ-punct">:</span> <span class="typ-punct">(</span>size<span class="typ-punct">:</span> <span class="typ-num">1.4em</span><span class="typ-punct">)</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+<span class="typ-punct">)</span>
+</code></code></pre>
+      <h2>
+       Document
+      </h2>
+      <p>
+       Details are shown in the doc comments above the
+       <code>
+        crossregex
+       </code>
+       function in
+       <code>
+        lib.typ
+       </code>
+       . You can choose to turn off some views.
+      </p>
+      <p>
+       Feel free to open issues if any problems.
+      </p>
+      <h2>
+       Changelog
+      </h2>
+      <h3>
+       0.2.0
+      </h3>
+      <ul>
+       <li>
+        Feature: Supports square shapes.
+       </li>
+       <li>
+        Feature: Supports customization the appearance of everything, even the cells.
+       </li>
+       <li>
+        Feature: Supports custom alphabets.
+       </li>
+       <li>
+        Fix: An mistake related to import in the README example.
+       </li>
+      </ul>
+      <h3>
+       0.1.0
+      </h3>
+      <p>
+       First release with basic hex features.
+      </p>
+     </section>
+     <aside>
+      <section>
+       <h3>
+        How to add
+       </h3>
+       <p>
+        Copy this into your project and use the import as
+        <!-- -->
+        <code>
+         crossregex
+        </code>
+       </p>
+       <div class="import-snippet">
+        <pre><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/crossregex:0.2.0"</span></code></pre>
+        <button class="copy" title="Copy to clipboard">
+         <img alt="Copy" height="16" src="/assets/icons/16-copy.svg" width="16"/>
+        </button>
+       </div>
+       <p class="muted">
+        Check the docs for
+        <!-- -->
+        <a href="https://typst.app/docs/reference/scripting/#packages">
+         more information on how to import packages
+        </a>
+        .
+       </p>
+      </section>
+      <section id="about">
+       <h3>
+        About
+       </h3>
+       <dl>
+        <dt>
+         Author
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         QuadnucYard
+        </dd>
+        <dt>
+         License:
+        </dt>
+        <dd>
+         MIT
+        </dd>
+        <dt>
+         Current version:
+        </dt>
+        <dd>
+         0.2.0
+        </dd>
+        <dt>
+         Last updated:
+        </dt>
+        <dd>
+         September 22, 2024
+        </dd>
+        <dt>
+         First released:
+        </dt>
+        <dd>
+         September 3, 2024
+        </dd>
+        <dt>
+         Minimum Typst version:
+        </dt>
+        <dd>
+         0.11.0
+        </dd>
+        <dt>
+         Archive size:
+        </dt>
+        <dd class="archive-size-value">
+         197 kB
+         <a href="https://packages.typst.org/preview/crossregex-0.2.0.tar.gz">
+          <img alt="Size icon" src="/assets/icons/16-download.svg"/>
+         </a>
+        </dd>
+        <dt>
+         Repository:
+        </dt>
+        <dd>
+         <a href="https://github.com/QuadnucYard/crossregex-typ" rel="noopener noreferrer" target="_blank">
+          GitHub
+         </a>
+        </dd>
+        <dt>
+         Categor
+         <!-- -->
+         y
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         <ul class="list-with-icons">
+          <li>
+           <img alt="Fun icon" src="/assets/icons/16-smile.svg"/>
+           <a href="https://typst.app/universe/search/?category=fun">
+            Fun
+           </a>
+          </li>
+         </ul>
+        </dd>
+       </dl>
+      </section>
+      <section>
+       <h3>
+        Where to report issues?
+       </h3>
+       <p>
+        This
+        <!-- -->
+        package
+        <!-- -->
+        is a project of
+        <!-- -->
+        <!-- -->
+        QuadnucYard
+        <!-- -->
+        .
+        <!-- -->
+        <!-- -->
+        Report issues on
+        <!-- -->
+        <a href="https://github.com/QuadnucYard/crossregex-typ" rel="noopener noreferrer" target="_blank">
+         their repository
+        </a>
+        .
+        <!-- -->
+        <!-- -->
+        You can also try to ask for help with this
+        <!-- -->
+        package
+        <!-- -->
+        on the
+        <!-- -->
+        <a href="https://forum.typst.app" rel="noopener" target="_blank">
+         Forum
+        </a>
+        .
+       </p>
+       <p>
+        Please report this
+        <!-- -->
+        package
+        <!-- -->
+        to the Typst team using the
+        <!-- -->
+        <a href="https://typst.app/contact" rel="noreferrer" target="_blank">
+         contact form
+        </a>
+        <!-- -->
+        if you believe it is a safety hazard or infringes upon your rights.
+       </p>
+      </section>
+      <section id="versions">
+       <h3>
+        Version history
+       </h3>
+       <table>
+        <thead>
+         <tr>
+          <th align="left">
+           Version
+          </th>
+          <th align="left">
+           Release Date
+          </th>
+         </tr>
+        </thead>
+        <tbody>
+         <tr>
+          <td align="left">
+           0.2.0
+          </td>
+          <td align="left">
+           September 22, 2024
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/crossregex/0.1.0/">
+            0.1.0
+           </a>
+          </td>
+          <td align="left">
+           September 3, 2024
+          </td>
+         </tr>
+        </tbody>
+       </table>
+      </section>
+      <p class="bottom-notice muted">
+       Typst GmbH did not create this
+       <!-- -->
+       package
+       <!-- -->
+       and cannot guarantee correct functionality of this
+       <!-- -->
+       package
+       <!-- -->
+       or compatibility with any version of the Typst compiler or app.
+      </p>
+     </aside>
+    </div>
+   </main>

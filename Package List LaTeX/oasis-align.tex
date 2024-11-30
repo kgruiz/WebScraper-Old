@@ -1,0 +1,292 @@
+\title{typst.app/universe/package/oasis-align}
+
+\phantomsection\label{banner}
+\section{oasis-align}\label{oasis-align}
+
+{ 0.1.0 }
+
+Cleanly place content side by side with equal heights using automatic
+content sizing.
+
+\phantomsection\label{readme}
+\texttt{\ oasis-align\ } is a package that automatically sizes your
+content so that their heights are equal, allowing you to cleanly place
+content side by side.
+
+To use \texttt{\ oasis-align\ } in your document, start by importing the
+package like this:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/oasis{-}align:0.1.0": *}
+\end{Highlighting}
+\end{Shaded}
+
+This will give you access to the two functions found under
+\href{https://github.com/typst/packages/raw/main/packages/preview/oasis-align/0.1.0/\#configuration}{configurations}
+.
+
+\subsection{Image with Text}\label{image-with-text}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/oasis-align/0.1.0/examples/image-with-text.gif}}
+
+\subsection{Image with Image}\label{image-with-image}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/oasis-align/0.1.0/examples/image-with-image.gif}}
+
+\subsection{Text with Text}\label{text-with-text}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/oasis-align/0.1.0/examples/text-with-text.gif}}
+
+There are two functions associated with this package. The first is
+specifically targeted at
+\href{https://github.com/typst/packages/raw/main/packages/preview/oasis-align/0.1.0/\#oasis-align-images}{aligning
+images} , and the second is targeted at
+\href{https://github.com/typst/packages/raw/main/packages/preview/oasis-align/0.1.0/\#oasis-align-1}{content
+in general} .
+
+\begin{quote}
+{[}!important{]} To change the size of the gutter in both functions, use
+\texttt{\ \#set\ grid(column-gutter:\ length)\ } . This is necessary to
+allow for fixed rules that arenâ€™t possible with user-defined
+functions.
+\end{quote}
+
+\subsection{\texorpdfstring{\texttt{\ oasis-align-images\ }}{ oasis-align-images }}\label{oasis-align-images}
+
+Use this function to align two images.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#oasis{-}align{-}images(}
+\NormalTok{    "path/to/image1",}
+\NormalTok{    "path/to/image2"}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{quote}
+{[}!tip{]} Whenever aligning \textbf{only} images, itâ€™s best to use
+this function instead of the default \texttt{\ oasis-align\ } . \emph{To
+learn more about why, check out
+\href{https://github.com/typst/packages/raw/main/packages/preview/oasis-align/0.1.0/\#how-it-works}{how
+it works} .}
+\end{quote}
+
+\subsection{\texorpdfstring{\texttt{\ oasis-align\ }}{ oasis-align }}\label{oasis-align-1}
+
+Use this function to align content like text with other content like
+images or figures.
+
+\begin{quote}
+{[}!tip{]} The parameters with defined values are the defaults and do
+not need to be included unless desired.
+\end{quote}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#oasis{-}align(}
+\NormalTok{  int{-}frac: 0.5,        // decimal between 0 and 1}
+\NormalTok{  tolerance: 0.001pt,   // length}
+\NormalTok{  max{-}iterations: 50,   // integer greater than 0}
+\NormalTok{  int{-}dir: 1,           // 1 or {-}1}
+\NormalTok{  debug: false          // boolean}
+\NormalTok{  item1,                // content}
+\NormalTok{  item2,                // content}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{\texorpdfstring{\texttt{\ int-frac\ }}{ int-frac }}\label{int-frac}
+
+The starting point of the search process. Changing this value may reduce
+the total number of iterations of the function or find an
+\href{https://github.com/typst/packages/raw/main/packages/preview/oasis-align/0.1.0/\#oasis-align-2}{alternate
+solution} .
+
+\subsubsection{\texorpdfstring{\texttt{\ tolerance\ }}{ tolerance }}\label{tolerance}
+
+The allowable difference in heights between \texttt{\ item1\ } and
+\texttt{\ item2\ } . The function will run until it has reached either
+this \texttt{\ tolerance\ } or \texttt{\ max-iterations\ } . Making
+\texttt{\ tolerance\ } larger may reduce the total number of iterations
+but result in a larger height difference between pieces of content.
+
+\begin{quote}
+{[}!note{]} Two pieces of content may not always be able to achieve the
+desired \texttt{\ tolerance\ } . In that case, the function sizes the
+content to the iteration that had the least difference in height.
+\emph{Check out
+\href{https://github.com/typst/packages/raw/main/packages/preview/oasis-align/0.1.0/\#oasis-align-2}{how
+it works} to understand why the function may not be able achieve the
+desired \texttt{\ tolerance\ } .}
+\end{quote}
+
+\subsubsection{\texorpdfstring{\texttt{\ max-iterations\ }}{ max-iterations }}\label{max-iterations}
+
+The maximum number of iterations the function is allowed to attempt
+before terminating. Increasing this number may allow you to achieve a
+smaller \texttt{\ tolerance\ } .
+
+\subsubsection{\texorpdfstring{\texttt{\ int-dir\ }}{ int-dir }}\label{int-dir}
+
+The initial direction that the dividing fraction is moved. Changing this
+value will change the initial direction.
+
+\begin{quote}
+{[}!note{]} The program is hardcoded to switch directions if a solution
+is not found in the initial direction. This parameter mainly serves to
+let you easily choose between
+\href{https://github.com/typst/packages/raw/main/packages/preview/oasis-align/0.1.0/\#oasis-align-2}{multiple
+solutions} .
+\end{quote}
+
+\subsubsection{\texorpdfstring{\texttt{\ debug\ }}{ debug }}\label{debug}
+
+A toggle that lets you look inside the function to see what is
+happening. This is useful if you would like to understand why certain
+content may be incompatible and which of the parameters above could be
+changed to resolve the issue.
+
+\subsection{\texorpdfstring{\texttt{\ oasis-align-images\ }}{ oasis-align-images }}\label{oasis-align-images-1}
+
+The function begins by determining the width and height of the selected
+images. These values can then be used to solve a set of linear
+equations, the first of which states that the sum of the widths of the
+images (plus the gutter) should be equal to the available horizontal
+space, and the second which states that their heights should be equal.
+
+If \$w\_1\$ and \$h\_1\$ are the width and height of \texttt{\ image1\ }
+and \$w\_2\$ and \$h\_2\$ are the width and height of
+\texttt{\ image2\ } , then the final width \$w\_1â€™\$ of
+\texttt{\ image1\ } and the final width \$w\_2â€™\$ of
+\texttt{\ image2\ } are
+
+\$\$w\_1â€™ = \textbackslash left(\textbackslash frac\{h\_1 w\_2\}\{w\_1
+h\_2\} + 1 \textbackslash right)\^{}\{-1\} \textbackslash qquad w\_2â€™
+= \textbackslash left(\textbackslash frac\{w\_1 h\_2\}\{h\_1 w\_2\} + 1
+\textbackslash right)\^{}\{-1\}\$\$
+
+\subsection{\texorpdfstring{\texttt{\ oasis-align\ }}{ oasis-align }}\label{oasis-align-2}
+
+Originally designed to allow for an image to be placed side-by-side with
+text, this function takes an iterative approach to aligning the content.
+When changing the width of a block of text, the height does not scale
+linearly, but instead behaves as a step function that follows an
+exponential trend (the graph below has a simplified visualization of
+this). This prevents the use of an analytical methodology similar to the
+one used in \texttt{\ oasis-align-images\ } , and thus must be solved
+using an iterative approach.
+
+The function starts by taking the available space and then splitting it
+using the \texttt{\ int-frac\ } . The content is then placed in a block
+with the width as determined using the split from \texttt{\ int-frac\ }
+before measuring its height. Based on the \texttt{\ int-dir\ } , the
+split will be moved left or right using the bisection method until a
+solution within the \texttt{\ tolerance\ } has been found. In the case
+that a solution within the \texttt{\ tolerance\ } is not found with the
+\texttt{\ max-iterations\ } , the program terminates and uses the
+container width fraction that had the smallest difference in height.
+
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/oasis-align/0.1.0/examples/graph-visualization.svg}}
+
+\subsubsection{Multiple Solutions (1st
+Graph)}\label{multiple-solutions-1st-graph}
+
+Depending on the type of content, the function may find multiple
+solutions. The parameters \texttt{\ int-dir\ } and \texttt{\ int-frac\ }
+will allow you to choose between them by changing the direction in which
+it iterates and changing the starting container width fraction
+respectively.
+
+\subsubsection{No Solutions (2nd Graph)}\label{no-solutions-2nd-graph}
+
+There are cases in which the text size is incompatible with an image.
+This can be because there is not enough or too much text, and regardless
+of how the content is resized, their heights do not match.
+
+\subsubsection{Tolerance Not Reached (3rd
+Graph)}\label{tolerance-not-reached-3rd-graph}
+
+In the case of having texts of different sizes (as seen in
+\href{https://github.com/typst/packages/raw/main/packages/preview/oasis-align/0.1.0/\#text-with-text}{the
+examples} ), the spacing between lines prevents the function from
+finding a solution that meets the \texttt{\ tolerance\ } , and thus the
+closest solution is used.
+
+If you end up using this package, please feel free to share how you used
+it under â€œDiscussionsâ€? on the
+\href{https://github.com/jdpieck/oasis-align}{GitHub Repository} or on
+Discord with \texttt{\ @jdpieck\ } .
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as
+\texttt{\ oasis-align\ }
+
+\begin{verbatim}
+#import "@preview/oasis-align:0.1.0"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+@jdpieck
+\item[License:]
+MIT
+\item[Current version:]
+0.1.0
+\item[Last updated:]
+September 2, 2024
+\item[First released:]
+September 2, 2024
+\item[Archive size:]
+4.96 kB
+\href{https://packages.typst.org/preview/oasis-align-0.1.0.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/jdpieck/oasis-align}{GitHub}
+\item[Categor y :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-layout.svg}}
+  \href{https://typst.app/universe/search/?category=layout}{Layout}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of @jdpieck . Report issues on
+\href{https://github.com/jdpieck/oasis-align}{their repository} . You
+can also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.1.0 & September 2, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.

@@ -1,0 +1,1145 @@
+<main>
+    <div id="banner" style="--banner-accent:#145B49;--banner-primary:#092F27;--banner-secondary:#1B4C3A;--banner-tertiary:#448472;--banner-background:linear-gradient(90deg, #92E8BE 0%, #D1F5F8 100%)">
+     <div class="package-icon" role="img">
+     </div>
+     <div>
+      <div class="title">
+       <h1 class="name">
+        quill
+       </h1>
+       <span class="version">
+        0.5.0
+       </span>
+      </div>
+      <p class="description">
+       Effortlessly create quantum circuit diagrams.
+      </p>
+     </div>
+     <p class="featured-label">
+      <span class="icon" role="img">
+      </span>
+      Featured
+      <!-- -->
+      Package
+     </p>
+    </div>
+    <div class="inner-grid">
+     <section id="readme">
+      <div align="center">
+       <p>
+        <img alt="Quill logo" src="https://github.com/user-attachments/assets/bf6bfe99-6667-41b0-9b45-13c73ed18590"/>
+       </p>
+      </div>
+      <div align="center">
+       <p>
+        <a href="https://typst.app/universe/package/quill">
+         <img alt="Typst Package" src="https://img.shields.io/badge/dynamic/toml?url=https%3A%2F%2Fraw.githubusercontent.com%2FMc-Zen%2Fquill%2Fv0.5.0%2Ftypst.toml&amp;query=%24.package.version&amp;prefix=v&amp;logo=typst&amp;label=package&amp;color=239DAD"/>
+        </a>
+        <a href="https://github.com/Mc-Zen/quill/actions/workflows/run_tests.yml" rel="nofollow ugc" target="_blank">
+         <img alt="Test Status" src="https://github.com/Mc-Zen/quill/actions/workflows/run_tests.yml/badge.svg"/>
+        </a>
+        <a href="https://github.com/Mc-Zen/quill/blob/main/LICENSE" rel="nofollow ugc" target="_blank">
+         <img alt="MIT License" src="https://img.shields.io/badge/license-MIT-blue"/>
+        </a>
+        <a href="https://github.com/Mc-Zen/quill/releases/download/v0.5.0/quill-guide.pdf" rel="nofollow ugc" target="_blank">
+         <img alt="User Manual" src="https://img.shields.io/badge/manual-.pdf-purple"/>
+        </a>
+       </p>
+      </div>
+      <p>
+       <strong>
+        Quill
+       </strong>
+       is a package for creating quantum circuit diagrams in
+       <a href="https://typst.app/">
+        Typst
+       </a>
+       .
+      </p>
+      <p>
+       <em>
+        Note, that this package is in beta and may still be undergoing breaking changes. As new features like data types and scoped functions will be added to Typst, this package will be adapted to profit from the new paradigms.
+       </em>
+      </p>
+      <p>
+       <em>
+        Meanwhile, we suggest importing everything from the package in a local scope to avoid polluting the global namespace (see example below).
+       </em>
+      </p>
+      <ul>
+       <li>
+        <a href="https://github.com/typst/packages/raw/main/packages/preview/quill/0.5.0/#basic-usage" rel="nofollow ugc" target="_blank">
+         <strong>
+          Usage
+         </strong>
+        </a>
+        <em>
+         quick introduction
+        </em>
+       </li>
+       <li>
+        <a href="https://github.com/typst/packages/raw/main/packages/preview/quill/0.5.0/#cheat-sheet" rel="nofollow ugc" target="_blank">
+         <strong>
+          Cheat sheet
+         </strong>
+        </a>
+        <em>
+         gallery for quickly viewing all kinds of gates
+        </em>
+       </li>
+       <li>
+        <a href="https://github.com/typst/packages/raw/main/packages/preview/quill/0.5.0/#tequila" rel="nofollow ugc" target="_blank">
+         <strong>
+          Tequila
+         </strong>
+        </a>
+        <em>
+         building (sub-)circuits in a way similar to QASM or Qiskit
+        </em>
+       </li>
+       <li>
+        <a href="https://github.com/typst/packages/raw/main/packages/preview/quill/0.5.0/#examples" rel="nofollow ugc" target="_blank">
+         <strong>
+          Examples
+         </strong>
+        </a>
+       </li>
+       <li>
+        <a href="https://github.com/typst/packages/raw/main/packages/preview/quill/0.5.0/#changelog" rel="nofollow ugc" target="_blank">
+         <strong>
+          Changelog
+         </strong>
+        </a>
+       </li>
+      </ul>
+      <h2>
+       Basic usage
+      </h2>
+      <p>
+       The function
+       <code>
+        quantum-circuit()
+       </code>
+       takes any number of positional gates and works somewhat similarly to the built-int Typst functions
+       <code>
+        table()
+       </code>
+       or
+       <code>
+        grid()
+       </code>
+       . A variety of different gate and instruction commands are available for adding elements and integers can be used to produce any number of empty cells (filled with the current wire style). A new wire is started by adding a
+       <code>
+        [\ ]
+       </code>
+       item.
+      </p>
+      <pre><code class="language-typ"><code><span class="typ-punct">#</span><span class="typ-punct">{</span>
+  <span class="typ-key">import</span> <span class="typ-str">"@preview/quill:0.5.0"</span><span class="typ-punct">:</span> <span class="typ-op">*</span>
+
+  <span class="typ-func">quantum-circuit</span><span class="typ-punct">(</span>
+    <span class="typ-func">lstick</span><span class="typ-punct">(</span><span class="typ-math-delim">$</span>|0âª<span class="typ-math-delim">$</span><span class="typ-punct">)</span><span class="typ-punct">,</span> <span class="typ-math-delim">$</span>H<span class="typ-math-delim">$</span><span class="typ-punct">,</span> <span class="typ-func">ctrl</span><span class="typ-punct">(</span><span class="typ-num">1</span><span class="typ-punct">)</span><span class="typ-punct">,</span> <span class="typ-func">rstick</span><span class="typ-punct">(</span><span class="typ-math-delim">$</span><span class="typ-punct">(</span>|00âª+|11âª<span class="typ-punct">)</span><span class="typ-math-op">/</span><span class="typ-math-op">â</span>2<span class="typ-math-delim">$</span><span class="typ-punct">,</span> n<span class="typ-punct">:</span> <span class="typ-num">2</span><span class="typ-punct">)</span><span class="typ-punct">,</span> <span class="typ-punct">[</span><span class="typ-escape">\</span> <span class="typ-punct">]</span><span class="typ-punct">,</span>
+    <span class="typ-func">lstick</span><span class="typ-punct">(</span><span class="typ-math-delim">$</span>|0âª<span class="typ-math-delim">$</span><span class="typ-punct">)</span><span class="typ-punct">,</span> <span class="typ-num">1</span><span class="typ-punct">,</span> <span class="typ-func">targ</span><span class="typ-punct">(</span><span class="typ-punct">)</span><span class="typ-punct">,</span> <span class="typ-num">1</span>
+  <span class="typ-punct">)</span>
+<span class="typ-punct">}</span>
+</code></code></pre>
+      <div align="center">
+       <p>
+        <img alt="Bell circuit" src="https://github.com/user-attachments/assets/53d0c581-ab62-44e3-abf5-5497993d7aba"/>
+       </p>
+      </div>
+      <p>
+       Plain quantum gates â such as a Hadamard gate â can be written with the shorthand notation
+       <code>
+        $H$
+       </code>
+       instead of the more lengthy
+       <code>
+        gate($H$)
+       </code>
+       . The latter offers more options, however.
+      </p>
+      <p>
+       Refer to the
+       <a href="https://github.com/Mc-Zen/quill/releases/download/v0.5.0/quill-guide.pdf" rel="nofollow ugc" target="_blank">
+        user guide
+       </a>
+       for a full documentation of this package. You can also look up the documentation of any function by calling the help module, e.g.,
+       <code>
+        help("gate")
+       </code>
+       in order to print the signature and description of the
+       <code>
+        gate
+       </code>
+       command, just where you are currently typing (powered by
+       <a href="https://github.com/Mc-Zen/tidy" rel="nofollow ugc" target="_blank">
+        tidy
+       </a>
+       ).
+      </p>
+      <h2>
+       Cheat Sheet
+      </h2>
+      <p>
+       Instead of listing every featured gate (as is done in the
+       <a href="https://github.com/Mc-Zen/quill/releases/download/v0.5.0/quill-guide.pdf" rel="nofollow ugc" target="_blank">
+        user guide
+       </a>
+       ), this gallery quickly showcases a large selection of possible gates and decorations that can be added to any quantum circuit.
+      </p>
+      <div align="center">
+       <p>
+        <img alt="Gallery" src="https://github.com/user-attachments/assets/29987e5b-c373-4cd6-86a0-58e27d778fb1"/>
+       </p>
+      </div>
+      <h2>
+       Tequila
+      </h2>
+      <p>
+       <em>
+        Tequila
+       </em>
+       is a submodule that adds a completely different way of building circuits.
+      </p>
+      <pre><code class="language-typ"><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/quill:0.5.0"</span> <span class="typ-key">as</span> quill<span class="typ-punct">:</span> tequila <span class="typ-key">as</span> tq
+
+<span class="typ-pol">#</span><span class="typ-pol">quill</span><span class="typ-punct">.</span><span class="typ-func">quantum-circuit</span><span class="typ-punct">(</span>
+  <span class="typ-op">..</span>tq<span class="typ-punct">.</span><span class="typ-func">build</span><span class="typ-punct">(</span>
+    tq<span class="typ-punct">.</span><span class="typ-func">h</span><span class="typ-punct">(</span><span class="typ-num">0</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+    tq<span class="typ-punct">.</span><span class="typ-func">cx</span><span class="typ-punct">(</span><span class="typ-num">0</span><span class="typ-punct">,</span> <span class="typ-num">1</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+    tq<span class="typ-punct">.</span><span class="typ-func">cx</span><span class="typ-punct">(</span><span class="typ-num">0</span><span class="typ-punct">,</span> <span class="typ-num">2</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+  <span class="typ-punct">)</span><span class="typ-punct">,</span>
+  quill<span class="typ-punct">.</span><span class="typ-func">gategroup</span><span class="typ-punct">(</span>x<span class="typ-punct">:</span> <span class="typ-num">2</span><span class="typ-punct">,</span> y<span class="typ-punct">:</span> <span class="typ-num">0</span><span class="typ-punct">,</span> <span class="typ-num">3</span><span class="typ-punct">,</span> <span class="typ-num">2</span><span class="typ-punct">)</span>
+<span class="typ-punct">)</span>
+</code></code></pre>
+      <p>
+       This is similar to how
+       <em>
+        QASM
+       </em>
+       and
+       <em>
+        Qiskit
+       </em>
+       work: gates are successively applied to the circuit which is then layed out automatically by packing gates as tightly as possible. We start by calling the
+       <code>
+        tq.build()
+       </code>
+       function and filling it with quantum operations. This returns a collection of gates which we expand into the circuit with the
+       <code>
+        ..
+       </code>
+       syntax. Now, we still have the option to add annotations, groups, slices, or even more gates via manual placement.
+      </p>
+      <p>
+       The syntax works analog to Qiskit. Available gates are
+       <code>
+        x
+       </code>
+       ,
+       <code>
+        y
+       </code>
+       ,
+       <code>
+        z
+       </code>
+       ,
+       <code>
+        h
+       </code>
+       ,
+       <code>
+        s
+       </code>
+       ,
+       <code>
+        sdg
+       </code>
+       ,
+       <code>
+        sx
+       </code>
+       ,
+       <code>
+        sxdg
+       </code>
+       ,
+       <code>
+        t
+       </code>
+       ,
+       <code>
+        tdg
+       </code>
+       ,
+       <code>
+        p
+       </code>
+       ,
+       <code>
+        rx
+       </code>
+       ,
+       <code>
+        ry
+       </code>
+       ,
+       <code>
+        rz
+       </code>
+       ,
+       <code>
+        u
+       </code>
+       ,
+       <code>
+        cx
+       </code>
+       ,
+       <code>
+        cz
+       </code>
+       , and
+       <code>
+        swap
+       </code>
+       . With
+       <code>
+        barrier
+       </code>
+       , an invisible barrier can be inserted to prevent gates on different qubits to be packed tightly. Finally, with
+       <code>
+        tq.gate
+       </code>
+       and
+       <code>
+        tq.mqgate
+       </code>
+       , a generic gate can be created. These two accept the same styling arguments as the normal
+       <code>
+        gate
+       </code>
+       (or
+       <code>
+        mqgate
+       </code>
+       ).
+      </p>
+      <p>
+       Also like Qiskit, all qubit arguments support ranges, e.g.,
+       <code>
+        tq.h(range(5))
+       </code>
+       adds a Hadamard gate on the first five qubits and
+       <code>
+        tq.cx((0, 1), (1, 2))
+       </code>
+       adds two CX gates: one from qubit 0 to 1 and one from qubit 1 to 2.
+      </p>
+      <p>
+       With Tequila, it is easy to build templates for quantum circuits and to compose circuits of various building blocks. For this purpose,
+       <code>
+        tq.build()
+       </code>
+       and the built-in templates all feature optional
+       <code>
+        x
+       </code>
+       and
+       <code>
+        y
+       </code>
+       arguments to allow placing a subcircuit at an arbitrary position of the circuit. As an example, Tequila provides a
+       <code>
+        tq.graph-state()
+       </code>
+       template for quickly drawing graph state preparation circuits.
+      </p>
+      <p>
+       The following example demonstrates how to compose multiple subcircuits.
+      </p>
+      <pre><code class="language-typ"><code><span class="typ-key">#</span><span class="typ-key">import</span> tequila <span class="typ-key">as</span> tq
+
+<span class="typ-func">#</span><span class="typ-func">quantum-circuit</span><span class="typ-punct">(</span>
+  <span class="typ-op">..</span>tq<span class="typ-punct">.</span><span class="typ-func">graph-state</span><span class="typ-punct">(</span><span class="typ-punct">(</span><span class="typ-num">0</span><span class="typ-punct">,</span> <span class="typ-num">1</span><span class="typ-punct">)</span><span class="typ-punct">,</span> <span class="typ-punct">(</span><span class="typ-num">1</span><span class="typ-punct">,</span> <span class="typ-num">2</span><span class="typ-punct">)</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+  <span class="typ-op">..</span>tq<span class="typ-punct">.</span><span class="typ-func">build</span><span class="typ-punct">(</span>y<span class="typ-punct">:</span> <span class="typ-num">3</span><span class="typ-punct">,</span> 
+      tq<span class="typ-punct">.</span><span class="typ-func">p</span><span class="typ-punct">(</span><span class="typ-math-delim">$</span><span class="typ-pol">pi</span><span class="typ-math-delim">$</span><span class="typ-punct">,</span> <span class="typ-num">0</span><span class="typ-punct">)</span><span class="typ-punct">,</span> 
+      tq<span class="typ-punct">.</span><span class="typ-func">cx</span><span class="typ-punct">(</span><span class="typ-num">0</span><span class="typ-punct">,</span> <span class="typ-punct">(</span><span class="typ-num">1</span><span class="typ-punct">,</span> <span class="typ-num">2</span><span class="typ-punct">)</span><span class="typ-punct">)</span><span class="typ-punct">,</span> 
+    <span class="typ-punct">)</span><span class="typ-punct">,</span>
+  <span class="typ-op">..</span>tq<span class="typ-punct">.</span><span class="typ-func">graph-state</span><span class="typ-punct">(</span>x<span class="typ-punct">:</span> <span class="typ-num">6</span><span class="typ-punct">,</span> y<span class="typ-punct">:</span> <span class="typ-num">2</span><span class="typ-punct">,</span> invert<span class="typ-punct">:</span> <span class="typ-key">true</span><span class="typ-punct">,</span> <span class="typ-punct">(</span><span class="typ-num">0</span><span class="typ-punct">,</span> <span class="typ-num">1</span><span class="typ-punct">)</span><span class="typ-punct">,</span> <span class="typ-punct">(</span><span class="typ-num">0</span><span class="typ-punct">,</span> <span class="typ-num">2</span><span class="typ-punct">)</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+  <span class="typ-func">gategroup</span><span class="typ-punct">(</span>x<span class="typ-punct">:</span> <span class="typ-num">1</span><span class="typ-punct">,</span> <span class="typ-num">3</span><span class="typ-punct">,</span> <span class="typ-num">3</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+  <span class="typ-func">gategroup</span><span class="typ-punct">(</span>x<span class="typ-punct">:</span> <span class="typ-num">1</span><span class="typ-punct">,</span> y<span class="typ-punct">:</span> <span class="typ-num">3</span><span class="typ-punct">,</span> <span class="typ-num">3</span><span class="typ-punct">,</span> <span class="typ-num">3</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+  <span class="typ-func">gategroup</span><span class="typ-punct">(</span>x<span class="typ-punct">:</span> <span class="typ-num">6</span><span class="typ-punct">,</span> y<span class="typ-punct">:</span> <span class="typ-num">2</span><span class="typ-punct">,</span> <span class="typ-num">3</span><span class="typ-punct">,</span> <span class="typ-num">3</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+  <span class="typ-func">slice</span><span class="typ-punct">(</span>x<span class="typ-punct">:</span> <span class="typ-num">5</span><span class="typ-punct">)</span>
+<span class="typ-punct">)</span>
+</code></code></pre>
+      <div align="center">
+       <p>
+        <img alt="composition" src="https://github.com/user-attachments/assets/41c8d60a-1a5e-4d0b-a7f4-82756423f5a8"/>
+       </p>
+      </div>
+      <h2>
+       Examples
+      </h2>
+      <p>
+       Some show-off examples, loosely replicating figures from
+       <a href="https://www.cambridge.org/highereducation/books/quantum-computation-and-quantum-information/01E10196D0A682A6AEFFEA52D53BE9AE#overview" rel="nofollow ugc" target="_blank">
+        Quantum Computation and Quantum Information by M. Nielsen and I. Chuang
+       </a>
+       . The code for these examples can be found in the
+       <a href="https://github.com/Mc-Zen/quill/tree/v0.5.0/examples" rel="nofollow ugc" target="_blank">
+        example folder
+       </a>
+       or in the
+       <a href="https://github.com/Mc-Zen/quill/releases/download/v0.5.0/quill-guide.pdf" rel="nofollow ugc" target="_blank">
+        user guide
+       </a>
+       .
+      </p>
+      <div align="center">
+       <p>
+        <img alt="Quantum teleportation circuit" src="https://github.com/user-attachments/assets/f38abeb9-fc2f-4be4-9592-7932e07af764"/>
+       </p>
+      </div>
+      <div align="center">
+       <p>
+        <img alt="Quantum circuit for phase estimation" src="https://github.com/user-attachments/assets/6e947f71-67dc-4522-936e-6d9b795a1bba"/>
+       </p>
+      </div>
+      <div align="center">
+       <p>
+        <img alt="Quantum fourier transformation circuit" src="https://github.com/user-attachments/assets/3fc92cd0-915e-4c5e-893d-63dac6f83ade"/>
+       </p>
+      </div>
+      <h2>
+       Contribution
+      </h2>
+      <p>
+       If you spot an issue or have a suggestion, you are invited to
+       <a href="https://github.com/Mc-Zen/quill/issues" rel="nofollow ugc" target="_blank">
+        post it
+       </a>
+       or to contribute. In
+       <a href="https://github.com/Mc-Zen/quill/tree/v0.5.0/docs/architecture.md" rel="nofollow ugc" target="_blank">
+        architecture.md
+       </a>
+       , you can also find a description of the algorithm that forms the base of
+       <code>
+        quantum-circuit()
+       </code>
+       .
+      </p>
+      <h2>
+       Tests
+      </h2>
+      <p>
+       This package uses
+       <a href="https://github.com/tingerrr/typst-test/" rel="nofollow ugc" target="_blank">
+        typst-test
+       </a>
+       for running
+       <a href="https://github.com/Mc-Zen/quill/tree/v0.5.0/tests/" rel="nofollow ugc" target="_blank">
+        tests
+       </a>
+       .
+      </p>
+      <h2>
+       Changelog
+      </h2>
+      <h3>
+       v0.5.0
+      </h3>
+      <ul>
+       <li>
+        Added support for multi-controlled gates with Tequila.
+       </li>
+       <li>
+        Switched to using
+        <code>
+         context
+        </code>
+        instead of the now deprecated
+        <code>
+         style()
+        </code>
+        for measurement. Note: Starting with this version, Typst 0.11.0 or higher is required.
+       </li>
+      </ul>
+      <h3>
+       v0.4.0
+      </h3>
+      <ul>
+       <li>
+        Alternative model for creating and composing circuits:
+        <a href="https://github.com/typst/packages/raw/main/packages/preview/quill/0.5.0/#tequila" rel="nofollow ugc" target="_blank">
+         Tequila
+        </a>
+        .
+       </li>
+      </ul>
+      <h3>
+       v0.3.0
+      </h3>
+      <ul>
+       <li>
+        New features
+        <ul>
+         <li>
+          Enable manual placement of gates,
+          <code>
+           gate($X$, x: 3, y: 1)
+          </code>
+          , similar to built-in
+          <code>
+           table()
+          </code>
+          in addition to automatic placement. This works for most elements, not only gates.
+         </li>
+         <li>
+          Add parameter
+          <code>
+           pad
+          </code>
+          to
+          <code>
+           lstick()
+          </code>
+          and
+          <code>
+           rstick()
+          </code>
+          .
+         </li>
+         <li>
+          Add parameter
+          <code>
+           fill-wires
+          </code>
+          to
+          <code>
+           quantum-circuit()
+          </code>
+          . All wires are filled unto the end (determined by the longest wire) by default (breaking change â ï¸). This behavior can be reverted by setting
+          <code>
+           fill-wires: false
+          </code>
+          .
+         </li>
+         <li>
+          <code>
+           gategroup()
+          </code>
+          <code>
+           slice()
+          </code>
+          and
+          <code>
+           annotate()
+          </code>
+          can now be placed above or below the circuit with
+          <code>
+           z: "above"
+          </code>
+          and
+          <code>
+           z: "below"
+          </code>
+          .
+         </li>
+         <li>
+          <code>
+           help()
+          </code>
+          command for quickly displaying the documentation of a given function, e.g.,
+          <code>
+           help("gate")
+          </code>
+          . Powered by
+          <a href="https://github.com/Mc-Zen/tidy" rel="nofollow ugc" target="_blank">
+           tidy
+          </a>
+          .
+         </li>
+        </ul>
+       </li>
+       <li>
+        Improvements:
+        <ul>
+         <li>
+          Complete rework of circuit layout implementation
+          <ul>
+           <li>
+            allows transparent gates since wires are not drawn through gates anymore. The default fill is now
+            <code>
+             auto
+            </code>
+            and using
+            <code>
+             none
+            </code>
+            sets the background to transparent.
+           </li>
+           <li>
+            <code>
+             midstick
+            </code>
+            is now transparent by default.
+           </li>
+          </ul>
+         </li>
+         <li>
+          <code>
+           setwire()
+          </code>
+          can now be used to override only partial wire settings, such as wire color
+          <code>
+           setwire(1, stroke: blue)
+          </code>
+          , width
+          <code>
+           setwire(1, stroke: 1pt)
+          </code>
+          or wire distance, all separately. Before, some settings were reset.
+         </li>
+        </ul>
+       </li>
+       <li>
+        Fixes:
+        <ul>
+         <li>
+          Fixed
+          <code>
+           lstick
+          </code>
+          /
+          <code>
+           rstick
+          </code>
+          when equation numbering is turned on.
+         </li>
+        </ul>
+       </li>
+       <li>
+        Removed:
+        <ul>
+         <li>
+          The already deprecated
+          <code>
+           scale-factor
+          </code>
+          (use
+          <code>
+           scale
+          </code>
+          instead)
+         </li>
+        </ul>
+       </li>
+      </ul>
+      <h3>
+       v0.2.1
+      </h3>
+      <ul>
+       <li>
+        Improvements:
+        <ul>
+         <li>
+          Add
+          <code>
+           fill
+          </code>
+          parameter to
+          <code>
+           midstick()
+          </code>
+          .
+         </li>
+         <li>
+          Add
+          <code>
+           bend
+          </code>
+          parameter to
+          <code>
+           permute()
+          </code>
+          .
+         </li>
+         <li>
+          Add
+          <code>
+           separation
+          </code>
+          parameter to
+          <code>
+           permute()
+          </code>
+          .
+         </li>
+        </ul>
+       </li>
+       <li>
+        Fixes:
+        <ul>
+         <li>
+          With Typst 0.11.0,
+          <code>
+           scale()
+          </code>
+          now takes into account outer alignment. This broke the positioning of centered/right-aligned circuits, e.g., ones put into a
+          <code>
+           figure()
+          </code>
+          .
+         </li>
+         <li>
+          Change wires to be drawn all through
+          <code>
+           ctrl()
+          </code>
+          , making it consistent to
+          <code>
+           swap()
+          </code>
+          and
+          <code>
+           targ()
+          </code>
+          .
+         </li>
+        </ul>
+       </li>
+      </ul>
+      <h3>
+       v0.2.0
+      </h3>
+      <ul>
+       <li>
+        New features:
+        <ul>
+         <li>
+          Add arbitrary labels to any
+          <code>
+           gate
+          </code>
+          (also derived gates such as
+          <code>
+           meter
+          </code>
+          ,
+          <code>
+           ctrl
+          </code>
+          , â¦),
+          <code>
+           gategroup
+          </code>
+          or
+          <code>
+           slice
+          </code>
+          that can be anchored to any of the nine 2d alignments.
+         </li>
+         <li>
+          Add optional gate inputs and outputs for multi-qubit gates (see gallery).
+         </li>
+         <li>
+          Implicit gates (breaking change â ï¸): a content item automatically becomes a gate, so you can just type
+          <code>
+           $H$
+          </code>
+          instead of
+          <code>
+           gate($H$)
+          </code>
+          (of course, the
+          <code>
+           gate()
+          </code>
+          function is still important in order to use the many available options).
+         </li>
+        </ul>
+       </li>
+       <li>
+        Other breaking changes â ï¸:
+        <ul>
+         <li>
+          <code>
+           slice()
+          </code>
+          has no
+          <code>
+           dx
+          </code>
+          and
+          <code>
+           dy
+          </code>
+          parameters anymore. Instead, labels are handled through
+          <code>
+           label
+          </code>
+          exactly as in
+          <code>
+           gate()
+          </code>
+          . Also the
+          <code>
+           wires
+          </code>
+          parameter is replaced with
+          <code>
+           n
+          </code>
+          for consistency with other multi-qubit gates.
+         </li>
+         <li>
+          Swap order of row and column parameters in
+          <code>
+           annotate()
+          </code>
+          to make it consistent with built-in Typst functions.
+         </li>
+        </ul>
+       </li>
+       <li>
+        Improvements:
+        <ul>
+         <li>
+          Improve layout (allow row/column spacing and min lengths to be specified in em-lengths).
+         </li>
+         <li>
+          Automatic bounds computation, even for labels.
+         </li>
+         <li>
+          Improve meter (allow multi-qubit gate meters and respect global (per-circuit) gate padding).d
+         </li>
+        </ul>
+       </li>
+       <li>
+        Fixes:
+        <ul>
+         <li>
+          <code>
+           lstick
+          </code>
+          /
+          <code>
+           rstick
+          </code>
+          braces broke with Typst 0.7.0.
+         </li>
+         <li>
+          <code>
+           lstick
+          </code>
+          /
+          <code>
+           rstick
+          </code>
+          bounds.
+         </li>
+        </ul>
+       </li>
+       <li>
+        Documentation
+        <ul>
+         <li>
+          Add section on creating custom gates.
+         </li>
+         <li>
+          Add section on using labels.
+         </li>
+         <li>
+          Explain usage of
+          <code>
+           slice()
+          </code>
+          and
+          <code>
+           gategroup()
+          </code>
+          .
+         </li>
+        </ul>
+       </li>
+      </ul>
+      <h3>
+       v0.1.0
+      </h3>
+      <p>
+       Initial Release
+      </p>
+     </section>
+     <aside>
+      <section>
+       <h3>
+        How to add
+       </h3>
+       <p>
+        Copy this into your project and use the import as
+        <!-- -->
+        <code>
+         quill
+        </code>
+       </p>
+       <div class="import-snippet">
+        <pre><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/quill:0.5.0"</span></code></pre>
+        <button class="copy" title="Copy to clipboard">
+         <img alt="Copy" height="16" src="/assets/icons/16-copy.svg" width="16"/>
+        </button>
+       </div>
+       <p class="muted">
+        Check the docs for
+        <!-- -->
+        <a href="https://typst.app/docs/reference/scripting/#packages">
+         more information on how to import packages
+        </a>
+        .
+       </p>
+      </section>
+      <section id="about">
+       <h3>
+        About
+       </h3>
+       <dl>
+        <dt>
+         Author
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         <a href="https://github.com/Mc-Zen" rel="noopener noreferrer" target="_blank">
+          Mc-Zen
+         </a>
+        </dd>
+        <dt>
+         License:
+        </dt>
+        <dd>
+         MIT
+        </dd>
+        <dt>
+         Current version:
+        </dt>
+        <dd>
+         0.5.0
+        </dd>
+        <dt>
+         Last updated:
+        </dt>
+        <dd>
+         October 24, 2024
+        </dd>
+        <dt>
+         First released:
+        </dt>
+        <dd>
+         June 28, 2023
+        </dd>
+        <dt>
+         Minimum Typst version:
+        </dt>
+        <dd>
+         0.11.0
+        </dd>
+        <dt>
+         Archive size:
+        </dt>
+        <dd class="archive-size-value">
+         24.9 kB
+         <a href="https://packages.typst.org/preview/quill-0.5.0.tar.gz">
+          <img alt="Size icon" src="/assets/icons/16-download.svg"/>
+         </a>
+        </dd>
+        <dt>
+         Repository:
+        </dt>
+        <dd>
+         <a href="https://github.com/Mc-Zen/quill" rel="noopener noreferrer" target="_blank">
+          GitHub
+         </a>
+        </dd>
+        <dt>
+         Discipline
+         <!-- -->
+         s
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         <ul class="list-without-icons">
+          <li>
+           <a href="https://typst.app/universe/search/?discipline=physics">
+            Physics
+           </a>
+          </li>
+          <li>
+           <a href="https://typst.app/universe/search/?discipline=computer-science">
+            Computer Science
+           </a>
+          </li>
+         </ul>
+        </dd>
+        <dt>
+         Categor
+         <!-- -->
+         y
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         <ul class="list-with-icons">
+          <li>
+           <img alt="Visualization icon" src="/assets/icons/16-chart.svg"/>
+           <a href="https://typst.app/universe/search/?category=visualization">
+            Visualization
+           </a>
+          </li>
+         </ul>
+        </dd>
+       </dl>
+      </section>
+      <section>
+       <h3>
+        Where to report issues?
+       </h3>
+       <p>
+        This
+        <!-- -->
+        package
+        <!-- -->
+        is a project of
+        <!-- -->
+        <!-- -->
+        Mc-Zen
+        <!-- -->
+        .
+        <!-- -->
+        <!-- -->
+        Report issues on
+        <!-- -->
+        <a href="https://github.com/Mc-Zen/quill" rel="noopener noreferrer" target="_blank">
+         their repository
+        </a>
+        .
+        <!-- -->
+        <!-- -->
+        You can also try to ask for help with this
+        <!-- -->
+        package
+        <!-- -->
+        on the
+        <!-- -->
+        <a href="https://forum.typst.app" rel="noopener" target="_blank">
+         Forum
+        </a>
+        .
+       </p>
+       <p>
+        Please report this
+        <!-- -->
+        package
+        <!-- -->
+        to the Typst team using the
+        <!-- -->
+        <a href="https://typst.app/contact" rel="noreferrer" target="_blank">
+         contact form
+        </a>
+        <!-- -->
+        if you believe it is a safety hazard or infringes upon your rights.
+       </p>
+      </section>
+      <section id="versions">
+       <h3>
+        Version history
+       </h3>
+       <table>
+        <thead>
+         <tr>
+          <th align="left">
+           Version
+          </th>
+          <th align="left">
+           Release Date
+          </th>
+         </tr>
+        </thead>
+        <tbody>
+         <tr>
+          <td align="left">
+           0.5.0
+          </td>
+          <td align="left">
+           October 24, 2024
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/quill/0.4.0/">
+            0.4.0
+           </a>
+          </td>
+          <td align="left">
+           September 16, 2024
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/quill/0.3.0/">
+            0.3.0
+           </a>
+          </td>
+          <td align="left">
+           May 22, 2024
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/quill/0.2.1/">
+            0.2.1
+           </a>
+          </td>
+          <td align="left">
+           March 11, 2024
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/quill/0.2.0/">
+            0.2.0
+           </a>
+          </td>
+          <td align="left">
+           September 28, 2023
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/quill/0.1.0/">
+            0.1.0
+           </a>
+          </td>
+          <td align="left">
+           June 28, 2023
+          </td>
+         </tr>
+        </tbody>
+       </table>
+      </section>
+      <p class="bottom-notice muted">
+       Typst GmbH did not create this
+       <!-- -->
+       package
+       <!-- -->
+       and cannot guarantee correct functionality of this
+       <!-- -->
+       package
+       <!-- -->
+       or compatibility with any version of the Typst compiler or app.
+      </p>
+     </aside>
+    </div>
+   </main>

@@ -1,0 +1,120 @@
+\title{typst.app/universe/package/ctxjs}
+
+\phantomsection\label{banner}
+\section{ctxjs}\label{ctxjs}
+
+{ 0.2.0 }
+
+Run javascript in contexts.
+
+\phantomsection\label{readme}
+A typst plugin to evaluate javascript code.
+
+\begin{itemize}
+\tightlist
+\item
+  multiple javascript contexts
+\item
+  load javascript modules as source or bytecode
+\item
+  simple evaluations
+\item
+  formated evaluations (execute your code with your typst data)
+\item
+  call functions
+\item
+  call functions in modules
+\item
+  create bytecode with an extra tool (ctxjs\_module\_bytecode\_builder)
+\item
+  allow later evaluation of javascript code
+\end{itemize}
+
+\subsection{Example}\label{example}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/ctxjs:0.2.0"}
+
+\NormalTok{\#\{}
+\NormalTok{  \_ = ctxjs.create{-}context("context\_name")}
+\NormalTok{  let test = ctxjs.eval("context\_name", "function test(data) \{return data + 2;\}")}
+\NormalTok{  let returns{-}4 = ctxjs.call{-}function("context\_name", "test", (2,))}
+\NormalTok{  let returns{-}6 = ctxjs.eval{-}format("context\_name", "test(\{test\})", (test: 4))}
+\NormalTok{  let code = \textasciigrave{}\textasciigrave{}\textasciigrave{}}
+\NormalTok{    export function another\_test\_function() \{ return \{data: \textquotesingle{}test\textquotesingle{}\}; \}}
+\NormalTok{  \textasciigrave{}\textasciigrave{}\textasciigrave{};}
+\NormalTok{  \_ = ctxjs.load{-}module{-}js("context\_name", "module\_name", code.text)}
+\NormalTok{  let returns{-}array{-}with{-}another{-}test = ctxjs.get{-}module{-}properties("context\_name", "module\_name")}
+\NormalTok{  let returns{-}data{-}with{-}test{-}string = ctxjs.call{-}module{-}function("context\_name", "module\_name", "another\_test\_function", ())}
+\NormalTok{  let returns{-}8 = ctxjs.eval{-}format("context\_name", "test(\{test\})", (test: ctxjs.eval{-}later("4 + 4")))}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as \texttt{\ ctxjs\ }
+
+\begin{verbatim}
+#import "@preview/ctxjs:0.2.0"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+lublak
+\item[License:]
+MIT
+\item[Current version:]
+0.2.0
+\item[Last updated:]
+November 28, 2024
+\item[First released:]
+September 11, 2024
+\item[Archive size:]
+427 kB
+\href{https://packages.typst.org/preview/ctxjs-0.2.0.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/lublak/typst-ctxjs-package}{GitHub}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of lublak . Report issues on
+\href{https://github.com/lublak/typst-ctxjs-package}{their repository} .
+You can also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.2.0 & November 28, 2024 \\
+\href{https://typst.app/universe/package/ctxjs/0.1.1/}{0.1.1} &
+September 30, 2024 \\
+\href{https://typst.app/universe/package/ctxjs/0.1.0/}{0.1.0} &
+September 11, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.

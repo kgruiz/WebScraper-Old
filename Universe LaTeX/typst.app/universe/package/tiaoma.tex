@@ -1,0 +1,312 @@
+\title{typst.app/universe/package/tiaoma}
+
+\phantomsection\label{banner}
+\section{tiaoma}\label{tiaoma}
+
+{ 0.2.1 }
+
+Barcode and QRCode generator for Typst using Zint.
+
+{ } Featured Package
+
+\phantomsection\label{readme}
+\href{https://github.com/enter-tainer/zint-wasi}{tiaoma(æ?¡ç~?)} is a
+barcode generator for typst. It compiles
+\href{https://github.com/zint/zint}{zint} to wasm and use it to generate
+barcode. It support nearly all common barcode types. For a complete list
+of supported barcode types, see \href{https://zint.org.uk/}{zintâ€™s
+documentation} :
+
+\begin{itemize}
+\tightlist
+\item
+  Australia Post
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Standard Customer
+  \item
+    Reply Paid
+  \item
+    Routing
+  \item
+    Redirection
+  \end{itemize}
+\item
+  Aztec Code
+\item
+  Aztec Runes
+\item
+  Channel Code
+\item
+  Codabar
+\item
+  Codablock F
+\item
+  Code 11
+\item
+  Code 128 with automatic subset switching
+\item
+  Code 16k
+\item
+  Code 2 of 5 variants:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Matrix 2 of 5
+  \item
+    Industrial 2 of 5
+  \item
+    IATA 2 of 5
+  \item
+    Datalogic 2 of 5
+  \item
+    Interleaved 2 of 5
+  \item
+    ITF-14
+  \end{itemize}
+\item
+  Deutsche Post Leitcode
+\item
+  Deutsche Post Identcode
+\item
+  Code 32 (Italian pharmacode)
+\item
+  Code 3 of 9 (Code 39)
+\item
+  Code 3 of 9 Extended (Code 39 Extended)
+\item
+  Code 49
+\item
+  Code 93
+\item
+  Code One
+\item
+  Data Matrix ECC200
+\item
+  DotCode
+\item
+  Dutch Post KIX Code
+\item
+  EAN variants:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    EAN-13
+  \item
+    EAN-8
+  \end{itemize}
+\item
+  Grid Matrix
+\item
+  GS1 DataBar variants:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    GS1 DataBar
+  \item
+    GS1 DataBar Stacked
+  \item
+    GS1 DataBar Stacked Omnidirectional
+  \item
+    GS1 DataBar Expanded
+  \item
+    GS1 DataBar Expanded Stacked
+  \item
+    GS1 DataBar Limited
+  \end{itemize}
+\item
+  Han Xin
+\item
+  Japan Post
+\item
+  Korea Post
+\item
+  LOGMARS
+\item
+  MaxiCode
+\item
+  MSI (Modified Plessey)
+\item
+  PDF417 variants:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    PDF417 Truncated
+  \item
+    PDF417
+  \item
+    Micro PDF417
+  \end{itemize}
+\item
+  Pharmacode
+\item
+  Pharmacode Two-Track
+\item
+  Pharmazentralnummer
+\item
+  POSTNET / PLANET
+\item
+  QR Code
+\item
+  rMQR
+\item
+  Royal Mail 4-State (RM4SCC)
+\item
+  Royal Mail 4-State Mailmark
+\item
+  Telepen
+\item
+  UPC variants:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    UPC-A
+  \item
+    UPC-E
+  \end{itemize}
+\item
+  UPNQR
+\item
+  USPS OneCode (Intelligent Mail)
+\end{itemize}
+
+\subsection{Example}\label{example}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/tiaoma:0.2.1"}
+\NormalTok{\#set page(width: auto, height: auto)}
+
+\NormalTok{= tiÃ¡o mÇ}
+
+\NormalTok{\#tiaoma.ean("1234567890128")}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/tiaoma/0.2.1/example.svg}}
+
+\subsection{Manual}\label{manual}
+
+Please refer to
+\href{https://github.com/typst/packages/raw/main/packages/preview/tiaoma/0.2.1/manual.pdf}{manual}
+for more details.
+
+\subsection{Alternatives}\label{alternatives}
+
+There are other barcode/qrcode packages for typst such as:
+
+\begin{itemize}
+\tightlist
+\item
+  \url{https://github.com/jneug/typst-codetastic}
+\item
+  \url{https://github.com/Midbin/cades}
+\end{itemize}
+
+Packages differ in provided customization options for generated
+barcodes. This package is limited by zint functionality, which focuses
+more on coverage than customization (e.g. inserting graphics into QR
+codes). Patching upstream zint code is (currently) outside of the scope
+of this package - if it doesnâ€™t provide functionality you need, check
+the rest of the typst ecosystem to see if itâ€™s available elsewhere or
+request it \href{https://github.com/zint/zint}{upstream} and
+\href{https://github.com/Enter-tainer/zint-wasi/issues}{notify us} when
+itâ€™s been merged.
+
+\subsubsection{Pros}\label{pros}
+
+\begin{enumerate}
+\tightlist
+\item
+  Support for far greater number of barcode types (all provided by zint
+  library)
+\item
+  Should be faster as is uses a WASM plugin which bundles zint code
+  which is written in C; others are written in pure typst or javascript.
+\end{enumerate}
+
+\subsubsection{Cons}\label{cons}
+
+\begin{enumerate}
+\tightlist
+\item
+  While most if not all of zint functionality is covered, itâ€™s hard to
+  guarantee thereâ€™s no overlooked functionality.
+\item
+  This package uses typst plugin system and has a WASM backend written
+  in Rust which makes is less welcoming for new contributors.
+\end{enumerate}
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as \texttt{\ tiaoma\ }
+
+\begin{verbatim}
+#import "@preview/tiaoma:0.2.1"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author s :]
+Wenzhuo Liu \& Tin Å~vagelj
+\item[License:]
+MIT
+\item[Current version:]
+0.2.1
+\item[Last updated:]
+September 8, 2024
+\item[First released:]
+November 30, 2023
+\item[Archive size:]
+457 kB
+\href{https://packages.typst.org/preview/tiaoma-0.2.1.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/Enter-tainer/zint-wasi}{GitHub}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of Wenzhuo Liu and Tin Å~vagelj . Report
+issues on \href{https://github.com/Enter-tainer/zint-wasi}{their
+repository} . You can also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.2.1 & September 8, 2024 \\
+\href{https://typst.app/universe/package/tiaoma/0.2.0/}{0.2.0} &
+February 6, 2024 \\
+\href{https://typst.app/universe/package/tiaoma/0.1.0/}{0.1.0} &
+November 30, 2023 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.

@@ -1,0 +1,448 @@
+\title{typst.app/universe/package/scholarly-epfl-thesis}
+
+\phantomsection\label{banner}
+\phantomsection\label{template-thumbnail}
+\pandocbounded{\includegraphics[keepaspectratio]{https://packages.typst.org/preview/thumbnails/scholarly-epfl-thesis-0.1.2-small.webp}}
+
+\section{scholarly-epfl-thesis}\label{scholarly-epfl-thesis}
+
+{ 0.1.2 }
+
+A template for a thesis at EPFL
+
+\href{/app?template=scholarly-epfl-thesis&version=0.1.2}{Create project
+in app}
+
+\phantomsection\label{readme}
+Port of
+\href{https://www.overleaf.com/latex/templates/swiss-federal-institute-of-technology-in-lausanne-epfl-phd-thesis/dhcgtppybcwv}{an
+unofficial LaTeX template} to Typst.
+
+A complete example is shown in the
+\href{https://github.com/augustebaum/epfl-thesis-typst/blob/v0.1.2/example}{example
+folder} ; see
+\href{https://github.com/augustebaum/epfl-thesis-typst/blob/v0.1.2/example/main.pdf}{example.pdf}
+for the rendered PDF. The document structure can of course be adapted to
+your needs.
+
+\subsection{Screenshots}\label{screenshots}
+
+\includegraphics[width=2.08333in,height=\textheight,keepaspectratio]{https://raw.githubusercontent.com/augustebaum/epfl-thesis-typst/v0.1.2/screenshots/cover_page.png}
+\includegraphics[width=2.08333in,height=\textheight,keepaspectratio]{https://raw.githubusercontent.com/augustebaum/epfl-thesis-typst/v0.1.2/screenshots/acknowledgements.png}
+\includegraphics[width=2.08333in,height=\textheight,keepaspectratio]{https://raw.githubusercontent.com/augustebaum/epfl-thesis-typst/v0.1.2/screenshots/tables_and_figures.png}
+\includegraphics[width=2.08333in,height=\textheight,keepaspectratio]{https://raw.githubusercontent.com/augustebaum/epfl-thesis-typst/v0.1.2/screenshots/appendix.png}
+
+\subsection{Usage}\label{usage}
+
+You can use this template in the Typst web app by clicking â€œStart from
+templateâ€? on the dashboard and searching for \texttt{\ epfl\ } .
+
+Alternatively, you can use the CLI to kick this project off using the
+command
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{typst}\NormalTok{ init @preview/scholarly{-}epfl{-}thesis}
+\end{Highlighting}
+\end{Shaded}
+
+Typst will create a new directory with all the files needed to get you
+started.
+
+This template uses certain fonts, including Utopia Latex for most text.
+If the font is not available to Typst, as is the case in the Typst Web
+App, then the template will fall back to a default font. The font is
+included in example shown in the Github repository
+\href{https://github.com/augustebaum/epfl-thesis-typst/blob/v0.1.2/example/utopia_font}{here}
+, otherwise you can download it however you like.
+
+\subsubsection{Configuration}\label{configuration}
+
+This template exports the \texttt{\ template\ } function with the
+following named arguments:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ title\ } : The workâ€™s title. Default:
+  \texttt{\ {[}Your\ Title{]}\ }
+\item
+  \texttt{\ author\ } : The authorâ€™s name. Default:
+  \texttt{\ "Your\ Name"\ }
+\item
+  \texttt{\ paper-size\ } : The workâ€™s
+  \href{https://typst.app/docs/reference/layout/page\#parameters-paper}{paper
+  size} . Default: \texttt{\ "a4"\ }
+\item
+  \texttt{\ date\ } : The workâ€™s date. Unused for now. Default:
+  \texttt{\ none\ }
+\item
+  \texttt{\ date-format\ } : The format for displaying the workâ€™s
+  date. By default, the date will be displayed as
+  \texttt{\ MMMM\ DD,\ YYYY\ } . Unused for now. Default:
+  \texttt{\ {[}month\ repr:long{]}\ {[}day\ padding:zero{]},\ {[}year\ repr:full{]}\ }
+\end{itemize}
+
+The template will initialize your package with a basic call to the
+\texttt{\ template\ } function in a \texttt{\ show\ } rule. If you,
+however, want to change an existing project to use this template, you
+can add a show rule like this at the top of your file:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/scholarly{-}epfl{-}thesis:0.1.2": *}
+
+\NormalTok{\#show: template.with(}
+\NormalTok{  title: [Your Title],}
+\NormalTok{  author: "Your Name",}
+\NormalTok{  date: datetime(year: 2024, month: 03, day: 19),}
+\NormalTok{)}
+
+\NormalTok{// Your content goes below.}
+\end{Highlighting}
+\end{Shaded}
+
+Also included are the \texttt{\ front-matter\ } ,
+\texttt{\ main-matter\ } and \texttt{\ back-matter\ } helpers which you
+can use in \texttt{\ show\ } rules in your document to change certain
+settings when they are called: e.g. reset the page numbering when main
+matter starts, or number headings with letters in the back matter. See
+\href{https://github.com/augustebaum/epfl-thesis-typst/blob/v0.1.2/example/main.typ}{example/main.typ}
+for example usage.
+
+\subsection{Development}\label{development}
+
+In order for Typst to access the Utopia Latex font, you need to include
+it your font path. Iâ€™ve included the font in \texttt{\ example/\ } so
+that you can run this in your shell:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\BuiltInTok{cd}\NormalTok{ example}
+\ExtensionTok{typst}\NormalTok{ w main.typ }\AttributeTok{{-}{-}font{-}path}\NormalTok{ .}
+\end{Highlighting}
+\end{Shaded}
+
+See
+\href{https://typst.app/docs/reference/text/text/\#parameters-font}{here}
+for more about the font path.
+
+\subsection{Credits}\label{credits}
+
+\begin{itemize}
+\tightlist
+\item
+  The creators of the
+  \href{https://github.com/talal/ilm/blob/main/lib.typ}{ILM template}
+  for the page layout, header and README format which I drew heavily
+  from
+\item
+  The creators of the
+  \href{https://www.overleaf.com/latex/templates/swiss-federal-institute-of-technology-in-lausanne-epfl-phd-thesis/dhcgtppybcwv}{original
+  LateX template}
+\end{itemize}
+
+\subsection{TODO}\label{todo}
+
+\begin{itemize}
+\tightlist
+\item
+  {[} {]} Hide header and page number on empty pages
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Tracking issue: \url{https://github.com/typst/typst/issues/2722}
+  \item
+    {[} {]} Quick fix:
+    \url{https://github.com/typst/typst/issues/2722\#issuecomment-1911150996}
+
+    \begin{itemize}
+    \tightlist
+    \item
+      Tried it, when I put it in the
+      \texttt{\ show\ heading.where(level:\ 1)\ } it disrupts the
+      outline. I guess it would work if you put in the
+      \texttt{\ metadata\ } manually before each chapter.
+    \end{itemize}
+  \item
+    Optionally donâ€™t force an empty page
+  \end{itemize}
+\item
+  {[} {]} Table of contents
+
+  \begin{itemize}
+  \tightlist
+  \item
+    {[} {]} Join abstracts into one outline entry
+
+    \begin{itemize}
+    \tightlist
+    \item
+      I removed the lines for the German and French abstracts so it
+      takes less space, but itâ€™s not exactly the same as the original
+      which has a custom outline entry
+    \end{itemize}
+  \item
+    {[} {]} Style
+
+    \begin{itemize}
+    \tightlist
+    \item
+      {[} {]} Space between heading number and heading
+    \item
+      {[} {]} Level 1 Headings are bold and donâ€™t have dot lines
+      between the heading and the page number
+    \item
+      \url{https://sitandr.github.io/typst-examples-book/book/snippets/chapters/outlines.html}
+    \item
+      \texttt{\ outline.entry\ } canâ€™t be modified easily because the
+      arguments are positional
+
+      \begin{itemize}
+      \tightlist
+      \item
+        I found a solution on discord but it strips away the links. I
+        tried putting in a \texttt{\ link\ } manually but that gets
+        formatted like a link in the text, which is not what weâ€™re
+        looking for.
+
+        \begin{itemize}
+        \tightlist
+        \item
+          A solution to that link issue can be found in this thread:
+          \url{https://discord.com/channels/1054443721975922748/1231526650462736474}
+        \end{itemize}
+      \end{itemize}
+    \item
+      I might use \url{https://typst.app/universe/package/outrageous}
+    \end{itemize}
+  \item
+    {[}x{]} Include list of figures and tables
+  \end{itemize}
+\item
+  {[} {]} Figures
+
+  \begin{itemize}
+  \tightlist
+  \item
+    {[} {]} Subfigures
+
+    \begin{itemize}
+    \tightlist
+    \item
+      tracking issue: \url{https://github.com/typst/typst/issues/246}
+    \item
+      A wip: \url{https://github.com/tingerrr/subpar}
+    \item
+      A quickfix:
+      \url{https://github.com/typst/typst/issues/246\#issuecomment-1928735969}
+
+      \begin{itemize}
+      \tightlist
+      \item
+        Works if you abuse the \texttt{\ kind\ } mechanic, but I canâ€™t
+        get the superfigureâ€™s caption centered
+      \end{itemize}
+    \end{itemize}
+  \item
+    {[}x{]} Short caption for table of contents
+
+    \begin{itemize}
+    \tightlist
+    \item
+      \url{https://sitandr.github.io/typst-examples-book/book/snippets/chapters/outlines.html}
+    \end{itemize}
+  \item
+    {[}x{]} Numbering
+
+    \begin{itemize}
+    \tightlist
+    \item
+      i-figured?
+    \end{itemize}
+  \end{itemize}
+\item
+  {[} {]} Chemistry examples?
+\item
+  {[} {]} CV?
+\item
+  {[}x{]} Spacing after heading is different depending on if weâ€™re in
+  frontmatter or main matter
+\item
+  {[}x{]} Cover page should take its values from the template arguments
+
+  \begin{itemize}
+  \tightlist
+  \item
+    cover page is separate from template, given that it is not meant to
+    be printed anyways
+
+    \begin{itemize}
+    \tightlist
+    \item
+      this also reflects how the latex template works
+    \end{itemize}
+  \end{itemize}
+\item
+  {[}x{]} Spacing before new sub-heading
+\item
+  {[}x{]} Readme
+
+  \begin{itemize}
+  \tightlist
+  \item
+    {[}x{]} How-to
+  \item
+    {[}x{]} Screenshots
+  \item
+    {[}x{]} Thumbnail
+  \end{itemize}
+\item
+  {[}x{]} Refactor to \texttt{\ front-matter\ } ,
+  \texttt{\ main-matter\ } â€¦
+\item
+  {[}x{]} Numbering
+
+  \begin{itemize}
+  \tightlist
+  \item
+    {[}x{]} Why are pagenumbers bold on certain pages?
+
+    \begin{itemize}
+    \tightlist
+    \item
+      There was a show rule that inserted a pagebreak before each
+      chapter. This produced a bug where the chapter start pages was
+      inconsistent with the information Typst has.
+    \end{itemize}
+  \item
+    {[}x{]} numbering starts on acknowledgements (or somewhere else?)
+  \end{itemize}
+\item
+  {[}x{]} Equations
+
+  \begin{itemize}
+  \tightlist
+  \item
+    {[}x{]} Numbering
+
+    \begin{itemize}
+    \tightlist
+    \item
+      \url{https://sitandr.github.io/typst-examples-book/book/snippets/math/numbering.html}
+    \end{itemize}
+  \item
+    {[}x{]} Align left
+
+    \begin{itemize}
+    \tightlist
+    \item
+      Why did \texttt{\ pad\ } work and not \texttt{\ h\ } ?
+    \end{itemize}
+  \end{itemize}
+\item
+  {[}x{]} page numbers are too low in the page
+\item
+  {[}x{]} First-line indent for front matter
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \url{https://typst.app/docs/reference/model/par/\#parameters-first-line-indent}
+  \item
+    Actually this looks unintentional?
+  \end{itemize}
+\item
+  {[}x{]} Appendices
+\item
+  {[}x{]} Margins
+\item
+  {[}x{]} Tables
+
+  \begin{itemize}
+  \tightlist
+  \item
+    {[}x{]} Style
+  \end{itemize}
+\end{itemize}
+
+\href{/app?template=scholarly-epfl-thesis&version=0.1.2}{Create project
+in app}
+
+\subsubsection{How to use}\label{how-to-use}
+
+Click the button above to create a new project using this template in
+the Typst app.
+
+You can also use the Typst CLI to start a new project on your computer
+using this command:
+
+\begin{verbatim}
+typst init @preview/scholarly-epfl-thesis:0.1.2
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+\href{https://github.com/augustebaum}{Auguste Baum}
+\item[License:]
+MIT
+\item[Current version:]
+0.1.2
+\item[Last updated:]
+November 4, 2024
+\item[First released:]
+May 3, 2024
+\item[Minimum Typst version:]
+0.11.0
+\item[Archive size:]
+425 kB
+\href{https://packages.typst.org/preview/scholarly-epfl-thesis-0.1.2.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/augustebaum/epfl-thesis-typst}{GitHub}
+\item[Categor y :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-mortarboard.svg}}
+  \href{https://typst.app/universe/search/?category=thesis}{Thesis}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This template is a project of Auguste Baum . Report issues on
+\href{https://github.com/augustebaum/epfl-thesis-typst}{their
+repository} . You can also try to ask for help with this template on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this template to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.1.2 & November 4, 2024 \\
+\href{https://typst.app/universe/package/scholarly-epfl-thesis/0.1.1/}{0.1.1}
+& July 18, 2024 \\
+\href{https://typst.app/universe/package/scholarly-epfl-thesis/0.1.0/}{0.1.0}
+& May 3, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this template and cannot guarantee correct
+functionality of this template or compatibility with any version of the
+Typst compiler or app.

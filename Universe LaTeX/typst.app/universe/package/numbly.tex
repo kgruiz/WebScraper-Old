@@ -1,0 +1,145 @@
+\title{typst.app/universe/package/numbly}
+
+\phantomsection\label{banner}
+\section{numbly}\label{numbly}
+
+{ 0.1.0 }
+
+A package that helps you to specify different numbering formats for
+different levels of headings.
+
+\phantomsection\label{readme}
+A package that helps you to specify different numbering formats for
+different levels of headings.
+
+Suppose you want to specify the following numbering format for your
+document:
+
+\begin{itemize}
+\tightlist
+\item
+  Appendix A. Guide
+
+  \begin{itemize}
+  \tightlist
+  \item
+    A.1. Installation
+
+    \begin{itemize}
+    \tightlist
+    \item
+      Step 1. Download
+    \item
+      Step 2. Install
+    \end{itemize}
+  \item
+    A.2. Usage
+  \end{itemize}
+\end{itemize}
+
+You might use \texttt{\ if\ } to achieve this:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#set heading(numbering: (..nums) =\textgreater{} \{}
+\NormalTok{  nums = nums.pos()}
+\NormalTok{  if nums.len() == 1 \{}
+\NormalTok{    return "Appendix " + numbering("A.", ..nums)}
+\NormalTok{  \} else if nums.len() == 2 \{}
+\NormalTok{    return numbering("A.1.", ..nums)}
+\NormalTok{  \} else \{}
+\NormalTok{    return "Step " + numbering("1.", nums.last())}
+\NormalTok{  \}}
+\NormalTok{\})}
+
+\NormalTok{= Guide}
+\NormalTok{== Installation}
+\NormalTok{=== Download}
+\NormalTok{=== Install}
+\NormalTok{== Usage}
+\end{Highlighting}
+\end{Shaded}
+
+But with \texttt{\ numbly\ } , you can do this more easily:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/numbly:0.1.0": numbly}
+\NormalTok{\#set heading(numbering: numbly(}
+\NormalTok{  "Appendix \{1:A\}.", // use \{level:format\} to specify the format}
+\NormalTok{  "\{1:A\}.\{2\}.", // if format is not specified, arabic numbers will be used}
+\NormalTok{  "Step \{3\}.", // here, we only want the 3rd level}
+\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as \texttt{\ numbly\ }
+
+\begin{verbatim}
+#import "@preview/numbly:0.1.0"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+\href{https://github.com/flaribbit}{flaribbit}
+\item[License:]
+MIT
+\item[Current version:]
+0.1.0
+\item[Last updated:]
+July 1, 2024
+\item[First released:]
+July 1, 2024
+\item[Archive size:]
+1.75 kB
+\href{https://packages.typst.org/preview/numbly-0.1.0.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/flaribbit/numbly}{GitHub}
+\item[Categor y :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-hammer.svg}}
+  \href{https://typst.app/universe/search/?category=utility}{Utility}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of flaribbit . Report issues on
+\href{https://github.com/flaribbit/numbly}{their repository} . You can
+also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.1.0 & July 1, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.

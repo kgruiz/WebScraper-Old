@@ -1,0 +1,247 @@
+\title{typst.app/universe/package/lucky-icml}
+
+\phantomsection\label{banner}
+\phantomsection\label{template-thumbnail}
+\pandocbounded{\includegraphics[keepaspectratio]{https://packages.typst.org/preview/thumbnails/lucky-icml-0.2.1-small.webp}}
+
+\section{lucky-icml}\label{lucky-icml}
+
+{ 0.2.1 }
+
+ICML-style paper template to publish at conferences for International
+Conference on Machine Learning
+
+\href{/app?template=lucky-icml&version=0.2.1}{Create project in app}
+
+\phantomsection\label{readme}
+\subsection{Usage}\label{usage}
+
+You can use this template in the Typst web app by clicking \emph{Start
+from template} on the dashboard and searching for
+\texttt{\ lucky-icml\ } .
+
+Alternatively, you can use the CLI to kick this project off using the
+command
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{typst init @preview/lucky{-}icml}
+\end{Highlighting}
+\end{Shaded}
+
+Typst will create a new directory with all the files needed to get you
+started.
+
+\subsection{Configuration}\label{configuration}
+
+This template exports the \texttt{\ icml2024\ } function with the
+following named arguments.
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ title\ } : The paperâ€™s title as content.
+\item
+  \texttt{\ authors\ } : An array of author dictionaries. Each of the
+  author dictionaries must have a name key and can have the keys
+  department, organization, location, and email.
+\item
+  \texttt{\ abstract\ } : The content of a brief summary of the paper or
+  none. Appears at the top under the title.
+\item
+  \texttt{\ bibliography\ } : The result of a call to the bibliography
+  function or none. The function also accepts a single, positional
+  argument for the body of the paper.
+\item
+  \texttt{\ accepted\ } : If this is set to \texttt{\ false\ } then
+  anonymized ready for submission document is produced;
+  \texttt{\ accepted:\ true\ } produces camera-redy version. If the
+  argument is set to \texttt{\ none\ } then preprint version is produced
+  (can be uploaded to arXiv).
+\end{itemize}
+
+The template will initialize your package with a sample call to the
+\texttt{\ icml2024\ } function in a show rule. If you want to change an
+existing project to use this template, you can add a show rule at the
+top of your file.
+
+\subsection{Issues}\label{issues}
+
+This template is developed at
+\href{https://github.com/daskol/typst-templates}{daskol/typst-templates}
+repo. Please report all issues there.
+
+\subsubsection{Running Title}\label{running-title}
+
+\begin{enumerate}
+\tightlist
+\item
+  Runing title should be 10pt above the main text. With top margin 1in
+  it gives that a solid line should be located at 62pt. Actual, position
+  is 57pt in the original template.
+\item
+  Default value between header ruler and header text baseline is 4pt in
+  \texttt{\ fancyhdr\ } . But actual value is 3pt due to thickness of a
+  ruler in 1pt.
+\end{enumerate}
+
+\subsubsection{Page Numbering}\label{page-numbering}
+
+\begin{enumerate}
+\tightlist
+\item
+  Basis line of page number should be located 25pt below of main text.
+  There is a discrepancy in about \textasciitilde1pt.
+\end{enumerate}
+
+\subsubsection{Heading}\label{heading}
+
+\begin{enumerate}
+\tightlist
+\item
+  Required space after level 3 headers is 0.1in or 7.2pt. Actual space
+  size is large (e.g. distance between Section 2.3.1 header and text
+  after it about 12pt).
+\end{enumerate}
+
+\subsubsection{Figures and Tables}\label{figures-and-tables}
+
+\begin{enumerate}
+\tightlist
+\item
+  At the moment Typst has limited support for multi-column documents. It
+  allows define multi-column blocks and documents but there is no
+  ability to typeset complex layout (e.g. page width figures or tables
+  in two-column documents).
+\end{enumerate}
+
+\subsubsection{Citations and References}\label{citations-and-references}
+
+\begin{enumerate}
+\item
+  There is a small bug in CSL processor which fails to recognize
+  bibliography entries with \texttt{\ chapter\ } field. It is already
+  report and will be fixed in the future.
+\item
+  There is no suitable bibliography style so we use default APA while
+  ICML requires APA-like style but not exact APA. The difference is that
+  ICML APA-like style places entry year at the end of reference entry.
+  In order to fix the issue, we need to describe ICML bibliography style
+  in CSL-format.
+\item
+  In the original template links are colored with dark blue. We can
+  reproduce appearance with some additional effort. First of all,
+  \texttt{\ icml2024.csl\ } shoule be updated as follows.
+
+\begin{verbatim}
+diff --git a/icml/icml2024.csl b/icml/icml2024.csl
+index 3b9e9a2..3fe9f74 100644
+--- a/icml/icml2024.csl
++++ b/icml/icml2024.csl
+@@ -1648,7 +1648,8 @@
+       
+       
+     
+-    
++    
++    
+       
+         
+         
+\end{verbatim}
+
+  Then instead of convenient citation shortcut
+  \texttt{\ @cite-key1\ @cite-key2\ } , one should use special procedure
+  \texttt{\ refer\ } with variadic arguments.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#refer(\textless{}cite{-}key1\textgreater{}, \textless{}cite{-}key2\textgreater{})}
+\end{Highlighting}
+\end{Shaded}
+\end{enumerate}
+
+\href{/app?template=lucky-icml&version=0.2.1}{Create project in app}
+
+\subsubsection{How to use}\label{how-to-use}
+
+Click the button above to create a new project using this template in
+the Typst app.
+
+You can also use the Typst CLI to start a new project on your computer
+using this command:
+
+\begin{verbatim}
+typst init @preview/lucky-icml:0.2.1
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+\href{mailto:d.bershatsky2@skoltech.ru}{Daniel Bershatsky}
+\item[License:]
+MIT
+\item[Current version:]
+0.2.1
+\item[Last updated:]
+March 19, 2024
+\item[First released:]
+March 19, 2024
+\item[Minimum Typst version:]
+0.10.0
+\item[Archive size:]
+51.2 kB
+\href{https://packages.typst.org/preview/lucky-icml-0.2.1.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/daskol/typst-templates}{GitHub}
+\item[Discipline s :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \href{https://typst.app/universe/search/?discipline=computer-science}{Computer
+  Science}
+\item
+  \href{https://typst.app/universe/search/?discipline=mathematics}{Mathematics}
+\end{itemize}
+\item[Categor y :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-atom.svg}}
+  \href{https://typst.app/universe/search/?category=paper}{Paper}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This template is a project of Daniel Bershatsky . Report issues on
+\href{https://github.com/daskol/typst-templates}{their repository} . You
+can also try to ask for help with this template on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this template to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.2.1 & March 19, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this template and cannot guarantee correct
+functionality of this template or compatibility with any version of the
+Typst compiler or app.

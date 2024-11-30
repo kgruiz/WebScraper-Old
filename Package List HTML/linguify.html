@@ -1,0 +1,381 @@
+<main>
+    <div id="banner" style="--banner-accent:#000000;--banner-primary:#000000;--banner-secondary:#000000;--banner-tertiary:#565565;--banner-background:#eff0f3">
+     <div class="package-icon" role="img">
+     </div>
+     <div>
+      <div class="title">
+       <h1 class="name">
+        linguify
+       </h1>
+       <span class="version">
+        0.4.1
+       </span>
+      </div>
+      <p class="description">
+       Load strings for different languages easily
+      </p>
+     </div>
+    </div>
+    <div class="inner-grid">
+     <section id="readme">
+      <p>
+       Load strings for different languages easily. This can be useful if you create a package or template for multilingual usage.
+      </p>
+      <h2>
+       Usage
+      </h2>
+      <p>
+       The usage depends if you are using it inside a package or a template or in your own document.
+      </p>
+      <h3>
+       For end users and own templates
+      </h3>
+      <p>
+       You can use linguify global database.
+      </p>
+      <p>
+       Example:
+      </p>
+      <pre><code class="language-typst"><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/linguify:0.4.0"</span><span class="typ-punct">:</span> <span class="typ-op">*</span>
+
+<span class="typ-key">#</span><span class="typ-key">let</span> lang_data <span class="typ-op">=</span> <span class="typ-func">toml</span><span class="typ-punct">(</span><span class="typ-str">"lang.toml"</span><span class="typ-punct">)</span>
+<span class="typ-func">#</span><span class="typ-func">set-database</span><span class="typ-punct">(</span>lang_data<span class="typ-punct">)</span><span class="typ-punct">;</span>
+
+<span class="typ-key">#</span><span class="typ-key">set</span> <span class="typ-func">text</span><span class="typ-punct">(</span>lang<span class="typ-punct">:</span> <span class="typ-str">"de"</span><span class="typ-punct">)</span>
+
+<span class="typ-func">#</span><span class="typ-func">linguify</span><span class="typ-punct">(</span><span class="typ-str">"abstract"</span><span class="typ-punct">)</span>  <span class="typ-comment">// Shows "Zusammenfassung" in the document.</span>
+</code></code></pre>
+      <p>
+       The
+       <code>
+        lang.toml
+       </code>
+       musst look like this:
+      </p>
+      <pre><code class="language-toml">[conf]
+default-lang = "en"
+
+[en]
+title = "A simple linguify example"
+abstract = "Abstract"
+
+[de]
+title = "Ein einfaches Linguify Beispiel"
+abstract = "Zusammenfassung"
+</code></pre>
+      <h3>
+       Inside a package
+      </h3>
+      <p>
+       So that multiple packages can use linguify simultaneously, they should contain their own database. A linguify database is just a dictionary with a certain structure. (See database structure.)
+      </p>
+      <p>
+       Recommend is to store the database in a separate file like
+       <code>
+        lang.toml
+       </code>
+       and load it inside the document. And specify it in each
+       <code>
+        linguify()
+       </code>
+       function call.
+      </p>
+      <p>
+       Example:
+      </p>
+      <pre><code class="language-typ"><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/linguify:0.4.0"</span><span class="typ-punct">:</span> <span class="typ-op">*</span>
+
+<span class="typ-key">#</span><span class="typ-key">let</span> database <span class="typ-op">=</span> <span class="typ-func">toml</span><span class="typ-punct">(</span><span class="typ-str">"lang.toml"</span><span class="typ-punct">)</span>
+
+<span class="typ-func">#</span><span class="typ-func">linguify</span><span class="typ-punct">(</span><span class="typ-str">"key"</span><span class="typ-punct">,</span> from<span class="typ-punct">:</span> database<span class="typ-punct">,</span> default<span class="typ-punct">:</span> <span class="typ-str">"key"</span><span class="typ-punct">)</span>
+</code></code></pre>
+      <h2>
+       Features
+      </h2>
+      <ul>
+       <li>
+        Use a
+        <code>
+         toml
+        </code>
+        or other file to load strings for different languages. You need to pass a typst dictionary which follows the structure of the shown toml file.
+       </li>
+       <li>
+        Specify a
+        <strong>
+         default-lang
+        </strong>
+        . If none is specified it will default to
+        <code>
+         en
+        </code>
+       </li>
+       <li>
+        <strong>
+         Fallback
+        </strong>
+        to the default-lang if a key is not found for a certain language.
+       </li>
+       <li>
+        <a href="https://projectfluent.org/" rel="nofollow ugc" target="_blank">
+         Fluent
+        </a>
+        support
+       </li>
+      </ul>
+     </section>
+     <aside>
+      <section>
+       <h3>
+        How to add
+       </h3>
+       <p>
+        Copy this into your project and use the import as
+        <!-- -->
+        <code>
+         linguify
+        </code>
+       </p>
+       <div class="import-snippet">
+        <pre><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/linguify:0.4.1"</span></code></pre>
+        <button class="copy" title="Copy to clipboard">
+         <img alt="Copy" height="16" src="/assets/icons/16-copy.svg" width="16"/>
+        </button>
+       </div>
+       <p class="muted">
+        Check the docs for
+        <!-- -->
+        <a href="https://typst.app/docs/reference/scripting/#packages">
+         more information on how to import packages
+        </a>
+        .
+       </p>
+      </section>
+      <section id="about">
+       <h3>
+        About
+       </h3>
+       <dl>
+        <dt>
+         Author
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         <a href="https://github.com/jomaway" rel="noopener noreferrer" target="_blank">
+          Jomaway
+         </a>
+        </dd>
+        <dt>
+         License:
+        </dt>
+        <dd>
+         MIT
+        </dd>
+        <dt>
+         Current version:
+        </dt>
+        <dd>
+         0.4.1
+        </dd>
+        <dt>
+         Last updated:
+        </dt>
+        <dd>
+         April 29, 2024
+        </dd>
+        <dt>
+         First released:
+        </dt>
+        <dd>
+         January 31, 2024
+        </dd>
+        <dt>
+         Minimum Typst version:
+        </dt>
+        <dd>
+         0.11.0
+        </dd>
+        <dt>
+         Archive size:
+        </dt>
+        <dd class="archive-size-value">
+         470 kB
+         <a href="https://packages.typst.org/preview/linguify-0.4.1.tar.gz">
+          <img alt="Size icon" src="/assets/icons/16-download.svg"/>
+         </a>
+        </dd>
+        <dt>
+         Repository:
+        </dt>
+        <dd>
+         <a href="https://github.com/jomaway/typst-linguify" rel="noopener noreferrer" target="_blank">
+          GitHub
+         </a>
+        </dd>
+        <dt>
+         Categor
+         <!-- -->
+         ies
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         <ul class="list-with-icons">
+          <li>
+           <img alt="Languages icon" src="/assets/icons/16-world.svg"/>
+           <a href="https://typst.app/universe/search/?category=languages">
+            Languages
+           </a>
+          </li>
+          <li>
+           <img alt="Utility icon" src="/assets/icons/16-hammer.svg"/>
+           <a href="https://typst.app/universe/search/?category=utility">
+            Utility
+           </a>
+          </li>
+         </ul>
+        </dd>
+       </dl>
+      </section>
+      <section>
+       <h3>
+        Where to report issues?
+       </h3>
+       <p>
+        This
+        <!-- -->
+        package
+        <!-- -->
+        is a project of
+        <!-- -->
+        <!-- -->
+        Jomaway
+        <!-- -->
+        .
+        <!-- -->
+        <!-- -->
+        Report issues on
+        <!-- -->
+        <a href="https://github.com/jomaway/typst-linguify" rel="noopener noreferrer" target="_blank">
+         their repository
+        </a>
+        .
+        <!-- -->
+        <!-- -->
+        You can also try to ask for help with this
+        <!-- -->
+        package
+        <!-- -->
+        on the
+        <!-- -->
+        <a href="https://forum.typst.app" rel="noopener" target="_blank">
+         Forum
+        </a>
+        .
+       </p>
+       <p>
+        Please report this
+        <!-- -->
+        package
+        <!-- -->
+        to the Typst team using the
+        <!-- -->
+        <a href="https://typst.app/contact" rel="noreferrer" target="_blank">
+         contact form
+        </a>
+        <!-- -->
+        if you believe it is a safety hazard or infringes upon your rights.
+       </p>
+      </section>
+      <section id="versions">
+       <h3>
+        Version history
+       </h3>
+       <table>
+        <thead>
+         <tr>
+          <th align="left">
+           Version
+          </th>
+          <th align="left">
+           Release Date
+          </th>
+         </tr>
+        </thead>
+        <tbody>
+         <tr>
+          <td align="left">
+           0.4.1
+          </td>
+          <td align="left">
+           April 29, 2024
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/linguify/0.4.0/">
+            0.4.0
+           </a>
+          </td>
+          <td align="left">
+           April 2, 2024
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/linguify/0.3.1/">
+            0.3.1
+           </a>
+          </td>
+          <td align="left">
+           March 26, 2024
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/linguify/0.3.0/">
+            0.3.0
+           </a>
+          </td>
+          <td align="left">
+           March 18, 2024
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/linguify/0.2.0/">
+            0.2.0
+           </a>
+          </td>
+          <td align="left">
+           March 16, 2024
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/linguify/0.1.0/">
+            0.1.0
+           </a>
+          </td>
+          <td align="left">
+           January 31, 2024
+          </td>
+         </tr>
+        </tbody>
+       </table>
+      </section>
+      <p class="bottom-notice muted">
+       Typst GmbH did not create this
+       <!-- -->
+       package
+       <!-- -->
+       and cannot guarantee correct functionality of this
+       <!-- -->
+       package
+       <!-- -->
+       or compatibility with any version of the Typst compiler or app.
+      </p>
+     </aside>
+    </div>
+   </main>

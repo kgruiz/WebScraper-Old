@@ -1,0 +1,461 @@
+<main>
+    <div id="banner" style="--banner-accent:#000000;--banner-primary:#000000;--banner-secondary:#000000;--banner-tertiary:#565565;--banner-background:#eff0f3">
+     <div class="package-icon" role="img">
+     </div>
+     <div>
+      <div class="title">
+       <h1 class="name">
+        truthfy
+       </h1>
+       <span class="version">
+        0.5.0
+       </span>
+      </div>
+      <p class="description">
+       Make empty or automatically filled truth table
+      </p>
+     </div>
+    </div>
+    <div class="inner-grid">
+     <section id="readme">
+      <p>
+       Make an empty or filled truth table in Typst
+      </p>
+      <pre><code class="language-sh">truth-table-empty(info: array[math_block], data: array[str]): table
+    # Create an empty (or filled with "data") truth table. 
+
+truth-table(..info: array[math_block]): table
+    # Create a filled truth table.
+
+karnaugh-empty(info: array[math_block], data: array[str]): table
+    # Create an empty karnaugh table.
+
+NAND: Equivalent to sym.arrow.t
+NOR: Equivalent to sym.arrow.b
+</code></pre>
+      <h2>
+       <code>
+        sc
+       </code>
+      </h2>
+      <p>
+       Theses functions have a new named argument, called
+       <code>
+        sc
+       </code>
+       for symbol-convention.
+      </p>
+      <p>
+       You can add you own function to customise the render of the 0 and the 1. See examples.
+      </p>
+      <p>
+       Syntax:
+      </p>
+      <pre><code class="language-typst"><code><span class="typ-key">#</span><span class="typ-key">let</span> <span class="typ-func">sc</span><span class="typ-punct">(</span>symb<span class="typ-punct">)</span> <span class="typ-op">=</span> <span class="typ-punct">{</span>
+    <span class="typ-key">if</span> <span class="typ-punct">(</span>symb<span class="typ-punct">)</span> <span class="typ-punct">{</span>
+        <span class="typ-str">"an one"</span>
+    <span class="typ-punct">}</span> <span class="typ-key">else</span> <span class="typ-punct">{</span>
+        <span class="typ-str">"a zero"</span>
+    <span class="typ-punct">}</span>
+<span class="typ-punct">}</span>
+</code></code></pre>
+      <h2>
+       <code>
+        reverse
+       </code>
+      </h2>
+      <p>
+       Reverse your table, see issue #3
+      </p>
+      <h2>
+       Simple
+      </h2>
+      <pre><code class="language-typst"><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/truthfy:0.4.0"</span><span class="typ-punct">:</span> truth-table<span class="typ-punct">,</span> truth-table-empty
+
+<span class="typ-func">#</span><span class="typ-func">truth-table</span><span class="typ-punct">(</span><span class="typ-math-delim">$</span>A <span class="typ-pol">and</span> B<span class="typ-math-delim">$</span><span class="typ-punct">,</span> <span class="typ-math-delim">$</span>B <span class="typ-pol">or</span> A<span class="typ-math-delim">$</span><span class="typ-punct">,</span> <span class="typ-math-delim">$</span>A <span class="typ-escape">=&gt;</span> B<span class="typ-math-delim">$</span><span class="typ-punct">,</span> <span class="typ-math-delim">$</span>(A <span class="typ-escape">=&gt;</span> B) <span class="typ-escape">&lt;=&gt;</span> A<span class="typ-math-delim">$</span><span class="typ-punct">,</span> <span class="typ-math-delim">$</span> A <span class="typ-pol">xor</span> B<span class="typ-math-delim">$</span><span class="typ-punct">)</span>
+
+<span class="typ-func">#</span><span class="typ-func">truth-table</span><span class="typ-punct">(</span><span class="typ-math-delim">$</span>p <span class="typ-escape">=&gt;</span> q<span class="typ-math-delim">$</span><span class="typ-punct">,</span> <span class="typ-math-delim">$</span><span class="typ-pol">not</span> p <span class="typ-escape">=&gt;</span> (q <span class="typ-escape">=&gt;</span> p)<span class="typ-math-delim">$</span><span class="typ-punct">,</span> <span class="typ-math-delim">$</span>p <span class="typ-pol">or</span> q<span class="typ-math-delim">$</span><span class="typ-punct">,</span> <span class="typ-math-delim">$</span><span class="typ-pol">not</span> p <span class="typ-pol">or</span> q<span class="typ-math-delim">$</span><span class="typ-punct">)</span>
+</code></code></pre>
+      <p>
+       <img alt="image" src="https://github.com/Thumuss/truthfy/assets/42680097/7edb921d-659e-4348-a12a-07bcc3822012"/>
+      </p>
+      <pre><code class="language-typst"><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/truthfy:0.4.0"</span><span class="typ-punct">:</span> truth-table<span class="typ-punct">,</span> truth-table-empty
+
+<span class="typ-func">#</span><span class="typ-func">truth-table</span><span class="typ-punct">(</span>sc<span class="typ-punct">:</span> <span class="typ-punct">(</span>a<span class="typ-punct">)</span> <span class="typ-op">=&gt;</span> <span class="typ-punct">{</span><span class="typ-key">if</span> <span class="typ-punct">(</span>a<span class="typ-punct">)</span> <span class="typ-punct">{</span><span class="typ-str">"a"</span><span class="typ-punct">}</span> <span class="typ-key">else</span> <span class="typ-punct">{</span><span class="typ-str">"b"</span><span class="typ-punct">}</span><span class="typ-punct">}</span><span class="typ-punct">,</span> <span class="typ-math-delim">$</span>a <span class="typ-pol">and</span> b<span class="typ-math-delim">$</span><span class="typ-punct">)</span>
+
+<span class="typ-func">#</span><span class="typ-func">truth-table-empty</span><span class="typ-punct">(</span>sc<span class="typ-punct">:</span> <span class="typ-punct">(</span>a<span class="typ-punct">)</span> <span class="typ-op">=&gt;</span> <span class="typ-punct">{</span><span class="typ-key">if</span> <span class="typ-punct">(</span>a<span class="typ-punct">)</span> <span class="typ-punct">{</span><span class="typ-str">"x"</span><span class="typ-punct">}</span> <span class="typ-key">else</span> <span class="typ-punct">{</span><span class="typ-str">"$"</span><span class="typ-punct">}</span><span class="typ-punct">}</span><span class="typ-punct">,</span> <span class="typ-punct">(</span><span class="typ-math-delim">$</span>a <span class="typ-pol">and</span> b<span class="typ-math-delim">$</span><span class="typ-punct">,</span><span class="typ-punct">)</span><span class="typ-punct">,</span> <span class="typ-punct">(</span><span class="typ-key">false</span><span class="typ-punct">,</span> <span class="typ-punct">[</span><span class="typ-punct">]</span><span class="typ-punct">,</span> <span class="typ-key">true</span><span class="typ-punct">)</span><span class="typ-punct">)</span>
+</code></code></pre>
+      <p>
+       <img alt="image" src="https://github.com/Thumuss/truthfy/assets/42680097/1ccf6077-5cfb-4643-b621-1dc9529b8176"/>
+      </p>
+      <p>
+       If you have any idea to add in this package, add a new issue
+       <a href="https://github.com/Thumuss/truthfy/issues" rel="nofollow ugc" target="_blank">
+        here
+       </a>
+       !
+      </p>
+      <p>
+       <code>
+        0.1.0
+       </code>
+       : Create the package.
+       <br/>
+       <code>
+        0.2.0
+       </code>
+       :
+      </p>
+      <ul>
+       <li>
+        You can now use
+        <code>
+         t
+        </code>
+        ,
+        <code>
+         r
+        </code>
+        ,
+        <code>
+         u
+        </code>
+        ,
+        <code>
+         e
+        </code>
+        ,
+        <code>
+         f
+        </code>
+        ,
+        <code>
+         a
+        </code>
+        ,
+        <code>
+         l
+        </code>
+        ,
+        <code>
+         s
+        </code>
+        without any problems!
+       </li>
+       <li>
+        You can now add subscript to a letter
+       </li>
+       <li>
+        Only
+        <code>
+         generate-table
+        </code>
+        and
+        <code>
+         generate-empty
+        </code>
+        are now exported
+       </li>
+       <li>
+        Better example with more cases
+       </li>
+       <li>
+        Implemented the
+        <code>
+         a ? b : c
+        </code>
+        operator
+        <br/>
+       </li>
+      </ul>
+      <p>
+       <code>
+        0.3.0
+       </code>
+       :
+      </p>
+      <ul>
+       <li>
+        Changing the name of
+        <code>
+         generate-table
+        </code>
+        and
+        <code>
+         generate-empty
+        </code>
+        to
+        <code>
+         truth-table
+        </code>
+        and
+        <code>
+         truth-table-empty
+        </code>
+       </li>
+       <li>
+        Adding support of
+        <code>
+         NAND
+        </code>
+        and
+        <code>
+         NOR
+        </code>
+        operators.
+       </li>
+       <li>
+        Adding support of custom
+        <code>
+         sc
+        </code>
+        function.
+       </li>
+       <li>
+        Better example and
+        <a href="http://readme.md/" rel="nofollow ugc" target="_blank">
+         README.md
+        </a>
+       </li>
+      </ul>
+      <p>
+       <code>
+        0.4.0
+       </code>
+       :
+      </p>
+      <ul>
+       <li>
+        Add
+        <code>
+         karnaugh-empty
+        </code>
+       </li>
+       <li>
+        Images re-added (see #2)
+       </li>
+       <li>
+        Add
+        <code>
+         reverse
+        </code>
+        option (see #3)
+       </li>
+      </ul>
+     </section>
+     <aside>
+      <section>
+       <h3>
+        How to add
+       </h3>
+       <p>
+        Copy this into your project and use the import as
+        <!-- -->
+        <code>
+         truthfy
+        </code>
+       </p>
+       <div class="import-snippet">
+        <pre><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/truthfy:0.5.0"</span></code></pre>
+        <button class="copy" title="Copy to clipboard">
+         <img alt="Copy" height="16" src="/assets/icons/16-copy.svg" width="16"/>
+        </button>
+       </div>
+       <p class="muted">
+        Check the docs for
+        <!-- -->
+        <a href="https://typst.app/docs/reference/scripting/#packages">
+         more information on how to import packages
+        </a>
+        .
+       </p>
+      </section>
+      <section id="about">
+       <h3>
+        About
+       </h3>
+       <dl>
+        <dt>
+         Author
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         <a href="https://github.com/Thumuss" rel="noopener noreferrer" target="_blank">
+          Quemin Thomas
+         </a>
+        </dd>
+        <dt>
+         License:
+        </dt>
+        <dd>
+         MIT
+        </dd>
+        <dt>
+         Current version:
+        </dt>
+        <dd>
+         0.5.0
+        </dd>
+        <dt>
+         Last updated:
+        </dt>
+        <dd>
+         September 14, 2024
+        </dd>
+        <dt>
+         First released:
+        </dt>
+        <dd>
+         October 9, 2023
+        </dd>
+        <dt>
+         Archive size:
+        </dt>
+        <dd class="archive-size-value">
+         4.54 kB
+         <a href="https://packages.typst.org/preview/truthfy-0.5.0.tar.gz">
+          <img alt="Size icon" src="/assets/icons/16-download.svg"/>
+         </a>
+        </dd>
+        <dt>
+         Repository:
+        </dt>
+        <dd>
+         <a href="https://github.com/Thumuss/truthfy" rel="noopener noreferrer" target="_blank">
+          GitHub
+         </a>
+        </dd>
+       </dl>
+      </section>
+      <section>
+       <h3>
+        Where to report issues?
+       </h3>
+       <p>
+        This
+        <!-- -->
+        package
+        <!-- -->
+        is a project of
+        <!-- -->
+        <!-- -->
+        Quemin Thomas
+        <!-- -->
+        .
+        <!-- -->
+        <!-- -->
+        Report issues on
+        <!-- -->
+        <a href="https://github.com/Thumuss/truthfy" rel="noopener noreferrer" target="_blank">
+         their repository
+        </a>
+        .
+        <!-- -->
+        <!-- -->
+        You can also try to ask for help with this
+        <!-- -->
+        package
+        <!-- -->
+        on the
+        <!-- -->
+        <a href="https://forum.typst.app" rel="noopener" target="_blank">
+         Forum
+        </a>
+        .
+       </p>
+       <p>
+        Please report this
+        <!-- -->
+        package
+        <!-- -->
+        to the Typst team using the
+        <!-- -->
+        <a href="https://typst.app/contact" rel="noreferrer" target="_blank">
+         contact form
+        </a>
+        <!-- -->
+        if you believe it is a safety hazard or infringes upon your rights.
+       </p>
+      </section>
+      <section id="versions">
+       <h3>
+        Version history
+       </h3>
+       <table>
+        <thead>
+         <tr>
+          <th align="left">
+           Version
+          </th>
+          <th align="left">
+           Release Date
+          </th>
+         </tr>
+        </thead>
+        <tbody>
+         <tr>
+          <td align="left">
+           0.5.0
+          </td>
+          <td align="left">
+           September 14, 2024
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/truthfy/0.4.0/">
+            0.4.0
+           </a>
+          </td>
+          <td align="left">
+           June 10, 2024
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/truthfy/0.3.0/">
+            0.3.0
+           </a>
+          </td>
+          <td align="left">
+           February 6, 2024
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/truthfy/0.2.0/">
+            0.2.0
+           </a>
+          </td>
+          <td align="left">
+           October 16, 2023
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/truthfy/0.1.0/">
+            0.1.0
+           </a>
+          </td>
+          <td align="left">
+           October 9, 2023
+          </td>
+         </tr>
+        </tbody>
+       </table>
+      </section>
+      <p class="bottom-notice muted">
+       Typst GmbH did not create this
+       <!-- -->
+       package
+       <!-- -->
+       and cannot guarantee correct functionality of this
+       <!-- -->
+       package
+       <!-- -->
+       or compatibility with any version of the Typst compiler or app.
+      </p>
+     </aside>
+    </div>
+   </main>

@@ -1,0 +1,227 @@
+\title{typst.app/universe/package/idwtet}
+
+\phantomsection\label{banner}
+\section{idwtet}\label{idwtet}
+
+{ 0.3.0 }
+
+Package for uniform, correct and simplified typst code demonstration.
+
+\phantomsection\label{readme}
+The name \texttt{\ idwtet\ } stands for â€œI Donâ€™t Wanna Type
+Everything Twiceâ€?. It provides a \texttt{\ typst-ex\ } and a
+\texttt{\ typst-ex-code\ } codeblock, which \emph{shows \textbf{and}
+executes} typst code.
+
+It is meant for code demonstration, e.g. when publishing a package, and
+provides some niceties:
+
+\begin{itemize}
+\tightlist
+\item
+  the code should always be correct in the examples: As the example code
+  is used for the code block, but also for evaluation, there is no need
+  to write it twice
+\item
+  easy configuration with simple, uniform and good look
+\end{itemize}
+
+However, there are some limitations:
+
+\begin{itemize}
+\tightlist
+\item
+  Every code block has its own local scope and the default behaviour is
+  that variables are not reachable from outside. A similar restriction
+  lies on import statements. That is why, there is the
+  \texttt{\ eval-scope\ } argument, which captures variables and
+  simulates global variables. Additionally, a \texttt{\ typst\ }
+  codeblock is provided for a consistent look.
+\item
+  Locality can be displayed to the users by automatically wrapping code
+  in \texttt{\ typst-ex-code\ } , but \texttt{\ typst-ex\ } does not
+  provide such functionality. It might thus be difficult for users to
+  understand code examples this way.
+\item
+  The page width has to be defined in absolute terms. It is quite nice,
+  for a showcase, to take the least possible space, but tracking the
+  widths of all boxes and then setting the page width accordingly is not
+  (yet) possible.
+\end{itemize}
+
+\subsection{Usage}\label{usage}
+
+Only one function is defined,
+\texttt{\ init(body,\ bcolor:\ luma(210),\ inset:\ 5pt,\ border:\ 2pt,\ radius:\ 2pt,\ content-font:\ "linux\ libertine",\ code-font-size:\ 9pt,\ content-font-size:\ 11pt,\ code-return-box:\ true,\ wrap-code:\ false,\ eval-scope:\ (:),\ escape-bracket:\ "\%")\ }
+, which is supposed to be used with a show rule.
+
+Then raw codeblocks (with \texttt{\ block=true\ } ) of the languages
+\texttt{\ typst\ } , \texttt{\ typst-ex\ } , \texttt{\ typst-code\ } and
+\texttt{\ typst-ex-code\ } are modified. The main feature of this
+package are \texttt{\ typst-ex\ } and \texttt{\ typst-ex-code\ } . The
+\texttt{\ typst\ } and \texttt{\ typst-code\ } blocks do not evaluate
+anything, but their design fits that of the others.
+
+The parameters of \texttt{\ init\ } are:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ body\ } : for usage with show rule, hence the whole
+  document.
+\item
+  \texttt{\ bcolor\ } : the background- (and border-) color of the
+  blocks
+\item
+  \texttt{\ inset\ } : inset param of code and content blocks, should be
+  â‰¥ 2pt
+\item
+  \texttt{\ border\ } : border thickness
+\item
+  \texttt{\ radius\ } : block radius
+\item
+  \texttt{\ content-font\ } : The font used in the previewed content /
+  result.
+\item
+  \texttt{\ code-font-size\ } : The fontsize used in the code blocks.
+\item
+  \texttt{\ content-font-size\ } : The fontsize used in the preview
+  content / result.
+\item
+  \texttt{\ code-return-box\ } : If to show the code return type on
+  \texttt{\ typst-ex-code\ } blocks.
+\item
+  \texttt{\ wrap-code\ } : If to wrap the code in \texttt{\ \#\{\ } and
+  \texttt{\ \}\ } , to symbolize local scope.
+\item
+  \texttt{\ eval-scope\ } : A dictionary with the keys as the variable
+  names and the values as another dictionary with keys
+  \texttt{\ value\ } and \texttt{\ code\ } , both of these are optional.
+  The former has the defined value, the latter the code recreate the
+  variable, for usage in the code blocks.
+\item
+  \texttt{\ escape-bracket\ } : The text to wrap a variable with, to
+  access the \texttt{\ code\ } part of a \texttt{\ eval-scope\ }
+  variable.
+\end{itemize}
+
+\subsection{Hiding code and
+replacements}\label{hiding-code-and-replacements}
+
+There are currently two methods to change the code:
+
+\begin{itemize}
+\tightlist
+\item
+  use the \texttt{\ eval-scope\ } argument from the \texttt{\ init\ }
+  function. There is a \texttt{\ code\ } field in the dictionaries,
+  which enables the usage of the key escaped in
+  \texttt{\ escape-bracket\ } to be replaced in the codeblock code half
+  and to be removed in the codeblock result half, as the value is given
+  via scope. Take a look at the example below, where
+  \texttt{\ \%ouset\%\ } is used this way.
+\item
+  use the \texttt{\ ENDHIDDEN\ } feature. When escaped in
+  \texttt{\ escape-bracket\ } , everything above the statement is
+  removed from the codeblock code half BUT everything (without the
+  \texttt{\ ENDHIDDEN\ } statement) is evaluated. Take a look at the
+  example in the examples folder.
+\end{itemize}
+
+\subsection{Example}\label{example}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#set page(margin: 0.5cm, width: 14cm, height: auto)}
+\NormalTok{\#import "@preview/idwtet:0.1.0"}
+\NormalTok{\#show: idwtet.init.with(eval{-}scope: (}
+\NormalTok{  ouset: (}
+\NormalTok{    value: \{import "@preview/ouset:0.1.1": ouset; ouset\},}
+\NormalTok{    code: "\#import \textbackslash{}"@preview/ouset:0.1.1\textbackslash{}": ouset"}
+\NormalTok{  )}
+\NormalTok{))}
+
+\NormalTok{== ouset package \#text(gray)[(v0.1.1)]}
+\NormalTok{\textasciigrave{}\textasciigrave{}\textasciigrave{}typst{-}ex}
+\NormalTok{\%ouset\%}
+\NormalTok{$}
+\NormalTok{"Expression 1" ouset(\&, \textless{}==\textgreater{}, "Theorem 1") "Expression 2"\textbackslash{}}
+\NormalTok{               ouset(\&, ==\textgreater{},, "Theorem 7") "Expression 3"}
+\NormalTok{$}
+\NormalTok{\textasciigrave{}\textasciigrave{}\textasciigrave{}}
+\NormalTok{Or something like}
+\NormalTok{\textasciigrave{}\textasciigrave{}\textasciigrave{}typst{-}ex{-}code}
+\NormalTok{let a = range(10)}
+\NormalTok{a}
+\NormalTok{\textasciigrave{}\textasciigrave{}\textasciigrave{}}
+\end{Highlighting}
+\end{Shaded}
+
+Further examples are given in the repo example folder.
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as \texttt{\ idwtet\ }
+
+\begin{verbatim}
+#import "@preview/idwtet:0.3.0"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+Ludwig Austermann
+\item[License:]
+MIT
+\item[Current version:]
+0.3.0
+\item[Last updated:]
+September 25, 2023
+\item[First released:]
+August 19, 2023
+\item[Minimum Typst version:]
+0.8.0
+\item[Archive size:]
+3.84 kB
+\href{https://packages.typst.org/preview/idwtet-0.3.0.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/ludwig-austermann/typst-idwtet}{GitHub}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of Ludwig Austermann . Report issues on
+\href{https://github.com/ludwig-austermann/typst-idwtet}{their
+repository} . You can also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.3.0 & September 25, 2023 \\
+\href{https://typst.app/universe/package/idwtet/0.2.0/}{0.2.0} & August
+19, 2023 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.

@@ -1,0 +1,271 @@
+\title{typst.app/universe/package/wrap-indent}
+
+\phantomsection\label{banner}
+\section{wrap-indent}\label{wrap-indent}
+
+{ 0.1.0 }
+
+Wrap content in custom functions with just indentation
+
+\phantomsection\label{readme}
+\texttt{\ wrap-indent\ } is a package for wrapping content in custom
+functions with just indentation. This lets you avoid using trailing
+square brackets to wrap content, instead you just indent it!
+
+This system works by re-purposing Typstâ€™s existing
+\href{https://typst.app/docs/reference/model/terms/}{term-list} syntax
+via a custom show rule on \texttt{\ terms.item\ } . We give it our
+custom function within
+\href{https://typst.app/docs/reference/introspection/state/}{state} via
+a new \texttt{\ wrap-in()\ } function.
+
+\subsection{Hereâ€™s a minimal
+example!}\label{hereuxe2s-a-minimal-example}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/wrap-indent/0.1.0/example_page1.png}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#set page(height: auto, width: 3.5in, margin: 0.25in)}
+
+\NormalTok{\#import "@preview/wrap{-}indent:0.1.0": wrap{-}in, allow{-}wrapping}
+
+\NormalTok{\#show terms.item: allow{-}wrapping}
+
+\NormalTok{/ First {-}{-}:}
+\NormalTok{  A normal term list}
+
+\NormalTok{  with multiple paragraphs}
+
+\NormalTok{But this text is separated}
+
+
+\NormalTok{\#line(length: 100\%)}
+
+
+\NormalTok{\#let custom{-}block(content) = rect(content,}
+\NormalTok{  fill: orange.lighten(90\%),}
+\NormalTok{  stroke: 1.5pt + gradient.linear(..color.map.flare)}
+\NormalTok{)}
+
+\NormalTok{/ \#wrap{-}in(custom{-}block):}
+\NormalTok{  A *custom block* using the \textasciigrave{}wrap{-}in\textasciigrave{} function}
+
+\NormalTok{  with indented text \textbackslash{}}
+\NormalTok{  over multiple lines}
+
+\NormalTok{And this text is \_still\_ separated!}
+\end{Highlighting}
+\end{Shaded}
+
+And in its own code block, hereâ€™s the required initialization:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/wrap{-}indent:0.1.0": wrap{-}in, allow{-}wrapping}
+
+\NormalTok{\#show terms.item: allow{-}wrapping}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{And hereâ€™s a more complicated
+example!}\label{and-hereuxe2s-a-more-complicated-example}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/wrap-indent/0.1.0/example_page2.png}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#set page(height: auto, width: 4.1in, margin: 0.25in)}
+
+\NormalTok{\#show heading: set text(size: 0.75em)}
+\NormalTok{\#show heading: set block(below: 1em)}
+\NormalTok{\#set heading(numbering: "1) ")}
+
+\NormalTok{= Normal function call:}
+
+\NormalTok{// A function for wrapping some text:}
+\NormalTok{\#let custom{-}quote(body) = rect(}
+\NormalTok{  body,}
+\NormalTok{  width: 100\%,}
+\NormalTok{  fill: luma(95\%),}
+\NormalTok{  stroke: (left: 2pt + luma(30\%))}
+\NormalTok{)}
+
+\NormalTok{\#custom{-}quote[}
+\NormalTok{  Some text in a \_custom quote\_ spread over multiple lines}
+\NormalTok{  so it actually looks like it was typed in a document.}
+\NormalTok{]}
+\NormalTok{This text is outside the quote box}
+
+
+\NormalTok{= Wrappped function call!}
+
+\NormalTok{/ \#wrap{-}in(custom{-}quote):}
+\NormalTok{  Some text in a \_custom quote\_ spread over multiple lines}
+\NormalTok{  so it actually looks like it was typed in a document.}
+
+\NormalTok{This text is \_still\_ outside the quote box!}
+
+
+\NormalTok{= Arbitrary functions should \_just work\#emoji.tm;\_}
+
+\NormalTok{/ \#wrap{-}in(x =\textgreater{} ellipse(align(center, x),}
+\NormalTok{    stroke: 3pt + gradient.conic(..color.map.rainbow)}
+\NormalTok{  )):}
+\NormalTok{  Some text in a \_rainbow ellipse\_ spread}
+\NormalTok{  over multiple lines so it actually looks}
+\NormalTok{  like it was typed in a document.}
+
+
+\NormalTok{= One{-}liners look great!}
+
+\NormalTok{/ \#wrap{-}in(underline): Here\textquotesingle{}s one line underlined}
+
+
+\NormalTok{= Let\textquotesingle{}s do some math:}
+
+\NormalTok{\#let named{-}thm(name) = (content) =\textgreater{} \{}
+\NormalTok{  pad(left: 2em, par(hanging{-}indent: {-}2em)[}
+\NormalTok{    *Theorem* (\#name) \#emph(content)}
+\NormalTok{  ])}
+\NormalTok{\}}
+
+\NormalTok{/ \#wrap{-}in(named{-}thm("Operational Soundness")):}
+\NormalTok{  If $med tack e : tau$ and $e$ reduces to $e\textquotesingle{}$}
+\NormalTok{  by zero or more steps and $"Irred"(e\textquotesingle{})$,}
+\NormalTok{  then $e\textquotesingle{} in "Val"$ and $med tack e\textquotesingle{} : tau$.}
+
+
+\NormalTok{= In{-}line styling doesn\textquotesingle{}t create blocks:}
+
+\NormalTok{/ \#wrap{-}in(highlight):}
+\NormalTok{  This text is highlighted.}
+\NormalTok{This text isn\textquotesingle{}t.}
+
+\NormalTok{Notice how there was *no* paragraph break between the}
+\NormalTok{two sentences? This is a useful result that makes}
+\NormalTok{\textasciigrave{}wrap{-}indent\textasciigrave{} really flexible!}
+
+\NormalTok{(if you want separate blocks, use \textasciigrave{}block\textasciigrave{} in your function)}
+
+
+\NormalTok{= Does it work with nesting?}
+
+\NormalTok{/ \#wrap{-}in(custom{-}quote):}
+\NormalTok{  Testing...}
+\NormalTok{  / \#wrap{-}in(align.with(center)):}
+\NormalTok{    / \#wrap{-}in(rect):}
+\NormalTok{      / \#wrap{-}in(emph):}
+\NormalTok{        Signs point to yes!}
+
+
+\NormalTok{= Final thoughts}
+
+\NormalTok{/ Note {-}{-}:}
+\NormalTok{  Regular term lists still work!}
+
+\NormalTok{/ Disclaimer {-}{-}:}
+\NormalTok{  You may run into issues with other term list}
+\NormalTok{  show rules conflicting with this rule. \textbackslash{}}
+\NormalTok{  (although set rules should be unaffected)}
+
+\NormalTok{  If you run into issues, \_let me know!\_ I\textquotesingle{}d love to hear}
+\NormalTok{  about it to make this package as robust as possible.}
+
+
+\NormalTok{= And}
+
+\NormalTok{\#let big{-}statement(content) = \{}
+\NormalTok{  align(center, text(}
+\NormalTok{    underline(stroke: 1.5pt, content),}
+\NormalTok{    size: 32pt,}
+\NormalTok{    weight: "bold",}
+\NormalTok{    style: "italic",}
+\NormalTok{    fill: eastern,}
+\NormalTok{  ))}
+\NormalTok{\}}
+
+\NormalTok{/ \#wrap{-}in(big{-}statement):}
+\NormalTok{  That\textquotesingle{}s a wrap!}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{References}\label{references}
+
+You can find my original writeup here for more context:\\
+\url{https://typst.app/project/r5ogFas7lj7E48iHw_M4yh}
+
+And also see the GitHub issue that prompted me to make this:\\
+\url{https://github.com/typst/typst/issues/1921}
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as
+\texttt{\ wrap-indent\ }
+
+\begin{verbatim}
+#import "@preview/wrap-indent:0.1.0"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+Ian Wrzesinski (LectronPusher)
+\item[License:]
+MIT
+\item[Current version:]
+0.1.0
+\item[Last updated:]
+May 3, 2024
+\item[First released:]
+May 3, 2024
+\item[Archive size:]
+3.69 kB
+\href{https://packages.typst.org/preview/wrap-indent-0.1.0.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Categor ies :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-code.svg}}
+  \href{https://typst.app/universe/search/?category=scripting}{Scripting}
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-hammer.svg}}
+  \href{https://typst.app/universe/search/?category=utility}{Utility}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of Ian Wrzesinski (LectronPusher) . You can
+also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.1.0 & May 3, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.

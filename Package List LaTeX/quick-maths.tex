@@ -1,0 +1,154 @@
+\title{typst.app/universe/package/quick-maths}
+
+\phantomsection\label{banner}
+\section{quick-maths}\label{quick-maths}
+
+{ 0.2.0 }
+
+Custom shorthands for math equations.
+
+{ } Featured Package
+
+\phantomsection\label{readme}
+A package for creating custom shorthands for math equations.
+
+\subsection{Usage}\label{usage}
+
+The package comes with a single template function
+\texttt{\ shorthands\ } that takes one or more tuples of the form
+\texttt{\ (shorthand,\ replacement)\ } , where \texttt{\ shorthand\ }
+can be a string or content.
+
+There are some small quality of life features for interaction of
+shorthands with fractions and attachments:
+
+\begin{itemize}
+\tightlist
+\item
+  If the right-most symbol of a shorthand has any attachments, they are
+  moved to the shorthandâ€™s replacement.
+\item
+  If a shorthand ends in the numerator of a fraction, the whole
+  replacement is placed in the numerator.
+\item
+  If a shorthand starts in the denominator of a fraction, the whole
+  replacement is placed in the denominator.
+\end{itemize}
+
+As the implementation of these features is quite hacky, you may
+encounter some edge cases, where the use of explicit parentheses
+hopefully saves you.
+
+\subsection{Notes}\label{notes}
+
+\begin{itemize}
+\item
+  Shorthands are parsed in the order they are given, so if you have a
+  shorthand that is a prefix of another shorthand, you should put the
+  longer shorthand first.
+\item
+  The content of an equation is traversed from left to right, so the
+  left-most matching shorthand will be replaced first.
+\item
+  Shorthands consisting of only a single character or element may be
+  applied using show rules, so that they can affect non-sequence
+  elements. This may lead to different behavior than multi-character
+  shorthands.
+\item
+  If the replacement of a shorthand contains a shorthand itself, there
+  are no protections against infinite recursion or overflows.
+\end{itemize}
+
+\subsection{Example}\label{example}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/quick{-}maths:0.2.0": shorthands}
+
+\NormalTok{\#show: shorthands.with(}
+\NormalTok{  ($+{-}$, $plus.minus$),}
+\NormalTok{  ($|{-}$, math.tack),}
+\NormalTok{  ($\textless{}=$, math.arrow.l.double) // Replaces \textquotesingle{}â¤\textquotesingle{}}
+\NormalTok{)}
+
+\NormalTok{$ x\^{}2 = 9 quad \textless{}==\textgreater{} quad x = +{-}3 $}
+\NormalTok{$ A or B |{-} A $}
+\NormalTok{$ x \textless{}= y $}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/quick-maths/0.2.0/assets/example.svg}}
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as
+\texttt{\ quick-maths\ }
+
+\begin{verbatim}
+#import "@preview/quick-maths:0.2.0"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+Eric Biedert
+\item[License:]
+MIT
+\item[Current version:]
+0.2.0
+\item[Last updated:]
+November 18, 2024
+\item[First released:]
+July 5, 2024
+\item[Archive size:]
+3.58 kB
+\href{https://packages.typst.org/preview/quick-maths-0.2.0.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/EpicEricEE/typst-quick-maths}{GitHub}
+\item[Categor y :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-hammer.svg}}
+  \href{https://typst.app/universe/search/?category=utility}{Utility}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of Eric Biedert . Report issues on
+\href{https://github.com/EpicEricEE/typst-quick-maths}{their repository}
+. You can also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.2.0 & November 18, 2024 \\
+\href{https://typst.app/universe/package/quick-maths/0.1.0/}{0.1.0} &
+July 5, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.

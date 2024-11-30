@@ -1,0 +1,223 @@
+\title{typst.app/universe/package/easytable}
+
+\phantomsection\label{banner}
+\section{easytable}\label{easytable}
+
+{ 0.1.0 }
+
+Simple Table Package
+
+\phantomsection\label{readme}
+A Typst library for writing simple tables.
+
+\subsection{Usage}\label{usage}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/easytable:0.1.0": easytable, elem}
+\NormalTok{\#import elem: *}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Manual}\label{manual}
+
+\begin{itemize}
+\tightlist
+\item
+  You can create a table by specifying data or layout elements as
+  arguments to the \texttt{\ easytable\ } function.
+\item
+  The following elements are provided in the \texttt{\ elem\ } module.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \texttt{\ elem.tr\ } : a data row
+  \item
+    \texttt{\ elem.th\ } : a header row
+  \item
+    \texttt{\ elem.hline\ } : a horizontal line
+  \item
+    \texttt{\ elem.vline\ } : a vertical line
+  \item
+    \texttt{\ elem.cwidth\ } : a column-width specifier
+  \item
+    \texttt{\ elem.cstyle\ } : a column-style (font, alignment, etc.)
+    specifier
+  \end{itemize}
+\end{itemize}
+
+See
+\href{https://github.com/typst/packages/raw/main/packages/preview/easytable/0.1.0/manual.pdf}{manual}
+in detail.
+
+\subsection{Examples}\label{examples}
+
+\subsubsection{A Simple Table}\label{a-simple-table}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#easytable(\{}
+\NormalTok{  th[Header 1 ][Header 2][Header 3  ]}
+\NormalTok{  tr[How      ][I       ][want      ]}
+\NormalTok{  tr[a        ][drink,  ][alcoholic ]}
+\NormalTok{  tr[of       ][course, ][after     ]}
+\NormalTok{  tr[the      ][heavy   ][lectures  ]}
+\NormalTok{  tr[involving][quantum ][mechanics.]}
+\NormalTok{\})}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/monaqa/typst-easytable/assets/48883418/690b466b-56d9-4660-8ca5-25cc25e379f9}}
+
+\subsubsection{Setting Column Alignment and
+Width}\label{setting-column-alignment-and-width}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#easytable(\{}
+\NormalTok{  cwidth(100pt, 1fr, 20\%)}
+\NormalTok{  cstyle(left, center, right)}
+\NormalTok{  th[Header 1 ][Header 2][Header 3  ]}
+\NormalTok{  tr[How      ][I       ][want      ]}
+\NormalTok{  tr[a        ][drink,  ][alcoholic ]}
+\NormalTok{  tr[of       ][course, ][after     ]}
+\NormalTok{  tr[the      ][heavy   ][lectures  ]}
+\NormalTok{  tr[involving][quantum ][mechanics.]}
+\NormalTok{\})}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/monaqa/typst-easytable/assets/48883418/8ff574b4-bf1f-46ca-8a2d-584ab701a989}}
+
+\subsubsection{Customizing Styles}\label{customizing-styles}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#easytable(\{}
+\NormalTok{  let tr = tr.with(trans: pad.with(x: 3pt))}
+
+\NormalTok{  th[Header 1][Header 2][Header 3]}
+\NormalTok{  tr[How][I][want]}
+\NormalTok{  tr[a][drink,][alcoholic]}
+\NormalTok{  tr[of][course,][after]}
+\NormalTok{  tr[the][heavy][lectures]}
+\NormalTok{  tr[involving][quantum][mechanics.]}
+\NormalTok{\})}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/monaqa/typst-easytable/assets/48883418/8a1ed0d0-4a9e-4a28-a0ff-b8f7a09cb8a8}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#easytable(\{}
+\NormalTok{  let th = th.with(trans: emph)}
+\NormalTok{  let tr = tr.with(}
+\NormalTok{    cell\_style: (x: none, y: none)}
+\NormalTok{      =\textgreater{} (fill: if calc.even(y) \{}
+\NormalTok{        luma(95\%)}
+\NormalTok{      \} else \{}
+\NormalTok{        none}
+\NormalTok{      \})}
+\NormalTok{  )}
+
+\NormalTok{  th[Header 1][Header 2][Header 3]}
+\NormalTok{  tr[How][I][want]}
+\NormalTok{  tr[a][drink,][alcoholic]}
+\NormalTok{  tr[of][course,][after]}
+\NormalTok{  tr[the][heavy][lectures]}
+\NormalTok{  tr[involving][quantum][mechanics.]}
+\NormalTok{\})}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/monaqa/typst-easytable/assets/48883418/5f8bf796-b2bd-41c4-a79e-fd97c2824ecd}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#easytable(\{}
+\NormalTok{  th[Header 1][Header 2][Header 3]}
+\NormalTok{  tr[How][I][want]}
+\NormalTok{  hline(stroke: red)}
+\NormalTok{  tr[a][drink,][alcoholic]}
+\NormalTok{  tr[of][course,][after]}
+\NormalTok{  tr[the][heavy][lectures]}
+\NormalTok{  tr[involving][quantum][mechanics.]}
+
+\NormalTok{  // Specifying the insertion point directly}
+\NormalTok{  hline(stroke: 2pt + green, y: 4)}
+\NormalTok{  vline(}
+\NormalTok{    stroke: (paint: blue, thickness: 1pt, dash: "dashed"),}
+\NormalTok{    x: 2,}
+\NormalTok{    start: 1,}
+\NormalTok{    end: 5,}
+\NormalTok{  )}
+\NormalTok{\})}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/monaqa/typst-easytable/assets/48883418/cf400dad-a7fc-4f3a-991d-9611adab41c6}}
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as \texttt{\ easytable\ }
+
+\begin{verbatim}
+#import "@preview/easytable:0.1.0"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+monaqa
+\item[License:]
+MIT
+\item[Current version:]
+0.1.0
+\item[Last updated:]
+February 24, 2024
+\item[First released:]
+February 24, 2024
+\item[Archive size:]
+3.36 kB
+\href{https://packages.typst.org/preview/easytable-0.1.0.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/monaqa/typst-easytable}{GitHub}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of monaqa . Report issues on
+\href{https://github.com/monaqa/typst-easytable}{their repository} . You
+can also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.1.0 & February 24, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.

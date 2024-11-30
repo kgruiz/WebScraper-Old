@@ -1,0 +1,383 @@
+\title{typst.app/universe/package/cineca}
+
+\phantomsection\label{banner}
+\section{cineca}\label{cineca}
+
+{ 0.4.0 }
+
+A package to create calendar with events.
+
+\phantomsection\label{readme}
+CINECA Is Not an Electric Calendar App, but a Typst package to create
+calendars with events.
+
+\subsection{Usage}\label{usage}
+
+The package now support creating events from ICS files (thanks
+@Geronymos). To do so, read an ICS file and parse with
+\texttt{\ ics-parser()\ } .
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let events2 = ics{-}parser(read("sample.ics")).map(event =\textgreater{} (}
+\NormalTok{  event.dtstart, }
+\NormalTok{  event.dtstart,}
+\NormalTok{  event.dtend,}
+\NormalTok{  event.summary}
+\NormalTok{))}
+
+\NormalTok{\#calendar(events2, hour{-}range: (10, 14))}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{Day view}\label{day-view}
+
+\texttt{\ calendar(events,\ hour-range,\ minute-height,\ template,\ stroke)\ }
+
+Parameters:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ events\ } : An array of events. Each item is a 4-element
+  array:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Date. Can be \texttt{\ datetime()\ } or valid args of
+    \texttt{\ day()\ } .
+  \item
+    Start time. Can be valid args of \texttt{\ time()\ } .
+  \item
+    End time. Can be valid args of \texttt{\ time()\ } .
+  \item
+    Event body. Can be anything. Passed to the template.body to show
+    more details.
+  \end{itemize}
+\item
+  \texttt{\ hour-range\ } : Then range of hours, affacting the range of
+  the calendar. Default: \texttt{\ (8,\ 20)\ } .
+\item
+  \texttt{\ minute-height\ } : Height of per minute. Each minute occupys
+  a row. This number is to control the height of each row. Default:
+  \texttt{\ 0.8pt\ } .
+\item
+  \texttt{\ template\ } : Templates for headers, times, or events. It
+  takes a dictionary of the following entries: \texttt{\ header\ } ,
+  \texttt{\ time\ } , and \texttt{\ event\ } . Default: \texttt{\ (:)\ }
+  .
+\item
+  \texttt{\ stroke\ } : A stroke style to control the style of the
+  default stroke, or a function taking two parameters
+  \texttt{\ (x,\ y)\ } to control the stroke. The first row is the
+  dates, and the first column is the times. Default: \texttt{\ none\ } .
+\end{itemize}
+
+\begin{quote}
+{[}!NOTE{]} See below for more details about the format of start time
+and end time.
+\end{quote}
+
+Example:
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/cineca/0.4.0/test/day-view.png}}
+
+\subsubsection{Month view}\label{month-view}
+
+\texttt{\ calendar-month(events,\ template,\ sunday-first,\ ..args)\ }
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ events\ } : Event list. Each element is a two-element array.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Day. A datetime object.
+  \item
+    Additional information for showing a day. It actually depends on the
+    template \texttt{\ day-body\ } . For the deafult template, it
+    requires a content.
+  \end{itemize}
+\item
+  \texttt{\ template\ } : Templates for headers, times, or events. It
+  takes a dictionary of the following entries: \texttt{\ day-body\ } ,
+  \texttt{\ day-head\ } , \texttt{\ month-head\ } , and
+  \texttt{\ layout\ } .
+\item
+  \texttt{\ sunday-first\ } : Whether to put sunday as the first day of
+  a week.
+\item
+  \texttt{\ ..args\ } : Additional arguments for the calendarâ€™s grid.
+\end{itemize}
+
+Example:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let events = (}
+\NormalTok{  (daytime("2024{-}2{-}1", "9:0:0"), [Lecture]),}
+\NormalTok{  (daytime("2024{-}2{-}1", "10:0:0"), [Tutorial]),}
+\NormalTok{  (daytime("2024{-}2{-}2", "10:0:0"), [Meeting]),}
+\NormalTok{  (daytime("2024{-}2{-}10", "12:0:0"), [Lunch]),}
+\NormalTok{  (daytime("2024{-}2{-}25", "8:0:0"), [Train]),}
+\NormalTok{)}
+
+\NormalTok{\#calendar{-}month(}
+\NormalTok{  events,}
+\NormalTok{  sunday{-}first: false,}
+\NormalTok{  template: (}
+\NormalTok{    month{-}head: (content) =\textgreater{} strong(content)}
+\NormalTok{  )}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let events2 = (}
+\NormalTok{  (datetime(year: 2024, month: 5, day: 1, hour: 9, minute: 0, second: 0), ([Lecture], blue)),}
+\NormalTok{  (datetime(year: 2024, month: 5, day: 1, hour: 10, minute: 0, second: 0), ([Tutorial], red)),}
+\NormalTok{  (datetime(year: 2024, month: 5, day: 1, hour: 11, minute: 0, second: 0), [Lab]),}
+\NormalTok{)}
+
+\NormalTok{\#calendar{-}month(}
+\NormalTok{  events2,}
+\NormalTok{  sunday{-}first: true,}
+\NormalTok{  rows: (2em,) * 2 + (8em,),}
+\NormalTok{  template: (}
+\NormalTok{    day{-}body: (day, events) =\textgreater{} \{}
+\NormalTok{      show: block.with(width: 100\%, height: 100\%, inset: 2pt)}
+\NormalTok{      set align(left + top)}
+\NormalTok{      stack(}
+\NormalTok{        spacing: 2pt,}
+\NormalTok{        pad(bottom: 4pt, text(weight: "bold", day.display("[day]"))),}
+\NormalTok{        ..events.map(((d, e)) =\textgreater{} \{}
+\NormalTok{          let col = if type(e) == array and e.len() \textgreater{} 1 \{ e.at(1) \} else \{ yellow \}}
+\NormalTok{          show: block.with(}
+\NormalTok{            fill: col.lighten(40\%),}
+\NormalTok{            stroke: col,}
+\NormalTok{            width: 100\%,}
+\NormalTok{            inset: 2pt,}
+\NormalTok{            radius: 2pt}
+\NormalTok{          )}
+\NormalTok{          d.display("[hour]")}
+\NormalTok{          h(4pt)}
+\NormalTok{          if type(e) == array \{ e.at(0) \} else \{ e \}}
+\NormalTok{        \})}
+\NormalTok{      )}
+\NormalTok{    \}}
+\NormalTok{  )}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/cineca/0.4.0/test/month-view.png}}
+
+\subsubsection{Month-summary view}\label{month-summary-view}
+
+\texttt{\ calendar-month-summary(events,\ template,\ sunday-first,\ ..args)\ }
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ events\ } : Event list. Each element is a two-element array.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Day. A datetime object.
+  \item
+    Additional information for showing a day. It actually depends on the
+    template \texttt{\ day-body\ } . For the deafult template, it
+    requires an array of two elements.
+
+    \begin{itemize}
+    \tightlist
+    \item
+      Shape. A function specify how to darw the shape, such as
+      \texttt{\ circle\ } .
+    \item
+      Arguments. Further arguments for render a shape.
+    \end{itemize}
+  \end{itemize}
+\item
+  \texttt{\ template\ } : Templates for headers, times, or events. It
+  takes a dictionary of the following entries: \texttt{\ day-body\ } ,
+  \texttt{\ day-head\ } , \texttt{\ month-head\ } , and
+  \texttt{\ layout\ } .
+\item
+  \texttt{\ sunday-first\ } : Whether to put sunday as the first day of
+  a week.
+\item
+  \texttt{\ ..args\ } : Additional arguments for the calendarâ€™s grid.
+\end{itemize}
+
+Example:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let events = (}
+\NormalTok{  (day("2024{-}02{-}21"), (circle, (stroke: color.green, inset: 2pt))),}
+\NormalTok{  (day("2024{-}02{-}22"), (circle, (stroke: color.green, inset: 2pt))),}
+\NormalTok{  (day("2024{-}05{-}27"), (circle, (stroke: color.green, inset: 2pt))),}
+\NormalTok{  (day("2024{-}05{-}28"), (circle, (stroke: color.blue, inset: 2pt))),}
+\NormalTok{  (day("2024{-}05{-}29"), (circle, (stroke: color.blue, inset: 2pt))),}
+\NormalTok{  (day("2024{-}06{-}03"), (circle, (stroke: color.blue, inset: 2pt))),}
+\NormalTok{  (day("2024{-}06{-}04"), (circle, (stroke: color.yellow, inset: 2pt))),}
+\NormalTok{  (day("2024{-}06{-}05"), (circle, (stroke: color.yellow, inset: 2pt))),}
+\NormalTok{  (day("2024{-}06{-}10"), (circle, (stroke: color.red, inset: 2pt))),}
+\NormalTok{)}
+
+\NormalTok{\#calendar{-}month{-}summary(}
+\NormalTok{  events: events}
+\NormalTok{)}
+
+\NormalTok{\#calendar{-}month{-}summary(}
+\NormalTok{  events: events,}
+\NormalTok{  sunday{-}first: true}
+\NormalTok{)}
+
+\NormalTok{// An empty calendar}
+\NormalTok{\#calendar{-}month{-}summary(}
+\NormalTok{  events: (}
+\NormalTok{    (datetime(year: 2024, month: 05, day: 21), (none,)),}
+\NormalTok{  ),}
+\NormalTok{  stroke: 1pt,}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/cineca/0.4.0/test/month-summary.png}}
+
+\subsection{Day/Time/Daytime Format}\label{daytimedaytime-format}
+
+In addition to using \texttt{\ datetime()\ } to set up time, the package
+provided some other ways, supported by functions \texttt{\ day()\ } ,
+\texttt{\ time()\ } , and \texttt{\ daytime()\ } .
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{{-} \#time(8)}
+\NormalTok{{-} \#time(8, 10)}
+\NormalTok{{-} \#time(8, 10, 30)}
+\NormalTok{{-} \#time("8.30")}
+\NormalTok{{-} \#time(decimal("12.10"))}
+\NormalTok{{-} \#time(14.10)            // 24{-}hour format}
+\NormalTok{{-} \#time("8:10:08")}
+
+\NormalTok{{-} \#day(2024)}
+\NormalTok{{-} \#day(2024, 2)}
+\NormalTok{{-} \#day(2024, 2, 5)    // year, month, day}
+\NormalTok{{-} \#day("2024{-}3{-}7")    // ISO format (year{-}month{-}day)}
+\NormalTok{{-} \#day("26/12/2024")  // British format (day/month/year)}
+
+\NormalTok{{-} \#daytime(2024)}
+\NormalTok{{-} \#daytime(2024, 2)}
+\NormalTok{{-} \#daytime(2024, 2, 5)}
+\NormalTok{{-} \#daytime(2024, 2, 5, 8)}
+\NormalTok{{-} \#daytime(2024, 2, 5, 8, 10)}
+\NormalTok{{-} \#daytime("2024{-}6{-}1", 8)}
+\NormalTok{{-} \#daytime("2024{-}6{-}1", 8, 10)}
+\NormalTok{{-} \#daytime("2024{-}6{-}1", 8, 10, 30)}
+\NormalTok{{-} \#daytime(2024, "12:00")}
+\NormalTok{{-} \#daytime(2024, 2, "12:00")}
+\NormalTok{{-} \#daytime(2024, 2, 5, "12:00")}
+\NormalTok{{-} \#daytime("2024{-}3{-}7", "11:30:45")}
+\NormalTok{{-} \#daytime("2024{-}12{-}26 8:30")}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Limitations}\label{limitations}
+
+\begin{itemize}
+\tightlist
+\item
+  Page breaking may be incorrect.
+\item
+  Items will overlap when they happens at the same time.
+\end{itemize}
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as \texttt{\ cineca\ }
+
+\begin{verbatim}
+#import "@preview/cineca:0.4.0"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+HPDell
+\item[License:]
+MIT
+\item[Current version:]
+0.4.0
+\item[Last updated:]
+November 25, 2024
+\item[First released:]
+April 1, 2024
+\item[Archive size:]
+7.04 kB
+\href{https://packages.typst.org/preview/cineca-0.4.0.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/HPdell/typst-cineca}{GitHub}
+\item[Categor ies :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-layout.svg}}
+  \href{https://typst.app/universe/search/?category=layout}{Layout}
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-chart.svg}}
+  \href{https://typst.app/universe/search/?category=visualization}{Visualization}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of HPDell . Report issues on
+\href{https://github.com/HPdell/typst-cineca}{their repository} . You
+can also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.4.0 & November 25, 2024 \\
+\href{https://typst.app/universe/package/cineca/0.3.0/}{0.3.0} &
+November 18, 2024 \\
+\href{https://typst.app/universe/package/cineca/0.2.1/}{0.2.1} & July 1,
+2024 \\
+\href{https://typst.app/universe/package/cineca/0.2.0/}{0.2.0} & May 22,
+2024 \\
+\href{https://typst.app/universe/package/cineca/0.1.0/}{0.1.0} & April
+1, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.

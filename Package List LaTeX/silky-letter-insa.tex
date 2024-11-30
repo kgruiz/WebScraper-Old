@@ -1,0 +1,251 @@
+\title{typst.app/universe/package/silky-letter-insa}
+
+\phantomsection\label{banner}
+\phantomsection\label{template-thumbnail}
+\pandocbounded{\includegraphics[keepaspectratio]{https://packages.typst.org/preview/thumbnails/silky-letter-insa-0.2.2-small.webp}}
+
+\section{silky-letter-insa}\label{silky-letter-insa}
+
+{ 0.2.2 }
+
+A template made for letters and short documents of INSA, a French
+engineering school.
+
+\href{/app?template=silky-letter-insa&version=0.2.2}{Create project in
+app}
+
+\phantomsection\label{readme}
+Typst Template for short documents and letters for the french
+engineering school INSA.
+
+\subsection{Example}\label{example}
+
+By default, the template initializes with the \texttt{\ insa-letter\ }
+show rule, with parameters that you must fill in by yourself.
+
+Here is an example of filled template:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/silky{-}letter{-}insa:0.2.2": *}
+\NormalTok{\#show: doc =\textgreater{} insa{-}letter(}
+\NormalTok{  author: "Youenn LE JEUNE, Kelian NINET",}
+\NormalTok{  insa: "rennes"}
+\NormalTok{  doc)}
+
+\NormalTok{\#v(15pt)}
+\NormalTok{\#align(center, text(size: 22pt, weight: "bold", smallcaps("ProbabilitÃ©s {-} Annale 2022 (V1)")))}
+\NormalTok{\#v(5pt)}
+
+\NormalTok{\#set heading(numbering: "1.")}
+\NormalTok{\#show heading.where(level: 2): it =\textgreater{} [}
+\NormalTok{  \#counter(heading).display()}
+\NormalTok{  \#text(weight: "medium", style: "italic", size: 13pt, it.body)}
+
+\NormalTok{]}
+
+\NormalTok{= Intervalle de confiance}
+\NormalTok{== Calculer sur lâÃ©chantillon une estimation de la moyenne.}
+\NormalTok{$ overline(x\_n) = 1/n sum\_(i=1)\^{}n x\_i = 1885 $}
+
+\NormalTok{== Calculer sur lâÃ©chantillon une estimation de la variance.}
+\NormalTok{$}
+\NormalTok{"Variance biaisÃ©e :" s\^{}2 \&= 1/n sum\_(i=1)\^{}n (x\_i {-} overline(x\_n))\^{}2 = 218\^{}2\textbackslash{}}
+\NormalTok{"Variance corrigÃ©e :" s\textquotesingle{}\^{}2 \&=  n/(n{-}1) s\^{}2 = 231\^{}2}
+\NormalTok{$}
+
+\NormalTok{Le bon estimateur est le second.}
+
+\NormalTok{== Ãcrire le code R permettant dâÃ©valuer les deux bornes de lâintervalle de confiance du temps dâexÃ©cution avec une confiance de 92\%.}
+\NormalTok{Nous sommes dans le cas d\textquotesingle{}une recherche de moyenne avec variance inconnue, l\textquotesingle{}intervalle sera donc}
+\NormalTok{$ [overline(X) + t\_(n{-}1)(alpha/2) S\textquotesingle{}/sqrt(n), quad overline(X) + t\_(n{-}1)(1 {-} alpha/2) S\textquotesingle{}/sqrt(n)] $}
+\NormalTok{En R, avec l\textquotesingle{}Ã©chantillon nommÃ© \textasciigrave{}data\textasciigrave{}, Ã§a donne}
+\NormalTok{\textasciigrave{}\textasciigrave{}\textasciigrave{}R}
+\NormalTok{data = c(1653, 2059, 2281, 1813, 2180, 1721, 1857, 1677, 1728)}
+\NormalTok{moyenne = mean(data)}
+\NormalTok{s\_prime = sqrt(var(data)) \# car la variance de R est dÃ©jÃ  corrigÃ©e}
+\NormalTok{n = 9}
+\NormalTok{alpha = 0.08}
+
+\NormalTok{IC\_min = moyenne + qt(alpha / 2, df = n {-} 1) * s\_prime / sqrt(n)}
+\NormalTok{IC\_max = moyenne + qt(1 {-} alpha / 2, df = n {-} 1) * s\_prime / sqrt(n)}
+\NormalTok{\textasciigrave{}\textasciigrave{}\textasciigrave{}}
+
+\NormalTok{Ici on a $[1730, 2040]$.}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Fonts}\label{fonts}
+
+The graphic charter recommends the fonts \textbf{League Spartan} for
+headings and \textbf{Source Serif} for regular text. To have the best
+look, you should install those fonts.
+
+To behave correctly on computers without those specific fonts installed,
+this template will automatically fallback to other similar fonts:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{League Spartan} -\textgreater{} \textbf{Arial} (approved by
+  INSAâ€™s graphic charter, by default in Windows) -\textgreater{}
+  \textbf{Liberation Sans} (by default in most Linux)
+\item
+  \textbf{Source Serif} -\textgreater{} \textbf{Source Serif 4}
+  (downloadable for free) -\textgreater{} \textbf{Georgia} (approved by
+  the graphic charter) -\textgreater{} \textbf{Linux Libertine} (default
+  Typst font)
+\end{itemize}
+
+\subsubsection{Note on variable fonts}\label{note-on-variable-fonts}
+
+If you want to install those fonts on your computer, Typst might not
+recognize them if you install their \emph{Variable} versions. You should
+install the static versions ( \textbf{League Spartan Bold} and most
+versions of \textbf{Source Serif} ).
+
+Keep an eye on \href{https://github.com/typst/typst/issues/185}{the
+issue in Typst bug tracker} to see when variable fonts will be used!
+
+\subsection{Notes}\label{notes}
+
+This template is being developed by Youenn LE JEUNE from the INSA de
+Rennes in \href{https://github.com/SkytAsul/INSA-Typst-Template}{this
+repository} .
+
+For now it includes assets from the graphic charters of those INSAs:
+
+\begin{itemize}
+\tightlist
+\item
+  Rennes ( \texttt{\ rennes\ } )
+\item
+  Hauts de France ( \texttt{\ hdf\ } )
+\item
+  Centre Val de Loire ( \texttt{\ cvl\ } ) Users from other INSAs can
+  open a pull request on the repository with the assets for their INSA.
+\end{itemize}
+
+If you have any other feature request, open an issue on the repository
+as well.
+
+\subsection{License}\label{license}
+
+The typst template is licensed under the
+\href{https://github.com/SkytAsul/INSA-Typst-Template/blob/main/LICENSE}{MIT
+license} . This does \emph{not} apply to the image assets. Those image
+files are property of Groupe INSA.
+
+\subsection{Changelog}\label{changelog}
+
+\subsubsection{0.2.2}\label{section}
+
+\begin{itemize}
+\tightlist
+\item
+  Added INSA CVL assets
+\end{itemize}
+
+\subsubsection{0.2.1}\label{section-1}
+
+\begin{itemize}
+\tightlist
+\item
+  Added \texttt{\ insa\ } option
+\item
+  Added INSA HdF assets
+\end{itemize}
+
+\href{/app?template=silky-letter-insa&version=0.2.2}{Create project in
+app}
+
+\subsubsection{How to use}\label{how-to-use}
+
+Click the button above to create a new project using this template in
+the Typst app.
+
+You can also use the Typst CLI to start a new project on your computer
+using this command:
+
+\begin{verbatim}
+typst init @preview/silky-letter-insa:0.2.2
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+SkytAsul
+\item[License:]
+MIT
+\item[Current version:]
+0.2.2
+\item[Last updated:]
+November 21, 2024
+\item[First released:]
+March 23, 2024
+\item[Archive size:]
+269 kB
+\href{https://packages.typst.org/preview/silky-letter-insa-0.2.2.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/SkytAsul/INSA-Typst-Template}{GitHub}
+\item[Discipline s :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \href{https://typst.app/universe/search/?discipline=engineering}{Engineering}
+\item
+  \href{https://typst.app/universe/search/?discipline=computer-science}{Computer
+  Science}
+\item
+  \href{https://typst.app/universe/search/?discipline=mathematics}{Mathematics}
+\item
+  \href{https://typst.app/universe/search/?discipline=physics}{Physics}
+\end{itemize}
+\item[Categor y :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-envelope.svg}}
+  \href{https://typst.app/universe/search/?category=office}{Office}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This template is a project of SkytAsul . Report issues on
+\href{https://github.com/SkytAsul/INSA-Typst-Template}{their repository}
+. You can also try to ask for help with this template on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this template to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.2.2 & November 21, 2024 \\
+\href{https://typst.app/universe/package/silky-letter-insa/0.2.1/}{0.2.1}
+& September 24, 2024 \\
+\href{https://typst.app/universe/package/silky-letter-insa/0.2.0/}{0.2.0}
+& June 10, 2024 \\
+\href{https://typst.app/universe/package/silky-letter-insa/0.1.0/}{0.1.0}
+& March 23, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this template and cannot guarantee correct
+functionality of this template or compatibility with any version of the
+Typst compiler or app.

@@ -1,0 +1,428 @@
+<main>
+    <div id="banner" style="--banner-accent:#000000;--banner-primary:#000000;--banner-secondary:#000000;--banner-tertiary:#565565;--banner-background:#eff0f3">
+     <div id="template-thumbnail">
+      <img alt="A preview of the classic-jmlr Typst template." src="https://packages.typst.org/preview/thumbnails/classic-jmlr-0.4.0-small.webp"/>
+      <div class="icon" role="img">
+      </div>
+     </div>
+     <div>
+      <div class="title">
+       <h1 class="name">
+        classic-jmlr
+       </h1>
+       <span class="version">
+        0.4.0
+       </span>
+      </div>
+      <p class="description">
+       Paper template for submission to Journal of Machine Learning Research (JMLR)
+      </p>
+     </div>
+    </div>
+    <div class="inner-grid">
+     <a class="create-project-button mobile" href="/app?template=classic-jmlr&amp;version=0.4.0" rel="noopener noreferrer" target="_blank">
+      Create project in app
+     </a>
+     <section id="readme">
+      <h2>
+       Overview
+      </h2>
+      <p>
+       This is a Typst template for Journal of Machine Learning Research (JMLR). It is based on official
+       <a href="https://www.jmlr.org/format/authors-guide.html" rel="nofollow ugc" target="_blank">
+        author guide
+       </a>
+       ,
+       <a href="https://www.jmlr.org/format/format.html" rel="nofollow ugc" target="_blank">
+        formatting instructions
+       </a>
+       , and
+       <a href="https://www.jmlr.org/format/formatting-errors.html" rel="nofollow ugc" target="_blank">
+        formatting error checklist
+       </a>
+       as well as the official
+       <a href="https://github.com/jmlrorg/jmlr-style-file" rel="nofollow ugc" target="_blank">
+        example paper
+       </a>
+       .
+      </p>
+      <h2>
+       Usage
+      </h2>
+      <p>
+       You can use this template in the Typst web app by clicking
+       <em>
+        Start from template
+       </em>
+       on the dashboard and searching for
+       <code>
+        classic-jmlr
+       </code>
+       .
+      </p>
+      <p>
+       Alternatively, you can use the CLI to kick this project off using the command
+      </p>
+      <pre><code class="language-shell">typst init @preview/classic-jmlr
+</code></pre>
+      <p>
+       Typst will create a new directory with all the files needed to get you started.
+      </p>
+      <h2>
+       Configuration
+      </h2>
+      <p>
+       This template exports the
+       <code>
+        jmlr
+       </code>
+       function with the following named arguments.
+      </p>
+      <ul>
+       <li>
+        <code>
+         title
+        </code>
+        : The paperâs title as content.
+       </li>
+       <li>
+        <code>
+         short-title
+        </code>
+        : Paper short title (for page header).
+       </li>
+       <li>
+        <code>
+         authors
+        </code>
+        : An array of author dictionaries. Each of the author dictionaries must have a name key and can have the keys department, organization, location, and email.
+       </li>
+       <li>
+        <code>
+         last-names
+        </code>
+        : List of authors last names (for page header).
+       </li>
+       <li>
+        <code>
+         keywords
+        </code>
+        : Publication keywords (used in PDF metadata).
+       </li>
+       <li>
+        <code>
+         date
+        </code>
+        : Creation date (used in PDF metadata).
+       </li>
+       <li>
+        <code>
+         abstract
+        </code>
+        : The content of a brief summary of the paper or none. Appears at the top under the title.
+       </li>
+       <li>
+        <code>
+         bibliography
+        </code>
+        : The result of a call to the bibliography function or none. The function also accepts a single, positional argument for the body of the paper.
+       </li>
+       <li>
+        <code>
+         appendix
+        </code>
+        : Content to append after bibliography section.
+       </li>
+       <li>
+        <code>
+         pubdata
+        </code>
+        : Dictionary with auxiliary information about publication. It contains editor name(s), paper id, volume, and submission/review/publishing dates.
+       </li>
+      </ul>
+      <p>
+       The template will initialize your package with a sample call to the
+       <code>
+        jmlr
+       </code>
+       function in a show rule. If you want to change an existing project to use this template, you can add a show rule at the top of your file.
+      </p>
+      <pre><code class="language-typst"><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/classic-jmlr"</span><span class="typ-punct">:</span> jmlr
+<span class="typ-key">#</span><span class="typ-key">show</span><span class="typ-punct">:</span> jmlr<span class="typ-punct">.</span><span class="typ-func">with</span><span class="typ-punct">(</span>
+  title<span class="typ-punct">:</span> <span class="typ-punct">[</span>Sample JMLR Paper<span class="typ-punct">]</span><span class="typ-punct">,</span>
+  authors<span class="typ-punct">:</span> <span class="typ-punct">(</span>authors<span class="typ-punct">,</span> affls<span class="typ-punct">)</span><span class="typ-punct">,</span>
+  abstract<span class="typ-punct">:</span> blindtext<span class="typ-punct">,</span>
+  keywords<span class="typ-punct">:</span> <span class="typ-punct">(</span><span class="typ-str">"keyword one"</span><span class="typ-punct">,</span> <span class="typ-str">"keyword two"</span><span class="typ-punct">,</span> <span class="typ-str">"keyword three"</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+  bibliography<span class="typ-punct">:</span> <span class="typ-func">bibliography</span><span class="typ-punct">(</span><span class="typ-str">"main.bib"</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+  appendix<span class="typ-punct">:</span> <span class="typ-key">include</span> <span class="typ-str">"appendix.typ"</span><span class="typ-punct">,</span>
+  pubdata<span class="typ-punct">:</span> <span class="typ-punct">(</span>
+    id<span class="typ-punct">:</span> <span class="typ-str">"21-0000"</span><span class="typ-punct">,</span>
+    editor<span class="typ-punct">:</span> <span class="typ-str">"My editor"</span><span class="typ-punct">,</span>
+    volume<span class="typ-punct">:</span> <span class="typ-num">23</span><span class="typ-punct">,</span>
+    submitted-at<span class="typ-punct">:</span> <span class="typ-func">datetime</span><span class="typ-punct">(</span>year<span class="typ-punct">:</span> <span class="typ-num">2021</span><span class="typ-punct">,</span> month<span class="typ-punct">:</span> <span class="typ-num">1</span><span class="typ-punct">,</span> day<span class="typ-punct">:</span> <span class="typ-num">1</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+    revised-at<span class="typ-punct">:</span> <span class="typ-func">datetime</span><span class="typ-punct">(</span>year<span class="typ-punct">:</span> <span class="typ-num">2022</span><span class="typ-punct">,</span> month<span class="typ-punct">:</span> <span class="typ-num">5</span><span class="typ-punct">,</span> day<span class="typ-punct">:</span> <span class="typ-num">1</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+    published-at<span class="typ-punct">:</span> <span class="typ-func">datetime</span><span class="typ-punct">(</span>year<span class="typ-punct">:</span> <span class="typ-num">2022</span><span class="typ-punct">,</span> month<span class="typ-punct">:</span> <span class="typ-num">9</span><span class="typ-punct">,</span> day<span class="typ-punct">:</span> <span class="typ-num">1</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+  <span class="typ-punct">)</span><span class="typ-punct">,</span>
+<span class="typ-punct">)</span>
+</code></code></pre>
+      <h2>
+       Issues
+      </h2>
+      <p>
+       This template is developed at
+       <a href="https://github.com/daskol/typst-templates" rel="nofollow ugc" target="_blank">
+        daskol/typst-templates
+       </a>
+       repo. Please report all issues there.
+      </p>
+      <ul>
+       <li>
+        <p>
+         Original JMLR example paper is not not representative. It does not demonstrate appearance of figures, images, tables, lists, etc.
+        </p>
+       </li>
+       <li>
+        <p>
+         Leading in author affilations in in the original template is varying.
+        </p>
+       </li>
+       <li>
+        <p>
+         There is no bibliography CSL-style. The closest one is
+         <code>
+          bristol-university-press
+         </code>
+         .
+        </p>
+       </li>
+       <li>
+        <p>
+         Another issue is related to Typstâs inablity to produce colored annotation. In order to mitigte the issue, we add a script which modifies annotations and make them colored.
+        </p>
+        <pre><code class="language-shell">../colorize-annotations.py \
+    example-paper.typst.pdf example-paper-colored.typst.pdf
+</code></pre>
+        <p>
+         See
+         <a href="https://github.com/daskol/typst-templates/#colored-annotations" rel="nofollow ugc" target="_blank">
+          README.md
+         </a>
+         for details.
+        </p>
+       </li>
+      </ul>
+     </section>
+     <aside>
+      <a class="create-project-button desktop" href="/app?template=classic-jmlr&amp;version=0.4.0" rel="noopener noreferrer" target="_blank">
+       Create project in app
+      </a>
+      <section>
+       <h3>
+        How to use
+       </h3>
+       <p>
+        Click the button above to create a new project using this template in the Typst app.
+       </p>
+       <p>
+        You can also use the Typst CLI to start a new project on your computer using this command:
+       </p>
+       <div class="init-snippet">
+        <pre><code>typst init @preview/<!-- -->classic-jmlr<!-- -->:<!-- -->0.4.0</code></pre>
+        <button class="copy" title="Copy to clipboard">
+         <img alt="Copy" height="16" src="/assets/icons/16-copy.svg" width="16"/>
+        </button>
+       </div>
+      </section>
+      <section id="about">
+       <h3>
+        About
+       </h3>
+       <dl>
+        <dt>
+         Author
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         <a href="mailto:d.bershatsky2@skoltech.ru">
+          Daniel Bershatsky
+         </a>
+        </dd>
+        <dt>
+         License:
+        </dt>
+        <dd>
+         MIT
+        </dd>
+        <dt>
+         Current version:
+        </dt>
+        <dd>
+         0.4.0
+        </dd>
+        <dt>
+         Last updated:
+        </dt>
+        <dd>
+         April 19, 2024
+        </dd>
+        <dt>
+         First released:
+        </dt>
+        <dd>
+         April 19, 2024
+        </dd>
+        <dt>
+         Minimum Typst version:
+        </dt>
+        <dd>
+         0.11.0
+        </dd>
+        <dt>
+         Archive size:
+        </dt>
+        <dd class="archive-size-value">
+         8.60 kB
+         <a href="https://packages.typst.org/preview/classic-jmlr-0.4.0.tar.gz">
+          <img alt="Size icon" src="/assets/icons/16-download.svg"/>
+         </a>
+        </dd>
+        <dt>
+         Repository:
+        </dt>
+        <dd>
+         <a href="https://github.com/daskol/typst-templates" rel="noopener noreferrer" target="_blank">
+          GitHub
+         </a>
+        </dd>
+        <dt>
+         Discipline
+         <!-- -->
+         s
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         <ul class="list-without-icons">
+          <li>
+           <a href="https://typst.app/universe/search/?discipline=computer-science">
+            Computer Science
+           </a>
+          </li>
+          <li>
+           <a href="https://typst.app/universe/search/?discipline=mathematics">
+            Mathematics
+           </a>
+          </li>
+         </ul>
+        </dd>
+        <dt>
+         Categor
+         <!-- -->
+         y
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         <ul class="list-with-icons">
+          <li>
+           <img alt="Paper icon" src="/assets/icons/16-atom.svg"/>
+           <a href="https://typst.app/universe/search/?category=paper">
+            Paper
+           </a>
+          </li>
+         </ul>
+        </dd>
+       </dl>
+      </section>
+      <section>
+       <h3>
+        Where to report issues?
+       </h3>
+       <p>
+        This
+        <!-- -->
+        template
+        <!-- -->
+        is a project of
+        <!-- -->
+        <!-- -->
+        Daniel Bershatsky
+        <!-- -->
+        .
+        <!-- -->
+        <!-- -->
+        Report issues on
+        <!-- -->
+        <a href="https://github.com/daskol/typst-templates" rel="noopener noreferrer" target="_blank">
+         their repository
+        </a>
+        .
+        <!-- -->
+        <!-- -->
+        You can also try to ask for help with this
+        <!-- -->
+        template
+        <!-- -->
+        on the
+        <!-- -->
+        <a href="https://forum.typst.app" rel="noopener" target="_blank">
+         Forum
+        </a>
+        .
+       </p>
+       <p>
+        Please report this
+        <!-- -->
+        template
+        <!-- -->
+        to the Typst team using the
+        <!-- -->
+        <a href="https://typst.app/contact" rel="noreferrer" target="_blank">
+         contact form
+        </a>
+        <!-- -->
+        if you believe it is a safety hazard or infringes upon your rights.
+       </p>
+      </section>
+      <section id="versions">
+       <h3>
+        Version history
+       </h3>
+       <table>
+        <thead>
+         <tr>
+          <th align="left">
+           Version
+          </th>
+          <th align="left">
+           Release Date
+          </th>
+         </tr>
+        </thead>
+        <tbody>
+         <tr>
+          <td align="left">
+           0.4.0
+          </td>
+          <td align="left">
+           April 19, 2024
+          </td>
+         </tr>
+        </tbody>
+       </table>
+      </section>
+      <p class="bottom-notice muted">
+       Typst GmbH did not create this
+       <!-- -->
+       template
+       <!-- -->
+       and cannot guarantee correct functionality of this
+       <!-- -->
+       template
+       <!-- -->
+       or compatibility with any version of the Typst compiler or app.
+      </p>
+     </aside>
+    </div>
+   </main>

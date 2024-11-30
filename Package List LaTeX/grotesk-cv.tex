@@ -1,0 +1,271 @@
+\title{typst.app/universe/package/grotesk-cv}
+
+\phantomsection\label{banner}
+\phantomsection\label{template-thumbnail}
+\pandocbounded{\includegraphics[keepaspectratio]{https://packages.typst.org/preview/thumbnails/grotesk-cv-1.0.1-small.webp}}
+
+\section{grotesk-cv}\label{grotesk-cv}
+
+{ 1.0.1 }
+
+A clean CV and cover letter template based on Brilliant-cv and fireside
+templates.
+
+\href{/app?template=grotesk-cv&version=1.0.1}{Create project in app}
+
+\phantomsection\label{readme}
+Version 1.0.1
+
+{ }
+
+grotesk-cv provides a pair of elegant and simple, one-page CV and cover
+letter templates, inspired by the
+\href{https://typst.app/universe/package/brilliant-cv/}{Brilliant-cv}
+and \href{https://typst.app/universe/package/fireside/1.0.0/}{fireside}
+templates.
+
+\subsubsection{Features}\label{features}
+
+\begin{itemize}
+\tightlist
+\item
+  Templates for multilingual CV and cover letter, enabled by flag
+\item
+  Separation of styling and content
+\item
+  Customizable fonts, colors and icons
+\end{itemize}
+
+\subsection{Preview}\label{preview}
+
+\begin{longtable}[]{@{}cc@{}}
+\toprule\noalign{}
+CV & Cover Letter \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\pandocbounded{\includegraphics[keepaspectratio]{https://raw.githubusercontent.com/AsiSkarp/grotesk-cv/main/examples/cv_example.png?raw=true}}
+&
+\pandocbounded{\includegraphics[keepaspectratio]{https://raw.githubusercontent.com/AsiSkarp/grotesk-cv/main/examples/cover_letter_example.png?raw=true}} \\
+\end{longtable}
+
+\subsection{Getting Started}\label{getting-started}
+
+To edit this template, changes are mostly made in either of two places.
+Changes to contact information or layout settings are made in
+\texttt{\ info.toml\ } . To change the section contents, navigate to the
+corresponding section file e.g. \texttt{\ content/profile.typ\ } to edit
+the \textbf{Profile} section.
+
+\subsubsection{Adding or Removing
+Sections}\label{adding-or-removing-sections}
+
+To add a new section, create a new \texttt{\ .typ\ } file in the
+\texttt{\ content\ } directory with the desired section name. To include
+the section in the CV, add the section at the desired position in either
+left or right panes in the \texttt{\ cv.typ\ } file. To remove sections,
+simply remove or comment-out the section name in the same list of
+section names in the \texttt{\ cv.typ\ } file. Sections are rendered in
+the order they appear in the list. The section column width can be
+adjusted in the \texttt{\ info.toml\ } file under the
+\texttt{\ left\_pane\_width\ } value. In the following example, the
+\texttt{\ projects.typ\ } section file has been created and is included
+in the left pane of the CV, and the \texttt{\ education.typ\ } section
+has been removed.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let left}\OperatorTok{{-}}\NormalTok{pane }\OperatorTok{=}\NormalTok{ (}
+  \StringTok{"profile"}\OperatorTok{,}
+  \StringTok{"experience"}\OperatorTok{,}
+  \CommentTok{//"education",}
+  \StringTok{"projects"}\OperatorTok{,}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{Changing Profile Photo}\label{changing-profile-photo}
+
+To change the profile photo, upload your image to the
+\texttt{\ content/img\ } folder. To enable the new image, update the
+\texttt{\ profile\_image\ } value in \texttt{\ info.toml\ } with the
+name of your uploaded image.
+
+\subsubsection{Changing FontAwesome
+Icons}\label{changing-fontawesome-icons}
+
+The template uses \href{https://fontawesome.com/}{FontAwesome} for all
+icons. To change an icon, change the desired icon string in the
+\texttt{\ info.toml\ } file with the corresponding FontAwesome icon
+name. Icon strings can be found in the
+\href{https://fontawesome.com/v4/cheatsheet/}{cheat sheet} . Note that
+the icon strings must be written without the \texttt{\ fa-\ } prefix. To
+disable the use of icons, set the \texttt{\ include\_icons\ } value to
+\texttt{\ false\ } .
+
+\subsubsection{Customizing Contact
+Information}\label{customizing-contact-information}
+
+To change or add contact information, update the corresponding value
+under \texttt{\ {[}personal.info{]}\ } in the \texttt{\ info.toml\ }
+file. Information is rendered in the order it appears in the file. To
+add a new contact information field, add a new variable under
+\texttt{\ {[}personal.info{]}\ } with the desired string value. Next,
+assign a valid FontAwesome icon string to a variable of the same name
+under \texttt{\ {[}personal.icon{]}\ } . In the following example, a
+homepage field has been added to the contact information.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{[personal.info]}
+\DataTypeTok{homepage} \OperatorTok{=} \StringTok{"www.myawesomehomepage.com"}
+
+\KeywordTok{[personal.icon]}
+\DataTypeTok{homepage} \OperatorTok{=} \StringTok{"globe"}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{Changing language}\label{changing-language}
+
+The template provides the option to instantly change the language of the
+CV and cover letter by using a variable in the \texttt{\ info.toml\ }
+file. The template demonstrates the use of the \texttt{\ language\ }
+variable to switch between English and Spanish, but any language can be
+used, provided that the information is entered manually inside the
+corresponding section files. For instance, to change the alternate
+language to German, changes would have to be made in the section files
+to include the German text. In the following example, the language of
+the \textbf{Profile} section has been changed from Spanish to German,
+and the required changes have been made in the
+\texttt{\ content/profile.typ\ } file.
+
+\begin{verbatim}
+// = Summary
+= #if include-icon [#fa-icon(icon) #h(5pt)] #if language == "en" [Summary] else if language == "ger" [Zusammenfassung]
+
+#v(5pt)
+
+#if language == "en" [
+
+  Experienced Software Engineer specializing in artificial intelligence, machine learning, and robotics. Proficient in C++, Python, and Java, with a knack for developing sentient AI systems capable of complex decision-making. Passionate about ethical AI development and eager to contribute to groundbreaking projects in dynamic environments.
+
+] else if language == "ger" [
+
+  Erfahrener Software-Ingenieur, der sich auf kÃ¼nstliche Intelligenz, maschinelles Lernen und Robotik spezialisiert hat. Er beherrscht C++, Python und Java und hat ein HÃ¤ndchen fÃ¼r die Entwicklung empfindungsfÃ¤higer KI-Systeme, die in der Lage sind, komplexe Entscheidungen zu treffen. Leidenschaft fÃ¼r ethische KI-Entwicklung und bestrebt, zu bahnbrechenden Projekten in dynamischen Umgebungen beizutragen.
+
+]
+\end{verbatim}
+
+\subsubsection{Changing Fonts}\label{changing-fonts}
+
+If using the template online with Typst Universe, multiple font types
+are available to use, a list of which can be found by pressing the
+\texttt{\ Ag\ } button. To use a different font, upload a
+\texttt{\ ttf\ } or \texttt{\ otf\ } file to the
+\texttt{\ content/fonts\ } folder and update the \texttt{\ font\ } value
+in the \texttt{\ info.toml\ } file with the name of the uploaded font.
+
+\subsubsection{Installation}\label{installation}
+
+To use the template offline, clone this repository to your local
+machine. Typst can be used and rendered offline by installing the Typst
+CLI. My preferred workflow has been to use VSCode with the
+\href{https://github.com/Myriad-Dreamin/tinymist/releases}{Tinymist}
+extension, which provides LSP support, syntax highlighting, and error
+checking, live rendered previews and automatic exports to PDF.
+
+Please feel free to fork this repository and create PRs for any changes
+or improvements.
+
+\href{/app?template=grotesk-cv&version=1.0.1}{Create project in app}
+
+\subsubsection{How to use}\label{how-to-use}
+
+Click the button above to create a new project using this template in
+the Typst app.
+
+You can also use the Typst CLI to start a new project on your computer
+using this command:
+
+\begin{verbatim}
+typst init @preview/grotesk-cv:1.0.1
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+\href{https://github.com/AsiSkarp}{Ã?sbjÃ¶rn SkarphÃ©Ã°insson}
+\item[License:]
+Unlicense
+\item[Current version:]
+1.0.1
+\item[Last updated:]
+October 21, 2024
+\item[First released:]
+September 30, 2024
+\item[Archive size:]
+1.38 MB
+\href{https://packages.typst.org/preview/grotesk-cv-1.0.1.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/AsiSkarp/grotesk-cv}{GitHub}
+\item[Categor ies :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-user.svg}}
+  \href{https://typst.app/universe/search/?category=cv}{CV}
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-layout.svg}}
+  \href{https://typst.app/universe/search/?category=layout}{Layout}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This template is a project of Ã?sbjÃ¶rn SkarphÃ©Ã°insson . Report issues
+on \href{https://github.com/AsiSkarp/grotesk-cv}{their repository} . You
+can also try to ask for help with this template on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this template to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+1.0.1 & October 21, 2024 \\
+\href{https://typst.app/universe/package/grotesk-cv/1.0.0/}{1.0.0} &
+October 17, 2024 \\
+\href{https://typst.app/universe/package/grotesk-cv/0.1.6/}{0.1.6} &
+October 11, 2024 \\
+\href{https://typst.app/universe/package/grotesk-cv/0.1.5/}{0.1.5} &
+October 10, 2024 \\
+\href{https://typst.app/universe/package/grotesk-cv/0.1.4/}{0.1.4} &
+October 9, 2024 \\
+\href{https://typst.app/universe/package/grotesk-cv/0.1.3/}{0.1.3} &
+October 8, 2024 \\
+\href{https://typst.app/universe/package/grotesk-cv/0.1.2/}{0.1.2} &
+October 7, 2024 \\
+\href{https://typst.app/universe/package/grotesk-cv/0.1.1/}{0.1.1} &
+October 2, 2024 \\
+\href{https://typst.app/universe/package/grotesk-cv/0.1.0/}{0.1.0} &
+September 30, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this template and cannot guarantee correct
+functionality of this template or compatibility with any version of the
+Typst compiler or app.

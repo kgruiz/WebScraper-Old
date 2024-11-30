@@ -1,0 +1,195 @@
+\title{typst.app/universe/package/scrutinize}
+
+\phantomsection\label{banner}
+\section{scrutinize}\label{scrutinize}
+
+{ 0.3.0 }
+
+A library for building exams, tests, etc. with Typst
+
+\phantomsection\label{readme}
+Scrutinize is a library for building exams, tests, etc. with Typst. It
+has three general areas of focus:
+
+\begin{itemize}
+\tightlist
+\item
+  It helps with grading information: record the points that can be
+  reached for each question and make them available for creating grading
+  keys.
+\item
+  It provides a selection of question writing utilities, such as
+  multiple choice or true/false questions.
+\item
+  It supports the creation of sample solutions by allowing to switch
+  between the normal and â€œpre-filledâ€? exam.
+\end{itemize}
+
+Right now, providing a styled template is not part of this packageâ€™s
+scope. Also, visual customization of the provided question templates is
+currently nonexistent.
+
+See the
+\href{https://github.com/typst/packages/raw/main/packages/preview/scrutinize/0.3.0/docs/manual.pdf}{manual}
+for details.
+
+\subsection{Example}\label{example}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\href{https://github.com/typst/packages/raw/main/packages/preview/scrutinize/0.3.0/gallery/gk-ek-austria.typ}{\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/scrutinize/0.3.0/thumbnail.png}}}
+&
+\href{https://github.com/typst/packages/raw/main/packages/preview/scrutinize/0.3.0/gallery/gk-ek-austria.typ}{\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/scrutinize/0.3.0/thumbnail-solved.png}}} \\
+\end{longtable}
+
+This example can be found in the
+\href{https://github.com/typst/packages/raw/main/packages/preview/scrutinize/0.3.0/gallery/}{gallery}
+. Here are some excerpts from it:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/scrutinize:0.3.0" as scrutinize: grading, task, solution, task{-}kinds}
+\NormalTok{\#import task{-}kinds: free{-}form, gap, choice}
+\NormalTok{\#import task: t}
+
+\NormalTok{// ... document setup ...}
+
+\NormalTok{\#context \{}
+\NormalTok{  let ts = task.all(level: 2)}
+\NormalTok{  let total = grading.total{-}points(ts)}
+
+\NormalTok{  let grades = grading.grades(}
+\NormalTok{    [F],}
+\NormalTok{    0.6 * total,}
+\NormalTok{    [D],}
+\NormalTok{    0.7 * total,}
+\NormalTok{    [C],}
+\NormalTok{    0.8 * total,}
+\NormalTok{    [B],}
+\NormalTok{    0.9 * total,}
+\NormalTok{    [A],}
+\NormalTok{  )}
+
+\NormalTok{  // ... show the grading key ...}
+\NormalTok{\}}
+
+\NormalTok{// ...}
+
+\NormalTok{= Basic competencies {-}{-} theoretical part B}
+
+\NormalTok{\#lorem(40)}
+
+\NormalTok{== Writing}
+\NormalTok{\#t(category: "b", points: 4)}
+\NormalTok{\#lorem(30)}
+
+\NormalTok{\#free{-}form.lines(stretch: 180\%, lorem(20))}
+
+\NormalTok{== Multiple Choice}
+\NormalTok{\#t(category: "b", points: 2)}
+\NormalTok{\#lorem(30)}
+
+\NormalTok{\#\{}
+\NormalTok{  set align(center)}
+\NormalTok{  choice.multiple((}
+\NormalTok{    (lorem(3), true),}
+\NormalTok{    (lorem(5), true),}
+\NormalTok{    (lorem(4), false),}
+\NormalTok{  ))}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as
+\texttt{\ scrutinize\ }
+
+\begin{verbatim}
+#import "@preview/scrutinize:0.3.0"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+\href{https://github.com/SillyFreak/}{Clemens Koza}
+\item[License:]
+MIT
+\item[Current version:]
+0.3.0
+\item[Last updated:]
+October 14, 2024
+\item[First released:]
+January 8, 2024
+\item[Minimum Typst version:]
+0.11.0
+\item[Archive size:]
+11.2 kB
+\href{https://packages.typst.org/preview/scrutinize-0.3.0.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/SillyFreak/typst-scrutinize}{GitHub}
+\item[Discipline :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \href{https://typst.app/universe/search/?discipline=education}{Education}
+\end{itemize}
+\item[Categor ies :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-list-unordered.svg}}
+  \href{https://typst.app/universe/search/?category=model}{Model}
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-code.svg}}
+  \href{https://typst.app/universe/search/?category=scripting}{Scripting}
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-envelope.svg}}
+  \href{https://typst.app/universe/search/?category=office}{Office}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of Clemens Koza . Report issues on
+\href{https://github.com/SillyFreak/typst-scrutinize}{their repository}
+. You can also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.3.0 & October 14, 2024 \\
+\href{https://typst.app/universe/package/scrutinize/0.2.0/}{0.2.0} &
+July 15, 2024 \\
+\href{https://typst.app/universe/package/scrutinize/0.1.0/}{0.1.0} &
+January 8, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.

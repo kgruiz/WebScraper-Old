@@ -1,0 +1,296 @@
+<main>
+    <div id="banner" style="--banner-accent:#B9312D;--banner-primary:#340E09;--banner-secondary:#765C5B;--banner-tertiary:#BB8682;--banner-background:linear-gradient(90deg, #FFD6C4 0%, #FFE1E0 64%, #FFF5FA 100%)">
+     <div class="package-icon" role="img">
+     </div>
+     <div>
+      <div class="title">
+       <h1 class="name">
+        stack-pointer
+       </h1>
+       <span class="version">
+        0.1.0
+       </span>
+      </div>
+      <p class="description">
+       A library for visualizing the execution of (imperative) computer programs
+      </p>
+     </div>
+     <p class="featured-label">
+      <span class="icon" role="img">
+      </span>
+      Featured
+      <!-- -->
+      Package
+     </p>
+    </div>
+    <div class="inner-grid">
+     <section id="readme">
+      <p>
+       Stack Pointer is a library for visualizing the execution of (imperative) computer programs, particularly in terms of effects on the call stack: stack frames and local variables therein.
+      </p>
+      <p>
+       Stack Pointer lets you represent an example program (e.g. a C or Java program) using typst code with minimal hassle, and get the execution state of that program at different points in time. For example, the following C program
+      </p>
+      <pre><code class="language-c">int main() {
+  int x = foo();
+  return 0;
+}
+
+int foo() {
+  return 0;
+}
+</code></pre>
+      <p>
+       would be represented by the following Typst code (see the
+       <a href="https://github.com/typst/packages/raw/main/packages/preview/stack-pointer/0.1.0/docs/manual.pdf" rel="nofollow ugc" target="_blank">
+        manual
+       </a>
+       for a detailled explanation):
+      </p>
+      <pre><code class="language-typ"><code><span class="typ-key">#</span><span class="typ-key">let</span> steps <span class="typ-op">=</span> <span class="typ-func">execute</span><span class="typ-punct">(</span><span class="typ-punct">{</span>
+  <span class="typ-key">let</span> <span class="typ-func">foo</span><span class="typ-punct">(</span><span class="typ-punct">)</span> <span class="typ-op">=</span> <span class="typ-func">func</span><span class="typ-punct">(</span><span class="typ-str">"foo"</span><span class="typ-punct">,</span> <span class="typ-num">6</span><span class="typ-punct">,</span> l <span class="typ-op">=&gt;</span> <span class="typ-punct">{</span>
+    <span class="typ-func">l</span><span class="typ-punct">(</span><span class="typ-num">0</span><span class="typ-punct">)</span>
+    <span class="typ-func">l</span><span class="typ-punct">(</span><span class="typ-num">1</span><span class="typ-punct">)</span><span class="typ-punct">;</span> <span class="typ-func">retval</span><span class="typ-punct">(</span><span class="typ-num">0</span><span class="typ-punct">)</span>
+  <span class="typ-punct">}</span><span class="typ-punct">)</span>
+  <span class="typ-key">let</span> <span class="typ-func">main</span><span class="typ-punct">(</span><span class="typ-punct">)</span> <span class="typ-op">=</span> <span class="typ-func">func</span><span class="typ-punct">(</span><span class="typ-str">"main"</span><span class="typ-punct">,</span> <span class="typ-num">1</span><span class="typ-punct">,</span> l <span class="typ-op">=&gt;</span> <span class="typ-punct">{</span>
+    <span class="typ-func">l</span><span class="typ-punct">(</span><span class="typ-num">0</span><span class="typ-punct">)</span>
+    <span class="typ-func">l</span><span class="typ-punct">(</span><span class="typ-num">1</span><span class="typ-punct">)</span>
+    <span class="typ-key">let</span> <span class="typ-punct">(</span>x<span class="typ-punct">,</span> <span class="typ-op">..</span>rest<span class="typ-punct">)</span> <span class="typ-op">=</span> <span class="typ-func">foo</span><span class="typ-punct">(</span><span class="typ-punct">)</span><span class="typ-punct">;</span> rest
+    <span class="typ-func">l</span><span class="typ-punct">(</span><span class="typ-num">1</span><span class="typ-punct">,</span> <span class="typ-func">push</span><span class="typ-punct">(</span><span class="typ-str">"x"</span><span class="typ-punct">,</span> x<span class="typ-punct">)</span><span class="typ-punct">)</span>
+    <span class="typ-func">l</span><span class="typ-punct">(</span><span class="typ-num">2</span><span class="typ-punct">)</span>
+  <span class="typ-punct">}</span><span class="typ-punct">)</span>
+  <span class="typ-func">main</span><span class="typ-punct">(</span><span class="typ-punct">)</span><span class="typ-punct">;</span> <span class="typ-func">l</span><span class="typ-punct">(</span><span class="typ-key">none</span><span class="typ-punct">)</span>
+<span class="typ-punct">}</span><span class="typ-punct">)</span>
+</code></code></pre>
+      <p>
+       The
+       <code>
+        steps
+       </code>
+       variable now contains an array, where each element corresponds to one of the mentioned lines of code.
+      </p>
+      <p>
+       Take a look at
+       <a href="https://github.com/typst/packages/raw/main/packages/preview/stack-pointer/0.1.0/gallery/sum.pdf" rel="nofollow ugc" target="_blank">
+        this complete example
+       </a>
+       of using Stack Pointer together with
+       <a href="https://polylux.dev/book/" rel="nofollow ugc" target="_blank">
+        Polylux
+       </a>
+       .
+      </p>
+     </section>
+     <aside>
+      <section>
+       <h3>
+        How to add
+       </h3>
+       <p>
+        Copy this into your project and use the import as
+        <!-- -->
+        <code>
+         stack-pointer
+        </code>
+       </p>
+       <div class="import-snippet">
+        <pre><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/stack-pointer:0.1.0"</span></code></pre>
+        <button class="copy" title="Copy to clipboard">
+         <img alt="Copy" height="16" src="/assets/icons/16-copy.svg" width="16"/>
+        </button>
+       </div>
+       <p class="muted">
+        Check the docs for
+        <!-- -->
+        <a href="https://typst.app/docs/reference/scripting/#packages">
+         more information on how to import packages
+        </a>
+        .
+       </p>
+      </section>
+      <section id="about">
+       <h3>
+        About
+       </h3>
+       <dl>
+        <dt>
+         Author
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         <a href="https://github.com/SillyFreak/" rel="noopener noreferrer" target="_blank">
+          Clemens Koza
+         </a>
+        </dd>
+        <dt>
+         License:
+        </dt>
+        <dd>
+         MIT
+        </dd>
+        <dt>
+         Current version:
+        </dt>
+        <dd>
+         0.1.0
+        </dd>
+        <dt>
+         Last updated:
+        </dt>
+        <dd>
+         July 15, 2024
+        </dd>
+        <dt>
+         First released:
+        </dt>
+        <dd>
+         July 15, 2024
+        </dd>
+        <dt>
+         Archive size:
+        </dt>
+        <dd class="archive-size-value">
+         4.29 kB
+         <a href="https://packages.typst.org/preview/stack-pointer-0.1.0.tar.gz">
+          <img alt="Size icon" src="/assets/icons/16-download.svg"/>
+         </a>
+        </dd>
+        <dt>
+         Repository:
+        </dt>
+        <dd>
+         <a href="https://github.com/SillyFreak/typst-stack-pointer" rel="noopener noreferrer" target="_blank">
+          GitHub
+         </a>
+        </dd>
+        <dt>
+         Discipline
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         <ul class="list-without-icons">
+          <li>
+           <a href="https://typst.app/universe/search/?discipline=computer-science">
+            Computer Science
+           </a>
+          </li>
+         </ul>
+        </dd>
+        <dt>
+         Categor
+         <!-- -->
+         ies
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         <ul class="list-with-icons">
+          <li>
+           <img alt="Scripting icon" src="/assets/icons/16-code.svg"/>
+           <a href="https://typst.app/universe/search/?category=scripting">
+            Scripting
+           </a>
+          </li>
+          <li>
+           <img alt="Presentation icon" src="/assets/icons/16-presentation.svg"/>
+           <a href="https://typst.app/universe/search/?category=presentation">
+            Presentation
+           </a>
+          </li>
+         </ul>
+        </dd>
+       </dl>
+      </section>
+      <section>
+       <h3>
+        Where to report issues?
+       </h3>
+       <p>
+        This
+        <!-- -->
+        package
+        <!-- -->
+        is a project of
+        <!-- -->
+        <!-- -->
+        Clemens Koza
+        <!-- -->
+        .
+        <!-- -->
+        <!-- -->
+        Report issues on
+        <!-- -->
+        <a href="https://github.com/SillyFreak/typst-stack-pointer" rel="noopener noreferrer" target="_blank">
+         their repository
+        </a>
+        .
+        <!-- -->
+        <!-- -->
+        You can also try to ask for help with this
+        <!-- -->
+        package
+        <!-- -->
+        on the
+        <!-- -->
+        <a href="https://forum.typst.app" rel="noopener" target="_blank">
+         Forum
+        </a>
+        .
+       </p>
+       <p>
+        Please report this
+        <!-- -->
+        package
+        <!-- -->
+        to the Typst team using the
+        <!-- -->
+        <a href="https://typst.app/contact" rel="noreferrer" target="_blank">
+         contact form
+        </a>
+        <!-- -->
+        if you believe it is a safety hazard or infringes upon your rights.
+       </p>
+      </section>
+      <section id="versions">
+       <h3>
+        Version history
+       </h3>
+       <table>
+        <thead>
+         <tr>
+          <th align="left">
+           Version
+          </th>
+          <th align="left">
+           Release Date
+          </th>
+         </tr>
+        </thead>
+        <tbody>
+         <tr>
+          <td align="left">
+           0.1.0
+          </td>
+          <td align="left">
+           July 15, 2024
+          </td>
+         </tr>
+        </tbody>
+       </table>
+      </section>
+      <p class="bottom-notice muted">
+       Typst GmbH did not create this
+       <!-- -->
+       package
+       <!-- -->
+       and cannot guarantee correct functionality of this
+       <!-- -->
+       package
+       <!-- -->
+       or compatibility with any version of the Typst compiler or app.
+      </p>
+     </aside>
+    </div>
+   </main>

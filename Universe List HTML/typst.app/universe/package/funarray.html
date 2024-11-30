@@ -1,0 +1,434 @@
+<main>
+    <div id="banner" style="--banner-accent:#000000;--banner-primary:#000000;--banner-secondary:#000000;--banner-tertiary:#565565;--banner-background:#eff0f3">
+     <div class="package-icon" role="img">
+     </div>
+     <div>
+      <div class="title">
+       <h1 class="name">
+        funarray
+       </h1>
+       <span class="version">
+        0.4.0
+       </span>
+      </div>
+      <p class="description">
+       Package providing convenient functional functions to use on arrays.
+      </p>
+     </div>
+    </div>
+    <div class="inner-grid">
+     <section id="readme">
+      <p>
+       This package provides some convinient functional functions for
+       <a href="https://typst.app/">
+        typst
+       </a>
+       to use on arrays.
+      </p>
+      <h2>
+       Usage
+      </h2>
+      <p>
+       To use this package simply
+       <code>
+        #import "@preview/funarray:0.3.0"
+       </code>
+       . To import all functions use
+       <code>
+        : *
+       </code>
+       and for specific ones, use either the module or as described in the
+       <a href="https://typst.app/docs/reference/scripting#modules">
+        typst docs
+       </a>
+       .
+      </p>
+      <h2>
+       Important note
+      </h2>
+      <p>
+       Almost all functions are one-liners, which could, instead of being loaded via a package import, also be just copied directly into your source files.
+      </p>
+      <h2>
+       Dokumentation
+      </h2>
+      <p>
+       A prettier und easier to read version of the documentation exists in the example folder, which is done in typst and exported to pdf. Otherwise, bellow is the markdown version.
+      </p>
+      <h2>
+       Functions
+      </h2>
+      <p>
+       Let us define
+       <code>
+        a = (1, "not prime", 2, "prime", 3, "prime", 4, "not prime", 5, "prime")
+       </code>
+      </p>
+      <h3>
+       chunks
+      </h3>
+      <p>
+       The chunks function translates the array to an array of array. It groups the elements to chunks of a given size and collects them in an bigger array.
+      </p>
+      <p>
+       <code>
+        chunks(a, 2) = ( (1, "not prime"), (2, "prime"), (3, "prime"), (4, "not prime"), (5, "prime") )
+       </code>
+      </p>
+      <h3>
+       unzip
+      </h3>
+      <p>
+       The unzip function is the inverse of the zip method, it transforms an array of pairs to a pair of vectors. You can also give input an array of
+       <code>
+        n
+       </code>
+       -tuples resulting in in
+       <code>
+        n
+       </code>
+       arrays.
+      </p>
+      <p>
+       <code>
+        unzip(b) = ( (1, 2, 3, 4, 5), ( "not prime", "prime", "prime", "not prime", "prime" ) )
+       </code>
+      </p>
+      <h3>
+       cycle
+      </h3>
+      <p>
+       The cycle function concatenates the array to itself until it has a given size.
+      </p>
+      <pre><code class="language-typst"><code>let c = cycle(range(5), 8)
+c = (0, 1, 2, 3, 4, 0, 1, 2)
+</code></code></pre>
+      <p>
+       Note that there is also the functionality to concatenate with
+       <code>
+        +
+       </code>
+       and
+       <code>
+        *
+       </code>
+       in typst.
+      </p>
+      <h3>
+       windows and circular-windows
+      </h3>
+      <p>
+       This function provides a running window
+      </p>
+      <p>
+       <code>
+        windows(c, 5) = ( (0, 1, 2, 3, 4), (1, 2, 3, 4, 0), (2, 3, 4, 0, 1), (3, 4, 0, 1, 2) )
+       </code>
+      </p>
+      <p>
+       whereas the circular version wraps over.
+      </p>
+      <p>
+       <code>
+        circular-windows(c, 5) = ( (0, 1, 2, 3, 4), (1, 2, 3, 4, 0), (2, 3, 4, 0, 1), (3, 4, 0, 1, 2), (4, 0, 1, 2, 4), (0, 1, 2, 4, 0), (1, 2, 4, 0, 1), (2, 4, 0, 1, 2) )
+       </code>
+      </p>
+      <h3>
+       partition and partition-map
+      </h3>
+      <p>
+       The partition function seperates the array in two according to a predicate function. The result is an array with all elements, where the predicate returned true followed by an array with all elements, where the predicate returned false.
+      </p>
+      <pre><code class="language-typst"><code>let (primesp, nonprimesp) = partition(b, x =&gt; x.at(1) == "prime")
+primesp = ((2, "prime"), (3, "prime"), (5, "prime"))
+nonprimesp = ((1, "not prime"), (4, "not prime"))
+</code></code></pre>
+      <p>
+       There is also a partition-map function, which after partition also applies a second function on both collections.
+      </p>
+      <pre><code class="language-typst"><code>let (primes, nonprimes) = partition-map(b, x =&gt; x.at(1) == "prime", x =&gt; x.at(0))
+primes = (2, 3, 5)
+nonprimes = (1, 4)
+</code></code></pre>
+      <h3>
+       group-by
+      </h3>
+      <p>
+       This functions groups according to a predicate into maximally sized chunks, where all elements have the same predicate value.
+      </p>
+      <pre><code class="language-typst"><code>let f = (0,0,1,1,1,0,0,1)
+let g = group-by(f, x =&gt; x == 0)
+g = ((0, 0), (1, 1, 1), (0, 0), (1,))
+</code></code></pre>
+      <h3>
+       flatten
+      </h3>
+      <p>
+       Typst has a
+       <code>
+        flatten
+       </code>
+       method for arrays, however that method acts recursively. For instance
+      </p>
+      <p>
+       <code>
+        (((1,2,3), (2,3)), ((1,2,3), (1,2))).flatten() = (1, 2, 3, 2, 3, 1, 2, 3, 1, 2)
+       </code>
+      </p>
+      <p>
+       Normally, one would only have flattened one level. To do this, we can use the typst array concatenation method +, or by folding, the sum method for arrays:
+      </p>
+      <p>
+       <code>
+        (((1,2,3), (2,3)), ((1,2,3), (1,2))).sum() = ((1, 2, 3), (2, 3), (1, 2, 3), (1, 2))
+       </code>
+      </p>
+      <p>
+       To handle further depth, one can use flatten again, so that in our example:
+      </p>
+      <p>
+       <code>
+        (((1,2,3), (2,3)), ((1,2,3), (1,2))).sum().sum() = (((1,2,3), (2,3)), ((1,2,3), (1,2))).flatten()
+       </code>
+      </p>
+      <h3>
+       intersperse
+      </h3>
+      <p>
+       This function has been removed in version 0.3, as typst 0.8 provides such functionality by default.
+      </p>
+      <h3>
+       take-while and skip-while
+      </h3>
+      <p>
+       These functions do exactly as they say.
+      </p>
+      <pre><code class="language-typst"><code>take-while(h, x =&gt; x &lt; 1) = (0, 0, 0.25, 0.5, 0.75)
+skip-while(h, x =&gt; x &lt; 1) = (1, 1, 1, 0.25, 0.5, 0.75, 0, 0, 0.25, 0.5, 0.75, 1)
+</code></code></pre>
+      <h2>
+       Unsafe Functions
+      </h2>
+      <p>
+       The core functions are defined in
+       <code>
+        funarray-unsafe.typ
+       </code>
+       . However, assertions (error checking) are not there and it is generally not being advised to use these directly. Still, if being cautious, one can use the imported
+       <code>
+        funarray-unsafe
+       </code>
+       module in
+       <code>
+        funarray(.typ)
+       </code>
+       . All function names are the same.
+      </p>
+      <p>
+       To do this from the package, do as follows:
+      </p>
+      <pre><code>#import @preview/funarray:0.3.0
+
+#funarray.funarray-unsafe.chunks(range(10), 3)
+</code></pre>
+     </section>
+     <aside>
+      <section>
+       <h3>
+        How to add
+       </h3>
+       <p>
+        Copy this into your project and use the import as
+        <!-- -->
+        <code>
+         funarray
+        </code>
+       </p>
+       <div class="import-snippet">
+        <pre><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/funarray:0.4.0"</span></code></pre>
+        <button class="copy" title="Copy to clipboard">
+         <img alt="Copy" height="16" src="/assets/icons/16-copy.svg" width="16"/>
+        </button>
+       </div>
+       <p class="muted">
+        Check the docs for
+        <!-- -->
+        <a href="https://typst.app/docs/reference/scripting/#packages">
+         more information on how to import packages
+        </a>
+        .
+       </p>
+      </section>
+      <section id="about">
+       <h3>
+        About
+       </h3>
+       <dl>
+        <dt>
+         Author
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         Ludwig Austermann
+        </dd>
+        <dt>
+         License:
+        </dt>
+        <dd>
+         MIT
+        </dd>
+        <dt>
+         Current version:
+        </dt>
+        <dd>
+         0.4.0
+        </dd>
+        <dt>
+         Last updated:
+        </dt>
+        <dd>
+         October 24, 2023
+        </dd>
+        <dt>
+         First released:
+        </dt>
+        <dd>
+         August 1, 2023
+        </dd>
+        <dt>
+         Minimum Typst version:
+        </dt>
+        <dd>
+         0.8.0
+        </dd>
+        <dt>
+         Archive size:
+        </dt>
+        <dd class="archive-size-value">
+         4.19 kB
+         <a href="https://packages.typst.org/preview/funarray-0.4.0.tar.gz">
+          <img alt="Size icon" src="/assets/icons/16-download.svg"/>
+         </a>
+        </dd>
+        <dt>
+         Repository:
+        </dt>
+        <dd>
+         <a href="https://github.com/ludwig-austermann/typst-funarray" rel="noopener noreferrer" target="_blank">
+          GitHub
+         </a>
+        </dd>
+       </dl>
+      </section>
+      <section>
+       <h3>
+        Where to report issues?
+       </h3>
+       <p>
+        This
+        <!-- -->
+        package
+        <!-- -->
+        is a project of
+        <!-- -->
+        <!-- -->
+        Ludwig Austermann
+        <!-- -->
+        .
+        <!-- -->
+        <!-- -->
+        Report issues on
+        <!-- -->
+        <a href="https://github.com/ludwig-austermann/typst-funarray" rel="noopener noreferrer" target="_blank">
+         their repository
+        </a>
+        .
+        <!-- -->
+        <!-- -->
+        You can also try to ask for help with this
+        <!-- -->
+        package
+        <!-- -->
+        on the
+        <!-- -->
+        <a href="https://forum.typst.app" rel="noopener" target="_blank">
+         Forum
+        </a>
+        .
+       </p>
+       <p>
+        Please report this
+        <!-- -->
+        package
+        <!-- -->
+        to the Typst team using the
+        <!-- -->
+        <a href="https://typst.app/contact" rel="noreferrer" target="_blank">
+         contact form
+        </a>
+        <!-- -->
+        if you believe it is a safety hazard or infringes upon your rights.
+       </p>
+      </section>
+      <section id="versions">
+       <h3>
+        Version history
+       </h3>
+       <table>
+        <thead>
+         <tr>
+          <th align="left">
+           Version
+          </th>
+          <th align="left">
+           Release Date
+          </th>
+         </tr>
+        </thead>
+        <tbody>
+         <tr>
+          <td align="left">
+           0.4.0
+          </td>
+          <td align="left">
+           October 24, 2023
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/funarray/0.3.0/">
+            0.3.0
+           </a>
+          </td>
+          <td align="left">
+           September 25, 2023
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/funarray/0.2.0/">
+            0.2.0
+           </a>
+          </td>
+          <td align="left">
+           August 1, 2023
+          </td>
+         </tr>
+        </tbody>
+       </table>
+      </section>
+      <p class="bottom-notice muted">
+       Typst GmbH did not create this
+       <!-- -->
+       package
+       <!-- -->
+       and cannot guarantee correct functionality of this
+       <!-- -->
+       package
+       <!-- -->
+       or compatibility with any version of the Typst compiler or app.
+      </p>
+     </aside>
+    </div>
+   </main>

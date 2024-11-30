@@ -1,0 +1,159 @@
+\title{typst.app/universe/package/diverential}
+
+\phantomsection\label{banner}
+\section{diverential}\label{diverential}
+
+{ 0.2.0 }
+
+Format differentials conveniently.
+
+\phantomsection\label{readme}
+\texttt{\ diverential\ } is a
+\href{https://github.com/typst/typst}{Typst} package simplifying the
+typesetting of differentials. It is the equivalent to LaTeXâ€™s
+\texttt{\ diffcoeff\ } , though not as mature.
+
+\subsection{Overview}\label{overview}
+
+\texttt{\ diverential\ } allows normal, partial, compact, and separated
+derivatives with smart degree calculations.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#}\ImportTok{import} \StringTok{"@preview/diverential:0.2.0"}\OperatorTok{:} \OperatorTok{*}
+
+\NormalTok{$ }\FunctionTok{dv}\NormalTok{(f}\OperatorTok{,}\NormalTok{ x}\OperatorTok{,}\NormalTok{ deg}\OperatorTok{:} \DecValTok{2}\OperatorTok{,}\NormalTok{ eval}\OperatorTok{:} \DecValTok{0}\NormalTok{) $}
+\NormalTok{$ }\FunctionTok{dvp}\NormalTok{(f}\OperatorTok{,}\NormalTok{ x}\OperatorTok{,}\NormalTok{ y}\OperatorTok{,}\NormalTok{ eval}\OperatorTok{:} \DecValTok{0}\OperatorTok{,}\NormalTok{ evalsym}\OperatorTok{:} \StringTok{"["}\NormalTok{) $}
+\NormalTok{$ }\FunctionTok{dvpc}\NormalTok{(f}\OperatorTok{,}\NormalTok{ x) $}
+\NormalTok{$ }\FunctionTok{dvps}\NormalTok{(f}\OperatorTok{,}\NormalTok{ \#([x]}\OperatorTok{,} \DecValTok{2}\NormalTok{)}\OperatorTok{,}\NormalTok{ \#([y]}\OperatorTok{,}\NormalTok{ [n])}\OperatorTok{,}\NormalTok{ \#([z]}\OperatorTok{,}\NormalTok{ [m])}\OperatorTok{,}\NormalTok{ eval}\OperatorTok{:} \DecValTok{0}\NormalTok{) $}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics[width=1.5625in,height=\textheight,keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/diverential/0.2.0/examples/overview.jpg}
+
+\subsection{\texorpdfstring{\texttt{\ dv\ }}{ dv }}\label{dv}
+
+\texttt{\ dv\ } is an ordinary derivative. It takes the function as its
+first argument and the variable as its second one. A degree can be
+specified with \texttt{\ deg\ } . The derivate can be specified to be
+evaluated at a point with \texttt{\ eval\ } , the brackets of which can
+be changed with \texttt{\ evalsym\ } . \texttt{\ space\ } influences the
+space between derivative and evaluation bracket. Unless defined
+otherwise, no space is set by default, except for
+\texttt{\ \textbar{}\ } , where a small gap is introduced.
+
+\subsubsection{\texorpdfstring{\texttt{\ dvs\ }}{ dvs }}\label{dvs}
+
+Same as \texttt{\ dv\ } , but separates the function from the
+derivative.\\
+Example: \$\$
+\textbackslash frac\{\textbackslash mathrm\{d\}\}\{\textbackslash mathrm\{d\}x\}
+f \$\$
+
+\subsubsection{\texorpdfstring{\texttt{\ dvc\ }}{ dvc }}\label{dvc}
+
+Same as \texttt{\ dv\ } , but uses a compact derivative.\\
+Example: \$\$ \textbackslash mathrm\{d\}\_x f \$\$
+
+\subsection{\texorpdfstring{\texttt{\ dvp\ }}{ dvp }}\label{dvp}
+
+\texttt{\ dv\ } is a partial derivative. It takes the function as its
+first argument and the variable as the rest. For information on
+\texttt{\ eval\ } , \texttt{\ evalsym\ } , and \texttt{\ space\ } , read
+the description of \texttt{\ dv\ } .\\
+The variable can be one of these options:
+
+\begin{itemize}
+\tightlist
+\item
+  plain variable, e.g. \texttt{\ x\ }
+\item
+  list of variables, e.g. \texttt{\ x,\ y\ }
+\item
+  list of variables with higher degrees (type
+  \texttt{\ (content,\ integer)\ } ), e.g.
+  \texttt{\ x,\ \#({[}y{]},\ 2)\ } The degree is smartly calculated: If
+  all degrees of the variables are integers, the total degree is their
+  sum. If some are content, the integer ones are summed (arithmetically)
+  up and added to the visual sum of the content degrees. Example:
+  \texttt{\ \#({[}x{]},\ n),\ \#({[}y{]},\ 2),\ z\ } â†'
+  \$\textbackslash frac\{\textbackslash partial\^{}\{n+3\}\}\{\textbackslash partial
+  x\^{}n,\textbackslash partial y\^{}2,\textbackslash partial z\}\$\\
+  Specifying \texttt{\ deg\ } manually is always possible and might be
+  required in more complicated cases.
+\end{itemize}
+
+\subsubsection{\texorpdfstring{\texttt{\ dvps\ }}{ dvps }}\label{dvps}
+
+Same as \texttt{\ dvp\ } , but separates the function from the
+derivative.\\
+Example: \$\$
+\textbackslash frac\{\textbackslash partial\}\{\textbackslash partial
+x\} f \$\$
+
+\subsubsection{\texorpdfstring{\texttt{\ dvpc\ }}{ dvpc }}\label{dvpc}
+
+Same as \texttt{\ dvp\ } , but uses a compact derivative.\\
+Note: If supplying multiple variables, \texttt{\ deg\ } is ignored.\\
+Example: \$\$ \textbackslash partial\_x f \$\$
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as
+\texttt{\ diverential\ }
+
+\begin{verbatim}
+#import "@preview/diverential:0.2.0"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+Christopher Hecker
+\item[License:]
+MIT
+\item[Current version:]
+0.2.0
+\item[Last updated:]
+July 29, 2023
+\item[First released:]
+July 29, 2023
+\item[Archive size:]
+3.38 kB
+\href{https://packages.typst.org/preview/diverential-0.2.0.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of Christopher Hecker . You can also try to
+ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.2.0 & July 29, 2023 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.

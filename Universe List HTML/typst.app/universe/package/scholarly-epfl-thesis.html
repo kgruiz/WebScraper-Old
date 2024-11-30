@@ -1,0 +1,720 @@
+<main>
+    <div id="banner" style="--banner-accent:#000000;--banner-primary:#000000;--banner-secondary:#000000;--banner-tertiary:#565565;--banner-background:#eff0f3">
+     <div id="template-thumbnail">
+      <img alt="A preview of the scholarly-epfl-thesis Typst template." src="https://packages.typst.org/preview/thumbnails/scholarly-epfl-thesis-0.1.2-small.webp"/>
+      <div class="icon" role="img">
+      </div>
+     </div>
+     <div>
+      <div class="title">
+       <h1 class="name">
+        scholarly-epfl-thesis
+       </h1>
+       <span class="version">
+        0.1.2
+       </span>
+      </div>
+      <p class="description">
+       A template for a thesis at EPFL
+      </p>
+     </div>
+    </div>
+    <div class="inner-grid">
+     <a class="create-project-button mobile" href="/app?template=scholarly-epfl-thesis&amp;version=0.1.2" rel="noopener noreferrer" target="_blank">
+      Create project in app
+     </a>
+     <section id="readme">
+      <p>
+       Port of
+       <a href="https://www.overleaf.com/latex/templates/swiss-federal-institute-of-technology-in-lausanne-epfl-phd-thesis/dhcgtppybcwv" rel="nofollow ugc" target="_blank">
+        an unofficial LaTeX template
+       </a>
+       to Typst.
+      </p>
+      <p>
+       A complete example is shown in the
+       <a href="https://github.com/augustebaum/epfl-thesis-typst/blob/v0.1.2/example" rel="nofollow ugc" target="_blank">
+        example folder
+       </a>
+       ; see
+       <a href="https://github.com/augustebaum/epfl-thesis-typst/blob/v0.1.2/example/main.pdf" rel="nofollow ugc" target="_blank">
+        example.pdf
+       </a>
+       for the rendered PDF. The document structure can of course be adapted to your needs.
+      </p>
+      <h2>
+       Screenshots
+      </h2>
+      <div>
+       <img src="https://raw.githubusercontent.com/augustebaum/epfl-thesis-typst/v0.1.2/screenshots/cover_page.png" width="200px"/>
+       <img src="https://raw.githubusercontent.com/augustebaum/epfl-thesis-typst/v0.1.2/screenshots/acknowledgements.png" width="200px"/>
+       <img src="https://raw.githubusercontent.com/augustebaum/epfl-thesis-typst/v0.1.2/screenshots/tables_and_figures.png" width="200px"/>
+       <img src="https://raw.githubusercontent.com/augustebaum/epfl-thesis-typst/v0.1.2/screenshots/appendix.png" width="200px"/>
+      </div>
+      <h2>
+       Usage
+      </h2>
+      <p>
+       You can use this template in the Typst web app by clicking âStart from templateâ on the dashboard and searching for
+       <code>
+        epfl
+       </code>
+       .
+      </p>
+      <p>
+       Alternatively, you can use the CLI to kick this project off using the command
+      </p>
+      <pre><code class="language-sh">typst init @preview/scholarly-epfl-thesis
+</code></pre>
+      <p>
+       Typst will create a new directory with all the files needed to get you started.
+      </p>
+      <p>
+       This template uses certain fonts, including Utopia Latex for most text. If the font is not available to Typst, as is the case in the Typst Web App, then the template will fall back to a default font. The font is included in example shown in the Github repository
+       <a href="https://github.com/augustebaum/epfl-thesis-typst/blob/v0.1.2/example/utopia_font" rel="nofollow ugc" target="_blank">
+        here
+       </a>
+       , otherwise you can download it however you like.
+      </p>
+      <h3>
+       Configuration
+      </h3>
+      <p>
+       This template exports the
+       <code>
+        template
+       </code>
+       function with the following named arguments:
+      </p>
+      <ul>
+       <li>
+        <code>
+         title
+        </code>
+        : The workâs title. Default:
+        <code>
+         [Your Title]
+        </code>
+       </li>
+       <li>
+        <code>
+         author
+        </code>
+        : The authorâs name. Default:
+        <code>
+         "Your Name"
+        </code>
+       </li>
+       <li>
+        <code>
+         paper-size
+        </code>
+        : The workâs
+        <a href="https://typst.app/docs/reference/layout/page#parameters-paper">
+         paper size
+        </a>
+        . Default:
+        <code>
+         "a4"
+        </code>
+       </li>
+       <li>
+        <code>
+         date
+        </code>
+        : The workâs date. Unused for now. Default:
+        <code>
+         none
+        </code>
+       </li>
+       <li>
+        <code>
+         date-format
+        </code>
+        : The format for displaying the workâs date. By default, the date will be displayed as
+        <code>
+         MMMM DD, YYYY
+        </code>
+        . Unused for now. Default:
+        <code>
+         [month repr:long] [day padding:zero], [year repr:full]
+        </code>
+       </li>
+      </ul>
+      <p>
+       The template will initialize your package with a basic call to the
+       <code>
+        template
+       </code>
+       function in a
+       <code>
+        show
+       </code>
+       rule. If you, however, want to change an existing project to use this template, you can add a show rule like this at the top of your file:
+      </p>
+      <pre><code class="language-typst"><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/scholarly-epfl-thesis:0.1.2"</span><span class="typ-punct">:</span> <span class="typ-op">*</span>
+
+<span class="typ-key">#</span><span class="typ-key">show</span><span class="typ-punct">:</span> template<span class="typ-punct">.</span><span class="typ-func">with</span><span class="typ-punct">(</span>
+  title<span class="typ-punct">:</span> <span class="typ-punct">[</span>Your Title<span class="typ-punct">]</span><span class="typ-punct">,</span>
+  author<span class="typ-punct">:</span> <span class="typ-str">"Your Name"</span><span class="typ-punct">,</span>
+  date<span class="typ-punct">:</span> <span class="typ-func">datetime</span><span class="typ-punct">(</span>year<span class="typ-punct">:</span> <span class="typ-num">2024</span><span class="typ-punct">,</span> month<span class="typ-punct">:</span> <span class="typ-num">03</span><span class="typ-punct">,</span> day<span class="typ-punct">:</span> <span class="typ-num">19</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+<span class="typ-punct">)</span>
+
+<span class="typ-comment">// Your content goes below.</span>
+</code></code></pre>
+      <p>
+       Also included are the
+       <code>
+        front-matter
+       </code>
+       ,
+       <code>
+        main-matter
+       </code>
+       and
+       <code>
+        back-matter
+       </code>
+       helpers which you can use in
+       <code>
+        show
+       </code>
+       rules in your document to change certain settings when they are called: e.g. reset the page numbering when main matter starts, or number headings with letters in the back matter. See
+       <a href="https://github.com/augustebaum/epfl-thesis-typst/blob/v0.1.2/example/main.typ" rel="nofollow ugc" target="_blank">
+        example/main.typ
+       </a>
+       for example usage.
+      </p>
+      <h2>
+       Development
+      </h2>
+      <p>
+       In order for Typst to access the Utopia Latex font, you need to include it your font path. Iâve included the font in
+       <code>
+        example/
+       </code>
+       so that you can run this in your shell:
+      </p>
+      <pre><code class="language-sh">cd example
+typst w main.typ --font-path .
+</code></pre>
+      <p>
+       See
+       <a href="https://typst.app/docs/reference/text/text/#parameters-font">
+        here
+       </a>
+       for more about the font path.
+      </p>
+      <h2>
+       Credits
+      </h2>
+      <ul>
+       <li>
+        The creators of the
+        <a href="https://github.com/talal/ilm/blob/main/lib.typ" rel="nofollow ugc" target="_blank">
+         ILM template
+        </a>
+        for the page layout, header and README format which I drew heavily from
+       </li>
+       <li>
+        The creators of the
+        <a href="https://www.overleaf.com/latex/templates/swiss-federal-institute-of-technology-in-lausanne-epfl-phd-thesis/dhcgtppybcwv" rel="nofollow ugc" target="_blank">
+         original LateX template
+        </a>
+       </li>
+      </ul>
+      <h2>
+       TODO
+      </h2>
+      <ul>
+       <li>
+        [ ] Hide header and page number on empty pages
+        <ul>
+         <li>
+          Tracking issue:
+          <a href="https://github.com/typst/typst/issues/2722" rel="nofollow ugc" target="_blank">
+           https://github.com/typst/typst/issues/2722
+          </a>
+         </li>
+         <li>
+          [ ] Quick fix:
+          <a href="https://github.com/typst/typst/issues/2722#issuecomment-1911150996" rel="nofollow ugc" target="_blank">
+           https://github.com/typst/typst/issues/2722#issuecomment-1911150996
+          </a>
+          <ul>
+           <li>
+            Tried it, when I put it in the
+            <code>
+             show heading.where(level: 1)
+            </code>
+            it disrupts the outline. I guess it would work if you put in the
+            <code>
+             metadata
+            </code>
+            manually before each chapter.
+           </li>
+          </ul>
+         </li>
+         <li>
+          Optionally donât force an empty page
+         </li>
+        </ul>
+       </li>
+       <li>
+        [ ] Table of contents
+        <ul>
+         <li>
+          [ ] Join abstracts into one outline entry
+          <ul>
+           <li>
+            I removed the lines for the German and French abstracts so it takes less space, but itâs not exactly the same as the original which has a custom outline entry
+           </li>
+          </ul>
+         </li>
+         <li>
+          [ ] Style
+          <ul>
+           <li>
+            [ ] Space between heading number and heading
+           </li>
+           <li>
+            [ ] Level 1 Headings are bold and donât have dot lines between the heading and the page number
+           </li>
+           <li>
+            <a href="https://sitandr.github.io/typst-examples-book/book/snippets/chapters/outlines.html" rel="nofollow ugc" target="_blank">
+             https://sitandr.github.io/typst-examples-book/book/snippets/chapters/outlines.html
+            </a>
+           </li>
+           <li>
+            <code>
+             outline.entry
+            </code>
+            canât be modified easily because the arguments are positional
+            <ul>
+             <li>
+              I found a solution on discord but it strips away the links. I tried putting in a
+              <code>
+               link
+              </code>
+              manually but that gets formatted like a link in the text, which is not what weâre looking for.
+              <ul>
+               <li>
+                A solution to that link issue can be found in this thread:
+                <a href="https://discord.com/channels/1054443721975922748/1231526650462736474" rel="nofollow ugc" target="_blank">
+                 https://discord.com/channels/1054443721975922748/1231526650462736474
+                </a>
+               </li>
+              </ul>
+             </li>
+            </ul>
+           </li>
+           <li>
+            I might use
+            <a href="https://typst.app/universe/package/outrageous">
+             https://typst.app/universe/package/outrageous
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li>
+          [x] Include list of figures and tables
+         </li>
+        </ul>
+       </li>
+       <li>
+        [ ] Figures
+        <ul>
+         <li>
+          [ ] Subfigures
+          <ul>
+           <li>
+            tracking issue:
+            <a href="https://github.com/typst/typst/issues/246" rel="nofollow ugc" target="_blank">
+             https://github.com/typst/typst/issues/246
+            </a>
+           </li>
+           <li>
+            A wip:
+            <a href="https://github.com/tingerrr/subpar" rel="nofollow ugc" target="_blank">
+             https://github.com/tingerrr/subpar
+            </a>
+           </li>
+           <li>
+            A quickfix:
+            <a href="https://github.com/typst/typst/issues/246#issuecomment-1928735969" rel="nofollow ugc" target="_blank">
+             https://github.com/typst/typst/issues/246#issuecomment-1928735969
+            </a>
+            <ul>
+             <li>
+              Works if you abuse the
+              <code>
+               kind
+              </code>
+              mechanic, but I canât get the superfigureâs caption centered
+             </li>
+            </ul>
+           </li>
+          </ul>
+         </li>
+         <li>
+          [x] Short caption for table of contents
+          <ul>
+           <li>
+            <a href="https://sitandr.github.io/typst-examples-book/book/snippets/chapters/outlines.html" rel="nofollow ugc" target="_blank">
+             https://sitandr.github.io/typst-examples-book/book/snippets/chapters/outlines.html
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li>
+          [x] Numbering
+          <ul>
+           <li>
+            i-figured?
+           </li>
+          </ul>
+         </li>
+        </ul>
+       </li>
+       <li>
+        [ ] Chemistry examples?
+       </li>
+       <li>
+        [ ] CV?
+       </li>
+       <li>
+        [x] Spacing after heading is different depending on if weâre in frontmatter or main matter
+       </li>
+       <li>
+        [x] Cover page should take its values from the template arguments
+        <ul>
+         <li>
+          cover page is separate from template, given that it is not meant to be printed anyways
+          <ul>
+           <li>
+            this also reflects how the latex template works
+           </li>
+          </ul>
+         </li>
+        </ul>
+       </li>
+       <li>
+        [x] Spacing before new sub-heading
+       </li>
+       <li>
+        [x] Readme
+        <ul>
+         <li>
+          [x] How-to
+         </li>
+         <li>
+          [x] Screenshots
+         </li>
+         <li>
+          [x] Thumbnail
+         </li>
+        </ul>
+       </li>
+       <li>
+        [x] Refactor to
+        <code>
+         front-matter
+        </code>
+        ,
+        <code>
+         main-matter
+        </code>
+        â¦
+       </li>
+       <li>
+        [x] Numbering
+        <ul>
+         <li>
+          [x] Why are pagenumbers bold on certain pages?
+          <ul>
+           <li>
+            There was a show rule that inserted a pagebreak before each chapter. This produced a bug where the chapter start pages was inconsistent with the information Typst has.
+           </li>
+          </ul>
+         </li>
+         <li>
+          [x] numbering starts on acknowledgements (or somewhere else?)
+         </li>
+        </ul>
+       </li>
+       <li>
+        [x] Equations
+        <ul>
+         <li>
+          [x] Numbering
+          <ul>
+           <li>
+            <a href="https://sitandr.github.io/typst-examples-book/book/snippets/math/numbering.html" rel="nofollow ugc" target="_blank">
+             https://sitandr.github.io/typst-examples-book/book/snippets/math/numbering.html
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li>
+          [x] Align left
+          <ul>
+           <li>
+            Why did
+            <code>
+             pad
+            </code>
+            work and not
+            <code>
+             h
+            </code>
+            ?
+           </li>
+          </ul>
+         </li>
+        </ul>
+       </li>
+       <li>
+        [x] page numbers are too low in the page
+       </li>
+       <li>
+        [x] First-line indent for front matter
+        <ul>
+         <li>
+          <a href="https://typst.app/docs/reference/model/par/#parameters-first-line-indent">
+           https://typst.app/docs/reference/model/par/#parameters-first-line-indent
+          </a>
+         </li>
+         <li>
+          Actually this looks unintentional?
+         </li>
+        </ul>
+       </li>
+       <li>
+        [x] Appendices
+       </li>
+       <li>
+        [x] Margins
+       </li>
+       <li>
+        [x] Tables
+        <ul>
+         <li>
+          [x] Style
+         </li>
+        </ul>
+       </li>
+      </ul>
+     </section>
+     <aside>
+      <a class="create-project-button desktop" href="/app?template=scholarly-epfl-thesis&amp;version=0.1.2" rel="noopener noreferrer" target="_blank">
+       Create project in app
+      </a>
+      <section>
+       <h3>
+        How to use
+       </h3>
+       <p>
+        Click the button above to create a new project using this template in the Typst app.
+       </p>
+       <p>
+        You can also use the Typst CLI to start a new project on your computer using this command:
+       </p>
+       <div class="init-snippet">
+        <pre><code>typst init @preview/<!-- -->scholarly-epfl-thesis<!-- -->:<!-- -->0.1.2</code></pre>
+        <button class="copy" title="Copy to clipboard">
+         <img alt="Copy" height="16" src="/assets/icons/16-copy.svg" width="16"/>
+        </button>
+       </div>
+      </section>
+      <section id="about">
+       <h3>
+        About
+       </h3>
+       <dl>
+        <dt>
+         Author
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         <a href="https://github.com/augustebaum" rel="noopener noreferrer" target="_blank">
+          Auguste Baum
+         </a>
+        </dd>
+        <dt>
+         License:
+        </dt>
+        <dd>
+         MIT
+        </dd>
+        <dt>
+         Current version:
+        </dt>
+        <dd>
+         0.1.2
+        </dd>
+        <dt>
+         Last updated:
+        </dt>
+        <dd>
+         November 4, 2024
+        </dd>
+        <dt>
+         First released:
+        </dt>
+        <dd>
+         May 3, 2024
+        </dd>
+        <dt>
+         Minimum Typst version:
+        </dt>
+        <dd>
+         0.11.0
+        </dd>
+        <dt>
+         Archive size:
+        </dt>
+        <dd class="archive-size-value">
+         425 kB
+         <a href="https://packages.typst.org/preview/scholarly-epfl-thesis-0.1.2.tar.gz">
+          <img alt="Size icon" src="/assets/icons/16-download.svg"/>
+         </a>
+        </dd>
+        <dt>
+         Repository:
+        </dt>
+        <dd>
+         <a href="https://github.com/augustebaum/epfl-thesis-typst" rel="noopener noreferrer" target="_blank">
+          GitHub
+         </a>
+        </dd>
+        <dt>
+         Categor
+         <!-- -->
+         y
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         <ul class="list-with-icons">
+          <li>
+           <img alt="Thesis icon" src="/assets/icons/16-mortarboard.svg"/>
+           <a href="https://typst.app/universe/search/?category=thesis">
+            Thesis
+           </a>
+          </li>
+         </ul>
+        </dd>
+       </dl>
+      </section>
+      <section>
+       <h3>
+        Where to report issues?
+       </h3>
+       <p>
+        This
+        <!-- -->
+        template
+        <!-- -->
+        is a project of
+        <!-- -->
+        <!-- -->
+        Auguste Baum
+        <!-- -->
+        .
+        <!-- -->
+        <!-- -->
+        Report issues on
+        <!-- -->
+        <a href="https://github.com/augustebaum/epfl-thesis-typst" rel="noopener noreferrer" target="_blank">
+         their repository
+        </a>
+        .
+        <!-- -->
+        <!-- -->
+        You can also try to ask for help with this
+        <!-- -->
+        template
+        <!-- -->
+        on the
+        <!-- -->
+        <a href="https://forum.typst.app" rel="noopener" target="_blank">
+         Forum
+        </a>
+        .
+       </p>
+       <p>
+        Please report this
+        <!-- -->
+        template
+        <!-- -->
+        to the Typst team using the
+        <!-- -->
+        <a href="https://typst.app/contact" rel="noreferrer" target="_blank">
+         contact form
+        </a>
+        <!-- -->
+        if you believe it is a safety hazard or infringes upon your rights.
+       </p>
+      </section>
+      <section id="versions">
+       <h3>
+        Version history
+       </h3>
+       <table>
+        <thead>
+         <tr>
+          <th align="left">
+           Version
+          </th>
+          <th align="left">
+           Release Date
+          </th>
+         </tr>
+        </thead>
+        <tbody>
+         <tr>
+          <td align="left">
+           0.1.2
+          </td>
+          <td align="left">
+           November 4, 2024
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/scholarly-epfl-thesis/0.1.1/">
+            0.1.1
+           </a>
+          </td>
+          <td align="left">
+           July 18, 2024
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/scholarly-epfl-thesis/0.1.0/">
+            0.1.0
+           </a>
+          </td>
+          <td align="left">
+           May 3, 2024
+          </td>
+         </tr>
+        </tbody>
+       </table>
+      </section>
+      <p class="bottom-notice muted">
+       Typst GmbH did not create this
+       <!-- -->
+       template
+       <!-- -->
+       and cannot guarantee correct functionality of this
+       <!-- -->
+       template
+       <!-- -->
+       or compatibility with any version of the Typst compiler or app.
+      </p>
+     </aside>
+    </div>
+   </main>

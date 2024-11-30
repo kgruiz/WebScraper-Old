@@ -1,0 +1,307 @@
+\title{typst.app/universe/package/structogrammer}
+
+\phantomsection\label{banner}
+\section{structogrammer}\label{structogrammer}
+
+{ 0.1.1 }
+
+Draw Nassi-Shneiderman diagrams (or structograms)
+
+\phantomsection\label{readme}
+Draw Nassi-Shneiderman diagrams, also called structograms, in Typst.
+
+\subsection{Basic Usage}\label{basic-usage}
+
+Import with:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/structogrammer:0.1.0": structogram}
+\end{Highlighting}
+\end{Shaded}
+
+You can then draw structograms, like so:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#structogram(}
+\NormalTok{  width: 30em,}
+\NormalTok{  title: "merge\_sort(list)",}
+\NormalTok{  (}
+\NormalTok{    (If: "list empty", Then: (Break: "exit (return list)")),}
+\NormalTok{    "left = []",}
+\NormalTok{    "right = []",}
+\NormalTok{    (For: "element with index i", In: "list", Do: (}
+\NormalTok{      (If: "i \textless{} list.length / 2", Then: (}
+\NormalTok{        "left.add(element)"}
+\NormalTok{      ), Else: (}
+\NormalTok{        "right.add(element)"}
+\NormalTok{      ))}
+\NormalTok{    )),}
+\NormalTok{    "left = merge\_sort(left)",}
+\NormalTok{    "right = merge\_sort(right)",}
+\NormalTok{    (Break: "return with merge(left, right)")}
+\NormalTok{  )}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+which yields:\\
+\pandocbounded{\includesvg[keepaspectratio]{https://raw.githubusercontent.com/genericusername3/structogrammer/master/examples/merge-sort.svg}}
+
+If \texttt{\ text.lang\ } is set to another language, this package will
+try to match inserted text to it. Currently, only \texttt{\ "en"\ } and
+\texttt{\ "de"\ } are supported
+
+\subsection{Advanced usage}\label{advanced-usage}
+
+\texttt{\ structogram()\ } takes the following named arguments:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ columns\ } : If you already allocated wide and narrow
+  columns, \texttt{\ to-elements\ } can use them. Useful for sub-specs,
+  as youâ€™d usually generate allocations first and then do another
+  recursive pass to fill them.\\
+  The default, \texttt{\ auto\ } does exactly this on the highest
+  recursion level.
+\item
+  \texttt{\ stroke\ } : The stroke to use between cells, or for control
+  blocks. Note: to avoid duplicate strokes, every cell only adds strokes
+  to its top and left side. Put the resulting cells in a container with
+  bottom and right strokes for a finished diagram. See
+  \texttt{\ structogram()\ } .\\
+  Default: \texttt{\ 0.5pt\ +\ black\ }
+\item
+  \texttt{\ inset\ } : How much to pad each cell.\\
+  Default: \texttt{\ 0.5em\ }
+\item
+  \texttt{\ segment-height\ } : How high each row should be.\\
+  Default: \texttt{\ 2em\ }
+\item
+  \texttt{\ narrow-width\ } : The width that narrow columns will be.
+  Needed for diagonals in conditional blocks.\\
+  Default: 1em
+\end{itemize}
+
+A \texttt{\ spec\ } (the positional argument to
+\texttt{\ structogram()\ } ) can be one of the following:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ none\ } or an emtpy
+  \href{https://typst.app/docs/reference/foundations/array/}{\texttt{\ array\ }}
+  \texttt{\ ()\ } : An empty cell, taking up at least a narrow column
+\item
+  a
+  \href{https://typst.app/docs/reference/foundations/str/}{\texttt{\ string\ }}
+  or
+  \href{https://typst.app/docs/reference/foundations/content/}{\texttt{\ content\ }}
+  : A cell containing that string or content, taking up at least a wide
+  column
+\item
+  A
+  \href{https://typst.app/docs/reference/foundations/dictionary/}{\texttt{\ dictionary\ }}
+  : Control block (
+  \href{https://github.com/typst/packages/raw/main/packages/preview/structogrammer/0.1.1/\#control-blocks}{see
+  below} )
+\item
+  An
+  \href{https://typst.app/docs/reference/foundations/array/}{\texttt{\ array\ }}
+  of specs: The cells that each element produced, stacked on top of each
+  other. Wide columns are aligned to wide columns of other element specs
+  and narrow columns consumed as needed.
+\end{itemize}
+
+\subsubsection{Control blocks}\label{control-blocks}
+
+Specs can contain the following control blocks, as dictionaries:
+
+\paragraph{\texorpdfstring{1. \texttt{\ If\ } / \texttt{\ Then\ } /
+\texttt{\ Else\ } :}{1.  If  /  Then  /  Else  :}}\label{if-then-else}
+
+A conditional with the following keys:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ If\ } : The condition on which to branch
+\item
+  \texttt{\ Then\ } : A diagram spec for the â€œyesâ€?-branch
+\item
+  \texttt{\ Else\ } : A diagram spec for the â€œnoâ€?-branch
+\end{itemize}
+
+\texttt{\ Then\ } and \texttt{\ Else\ } are both optional, but at least
+one must be present
+
+Examples:
+
+\begin{itemize}
+\tightlist
+\item
+\item
+  \texttt{\ (If:\ "debug\ mode",\ Then:\ ("print\ debug\ message"))\ }
+
+  \pandocbounded{\includesvg[keepaspectratio]{https://raw.githubusercontent.com/genericusername3/structogrammer/master/examples/if-then.svg}}
+\item
+  \texttt{\ (If:\ "x\ \textgreater{}\ 5",\ Then:\ ("x\ =\ x\ -\ 1",\ "print\ x"),\ Else:\ "print\ x")\ }
+
+  \pandocbounded{\includesvg[keepaspectratio]{https://raw.githubusercontent.com/genericusername3/structogrammer/master/examples/if-then-else.svg}}
+\end{itemize}
+
+Columns: Takes up columns according to its contents next to one another,
+inserting narrow columns for empty branches
+
+\paragraph{\texorpdfstring{2. \texttt{\ For\ } / \texttt{\ Do\ } ,
+\texttt{\ For\ } / \texttt{\ To\ } / \texttt{\ Do\ } , \texttt{\ For\ }
+/ \texttt{\ In\ } / \texttt{\ Do\ } , \texttt{\ While\ } /
+\texttt{\ Do\ } , \texttt{\ Do\ } / \texttt{\ While\ }
+:}{2.  For  /  Do  ,  For  /  To  /  Do  ,  For  /  In  /  Do  ,  While  /  Do  ,  Do  /  While  :}}\label{for-do-for-to-do-for-in-do-while-do-do-while}
+
+A loop, with the loop control either at the top or bottom.
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ For\ } / \texttt{\ Do\ } formats the control as â€œFor
+  \$Forâ€?,
+\item
+  \texttt{\ For\ } / \texttt{\ To\ } / \texttt{\ Do\ } as â€œFor \$For
+  to \$Toâ€?,
+\item
+  \texttt{\ For\ } / \texttt{\ In\ } / \texttt{\ Do\ } as â€œFor each
+  \$For in \$Inâ€?,
+\item
+  \texttt{\ While\ } / \texttt{\ Do\ } and \texttt{\ Do\ } /
+  \texttt{\ While\ } as â€œWhile \$Whileâ€?.
+\end{itemize}
+
+Order of specified keys matters.
+
+Examples:
+
+\begin{itemize}
+\tightlist
+\item
+\item
+  \texttt{\ (While:\ "true",\ Do:\ "print\ \textbackslash{}"endless\ loop\textbackslash{}"")\ }
+
+  \pandocbounded{\includesvg[keepaspectratio]{https://raw.githubusercontent.com/genericusername3/structogrammer/master/examples/while-do.svg}}
+\item
+  \texttt{\ (Do:\ "print\ \textbackslash{}"endless\ loop\textbackslash{}"",\ While:\ "true")\ }
+
+  \pandocbounded{\includesvg[keepaspectratio]{https://raw.githubusercontent.com/genericusername3/structogrammer/master/examples/do-while.svg}}
+\item
+  \texttt{\ (For:\ "item",\ In:\ "Container",\ Do:\ "print\ item.name")\ }
+
+  \pandocbounded{\includesvg[keepaspectratio]{https://raw.githubusercontent.com/genericusername3/structogrammer/master/examples/for-in.svg}}
+\end{itemize}
+
+Columns: Inserts a narrow column left to its content.
+
+\paragraph{\texorpdfstring{3. Method call ( \texttt{\ Call\ }
+)}{3. Method call (  Call  )}}\label{method-call-call}
+
+A block indicating that a subroutine is executed here. Only accepts the
+key \texttt{\ Call\ } , which is the string name
+
+Example:
+
+\begin{itemize}
+\tightlist
+\item
+\item
+  \texttt{\ (Call:\ "func()")\ }
+
+  \pandocbounded{\includesvg[keepaspectratio]{https://raw.githubusercontent.com/genericusername3/structogrammer/master/examples/call.svg}}
+\end{itemize}
+
+Columns: One wide column
+
+\paragraph{\texorpdfstring{4. Break/Return ( \texttt{\ Break\ }
+)}{4. Break/Return (  Break  )}}\label{breakreturn-break}
+
+A block indicating that a subroutine is executed here. Only accepts the
+key \texttt{\ Break\ } , which is the target to break to
+
+Examples:
+
+\begin{itemize}
+\tightlist
+\item
+\item
+  \texttt{\ (Break:\ "")\ }
+
+  \pandocbounded{\includesvg[keepaspectratio]{https://raw.githubusercontent.com/genericusername3/structogrammer/master/examples/break.svg}}
+\item
+  \texttt{\ (Break:\ "to\ enclosing\ loop")\ }
+
+  \pandocbounded{\includesvg[keepaspectratio]{https://raw.githubusercontent.com/genericusername3/structogrammer/master/examples/break-to.svg}}
+\end{itemize}
+
+Columns: One wide column
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as
+\texttt{\ structogrammer\ }
+
+\begin{verbatim}
+#import "@preview/structogrammer:0.1.1"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+\href{https://cza.li}{Charlotte}
+\item[License:]
+MIT
+\item[Current version:]
+0.1.1
+\item[Last updated:]
+May 14, 2024
+\item[First released:]
+May 13, 2024
+\item[Archive size:]
+8.68 kB
+\href{https://packages.typst.org/preview/structogrammer-0.1.1.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of Charlotte . You can also try to ask for
+help with this package on the \href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.1.1 & May 14, 2024 \\
+\href{https://typst.app/universe/package/structogrammer/0.1.0/}{0.1.0} &
+May 13, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.

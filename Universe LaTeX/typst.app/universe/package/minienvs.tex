@@ -1,0 +1,179 @@
+\title{typst.app/universe/package/minienvs}
+
+\phantomsection\label{banner}
+\section{minienvs}\label{minienvs}
+
+{ 0.1.0 }
+
+Theorem environments with minimal fuss
+
+\phantomsection\label{readme}
+Theorem environments in \href{https://typst.app/}{Typst} with minimal
+fuss.
+
+To use, import and add a show rule:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/minienvs:0.1.0": *}
+\NormalTok{\#show: minienvs}
+\end{Highlighting}
+\end{Shaded}
+
+You can optionally pass a custom configuration in the show-rule via
+\texttt{\ minienvs.with(â€¦)\ } (see
+\href{https://github.com/typst/packages/raw/main/packages/preview/minienvs/0.1.0/\#customization}{Customization}
+).
+
+You can now just add a theorem along with its proof using the term list
+syntax. For example:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{/ Theorem (Ville\textquotesingle{}s inequality):}
+\NormalTok{  Let $X\_0, ...$ be a non{-}negative supermartingale. Then, for any real number $a \textgreater{} 0$,}
+
+\NormalTok{  $ PP[sup\_(n\textgreater{}=0) X\_n \textgreater{}= a] \textless{}= EE[X\_0]/a. $}
+
+\NormalTok{Let us now prove it:}
+
+\NormalTok{/ Proof:}
+\NormalTok{  Consider the stopping time $N = inf \{t \textgreater{}= 1 : X\_t \textgreater{}= a\}$.}
+\NormalTok{  By the optional stopping theorem and the supermartingale convergence theorem, we have that}
+
+\NormalTok{  $}
+\NormalTok{    EE[X\_0] \textgreater{}= EE[X\_N]}
+\NormalTok{    \&= EE[X\_N | N \textless{} oo] PP[N \textless{} oo] + EE[X\_oo | N = oo] PP[N = oo] \textbackslash{}}
+\NormalTok{    \&\textgreater{}= EE[X\_N | N \textless{} oo] PP[N \textless{} oo]}
+\NormalTok{    = EE[X\_N/a | N \textless{} oo] a PP[N \textless{} oo]. \textbackslash{}}
+\NormalTok{  $}
+
+\NormalTok{  And, therefore,}
+
+\NormalTok{  $ PP[N \textless{} oo] \textless{}= EE[X\_0] \textbackslash{}/ a EE[X\_N/a | N \textless{} oo] \textless{}= EE[X\_0] \textbackslash{}/ a. $}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/minienvs/0.1.0/assets/ville.png}}
+
+\subsection{Labels and references}\label{labels-and-references}
+
+Currently, in order to label a minienv one needs to use the
+\texttt{\ envlabel\ } function. For example:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{/ Lemma (Donsker and Varadhan\textquotesingle{}s variational formula) \#envlabel(\textless{}change{-}of{-}measure\textgreater{}):}
+\NormalTok{  For any measureable, bounded function $h : Theta {-}\textgreater{} RR$ we have:}
+
+\NormalTok{  $ log EE\_(theta \textasciitilde{} pi)[exp h(theta)] = sup\_(rho in cal(P)(Theta)) [ EE\_(theta\textasciitilde{}rho)[h(theta)] {-} KL(rho || pi) ]. $}
+
+\NormalTok{As we will see, @change{-}of{-}measure is a fundamental building block of PAC{-}Bayes bounds.}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/minienvs/0.1.0/assets/donsker-varadhan.png}}
+
+\subsection{Customization}\label{customization}
+
+You can customize the appearance of minienvs by providing a
+configuration to the show-rule. For example, for the default
+configuration, you can do:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#show: minienvs.with(config: (}
+\NormalTok{  // Whether to give numbers for environments.}
+\NormalTok{  // If the environment is not mentioned in this dict, it has a number.}
+\NormalTok{  no{-}numbering: (}
+\NormalTok{    proof: true,}
+\NormalTok{  ),}
+\NormalTok{  // Additional options for the \textasciigrave{}block\textasciigrave{} containing the minienv (e.g., to put a box around the minienv).}
+\NormalTok{  // If the environment is not mentioned in this dict, no additional options are passed.}
+\NormalTok{  bbox: (:),}
+\NormalTok{  // How to format the head of the minienv.}
+\NormalTok{  // If the environment is not mentioned in this dict, then it is formatted in bold.}
+\NormalTok{  head{-}style: (}
+\NormalTok{    proof: it =\textgreater{} [\_\#\{it\}\_],}
+\NormalTok{  ),}
+\NormalTok{  // How to format the body of the minienv.}
+\NormalTok{  // If the environment is not mentioned in this dict, then it is formatted in italic.}
+\NormalTok{  transforms: (}
+\NormalTok{    proof: it =\textgreater{} [\#it \#h(1fr) $space qed$],}
+\NormalTok{  )}
+\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Coming soon / Work in
+progress}\label{coming-soon-work-in-progress}
+
+\begin{itemize}
+\tightlist
+\item
+  Presets for multiple languages
+\item
+  Separate counters
+\item
+  More customization
+\end{itemize}
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as \texttt{\ minienvs\ }
+
+\begin{verbatim}
+#import "@preview/minienvs:0.1.0"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+Daniel Csillag
+\item[License:]
+MIT
+\item[Current version:]
+0.1.0
+\item[Last updated:]
+December 14, 2023
+\item[First released:]
+December 14, 2023
+\item[Archive size:]
+3.13 kB
+\href{https://packages.typst.org/preview/minienvs-0.1.0.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of Daniel Csillag . You can also try to ask
+for help with this package on the \href{https://forum.typst.app}{Forum}
+.
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.1.0 & December 14, 2023 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.

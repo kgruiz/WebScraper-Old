@@ -1,0 +1,327 @@
+\title{typst.app/universe/package/pillar}
+
+\phantomsection\label{banner}
+\section{pillar}\label{pillar}
+
+{ 0.2.0 }
+
+Faster column specifications for tables.
+
+\phantomsection\label{readme}
+\emph{Shorthand notations for table column specifications in
+\href{https://typst.app/}{Typst} .}
+
+\href{https://typst.app/universe/package/pillar}{\pandocbounded{\includegraphics[keepaspectratio]{https://img.shields.io/badge/dynamic/toml?url=https\%3A\%2F\%2Fraw.githubusercontent.com\%2FMc-Zen\%2Fpillar\%2Fmain\%2Ftypst.toml&query=\%24.package.version&prefix=v&logo=typst&label=package&color=239DAD}}}
+\href{https://github.com/Mc-Zen/pillar/actions/workflows/run_tests.yml}{\pandocbounded{\includesvg[keepaspectratio]{https://github.com/Mc-Zen/pillar/actions/workflows/run_tests.yml/badge.svg}}}
+\href{https://github.com/Mc-Zen/pillar/blob/main/LICENSE}{\pandocbounded{\includegraphics[keepaspectratio]{https://img.shields.io/badge/license-MIT-blue}}}
+
+\begin{itemize}
+\tightlist
+\item
+  \href{https://github.com/typst/packages/raw/main/packages/preview/pillar/0.2.0/\#introduction}{Introduction}
+\item
+  \href{https://github.com/typst/packages/raw/main/packages/preview/pillar/0.2.0/\#column-specification}{Column
+  specification}
+\item
+  \href{https://github.com/typst/packages/raw/main/packages/preview/pillar/0.2.0/\#number-alignment}{Number
+  alignment}
+\item
+  \href{https://github.com/typst/packages/raw/main/packages/preview/pillar/0.2.0/\#pillarcols}{\texttt{\ pillar.cols()\ }}
+\item
+  \href{https://github.com/typst/packages/raw/main/packages/preview/pillar/0.2.0/\#pillartable}{\texttt{\ pillar.table()\ }}
+\item
+  \href{https://github.com/typst/packages/raw/main/packages/preview/pillar/0.2.0/\#vline-customization}{\texttt{\ vline\ }
+  customization}
+\end{itemize}
+
+\subsection{Introduction}\label{introduction}
+
+With \textbf{pillar} , you can significantly simplify the column setup
+of tables by unifying the specification of the number, alignment, and
+separation of columns. This package is in particular designed for
+scientific tables, which typically have simple styling:
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/user-attachments/assets/c0c60651-c682-4968-9ac9-0fa1e8d85dad}}
+
+In order to prepare this table with just the built-in methods, some code
+like the following would be required.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#table(}
+\NormalTok{  columns: 5,}
+\NormalTok{  align: (center,) * 4 + (right,),}
+\NormalTok{  stroke: none,}
+
+
+\NormalTok{  [Piano Key], table.vline(), [MIDI Number], [Note Name], [Pitch Name], table.vline(), [$f$ in Hz],}
+\NormalTok{  ..}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+Using \textbf{pillar} , the same can be achieved with
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#table(}
+\NormalTok{    ..pillar.cols("c|ccc|r"),}
+
+\NormalTok{    [Piano Key], [MIDI Number], [Note Name], [Pitch Name], [$f$ in Hz], ..}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+or alternatively
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#pillar.table(}
+\NormalTok{    cols: "c|ccc|r",}
+
+\NormalTok{    [Piano Key], [MIDI Number], [Note Name], [Pitch Name], [$f$ in Hz], ..}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\textbf{Pillar} is designed for interoperability. It uses the powerful
+standard tables and provides generated arguments for \texttt{\ table\ }
+â€™s \texttt{\ columns\ } , \texttt{\ align\ } , \texttt{\ stroke\ } ,
+and for the specified vertical lines. This means that all features of
+the built-in tables (and also \texttt{\ show\ } and \texttt{\ set\ }
+rules) can be applied as usual.
+
+\subsection{Column specification}\label{column-specification}
+
+This package works with \emph{column specification strings} . Each
+column is described by its alignment which can be \texttt{\ l\ } (left),
+\texttt{\ c\ } (center), \texttt{\ r\ } (right), or \texttt{\ a\ }
+(auto).
+
+The width of a column can optionally be specified by appending a
+(relative) length, or fraction in square brackets to the alignment
+specifier, e.g., \texttt{\ c{[}2cm{]}\ } or \texttt{\ r{[}1fr{]}\ } .
+
+Vertical lines can be added between columns with a
+\texttt{\ \textbar{}\ } character. Double lines can be produced with
+\texttt{\ \textbar{}\textbar{}\ } (see
+\href{https://github.com/typst/packages/raw/main/packages/preview/pillar/0.2.0/\#vline-customization}{\texttt{\ vline\ }
+customization} ). The stroke of the vertical line can be changed by
+appending anything that is usually allowed as a stroke argument in
+square brackets, e.g., \texttt{\ \textbar{}{[}2pt{]}\ } ,
+\texttt{\ \textbar{}{[}red{]}\ } or
+\texttt{\ \textbar{}{[}(dash:\ \textbackslash{}"dashed\textbackslash{}"){]}\ }
+.
+
+A column specification string may contain any number of spaces (e.g., to
+improve readability) â€'' all spaces will be ignored.
+
+\emph{If you find yourself writing highly complex column specifications,
+consider not using this package and resort to the parameters that the
+built-in tables provide. This package is intended for quick and
+relatively simple column specifications.}
+
+\subsection{Number alignment}\label{number-alignment}
+
+Choosing capital letters \texttt{\ L\ } , \texttt{\ C\ } ,
+\texttt{\ R\ } , or \texttt{\ A\ } instead of lower-case letters
+activates number alignment at the decimal separator for a specific
+column (similar to the column type â€œSâ€? of the LaTeX package
+\href{https://github.com/josephwright/siunitx}{siunitx} ). This feature
+is provided via the Typst package \textbf{Zero} .
+\href{https://github.com/Mc-Zen/zero}{Here} you can read up on the
+configuration of number formatting.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let percm = $"cm"\^{}({-}1)$}
+
+\NormalTok{\#pillar.table(}
+\NormalTok{  cols: "l|CCCC",}
+\NormalTok{  [], [$Î Î½\_0$ in \#percm], [$B\textquotesingle{}\_Î½$ in \#percm], [$B\textquotesingle{}\textquotesingle{}\_Î½$ in \#percm], [$D\textquotesingle{}\_Î½$ in \#percm],}
+\NormalTok{  table.hline(),}
+\NormalTok{  [Measurement], [14525.278],   [1.41],    [1.47],    [1.5e{-}5],}
+\NormalTok{  [Uncertainty], [2],           [0.3],     [0.3],     [4e{-}6],}
+\NormalTok{  [Ref. [2]],    [14525,74856], [1.37316], [1.43777], [5.401e{-}6]}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/user-attachments/assets/066cd34e-7043-48c7-b067-e3256e942f14}}
+
+Non-number entries (e.g., in the header) are automatically recognized in
+some cases and will not be aligned. In ambiguous cases, adding a leading
+or trailing space tells Zero not to apply alignment to this cell, e.g.,
+\texttt{\ {[}Voltage\ {]}\ } instead of \texttt{\ {[}Voltage{]}\ } .
+
+\subsection{\texorpdfstring{\texttt{\ pillar.cols()\ }}{ pillar.cols() }}\label{pillar.cols}
+
+This function produces an argument list that may contain arguments for
+\texttt{\ columns\ } , \texttt{\ align\ } , \texttt{\ stroke\ } , and
+\texttt{\ column-gutter\ } as well as instances of
+\texttt{\ table.vline()\ } . These arguments are intended to be expanded
+with the \texttt{\ ..\ } syntax into the argument list of
+\texttt{\ table\ } as shown in the examples.
+
+\subsection{\texorpdfstring{\texttt{\ pillar.table()\ }}{ pillar.table() }}\label{pillar.table}
+
+This is a thin wrapper that behaves just like the built-in
+\texttt{\ table\ } , except that it extracts the first positional
+argument if it is a string, and runs it through
+\texttt{\ pillar.cols()\ } .
+
+\subsection{\texorpdfstring{\texttt{\ vline\ }
+customization}{ vline  customization}}\label{vline-customization}
+
+In order to customize the default line setting, just use set rules on
+\texttt{\ table.vline\ } , e.g.,
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#set table.vline(stroke: .7pt)}
+
+\NormalTok{\#table(..pillar.cols("c|cc"), ..)}
+\end{Highlighting}
+\end{Shaded}
+
+Double lines are currently experimental and are realized through column
+gutters. They could also be realized through patterns, but this can
+produce artifacts with some renderers. As it currently is, double lines
+are not supported before the first and after the last column. On the
+other hand, with the current method, double lines are styled with set
+rules on \texttt{\ table.vline\ } which is nice and not achievable in
+the same way with patterns.
+
+\subsection{Examples}\label{examples}
+
+\subsubsection{Double lines}\label{double-lines}
+
+The following example uses a double line for visually separating
+repeated table columns.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#pillar.table(}
+\NormalTok{  cols: "ccc ||[.7pt] ccc",}
+  
+\NormalTok{  ..([\textbackslash{}\#], [$Î±$ in Â°], [$Î²$ in Â°]) * 2,}
+\NormalTok{  table.hline(),}
+\NormalTok{  [1], [34.3], [11.1],  [6], [34.0], [12.9],}
+\NormalTok{  [2], [34.2], [11.2],  [7], [34.3], [12.8],}
+\NormalTok{  [3], [34.6], [11.4],  [8], [33.9], [11.9],}
+\NormalTok{  [4], [34.7], [10.3],  [9], [34.4], [11.8],}
+\NormalTok{  [5], [34.3], [11.1], [10], [34.4], [11.8],}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/user-attachments/assets/e05e7bad-61b6-44f9-af34-5e558f338cdc}}
+
+\subsubsection{Further customization}\label{further-customization}
+
+This example shows the codes of the first ten printable ASCII
+characters, demonstrating stroke and column width customization.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#pillar.table(}
+\NormalTok{  cols: "ccc|ccc|[1.8pt + blue] l[5cm]",}
+  
+\NormalTok{  [Dec],[Hex],[Bin],[Symbol], [HTML code], [HTML name], [Description],}
+\NormalTok{  table.hline(),}
+\NormalTok{  [32], [20], [00100000], [\&\#32;], [],         [SP], [Space],}
+\NormalTok{  [33], [21], [00100001], [\&\#33;], [\&excl;],   [!],  [Exclamation mark],}
+\NormalTok{  [34], [22], [00100010], [\&\#34;], [\&quot;],   ["],  [Double quotes],}
+\NormalTok{  [35], [23], [00100011], [\&\#35;], [\&num;],    [\textbackslash{}\#], [Number sign],}
+\NormalTok{  [36], [24], [00100100], [\&\#36;], [\&dollar;], [\textbackslash{}$], [Dollar sign],}
+\NormalTok{  [37], [25], [00100101], [\&\#37;], [\&percnt;], [\%],  [Percent sign],}
+\NormalTok{  [38], [26], [00100110], [\&\#38;], [\&amp;],    [\&],  [Ampersand],}
+\NormalTok{  [39], [27], [00100111], [\&\#39;], [\&apos;],   [\textquotesingle{}],  [Single quote],}
+\NormalTok{  [40], [28], [00101000], [\&\#40;], [\&lparen;], [(],  [Opening parenthesis],}
+\NormalTok{  [41], [29], [00101001], [\&\#41;], [\&rparen;], [)],  [Closing parenthesis],}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/user-attachments/assets/9fae998e-033d-4d7e-9344-fe3778bbd9e6}}
+
+\subsection{Tests}\label{tests}
+
+This package uses
+\href{https://github.com/tingerrr/typst-test/}{typst-test} for running
+\href{https://github.com/typst/packages/raw/main/packages/preview/pillar/0.2.0/tests/}{tests}
+.
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as \texttt{\ pillar\ }
+
+\begin{verbatim}
+#import "@preview/pillar:0.2.0"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+\href{https://github.com/Mc-Zen}{Mc-Zen}
+\item[License:]
+MIT
+\item[Current version:]
+0.2.0
+\item[Last updated:]
+August 22, 2024
+\item[First released:]
+May 27, 2024
+\item[Minimum Typst version:]
+0.11.0
+\item[Archive size:]
+5.52 kB
+\href{https://packages.typst.org/preview/pillar-0.2.0.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Categor ies :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-chart.svg}}
+  \href{https://typst.app/universe/search/?category=visualization}{Visualization}
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-layout.svg}}
+  \href{https://typst.app/universe/search/?category=layout}{Layout}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of Mc-Zen . You can also try to ask for help
+with this package on the \href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.2.0 & August 22, 2024 \\
+\href{https://typst.app/universe/package/pillar/0.1.0/}{0.1.0} & May 27,
+2024 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.

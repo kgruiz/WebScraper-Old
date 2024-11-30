@@ -1,0 +1,317 @@
+<main>
+    <div id="banner" style="--banner-accent:#000000;--banner-primary:#000000;--banner-secondary:#000000;--banner-tertiary:#565565;--banner-background:#eff0f3">
+     <div class="package-icon" role="img">
+     </div>
+     <div>
+      <div class="title">
+       <h1 class="name">
+        prooftrees
+       </h1>
+       <span class="version">
+        0.1.0
+       </span>
+      </div>
+      <p class="description">
+       Proof trees for natural deduction and type theories
+      </p>
+     </div>
+    </div>
+    <div class="inner-grid">
+     <section id="readme">
+      <p>
+       This package is for constructing proof trees in the style of natural deduction or the sequent calculus, for
+       <code>
+        typst
+       </code>
+       <code>
+        0.7.0
+       </code>
+       . Please do open issues for bugs etc :)
+      </p>
+      <p>
+       Features:
+      </p>
+      <ul>
+       <li>
+        Inferences can have arbitrarily many premises.
+       </li>
+       <li>
+        Inference lines can have left and/or right labelsÂ¹
+       </li>
+       <li>
+        ConfigurableÂ² per tree and per line: premise spacing, the line stroke, etcâ¦ .
+       </li>
+       <li>
+        Theyâre proof trees.
+       </li>
+      </ul>
+      <p>
+       Â¹ The placement of labels is currently very primitive, and requires much user intervention.
+      </p>
+      <p>
+       Â² Options are quite limited.
+      </p>
+      <h2>
+       Usage
+      </h2>
+      <p>
+       The user interface is inspired by
+       <a href="https://ctan.org/pkg/bussproofs" rel="nofollow ugc" target="_blank">
+        bussproof
+       </a>
+       âs; a tree is constructed by a sequence of âlinesâ that state their number of premises.
+       <a href="https://github.com/typst/packages/raw/main/packages/preview/prooftrees/0.1.0/src/prooftrees.typ" rel="nofollow ugc" target="_blank">
+        <code>
+         src/prooftrees.typ
+        </code>
+       </a>
+       contains the documentation and the main functions needed.
+      </p>
+      <p>
+       The code for some example trees can be seen in
+       <code>
+        examples/prooftree_test.typ
+       </code>
+       .
+      </p>
+      <h3>
+       Examples
+      </h3>
+      <p>
+       A single inference would be:
+      </p>
+      <pre><code class="language-typst"><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/prooftrees:0.1.0"</span>
+
+<span class="typ-pol">#</span><span class="typ-pol">prooftree</span><span class="typ-punct">.</span><span class="typ-func">tree</span><span class="typ-punct">(</span>
+    prooftree<span class="typ-punct">.</span><span class="typ-func">axi</span><span class="typ-punct">[</span><span class="typ-math-delim">$</span>A <span class="typ-escape">=&gt;</span> A<span class="typ-math-delim">$</span><span class="typ-punct">]</span><span class="typ-punct">,</span>
+    prooftree<span class="typ-punct">.</span><span class="typ-func">uni</span><span class="typ-punct">[</span><span class="typ-math-delim">$</span>A <span class="typ-escape">=&gt;</span> A, B<span class="typ-math-delim">$</span><span class="typ-punct">]</span>
+<span class="typ-punct">)</span>
+</code></code></pre>
+      <img src="https://raw.githubusercontent.com/david-davies/typst-prooftree/main/examples/Example1.png" width="30%"/>
+      <p>
+       A more interesting example:
+      </p>
+      <pre><code class="language-typst"><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/prooftrees:0.1.0"</span>
+
+<span class="typ-pol">#</span><span class="typ-pol">prooftree</span><span class="typ-punct">.</span><span class="typ-func">tree</span><span class="typ-punct">(</span>
+    prooftree<span class="typ-punct">.</span><span class="typ-func">axi</span><span class="typ-punct">[</span><span class="typ-math-delim">$</span>B <span class="typ-escape">=&gt;</span> B<span class="typ-math-delim">$</span><span class="typ-punct">]</span><span class="typ-punct">,</span>
+    prooftree<span class="typ-punct">.</span><span class="typ-func">uni</span><span class="typ-punct">[</span><span class="typ-math-delim">$</span>B <span class="typ-escape">=&gt;</span> B, A<span class="typ-math-delim">$</span><span class="typ-punct">]</span><span class="typ-punct">,</span>
+    prooftree<span class="typ-punct">.</span><span class="typ-func">uni</span><span class="typ-punct">[</span><span class="typ-math-delim">$</span>B <span class="typ-escape">=&gt;</span> A, B<span class="typ-math-delim">$</span><span class="typ-punct">]</span><span class="typ-punct">,</span>
+        prooftree<span class="typ-punct">.</span><span class="typ-func">axi</span><span class="typ-punct">[</span><span class="typ-math-delim">$</span>A <span class="typ-escape">=&gt;</span> A<span class="typ-math-delim">$</span><span class="typ-punct">]</span><span class="typ-punct">,</span>
+        prooftree<span class="typ-punct">.</span><span class="typ-func">uni</span><span class="typ-punct">[</span><span class="typ-math-delim">$</span>A <span class="typ-escape">=&gt;</span> A, B<span class="typ-math-delim">$</span><span class="typ-punct">]</span><span class="typ-punct">,</span>
+    prooftree<span class="typ-punct">.</span><span class="typ-func">bin</span><span class="typ-punct">[</span><span class="typ-math-delim">$</span>B <span class="typ-escape">=&gt;</span> A, B<span class="typ-math-delim">$</span><span class="typ-punct">]</span>
+<span class="typ-punct">)</span>
+</code></code></pre>
+      <img src="https://raw.githubusercontent.com/david-davies/typst-prooftree/main/examples/Example2.png" width="40%"/>
+      <p>
+       An n-ary inference can be made:
+      </p>
+      <pre><code class="language-typst"><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/prooftrees:0.1.0"</span>
+
+<span class="typ-pol">#</span><span class="typ-pol">prooftrees</span><span class="typ-punct">.</span><span class="typ-func">tree</span><span class="typ-punct">(</span>
+    prooftrees<span class="typ-punct">.</span><span class="typ-func">axi</span><span class="typ-punct">(</span><span class="typ-func">pad</span><span class="typ-punct">(</span>bottom<span class="typ-punct">:</span> <span class="typ-num">2pt</span><span class="typ-punct">,</span> <span class="typ-punct">[</span><span class="typ-math-delim">$</span>P<span class="typ-math-op">_</span>1<span class="typ-math-delim">$</span><span class="typ-punct">]</span><span class="typ-punct">)</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+    prooftrees<span class="typ-punct">.</span><span class="typ-func">axi</span><span class="typ-punct">(</span><span class="typ-func">pad</span><span class="typ-punct">(</span>bottom<span class="typ-punct">:</span> <span class="typ-num">2pt</span><span class="typ-punct">,</span> <span class="typ-punct">[</span><span class="typ-math-delim">$</span>P<span class="typ-math-op">_</span>2<span class="typ-math-delim">$</span><span class="typ-punct">]</span><span class="typ-punct">)</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+    prooftrees<span class="typ-punct">.</span><span class="typ-func">axi</span><span class="typ-punct">(</span><span class="typ-func">pad</span><span class="typ-punct">(</span>bottom<span class="typ-punct">:</span> <span class="typ-num">2pt</span><span class="typ-punct">,</span> <span class="typ-punct">[</span><span class="typ-math-delim">$</span>P<span class="typ-math-op">_</span>3<span class="typ-math-delim">$</span><span class="typ-punct">]</span><span class="typ-punct">)</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+    prooftrees<span class="typ-punct">.</span><span class="typ-func">axi</span><span class="typ-punct">(</span><span class="typ-func">pad</span><span class="typ-punct">(</span>bottom<span class="typ-punct">:</span> <span class="typ-num">2pt</span><span class="typ-punct">,</span> <span class="typ-punct">[</span><span class="typ-math-delim">$</span>P<span class="typ-math-op">_</span>4<span class="typ-math-delim">$</span><span class="typ-punct">]</span><span class="typ-punct">)</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+    prooftrees<span class="typ-punct">.</span><span class="typ-func">axi</span><span class="typ-punct">(</span><span class="typ-func">pad</span><span class="typ-punct">(</span>bottom<span class="typ-punct">:</span> <span class="typ-num">2pt</span><span class="typ-punct">,</span> <span class="typ-punct">[</span><span class="typ-math-delim">$</span>P<span class="typ-math-op">_</span>5<span class="typ-math-delim">$</span><span class="typ-punct">]</span><span class="typ-punct">)</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+    prooftrees<span class="typ-punct">.</span><span class="typ-func">axi</span><span class="typ-punct">(</span><span class="typ-func">pad</span><span class="typ-punct">(</span>bottom<span class="typ-punct">:</span> <span class="typ-num">2pt</span><span class="typ-punct">,</span> <span class="typ-punct">[</span><span class="typ-math-delim">$</span>P<span class="typ-math-op">_</span>6<span class="typ-math-delim">$</span><span class="typ-punct">]</span><span class="typ-punct">)</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+    prooftrees<span class="typ-punct">.</span><span class="typ-func">nary</span><span class="typ-punct">(</span><span class="typ-num">6</span><span class="typ-punct">)</span><span class="typ-punct">[</span><span class="typ-math-delim">$</span>C<span class="typ-math-delim">$</span><span class="typ-punct">]</span><span class="typ-punct">,</span>
+<span class="typ-punct">)</span>
+</code></code></pre>
+      <img src="https://raw.githubusercontent.com/david-davies/typst-prooftree/main/examples/Example3.png" width="30%"/>
+      <h2>
+       Known Issues:
+      </h2>
+      <h3>
+       Superscripts and subscripts clip with the line
+      </h3>
+      <p>
+       The boundaries of blocks containing math do not expand enough for sub/pscripts; I think this is a typst issue. Short-term fix: add manual vspace or padding in the cell.
+      </p>
+      <h2>
+       Implementation
+      </h2>
+      <p>
+       The placement of the line and conclusion is calculated using
+       <code>
+        measure
+       </code>
+       on the premises and labels, and doing geometric arithmetic with these values.
+      </p>
+     </section>
+     <aside>
+      <section>
+       <h3>
+        How to add
+       </h3>
+       <p>
+        Copy this into your project and use the import as
+        <!-- -->
+        <code>
+         prooftrees
+        </code>
+       </p>
+       <div class="import-snippet">
+        <pre><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/prooftrees:0.1.0"</span></code></pre>
+        <button class="copy" title="Copy to clipboard">
+         <img alt="Copy" height="16" src="/assets/icons/16-copy.svg" width="16"/>
+        </button>
+       </div>
+       <p class="muted">
+        Check the docs for
+        <!-- -->
+        <a href="https://typst.app/docs/reference/scripting/#packages">
+         more information on how to import packages
+        </a>
+        .
+       </p>
+      </section>
+      <section id="about">
+       <h3>
+        About
+       </h3>
+       <dl>
+        <dt>
+         Author
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         <a href="https://github.com/david-davies" rel="noopener noreferrer" target="_blank">
+          david-davies
+         </a>
+        </dd>
+        <dt>
+         License:
+        </dt>
+        <dd>
+         MIT
+        </dd>
+        <dt>
+         Current version:
+        </dt>
+        <dd>
+         0.1.0
+        </dd>
+        <dt>
+         Last updated:
+        </dt>
+        <dd>
+         September 3, 2023
+        </dd>
+        <dt>
+         First released:
+        </dt>
+        <dd>
+         September 3, 2023
+        </dd>
+        <dt>
+         Archive size:
+        </dt>
+        <dd class="archive-size-value">
+         8.43 kB
+         <a href="https://packages.typst.org/preview/prooftrees-0.1.0.tar.gz">
+          <img alt="Size icon" src="/assets/icons/16-download.svg"/>
+         </a>
+        </dd>
+        <dt>
+         Repository:
+        </dt>
+        <dd>
+         <a href="https://github.com/david-davies/typst-prooftree" rel="noopener noreferrer" target="_blank">
+          GitHub
+         </a>
+        </dd>
+       </dl>
+      </section>
+      <section>
+       <h3>
+        Where to report issues?
+       </h3>
+       <p>
+        This
+        <!-- -->
+        package
+        <!-- -->
+        is a project of
+        <!-- -->
+        <!-- -->
+        david-davies
+        <!-- -->
+        .
+        <!-- -->
+        <!-- -->
+        Report issues on
+        <!-- -->
+        <a href="https://github.com/david-davies/typst-prooftree" rel="noopener noreferrer" target="_blank">
+         their repository
+        </a>
+        .
+        <!-- -->
+        <!-- -->
+        You can also try to ask for help with this
+        <!-- -->
+        package
+        <!-- -->
+        on the
+        <!-- -->
+        <a href="https://forum.typst.app" rel="noopener" target="_blank">
+         Forum
+        </a>
+        .
+       </p>
+       <p>
+        Please report this
+        <!-- -->
+        package
+        <!-- -->
+        to the Typst team using the
+        <!-- -->
+        <a href="https://typst.app/contact" rel="noreferrer" target="_blank">
+         contact form
+        </a>
+        <!-- -->
+        if you believe it is a safety hazard or infringes upon your rights.
+       </p>
+      </section>
+      <section id="versions">
+       <h3>
+        Version history
+       </h3>
+       <table>
+        <thead>
+         <tr>
+          <th align="left">
+           Version
+          </th>
+          <th align="left">
+           Release Date
+          </th>
+         </tr>
+        </thead>
+        <tbody>
+         <tr>
+          <td align="left">
+           0.1.0
+          </td>
+          <td align="left">
+           September 3, 2023
+          </td>
+         </tr>
+        </tbody>
+       </table>
+      </section>
+      <p class="bottom-notice muted">
+       Typst GmbH did not create this
+       <!-- -->
+       package
+       <!-- -->
+       and cannot guarantee correct functionality of this
+       <!-- -->
+       package
+       <!-- -->
+       or compatibility with any version of the Typst compiler or app.
+      </p>
+     </aside>
+    </div>
+   </main>

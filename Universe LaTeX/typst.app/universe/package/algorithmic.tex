@@ -1,0 +1,218 @@
+\title{typst.app/universe/package/algorithmic}
+
+\phantomsection\label{banner}
+\section{algorithmic}\label{algorithmic}
+
+{ 0.1.0 }
+
+Algorithm pseudocode typesetting for Typst, inspired by algorithmicx in
+LaTeX
+
+\phantomsection\label{readme}
+This is a package inspired by the LaTeX
+\href{https://ctan.org/pkg/algorithmicx}{\texttt{\ algorithmicx\ }}
+package for Typst. Itâ€™s useful for writing pseudocode and typesetting
+it all nicely.
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/algorithmic/0.1.0/docs/assets/demo-rendered.png}}
+
+Example:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/algorithmic:0.1.0"}
+\NormalTok{\#import algorithmic: algorithm}
+
+\NormalTok{\#algorithm(\{}
+\NormalTok{  import algorithmic: *}
+\NormalTok{  Function("Binary{-}Search", args: ("A", "n", "v"), \{}
+\NormalTok{    Cmt[Initialize the search range]}
+\NormalTok{    Assign[$l$][$1$]}
+\NormalTok{    Assign[$r$][$n$]}
+\NormalTok{    State[]}
+\NormalTok{    While(cond: $l \textless{}= r$, \{}
+\NormalTok{      Assign([mid], FnI[floor][$(l + r)/2$])}
+\NormalTok{      If(cond: $A ["mid"] \textless{} v$, \{}
+\NormalTok{        Assign[$l$][$m + 1$]}
+\NormalTok{      \})}
+\NormalTok{      ElsIf(cond: [$A ["mid"] \textgreater{} v$], \{}
+\NormalTok{        Assign[$r$][$m {-} 1$]}
+\NormalTok{      \})}
+\NormalTok{      Else(\{}
+\NormalTok{        Return[$m$]}
+\NormalTok{      \})}
+\NormalTok{    \})}
+\NormalTok{    Return[*null*]}
+\NormalTok{  \})}
+\NormalTok{\})}
+\end{Highlighting}
+\end{Shaded}
+
+This DSL is implemented using the same trick as
+\href{https://github.com/johannes-wolf/typst-canvas}{CeTZ} uses: a code
+block of arrays gets those arrays joined together.
+
+Currently this library is not really customizable. Please vendor it and
+hack it up as needed then file an issue for the customization option
+youâ€™re missing.
+
+\subsection{Reference}\label{reference}
+
+\paragraph{stmt}\label{stmt}
+
+Statement-level contexts in \texttt{\ algorithmic\ } generally accept
+the type \texttt{\ body\ } in the following:
+
+\begin{verbatim}
+body = (ast|content)[] | ast | content
+ast = (change_indent: int, body: body)
+\end{verbatim}
+
+\paragraph{inline}\label{inline}
+
+Inline functions will generate plain content.
+
+\paragraph{\texorpdfstring{\texttt{\ algorithmic(..bits)\ }}{ algorithmic(..bits) }}\label{algorithmic..bits}
+
+Takes one or more lists of \texttt{\ ast\ } and creates an algorithmic
+block with line numbers.
+
+\subsubsection{Control flow}\label{control-flow}
+
+\paragraph{\texorpdfstring{\texttt{\ Function\ } /
+\texttt{\ Procedure\ }
+(stmt)}{ Function  /  Procedure  (stmt)}}\label{function-procedure-stmt}
+
+Defined as
+\texttt{\ f(name:\ string\textbar{}content,\ args:\ content{[}{]}?,\ ..body)\ }
+. Body can be one or more \texttt{\ body\ } values.
+
+\paragraph{\texorpdfstring{\texttt{\ If\ } / \texttt{\ ElseIf\ } /
+\texttt{\ Else\ } / \texttt{\ For\ } / \texttt{\ While\ }
+(stmt)}{ If  /  ElseIf  /  Else  /  For  /  While  (stmt)}}\label{if-elseif-else-for-while-stmt}
+
+Defined as \texttt{\ f(cond:\ string\textbar{}content,\ ..body)\ } .
+Body can be one or more \texttt{\ body\ } values.
+
+Generates an indented block with the body, and the specified
+\texttt{\ cond\ } between the two keywords as condition.
+
+\subsubsection{Statements}\label{statements}
+
+\paragraph{\texorpdfstring{\texttt{\ Assign\ }
+(stmt)}{ Assign  (stmt)}}\label{assign-stmt}
+
+Defined as \texttt{\ Assign(var:\ content,\ val:\ content)\ } .
+
+Generates \texttt{\ \#var\ \textless{}-\ \#val\ } .
+
+\paragraph{\texorpdfstring{\texttt{\ CallI\ } (inline),
+\texttt{\ Call\ }
+(stmt)}{ CallI  (inline),  Call  (stmt)}}\label{calli-inline-call-stmt}
+
+Defined as \texttt{\ f(name,\ args:\ content\textbar{}content{[}{]})\ }
+.
+
+Calls a function with the function name styled in smallcaps and the args
+joined by commas.
+
+\paragraph{\texorpdfstring{\texttt{\ Cmt\ }
+(stmt)}{ Cmt  (stmt)}}\label{cmt-stmt}
+
+Defined as \texttt{\ Cmt(body:\ content)\ } .
+
+Makes a line comment.
+
+\paragraph{\texorpdfstring{\texttt{\ FnI\ } (inline), \texttt{\ Fn\ }
+(stmt)}{ FnI  (inline),  Fn  (stmt)}}\label{fni-inline-fn-stmt}
+
+Defined as \texttt{\ f(name,\ args:\ content\textbar{}content{[}{]})\ }
+.
+
+Calls a function with the function name styled in bold and the args
+joined by commas.
+
+\paragraph{\texorpdfstring{\texttt{\ Ic\ }
+(inline)}{ Ic  (inline)}}\label{ic-inline}
+
+Defined as \texttt{\ Ic(body:\ content)\ -\textgreater{}\ content\ } .
+
+Makes an inline comment.
+
+\paragraph{\texorpdfstring{\texttt{\ Return\ }
+(stmt)}{ Return  (stmt)}}\label{return-stmt}
+
+Defined as \texttt{\ Return(arg:\ content)\ } .
+
+Generates \texttt{\ return\ \#arg\ } .
+
+\paragraph{\texorpdfstring{\texttt{\ State\ }
+(stmt)}{ State  (stmt)}}\label{state-stmt}
+
+Defined as \texttt{\ State(body:\ content)\ } .
+
+Turns any content into a line.
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as
+\texttt{\ algorithmic\ }
+
+\begin{verbatim}
+#import "@preview/algorithmic:0.1.0"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+Jade Lovelace
+\item[License:]
+MIT
+\item[Current version:]
+0.1.0
+\item[Last updated:]
+August 19, 2023
+\item[First released:]
+August 19, 2023
+\item[Archive size:]
+3.29 kB
+\href{https://packages.typst.org/preview/algorithmic-0.1.0.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/lf-/typst-algorithmic}{GitHub}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of Jade Lovelace . Report issues on
+\href{https://github.com/lf-/typst-algorithmic}{their repository} . You
+can also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.1.0 & August 19, 2023 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.

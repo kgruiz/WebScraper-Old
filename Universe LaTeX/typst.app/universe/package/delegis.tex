@@ -1,0 +1,337 @@
+\title{typst.app/universe/package/delegis}
+
+\phantomsection\label{banner}
+\phantomsection\label{template-thumbnail}
+\pandocbounded{\includegraphics[keepaspectratio]{https://packages.typst.org/preview/thumbnails/delegis-0.3.0-small.webp}}
+
+\section{delegis}\label{delegis}
+
+{ 0.3.0 }
+
+A package and template for drafting legislative content in a
+German-style structuring, such as for bylaws, etc.
+
+\href{/app?template=delegis&version=0.3.0}{Create project in app}
+
+\phantomsection\label{readme}
+\begin{longtable}[]{@{}lll@{}}
+\toprule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/delegis/0.3.0/demo-1.png}}
+&
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/delegis/0.3.0/demo-2.png}}
+&
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/delegis/0.3.0/demo-3.png}} \\
+\end{longtable}
+
+A package and template for drafting legislative content in a
+German-style structuring, such as for bylaws, etc.
+
+While the template is designed to be used in German documents, all
+strings are customizable. You can have a look at the
+\texttt{\ delegis.typ\ } to see all available parameters.
+
+\subsection{General Usage}\label{general-usage}
+
+While this \texttt{\ README.md\ } gives you a brief overview of the
+packageâ€™s usage, we recommend that you use the template (in the
+\texttt{\ template\ } folder) as a starting point instead.
+
+\subsubsection{Importing the Package}\label{importing-the-package}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/delegis:0.3.0": *}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{Initializing the
+template}\label{initializing-the-template}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#show: delegis.with(}
+\NormalTok{  // Metadata}
+\NormalTok{  title: "Vereinsordnung zu ABCDEF", // title of the law/bylaw/...}
+\NormalTok{  abbreviation: "ABCDEFVO", // abbreviation of the law/bylaw/...}
+\NormalTok{  resolution: "3. Beschluss des Vorstands vom 24.01.2024", // resolution number and date}
+\NormalTok{  in{-}effect: "24.01.2024", // date when it comes into effect}
+\NormalTok{  draft: false, // whether this is a draft}
+\NormalTok{  // Template}
+\NormalTok{  logo: image("wuespace.jpg", alt: "WÃ¼Space e. V."), // logo of the organization, shown on the first page}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{Sections}\label{sections}
+
+Sections are auto-detected as long as they follow the pattern
+\texttt{\ Â§\ 1\ ...\ } or \texttt{\ Â§\ 1a\ ...\ } in its own
+paragraph:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{Â§ 1 Geltungsbereich}
+
+\NormalTok{(1) }
+\NormalTok{Diese Ordnung gilt fÃ¼r alle Mitglieder des Vereins.}
+
+\NormalTok{(2) }
+\NormalTok{Sie regelt die Mitgliedschaft im Verein.}
+
+\NormalTok{Â§ 2 Mitgliedschaft}
+
+\NormalTok{(1) }
+\NormalTok{Die Mitgliedschaft im Verein ist freiwillig.}
+
+\NormalTok{(2) }
+\NormalTok{Sie kann jederzeit gekÃ¼ndigt werden.}
+
+\NormalTok{Â§ 2a Ehrenmitgliedschaft}
+
+\NormalTok{(1) }
+\NormalTok{Die Ehrenmitgliedschaft wird durch den Vorstand verliehen.}
+\end{Highlighting}
+\end{Shaded}
+
+Alternatively (or if you want to use special characters otherwise not
+supported, such as \texttt{\ *\ } ), you can also use the
+\texttt{\ \#section{[}number{]}{[}title{]}\ } function:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#section[Â§ 3][Administrator*innen]}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{Hierarchical Divisions}\label{hierarchical-divisions}
+
+If you want to add more structure to your sections, you can use normal
+Typst headings. Note that only the level 6 headings are reserved for the
+section numbers:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{= Allgemeine Bestimmungen}
+
+\NormalTok{Â§ 1 ABC}
+
+\NormalTok{Â§ 2 DEF}
+
+\NormalTok{= Besondere Bestimmungen}
+
+\NormalTok{Â§ 3 GHI}
+
+\NormalTok{Â§ 4 JKL}
+\end{Highlighting}
+\end{Shaded}
+
+Delegis will automatically use a numbering scheme for the divisions that
+is in line with the â€œHandbuch der RechtsfÃ¶rmlichkeitâ€?, Rn. 379 f.
+If you want to customize the division titles, you can do so by setting
+the \texttt{\ division-prefixes\ } parameter in the \texttt{\ delegis\ }
+function:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#show: delegis.with(}
+\NormalTok{  division{-}prefixes: ("Teil", "Kapitel", "Abschnitt", "Unterabschnitt")}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{Sentence Numbering}\label{sentence-numbering}
+
+If a paragraph contains multiple sentences, you can number them by
+adding a \texttt{\ \#s\textasciitilde{}\ } at the beginning of the
+sentences:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{Â§ 3 MitgliedsbeitrÃ¤ge}
+
+\NormalTok{\#s\textasciitilde{}Die MitgliedsbeitrÃ¤ge sind monatlich zu entrichten.}
+\NormalTok{\#s\textasciitilde{}Sie sind bis zum 5. des Folgemonats zu zahlen.}
+\end{Highlighting}
+\end{Shaded}
+
+This automatically adds corresponding sentence numbers in superscript.
+
+\subsubsection{Referencing other
+Sections}\label{referencing-other-sections}
+
+Referencing works manually by specifying the section number. While
+automations would be feasible, we have found that in practice, theyâ€™re
+not as useful as they might seem for legislative documents.
+
+In some cases, referencing sections using \texttt{\ Â§\ X\ } could be
+mis-interpreted as a new section. To avoid this, use the non-breaking
+space character \texttt{\ \textasciitilde{}\ } between the
+\texttt{\ Â§\ } and the number:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{Â§ 5 Inkrafttreten}
+
+\NormalTok{Diese Ordnung tritt am 24.01.2024 in Kraft. Â§\textasciitilde{}4 bleibt unberÃ¼hrt.}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Changelog}\label{changelog}
+
+\subsubsection{v0.3.0}\label{v0.3.0}
+
+\paragraph{Features}\label{features}
+
+\begin{itemize}
+\tightlist
+\item
+  Adjust numbered list / enumeration numbering to be in line with
+  â€œHandbuch der RechtsfÃ¶rmlichkeitâ€?, Rn. 374
+\item
+  Make division titles (e.g., â€œPartâ€?, â€œChapterâ€?, â€œDivisionâ€?)
+  customizable and conform to the â€œHandbuch der
+  RechtsfÃ¶rmlichkeitâ€?, Rn. 379 f.
+\end{itemize}
+
+\subsubsection{v0.2.0}\label{v0.2.0}
+
+\paragraph{Features}\label{features-1}
+
+\begin{itemize}
+\tightlist
+\item
+  Add \texttt{\ \#metadata\ } fields for usage with
+  \texttt{\ typst\ query\ } . You can now use
+  \texttt{\ typst\ query\ file.typ\ "\textless{}field\textgreater{}"\ -\/-field\ value\ -\/-one\ }
+  with \texttt{\ \textless{}field\textgreater{}\ } being one of the
+  following to query metadata fields in the command line:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \texttt{\ \textless{}title\textgreater{}\ }
+  \item
+    \texttt{\ \textless{}abbreviation\textgreater{}\ }
+  \item
+    \texttt{\ \textless{}resolution\textgreater{}\ }
+  \item
+    \texttt{\ \textless{}in-effect\textgreater{}\ }
+  \end{itemize}
+\item
+  Add \texttt{\ \#section{[}Â§\ 1{]}{[}ABC{]}\ } function to enable
+  previously unsupported special chars (such as \texttt{\ *\ } ) in
+  section headings. Note that this was previously possible using
+  \texttt{\ \#unnumbered{[}Â§\ 1\textbackslash{}\ ABC{]}\ } , but the
+  new function adds a semantically better-fitting alternative to this
+  fix.
+\item
+  Improve heading style rules. This also fixes an incompatibility with
+  \texttt{\ pandoc\ } , meaning itâ€™s now possible to use
+  \texttt{\ pandoc\ } to convert delegis documents to HTML, etc.
+\item
+  Set the footnote numbering to \texttt{\ {[}1{]}\ } to not collide with
+  sentence numbers.
+\end{itemize}
+
+\paragraph{Bug Fixes}\label{bug-fixes}
+
+\begin{itemize}
+\tightlist
+\item
+  Fix a typo in the \texttt{\ str-draft\ } variable name that lead to
+  draft documents resulting in a syntax error.
+\item
+  Fix hyphenation issues with the abbreviation on the title page
+  (hyphenation between the parentheses and the abbreviation itself)
+\end{itemize}
+
+\subsubsection{v0.1.0}\label{v0.1.0}
+
+Initial Release
+
+\href{/app?template=delegis&version=0.3.0}{Create project in app}
+
+\subsubsection{How to use}\label{how-to-use}
+
+Click the button above to create a new project using this template in
+the Typst app.
+
+You can also use the Typst CLI to start a new project on your computer
+using this command:
+
+\begin{verbatim}
+typst init @preview/delegis:0.3.0
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+\href{https://github.com/wuespace}{WÃ¼Space e. V.}
+\item[License:]
+MIT
+\item[Current version:]
+0.3.0
+\item[Last updated:]
+May 22, 2024
+\item[First released:]
+March 16, 2024
+\item[Archive size:]
+13.4 kB
+\href{https://packages.typst.org/preview/delegis-0.3.0.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/wuespace/delegis}{GitHub}
+\item[Discipline :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \href{https://typst.app/universe/search/?discipline=law}{Law}
+\end{itemize}
+\item[Categor y :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-envelope.svg}}
+  \href{https://typst.app/universe/search/?category=office}{Office}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This template is a project of WÃ¼Space e. V. . Report issues on
+\href{https://github.com/wuespace/delegis}{their repository} . You can
+also try to ask for help with this template on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this template to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.3.0 & May 22, 2024 \\
+\href{https://typst.app/universe/package/delegis/0.2.0/}{0.2.0} & May
+17, 2024 \\
+\href{https://typst.app/universe/package/delegis/0.1.0/}{0.1.0} & March
+16, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this template and cannot guarantee correct
+functionality of this template or compatibility with any version of the
+Typst compiler or app.

@@ -1,0 +1,266 @@
+\title{typst.app/universe/package/elsearticle}
+
+\phantomsection\label{banner}
+\phantomsection\label{template-thumbnail}
+\pandocbounded{\includegraphics[keepaspectratio]{https://packages.typst.org/preview/thumbnails/elsearticle-0.4.0-small.webp}}
+
+\section{elsearticle}\label{elsearticle}
+
+{ 0.4.0 }
+
+Conversion of the LaTeX elsearticle.cls
+
+{ } Featured Template
+
+\href{/app?template=elsearticle&version=0.4.0}{Create project in app}
+
+\phantomsection\label{readme}
+\href{https://github.com/typst/packages/raw/main/packages/preview/elsearticle/0.4.0/}{\pandocbounded{\includesvg[keepaspectratio]{https://img.shields.io/badge/Version-0.4.0-cornflowerblue.svg}}}
+\href{https://github.com/maucejo/elsearticle/blob/main/LICENSE}{\pandocbounded{\includegraphics[keepaspectratio]{https://img.shields.io/badge/License-MIT-forestgreen}}}
+\href{https://github.com/maucejo/elsearticle/blob/main/docs/manual.pdf}{\pandocbounded{\includegraphics[keepaspectratio]{https://img.shields.io/badge/doc-.pdf-mediumpurple}}}
+
+\texttt{\ elsearticle\ } is a Typst template that aims to mimic the
+Elsevier article LaTeX class, a.k.a. \texttt{\ elsearticle.cls\ } ,
+provided by Elsevier to format manuscript properly for submission to
+their journals.
+
+\subsection{Basic usage}\label{basic-usage}
+
+This section provides the minimal amount of information to get started
+with the template. For more detailed information, see the
+\href{https://github.com/maucejo/elsearticle/blob/main/docs/manual.pdf}{manual}
+.
+
+To use the \texttt{\ elsearticle\ } template, you need to include the
+following line at the beginning of your \texttt{\ typ\ } file:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/elsearticle:0.4.0": *}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{Initializing the
+template}\label{initializing-the-template}
+
+After importing \texttt{\ elsearticle\ } , you have to initialize the
+template by a show rule with the \texttt{\ \#elsearticle()\ } command.
+This function takes an optional argument to specify the title of the
+document.
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ title\ } : Title of the paper
+\item
+  \texttt{\ author\ } : List of the authors of the paper
+\item
+  \texttt{\ abstract\ } : Abstract of the paper
+\item
+  \texttt{\ journal\ } : Name of the journal
+\item
+  \texttt{\ keywords\ } : List of keywords of the paper
+\item
+  \texttt{\ format\ } : Format of the paper. Possible values are
+  \texttt{\ preprint\ } , \texttt{\ review\ } , \texttt{\ 1p\ } ,
+  \texttt{\ 3p\ } , \texttt{\ 5p\ }
+\item
+  \texttt{\ numcol\ } : Number of columns of the paper. Possible values
+  are 1 and 2
+\item
+  \texttt{\ line-numbering\ } : Enable line numbering. Possible values
+  are \texttt{\ true\ } and \texttt{\ false\ }
+\end{itemize}
+
+\subsection{Additional features}\label{additional-features}
+
+The \texttt{\ elsearticle\ } template provides additional features to
+help you format your document properly.
+
+\subsubsection{Appendix}\label{appendix}
+
+To activate the appendix environment, all you have to do is to place the
+following command in your document:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#show: appendix}
+
+\NormalTok{// Appendix content here}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{Subfigures}\label{subfigures}
+
+Subfigures are not built-in features of Typst, but the
+\texttt{\ elsearticle\ } template provides a way to handle them. It is
+based on the \texttt{\ subpar\ } package that allows you to create
+subfigures and properly reference them.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{  \#subfigure(}
+\NormalTok{    figure(image("image1.png"), caption: []), \textless{}figa\textgreater{},}
+\NormalTok{    figure(image("image2.png"), caption: []), \textless{}figb\textgreater{},}
+\NormalTok{    columns: (1fr, 1fr),}
+\NormalTok{    caption: [(a) Left image and (b) Right image],}
+\NormalTok{    label: \textless{}fig\textgreater{}}
+\NormalTok{  )}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{Equations}\label{equations}
+
+The \texttt{\ elsearticle\ } template provides the
+\texttt{\ \#nonumeq()\ } function to create unnmbered equations. The
+latter function can be used as follows:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#nonumeq[$}
+\NormalTok{  y = f(x)}
+\NormalTok{  $}
+\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Roadmap}\label{roadmap}
+
+\emph{Article format}
+
+\begin{itemize}
+\tightlist
+\item
+  {[}x{]} Preprint
+\item
+  {[}x{]} Review
+\item
+  {[}x{]} 1p
+\item
+  {[}x{]} 3p
+\item
+  {[}x{]} 5p
+\end{itemize}
+
+\emph{Environment}
+
+\begin{itemize}
+\tightlist
+\item
+  {[}x{]} Implementation of the \texttt{\ appendix\ } environment
+\end{itemize}
+
+\emph{Figures and tables}
+
+\begin{itemize}
+\tightlist
+\item
+  {[}x{]} Implementation of the \texttt{\ subfigure\ } environment
+\end{itemize}
+
+\emph{Equations}
+
+\begin{itemize}
+\tightlist
+\item
+  {[}x{]} Proper referencing of equations w.r.t. the context
+\item
+  {[}x{]} Use of the \texttt{\ equate\ } package to number each equation
+  of a system as â€œ(1a)â€?
+\end{itemize}
+
+\emph{Other features}
+
+\begin{itemize}
+\tightlist
+\item
+  {[}x{]} Line numbering - Line numbering - Use the built-in
+  \texttt{\ par.line\ } function available from Typst v0.12
+\end{itemize}
+
+\subsection{License}\label{license}
+
+MIT licensed
+
+Copyright Â© 2024 Mathieu AUCEJO (maucejo)
+
+\href{/app?template=elsearticle&version=0.4.0}{Create project in app}
+
+\subsubsection{How to use}\label{how-to-use}
+
+Click the button above to create a new project using this template in
+the Typst app.
+
+You can also use the Typst CLI to start a new project on your computer
+using this command:
+
+\begin{verbatim}
+typst init @preview/elsearticle:0.4.0
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+Mathieu Aucejo
+\item[License:]
+MIT
+\item[Current version:]
+0.4.0
+\item[Last updated:]
+November 18, 2024
+\item[First released:]
+July 22, 2024
+\item[Archive size:]
+95.5 kB
+\href{https://packages.typst.org/preview/elsearticle-0.4.0.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/maucejo/elsearticle}{GitHub}
+\item[Categor y :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-speak.svg}}
+  \href{https://typst.app/universe/search/?category=report}{Report}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This template is a project of Mathieu Aucejo . Report issues on
+\href{https://github.com/maucejo/elsearticle}{their repository} . You
+can also try to ask for help with this template on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this template to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.4.0 & November 18, 2024 \\
+\href{https://typst.app/universe/package/elsearticle/0.3.0/}{0.3.0} &
+October 21, 2024 \\
+\href{https://typst.app/universe/package/elsearticle/0.2.1/}{0.2.1} &
+September 27, 2024 \\
+\href{https://typst.app/universe/package/elsearticle/0.2.0/}{0.2.0} &
+August 1, 2024 \\
+\href{https://typst.app/universe/package/elsearticle/0.1.0/}{0.1.0} &
+July 22, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this template and cannot guarantee correct
+functionality of this template or compatibility with any version of the
+Typst compiler or app.

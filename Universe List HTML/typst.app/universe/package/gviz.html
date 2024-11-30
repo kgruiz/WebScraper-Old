@@ -1,0 +1,298 @@
+<main>
+    <div id="banner" style="--banner-accent:#000000;--banner-primary:#000000;--banner-secondary:#000000;--banner-tertiary:#565565;--banner-background:#eff0f3">
+     <div class="package-icon" role="img">
+     </div>
+     <div>
+      <div class="title">
+       <h1 class="name">
+        gviz
+       </h1>
+       <span class="version">
+        0.1.0
+       </span>
+      </div>
+      <p class="description">
+       Generate graphs using the graphviz dot language.
+      </p>
+     </div>
+    </div>
+    <div class="inner-grid">
+     <section id="readme">
+      <p>
+       GViz is a typst plugin that can render graphviz graphs.
+      </p>
+      <p>
+       It uses
+       <a href="https://codeberg.org/Sekoia/layout" rel="nofollow ugc" target="_blank">
+        https://codeberg.org/Sekoia/layout
+       </a>
+       as a backend, which means it can currently only render to SVG, and mostly supports basic features.
+      </p>
+      <p>
+       Import it like any other plugin:
+       <code>
+        #import "@preview/gviz:0.1.0": *
+       </code>
+       .
+      </p>
+      <h2>
+       Usage
+      </h2>
+      <pre><code class="language-typst"><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/gviz:0.1.0"</span><span class="typ-punct">:</span> <span class="typ-op">*</span>
+
+<span class="typ-key">#</span><span class="typ-key">show</span> raw<span class="typ-punct">.</span><span class="typ-func">where</span><span class="typ-punct">(</span>lang<span class="typ-punct">:</span> <span class="typ-str">"dot-render"</span><span class="typ-punct">)</span><span class="typ-punct">:</span> it <span class="typ-op">=&gt;</span> <span class="typ-func">render-image</span><span class="typ-punct">(</span>it<span class="typ-punct">.</span>text<span class="typ-punct">)</span>
+
+<span class="typ-raw">```dot-render
+digraph mygraph {
+  node [shape=box];
+  A -&gt; B;
+  B -&gt; C;
+  B -&gt; D;
+  C -&gt; E;
+  D -&gt; E;
+  E -&gt; F;
+  A -&gt; F [label="one"];
+  A -&gt; F [label="two"];
+  A -&gt; F [label="three"];
+  A -&gt; F [label="four"];
+  A -&gt; F [label="five"];
+}```</span>
+
+<span class="typ-key">#</span><span class="typ-key">let</span> my-graph <span class="typ-op">=</span> <span class="typ-str">"digraph {A -&gt; B}"</span>
+<span class="typ-func">#</span><span class="typ-func">render-image</span><span class="typ-punct">(</span>my-graph<span class="typ-punct">)</span>
+
+SVG:
+<span class="typ-func">#</span><span class="typ-func">raw</span><span class="typ-punct">(</span><span class="typ-func">render</span><span class="typ-punct">(</span>my-graph<span class="typ-punct">)</span><span class="typ-punct">,</span> block<span class="typ-punct">:</span> <span class="typ-key">true</span><span class="typ-punct">,</span> lang<span class="typ-punct">:</span> <span class="typ-str">"svg"</span><span class="typ-punct">)</span>
+</code></code></pre>
+      <h2>
+       API
+      </h2>
+      <h3>
+       render
+      </h3>
+      <p>
+       Renders a graph in dot language and returns SVG code for it.
+      </p>
+      <p>
+       Parameters:
+      </p>
+      <ul>
+       <li>
+        code (string, bytes): Dot language code to be rendered.
+       </li>
+      </ul>
+      <p>
+       Returns: string
+      </p>
+      <h3>
+       render-image
+      </h3>
+      <p>
+       Renders a graph in dot language and returns an SVG image of it. Uses the same parameters as image.decode.
+      </p>
+      <p>
+       Parameters:
+      </p>
+      <ul>
+       <li>
+        code (string, bytes): Dot language code to be rendered.
+       </li>
+       <li>
+        width (auto, relative): The width of the image.
+       </li>
+       <li>
+        height (auto, relative): The height of the image.
+       </li>
+       <li>
+        alt (none, string): A text describing the image.
+       </li>
+       <li>
+        fit (string): How the image should adjust itself to a given area. See image.decode.
+       </li>
+      </ul>
+      <p>
+       Returns: content
+      </p>
+     </section>
+     <aside>
+      <section>
+       <h3>
+        How to add
+       </h3>
+       <p>
+        Copy this into your project and use the import as
+        <!-- -->
+        <code>
+         gviz
+        </code>
+       </p>
+       <div class="import-snippet">
+        <pre><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/gviz:0.1.0"</span></code></pre>
+        <button class="copy" title="Copy to clipboard">
+         <img alt="Copy" height="16" src="/assets/icons/16-copy.svg" width="16"/>
+        </button>
+       </div>
+       <p class="muted">
+        Check the docs for
+        <!-- -->
+        <a href="https://typst.app/docs/reference/scripting/#packages">
+         more information on how to import packages
+        </a>
+        .
+       </p>
+      </section>
+      <section id="about">
+       <h3>
+        About
+       </h3>
+       <dl>
+        <dt>
+         Author
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         <a href="https://codeberg.org/Sekoia&gt; &lt;https://github.com/SekoiaTree" rel="noopener noreferrer" target="_blank">
+          Sekoia
+         </a>
+        </dd>
+        <dt>
+         License:
+        </dt>
+        <dd>
+         Unlicense
+        </dd>
+        <dt>
+         Current version:
+        </dt>
+        <dd>
+         0.1.0
+        </dd>
+        <dt>
+         Last updated:
+        </dt>
+        <dd>
+         September 15, 2023
+        </dd>
+        <dt>
+         First released:
+        </dt>
+        <dd>
+         September 15, 2023
+        </dd>
+        <dt>
+         Minimum Typst version:
+        </dt>
+        <dd>
+         0.8.0
+        </dd>
+        <dt>
+         Archive size:
+        </dt>
+        <dd class="archive-size-value">
+         85.7 kB
+         <a href="https://packages.typst.org/preview/gviz-0.1.0.tar.gz">
+          <img alt="Size icon" src="/assets/icons/16-download.svg"/>
+         </a>
+        </dd>
+        <dt>
+         Repository:
+        </dt>
+        <dd>
+         <a href="https://codeberg.org/Sekoia/gviz-typst" rel="noopener noreferrer" target="_blank">
+          Codeberg
+         </a>
+        </dd>
+       </dl>
+      </section>
+      <section>
+       <h3>
+        Where to report issues?
+       </h3>
+       <p>
+        This
+        <!-- -->
+        package
+        <!-- -->
+        is a project of
+        <!-- -->
+        <!-- -->
+        Sekoia
+        <!-- -->
+        .
+        <!-- -->
+        <!-- -->
+        Report issues on
+        <!-- -->
+        <a href="https://codeberg.org/Sekoia/gviz-typst" rel="noopener noreferrer" target="_blank">
+         their repository
+        </a>
+        .
+        <!-- -->
+        <!-- -->
+        You can also try to ask for help with this
+        <!-- -->
+        package
+        <!-- -->
+        on the
+        <!-- -->
+        <a href="https://forum.typst.app" rel="noopener" target="_blank">
+         Forum
+        </a>
+        .
+       </p>
+       <p>
+        Please report this
+        <!-- -->
+        package
+        <!-- -->
+        to the Typst team using the
+        <!-- -->
+        <a href="https://typst.app/contact" rel="noreferrer" target="_blank">
+         contact form
+        </a>
+        <!-- -->
+        if you believe it is a safety hazard or infringes upon your rights.
+       </p>
+      </section>
+      <section id="versions">
+       <h3>
+        Version history
+       </h3>
+       <table>
+        <thead>
+         <tr>
+          <th align="left">
+           Version
+          </th>
+          <th align="left">
+           Release Date
+          </th>
+         </tr>
+        </thead>
+        <tbody>
+         <tr>
+          <td align="left">
+           0.1.0
+          </td>
+          <td align="left">
+           September 15, 2023
+          </td>
+         </tr>
+        </tbody>
+       </table>
+      </section>
+      <p class="bottom-notice muted">
+       Typst GmbH did not create this
+       <!-- -->
+       package
+       <!-- -->
+       and cannot guarantee correct functionality of this
+       <!-- -->
+       package
+       <!-- -->
+       or compatibility with any version of the Typst compiler or app.
+      </p>
+     </aside>
+    </div>
+   </main>

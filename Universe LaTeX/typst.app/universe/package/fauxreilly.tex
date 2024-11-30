@@ -1,0 +1,295 @@
+\title{typst.app/universe/package/fauxreilly}
+
+\phantomsection\label{banner}
+\section{fauxreilly}\label{fauxreilly}
+
+{ 0.1.0 }
+
+A package for creating O\textquotesingle Rly- /
+O\textquotesingle Reilly-type cover pages
+
+\phantomsection\label{readme}
+\href{https://forthebadge.com/}{\pandocbounded{\includesvg[keepaspectratio]{https://raw.githubusercontent.com/dei-layborer/o-rly-typst/refs/heads/main/made-with-(2s)-2\%2C6-diamino-n-\%5B(2s)-1-phenylpropan-2-yl\%5Dhexanamide-n-\%5B(2s)-1-phenyl-2-propanyl\%5D-l-lysinamide.svg}}}
+
+\href{https://deilayborer.neocities.org/funding}{\includesvg[width=\linewidth,height=0.3125in,keepaspectratio]{https://raw.githubusercontent.com/dei-layborer/o-rly-typst/refs/heads/main/\%24\%24\%24-gimmie.svg}}
+
+A \texttt{\ typst\ } package for creating \textbf{Oâ€™RLY?} -style cover
+pages.
+
+\subsection{Example}\label{example}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import }\StringTok{"@preview/o{-}rly{-}cover:0.1.0"}\OperatorTok{:} \OperatorTok{*}
+
+\NormalTok{\#orly(}
+\NormalTok{    color}\OperatorTok{:}\NormalTok{ rgb(}\StringTok{"\#85144b"}\NormalTok{)}\OperatorTok{,}
+\NormalTok{    title}\OperatorTok{:} \StringTok{"Learn to Stop Worrying and Love Metathesis"}\OperatorTok{,}
+\NormalTok{    top}\OperatorTok{{-}}\NormalTok{text}\OperatorTok{:} \StringTok{"Axe nat why (or do)"}\OperatorTok{,}
+\NormalTok{    subtitle}\OperatorTok{:} \StringTok{"Free yourself from prescriptivism"}\OperatorTok{,}
+\NormalTok{    pic}\OperatorTok{:} \StringTok{"chomskydoz.png"}\OperatorTok{,}
+\NormalTok{    signature}\OperatorTok{:} \StringTok{"Dr. N. Supponent"}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/fauxreilly/0.1.0/example.png}}
+
+\subsection{Usage}\label{usage}
+
+First, import the package at the top of your \texttt{\ typst\ } file:
+\texttt{\ \#import\ "@preview/o-rly-cover:0.1.0":\ *\ }
+
+Only one function is exposed, \texttt{\ \#orly()\ } . This will create
+its own page in the document at whatever location you call the function.
+In other words, any content in the \texttt{\ typst\ } document that
+appears before \texttt{\ \#orly()\ } is called will be before the
+Oâ€™Rly? page in the PDF that \texttt{\ typst\ } renders. Anything after
+the function call will be on subsequent page(s).
+
+All content for the title page is passed as options to
+\texttt{\ \#orly()\ } . I included what I figured were the most likely
+things youâ€™d want to customize without having a million options.
+Meanwhile, most of the layout parameters (font sizes, the heights of
+individual pieces, etc.) are variables within the code, so hopefully
+arenâ€™t too hard to alter if need-be. None of the options are strictly
+required, although the text fields are the only ones that can be left
+empty without potentially breaking the layout. A few have defaults
+instead, and those are listed below where applicable.
+
+\subsubsection{Options}\label{options}
+
+The order that the options appear in the table is the order they must be
+sent to the function, unless you specify the optionâ€™s key along with
+its value.
+
+Data types listed are based on \texttt{\ typst\ } â€™s internal types,
+so are entered the same way as they would be in any other function that
+takes that data type. For example, the data type needed for the
+\texttt{\ font\ } option is the same as what is used for
+\texttt{\ typst\ } â€™s built-in \texttt{\ \#text()\ } function, which
+is linked in the table below. (All links go to their specific usage in
+the \texttt{\ typst\ } documentation.)
+
+\begin{longtable}[]{@{}llcc@{}}
+\toprule\noalign{}
+Option & Description & Type & Default \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\texttt{\ font\ } & The font for all text except the â€œpublisherâ€? in
+the bottom-left corner &
+\href{https://typst.app/docs/reference/text/text/\#parameters-font}{\texttt{\ string(s)\ }}
+& Whatever is set in the document context \\
+\texttt{\ color\ } & Accent color. Used for the background of the title
+block and of the colored bar at the very top. &
+\href{https://typst.app/docs/reference/visualize/color/}{\texttt{\ color\ }}
+& \texttt{\ blue\ } (typst built-in) \\
+\texttt{\ top-text\ } & The text at the top, just under the color bar &
+\href{https://typst.app/docs/reference/foundations/str/}{\texttt{\ string\ }}
+& Empty \\
+\texttt{\ pic\ } & Image to be used above the title block &
+\href{https://typst.app/docs/reference/visualize/image/\#parameters-path}{\texttt{\ string\ }}
+with path to the image & Empty \\
+\texttt{\ title\ } & The title of the book &
+\href{https://typst.app/docs/reference/foundations/str/}{\texttt{\ string\ }}
+& Empty \\
+\texttt{\ title-align\ } & How the text is aligned (horizontally) in the
+title block &
+\href{https://typst.app/docs/reference/layout/alignment/}{\texttt{\ alignment\ }}
+& \texttt{\ left\ } \\
+\texttt{\ subtitle\ } & Text that appears just below the title block &
+\href{https://typst.app/docs/reference/foundations/str/}{\texttt{\ string\ }}
+& Empty \\
+\texttt{\ publisher\ } & The name of the â€œpublisherâ€? in the
+bottom-left &
+\href{https://typst.app/docs/reference/foundations/str/}{\texttt{\ string\ }}
+& O RLY \textsuperscript{?} (see example above) \\
+\texttt{\ publisher-font\ } & Font to be used for â€œpublisherâ€? name &
+\href{https://typst.app/docs/reference/text/text/\#parameters-font}{\texttt{\ string(s)\ }}
+& Noto Sans, Arial Rounded MT, document context (in that order) \\
+\texttt{\ signature\ } & Text in the bottom-right corner &
+\href{https://typst.app/docs/reference/foundations/str/}{\texttt{\ string\ }}
+& Empty \\
+\texttt{\ margin\ } & Page margins &
+\href{https://typst.app/docs/reference/layout/page/\#parameters-margin}{\texttt{\ length\ }
+or \texttt{\ dictionary\ }} & \texttt{\ top:\ 0\ } , all others will use
+the document context \\
+\end{longtable}
+
+\subsubsection{Usage Notes}\label{usage-notes}
+
+There are a couple quirks to data types and the like that may not be
+obvious.
+
+\begin{enumerate}
+\tightlist
+\item
+  \texttt{\ string\ } s typically must be contained in quotation marks.
+  But note that this will render quotation marks \emph{within} those
+  strings without using
+  \href{https://typst.app/docs/reference/text/smartquote/}{smartquotes}
+  . To avoid this, you may use content mode instead (by enclosing the
+  text in square brackets \texttt{\ {[}{]}\ } ). For example,
+  \texttt{\ "Some\ title"\ } â†' \texttt{\ {[}Some\ title{]}\ }
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Similarly, you can use this to toggle italics (e.g.
+    \texttt{\ {[}Italic\ text,\ \_except\_\ this\ one{]}\ } ) or apply
+    other formatting
+  \end{itemize}
+\item
+  Other types may look like strings but do \textbf{not} take quotes,
+  specifically \texttt{\ color\ } (including when using the built-in
+  color names) and \texttt{\ alignment\ }
+\item
+  With the \texttt{\ margin\ } type, if a single value is entered
+  (without quotes), that value is applied to all four sides. All other
+  usage must be done as a dictionary (meaning enclosed in parentheses),
+  even if youâ€™re only specifying one side. For example, the default is
+  written \texttt{\ (top:\ 0in)\ } .
+
+  \begin{itemize}
+  \tightlist
+  \item
+    If youâ€™re going to pass any value other than the top as an option,
+    youâ€™ll likely want to add \texttt{\ top:\ 0in\ } back in to avoid
+    a gap between the top of the page and the color bar
+  \item
+    Any values passed to the function (or the default value if none are)
+    will override any margin(s) set earlier in the \texttt{\ typst\ }
+    file. So you can use a \texttt{\ set\ } rule at the beginning of the
+    document without affecting the cover page
+  \end{itemize}
+\end{enumerate}
+
+\subsubsection{Images}\label{images}
+
+The package uses \texttt{\ typst\ } â€™s built-in image handling, which
+means it only supports PNG, JPG, and SVG.
+
+The image will be resized to as close to 100\% page width (inside the
+margins) as possible while both maintaining proportions and avoiding any
+cropping. The rest of the layout \emph{should} flow reasonably well
+around any image height, but outliers may exist.
+
+Oâ€™Reilly-style animals can be found in the
+\href{https://etc.usf.edu/clipart/galleries/730-animals}{relevant
+section} of the Florida Center for Instructional Technologyâ€™s
+\href{https://etc.usf.edu/clipart/}{ClipArt ETC} project. Just be aware
+that these are provided as GIFs(!), so conversion to one of
+\texttt{\ typst\ } â€™s supported formats will be required.
+
+\subsection{Bugs \& Feature Requests}\label{bugs-feature-requests}
+
+I put this whole thing together in an afternoon when I shouldâ€™ve been
+doing work for my day job. Granted Iâ€™d already done a basic version
+for a seminary writing assignment (I love to spoof academic writing),
+but either way, Iâ€™ve gotten this project to a basic level of
+functionality and no further. Iâ€™m entirely open to suggestions for
+additional functionality, however, so feel free to
+\href{https://github.com/dei-layborer/o-rly-typst/issues}{create an
+issue} if thereâ€™s something youâ€™d like to see added.
+
+It hopefully goes without saying that the same is true if something
+breaks!
+
+Tested on \texttt{\ typst\ } versions \texttt{\ 0.11.1\ } and
+\texttt{\ 0.12.0-rc1\ } .
+
+\subsection{Thanks \& Shout-Outs}\label{thanks-shout-outs}
+
+Shout out to Arthur Beaulieu (
+\href{https://github.com/ArthurBeaulieu}{@arthurbeaulieu} ), whose
+\href{https://arthurbeaulieu.github.io/ORlyGenerator/}{web-based
+generator} served as both inspiration and reference (I pretty much stole
+his layout settings).
+
+Significant thanks to the folks in the
+\href{https://discord.gg/2uDybryKPe}{typst discord} who helped me sort
+out some layout woes.
+
+Extra double appreciation to Enivex on the discord for the name.
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as
+\texttt{\ fauxreilly\ }
+
+\begin{verbatim}
+#import "@preview/fauxreilly:0.1.0"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+Dei Layborer
+\item[License:]
+GPL-3.0
+\item[Current version:]
+0.1.0
+\item[Last updated:]
+October 16, 2024
+\item[First released:]
+October 16, 2024
+\item[Minimum Typst version:]
+0.11.1
+\item[Archive size:]
+4.48 kB
+\href{https://packages.typst.org/preview/fauxreilly-0.1.0.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/dei-layborer/o-rly-typst}{GitHub}
+\item[Categor ies :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-package.svg}}
+  \href{https://typst.app/universe/search/?category=components}{Components}
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-layout.svg}}
+  \href{https://typst.app/universe/search/?category=layout}{Layout}
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-smile.svg}}
+  \href{https://typst.app/universe/search/?category=fun}{Fun}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of Dei Layborer . Report issues on
+\href{https://github.com/dei-layborer/o-rly-typst}{their repository} .
+You can also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.1.0 & October 16, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.

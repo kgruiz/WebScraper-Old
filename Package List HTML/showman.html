@@ -1,0 +1,562 @@
+<main>
+    <div id="banner" style="--banner-accent:#000000;--banner-primary:#000000;--banner-secondary:#000000;--banner-tertiary:#565565;--banner-background:#eff0f3">
+     <div class="package-icon" role="img">
+     </div>
+     <div>
+      <div class="title">
+       <h1 class="name">
+        showman
+       </h1>
+       <span class="version">
+        0.1.2
+       </span>
+      </div>
+      <p class="description">
+       Eval &amp; show typst code outputs inline with their source
+      </p>
+     </div>
+    </div>
+    <div class="inner-grid">
+     <section id="readme">
+      <img src="https://www.github.com/ntjess/showman/raw/v0.1.0/showman.jpg"/>
+      <hr/>
+      <p>
+       Automagic tools to smooth the package documentation &amp; development process.
+      </p>
+      <ul>
+       <li>
+        <p>
+         Package your files for local typst installation or PR submission in one command
+        </p>
+       </li>
+       <li>
+        <p>
+         Provide your readme in typst format with code block examples, and let
+         <code>
+          showman
+         </code>
+         do the rest! In one command, it will the readme to markdown and render code block outputs as included images.
+        </p>
+        <ul>
+         <li>
+          Bonus points â let
+          <code>
+           showman
+          </code>
+          know your repository path and it will ensure images will properly appear in your readme even after your package has been distributed through typstâs registry.
+         </li>
+        </ul>
+       </li>
+       <li>
+        <p>
+         Execute non-typst code blocks and render their outputs
+        </p>
+       </li>
+      </ul>
+      <p>
+       <strong>
+        Prerequisites
+       </strong>
+       : Make sure you have
+       <code>
+        typst
+       </code>
+       and
+       <code>
+        pandoc
+       </code>
+       available from the command line. Then, in a python virtual environment, run:
+      </p>
+      <pre><code class="language-bash">pip install showman
+</code></pre>
+      <p>
+       Create a typst file with
+       <code>
+        ```example
+       </code>
+       code blocks that show the output you want to include in your readme. For instance:
+      </p>
+      <pre><code class="language-typst"><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/cetz:0.1.2"</span>
+<span class="typ-comment">// Just to avoid showing this heading in the readme itself</span>
+<span class="typ-key">#</span><span class="typ-key">set</span> <span class="typ-func">heading</span><span class="typ-punct">(</span>outlined<span class="typ-punct">:</span> <span class="typ-key">false</span><span class="typ-punct">)</span>
+
+<span class="typ-heading">= Hello, world!</span>
+Let's do something complicated:
+
+<span class="typ-pol">#</span><span class="typ-pol">cetz</span><span class="typ-punct">.</span><span class="typ-func">canvas</span><span class="typ-punct">(</span><span class="typ-punct">{</span>
+  <span class="typ-key">import</span> cetz<span class="typ-punct">.</span>plot
+  <span class="typ-key">import</span> cetz<span class="typ-punct">.</span>palette
+  cetz<span class="typ-punct">.</span>draw<span class="typ-punct">.</span><span class="typ-func">set-style</span><span class="typ-punct">(</span>axes<span class="typ-punct">:</span> <span class="typ-punct">(</span>tick<span class="typ-punct">:</span> <span class="typ-punct">(</span>length<span class="typ-punct">:</span> <span class="typ-op">-</span><span class="typ-num">.05</span><span class="typ-punct">)</span><span class="typ-punct">)</span><span class="typ-punct">)</span>
+  <span class="typ-comment">// Plot something</span>
+  plot<span class="typ-punct">.</span><span class="typ-func">plot</span><span class="typ-punct">(</span>size<span class="typ-punct">:</span> <span class="typ-punct">(</span><span class="typ-num">3</span><span class="typ-punct">,</span><span class="typ-num">3</span><span class="typ-punct">)</span><span class="typ-punct">,</span> x-tick-step<span class="typ-punct">:</span> <span class="typ-num">1</span><span class="typ-punct">,</span> axis-style<span class="typ-punct">:</span> <span class="typ-str">"left"</span><span class="typ-punct">,</span> <span class="typ-punct">{</span>
+      <span class="typ-key">for</span> i <span class="typ-key">in</span> <span class="typ-func">range</span><span class="typ-punct">(</span><span class="typ-num">0</span><span class="typ-punct">,</span> <span class="typ-num">3</span><span class="typ-punct">)</span> <span class="typ-punct">{</span>
+      plot<span class="typ-punct">.</span><span class="typ-func">add</span><span class="typ-punct">(</span>domain<span class="typ-punct">:</span> <span class="typ-punct">(</span><span class="typ-op">-</span><span class="typ-num">4</span><span class="typ-punct">,</span> <span class="typ-num">2</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+      x <span class="typ-op">=&gt;</span> calc<span class="typ-punct">.</span><span class="typ-func">exp</span><span class="typ-punct">(</span><span class="typ-op">-</span><span class="typ-punct">(</span>calc<span class="typ-punct">.</span><span class="typ-func">pow</span><span class="typ-punct">(</span>x <span class="typ-op">+</span> i<span class="typ-punct">,</span> <span class="typ-num">2</span><span class="typ-punct">)</span><span class="typ-punct">)</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+      fill<span class="typ-punct">:</span> <span class="typ-key">true</span><span class="typ-punct">,</span> style<span class="typ-punct">:</span> palette<span class="typ-punct">.</span>tango<span class="typ-punct">)</span>
+    <span class="typ-punct">}</span>
+  <span class="typ-punct">}</span><span class="typ-punct">)</span>
+<span class="typ-punct">}</span><span class="typ-punct">)</span>
+</code></code></pre>
+      <p>
+       <img alt="Example 1" src="https://www.github.com/ntjess/showman/raw/v0.1.0/assets/example-1.png"/>
+      </p>
+      <p>
+       Then, run the following command:
+      </p>
+      <pre><code class="language-bash">showman md 
+</code></pre>
+      <p>
+       Congrats, you now have a readme with inline images ð
+      </p>
+      <p>
+       You can optionally specify your workspace root, output file name, image folder, etc. These options are visible under
+       <code>
+        showman md --help
+       </code>
+       .
+      </p>
+      <p>
+       <strong>
+        Note
+       </strong>
+       : You can customize the appearance of these images by providing
+       <code>
+        showman
+       </code>
+       the template to use when creating them. In your file to be rendered, create a variable called
+       <code>
+        showman-config
+       </code>
+       at the outermost scope:
+      </p>
+      <pre><code class="language-typ"><code><span class="typ-comment">// Render images with a black background and red text</span>
+<span class="typ-key">#</span><span class="typ-key">let</span> showman-config <span class="typ-op">=</span> <span class="typ-punct">(</span>
+  template<span class="typ-punct">:</span> it <span class="typ-op">=&gt;</span> <span class="typ-punct">{</span>
+    <span class="typ-key">set</span> <span class="typ-func">text</span><span class="typ-punct">(</span>fill<span class="typ-punct">:</span> red<span class="typ-punct">)</span>
+    <span class="typ-func">rect</span><span class="typ-punct">(</span>fill<span class="typ-punct">:</span> black<span class="typ-punct">,</span> it<span class="typ-punct">)</span>
+  <span class="typ-punct">}</span>
+<span class="typ-punct">)</span>
+</code></code></pre>
+      <p>
+       Behind the scenes, showman imports your file as a module and looks for this variable. If it is found, your template and a few other options are injected into the example rendering process.
+      </p>
+      <p>
+       <strong>
+        Note
+       </strong>
+       : If every example has the same setup (package imports, etc.), and you donât want the text to be included in your examples, you can pass
+       <code>
+        eval-kwargs
+       </code>
+       in this config as well to specify a string that gets prefixed to every example. Alternatively, pass variables in a scope directly:
+      </p>
+      <pre><code class="language-typ"><code><span class="typ-comment">// Setup either through providing scope or import prefixes</span>
+<span class="typ-key">#</span><span class="typ-key">let</span> my-variable <span class="typ-op">=</span> <span class="typ-num">5</span>
+<span class="typ-key">#</span><span class="typ-key">let</span> showman-config <span class="typ-op">=</span> (
+  eval-kwargs<span class="typ-punct">:</span> (
+    prefix<span class="typ-punct">:</span> "#import \"@preview/cetz:0.1.2\"
+  ),
+  // Now you can use `my-var` in your examples
+  scope: (my-var: my-variable)
+)
+</code></code></pre>
+      <h2>
+       Caveats
+      </h2>
+      <ul>
+       <li>
+        <p>
+         <code>
+          showman
+         </code>
+         uses the beautiful
+         <code>
+          pandoc
+         </code>
+         to do most of the markdown conversion heavy lifting. So, if your document canât be processed by pandoc, you may need to adjust your syntax until pandoc is happy making a markdown document.
+        </p>
+       </li>
+       <li>
+        <p>
+         Typst doesnât allow page styling inside containers. Since
+         <code>
+          showman
+         </code>
+         must use containers to extract each rendered example, you canât use
+         <code>
+          #set page(...)
+         </code>
+         or
+         <code>
+          #pagebreak()
+         </code>
+         inside your examples.
+        </p>
+       </li>
+      </ul>
+      <p>
+       If you donât care about converting your readme to markdown, itâs even easier to have example rendered alongside their code. Simply add the following preamble to your file:
+      </p>
+      <pre><code class="language-typst"><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/showman:0.1.1"</span>
+<span class="typ-key">#</span><span class="typ-key">show</span><span class="typ-punct">:</span> <span class="typ-func">showman</span><span class="typ-punct">.</span><span class="typ-func">formatter</span><span class="typ-punct">.</span><span class="typ-func">template</span>
+
+The code below will be rendered side by side with its output:
+
+<span class="typ-raw">``` typst
+= Hello world!
+```</span>
+![Example 2](<span class="typ-link">https://www.github.com/ntjess/showman/raw/v0.1.0/assets/example-2.png</span>)
+
+Several keywords can be privded to customize appearance and more. See <span class="typ-raw">`showman.formatter.template`</span> for more details.
+</code></code></pre>
+      <p>
+       Youâve done the hard work of creating a beautiful, well-documented manual. Now itâs time to share it with the world.
+       <code>
+        showman
+       </code>
+       can help you package your files for distribution in one command, after some minimal setup.
+      </p>
+      <ol>
+       <li>
+        <p>
+         Make sure you have a
+         <code>
+          typst.toml
+         </code>
+         file that follows typst
+         <a href="https://github.com/typst/packages" rel="nofollow ugc" target="_blank">
+          packaging guidelines
+         </a>
+        </p>
+       </li>
+       <li>
+        <p>
+         Add a new block to your toml file as follows:
+        </p>
+       </li>
+      </ol>
+      <pre><code class="language-toml">[tool.packager]
+paths = [...]
+</code></pre>
+      <p>
+       Where
+       <code>
+        paths
+       </code>
+       is a list of files and directories you want to include in your package.
+      </p>
+      <ol start="3">
+       <li>
+        Run the following command from the root of your repository:
+       </li>
+      </ol>
+      <pre><code class="language-bash">showman package 
+</code></pre>
+      <ol start="4">
+       <li>
+        <p>
+         Without any other arguments, youâve just installed your package in your systemâs local typst packages folder. Now you can import it with
+         <code>
+          typst #import "@local/mypackage:&lt;version&gt;"
+         </code>
+         .
+        </p>
+        <ul>
+         <li>
+          You can alternatively specify the path to your fork of
+          <code>
+           typst/packages
+          </code>
+          to prep your files for a PR, or specify a
+          <code>
+           --namespace
+          </code>
+          other than
+          <code>
+           local
+          </code>
+          .
+         </li>
+        </ul>
+       </li>
+      </ol>
+      <p>
+       <strong>
+        Note
+       </strong>
+       : You can see the full list of command options with
+       <code>
+        showman package --help
+       </code>
+       .
+      </p>
+      <p>
+       This package also executes non-typst code (currently bash on non-windows, python, and c++). You can use
+       <code>
+        showman execute ./path/to/file.typ
+       </code>
+       to execute code blocks in these languages, and the output will be captured in a
+       <code>
+        .coderunner.json
+       </code>
+       file in the root directory you specified. To enable this feature, you need to add the following preamble to your file:
+      </p>
+      <pre><code class="language-typ"><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/showman:0.1.1"</span><span class="typ-punct">:</span> runner
+
+<span class="typ-key">#</span><span class="typ-key">let</span> cache <span class="typ-op">=</span> <span class="typ-func">json</span><span class="typ-punct">(</span><span class="typ-str">"/.coderunner.json"</span><span class="typ-punct">)</span><span class="typ-punct">.</span><span class="typ-func">at</span><span class="typ-punct">(</span><span class="typ-str">"path/to/file.typ"</span><span class="typ-punct">,</span> default<span class="typ-punct">:</span> <span class="typ-punct">(</span><span class="typ-punct">:</span><span class="typ-punct">)</span><span class="typ-punct">)</span>
+<span class="typ-key">#</span><span class="typ-key">let</span> show-rule <span class="typ-op">=</span> runner<span class="typ-punct">.</span>external-code<span class="typ-punct">.</span><span class="typ-func">with</span><span class="typ-punct">(</span>result-cache<span class="typ-punct">:</span> cache<span class="typ-punct">)</span>
+
+<span class="typ-comment">// Now, apply the show rule to languages that have a `showman execute` result:</span>
+<span class="typ-key">#</span><span class="typ-key">show</span> raw<span class="typ-punct">.</span><span class="typ-func">where</span><span class="typ-punct">(</span>lang<span class="typ-punct">:</span> <span class="typ-str">"python"</span><span class="typ-punct">)</span><span class="typ-punct">:</span> <span class="typ-func">show-rule</span>
+</code></code></pre>
+      <p>
+       You can optionally style
+       <code>
+        &lt;example-input&gt;
+       </code>
+       and
+       <code>
+        &lt;example-output&gt;
+       </code>
+       labels to customize how input and output blocks appear. For even deeper customization, you can specify the
+       <code>
+        container
+       </code>
+       that displays the input and output blocks that accepts a keyword
+       <code>
+        direction
+       </code>
+       and positional
+       <code>
+        input
+       </code>
+       and
+       <code>
+        output
+       </code>
+       .
+      </p>
+     </section>
+     <aside>
+      <section>
+       <h3>
+        How to add
+       </h3>
+       <p>
+        Copy this into your project and use the import as
+        <!-- -->
+        <code>
+         showman
+        </code>
+       </p>
+       <div class="import-snippet">
+        <pre><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/showman:0.1.2"</span></code></pre>
+        <button class="copy" title="Copy to clipboard">
+         <img alt="Copy" height="16" src="/assets/icons/16-copy.svg" width="16"/>
+        </button>
+       </div>
+       <p class="muted">
+        Check the docs for
+        <!-- -->
+        <a href="https://typst.app/docs/reference/scripting/#packages">
+         more information on how to import packages
+        </a>
+        .
+       </p>
+      </section>
+      <section id="about">
+       <h3>
+        About
+       </h3>
+       <dl>
+        <dt>
+         Author
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         Nathan Jessurun
+        </dd>
+        <dt>
+         License:
+        </dt>
+        <dd>
+         Unlicense
+        </dd>
+        <dt>
+         Current version:
+        </dt>
+        <dd>
+         0.1.2
+        </dd>
+        <dt>
+         Last updated:
+        </dt>
+        <dd>
+         November 28, 2024
+        </dd>
+        <dt>
+         First released:
+        </dt>
+        <dd>
+         January 15, 2024
+        </dd>
+        <dt>
+         Minimum Typst version:
+        </dt>
+        <dd>
+         0.12.0
+        </dd>
+        <dt>
+         Archive size:
+        </dt>
+        <dd class="archive-size-value">
+         6.00 kB
+         <a href="https://packages.typst.org/preview/showman-0.1.2.tar.gz">
+          <img alt="Size icon" src="/assets/icons/16-download.svg"/>
+         </a>
+        </dd>
+        <dt>
+         Repository:
+        </dt>
+        <dd>
+         <a href="https://github.com/ntjess/showman" rel="noopener noreferrer" target="_blank">
+          GitHub
+         </a>
+        </dd>
+        <dt>
+         Categor
+         <!-- -->
+         ies
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         <ul class="list-with-icons">
+          <li>
+           <img alt="Scripting icon" src="/assets/icons/16-code.svg"/>
+           <a href="https://typst.app/universe/search/?category=scripting">
+            Scripting
+           </a>
+          </li>
+          <li>
+           <img alt="Utility icon" src="/assets/icons/16-hammer.svg"/>
+           <a href="https://typst.app/universe/search/?category=utility">
+            Utility
+           </a>
+          </li>
+         </ul>
+        </dd>
+       </dl>
+      </section>
+      <section>
+       <h3>
+        Where to report issues?
+       </h3>
+       <p>
+        This
+        <!-- -->
+        package
+        <!-- -->
+        is a project of
+        <!-- -->
+        <!-- -->
+        Nathan Jessurun
+        <!-- -->
+        .
+        <!-- -->
+        <!-- -->
+        Report issues on
+        <!-- -->
+        <a href="https://github.com/ntjess/showman" rel="noopener noreferrer" target="_blank">
+         their repository
+        </a>
+        .
+        <!-- -->
+        <!-- -->
+        You can also try to ask for help with this
+        <!-- -->
+        package
+        <!-- -->
+        on the
+        <!-- -->
+        <a href="https://forum.typst.app" rel="noopener" target="_blank">
+         Forum
+        </a>
+        .
+       </p>
+       <p>
+        Please report this
+        <!-- -->
+        package
+        <!-- -->
+        to the Typst team using the
+        <!-- -->
+        <a href="https://typst.app/contact" rel="noreferrer" target="_blank">
+         contact form
+        </a>
+        <!-- -->
+        if you believe it is a safety hazard or infringes upon your rights.
+       </p>
+      </section>
+      <section id="versions">
+       <h3>
+        Version history
+       </h3>
+       <table>
+        <thead>
+         <tr>
+          <th align="left">
+           Version
+          </th>
+          <th align="left">
+           Release Date
+          </th>
+         </tr>
+        </thead>
+        <tbody>
+         <tr>
+          <td align="left">
+           0.1.2
+          </td>
+          <td align="left">
+           November 28, 2024
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/showman/0.1.1/">
+            0.1.1
+           </a>
+          </td>
+          <td align="left">
+           March 16, 2024
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/showman/0.1.0/">
+            0.1.0
+           </a>
+          </td>
+          <td align="left">
+           January 15, 2024
+          </td>
+         </tr>
+        </tbody>
+       </table>
+      </section>
+      <p class="bottom-notice muted">
+       Typst GmbH did not create this
+       <!-- -->
+       package
+       <!-- -->
+       and cannot guarantee correct functionality of this
+       <!-- -->
+       package
+       <!-- -->
+       or compatibility with any version of the Typst compiler or app.
+      </p>
+     </aside>
+    </div>
+   </main>

@@ -1,0 +1,263 @@
+\title{typst.app/universe/package/commute}
+
+\phantomsection\label{banner}
+\section{commute}\label{commute}
+
+{ 0.2.0 }
+
+A proof of concept library for commutative diagrams.
+
+{ } Featured Package
+
+\phantomsection\label{readme}
+Proof-of-concept commutative diagrams library for
+\href{https://typst.app/home}{typst}
+
+See {[}EricWay1024/tikzcd-editor{]}{[}
+\url{https://github.com/EricWay1024/tikzcd-editor} {]} for a web-based
+visual diagram editor for this library!
+
+\begin{verbatim}
+#import "@preview/commute:0.2.0": node, arr, commutative-diagram
+
+#align(center)[#commutative-diagram(
+  node((0, 0), $X$),
+  node((0, 1), $Y$),
+  node((1, 0), $X \/ "ker"(f)$, "quot"),
+  arr($X$, $Y$, $f$),
+  arr("quot", (0, 1), $tilde(f)$, label-pos: right, "dashed", "inj"),
+  arr($X$, "quot", $pi$),
+)]
+\end{verbatim}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/assets/20535498/71eb8d47-b6f9-43fa-a1fd-7ff58b8d0025}}
+
+For more usage examples look at \texttt{\ example.typ\ }
+
+The library provides 3 functions: \texttt{\ node\ } , \texttt{\ arr\ } ,
+and \texttt{\ commutative-diagram\ } . You can clone this repo and
+import \texttt{\ lib.typ\ } :
+
+\begin{verbatim}
+#import "path/to/commute/lib.typ": node, arr, commutative-diagram
+\end{verbatim}
+
+Or directly use the builtin package manager:
+
+\begin{verbatim}
+#import "@preview/commute:0.2.0": node, arr, commutative-diagram
+\end{verbatim}
+
+\subsection{\texorpdfstring{\texttt{\ commutative-diagram\ }}{ commutative-diagram }}\label{commutative-diagram}
+
+\begin{verbatim}
+commutative-diagram(
+  node-padding: (70pt, 70pt),
+  arr-clearance: 0.7em,
+  padding: 1.5em,
+  debug: false,
+  ..entities
+)
+\end{verbatim}
+
+\texttt{\ commutative-diagram\ } returns a rectangular region containing
+the nodes and arrows. All the unnamed arguments passed to
+\texttt{\ commutative-diagram\ } are treated as nodes or arrows of the
+diagram. These can be constructed using the \texttt{\ node\ } and
+\texttt{\ arr\ } functions explained below. The other arguments are as
+follows:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ node-padding\ } : \texttt{\ (length,\ length)\ } . The space
+  to leave between adjacent nodes. Itâ€™s a tuple, \texttt{\ (h,\ v)\ }
+  , containing the horizontal and vertical spacing respectively.
+\item
+  \texttt{\ arr-clearance\ } : \texttt{\ length\ } . The default space
+  between arrowsâ€™ base/tip and the diagramâ€™s nodes.
+\item
+  \texttt{\ padding\ } : \texttt{\ length\ } . The padding around the
+  whole diagram
+\item
+  \texttt{\ debug\ } : \texttt{\ bool\ } . Whether or not to display
+  debug information.
+\end{itemize}
+
+\subsection{\texorpdfstring{\texttt{\ node\ }}{ node }}\label{node}
+
+\begin{verbatim}
+node(
+  pos,
+  label,
+  id: label,
+)
+\end{verbatim}
+
+Creates a new diagram node. Has the following positional arguments:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ pos\ } : \texttt{\ (integer,\ integer)\ } . The position of
+  the node in \texttt{\ (row,\ column)\ } format. Must be integers, but
+  can be negative, the only thing that counts is the difference between
+  the coordinares of the variuos nodes in the diagram.
+\item
+  \texttt{\ label\ } : \texttt{\ content\ } . The nodeâ€™s label.
+\item
+  \texttt{\ id\ } : \texttt{\ any\ } . The nodeâ€™s id, defaults to its
+  label if not specified.
+\end{itemize}
+
+\subsection{\texorpdfstring{\texttt{\ arr\ }}{ arr }}\label{arr}
+
+\begin{verbatim}
+arr(
+  start,
+  end,
+  label,
+  start-space: none,
+  end-space: none,
+  label-pos: left,
+  curve: 0deg,
+  stroke: 0.45pt,
+  ..options
+)
+\end{verbatim}
+
+Creates an arrow. Has the following arguments:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ start\ } : \texttt{\ (integer,\ integer)\ } or
+  \texttt{\ any\ } . The position of the node from which the arrow
+  starts, in \texttt{\ (row,\ column)\ } format, or its id.
+\item
+  \texttt{\ end\ } : \texttt{\ (integer,\ integer)\ } or
+  \texttt{\ any\ } . The position of the node where the arrow ends, in
+  \texttt{\ (row,\ column)\ } format, or its id.
+\item
+  \texttt{\ label\ } : \texttt{\ content\ } . The label to put on the
+  arrow.
+\item
+  \texttt{\ start-space\ } : \texttt{\ length\ } . The space between the
+  start node and the beginning of the arrow. You can pass
+  \texttt{\ none\ } to leave a sensible default, customizable using the
+  \texttt{\ arr-clearance\ } parameter of the
+  \texttt{\ commutative-diagram\ } function.
+\item
+  \texttt{\ end-space\ } : \texttt{\ length\ } . Similar to the above.
+\item
+  \texttt{\ label-pos\ } : \texttt{\ length\ } or \texttt{\ left\ } or
+  \texttt{\ right\ } . Where to position the arrowâ€™s label relative to
+  the arrow. A positive length means that, when looking towards the tip
+  of the arrow, the label is on the left. \texttt{\ left\ } and
+  \texttt{\ right\ } measure the label to automatically get a reasonable
+  length. If set to \texttt{\ 0\ } ( \texttt{\ 0\ } the number, which is
+  different from \texttt{\ 0pt\ } or \texttt{\ 0em\ } ) then the label
+  is placed on top of the arrow, with a white background to help with
+  legibility.
+\item
+  \texttt{\ curve\ } : \texttt{\ angle\ } . The difference in
+  orientation between the start and the end of the arrow. If positive,
+  the arrow curves to the right, when looking towards the tip.
+\item
+  \texttt{\ stroke\ } : \texttt{\ stroke\ } . The thickness and color of
+  the arrows. The default should probably be fine.
+\item
+  \texttt{\ options\ } : \texttt{\ string\ } s. After the mandatory
+  positional arguments \texttt{\ start\ } , \texttt{\ end\ } and
+  \texttt{\ label\ } , any remaining unnamed argument is treated as an
+  extra option. Recognized options are:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \texttt{\ "inj"\ } , gives the arrow a hook at the start, used for
+    injective functions
+  \item
+    \texttt{\ "surj"\ } , gives the arrow a double tip, used for
+    surjective functions
+  \item
+    \texttt{\ "bij"\ } , gives the arrow a tip also at the start, used
+    for bijective functions
+  \item
+    \texttt{\ "def"\ } , gives the arrow a bar at the start, used for
+    function definitions
+  \item
+    \texttt{\ "nat"\ } , gives the arrow a double stem, used for natural
+    transformations
+  \item
+    All the options supported by the \texttt{\ dash\ } parameter of
+    Typstâ€™s \texttt{\ stroke\ } type, such as \texttt{\ "dashed"\ } ,
+    \texttt{\ "densely-dotted"\ } , etc. These change the appearance of
+    the arrowâ€™s stem
+  \end{itemize}
+\end{itemize}
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as \texttt{\ commute\ }
+
+\begin{verbatim}
+#import "@preview/commute:0.2.0"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+\href{https://gitlab.com/giacomogallina}{giacomogallina}
+\item[License:]
+MIT
+\item[Current version:]
+0.2.0
+\item[Last updated:]
+November 1, 2023
+\item[First released:]
+July 21, 2023
+\item[Archive size:]
+6.15 kB
+\href{https://packages.typst.org/preview/commute-0.2.0.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://gitlab.com/giacomogallina/commute}{GitLab}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of giacomogallina . Report issues on
+\href{https://gitlab.com/giacomogallina/commute}{their repository} . You
+can also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.2.0 & November 1, 2023 \\
+\href{https://typst.app/universe/package/commute/0.1.0/}{0.1.0} & July
+21, 2023 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.

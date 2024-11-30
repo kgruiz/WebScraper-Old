@@ -1,0 +1,253 @@
+\title{typst.app/universe/package/blind-cvpr}
+
+\phantomsection\label{banner}
+\phantomsection\label{template-thumbnail}
+\pandocbounded{\includegraphics[keepaspectratio]{https://packages.typst.org/preview/thumbnails/blind-cvpr-0.5.0-small.webp}}
+
+\section{blind-cvpr}\label{blind-cvpr}
+
+{ 0.5.0 }
+
+CVPR-style paper template to publish at the Computer Vision and Pattern
+Recognition (CVPR) conferences.
+
+\href{/app?template=blind-cvpr&version=0.5.0}{Create project in app}
+
+\phantomsection\label{readme}
+\subsection{Usage}\label{usage}
+
+You can use this template in the Typst web app by clicking \emph{Start
+from template} on the dashboard and searching for
+\texttt{\ blind-cvpr\ } .
+
+Alternatively, you can use the CLI to kick this project off using the
+command
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{typst init @preview/blind{-}cvpr}
+\end{Highlighting}
+\end{Shaded}
+
+Typst will create a new directory with all the files needed to get you
+started.
+
+\subsection{Configuration}\label{configuration}
+
+This template exports the \texttt{\ cvpr2022\ } and
+\texttt{\ cvpr2025\ } styling rule with the following named arguments.
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ title\ } : The paperâ€™s title as content.
+\item
+  \texttt{\ authors\ } : An array of author dictionaries. Each of the
+  author dictionaries must have a name key and can have the keys
+  department, organization, location, and email.
+\item
+  \texttt{\ keywords\ } : Publication keywords (used in PDF metadata).
+\item
+  \texttt{\ date\ } : Creation date (used in PDF metadata).
+\item
+  \texttt{\ abstract\ } : The content of a brief summary of the paper or
+  none. Appears at the top under the title.
+\item
+  \texttt{\ bibliography\ } : The result of a call to the bibliography
+  function or none. The function also accepts a single, positional
+  argument for the body of the paper.
+\item
+  \texttt{\ appendix\ } : Content to append after bibliography section.
+\item
+  \texttt{\ accepted\ } : If this is set to \texttt{\ false\ } then
+  anonymized ready for submission document is produced;
+  \texttt{\ accepted:\ true\ } produces camera-redy version. If the
+  argument is set to \texttt{\ none\ } then preprint version is produced
+  (can be uploaded to arXiv).
+\item
+  \texttt{\ id\ } : Identifier of a submission.
+\end{itemize}
+
+The template will initialize your package with a sample call to the
+\texttt{\ cvpr2025\ } function in a show rule. If you want to change an
+existing project to use this template, you can add a show rule at the
+top of your file.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/blind{-}cvpr:0.5.0": cvpr2025}
+
+\NormalTok{\#show: cvpr2025.with(}
+\NormalTok{  title: [LaTeX Author Guidelines for CVPR Proceedings],}
+\NormalTok{  authors: (authors, affls),}
+\NormalTok{  keywords: (),}
+\NormalTok{  abstract: [}
+\NormalTok{    The ABSTRACT is to be in fully justified italicized text, at the top of the}
+\NormalTok{    left{-}hand column, below the author and affiliation information. Use the}
+\NormalTok{    word "Abstract" as the title, in 12{-}point Times, boldface type, centered}
+\NormalTok{    relative to the column, initially capitalized. The abstract is to be in}
+\NormalTok{    10{-}point, single{-}spaced type. Leave two blank lines after the Abstract,}
+\NormalTok{    then begin the main text. Look at previous CVPR abstracts to get a feel for}
+\NormalTok{    style and length.}
+\NormalTok{  ],}
+\NormalTok{  bibliography: bibliography("main.bib"),}
+\NormalTok{  accepted: false,}
+\NormalTok{  id: none,}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Issues}\label{issues}
+
+\begin{itemize}
+\item
+  In case of US Letter, column sizes + gap does not equals to text width
+  (2 * 3.25 + 5/16 != 6 + 7/8). It seems that correct gap should be 3/8.
+\item
+  At the moment of Typst v0.11.0, it is impossible to indent the first
+  paragraph in a section (see
+  \href{https://github.com/typst/typst/issues/311}{typst/typst\#311} ).
+  The workaround is to add indentation manually as follows.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{== H2}
+
+\NormalTok{\#h(12pt)  Manually as space for the first paragraph.}
+\NormalTok{Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do.}
+
+\NormalTok{// The second one is just fine.}
+\NormalTok{Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do.}
+\end{Highlighting}
+\end{Shaded}
+
+  Also, we add \texttt{\ indent\ } constant as a shortcut for
+  \texttt{\ h(12pt)\ } .
+
+  This issue is relevant to CVPR 2022. In the 2025 template there is no
+  indentaino of the first paragraph in section.
+\item
+  At the moment Typst v0.11.0 does not allow flexible customization of
+  citation styles. Specifically, CVPR 2022 citation lookes like
+  \texttt{\ {[}42{]}\ } where number is colored hyperlink. In order to
+  achive this, we shouuld provide custom CSL-style and then colorize
+  number and put it into square parenthesis in typst markup.
+\item
+  CVPR 2022 requires simple ruler which enumerates lines in regular
+  intervals whilst CVPR2025 already requires a ruler which add line
+  numers per line in paragraph or heading. Thus we need the next major
+  Typst release v0.12.0 for ruler. With the next Typst release, we can
+  do the following.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{set par.line(numbering: "1")}
+\NormalTok{show figure: set par.line(numbering: none)}
+\end{Highlighting}
+\end{Shaded}
+
+  For implementation details see
+  \href{https://github.com/typst/typst/pull/4516}{typst/typst\#4516} .
+\item
+  CVPR 2022 and 2025 requires IEEE-like bibliography style but does not
+  follow its guidelines closely. Since writing CSL-style files is
+  tedious task, we adopt close enough bibliography style from Zotero.
+\end{itemize}
+
+\subsection{References}\label{references}
+
+\begin{itemize}
+\tightlist
+\item
+  CVPR 2022 conference
+  \href{https://cvpr2022.thecvf.com/author-guidelines\#dates}{web site}
+  .
+\item
+  CVPR 2025 conference
+  \href{https://cvpr.thecvf.com/Conferences/2025}{web site} .
+\end{itemize}
+
+\href{/app?template=blind-cvpr&version=0.5.0}{Create project in app}
+
+\subsubsection{How to use}\label{how-to-use}
+
+Click the button above to create a new project using this template in
+the Typst app.
+
+You can also use the Typst CLI to start a new project on your computer
+using this command:
+
+\begin{verbatim}
+typst init @preview/blind-cvpr:0.5.0
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+daskol
+\item[License:]
+MIT
+\item[Current version:]
+0.5.0
+\item[Last updated:]
+September 22, 2024
+\item[First released:]
+September 22, 2024
+\item[Minimum Typst version:]
+0.11.1
+\item[Archive size:]
+18.3 kB
+\href{https://packages.typst.org/preview/blind-cvpr-0.5.0.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/daskol/typst-templates}{GitHub}
+\item[Discipline s :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \href{https://typst.app/universe/search/?discipline=computer-science}{Computer
+  Science}
+\item
+  \href{https://typst.app/universe/search/?discipline=mathematics}{Mathematics}
+\end{itemize}
+\item[Categor y :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-atom.svg}}
+  \href{https://typst.app/universe/search/?category=paper}{Paper}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This template is a project of daskol . Report issues on
+\href{https://github.com/daskol/typst-templates}{their repository} . You
+can also try to ask for help with this template on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this template to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.5.0 & September 22, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this template and cannot guarantee correct
+functionality of this template or compatibility with any version of the
+Typst compiler or app.

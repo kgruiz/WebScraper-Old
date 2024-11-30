@@ -1,0 +1,274 @@
+\title{typst.app/universe/package/examit}
+
+\phantomsection\label{banner}
+\section{examit}\label{examit}
+
+{ 0.1.1 }
+
+An exam template based on the MIT LaTeX exam.cls
+
+\phantomsection\label{readme}
+A Typst exam package based on the MIT LaTeX
+\href{https://ctan.org/pkg/exam}{exam} package
+
+\subsection{Features}\label{features}
+
+\begin{itemize}
+\tightlist
+\item
+  Title block
+\item
+  Read questions from file/question bank
+\item
+  Grading table
+\item
+  Marking boxes
+\item
+  Question types
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Standard answerline
+  \item
+    Multiple choice (including true-false)
+  \item
+    Writing box
+  \item
+    Blank rectangular, polar, numberline graphs
+  \end{itemize}
+\end{itemize}
+
+\subsection{Example}\label{example}
+
+\texttt{\ main.typ\ }
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/examit:0.1.1": *}
+\NormalTok{\#import "questions.typ": questions}
+
+\NormalTok{\#show: examit.with(}
+\NormalTok{  questions: questions, // questions file, see example}
+
+\NormalTok{  title: [examit],}
+\NormalTok{  subtitle: "A Typst Exam Package",}
+\NormalTok{  date: "2023{-}03{-}21",}
+
+\NormalTok{  margin: (}
+\NormalTok{    left: 18mm,}
+\NormalTok{    top: 16mm,}
+\NormalTok{    bottom: 25mm,}
+\NormalTok{    right: 25mm,}
+\NormalTok{  ),}
+\NormalTok{  cols: 2,}
+\NormalTok{  gutter: 18mm,}
+\NormalTok{  lang: "en",}
+\NormalTok{  font: "New Computer Modern",}
+
+\NormalTok{  extrapicturebox: true, // "If you have time..." box at the end}
+\NormalTok{  // dropallboxes: true, // points boxes next to answerlines instead of level with the question}
+\NormalTok{  instructions: [Instructions before exam columns.],}
+\NormalTok{  namebox: "left",}
+\NormalTok{  pointsplacement: "right",}
+\NormalTok{  answerlinelength: 4cm,}
+\NormalTok{  defaultpoints: 1,}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\texttt{\ questions.typ\ }
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/examit:0.1.1": *}
+
+\NormalTok{\#let questions = (}
+\NormalTok{  ( header: [Multiple Choice] ),}
+\NormalTok{  (}
+\NormalTok{    question: [What attributes \#underline("must") a *vector* have?],}
+\NormalTok{    points: 2,}
+\NormalTok{    choices: (}
+\NormalTok{      [position],}
+\NormalTok{      [magnitude],}
+\NormalTok{      [direction],}
+\NormalTok{      [x{-} and y{-}coordinates],}
+\NormalTok{      [height],}
+\NormalTok{      [width],}
+\NormalTok{    ),}
+\NormalTok{    horizontal: false,}
+\NormalTok{    sameline: false,}
+\NormalTok{  ),}
+\NormalTok{  (}
+\NormalTok{    question: [$bold(sin\^{}({-}1))$ returns an angle in which quadrants?],}
+\NormalTok{    choices: ([I],[II],[III],[IV],),}
+\NormalTok{    sameline: false,}
+\NormalTok{    points: 2,}
+\NormalTok{  ),}
+\NormalTok{  (}
+\NormalTok{    question: [A *scalar* is a vector with a\textbackslash{} magnitude of *1*.],}
+\NormalTok{    tf: true,}
+\NormalTok{    points: 2,}
+\NormalTok{  ),}
+\NormalTok{  (}
+\NormalTok{    question: [}
+\NormalTok{      Write this polar equation in rectangular form: $r = frac(5 ,cos theta + sin theta )$}
+\NormalTok{    ],}
+\NormalTok{    points: 4,}
+\NormalTok{    bonus: true,}
+\NormalTok{    answerbox: 3cm,}
+\NormalTok{  ),}
+\NormalTok{  ( pagebreak: true ),}
+\NormalTok{  ( header: [Graphing]),}
+\NormalTok{  (}
+\NormalTok{    question: [}
+\NormalTok{      Simplify and graph the complex number\textbackslash{} $5(cos 15 degree + i sin 15 degree) dot 10(cos 5 degree + i sin 5 degree)$.}
+\NormalTok{    ],}
+\NormalTok{    points: 3,}
+\NormalTok{    spacing: 2.5cm,}
+\NormalTok{    graph: "rect",}
+\NormalTok{    answerline: true,}
+\NormalTok{  ),}
+\NormalTok{  (}
+\NormalTok{    question: [$x\^{}2(x\^{}2+9)\textgreater{}6x\^{}3$],}
+\NormalTok{    points: 2,}
+\NormalTok{    bonus: true,}
+\NormalTok{    numberline: 2.5in,}
+\NormalTok{  ),}
+\NormalTok{  (subheader: [A child is pulling a wagon with a force of 15 lb at an angle of 35Â° to the ground.}
+\NormalTok{  Gravity is pulling down on the wagon with a force of 12 lb.]),}
+\NormalTok{  (}
+\NormalTok{    question: [}
+\NormalTok{      What is the resulting force vector?}
+\NormalTok{    ],}
+\NormalTok{    points: 4,}
+\NormalTok{    spacing: 3cm,}
+\NormalTok{    label: "wagon"}
+\NormalTok{  ),}
+\NormalTok{  (}
+\NormalTok{    question: [}
+\NormalTok{      This question references \textbackslash{}\#@wagon.}
+\NormalTok{    ],}
+\NormalTok{    points: 4,}
+\NormalTok{  ),}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/onomou/typst-examit/assets/131693/78ba6fdc-59c0-460a-89cc-9617c15ac3e0}}
+
+\subsection{To Do}\label{to-do}
+
+\begin{itemize}
+\tightlist
+\item
+  {[} {]} Parts or sub-questions
+\item
+  {[} {]} Customize numbering for questions
+\item
+  {[}X{]} References for other questions
+\item
+  {[} {]} Customize marking box properties: size, positioning, style
+\item
+  {[} {]} Better multiple-choice and matching options: box/bubble style,
+  layout arrangement (horizontal/vertical, alignment)
+\item
+  {[} {]} Question types: fill-in-the-blank
+\item
+  {[} {]} Grading table options: bonus points, positioning
+\item
+  {[} {]} Footer options
+\item
+  {[} {]} Margin adjustments based on points position
+\item
+  {[} {]} Size options for graph response
+\item
+  {[} {]} Customize first page or title block
+\item
+  {[} {]} Configure even/odd headers/footers
+\item
+  {[} {]} Show/hide answers
+\item
+  {[} {]} Page break vs column break?
+\end{itemize}
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as \texttt{\ examit\ }
+
+\begin{verbatim}
+#import "@preview/examit:0.1.1"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+Steven Williams
+\item[License:]
+MIT
+\item[Current version:]
+0.1.1
+\item[Last updated:]
+May 16, 2024
+\item[First released:]
+May 16, 2024
+\item[Archive size:]
+6.80 kB
+\href{https://packages.typst.org/preview/examit-0.1.1.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Discipline :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \href{https://typst.app/universe/search/?discipline=education}{Education}
+\end{itemize}
+\item[Categor ies :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-package.svg}}
+  \href{https://typst.app/universe/search/?category=components}{Components}
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-layout.svg}}
+  \href{https://typst.app/universe/search/?category=layout}{Layout}
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-speak.svg}}
+  \href{https://typst.app/universe/search/?category=report}{Report}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of Steven Williams . You can also try to ask
+for help with this package on the \href{https://forum.typst.app}{Forum}
+.
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.1.1 & May 16, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.

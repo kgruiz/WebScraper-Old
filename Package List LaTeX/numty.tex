@@ -1,0 +1,262 @@
+\title{typst.app/universe/package/numty}
+
+\phantomsection\label{banner}
+\section{numty}\label{numty}
+
+{ 0.0.5 }
+
+Numeric Typst
+
+\phantomsection\label{readme}
+\subsection{Numty}\label{numty-1}
+
+\subsubsection{Numeric Typst}\label{numeric-typst}
+
+A library for performing mathematical operations on n-dimensional
+matrices, vectors/arrays, and numbers in Typst, with support for
+broadcasting and handling NaN values. Numtyâ€™s broadcasting rules and
+API are inspired by NumPy.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "numty.typ" as nt}
+
+\NormalTok{// Define vectors and matrices}
+\NormalTok{\#let a = (1, 2, 3)}
+\NormalTok{\#let b = 2}
+\NormalTok{\#let m = ((1, 2), (1, 3))}
+
+\NormalTok{// Element{-}wise operations with broadcasting}
+\NormalTok{\#nt.mult(a, b)  // Multiply vector \textquotesingle{}a\textquotesingle{} by scalar \textquotesingle{}b\textquotesingle{}: (2, 4, 6)}
+\NormalTok{\#nt.add(a, a)   // Add two vectors: (2, 4, 6)}
+\NormalTok{\#nt.add(2, a)   // Add scalar \textquotesingle{}2\textquotesingle{} to each element of vector \textquotesingle{}a\textquotesingle{}: (3, 4, 5)}
+\NormalTok{\#nt.add(m, 1)   // Add scalar \textquotesingle{}1\textquotesingle{} to each element of matrix \textquotesingle{}m\textquotesingle{}: ((2, 3), (2, 4))}
+
+\NormalTok{// Dot product of vectors}
+\NormalTok{\#nt.dot(a, a)   // Dot product of vector \textquotesingle{}a\textquotesingle{} with itself: 14}
+
+\NormalTok{// Handling NaN cases in mathematical functions}
+\NormalTok{\#calc.sin((3, 4)) // Fails, as Typst does not support vector operations directly}
+\NormalTok{\#nt.sin((3.4))    // Sine of each element in vector: (0.14411, 0.90929)}
+
+\NormalTok{// Generate equally spaced values and vectorized functions}
+\NormalTok{\#let x = nt.linspace(0, 10, 3)  // Generate 3 equally spaced values between 0 and 10: (0, 5, 10)}
+\NormalTok{\#let y = nt.sin(x)              // Apply sine function to each element: (0, {-}0.95, {-}0.54)}
+
+\NormalTok{// Logical operations}
+\NormalTok{\#nt.eq(a, b)      // Compare each element in \textquotesingle{}a\textquotesingle{} to \textquotesingle{}b\textquotesingle{}: (false, true, false)}
+\NormalTok{\#nt.any(nt.eq(a, b)) // Check if any element in \textquotesingle{}a\textquotesingle{} equals \textquotesingle{}b\textquotesingle{}: true}
+\NormalTok{\#nt.all(nt.eq(a, b)) // Check if all elements in \textquotesingle{}a\textquotesingle{} equal \textquotesingle{}b\textquotesingle{}: false}
+
+\NormalTok{// Handling special cases like division by zero}
+\NormalTok{\#nt.div((1, 3), (2, 0))  // Element{-}wise division, with NaN for division by zero: (0.5, float.nan)}
+
+\NormalTok{// Matrix operations (element{-}wise)}
+\NormalTok{\#nt.add(m, 1)  // Add scalar to matrix elements: ((2, 3), (2, 4))}
+
+\NormalTok{// matrix}
+\NormalTok{\#nt.transpose(m)  // transposition}
+\NormalTok{\#nt.matmul(m,m) //  matrix multipliation}
+\NormalTok{\#nt.matmul(c(1,2), r(2,3)) //  colum vector times row vector multiplication.}
+\NormalTok{\#np.trace(m) // trace}
+\NormalTok{\#np.det(m) /2x2 determinant}
+ 
+\NormalTok{// printing}
+\NormalTok{\#nt.print(m, " != " , (1,2))  // long dollar print, see in pdf }
+\NormalTok{\#nt.p(m, " != " , (1,2))  //  short long print print, see in pdf }
+\end{Highlighting}
+\end{Shaded}
+
+Since vesion 0.0.4 n-dim matrices are supported as well in most
+operations.
+
+\subsection{Supported Features:}\label{supported-features}
+
+\subsubsection{Dimensions:}\label{dimensions}
+
+Numty uses standard typst list as a base type, most 1d operations like
+dot are suported directly for them.
+
+For matrix specific operations we use 2d arrays / nested arrays, that
+are also the standard typst list, but nested like in: ((1,2), (1,1)).
+
+For convenience you can create column or row vectors with the \#nt.c and
+\#nt.r functions.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "numty.typ" as nt}
+\NormalTok{\#import "numty.typ": c, r}
+
+\NormalTok{\#let a = (1,2,3)}
+\NormalTok{\#let b = (3,2,1)}
+\NormalTok{\#c(..a) // ((1,),(2,),(3,)) }
+\NormalTok{\#r(..b) // ((3,2,1),)}
+\NormalTok{\#nt.matmul(c(..a), r(..b)) // column @ row}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{Logic Operations:}\label{logic-operations}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let a = (1,2,3)}
+\NormalTok{\#let b = 2}
+
+\NormalTok{\#nt.eq(a,b)  // (false, true, false)}
+\NormalTok{\#nt.all(nt.eq(a,b))  // false}
+\NormalTok{\#nt.any(nt.eq(a,b))  // true}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{Math operators:}\label{math-operators}
+
+All operators are element-wise, traditional matrix multiplication is not
+yet supported.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#nt.add((0,1,3), 1)  // (1,2,4)}
+\NormalTok{\#nt.mult((1,3),(2,2)) // (2,6)}
+\NormalTok{\#nt.div((1,3), (2,0)) // (0.5,float.nan)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{Algebra with Nan
+handling:}\label{algebra-with-nan-handling}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#nt.log((0,1,3)) //  (float.nan, 0 , 0.47...)}
+\NormalTok{\#nt.sin((1,3)) //  (0.84.. , 0.14...)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{Vector operations:}\label{vector-operations}
+
+Basic vector operations
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#nt.dot((1,2),(2,4))  //  9}
+\NormalTok{\#nt.normalize((1,4), l:1) // (1/5,4/5)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{Others:}\label{others}
+
+Functions for creating equally spaced indexes in linear and logspace,
+usefull for log plots, to sample in acordance to the logarithmic space.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#nt.linspace(0,10,3) // (0,5,10)}
+\NormalTok{\#nt.logspace(1,3,3)}
+\NormalTok{\#nt.geomspace(1,3,3) }
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{Matrix}\label{matrix}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#nt.matmul(m,m )              // matrix multiplication}
+\NormalTok{\#nt.det(((1,3), (3,4)))       // only 2x2 supported for now}
+\NormalTok{\#nt.trace(((1,3), (3,4)))     // trace of square matrix}
+\NormalTok{\#nt.transpose(((1,3), (3,4))) // matrix transposition}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{Printing}\label{printing}
+
+Numty supports \$ printing to the pdf of numerical matrices, both long
+and short format.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#nt.print((1,2),(4,2)))  // to display in the pdf}
+\NormalTok{\#nt.p((1,2),(4,2)), " random string ")     // to display in the pdf}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as \texttt{\ numty\ }
+
+\begin{verbatim}
+#import "@preview/numty:0.0.5"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+Pablo Ruiz Cuevas
+\item[License:]
+MIT
+\item[Current version:]
+0.0.5
+\item[Last updated:]
+November 12, 2024
+\item[First released:]
+October 22, 2024
+\item[Archive size:]
+4.27 kB
+\href{https://packages.typst.org/preview/numty-0.0.5.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/PabloRuizCuevas/numty}{GitHub}
+\item[Categor ies :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-hammer.svg}}
+  \href{https://typst.app/universe/search/?category=utility}{Utility}
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-code.svg}}
+  \href{https://typst.app/universe/search/?category=scripting}{Scripting}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of Pablo Ruiz Cuevas . Report issues on
+\href{https://github.com/PabloRuizCuevas/numty}{their repository} . You
+can also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.0.5 & November 12, 2024 \\
+\href{https://typst.app/universe/package/numty/0.0.4/}{0.0.4} & October
+31, 2024 \\
+\href{https://typst.app/universe/package/numty/0.0.3/}{0.0.3} & October
+23, 2024 \\
+\href{https://typst.app/universe/package/numty/0.0.2/}{0.0.2} & October
+22, 2024 \\
+\href{https://typst.app/universe/package/numty/0.0.1/}{0.0.1} & October
+22, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.

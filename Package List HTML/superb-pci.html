@@ -1,0 +1,434 @@
+<main>
+    <div id="banner" style="--banner-accent:#000000;--banner-primary:#000000;--banner-secondary:#000000;--banner-tertiary:#565565;--banner-background:#eff0f3">
+     <div id="template-thumbnail">
+      <img alt="A preview of the superb-pci Typst template." src="https://packages.typst.org/preview/thumbnails/superb-pci-0.1.0-small.webp"/>
+      <div class="icon" role="img">
+      </div>
+     </div>
+     <div>
+      <div class="title">
+       <h1 class="name">
+        superb-pci
+       </h1>
+       <span class="version">
+        0.1.0
+       </span>
+      </div>
+      <p class="description">
+       A Peer Community In (PCI) and Peer Community Journal (PCJ) template.
+      </p>
+     </div>
+    </div>
+    <div class="inner-grid">
+     <a class="create-project-button mobile" href="/app?template=superb-pci&amp;version=0.1.0" rel="noopener noreferrer" target="_blank">
+      Create project in app
+     </a>
+     <section id="readme">
+      <p>
+       Template for
+       <a href="https://peercommunityin.org/" rel="nofollow ugc" target="_blank">
+        Peer Community In
+       </a>
+       (PCI) submission and
+       <a href="https://peercommunityjournal.org/" rel="nofollow ugc" target="_blank">
+        Peer Community Journal
+       </a>
+       (PCJ) post-recommendation upload.
+      </p>
+      <p>
+       The template is as close as possible to the LaTeX one.
+      </p>
+      <h2>
+       Usage
+      </h2>
+      <p>
+       To use this template in Typst, simply import it at the top of your document.
+      </p>
+      <pre><code><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/superb-pci:0.1.0"</span><span class="typ-punct">:</span> <span class="typ-op">*</span>
+</code></code></pre>
+      <p>
+       Alternatively, you can start using this template from the command line with
+      </p>
+      <pre><code>typst init @preview/superb-pci:0.1.0 my-superb-manuscript-dir
+</code></pre>
+      <p>
+       or directly in the web app by clicking âStart from templateâ.
+      </p>
+      <p>
+       Please see the main Readme about Typst packages
+       <a href="https://github.com/typst/packages" rel="nofollow ugc" target="_blank">
+        https://github.com/typst/packages
+       </a>
+       .
+      </p>
+      <h2>
+       Configuration
+      </h2>
+      <p>
+       This template exports the
+       <code>
+        pci
+       </code>
+       function with the following named arguments:
+      </p>
+      <ul>
+       <li>
+        <code>
+         title
+        </code>
+        : the paper title
+       </li>
+       <li>
+        <code>
+         authors
+        </code>
+        : array of author dictionaries. Each author must have the
+        <code>
+         name
+        </code>
+        field, and can have the optional fields
+        <code>
+         orcid
+        </code>
+        , and
+        <code>
+         affiliations
+        </code>
+        .
+       </li>
+       <li>
+        <code>
+         affiliations
+        </code>
+        : array of affiliation dictionaries, each with the keys
+        <code>
+         id
+        </code>
+        and
+        <code>
+         name
+        </code>
+        . All correspondence between authors and affiliations is done manually.
+       </li>
+       <li>
+        <code>
+         abstract
+        </code>
+        : abstract of the paper as content
+       </li>
+       <li>
+        <code>
+         doi
+        </code>
+        : DOI of the paper displayed on the front page
+       </li>
+       <li>
+        <code>
+         keywords
+        </code>
+        : array of keywords displayed on the front page
+       </li>
+       <li>
+        <code>
+         correspondence
+        </code>
+        : corresponding address displayed on the front page
+       </li>
+       <li>
+        <code>
+         numbered_sections
+        </code>
+        : boolean, whether sections should be numbered
+       </li>
+       <li>
+        <code>
+         pcj
+        </code>
+        : boolean, provides a way to remove the front page and headers/footers for upload to the Peer Community Journal.
+        <code>
+         [default: false]
+        </code>
+       </li>
+      </ul>
+      <p>
+       The template will initialize your folder with a sample call to the
+       <code>
+        pci
+       </code>
+       function in a show rule and dummy content as an example. If you want to change an existing project to use this template, you can add a show rule like this at the top of your file:
+      </p>
+      <pre><code class="language-typst"><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/superb-pci:0.1.0"</span><span class="typ-punct">:</span> <span class="typ-op">*</span>
+
+<span class="typ-key">#</span><span class="typ-key">show</span><span class="typ-punct">:</span> pci<span class="typ-punct">.</span><span class="typ-func">with</span><span class="typ-punct">(</span>
+  title<span class="typ-punct">:</span> <span class="typ-punct">[</span>Sample for the template, with quite a very long title<span class="typ-punct">]</span><span class="typ-punct">,</span>
+  abstract<span class="typ-punct">:</span> <span class="typ-func">lorem</span><span class="typ-punct">(</span><span class="typ-num">200</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+  authors<span class="typ-punct">:</span> <span class="typ-punct">(</span>
+    <span class="typ-punct">(</span>
+      name<span class="typ-punct">:</span> <span class="typ-str">"Antoine Lavoisier"</span><span class="typ-punct">,</span>
+      orcid<span class="typ-punct">:</span> <span class="typ-str">"0000-0000-0000-0001"</span><span class="typ-punct">,</span>
+      affiliations<span class="typ-punct">:</span> <span class="typ-str">"#,1"</span>
+    <span class="typ-punct">)</span><span class="typ-punct">,</span>
+    <span class="typ-punct">(</span>
+      name<span class="typ-punct">:</span> <span class="typ-str">"Mary P. Curry"</span><span class="typ-punct">,</span>
+      orcid<span class="typ-punct">:</span> <span class="typ-str">"0000-0000-0000-0001"</span><span class="typ-punct">,</span>
+      affiliations<span class="typ-punct">:</span> <span class="typ-str">"#,2"</span><span class="typ-punct">,</span>
+    <span class="typ-punct">)</span><span class="typ-punct">,</span>
+    <span class="typ-punct">(</span>
+      name<span class="typ-punct">:</span> <span class="typ-str">"Peter Curry"</span><span class="typ-punct">,</span>
+      affiliations<span class="typ-punct">:</span> <span class="typ-str">"2"</span><span class="typ-punct">,</span>
+    <span class="typ-punct">)</span><span class="typ-punct">,</span>
+    <span class="typ-punct">(</span>
+      name<span class="typ-punct">:</span> <span class="typ-str">"Dick Darlington"</span><span class="typ-punct">,</span>
+      orcid<span class="typ-punct">:</span> <span class="typ-str">"0000-0000-0000-0001"</span><span class="typ-punct">,</span>
+      affiliations<span class="typ-punct">:</span> <span class="typ-str">"1,3"</span>
+    <span class="typ-punct">)</span><span class="typ-punct">,</span>
+  <span class="typ-punct">)</span><span class="typ-punct">,</span>
+  affiliations<span class="typ-punct">:</span> <span class="typ-punct">(</span>
+   <span class="typ-punct">(</span>id<span class="typ-punct">:</span> <span class="typ-str">"1"</span><span class="typ-punct">,</span> name<span class="typ-punct">:</span> <span class="typ-str">"Rue sans aplomb, Paris, France"</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+   <span class="typ-punct">(</span>id<span class="typ-punct">:</span> <span class="typ-str">"2"</span><span class="typ-punct">,</span> name<span class="typ-punct">:</span> <span class="typ-str">"Center for spiced radium experiments, United Kingdom"</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+   <span class="typ-punct">(</span>id<span class="typ-punct">:</span> <span class="typ-str">"3"</span><span class="typ-punct">,</span> name<span class="typ-punct">:</span> <span class="typ-str">"Bruce's Bar and Grill, London (near Susan's)"</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+   <span class="typ-punct">(</span>id<span class="typ-punct">:</span> <span class="typ-str">"#"</span><span class="typ-punct">,</span> name<span class="typ-punct">:</span> <span class="typ-str">"Equal contributions"</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+  <span class="typ-punct">)</span><span class="typ-punct">,</span>
+  doi<span class="typ-punct">:</span> <span class="typ-str">"https://doi.org/10.5802/fake.doi"</span><span class="typ-punct">,</span>
+  keywords<span class="typ-punct">:</span> <span class="typ-punct">(</span><span class="typ-str">"Scientific writing"</span><span class="typ-punct">,</span> <span class="typ-str">"Typst"</span><span class="typ-punct">,</span> <span class="typ-str">"PCI"</span><span class="typ-punct">,</span> <span class="typ-str">"Example"</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+  correspondence<span class="typ-punct">:</span> <span class="typ-str">"a-lavois@lead-free-univ.edu"</span><span class="typ-punct">,</span>
+  numbered_sections<span class="typ-punct">:</span> <span class="typ-key">false</span><span class="typ-punct">,</span>
+  pcj<span class="typ-punct">:</span> <span class="typ-key">false</span><span class="typ-punct">,</span>
+<span class="typ-punct">)</span>
+
+<span class="typ-comment">// Your content goes here</span>
+</code></code></pre>
+      <p>
+       You might also need to use the
+       <code>
+        table_note
+       </code>
+       function from the template.
+      </p>
+      <h2>
+       To do
+      </h2>
+      <p>
+       Some things that are not straightforward in Typst yet that need to be added in the futures:
+      </p>
+      <ul>
+       <li>
+        [ ] line numbers
+       </li>
+       <li>
+        [ ] switch equation numbers to the left
+       </li>
+      </ul>
+     </section>
+     <aside>
+      <a class="create-project-button desktop" href="/app?template=superb-pci&amp;version=0.1.0" rel="noopener noreferrer" target="_blank">
+       Create project in app
+      </a>
+      <section>
+       <h3>
+        How to use
+       </h3>
+       <p>
+        Click the button above to create a new project using this template in the Typst app.
+       </p>
+       <p>
+        You can also use the Typst CLI to start a new project on your computer using this command:
+       </p>
+       <div class="init-snippet">
+        <pre><code>typst init @preview/<!-- -->superb-pci<!-- -->:<!-- -->0.1.0</code></pre>
+        <button class="copy" title="Copy to clipboard">
+         <img alt="Copy" height="16" src="/assets/icons/16-copy.svg" width="16"/>
+        </button>
+       </div>
+      </section>
+      <section id="about">
+       <h3>
+        About
+       </h3>
+       <dl>
+        <dt>
+         Author
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         Alexis Simon
+        </dd>
+        <dt>
+         License:
+        </dt>
+        <dd>
+         MIT-0
+        </dd>
+        <dt>
+         Current version:
+        </dt>
+        <dd>
+         0.1.0
+        </dd>
+        <dt>
+         Last updated:
+        </dt>
+        <dd>
+         April 15, 2024
+        </dd>
+        <dt>
+         First released:
+        </dt>
+        <dd>
+         April 15, 2024
+        </dd>
+        <dt>
+         Minimum Typst version:
+        </dt>
+        <dd>
+         0.11.0
+        </dd>
+        <dt>
+         Archive size:
+        </dt>
+        <dd class="archive-size-value">
+         170 kB
+         <a href="https://packages.typst.org/preview/superb-pci-0.1.0.tar.gz">
+          <img alt="Size icon" src="/assets/icons/16-download.svg"/>
+         </a>
+        </dd>
+        <dt>
+         Repository:
+        </dt>
+        <dd>
+         <a href="https://codeberg.org/alxsim/superb-pci" rel="noopener noreferrer" target="_blank">
+          Codeberg
+         </a>
+        </dd>
+        <dt>
+         Discipline
+         <!-- -->
+         s
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         <ul class="list-without-icons">
+          <li>
+           <a href="https://typst.app/universe/search/?discipline=biology">
+            Biology
+           </a>
+          </li>
+          <li>
+           <a href="https://typst.app/universe/search/?discipline=archaeology">
+            Archaeology
+           </a>
+          </li>
+         </ul>
+        </dd>
+        <dt>
+         Categor
+         <!-- -->
+         y
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         <ul class="list-with-icons">
+          <li>
+           <img alt="Paper icon" src="/assets/icons/16-atom.svg"/>
+           <a href="https://typst.app/universe/search/?category=paper">
+            Paper
+           </a>
+          </li>
+         </ul>
+        </dd>
+       </dl>
+      </section>
+      <section>
+       <h3>
+        Where to report issues?
+       </h3>
+       <p>
+        This
+        <!-- -->
+        template
+        <!-- -->
+        is a project of
+        <!-- -->
+        <!-- -->
+        Alexis Simon
+        <!-- -->
+        .
+        <!-- -->
+        <!-- -->
+        Report issues on
+        <!-- -->
+        <a href="https://codeberg.org/alxsim/superb-pci" rel="noopener noreferrer" target="_blank">
+         their repository
+        </a>
+        .
+        <!-- -->
+        <!-- -->
+        You can also try to ask for help with this
+        <!-- -->
+        template
+        <!-- -->
+        on the
+        <!-- -->
+        <a href="https://forum.typst.app" rel="noopener" target="_blank">
+         Forum
+        </a>
+        .
+       </p>
+       <p>
+        Please report this
+        <!-- -->
+        template
+        <!-- -->
+        to the Typst team using the
+        <!-- -->
+        <a href="https://typst.app/contact" rel="noreferrer" target="_blank">
+         contact form
+        </a>
+        <!-- -->
+        if you believe it is a safety hazard or infringes upon your rights.
+       </p>
+      </section>
+      <section id="versions">
+       <h3>
+        Version history
+       </h3>
+       <table>
+        <thead>
+         <tr>
+          <th align="left">
+           Version
+          </th>
+          <th align="left">
+           Release Date
+          </th>
+         </tr>
+        </thead>
+        <tbody>
+         <tr>
+          <td align="left">
+           0.1.0
+          </td>
+          <td align="left">
+           April 15, 2024
+          </td>
+         </tr>
+        </tbody>
+       </table>
+      </section>
+      <p class="bottom-notice muted">
+       Typst GmbH did not create this
+       <!-- -->
+       template
+       <!-- -->
+       and cannot guarantee correct functionality of this
+       <!-- -->
+       template
+       <!-- -->
+       or compatibility with any version of the Typst compiler or app.
+      </p>
+     </aside>
+    </div>
+   </main>

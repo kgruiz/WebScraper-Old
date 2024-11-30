@@ -1,0 +1,250 @@
+\title{typst.app/universe/package/ascii-ipa}
+
+\phantomsection\label{banner}
+\section{ascii-ipa}\label{ascii-ipa}
+
+{ 2.0.0 }
+
+Converter for ASCII representations of the International Phonetic
+Alphabet (IPA)
+
+\phantomsection\label{readme}
+ðŸ''„ ASCII / IPA conversion for Typst
+
+This package allows you to easily convert different ASCII
+representations of the International Phonetic Alphabet (IPA) to and from
+the IPA. It also offers some minor utilities to make phonetic
+transcriptions easier to use overall. The package is being maintained
+\href{https://github.com/imatpot/typst-ascii-ipa}{here} .
+
+Note: This is an extended port of the
+\href{https://github.com/tirimid/ipa-translate}{\texttt{\ ipa-translate\ }}
+Rust crate by \href{https://github.com/tirimid}{tirimid} â€™s conversion
+features into native Typst. Most conversions are implemented according
+to
+\href{https://en.wikipedia.org/wiki/Comparison_of_ASCII_encodings_of_the_International_Phonetic_Alphabet}{this
+Wikipedia article} which in turn relies of the official specifications
+of the respective ASCII representations.
+
+\subsection{Conversion}\label{conversion}
+
+The package supports multiple ASCII representations for the IPA with one
+function each:
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Notation & Function name \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Branner & \texttt{\ \#branner(...)\ } \\
+Praat & \texttt{\ \#praat(...)\ } \\
+SIL & \texttt{\ \#sil(...)\ } \\
+X-SAMPA & \texttt{\ \#xsampa(...)\ } \\
+\end{longtable}
+
+They all return the converted value as a
+\href{https://typst.app/docs/reference/foundations/str/}{\texttt{\ string\ }}
+and accept the set of same parameters:
+
+\begin{longtable}[]{@{}lllll@{}}
+\toprule\noalign{}
+Parameter & Type & Positional / Named & Default & Description \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\texttt{\ value\ } &
+\href{https://typst.app/docs/reference/foundations/str/}{\texttt{\ string\ }}
+& positional & & Main input to the function. Usually the transcription
+in the corresponsing ASCII-based notation. \\
+\texttt{\ reverse\ } &
+\href{https://typst.app/docs/reference/foundations/bool/}{\texttt{\ bool\ }}
+& named & \texttt{\ false\ } & Reverses the conversion. Pass Unicode IPA
+into \texttt{\ value\ } to get the corresponsing ASCII-based notation
+back. \\
+\end{longtable}
+
+\subsubsection{Examples}\label{examples}
+
+All examples use the Swiss German word
+\href{https://als.wikipedia.org/wiki/Chuchich\%C3\%A4schtli}{âŸ¨ChuchichÃ¤schtliâŸ©
+{[}ËˆÏ‡ÊŠÏ‡Ë?iËŒÏ‡Ã¦ÊƒË?tlÉª{]}} for the conversion.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/ascii{-}ipa:2.0.0": *}
+
+\NormalTok{// returns "ËÏÊÏËiËÏÃ¦ÊËtlÉª"}
+\NormalTok{\#branner("\textquotesingle{}XUX:i,Xae)S:tlI")}
+
+\NormalTok{// returns "\textquotesingle{}XUX:i,Xae)S:tlI"}
+\NormalTok{\#branner("ËÏÊÏËiËÏÃ¦ÊËtlÉª", reverse: true)}
+
+\NormalTok{// returns "ËÏÊÏËiËÏÃ¦ÊËtlÉª"}
+\NormalTok{\#praat("\textbackslash{}\textbackslash{}\textquotesingle{}1\textbackslash{}\textbackslash{}cf\textbackslash{}\textbackslash{}hs\textbackslash{}\textbackslash{}cf\textbackslash{}\textbackslash{}:f\textbackslash{}\textbackslash{}\textquotesingle{}2\textbackslash{}\textbackslash{}ae\textbackslash{}\textbackslash{}sh\textbackslash{}\textbackslash{}:ftl\textbackslash{}\textbackslash{}ic")}
+
+\NormalTok{// returns "\textbackslash{}\textbackslash{}\textquotesingle{}1\textbackslash{}\textbackslash{}cf\textbackslash{}\textbackslash{}hs\textbackslash{}\textbackslash{}cf\textbackslash{}\textbackslash{}:f\textbackslash{}\textbackslash{}\textquotesingle{}2\textbackslash{}\textbackslash{}ae\textbackslash{}\textbackslash{}sh\textbackslash{}\textbackslash{}:ftl\textbackslash{}\textbackslash{}ic"}
+\NormalTok{\#praat("ËÏÊÏËiËÏÃ¦ÊËtlÉª", reverse: true)}
+
+\NormalTok{// returns "ËÏÊÏËiËÏÃ¦ÊËtlÉª"}
+\NormalTok{\#sil("\}x=u\textless{}x=:i\}\}x=a\textless{}s=:tli=")}
+
+\NormalTok{// returns "\}x=u\textless{}x=:i\}\}x=a\textless{}s=:tli="}
+\NormalTok{\#sil("ËÏÊÏËiËÏÃ¦ÊËtlÉª", reverse: true)}
+
+\NormalTok{// returns "ËÏÊÏËiËÏÃ¦ÊËtlÉª"}
+\NormalTok{\#xsampa("\textbackslash{}"XUX:i\%X\{S:tlI")}
+
+\NormalTok{// returns "\textbackslash{}"XUX:i\%X\{S:tlI"}
+\NormalTok{\#xsampa("ËÏÊÏËiËÏÃ¦ÊËtlÉª", reverse: true)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{\texorpdfstring{With
+\texttt{\ raw\ }}{With  raw }}\label{with-raw}
+
+You can also use
+\href{https://typst.app/docs/reference/text/raw/}{\texttt{\ raw\ }} for
+the conversion. This is useful if the notation uses a lot of
+backslashes.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/ascii{-}ipa:2.0.0": praat}
+
+\NormalTok{// regular string}
+\NormalTok{\#praat("\textbackslash{}\textbackslash{}\textquotesingle{}1\textbackslash{}\textbackslash{}cf\textbackslash{}\textbackslash{}hs\textbackslash{}\textbackslash{}cf\textbackslash{}\textbackslash{}:f\textbackslash{}\textbackslash{}\textquotesingle{}2\textbackslash{}\textbackslash{}ae\textbackslash{}\textbackslash{}sh\textbackslash{}\textbackslash{}:ftl\textbackslash{}\textbackslash{}ic")}
+
+\NormalTok{// raw}
+\NormalTok{\#praat(\textasciigrave{}\textbackslash{}\textquotesingle{}1\textbackslash{}cf\textbackslash{}hs\textbackslash{}cf\textbackslash{}:f\textbackslash{}\textquotesingle{}2\textbackslash{}ae\textbackslash{}sh\textbackslash{}:ftl\textbackslash{}ic\textasciigrave{})}
+\end{Highlighting}
+\end{Shaded}
+
+Note: \texttt{\ raw\ } will not play nicely with notations that use
+\texttt{\ \textasciigrave{}\ } a lot.
+
+\subsection{Brackets \& Braces}\label{brackets-braces}
+
+You can easily mark your notation text as different types of brackets or
+braces.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/ascii{-}ipa:2.0.0": *}
+
+\NormalTok{\#phonetic("prÊ²ÉªËvÊ²et") // [prÊ²ÉªËvÊ²et]}
+\NormalTok{\#phnt("prÊ²ÉªËvÊ²et")     // [prÊ²ÉªËvÊ²et]}
+
+\NormalTok{\#precise("prÊ²ÉªËvÊ²et") // â¦prÊ²ÉªËvÊ²etâ§}
+\NormalTok{\#prec("prÊ²ÉªËvÊ²et")    // â¦prÊ²ÉªËvÊ²etâ§}
+
+\NormalTok{\#phonemic("prÉªvet") // /prÉªvet/}
+\NormalTok{\#phnm("prÉªvet")     // /prÉªvet/}
+
+\NormalTok{\#morphophonemic("prÉªvet") // â«½prÉªvetâ«½}
+\NormalTok{\#mphnm("prÉªvet")          // â«½prÉªvetâ«½}
+
+\NormalTok{\#indistinguishable("prÊ²ÉªËvÊ²et") // (prÊ²ÉªËvÊ²et)}
+\NormalTok{\#idst("prÊ²ÉªËvÊ²et")              // (prÊ²ÉªËvÊ²et)}
+
+\NormalTok{\#obscured("prÊ²ÉªËvÊ²et") // â¸¨prÊ²ÉªËvÊ²etâ¸©}
+\NormalTok{\#obsc("prÊ²ÉªËvÊ²et")     // â¸¨prÊ²ÉªËvÊ²etâ¸©}
+
+\NormalTok{\#orthographic("Ð¿ÑÐ¸Ð²ÐµÑ") // â¨Ð¿ÑÐ¸Ð²ÐµÑâ©}
+\NormalTok{\#orth("Ð¿ÑÐ¸Ð²ÐµÑ")         // â¨Ð¿ÑÐ¸Ð²ÐµÑâ©}
+
+\NormalTok{\#transliterated("privyet") // âªprivyetâ«}
+\NormalTok{\#trlt("privyet")           // âªprivyetâ«}
+
+\NormalTok{\#prosodic("prÊ²ÉªËvÊ²et") // \{prÊ²ÉªËvÊ²et\}}
+\NormalTok{\#prsd("prÊ²ÉªËvÊ²et")     // \{prÊ²ÉªËvÊ²et\}}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as \texttt{\ ascii-ipa\ }
+
+\begin{verbatim}
+#import "@preview/ascii-ipa:2.0.0"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+imatpot
+\item[License:]
+MIT
+\item[Current version:]
+2.0.0
+\item[Last updated:]
+May 14, 2024
+\item[First released:]
+March 26, 2024
+\item[Minimum Typst version:]
+0.10.0
+\item[Archive size:]
+9.84 kB
+\href{https://packages.typst.org/preview/ascii-ipa-2.0.0.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/imatpot/typst-ascii-ipa}{GitHub}
+\item[Discipline :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \href{https://typst.app/universe/search/?discipline=linguistics}{Linguistics}
+\end{itemize}
+\item[Categor y :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-text.svg}}
+  \href{https://typst.app/universe/search/?category=text}{Text}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of imatpot . Report issues on
+\href{https://github.com/imatpot/typst-ascii-ipa}{their repository} .
+You can also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+2.0.0 & May 14, 2024 \\
+\href{https://typst.app/universe/package/ascii-ipa/1.1.1/}{1.1.1} &
+March 26, 2024 \\
+\href{https://typst.app/universe/package/ascii-ipa/1.1.0/}{1.1.0} &
+March 26, 2024 \\
+\href{https://typst.app/universe/package/ascii-ipa/1.0.0/}{1.0.0} &
+March 26, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.

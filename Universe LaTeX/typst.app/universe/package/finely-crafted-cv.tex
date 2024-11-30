@@ -1,0 +1,283 @@
+\title{typst.app/universe/package/finely-crafted-cv}
+
+\phantomsection\label{banner}
+\phantomsection\label{template-thumbnail}
+\pandocbounded{\includegraphics[keepaspectratio]{https://packages.typst.org/preview/thumbnails/finely-crafted-cv-0.1.0-small.webp}}
+
+\section{finely-crafted-cv}\label{finely-crafted-cv}
+
+{ 0.1.0 }
+
+A modern rÃ©sumÃ©/curriculum vitÃ¦ template with high attention to
+detail.
+
+\href{/app?template=finely-crafted-cv&version=0.1.0}{Create project in
+app}
+
+\phantomsection\label{readme}
+This Typst template provides a clean and professional format for
+creating a curriculum vitae (CV) or rÃ©sumÃ©. It comes with functions
+and styles to help you easily generate a well-structured document,
+complete with sections for education, experience, skills, and more.
+
+\subsection{Features}\label{features}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Modern Design:} Aesthetic and professional layout designed for
+  readability.
+\item
+  \textbf{Responsive Header \& Footer:} Includes contact information
+  dynamically.
+\end{itemize}
+
+\subsection{Usage}\label{usage}
+
+To use this template, import it with the version number and utilize the
+\texttt{\ resume\ } or \texttt{\ cv\ } function:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/finely{-}crafted{-}cv:0.1.0": *}
+
+\NormalTok{\#show: resume.with(}
+\NormalTok{  name: "Amira Patel",}
+\NormalTok{  tagline: "Innovative marine biologist with 15+ years of experience in ocean conservation and research.",}
+\NormalTok{  keywords: "marine biology, conservation, research, education, patents",}
+\NormalTok{  email: "amira.patel@oceandreams.org",}
+\NormalTok{  phone: "+1{-}305{-}555{-}7890",}
+\NormalTok{  linkedin{-}username: "amirapatel",}
+\NormalTok{  thumbnail: image("assets/my{-}qr{-}code.svg"),}
+\NormalTok{)}
+
+\NormalTok{= Introduction}
+
+\NormalTok{\#lorem(100)}
+
+\NormalTok{= Experience}
+
+\NormalTok{\#company{-}heading("Some Company", start: "March 2018", end: "Present", icon: image("icons/earth.svg"))[}
+\NormalTok{  \#job{-}heading("Some Job", location: "Some Location")[}
+\NormalTok{    {-} Here is an achievement}
+\NormalTok{    {-} Here\textquotesingle{}s another one.}
+\NormalTok{  ]}
+\NormalTok{  // companies can have multiple jobs}
+\NormalTok{  \#job{-}heading("First Job", location: "Some Location")[}
+\NormalTok{    {-} Here is an achievement}
+\NormalTok{    {-} Here\textquotesingle{}s another one.}
+\NormalTok{  ]}
+\NormalTok{]}
+
+\NormalTok{// for companies which have less detail, you can use the \textasciigrave{}comment\textasciigrave{} instead of a}
+\NormalTok{// body of tasks, as follows:}
+\NormalTok{\#company{-}heading("Another Company", start: "July 2005", end: "August 2009", icon: image("icons/microscope.svg"))[}
+\NormalTok{  \#job{-}heading("Another Job", location: "Another Location",}
+\NormalTok{    comment: [Contributed to 7 published studies. \#footnote[Visit https://amirapatel.org/publications for full list of publications.]]}
+\NormalTok{  )[]}
+\NormalTok{]}
+
+\NormalTok{= Education}
+
+\NormalTok{// school{-}heading is an alias for company{-}heading, accepts the same parameters as company{-}heading}
+\NormalTok{\#school{-}heading("University of California, San Diego", start: "Fall 2001", end: "Spring 2005", icon: image("icons/graduation{-}cap.svg"))[}
+\NormalTok{  // degree{-}heading is an alias for job{-}heading, accepts the same parameters as job{-}heading}
+\NormalTok{  \#degree{-}heading("Ph.D. in Marine Biology")[]}
+\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Functions and Parameters}\label{functions-and-parameters}
+
+\subsubsection{\texorpdfstring{\texttt{\ resume\ } or
+\texttt{\ cv\ }}{ resume  or  cv }}\label{resume-or-cv}
+
+This is the main function to create a CV document.
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Parameters:}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \texttt{\ name\ } : (String) Your full name. Default is â€œYOUR NAME
+    HEREâ€?.
+  \item
+    \texttt{\ tagline\ } : (String) A brief description of your
+    professional identity or mission.
+  \item
+    \texttt{\ paper\ } : (String) The paper size, default is
+    â€œus-letterâ€?.
+  \item
+    \texttt{\ heading-font\ } : (Font) Font for headings, customizable.
+  \item
+    \texttt{\ body-font\ } : (Font) Font for body text, customizable.
+  \item
+    \texttt{\ body-size\ } : (Size) Font size for body text.
+  \item
+    \texttt{\ email\ } : (String) Your email address.
+  \item
+    \texttt{\ phone\ } : (String) Your phone number.
+  \item
+    \texttt{\ linkedin-username\ } : (String) Your LinkedIn username.
+  \item
+    \texttt{\ keywords\ } : (String) Keywords for searchability.
+  \item
+    \texttt{\ thumbnail\ } : (Image) Thumbnail or QR code image,
+    optional.
+  \item
+    \texttt{\ body\ } : (Block) The main content of your CV.
+  \end{itemize}
+\end{itemize}
+
+\subsubsection{\texorpdfstring{\texttt{\ company-heading\ }}{ company-heading }}\label{company-heading}
+
+Used to create a heading for a company or organization.
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Parameters:}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \texttt{\ name\ } : (String) Name of the company.
+  \item
+    \texttt{\ start\ } : (String) Start date.
+  \item
+    \texttt{\ end\ } : (String) End date, optional.
+  \item
+    \texttt{\ icon\ } : (Image) Icon image associated with the company,
+    optional.
+  \item
+    \texttt{\ body\ } : (Block) Content related to the company role or
+    tasks.
+  \end{itemize}
+\end{itemize}
+
+\subsubsection{\texorpdfstring{\texttt{\ job-heading\ }}{ job-heading }}\label{job-heading}
+
+Defines a job title within a company heading.
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Parameters:}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \texttt{\ title\ } : (String) Job title.
+  \item
+    \texttt{\ location\ } : (String) Location of the job, optional.
+  \item
+    \texttt{\ start\ } : (String) Start date, optional.
+  \item
+    \texttt{\ end\ } : (String) End date, optional.
+  \item
+    \texttt{\ comment\ } : (String) Additional comments or notes,
+    optional.
+  \item
+    \texttt{\ body\ } : (Block) Tasks or responsibilities.
+  \end{itemize}
+\end{itemize}
+
+\subsubsection{\texorpdfstring{\texttt{\ school-heading\ }}{ school-heading }}\label{school-heading}
+
+Alias for \texttt{\ company-heading\ } , used for educational
+institutions.
+
+\subsubsection{\texorpdfstring{\texttt{\ degree-heading\ }}{ degree-heading }}\label{degree-heading}
+
+Alias for \texttt{\ job-heading\ } , used for academic degrees or
+certifications.
+
+\subsection{License}\label{license}
+
+This template is released under the MIT License.
+
+\href{/app?template=finely-crafted-cv&version=0.1.0}{Create project in
+app}
+
+\subsubsection{How to use}\label{how-to-use}
+
+Click the button above to create a new project using this template in
+the Typst app.
+
+You can also use the Typst CLI to start a new project on your computer
+using this command:
+
+\begin{verbatim}
+typst init @preview/finely-crafted-cv:0.1.0
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+\href{mailto:steve@waits.net}{Stephen Waits}
+\item[License:]
+MIT
+\item[Current version:]
+0.1.0
+\item[Last updated:]
+October 22, 2024
+\item[First released:]
+October 22, 2024
+\item[Archive size:]
+28.5 kB
+\href{https://packages.typst.org/preview/finely-crafted-cv-0.1.0.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/swaits/typst-collection}{GitHub}
+\item[Discipline s :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \href{https://typst.app/universe/search/?discipline=business}{Business}
+\item
+  \href{https://typst.app/universe/search/?discipline=communication}{Communication}
+\end{itemize}
+\item[Categor y :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-user.svg}}
+  \href{https://typst.app/universe/search/?category=cv}{CV}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This template is a project of Stephen Waits . Report issues on
+\href{https://github.com/swaits/typst-collection}{their repository} .
+You can also try to ask for help with this template on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this template to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.1.0 & October 22, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this template and cannot guarantee correct
+functionality of this template or compatibility with any version of the
+Typst compiler or app.

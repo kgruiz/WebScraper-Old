@@ -1,0 +1,199 @@
+\title{typst.app/universe/package/backtrack}
+
+\phantomsection\label{banner}
+\section{backtrack}\label{backtrack}
+
+{ 1.0.0 }
+
+A version-agnostic library for checking the compiler version.
+
+\phantomsection\label{readme}
+Backtrack is a simple and performant Typst library that determines the
+current compiler version and provides an API for comparing, displaying,
+and observing versions.
+
+Unlike the built-in
+\href{https://github.com/typst/typst/pull/2016}{version API} which is
+only available on Typst 0.9.0+, Backtrack works on any
+\href{https://github.com/typst/packages/raw/main/packages/preview/backtrack/1.0.0/\#version-support}{*}
+Typst version. It uses the built-in API when available so that itâ€™ll
+continue to work on all future Typst versions without modification.
+
+Additionally, it:
+
+\begin{itemize}
+\tightlist
+\item
+  doesnâ€™t noticeably impact compilation time. All version checks are
+  extremely simple, and newer versions are checked first to avoid
+  overhead from supporting old versions.
+\item
+  is automatically tested on \emph{every} supported Typst version to
+  ensure reliability.
+\item
+  can be downloaded and installed manually in addition to being
+  available as a package.
+\end{itemize}
+
+\subsection{Example}\label{example}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/backtrack:1.0.0": current{-}version, versions}
+
+\NormalTok{You are using Typst \#current{-}version.displayable!}
+\NormalTok{\#\{}
+\NormalTok{  if current{-}version.cmpable \textless{}= versions.v2023{-}03{-}28.cmpable [}
+\NormalTok{    That is ancient.}
+\NormalTok{  ] else if current{-}version.cmpable \textless{} versions.v0{-}5{-}0.cmpable [}
+\NormalTok{    That is old.}
+\NormalTok{  ] else [}
+\NormalTok{    That is modern.}
+\NormalTok{  ]}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Installation}\label{installation}
+
+There are two ways to install the library:
+
+\begin{itemize}
+\item
+  Use the package on Typst 0.6.0+. This is as simple as adding the
+  following line to your document:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/backtrack:1.0.0"}
+\end{Highlighting}
+\end{Shaded}
+\item
+  Download and install the library manually:
+
+  \begin{enumerate}
+  \item
+    Download and extract the latest
+    \href{https://github.com/TheLukeGuy/backtrack/releases}{release} .
+  \item
+    Rename \texttt{\ src/lib.typ\ } to \texttt{\ src/backtrack.typ\ } .
+  \item
+    Move/copy \texttt{\ COPYING\ } into \texttt{\ src/\ } .
+  \item
+    Rename the \texttt{\ src/\ } directory to \texttt{\ backtrack/\ } .
+  \item
+    Move/copy the newly-renamed \texttt{\ backtrack/\ } directory into
+    your project.
+  \item
+    Add the following line to your document:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "[path/to/]backtrack/backtrack.typ"}
+\end{Highlighting}
+\end{Shaded}
+  \end{enumerate}
+\end{itemize}
+
+\subsection{Documentation}\label{documentation}
+
+See
+\href{https://github.com/typst/packages/raw/main/packages/preview/backtrack/1.0.0/DOCS.md}{DOCS.md}
+. Itâ€™s quite short. ðŸ˜€
+
+\subsection{Version Support}\label{version-support}
+
+Backtrack compiles on and can detect these versions:
+
+\begin{longtable}[]{@{}lcl@{}}
+\toprule\noalign{}
+Version & Status & Notes \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.6.0+ & âœ & Also available as a package \\
+March 28, 2023â€``0.5.0 & âœ & \\
+March 21, 2023 & âœ & Initial public/standalone Typst release \\
+February 25, 2023 & ðŸŸ¡ & Detects as February 15, 2023 \\
+February 12â€``15, 2023 & âœ & \\
+February 2, 2023 & ðŸŸ¡ & Detects as January 30, 2023 \\
+January 30, 2023 & âœ & \\
+\end{longtable}
+
+The partially-supported versions \emph{may} be possible to detect, but
+theyâ€™re tricky since most of their changes are content-related.
+Content values were opaque up until the March 21, 2023 release, making
+it difficult to automatically check for the presence of these changes.
+
+\subsection{Copying}\label{copying}
+
+Copyright Â© 2023 \href{https://github.com/TheLukeGuy}{Luke Chambers}
+
+Backtrack is licensed under the Apache License, Version 2.0. You can
+find a copy of the license in
+\href{https://github.com/typst/packages/raw/main/packages/preview/backtrack/1.0.0/COPYING}{COPYING}
+or online at \url{https://www.apache.org/licenses/LICENSE-2.0} .
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as \texttt{\ backtrack\ }
+
+\begin{verbatim}
+#import "@preview/backtrack:1.0.0"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+TheLukeGuy
+\item[License:]
+Apache-2.0
+\item[Current version:]
+1.0.0
+\item[Last updated:]
+October 27, 2023
+\item[First released:]
+October 27, 2023
+\item[Archive size:]
+8.64 kB
+\href{https://packages.typst.org/preview/backtrack-1.0.0.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/TheLukeGuy/backtrack}{GitHub}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of TheLukeGuy . Report issues on
+\href{https://github.com/TheLukeGuy/backtrack}{their repository} . You
+can also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+1.0.0 & October 27, 2023 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.

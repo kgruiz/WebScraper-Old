@@ -1,0 +1,339 @@
+<main>
+    <div id="banner" style="--banner-accent:#000000;--banner-primary:#000000;--banner-secondary:#000000;--banner-tertiary:#565565;--banner-background:#eff0f3">
+     <div class="package-icon" role="img">
+     </div>
+     <div>
+      <div class="title">
+       <h1 class="name">
+        big-rati
+       </h1>
+       <span class="version">
+        0.1.0
+       </span>
+      </div>
+      <p class="description">
+       Utilities to work with big rational numbers in Typst
+      </p>
+     </div>
+    </div>
+    <div class="inner-grid">
+     <section id="readme">
+      <p>
+       <code>
+        big-rati
+       </code>
+       is a package to work with rational numbers in Typst
+      </p>
+      <h2>
+       Usage
+      </h2>
+      <pre><code class="language-typ"><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/big-rati:0.1.0"</span>
+
+<span class="typ-key">#</span><span class="typ-key">let</span> a <span class="typ-op">=</span> <span class="typ-num">2</span>      <span class="typ-comment">// 2/1</span>
+<span class="typ-key">#</span><span class="typ-key">let</span> b <span class="typ-op">=</span> <span class="typ-punct">(</span><span class="typ-num">1</span><span class="typ-punct">,</span> <span class="typ-num">2</span><span class="typ-punct">)</span> <span class="typ-comment">// 1/2</span>
+
+<span class="typ-key">#</span><span class="typ-key">let</span> sum <span class="typ-op">=</span> big-rati<span class="typ-punct">.</span><span class="typ-func">add</span><span class="typ-punct">(</span>a<span class="typ-punct">,</span> b<span class="typ-punct">)</span> <span class="typ-comment">// 5/2</span>
+
+<span class="typ-key">#</span><span class="typ-key">let</span> c <span class="typ-op">=</span> <span class="typ-punct">(</span><span class="typ-str">"4"</span><span class="typ-punct">,</span> <span class="typ-num">6</span><span class="typ-punct">)</span>
+<span class="typ-key">#</span><span class="typ-key">let</span> prod <span class="typ-op">=</span> big-rati<span class="typ-punct">.</span><span class="typ-func">mul</span><span class="typ-punct">(</span>c<span class="typ-punct">,</span> sum<span class="typ-punct">)</span> <span class="typ-comment">// 5/3</span>
+
+<span class="typ-math-delim">$</span><span class="typ-pol">#</span><span class="typ-pol">big-rati</span><span class="typ-punct">.</span><span class="typ-func">repr</span><span class="typ-punct">(</span>prod<span class="typ-punct">)</span><span class="typ-math-delim">$</span>
+</code></code></pre>
+      <p>
+       Functions, exported by the package are:
+      </p>
+      <pre><code class="language-typ"><code><span class="typ-comment">// Converts `x` to bytes, representing the rational number,</span>
+<span class="typ-comment">// that can be used in the functions below.</span>
+<span class="typ-comment">// `x` might be an integer or a big integer string.</span>
+<span class="typ-comment">// If `x` is an array of length two, which elements are integers</span>
+<span class="typ-comment">// or big integer strings, then it is converted to the array of all</span>
+<span class="typ-comment">// big integer strings, and then into the bytes representation.</span>
+<span class="typ-key">#</span><span class="typ-key">let</span> <span class="typ-func">rational</span><span class="typ-punct">(</span>x<span class="typ-punct">)</span>
+
+<span class="typ-comment">// Functions below work with "rational numbers", integers or big integer strings</span>
+
+<span class="typ-comment">// Returns `a + b`</span>
+<span class="typ-key">#</span><span class="typ-key">let</span> <span class="typ-func">add</span><span class="typ-punct">(</span>a<span class="typ-punct">,</span> b<span class="typ-punct">)</span>
+
+<span class="typ-comment">// Returns `a - b`</span>
+<span class="typ-key">#</span><span class="typ-key">let</span> <span class="typ-func">sub</span><span class="typ-punct">(</span>a<span class="typ-punct">,</span> b<span class="typ-punct">)</span>
+
+<span class="typ-comment">// Returns `a / b`</span>
+<span class="typ-key">#</span><span class="typ-key">let</span> <span class="typ-func">div</span><span class="typ-punct">(</span>a<span class="typ-punct">,</span> b<span class="typ-punct">)</span>
+
+<span class="typ-comment">// Returns `a * b`</span>
+<span class="typ-key">#</span><span class="typ-key">let</span> <span class="typ-func">mul</span><span class="typ-punct">(</span>a<span class="typ-punct">,</span> b<span class="typ-punct">)</span>
+
+<span class="typ-comment">// Returns `a % b`</span>
+<span class="typ-key">#</span><span class="typ-key">let</span> <span class="typ-func">rem</span><span class="typ-punct">(</span>a<span class="typ-punct">,</span> b<span class="typ-punct">)</span>
+
+<span class="typ-comment">// Returns `|a - b|`</span>
+<span class="typ-key">#</span><span class="typ-key">let</span> <span class="typ-func">abs-diff</span><span class="typ-punct">(</span>a<span class="typ-punct">,</span> b<span class="typ-punct">)</span>
+
+<span class="typ-comment">// Returns `-1` if `a &lt; b`, `0` if `a == b`, `1` if `a &gt; b`</span>
+<span class="typ-key">#</span><span class="typ-key">let</span> <span class="typ-func">cmp</span><span class="typ-punct">(</span>a<span class="typ-punct">,</span> b<span class="typ-punct">)</span>
+
+<span class="typ-comment">// Returns `-x`</span>
+<span class="typ-key">#</span><span class="typ-key">let</span> <span class="typ-func">neg</span><span class="typ-punct">(</span>x<span class="typ-punct">)</span>
+
+<span class="typ-comment">// Returns `|x|`</span>
+<span class="typ-key">#</span><span class="typ-key">let</span> <span class="typ-func">abs</span><span class="typ-punct">(</span>x<span class="typ-punct">)</span>
+
+<span class="typ-comment">// Rounds towards plus infinity</span>
+<span class="typ-key">#</span><span class="typ-key">let</span> <span class="typ-func">ceil</span><span class="typ-punct">(</span>x<span class="typ-punct">)</span>
+
+<span class="typ-comment">// Rounds towards minus infinity</span>
+<span class="typ-key">#</span><span class="typ-key">let</span> <span class="typ-func">floor</span><span class="typ-punct">(</span>x<span class="typ-punct">)</span>
+
+<span class="typ-comment">// Rounds to the nearest integer. Rounds half-way cases away from zero.</span>
+<span class="typ-key">#</span><span class="typ-key">let</span> <span class="typ-func">round</span><span class="typ-punct">(</span>x<span class="typ-punct">)</span>
+
+<span class="typ-comment">// Rounds towards zero.</span>
+<span class="typ-key">#</span><span class="typ-key">let</span> <span class="typ-func">trunc</span><span class="typ-punct">(</span>x<span class="typ-punct">)</span>
+
+<span class="typ-comment">// Returns the fractional part of a number, with division rounded towards zero.</span>
+<span class="typ-comment">// Satisfies `number == add(trunc(number), fract(number))`.</span>
+<span class="typ-key">#</span><span class="typ-key">let</span> <span class="typ-func">fract</span><span class="typ-punct">(</span>number<span class="typ-punct">)</span>
+
+<span class="typ-comment">// Returns the reciprocal.</span>
+<span class="typ-comment">// Panics if the number is zero.</span>
+<span class="typ-key">#</span><span class="typ-key">let</span> <span class="typ-func">recip</span><span class="typ-punct">(</span>x<span class="typ-punct">)</span>
+
+<span class="typ-comment">// Returns `x^y`. `y` must be an `int`, in range of `-2^32` to `2^32 - 1`</span>
+<span class="typ-key">#</span><span class="typ-key">let</span> <span class="typ-func">pow</span><span class="typ-punct">(</span>x<span class="typ-punct">,</span> y<span class="typ-punct">)</span>
+
+<span class="typ-comment">// Restrict a value to a certain interval.</span>
+<span class="typ-comment">//</span>
+<span class="typ-comment">// Returns `max` if `number` is greater than `max`,</span>
+<span class="typ-comment">// and `min` if `number` is less than `min`.</span>
+<span class="typ-comment">// Otherwise returns `number`.</span>
+<span class="typ-comment">//</span>
+<span class="typ-comment">// Returns error if `min` is greater than `max`.</span>
+<span class="typ-key">#</span><span class="typ-key">let</span> <span class="typ-func">clamp</span><span class="typ-punct">(</span>number<span class="typ-punct">,</span> min<span class="typ-punct">,</span> max<span class="typ-punct">)</span>
+
+<span class="typ-comment">// Compares and returns the minimum of two values.</span>
+<span class="typ-key">#</span><span class="typ-key">let</span> <span class="typ-func">min</span><span class="typ-punct">(</span>a<span class="typ-punct">,</span> b<span class="typ-punct">)</span>
+
+<span class="typ-comment">// Compares and returns the maximum of two values.</span>
+<span class="typ-key">#</span><span class="typ-key">let</span> <span class="typ-func">max</span><span class="typ-punct">(</span>a<span class="typ-punct">,</span> b<span class="typ-punct">)</span>
+
+<span class="typ-comment">// Returns a value of type `content`, representing the rational number.</span>
+<span class="typ-comment">// If `is-mixed` is true, then the result is a mixed fraction,</span>
+<span class="typ-comment">// otherwise, it is a simple fraction.</span>
+<span class="typ-key">#</span><span class="typ-key">let</span> <span class="typ-func">repr</span><span class="typ-punct">(</span>x<span class="typ-punct">,</span> is-mixed<span class="typ-punct">:</span> <span class="typ-key">true</span><span class="typ-punct">)</span>
+
+<span class="typ-comment">// Returns a string, representing the rational number</span>
+<span class="typ-key">#</span><span class="typ-key">let</span> <span class="typ-func">to-decimal-str</span><span class="typ-punct">(</span>x<span class="typ-punct">,</span> precision<span class="typ-punct">:</span> <span class="typ-num">8</span><span class="typ-punct">)</span>
+
+<span class="typ-comment">// Returns a floating-point number, representing the rational number</span>
+<span class="typ-key">#</span><span class="typ-key">let</span> <span class="typ-func">to-float</span><span class="typ-punct">(</span>x<span class="typ-punct">,</span> precision<span class="typ-punct">:</span> <span class="typ-num">8</span><span class="typ-punct">)</span>
+
+<span class="typ-comment">// Returns a decimal number, representing the rational number</span>
+<span class="typ-key">#</span><span class="typ-key">let</span> <span class="typ-func">to-decimal</span><span class="typ-punct">(</span>x<span class="typ-punct">,</span> precision<span class="typ-punct">:</span> <span class="typ-num">8</span><span class="typ-punct">)</span>
+</code></code></pre>
+     </section>
+     <aside>
+      <section>
+       <h3>
+        How to add
+       </h3>
+       <p>
+        Copy this into your project and use the import as
+        <!-- -->
+        <code>
+         big-rati
+        </code>
+       </p>
+       <div class="import-snippet">
+        <pre><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/big-rati:0.1.0"</span></code></pre>
+        <button class="copy" title="Copy to clipboard">
+         <img alt="Copy" height="16" src="/assets/icons/16-copy.svg" width="16"/>
+        </button>
+       </div>
+       <p class="muted">
+        Check the docs for
+        <!-- -->
+        <a href="https://typst.app/docs/reference/scripting/#packages">
+         more information on how to import packages
+        </a>
+        .
+       </p>
+      </section>
+      <section id="about">
+       <h3>
+        About
+       </h3>
+       <dl>
+        <dt>
+         Author
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         Danik Vitek
+        </dd>
+        <dt>
+         License:
+        </dt>
+        <dd>
+         MIT
+        </dd>
+        <dt>
+         Current version:
+        </dt>
+        <dd>
+         0.1.0
+        </dd>
+        <dt>
+         Last updated:
+        </dt>
+        <dd>
+         October 29, 2024
+        </dd>
+        <dt>
+         First released:
+        </dt>
+        <dd>
+         October 29, 2024
+        </dd>
+        <dt>
+         Archive size:
+        </dt>
+        <dd class="archive-size-value">
+         33.9 kB
+         <a href="https://packages.typst.org/preview/big-rati-0.1.0.tar.gz">
+          <img alt="Size icon" src="/assets/icons/16-download.svg"/>
+         </a>
+        </dd>
+        <dt>
+         Repository:
+        </dt>
+        <dd>
+         <a href="https://github.com/DanikVitek/typst-plugin-bigrational" rel="noopener noreferrer" target="_blank">
+          GitHub
+         </a>
+        </dd>
+        <dt>
+         Discipline
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         <ul class="list-without-icons">
+          <li>
+           <a href="https://typst.app/universe/search/?discipline=mathematics">
+            Mathematics
+           </a>
+          </li>
+         </ul>
+        </dd>
+        <dt>
+         Categor
+         <!-- -->
+         y
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         <ul class="list-with-icons">
+          <li>
+           <img alt="Scripting icon" src="/assets/icons/16-code.svg"/>
+           <a href="https://typst.app/universe/search/?category=scripting">
+            Scripting
+           </a>
+          </li>
+         </ul>
+        </dd>
+       </dl>
+      </section>
+      <section>
+       <h3>
+        Where to report issues?
+       </h3>
+       <p>
+        This
+        <!-- -->
+        package
+        <!-- -->
+        is a project of
+        <!-- -->
+        <!-- -->
+        Danik Vitek
+        <!-- -->
+        .
+        <!-- -->
+        <!-- -->
+        Report issues on
+        <!-- -->
+        <a href="https://github.com/DanikVitek/typst-plugin-bigrational" rel="noopener noreferrer" target="_blank">
+         their repository
+        </a>
+        .
+        <!-- -->
+        <!-- -->
+        You can also try to ask for help with this
+        <!-- -->
+        package
+        <!-- -->
+        on the
+        <!-- -->
+        <a href="https://forum.typst.app" rel="noopener" target="_blank">
+         Forum
+        </a>
+        .
+       </p>
+       <p>
+        Please report this
+        <!-- -->
+        package
+        <!-- -->
+        to the Typst team using the
+        <!-- -->
+        <a href="https://typst.app/contact" rel="noreferrer" target="_blank">
+         contact form
+        </a>
+        <!-- -->
+        if you believe it is a safety hazard or infringes upon your rights.
+       </p>
+      </section>
+      <section id="versions">
+       <h3>
+        Version history
+       </h3>
+       <table>
+        <thead>
+         <tr>
+          <th align="left">
+           Version
+          </th>
+          <th align="left">
+           Release Date
+          </th>
+         </tr>
+        </thead>
+        <tbody>
+         <tr>
+          <td align="left">
+           0.1.0
+          </td>
+          <td align="left">
+           October 29, 2024
+          </td>
+         </tr>
+        </tbody>
+       </table>
+      </section>
+      <p class="bottom-notice muted">
+       Typst GmbH did not create this
+       <!-- -->
+       package
+       <!-- -->
+       and cannot guarantee correct functionality of this
+       <!-- -->
+       package
+       <!-- -->
+       or compatibility with any version of the Typst compiler or app.
+      </p>
+     </aside>
+    </div>
+   </main>

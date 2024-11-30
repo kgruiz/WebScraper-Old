@@ -1,0 +1,759 @@
+\title{typst.app/universe/package/suiji}
+
+\phantomsection\label{banner}
+\section{suiji}\label{suiji}
+
+{ 0.3.0 }
+
+A highly efficient random number generator for Typst
+
+{ } Featured Package
+
+\phantomsection\label{readme}
+\href{https://github.com/liuguangxi/suiji}{Suiji} (éš?æœº in Chinese,
+/suÃ­jÄ«/, meaning random) is a high efficient random number generator in
+Typst. Partial algorithm is inherited from
+\href{https://www.gnu.org/software/gsl}{GSL} and most APIs are similar
+to
+\href{https://numpy.org/doc/stable/reference/random/generator.html}{NumPy
+Random Generator} . It provides pure function implementation and does
+not rely on any global state variables, resulting in better performance
+and independency.
+
+\subsection{Features}\label{features}
+
+\begin{itemize}
+\tightlist
+\item
+  All functions are immutable, which means results of random are
+  completely deterministic.
+\item
+  Core random engine chooses â€œMaximally equidistributed combined
+  Tausworthe generatorâ€? and â€œLCGâ€?.
+\item
+  Generate random integers or floats from various distribution.
+\item
+  Randomly shuffle an array of objects.
+\item
+  Randomly sample from an array of objects.
+\item
+  Generate blind text of Simplified Chinese.
+\end{itemize}
+
+\subsection{Examples}\label{examples}
+
+The example below uses \texttt{\ suiji\ } and \texttt{\ cetz\ } packages
+to create a trajectory of a random walk.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/suiji:0.3.0": *}
+\NormalTok{\#import "@preview/cetz:0.2.2"}
+
+\NormalTok{\#set page(width: auto, height: auto, margin: 0.5cm)}
+
+\NormalTok{\#cetz.canvas(length: 5pt, \{}
+\NormalTok{  import cetz.draw: *}
+
+\NormalTok{  let n = 2000}
+\NormalTok{  let (x, y) = (0, 0)}
+\NormalTok{  let (x{-}new, y{-}new) = (0, 0)}
+\NormalTok{  let rng = gen{-}rng(42)}
+\NormalTok{  let v = ()}
+
+\NormalTok{  for i in range(n) \{}
+\NormalTok{    (rng, v) = uniform(rng, low: {-}2.0, high: 2.0, size: 2)}
+\NormalTok{    (x{-}new, y{-}new) = (x {-} v.at(1), y {-} v.at(0))}
+\NormalTok{    let col = color.mix((blue.transparentize(20\%), 1{-}i/n), (green.transparentize(20\%), i/n))}
+\NormalTok{    line(stroke: (paint: col, cap: "round", thickness: 2pt),}
+\NormalTok{      (x, y), (x{-}new, y{-}new)}
+\NormalTok{    )}
+\NormalTok{    (x, y) = (x{-}new, y{-}new)}
+\NormalTok{  \}}
+\NormalTok{\})}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/suiji/0.3.0/examples/random-walk.png}}
+
+Another example is drawing the the famous \textbf{Matrix} rain effect of
+falling green characters in a terminal.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/suiji:0.3.0": *}
+\NormalTok{\#import "@preview/cetz:0.2.2"}
+
+\NormalTok{\#set page(width: auto, height: auto, margin: 0pt)}
+
+\NormalTok{\#cetz.canvas(length: 1pt, \{}
+\NormalTok{  import cetz.draw: *}
+
+\NormalTok{  let font{-}size = 10}
+\NormalTok{  let num{-}col = 80}
+\NormalTok{  let num{-}row = 32}
+\NormalTok{  let text{-}len = 16}
+\NormalTok{  let seq = "abcdefghijklmnopqrstuvwxyz!@\#$\%\^{}\&*".split("").slice(1, 35).map(it =\textgreater{} raw(it))}
+\NormalTok{  let rng = gen{-}rng(42)}
+\NormalTok{  let num{-}cnt = 0}
+\NormalTok{  let val = 0}
+\NormalTok{  let chars = ()}
+
+\NormalTok{  rect(({-}10, {-}10), (font{-}size * (num{-}col {-} 1) * 0.6 + 10, font{-}size * (num{-}row {-} 1) + 10), fill: black)}
+
+\NormalTok{  for c in range(num{-}col) \{}
+\NormalTok{    (rng, num{-}cnt) = integers(rng, low: 1, high: 3)}
+\NormalTok{    for cnt in range(num{-}cnt) \{}
+\NormalTok{      (rng, val) = integers(rng, low: {-}10, high: num{-}row {-} 2)}
+\NormalTok{      (rng, chars) = choice(rng, seq, size: text{-}len)}
+\NormalTok{      for i in range(text{-}len) \{}
+\NormalTok{        let y = i + val}
+\NormalTok{        if y \textgreater{}= 0 and y \textless{} num{-}row \{}
+\NormalTok{          let col = green.transparentize((i / text{-}len) * 100\%)}
+\NormalTok{          content(}
+\NormalTok{            (c * font{-}size * 0.6, y * font{-}size),}
+\NormalTok{            text(size: font{-}size * 1pt, fill:col, stroke: (text{-}len {-} i) * 0.04pt + col, chars.at(i))}
+\NormalTok{          )}
+\NormalTok{        \}}
+\NormalTok{      \}}
+\NormalTok{    \}}
+\NormalTok{  \}}
+\NormalTok{\})}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/suiji/0.3.0/examples/matrix-rain.png}}
+
+\subsection{Usage}\label{usage}
+
+Import \texttt{\ suiji\ } module first before use any random functions
+from it.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/suiji:0.3.0": *}
+\end{Highlighting}
+\end{Shaded}
+
+For functions that generate various random numbers or randomly shuffle,
+a random number generator object ( \textbf{rng} ) is required as both
+input and output arguments. And the original \textbf{rng} should be
+created by function \texttt{\ gen-rng\ } , with an integer as the
+argument of seed. This calling style seems to be a little inconvenient,
+as it is limited by the programming paradigm. For function
+\texttt{\ discrete\ } , the given probalilities of the discrete events
+should be preprocessed by function \texttt{\ discrete-preproc\ } , whose
+output serves as an input argument of \texttt{\ discrete\ } .
+
+Another set of functions with the same functionality provides higher
+performance (about 3 times faster) and has the suffix \texttt{\ -f\ } in
+their names. For example, \texttt{\ gen-rng-f\ } and
+\texttt{\ integers-f\ } are the fast versions of \texttt{\ gen-rng\ }
+and \texttt{\ integers\ } , respectively.
+
+The function \texttt{\ rand-sc\ } creates blind text of Simplified
+Chinese. This function yields a Chinese-like Lorem Ipsum blind text with
+the given number of words, where punctuations are optional.
+
+The code below generates several random permutations of 0 to 9. Each
+time after function \texttt{\ shuffle-f\ } is called, the value of
+variable \texttt{\ rng\ } is updated, so generated permutations are
+different.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#\{}
+\NormalTok{  let rng = gen{-}rng{-}f(42)}
+\NormalTok{  let a = ()}
+\NormalTok{  for i in range(5) \{}
+\NormalTok{    (rng, a) = shuffle{-}f(rng, range(10))}
+\NormalTok{    [\#(a.map(it =\textgreater{} str(it)).join("  ")) \textbackslash{} ]}
+\NormalTok{  \}}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/suiji/0.3.0/examples/random-permutation.png}}
+
+For more codes with these functions see
+\href{https://github.com/typst/packages/raw/main/packages/preview/suiji/0.3.0/tests}{tests}
+.
+
+\subsection{Reference}\label{reference}
+
+\subsubsection{\texorpdfstring{\texttt{\ gen-rng\ } /
+\texttt{\ gen-rng-f\ }}{ gen-rng  /  gen-rng-f }}\label{gen-rng-gen-rng-f}
+
+Construct a new random number generator with a seed.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let gen{-}rng(seed) = \{...\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{itemize}
+\item
+  \textbf{Input Arguments}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \texttt{\ seed\ } : {[} \texttt{\ int\ } {]} value of seed.
+  \end{itemize}
+\item
+  \textbf{Output Arguments}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \texttt{\ rng\ } : {[} \texttt{\ object\ } {]} generated object of
+    random number generator.
+  \end{itemize}
+\end{itemize}
+
+\subsubsection{\texorpdfstring{\texttt{\ randi-f\ }}{ randi-f }}\label{randi-f}
+
+Return a raw random integer from {[}0, 2\^{}31).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let randi{-}f(rng) = \{...\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{itemize}
+\item
+  \textbf{Input Arguments}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \texttt{\ rng\ } : {[} \texttt{\ object\ } \textbar{}
+    \texttt{\ int\ } {]} object of random number generator (generated by
+    function \texttt{\ *-f\ } ).
+  \end{itemize}
+\item
+  \textbf{Output Arguments}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \texttt{\ rng-out\ } : {[} \texttt{\ object\ } \textbar{}
+    \texttt{\ int\ } {]} updated object of random number generator
+    (random integer from the interval {[}0, 2\^{}31-1{]}).
+  \end{itemize}
+\end{itemize}
+
+\subsubsection{\texorpdfstring{\texttt{\ integers\ } /
+\texttt{\ integers-f\ }}{ integers  /  integers-f }}\label{integers-integers-f}
+
+Return random integers from \texttt{\ low\ } (inclusive) to
+\texttt{\ high\ } (exclusive).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let integers(rng, low: 0, high: 100, size: none, endpoint: false) = \{...\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{itemize}
+\item
+  \textbf{Input Arguments}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \texttt{\ rng\ } : {[} \texttt{\ object\ } {]} object of random
+    number generator.
+  \item
+    \texttt{\ low\ } : {[} \texttt{\ int\ } {]} lowest (signed) integers
+    to be drawn from the distribution, optional.
+  \item
+    \texttt{\ high\ } : {[} \texttt{\ int\ } {]} one above the largest
+    (signed) integer to be drawn from the distribution, optional.
+  \item
+    \texttt{\ size\ } : {[} \texttt{\ none\ } or \texttt{\ int\ } {]}
+    returned array size, must be none or non-negative integer, optional.
+  \item
+    \texttt{\ endpoint\ } : {[} \texttt{\ bool\ } {]} if true, sample
+    from the interval {[} \texttt{\ low\ } , \texttt{\ high\ } {]}
+    instead of the default {[} \texttt{\ low\ } , \texttt{\ high\ } ),
+    optional.
+  \end{itemize}
+\item
+  \textbf{Output Arguments}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    {[} \texttt{\ array\ } {]} : ( \texttt{\ rng-out\ } ,
+    \texttt{\ arr-out\ } )
+
+    \begin{itemize}
+    \tightlist
+    \item
+      \texttt{\ rng-out\ } : {[} \texttt{\ object\ } {]} updated object
+      of random number generator.
+    \item
+      \texttt{\ arr-out\ } : {[} \texttt{\ int\ } \textbar{}
+      \texttt{\ array\ } of \texttt{\ int\ } {]} array of random
+      numbers.
+    \end{itemize}
+  \end{itemize}
+\end{itemize}
+
+\subsubsection{\texorpdfstring{\texttt{\ random\ } /
+\texttt{\ random-f\ }}{ random  /  random-f }}\label{random-random-f}
+
+Return random floats in the half-open interval {[}0.0, 1.0).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let random(rng, size: none) = \{...\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{itemize}
+\item
+  \textbf{Input Arguments}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \texttt{\ rng\ } : {[} \texttt{\ object\ } {]} object of random
+    number generator.
+  \item
+    \texttt{\ size\ } : {[} \texttt{\ none\ } or \texttt{\ int\ } {]}
+    returned array size, must be none or non-negative integer, optional.
+  \end{itemize}
+\item
+  \textbf{Output Arguments}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    {[} \texttt{\ array\ } {]} : ( \texttt{\ rng-out\ } ,
+    \texttt{\ arr-out\ } )
+
+    \begin{itemize}
+    \tightlist
+    \item
+      \texttt{\ rng-out\ } : {[} \texttt{\ object\ } {]} updated object
+      of random number generator.
+    \item
+      \texttt{\ arr-out\ } : {[} \texttt{\ float\ } \textbar{}
+      \texttt{\ array\ } of \texttt{\ float\ } {]} array of random
+      numbers.
+    \end{itemize}
+  \end{itemize}
+\end{itemize}
+
+\subsubsection{\texorpdfstring{\texttt{\ uniform\ } /
+\texttt{\ uniform-f\ }}{ uniform  /  uniform-f }}\label{uniform-uniform-f}
+
+Draw samples from a uniform distribution. Samples are uniformly
+distributed over the half-open interval {[} \texttt{\ low\ } ,
+\texttt{\ high\ } ) (includes \texttt{\ low\ } , but excludes
+\texttt{\ high\ } ).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let uniform(rng, low: 0.0, high: 1.0, size: none) = \{...\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{itemize}
+\item
+  \textbf{Input Arguments}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \texttt{\ rng\ } : {[} \texttt{\ object\ } {]} object of random
+    number generator.
+  \item
+    \texttt{\ low\ } : {[} \texttt{\ float\ } {]} lower boundary of the
+    output interval, optional.
+  \item
+    \texttt{\ high\ } : {[} \texttt{\ float\ } {]} upper boundary of the
+    output interval, optional.
+  \item
+    \texttt{\ size\ } : {[} \texttt{\ none\ } or \texttt{\ int\ } {]}
+    returned array size, must be none or non-negative integer, optional.
+  \end{itemize}
+\item
+  \textbf{Output Arguments}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    {[} \texttt{\ array\ } {]} : ( \texttt{\ rng-out\ } ,
+    \texttt{\ arr-out\ } )
+
+    \begin{itemize}
+    \tightlist
+    \item
+      \texttt{\ rng-out\ } : {[} \texttt{\ object\ } {]} updated object
+      of random number generator.
+    \item
+      \texttt{\ arr-out\ } : {[} \texttt{\ float\ } \textbar{}
+      \texttt{\ array\ } of \texttt{\ float\ } {]} array of random
+      numbers.
+    \end{itemize}
+  \end{itemize}
+\end{itemize}
+
+\subsubsection{\texorpdfstring{\texttt{\ normal\ } /
+\texttt{\ normal-f\ }}{ normal  /  normal-f }}\label{normal-normal-f}
+
+Draw random samples from a normal (Gaussian) distribution.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let normal(rng, loc: 0.0, scale: 1.0, size: none) = \{...\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{itemize}
+\item
+  \textbf{Input Arguments}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \texttt{\ rng\ } : {[} \texttt{\ object\ } {]} object of random
+    number generator.
+  \item
+    \texttt{\ loc\ } : {[} \texttt{\ float\ } {]} mean (centre) of the
+    distribution, optional.
+  \item
+    \texttt{\ scale\ } : {[} \texttt{\ float\ } {]} standard deviation
+    (spread or width) of the distribution, must be non-negative,
+    optional.
+  \item
+    \texttt{\ size\ } : {[} \texttt{\ none\ } or \texttt{\ int\ } {]}
+    returned array size, must be none or non-negative integer, optional.
+  \end{itemize}
+\item
+  \textbf{Output Arguments}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    {[} \texttt{\ array\ } {]} : ( \texttt{\ rng-out\ } ,
+    \texttt{\ arr-out\ } )
+
+    \begin{itemize}
+    \tightlist
+    \item
+      \texttt{\ rng-out\ } : {[} \texttt{\ object\ } {]} updated object
+      of random number generator.
+    \item
+      \texttt{\ arr-out\ } : {[} \texttt{\ float\ } \textbar{}
+      \texttt{\ array\ } of \texttt{\ float\ } {]} array of random
+      numbers.
+    \end{itemize}
+  \end{itemize}
+\end{itemize}
+
+\subsubsection{\texorpdfstring{\texttt{\ discrete-preproc\ } and
+\texttt{\ discrete\ } / \texttt{\ discrete-preproc-f\ } and
+\texttt{\ discrete-f\ }}{ discrete-preproc  and  discrete  /  discrete-preproc-f  and  discrete-f }}\label{discrete-preproc-and-discrete-discrete-preproc-f-and-discrete-f}
+
+Return random indices from the given probalilities of the discrete
+events.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let discrete{-}preproc(p) = \{...\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{itemize}
+\item
+  \textbf{Input Arguments}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \texttt{\ p\ } : {[} \texttt{\ array\ } of \texttt{\ int\ } or
+    \texttt{\ float\ } {]} the array of probalilities of the discrete
+    events, probalilities must be non-negative.
+  \end{itemize}
+\item
+  \textbf{Output Arguments}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \texttt{\ g\ } : {[} \texttt{\ object\ } {]} generated object that
+    contains the lookup table.
+  \end{itemize}
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let discrete(rng, g, size: none) = \{...\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{itemize}
+\item
+  \textbf{Input Arguments}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \texttt{\ rng\ } : {[} \texttt{\ object\ } {]} object of random
+    number generator.
+  \item
+    \texttt{\ g\ } : {[} \texttt{\ object\ } {]} generated object that
+    contains the lookup table by \texttt{\ discrete-preproc\ } function.
+  \item
+    \texttt{\ size\ } : {[} \texttt{\ none\ } or \texttt{\ int\ } {]}
+    returned array size, must be none or non-negative integer, optional.
+  \end{itemize}
+\item
+  \textbf{Output Arguments}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    {[} \texttt{\ array\ } {]} : ( \texttt{\ rng-out\ } ,
+    \texttt{\ arr-out\ } )
+
+    \begin{itemize}
+    \tightlist
+    \item
+      \texttt{\ rng-out\ } : {[} \texttt{\ object\ } {]} updated object
+      of random number generator.
+    \item
+      \texttt{\ arr-out\ } : {[} \texttt{\ int\ } \textbar{}
+      \texttt{\ array\ } of \texttt{\ int\ } {]} array of random
+      indices.
+    \end{itemize}
+  \end{itemize}
+\end{itemize}
+
+\subsubsection{\texorpdfstring{\texttt{\ shuffle\ } /
+\texttt{\ shuffle-f\ }}{ shuffle  /  shuffle-f }}\label{shuffle-shuffle-f}
+
+Randomly shuffle a given array.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let shuffle(rng, arr) = \{...\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{itemize}
+\item
+  \textbf{Input Arguments}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \texttt{\ rng\ } : {[} \texttt{\ object\ } {]} object of random
+    number generator.
+  \item
+    \texttt{\ arr\ } : {[} \texttt{\ array\ } {]} the array to be
+    shuffled.
+  \end{itemize}
+\item
+  \textbf{Output Arguments}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    {[} \texttt{\ array\ } {]} : ( \texttt{\ rng-out\ } ,
+    \texttt{\ arr-out\ } )
+
+    \begin{itemize}
+    \tightlist
+    \item
+      \texttt{\ rng-out\ } : {[} \texttt{\ object\ } {]} updated object
+      of random number generator.
+    \item
+      \texttt{\ arr-out\ } : {[} \texttt{\ array\ } {]} shuffled array.
+    \end{itemize}
+  \end{itemize}
+\end{itemize}
+
+\subsubsection{\texorpdfstring{\texttt{\ choice\ } /
+\texttt{\ choice-f\ }}{ choice  /  choice-f }}\label{choice-choice-f}
+
+Generate random samples from a given array.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let choice(rng, arr, size: none, replacement: true, permutation: true) = \{...\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{itemize}
+\item
+  \textbf{Input Arguments}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \texttt{\ rng\ } : {[} \texttt{\ object\ } {]} object of random
+    number generator.
+  \item
+    \texttt{\ arr\ } : {[} \texttt{\ array\ } {]} the array to be
+    sampled.
+  \item
+    \texttt{\ size\ } : {[} \texttt{\ none\ } or \texttt{\ int\ } {]}
+    returned array size, must be none or non-negative integer, optional.
+  \item
+    \texttt{\ replacement\ } : {[} \texttt{\ bool\ } {]} whether the
+    sample is with or without replacement, optional; default is true,
+    meaning that a value of \texttt{\ arr\ } can be selected multiple
+    times.
+  \item
+    \texttt{\ permutation\ } : {[} \texttt{\ bool\ } {]} whether the
+    sample is permuted when sampling without replacement, optional;
+    default is true, false provides a speedup.
+  \end{itemize}
+\item
+  \textbf{Output Arguments}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    {[} \texttt{\ array\ } {]} : ( \texttt{\ rng-out\ } ,
+    \texttt{\ arr-out\ } )
+
+    \begin{itemize}
+    \tightlist
+    \item
+      \texttt{\ rng-out\ } : {[} \texttt{\ object\ } {]} updated object
+      of random number generator.
+    \item
+      \texttt{\ arr-out\ } : {[} \texttt{\ array\ } {]} generated random
+      samples.
+    \end{itemize}
+  \end{itemize}
+\end{itemize}
+
+\subsubsection{\texorpdfstring{\texttt{\ rand-sc\ }}{ rand-sc }}\label{rand-sc}
+
+Generate blind text of Simplified Chinese.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let rand{-}sc(words, seed: 42, punctuation: false, gap: 10) = \{...\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{itemize}
+\item
+  \textbf{Input Arguments}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \texttt{\ words\ } : {[} \texttt{\ int\ } {]} the length of the
+    blind text in pure words.
+  \item
+    \texttt{\ seed\ } : {[} \texttt{\ int\ } {]} value of seed,
+    optional.
+  \item
+    \texttt{\ punctuation\ } : {[} \texttt{\ bool\ } {]} if true, insert
+    punctuations in generated words, optional.
+  \item
+    \texttt{\ gap\ } : {[} \texttt{\ int\ } {]} average gap between
+    punctuations, optional.
+  \end{itemize}
+\item
+  \textbf{Output Arguments}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    {[} \texttt{\ str\ } {]} : generated blind text of Simplified
+    Chinese.
+  \end{itemize}
+\end{itemize}
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as \texttt{\ suiji\ }
+
+\begin{verbatim}
+#import "@preview/suiji:0.3.0"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+\href{https://github.com/liuguangxi}{Guangxi Liu}
+\item[License:]
+MIT
+\item[Current version:]
+0.3.0
+\item[Last updated:]
+April 16, 2024
+\item[First released:]
+March 19, 2024
+\item[Minimum Typst version:]
+0.11.0
+\item[Archive size:]
+17.4 kB
+\href{https://packages.typst.org/preview/suiji-0.3.0.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/liuguangxi/suiji}{GitHub}
+\item[Categor y :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-hammer.svg}}
+  \href{https://typst.app/universe/search/?category=utility}{Utility}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of Guangxi Liu . Report issues on
+\href{https://github.com/liuguangxi/suiji}{their repository} . You can
+also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.3.0 & April 16, 2024 \\
+\href{https://typst.app/universe/package/suiji/0.2.2/}{0.2.2} & April 9,
+2024 \\
+\href{https://typst.app/universe/package/suiji/0.2.1/}{0.2.1} & March
+28, 2024 \\
+\href{https://typst.app/universe/package/suiji/0.2.0/}{0.2.0} & March
+22, 2024 \\
+\href{https://typst.app/universe/package/suiji/0.1.0/}{0.1.0} & March
+19, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.

@@ -1,0 +1,360 @@
+<main>
+    <div id="banner" style="--banner-accent:#000000;--banner-primary:#000000;--banner-secondary:#000000;--banner-tertiary:#565565;--banner-background:#eff0f3">
+     <div class="package-icon" role="img">
+     </div>
+     <div>
+      <div class="title">
+       <h1 class="name">
+        tablem
+       </h1>
+       <span class="version">
+        0.1.0
+       </span>
+      </div>
+      <p class="description">
+       Write markdown-like tables easily.
+      </p>
+     </div>
+    </div>
+    <div class="inner-grid">
+     <section id="readme">
+      <p>
+       Write markdown-like tables easily.
+      </p>
+      <h2>
+       Example
+      </h2>
+      <p>
+       Have a look at the source
+       <a href="https://github.com/typst/packages/raw/main/packages/preview/tablem/0.1.0/examples/example.typ" rel="nofollow ugc" target="_blank">
+        here
+       </a>
+       .
+      </p>
+      <p>
+       <img alt="Example" src="https://github.com/typst/packages/raw/main/packages/preview/tablem/0.1.0/examples/example.png"/>
+      </p>
+      <h2>
+       Usage
+      </h2>
+      <p>
+       You can simply copy the markdown table and paste it in
+       <code>
+        tablem
+       </code>
+       function.
+      </p>
+      <pre><code class="language-typ"><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/tablem:0.1.0"</span><span class="typ-punct">:</span> tablem
+
+<span class="typ-func">#</span><span class="typ-func">tablem</span><span class="typ-punct">[</span>
+  | <span class="typ-strong">*Name*</span> | <span class="typ-strong">*Location*</span> | <span class="typ-strong">*Height*</span> | <span class="typ-strong">*Score*</span> |
+  | <span class="typ-escape">---</span><span class="typ-escape">---</span> | <span class="typ-escape">---</span><span class="typ-escape">---</span><span class="typ-escape">---</span>- | <span class="typ-escape">---</span><span class="typ-escape">---</span><span class="typ-escape">--</span> | <span class="typ-escape">---</span><span class="typ-escape">---</span>- |
+  | John   | Second St. | 180 cm   |  5      |
+  | Wally  | Third Av.  | 160 cm   |  10     |
+<span class="typ-punct">]</span>
+</code></code></pre>
+      <p>
+       And you can use custom render function.
+      </p>
+      <pre><code class="language-typ"><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/tablex:0.0.6"</span><span class="typ-punct">:</span> tablex<span class="typ-punct">,</span> hlinex
+<span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/tablem:0.1.0"</span><span class="typ-punct">:</span> tablem
+
+<span class="typ-key">#</span><span class="typ-key">let</span> three-line-table <span class="typ-op">=</span> tablem<span class="typ-punct">.</span><span class="typ-func">with</span><span class="typ-punct">(</span>
+  render<span class="typ-punct">:</span> <span class="typ-punct">(</span>columns<span class="typ-punct">:</span> <span class="typ-key">auto</span><span class="typ-punct">,</span> <span class="typ-op">..</span>args<span class="typ-punct">)</span> <span class="typ-op">=&gt;</span> <span class="typ-punct">{</span>
+    <span class="typ-func">tablex</span><span class="typ-punct">(</span>
+      columns<span class="typ-punct">:</span> columns<span class="typ-punct">,</span>
+      auto-lines<span class="typ-punct">:</span> <span class="typ-key">false</span><span class="typ-punct">,</span>
+      align<span class="typ-punct">:</span> center <span class="typ-op">+</span> horizon<span class="typ-punct">,</span>
+      <span class="typ-func">hlinex</span><span class="typ-punct">(</span>y<span class="typ-punct">:</span> <span class="typ-num">0</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+      <span class="typ-func">hlinex</span><span class="typ-punct">(</span>y<span class="typ-punct">:</span> <span class="typ-num">1</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+      <span class="typ-op">..</span>args<span class="typ-punct">,</span>
+      <span class="typ-func">hlinex</span><span class="typ-punct">(</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+    <span class="typ-punct">)</span>
+  <span class="typ-punct">}</span>
+<span class="typ-punct">)</span>
+
+<span class="typ-func">#</span><span class="typ-func">three-line-table</span><span class="typ-punct">[</span>
+  | <span class="typ-strong">*Name*</span> | <span class="typ-strong">*Location*</span> | <span class="typ-strong">*Height*</span> | <span class="typ-strong">*Score*</span> |
+  | <span class="typ-escape">---</span><span class="typ-escape">---</span> | <span class="typ-escape">---</span><span class="typ-escape">---</span><span class="typ-escape">---</span>- | <span class="typ-escape">---</span><span class="typ-escape">---</span><span class="typ-escape">--</span> | <span class="typ-escape">---</span><span class="typ-escape">---</span>- |
+  | John   | Second St. | 180 cm   |  5      |
+  | Wally  | Third Av.  | 160 cm   |  10     |
+<span class="typ-punct">]</span>
+</code></code></pre>
+      <p>
+       <img alt="Example" src="https://github.com/typst/packages/raw/main/packages/preview/tablem/0.1.0/examples/example.png"/>
+      </p>
+      <h2>
+       <code>
+        tablem
+       </code>
+       function
+      </h2>
+      <pre><code class="language-typ"><code><span class="typ-key">#</span><span class="typ-key">let</span> <span class="typ-func">tablem</span><span class="typ-punct">(</span>
+  render<span class="typ-punct">:</span> table<span class="typ-punct">,</span>
+  ignore-second-row<span class="typ-punct">:</span> <span class="typ-key">true</span><span class="typ-punct">,</span>
+  <span class="typ-op">..</span>args<span class="typ-punct">,</span>
+  body
+<span class="typ-punct">)</span> <span class="typ-op">=</span> <span class="typ-punct">{</span> .. <span class="typ-punct">}</span>
+</code></code></pre>
+      <p>
+       <strong>
+        Arguments:
+       </strong>
+      </p>
+      <ul>
+       <li>
+        <code>
+         render
+        </code>
+        : [
+        <code>
+         (columns: int, ..args) =&gt; { .. }
+        </code>
+        ] â Custom render function, default to be
+        <code>
+         table
+        </code>
+        , receiving a integer-type columns, which is the count of first row.
+        <code>
+         ..args
+        </code>
+        is the combination of
+        <code>
+         args
+        </code>
+        of
+        <code>
+         tablem
+        </code>
+        function and children genenerated from
+        <code>
+         body
+        </code>
+        .
+       </li>
+       <li>
+        <code>
+         ignore-second-row
+        </code>
+        : [
+        <code>
+         boolean
+        </code>
+        ] â Whether to ignore the second row (something like
+        <code>
+         |---|
+        </code>
+        ).
+       </li>
+       <li>
+        <code>
+         args
+        </code>
+        : [
+        <code>
+         any
+        </code>
+        ] â Some arguments you want to pass to
+        <code>
+         render
+        </code>
+        function.
+       </li>
+       <li>
+        <code>
+         body
+        </code>
+        : [
+        <code>
+         content
+        </code>
+        ] â The markdown-like table. There should be no extra line breaks in it.
+       </li>
+      </ul>
+      <h2>
+       Limitations
+      </h2>
+      <p>
+       Cell merging has not yet been implemented.
+      </p>
+      <h2>
+       License
+      </h2>
+      <p>
+       This project is licensed under the MIT License.
+      </p>
+     </section>
+     <aside>
+      <section>
+       <h3>
+        How to add
+       </h3>
+       <p>
+        Copy this into your project and use the import as
+        <!-- -->
+        <code>
+         tablem
+        </code>
+       </p>
+       <div class="import-snippet">
+        <pre><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/tablem:0.1.0"</span></code></pre>
+        <button class="copy" title="Copy to clipboard">
+         <img alt="Copy" height="16" src="/assets/icons/16-copy.svg" width="16"/>
+        </button>
+       </div>
+       <p class="muted">
+        Check the docs for
+        <!-- -->
+        <a href="https://typst.app/docs/reference/scripting/#packages">
+         more information on how to import packages
+        </a>
+        .
+       </p>
+      </section>
+      <section id="about">
+       <h3>
+        About
+       </h3>
+       <dl>
+        <dt>
+         Author
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         OrangeX4
+        </dd>
+        <dt>
+         License:
+        </dt>
+        <dd>
+         MIT
+        </dd>
+        <dt>
+         Current version:
+        </dt>
+        <dd>
+         0.1.0
+        </dd>
+        <dt>
+         Last updated:
+        </dt>
+        <dd>
+         November 18, 2023
+        </dd>
+        <dt>
+         First released:
+        </dt>
+        <dd>
+         November 18, 2023
+        </dd>
+        <dt>
+         Archive size:
+        </dt>
+        <dd class="archive-size-value">
+         2.37 kB
+         <a href="https://packages.typst.org/preview/tablem-0.1.0.tar.gz">
+          <img alt="Size icon" src="/assets/icons/16-download.svg"/>
+         </a>
+        </dd>
+        <dt>
+         Repository:
+        </dt>
+        <dd>
+         <a href="https://github.com/OrangeX4/typst-tablem" rel="noopener noreferrer" target="_blank">
+          GitHub
+         </a>
+        </dd>
+       </dl>
+      </section>
+      <section>
+       <h3>
+        Where to report issues?
+       </h3>
+       <p>
+        This
+        <!-- -->
+        package
+        <!-- -->
+        is a project of
+        <!-- -->
+        <!-- -->
+        OrangeX4
+        <!-- -->
+        .
+        <!-- -->
+        <!-- -->
+        Report issues on
+        <!-- -->
+        <a href="https://github.com/OrangeX4/typst-tablem" rel="noopener noreferrer" target="_blank">
+         their repository
+        </a>
+        .
+        <!-- -->
+        <!-- -->
+        You can also try to ask for help with this
+        <!-- -->
+        package
+        <!-- -->
+        on the
+        <!-- -->
+        <a href="https://forum.typst.app" rel="noopener" target="_blank">
+         Forum
+        </a>
+        .
+       </p>
+       <p>
+        Please report this
+        <!-- -->
+        package
+        <!-- -->
+        to the Typst team using the
+        <!-- -->
+        <a href="https://typst.app/contact" rel="noreferrer" target="_blank">
+         contact form
+        </a>
+        <!-- -->
+        if you believe it is a safety hazard or infringes upon your rights.
+       </p>
+      </section>
+      <section id="versions">
+       <h3>
+        Version history
+       </h3>
+       <table>
+        <thead>
+         <tr>
+          <th align="left">
+           Version
+          </th>
+          <th align="left">
+           Release Date
+          </th>
+         </tr>
+        </thead>
+        <tbody>
+         <tr>
+          <td align="left">
+           0.1.0
+          </td>
+          <td align="left">
+           November 18, 2023
+          </td>
+         </tr>
+        </tbody>
+       </table>
+      </section>
+      <p class="bottom-notice muted">
+       Typst GmbH did not create this
+       <!-- -->
+       package
+       <!-- -->
+       and cannot guarantee correct functionality of this
+       <!-- -->
+       package
+       <!-- -->
+       or compatibility with any version of the Typst compiler or app.
+      </p>
+     </aside>
+    </div>
+   </main>

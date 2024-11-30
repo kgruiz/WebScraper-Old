@@ -1,0 +1,214 @@
+\title{typst.app/universe/package/treet}
+
+\phantomsection\label{banner}
+\section{treet}\label{treet}
+
+{ 0.1.1 }
+
+Create tree lists easily
+
+\phantomsection\label{readme}
+\href{https://github.com/8LWXpg/typst-treet/tags}{\pandocbounded{\includegraphics[keepaspectratio]{https://img.shields.io/github/v/tag/8LWXpg/typst-treet}}}
+\href{https://github.com/8LWXpg/typst-treet}{\pandocbounded{\includegraphics[keepaspectratio]{https://img.shields.io/github/stars/8LWXpg/typst-treet?style=flat}}}
+\href{https://github.com/8LWXpg/typst-treet/blob/master/LICENSE}{\pandocbounded{\includegraphics[keepaspectratio]{https://img.shields.io/github/license/8LWXpg/typst-treet}}}
+\href{https://github.com/typst/packages/tree/main/packages/preview/treet}{\pandocbounded{\includegraphics[keepaspectratio]{https://img.shields.io/badge/typst-package-239dad}}}
+
+Create tree list easily in Typst
+
+contribution is welcomed!
+
+\subsection{Usage}\label{usage}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/treet:0.1.1": *}
+
+\NormalTok{\#tree{-}list(}
+\NormalTok{  marker:       content,}
+\NormalTok{  last{-}marker:  content,}
+\NormalTok{  indent:       content,}
+\NormalTok{  empty{-}indent: content,}
+\NormalTok{  marker{-}font:  string,}
+\NormalTok{  content,}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{Parameters}\label{parameters}
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ marker\ } - the marker of the tree list, default is
+  \texttt{\ {[}â”œâ”€\ {]}\ }
+\item
+  \texttt{\ last-marker\ } - the marker of the last item of the tree
+  list, default is \texttt{\ {[}â””â”€\ {]}\ }
+\item
+  \texttt{\ indent\ } - the indent after \texttt{\ marker\ } , default
+  is \texttt{\ {[}â”‚\#h(1em){]}\ }
+\item
+  \texttt{\ empty-indent\ } - the indent after \texttt{\ last-marker\ }
+  , default is \texttt{\ {[}\#h(1.5em){]}\ } (same width as indent)
+\item
+  \texttt{\ marker-font\ } - the font of the marker, default is
+  \texttt{\ "Cascadia\ Code"\ }
+\item
+  \texttt{\ content\ } - the content of the tree list, includes at least
+  a list
+\end{itemize}
+
+\subsection{Demo}\label{demo}
+
+see
+\href{https://github.com/8LWXpg/typst-treet/blob/master/test/demo.typ}{demo.typ}
+\href{https://github.com/8LWXpg/typst-treet/blob/master/test/demo.pdf}{demo.pdf}
+
+\subsubsection{Default style}\label{default-style}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#tree{-}list[}
+\NormalTok{  {-} 1}
+\NormalTok{    {-} 1.1}
+\NormalTok{      {-} 1.1.1}
+\NormalTok{    {-} 1.2}
+\NormalTok{      {-} 1.2.1}
+\NormalTok{      {-} 1.2.2}
+\NormalTok{        {-} 1.2.2.1}
+\NormalTok{  {-} 2}
+\NormalTok{  {-} 3}
+\NormalTok{    {-} 3.1}
+\NormalTok{      {-} 3.1.1}
+\NormalTok{    {-} 3.2}
+\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://raw.githubusercontent.com/8LWXpg/typst-treet/master/img/1.png}}
+
+\subsubsection{Custom style}\label{custom-style}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#text(red, tree{-}list(}
+\NormalTok{  marker: text(blue)[âââ ],}
+\NormalTok{  last{-}marker: text(aqua)[âââ ],}
+\NormalTok{  indent: text(teal)[â\#h(1.5em)],}
+\NormalTok{  empty{-}indent: h(2em),}
+\NormalTok{)[}
+\NormalTok{  {-} 1}
+\NormalTok{    {-} 1.1}
+\NormalTok{      {-} 1.1.1}
+\NormalTok{    {-} 1.2}
+\NormalTok{      {-} 1.2.1}
+\NormalTok{      {-} 1.2.2}
+\NormalTok{        {-} 1.2.2.1}
+\NormalTok{  {-} 2}
+\NormalTok{  {-} 3}
+\NormalTok{    {-} 3.1}
+\NormalTok{      {-} 3.1.1}
+\NormalTok{    {-} 3.2}
+\NormalTok{])}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://raw.githubusercontent.com/8LWXpg/typst-treet/master/img/2.png}}
+
+\subsubsection{Using show rule}\label{using-show-rule}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#show list: tree{-}list}
+\NormalTok{\#set text(font: "DejaVu Sans Mono")}
+
+\NormalTok{root\_folder\textbackslash{}}
+\NormalTok{{-} sub{-}folder}
+\NormalTok{  {-} 1{-}1}
+\NormalTok{    {-} 1.1.1 {-}}
+\NormalTok{  {-} 1.2}
+\NormalTok{    {-} 1.2.1}
+\NormalTok{    {-} 1.2.2}
+\NormalTok{{-} 2}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://raw.githubusercontent.com/8LWXpg/typst-treet/master/img/3.png}}
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as \texttt{\ treet\ }
+
+\begin{verbatim}
+#import "@preview/treet:0.1.1"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+8LWXpg
+\item[License:]
+MIT
+\item[Current version:]
+0.1.1
+\item[Last updated:]
+April 15, 2024
+\item[First released:]
+January 8, 2024
+\item[Minimum Typst version:]
+0.10.0
+\item[Archive size:]
+2.41 kB
+\href{https://packages.typst.org/preview/treet-0.1.1.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/8LWXpg/typst-treet}{GitHub}
+\item[Categor ies :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-package.svg}}
+  \href{https://typst.app/universe/search/?category=components}{Components}
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-layout.svg}}
+  \href{https://typst.app/universe/search/?category=layout}{Layout}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of 8LWXpg . Report issues on
+\href{https://github.com/8LWXpg/typst-treet}{their repository} . You can
+also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.1.1 & April 15, 2024 \\
+\href{https://typst.app/universe/package/treet/0.1.0/}{0.1.0} & January
+8, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.

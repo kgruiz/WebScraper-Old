@@ -1,0 +1,271 @@
+\title{typst.app/universe/package/curryst}
+
+\phantomsection\label{banner}
+\section{curryst}\label{curryst}
+
+{ 0.3.0 }
+
+Typeset trees of inference rules.
+
+{ } Featured Package
+
+\phantomsection\label{readme}
+A Typst package for typesetting proof trees.
+
+\subsection{Import}\label{import}
+
+You can import the latest version of this package with:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/curryst:0.3.0": rule, proof{-}tree}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Basic usage}\label{basic-usage}
+
+To display a proof tree, you first need to create a tree, using the
+\texttt{\ rule\ } function. Its first argument is the conclusion, and
+the other positional arguments are the premises. It also accepts a
+\texttt{\ name\ } for the rule name, displayed on the right of the bar,
+as well as a \texttt{\ label\ } , displayed on the left of the bar.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let tree = rule(}
+\NormalTok{  label: [Label],}
+\NormalTok{  name: [Rule name],}
+\NormalTok{  [Conclusion],}
+\NormalTok{  [Premise 1],}
+\NormalTok{  [Premise 2],}
+\NormalTok{  [Premise 3]}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+Then, you can display the tree with the \texttt{\ proof-tree\ }
+function:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#proof{-}tree(tree)}
+\end{Highlighting}
+\end{Shaded}
+
+In this case, we get the following result:
+
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/curryst/0.3.0/examples/usage.svg}}
+
+Proof trees can be part of mathematical formulas:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{Consider the following tree:}
+\NormalTok{$}
+\NormalTok{  Pi quad = quad \#proof{-}tree(}
+\NormalTok{    rule(}
+\NormalTok{      $phi$,}
+\NormalTok{      $Pi\_1$,}
+\NormalTok{      $Pi\_2$,}
+\NormalTok{    )}
+\NormalTok{  )}
+\NormalTok{$}
+\NormalTok{$Pi$ constitutes a derivation of $phi$.s}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/curryst/0.3.0/examples/math-formula.svg}}
+
+You can specify a rule as the premises of a rule in order to create a
+tree:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#proof{-}tree(}
+\NormalTok{  rule(}
+\NormalTok{    name: $R$,}
+\NormalTok{    $C\_1 or C\_2 or C\_3$,}
+\NormalTok{    rule(}
+\NormalTok{      name: $A$,}
+\NormalTok{      $C\_1 or C\_2 or L$,}
+\NormalTok{      rule(}
+\NormalTok{        $C\_1 or L$,}
+\NormalTok{        $Pi\_1$,}
+\NormalTok{      ),}
+\NormalTok{    ),}
+\NormalTok{    rule(}
+\NormalTok{      $C\_2 or overline(L)$,}
+\NormalTok{      $Pi\_2$,}
+\NormalTok{    ),}
+\NormalTok{  )}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/curryst/0.3.0/examples/rule-as-premise.svg}}
+
+As an example, here is a natural deduction proof tree generated with
+Curryst:
+
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/curryst/0.3.0/examples/natural-deduction.svg}}
+
+Show code
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let ax = rule.with(name: [ax])}
+\NormalTok{\#let and{-}el = rule.with(name: $and\_e\^{}ell$)}
+\NormalTok{\#let and{-}er = rule.with(name: $and\_e\^{}r$)}
+\NormalTok{\#let impl{-}i = rule.with(name: $scripts({-}\textgreater{})\_i$)}
+\NormalTok{\#let impl{-}e = rule.with(name: $scripts({-}\textgreater{})\_e$)}
+\NormalTok{\#let not{-}i = rule.with(name: $not\_i$)}
+\NormalTok{\#let not{-}e = rule.with(name: $not\_e$)}
+
+\NormalTok{\#proof{-}tree(}
+\NormalTok{  impl{-}i(}
+\NormalTok{    $tack (p {-}\textgreater{} q) {-}\textgreater{} not (p and not q)$,}
+\NormalTok{    not{-}i(}
+\NormalTok{      $p {-}\textgreater{} q tack  not (p and not q)$,}
+\NormalTok{      not{-}e(}
+\NormalTok{        $ underbrace(p {-}\textgreater{} q\textbackslash{}, p and not q, Gamma) tack bot $,}
+\NormalTok{        impl{-}e(}
+\NormalTok{          $Gamma tack q$,}
+\NormalTok{          ax($Gamma tack p {-}\textgreater{} q$),}
+\NormalTok{          and{-}el(}
+\NormalTok{            $Gamma tack p$,}
+\NormalTok{            ax($Gamma tack p and not q$),}
+\NormalTok{          ),}
+\NormalTok{        ),}
+\NormalTok{        and{-}er(}
+\NormalTok{          $Gamma tack not q$,}
+\NormalTok{          ax($Gamma tack p and not q$),}
+\NormalTok{        ),}
+\NormalTok{      ),}
+\NormalTok{    ),}
+\NormalTok{  )}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Advanced usage}\label{advanced-usage}
+
+The \texttt{\ proof-tree\ } function accepts multiple named arguments
+that let you customize the tree:
+
+\begin{description}
+\tightlist
+\item[\texttt{\ prem-min-spacing\ }]
+The minimum amount of space between two premises.
+\item[\texttt{\ title-inset\ }]
+The amount width with which to extend the horizontal bar beyond the
+content. Also determines how far from the bar labels and names are
+displayed.
+\item[\texttt{\ stroke\ }]
+The stroke to use for the horizontal bars.
+\item[\texttt{\ horizontal-spacing\ }]
+The space between the bottom of the bar and the conclusion, and between
+the top of the bar and the premises.
+\item[\texttt{\ min-bar-height\ }]
+The minimum height of the box containing the horizontal bar.
+\end{description}
+
+For more information, please refer to the documentation in
+\href{https://github.com/typst/packages/raw/main/packages/preview/curryst/0.3.0/curryst.typ}{\texttt{\ curryst.typ\ }}
+.
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as \texttt{\ curryst\ }
+
+\begin{verbatim}
+#import "@preview/curryst:0.3.0"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author s :]
+\href{https://github.com/remih23}{RÃ©mi Hutin} ,
+\href{https://github.com/pauladam94}{Paul Adam} , \&
+\href{https://github.com/MDLC01}{Malo}
+\item[License:]
+MIT
+\item[Current version:]
+0.3.0
+\item[Last updated:]
+April 16, 2024
+\item[First released:]
+December 7, 2023
+\item[Minimum Typst version:]
+0.11.0
+\item[Archive size:]
+4.71 kB
+\href{https://packages.typst.org/preview/curryst-0.3.0.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/pauladam94/curryst}{GitHub}
+\item[Discipline s :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \href{https://typst.app/universe/search/?discipline=computer-science}{Computer
+  Science}
+\item
+  \href{https://typst.app/universe/search/?discipline=mathematics}{Mathematics}
+\end{itemize}
+\item[Categor ies :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-package.svg}}
+  \href{https://typst.app/universe/search/?category=components}{Components}
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-chart.svg}}
+  \href{https://typst.app/universe/search/?category=visualization}{Visualization}
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-integration.svg}}
+  \href{https://typst.app/universe/search/?category=integration}{Integration}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of RÃ©mi Hutin, Paul Adam, and Malo . Report
+issues on \href{https://github.com/pauladam94/curryst}{their repository}
+. You can also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.3.0 & April 16, 2024 \\
+\href{https://typst.app/universe/package/curryst/0.2.0/}{0.2.0} & March
+19, 2024 \\
+\href{https://typst.app/universe/package/curryst/0.1.1/}{0.1.1} &
+January 31, 2024 \\
+\href{https://typst.app/universe/package/curryst/0.1.0/}{0.1.0} &
+December 7, 2023 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.

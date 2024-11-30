@@ -1,0 +1,338 @@
+<main>
+    <div id="banner" style="--banner-accent:#B14C00;--banner-primary:#38200A;--banner-secondary:#663700;--banner-tertiary:#AD9E69;--banner-background:linear-gradient(90deg, #FFE791 0%, #FFEEB2 61.43%, #FFF6EC 100%)">
+     <div id="template-thumbnail">
+      <img alt="A preview of the cram-snap Typst template." src="https://packages.typst.org/preview/thumbnails/cram-snap-0.2.1-small.webp"/>
+      <div class="icon" role="img">
+      </div>
+     </div>
+     <div>
+      <div class="title">
+       <h1 class="name">
+        cram-snap
+       </h1>
+       <span class="version">
+        0.2.1
+       </span>
+      </div>
+      <p class="description">
+       Compact and legible cheat sheets
+      </p>
+     </div>
+     <p class="featured-label">
+      <span class="icon" role="img">
+      </span>
+      Featured
+      <!-- -->
+      Template
+     </p>
+    </div>
+    <div class="inner-grid">
+     <a class="create-project-button mobile" href="/app?template=cram-snap&amp;version=0.2.1" rel="noopener noreferrer" target="_blank">
+      Create project in app
+     </a>
+     <section id="readme">
+      <p>
+       Simple cheatsheet template for
+       <a href="https://typst.app/">
+        Typst
+       </a>
+       that allows you to snap a quick picture of essential information and cram it into a useful cheatsheet format.
+      </p>
+      <h2>
+       Usage
+      </h2>
+      <p>
+       You can use this template in the Typst web app by clicking âStart from templateâ on the dashboard and searching for
+       <code>
+        cram-snap
+       </code>
+       .
+      </p>
+      <p>
+       Alternatively, you can use the CLI to kick this project off using the command
+      </p>
+      <pre><code>typst init @preview/cram-snap
+</code></pre>
+      <p>
+       Typst will create a new directory with all the files needed to get you started.
+      </p>
+      <h2>
+       Configuration
+      </h2>
+      <p>
+       This template exports the
+       <code>
+        cram-snap
+       </code>
+       function with the following named arguments:
+      </p>
+      <ul>
+       <li>
+        <code>
+         title
+        </code>
+        : Title of the document
+       </li>
+       <li>
+        <code>
+         subtitle
+        </code>
+        : Subtitle of the document
+       </li>
+       <li>
+        <code>
+         icon
+        </code>
+        : Image that appears next to the title
+       </li>
+       <li>
+        <code>
+         column-number
+        </code>
+        : Number of columns
+       </li>
+      </ul>
+      <p>
+       The
+       <code>
+        theader
+       </code>
+       function is a wrapper around the
+       <code>
+        table.header
+       </code>
+       function that creates a header and takes
+       <code>
+        colspan
+       </code>
+       as argument to span the header across multiple table columns (by default it spans across two)
+      </p>
+      <p>
+       If you want to change an existing project to use this template, you can add a show rule like this at the top of your file:
+      </p>
+      <pre><code class="language-typst"><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/cram-snap:0.2.1"</span><span class="typ-punct">:</span> <span class="typ-op">*</span>
+
+<span class="typ-key">#</span><span class="typ-key">set</span> <span class="typ-func">page</span><span class="typ-punct">(</span>paper<span class="typ-punct">:</span> <span class="typ-str">"a4"</span><span class="typ-punct">,</span> flipped<span class="typ-punct">:</span> <span class="typ-key">true</span><span class="typ-punct">,</span> margin<span class="typ-punct">:</span> <span class="typ-num">1cm</span><span class="typ-punct">)</span>
+<span class="typ-key">#</span><span class="typ-key">set</span> <span class="typ-func">text</span><span class="typ-punct">(</span>font<span class="typ-punct">:</span> <span class="typ-str">"Arial"</span><span class="typ-punct">,</span> size<span class="typ-punct">:</span> <span class="typ-num">11pt</span><span class="typ-punct">)</span>
+
+<span class="typ-key">#</span><span class="typ-key">show</span><span class="typ-punct">:</span> cram-snap<span class="typ-punct">.</span><span class="typ-func">with</span><span class="typ-punct">(</span>
+  title<span class="typ-punct">:</span> <span class="typ-punct">[</span>Cheatsheet<span class="typ-punct">]</span><span class="typ-punct">,</span>
+  subtitle<span class="typ-punct">:</span> <span class="typ-punct">[</span>Cheatsheet for an amazing program<span class="typ-punct">]</span><span class="typ-punct">,</span>
+  icon<span class="typ-punct">:</span> <span class="typ-func">image</span><span class="typ-punct">(</span><span class="typ-str">"icon.png"</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+  column-number<span class="typ-punct">:</span> <span class="typ-num">3</span><span class="typ-punct">,</span>
+<span class="typ-punct">)</span>
+
+<span class="typ-comment">// Use it if you want different table columns (the default are: (2fr, 3fr))</span>
+<span class="typ-key">#</span><span class="typ-key">set</span> <span class="typ-func">table</span><span class="typ-punct">(</span>columns<span class="typ-punct">:</span> <span class="typ-punct">(</span><span class="typ-num">2fr</span><span class="typ-punct">,</span> <span class="typ-num">3fr</span><span class="typ-punct">,</span> <span class="typ-num">3fr</span><span class="typ-punct">)</span><span class="typ-punct">)</span>
+
+<span class="typ-func">#</span><span class="typ-func">table</span><span class="typ-punct">(</span>
+  <span class="typ-func">theader</span><span class="typ-punct">(</span>colspan<span class="typ-punct">:</span> <span class="typ-num">3</span><span class="typ-punct">)</span><span class="typ-punct">[</span>Great heading that is really looooong<span class="typ-punct">]</span><span class="typ-punct">,</span>
+  <span class="typ-punct">[</span>Closing the program<span class="typ-punct">]</span><span class="typ-punct">,</span> <span class="typ-punct">[</span>Type <span class="typ-raw">`:q`</span><span class="typ-punct">]</span><span class="typ-punct">,</span> <span class="typ-punct">[</span>You can also type <span class="typ-raw">`QQ`</span><span class="typ-punct">]</span>
+<span class="typ-punct">)</span>
+</code></code></pre>
+     </section>
+     <aside>
+      <a class="create-project-button desktop" href="/app?template=cram-snap&amp;version=0.2.1" rel="noopener noreferrer" target="_blank">
+       Create project in app
+      </a>
+      <section>
+       <h3>
+        How to use
+       </h3>
+       <p>
+        Click the button above to create a new project using this template in the Typst app.
+       </p>
+       <p>
+        You can also use the Typst CLI to start a new project on your computer using this command:
+       </p>
+       <div class="init-snippet">
+        <pre><code>typst init @preview/<!-- -->cram-snap<!-- -->:<!-- -->0.2.1</code></pre>
+        <button class="copy" title="Copy to clipboard">
+         <img alt="Copy" height="16" src="/assets/icons/16-copy.svg" width="16"/>
+        </button>
+       </div>
+      </section>
+      <section id="about">
+       <h3>
+        About
+       </h3>
+       <dl>
+        <dt>
+         Author
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         kamack38
+        </dd>
+        <dt>
+         License:
+        </dt>
+        <dd>
+         MIT
+        </dd>
+        <dt>
+         Current version:
+        </dt>
+        <dd>
+         0.2.1
+        </dd>
+        <dt>
+         Last updated:
+        </dt>
+        <dd>
+         October 25, 2024
+        </dd>
+        <dt>
+         First released:
+        </dt>
+        <dd>
+         May 13, 2024
+        </dd>
+        <dt>
+         Archive size:
+        </dt>
+        <dd class="archive-size-value">
+         3.79 kB
+         <a href="https://packages.typst.org/preview/cram-snap-0.2.1.tar.gz">
+          <img alt="Size icon" src="/assets/icons/16-download.svg"/>
+         </a>
+        </dd>
+        <dt>
+         Repository:
+        </dt>
+        <dd>
+         <a href="https://github.com/kamack38/cram-snap" rel="noopener noreferrer" target="_blank">
+          GitHub
+         </a>
+        </dd>
+        <dt>
+         Categor
+         <!-- -->
+         y
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         <ul class="list-with-icons">
+          <li>
+           <img alt="Flyer icon" src="/assets/icons/16-map.svg"/>
+           <a href="https://typst.app/universe/search/?category=flyer">
+            Flyer
+           </a>
+          </li>
+         </ul>
+        </dd>
+       </dl>
+      </section>
+      <section>
+       <h3>
+        Where to report issues?
+       </h3>
+       <p>
+        This
+        <!-- -->
+        template
+        <!-- -->
+        is a project of
+        <!-- -->
+        <!-- -->
+        kamack38
+        <!-- -->
+        .
+        <!-- -->
+        <!-- -->
+        Report issues on
+        <!-- -->
+        <a href="https://github.com/kamack38/cram-snap" rel="noopener noreferrer" target="_blank">
+         their repository
+        </a>
+        .
+        <!-- -->
+        <!-- -->
+        You can also try to ask for help with this
+        <!-- -->
+        template
+        <!-- -->
+        on the
+        <!-- -->
+        <a href="https://forum.typst.app" rel="noopener" target="_blank">
+         Forum
+        </a>
+        .
+       </p>
+       <p>
+        Please report this
+        <!-- -->
+        template
+        <!-- -->
+        to the Typst team using the
+        <!-- -->
+        <a href="https://typst.app/contact" rel="noreferrer" target="_blank">
+         contact form
+        </a>
+        <!-- -->
+        if you believe it is a safety hazard or infringes upon your rights.
+       </p>
+      </section>
+      <section id="versions">
+       <h3>
+        Version history
+       </h3>
+       <table>
+        <thead>
+         <tr>
+          <th align="left">
+           Version
+          </th>
+          <th align="left">
+           Release Date
+          </th>
+         </tr>
+        </thead>
+        <tbody>
+         <tr>
+          <td align="left">
+           0.2.1
+          </td>
+          <td align="left">
+           October 25, 2024
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/cram-snap/0.2.0/">
+            0.2.0
+           </a>
+          </td>
+          <td align="left">
+           October 15, 2024
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/cram-snap/0.1.0/">
+            0.1.0
+           </a>
+          </td>
+          <td align="left">
+           May 13, 2024
+          </td>
+         </tr>
+        </tbody>
+       </table>
+      </section>
+      <p class="bottom-notice muted">
+       Typst GmbH did not create this
+       <!-- -->
+       template
+       <!-- -->
+       and cannot guarantee correct functionality of this
+       <!-- -->
+       template
+       <!-- -->
+       or compatibility with any version of the Typst compiler or app.
+      </p>
+     </aside>
+    </div>
+   </main>

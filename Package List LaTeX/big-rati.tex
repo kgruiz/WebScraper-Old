@@ -1,0 +1,203 @@
+\title{typst.app/universe/package/big-rati}
+
+\phantomsection\label{banner}
+\section{big-rati}\label{big-rati}
+
+{ 0.1.0 }
+
+Utilities to work with big rational numbers in Typst
+
+\phantomsection\label{readme}
+\texttt{\ big-rati\ } is a package to work with rational numbers in
+Typst
+
+\subsection{Usage}\label{usage}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/big{-}rati:0.1.0"}
+
+\NormalTok{\#let a = 2      // 2/1}
+\NormalTok{\#let b = (1, 2) // 1/2}
+
+\NormalTok{\#let sum = big{-}rati.add(a, b) // 5/2}
+
+\NormalTok{\#let c = ("4", 6)}
+\NormalTok{\#let prod = big{-}rati.mul(c, sum) // 5/3}
+
+\NormalTok{$\#big{-}rati.repr(prod)$}
+\end{Highlighting}
+\end{Shaded}
+
+Functions, exported by the package are:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{// Converts \textasciigrave{}x\textasciigrave{} to bytes, representing the rational number,}
+\NormalTok{// that can be used in the functions below.}
+\NormalTok{// \textasciigrave{}x\textasciigrave{} might be an integer or a big integer string.}
+\NormalTok{// If \textasciigrave{}x\textasciigrave{} is an array of length two, which elements are integers}
+\NormalTok{// or big integer strings, then it is converted to the array of all}
+\NormalTok{// big integer strings, and then into the bytes representation.}
+\NormalTok{\#let rational(x)}
+
+\NormalTok{// Functions below work with "rational numbers", integers or big integer strings}
+
+\NormalTok{// Returns \textasciigrave{}a + b\textasciigrave{}}
+\NormalTok{\#let add(a, b)}
+
+\NormalTok{// Returns \textasciigrave{}a {-} b\textasciigrave{}}
+\NormalTok{\#let sub(a, b)}
+
+\NormalTok{// Returns \textasciigrave{}a / b\textasciigrave{}}
+\NormalTok{\#let div(a, b)}
+
+\NormalTok{// Returns \textasciigrave{}a * b\textasciigrave{}}
+\NormalTok{\#let mul(a, b)}
+
+\NormalTok{// Returns \textasciigrave{}a \% b\textasciigrave{}}
+\NormalTok{\#let rem(a, b)}
+
+\NormalTok{// Returns \textasciigrave{}|a {-} b|\textasciigrave{}}
+\NormalTok{\#let abs{-}diff(a, b)}
+
+\NormalTok{// Returns \textasciigrave{}{-}1\textasciigrave{} if \textasciigrave{}a \textless{} b\textasciigrave{}, \textasciigrave{}0\textasciigrave{} if \textasciigrave{}a == b\textasciigrave{}, \textasciigrave{}1\textasciigrave{} if \textasciigrave{}a \textgreater{} b\textasciigrave{}}
+\NormalTok{\#let cmp(a, b)}
+
+\NormalTok{// Returns \textasciigrave{}{-}x\textasciigrave{}}
+\NormalTok{\#let neg(x)}
+
+\NormalTok{// Returns \textasciigrave{}|x|\textasciigrave{}}
+\NormalTok{\#let abs(x)}
+
+\NormalTok{// Rounds towards plus infinity}
+\NormalTok{\#let ceil(x)}
+
+\NormalTok{// Rounds towards minus infinity}
+\NormalTok{\#let floor(x)}
+
+\NormalTok{// Rounds to the nearest integer. Rounds half{-}way cases away from zero.}
+\NormalTok{\#let round(x)}
+
+\NormalTok{// Rounds towards zero.}
+\NormalTok{\#let trunc(x)}
+
+\NormalTok{// Returns the fractional part of a number, with division rounded towards zero.}
+\NormalTok{// Satisfies \textasciigrave{}number == add(trunc(number), fract(number))\textasciigrave{}.}
+\NormalTok{\#let fract(number)}
+
+\NormalTok{// Returns the reciprocal.}
+\NormalTok{// Panics if the number is zero.}
+\NormalTok{\#let recip(x)}
+
+\NormalTok{// Returns \textasciigrave{}x\^{}y\textasciigrave{}. \textasciigrave{}y\textasciigrave{} must be an \textasciigrave{}int\textasciigrave{}, in range of \textasciigrave{}{-}2\^{}32\textasciigrave{} to \textasciigrave{}2\^{}32 {-} 1\textasciigrave{}}
+\NormalTok{\#let pow(x, y)}
+
+\NormalTok{// Restrict a value to a certain interval.}
+\NormalTok{//}
+\NormalTok{// Returns \textasciigrave{}max\textasciigrave{} if \textasciigrave{}number\textasciigrave{} is greater than \textasciigrave{}max\textasciigrave{},}
+\NormalTok{// and \textasciigrave{}min\textasciigrave{} if \textasciigrave{}number\textasciigrave{} is less than \textasciigrave{}min\textasciigrave{}.}
+\NormalTok{// Otherwise returns \textasciigrave{}number\textasciigrave{}.}
+\NormalTok{//}
+\NormalTok{// Returns error if \textasciigrave{}min\textasciigrave{} is greater than \textasciigrave{}max\textasciigrave{}.}
+\NormalTok{\#let clamp(number, min, max)}
+
+\NormalTok{// Compares and returns the minimum of two values.}
+\NormalTok{\#let min(a, b)}
+
+\NormalTok{// Compares and returns the maximum of two values.}
+\NormalTok{\#let max(a, b)}
+
+\NormalTok{// Returns a value of type \textasciigrave{}content\textasciigrave{}, representing the rational number.}
+\NormalTok{// If \textasciigrave{}is{-}mixed\textasciigrave{} is true, then the result is a mixed fraction,}
+\NormalTok{// otherwise, it is a simple fraction.}
+\NormalTok{\#let repr(x, is{-}mixed: true)}
+
+\NormalTok{// Returns a string, representing the rational number}
+\NormalTok{\#let to{-}decimal{-}str(x, precision: 8)}
+
+\NormalTok{// Returns a floating{-}point number, representing the rational number}
+\NormalTok{\#let to{-}float(x, precision: 8)}
+
+\NormalTok{// Returns a decimal number, representing the rational number}
+\NormalTok{\#let to{-}decimal(x, precision: 8)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as \texttt{\ big-rati\ }
+
+\begin{verbatim}
+#import "@preview/big-rati:0.1.0"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+Danik Vitek
+\item[License:]
+MIT
+\item[Current version:]
+0.1.0
+\item[Last updated:]
+October 29, 2024
+\item[First released:]
+October 29, 2024
+\item[Archive size:]
+33.9 kB
+\href{https://packages.typst.org/preview/big-rati-0.1.0.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/DanikVitek/typst-plugin-bigrational}{GitHub}
+\item[Discipline :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \href{https://typst.app/universe/search/?discipline=mathematics}{Mathematics}
+\end{itemize}
+\item[Categor y :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-code.svg}}
+  \href{https://typst.app/universe/search/?category=scripting}{Scripting}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of Danik Vitek . Report issues on
+\href{https://github.com/DanikVitek/typst-plugin-bigrational}{their
+repository} . You can also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.1.0 & October 29, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.

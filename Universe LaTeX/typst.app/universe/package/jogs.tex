@@ -1,0 +1,249 @@
+\title{typst.app/universe/package/jogs}
+
+\phantomsection\label{banner}
+\section{jogs}\label{jogs}
+
+{ 0.2.3 }
+
+QuickJS JavaScript runtime for Typst
+
+\phantomsection\label{readme}
+Quickjs javascript runtime for typst. This package provides a typst
+plugin for evaluating javascript code.
+
+\subsection{Example}\label{example}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/jogs:0.2.3": *}
+
+\NormalTok{\#set page(height: auto, width: auto, fill: black, margin: 1em)}
+\NormalTok{\#set text(fill: white)}
+
+\NormalTok{\#let code = \textasciigrave{}\textasciigrave{}\textasciigrave{}}
+\NormalTok{function sum() \{}
+\NormalTok{  const total = Array.prototype.slice.call(arguments).reduce(function(a, b) \{}
+\NormalTok{      return a + b;}
+\NormalTok{  \}, 0);}
+\NormalTok{  return total;}
+\NormalTok{\}}
+
+\NormalTok{function string\_join(arr) \{}
+\NormalTok{  return arr.join(" | ");}
+\NormalTok{\}}
+
+\NormalTok{function return\_complex\_obj() \{}
+\NormalTok{  return \{}
+\NormalTok{    a: 1,}
+\NormalTok{    b: "2",}
+\NormalTok{    c: [1, 2, 3],}
+\NormalTok{    d: \{}
+\NormalTok{      e: 1,}
+\NormalTok{    \},}
+\NormalTok{  \};}
+\NormalTok{\}}
+
+\NormalTok{\textasciigrave{}\textasciigrave{}\textasciigrave{}}
+\NormalTok{\#let bytecode = compile{-}js(code)}
+
+\NormalTok{\#list{-}global{-}property(bytecode)}
+
+\NormalTok{\#call{-}js{-}function(bytecode, "sum", 6, 7, 8, 9, 10)}
+
+\NormalTok{\#call{-}js{-}function(bytecode, "string\_join", ("a", "b", "c", "d", "e"),)}
+
+\NormalTok{\#call{-}js{-}function(bytecode, "return\_complex\_obj",)}
+
+\end{Highlighting}
+\end{Shaded}
+
+result:
+
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/jogs/0.2.3/typst-package/examples/fib.svg}}
+
+\subsection{Documentation}\label{documentation}
+
+This package provide following function(s):
+
+\subsubsection{\texorpdfstring{\texttt{\ eval-js\ }}{ eval-js }}\label{eval-js}
+
+Run a Javascript code snippet.
+
+\paragraph{Arguments}\label{arguments}
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ code\ } - The Javascript code to run. It can be a string or
+  a raw block.
+\end{itemize}
+
+\paragraph{Returns}\label{returns}
+
+The result of the Javascript code. The type is the typst type which most
+closely resembles the Javascript type.
+
+\paragraph{Example}\label{example-1}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let result = eval{-}js("1 + 1")}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{\texorpdfstring{\texttt{\ compile-js\ }}{ compile-js }}\label{compile-js}
+
+Compile a Javascript code snippet into bytecode.
+
+\paragraph{Arguments}\label{arguments-1}
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ code\ } - The Javascript code to compile. It can be a string
+  or a raw block.
+\end{itemize}
+
+\paragraph{Returns}\label{returns-1}
+
+The bytecode of the Javascript code. The type is \texttt{\ bytes\ } .
+
+\paragraph{Example}\label{example-2}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let bytecode = compile{-}js("function sum(a, b) \{ return a + b; \}")}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{\texorpdfstring{\texttt{\ call-js-function\ }}{ call-js-function }}\label{call-js-function}
+
+Call a Javascript function with arguments.
+
+\paragraph{Arguments}\label{arguments-2}
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ bytecode\ } - The bytecode of the Javascript function. It
+  can be obtained by calling \texttt{\ compile-js\ } .
+\item
+  \texttt{\ name\ } - The name of the Javascript function.
+\item
+  \texttt{\ ..args\ } - The arguments to pass to the Javascript
+  function. All other positional arguments are passed to the Javascript
+  function as is.
+\end{itemize}
+
+\paragraph{Returns}\label{returns-2}
+
+The result of the Javascript function. The type is the typst type which
+most closely resembles the Javascript type.
+
+\paragraph{Example}\label{example-3}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let bytecode = compile{-}js("function sum(a, b) \{ return a + b; \}")}
+\NormalTok{\#let result = call{-}js{-}function(bytecode, "sum", 1, 2)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{\texorpdfstring{\texttt{\ list-global-property\ }}{ list-global-property }}\label{list-global-property}
+
+List all global properties of a compiled Javascript bytecode. This is
+useful for inspecting the compiled Javascript bytecode.
+
+\paragraph{Arguments}\label{arguments-3}
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ bytecode\ } - The bytecode of the Javascript function. It
+  can be obtained by calling \texttt{\ compile-js\ } .
+\end{itemize}
+
+\paragraph{Returns}\label{returns-3}
+
+A list of all global properties of the Javascript bytecode. The type is
+\texttt{\ array\ } .
+
+\paragraph{Example}\label{example-4}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let bytecode = compile{-}js("function sum(a, b) \{ return a + b; \}")}
+\NormalTok{\#let result = list{-}global{-}property(bytecode)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as \texttt{\ jogs\ }
+
+\begin{verbatim}
+#import "@preview/jogs:0.2.3"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+Wenzhuo Liu
+\item[License:]
+MIT
+\item[Current version:]
+0.2.3
+\item[Last updated:]
+February 1, 2024
+\item[First released:]
+November 6, 2023
+\item[Archive size:]
+354 kB
+\href{https://packages.typst.org/preview/jogs-0.2.3.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/Enter-tainer/jogs}{GitHub}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of Wenzhuo Liu . Report issues on
+\href{https://github.com/Enter-tainer/jogs}{their repository} . You can
+also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.2.3 & February 1, 2024 \\
+\href{https://typst.app/universe/package/jogs/0.2.2/}{0.2.2} & January
+15, 2024 \\
+\href{https://typst.app/universe/package/jogs/0.2.1/}{0.2.1} & November
+29, 2023 \\
+\href{https://typst.app/universe/package/jogs/0.2.0/}{0.2.0} & November
+7, 2023 \\
+\href{https://typst.app/universe/package/jogs/0.1.0/}{0.1.0} & November
+6, 2023 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.

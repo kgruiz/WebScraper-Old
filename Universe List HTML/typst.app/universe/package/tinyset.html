@@ -1,0 +1,317 @@
+<main>
+    <div id="banner" style="--banner-accent:#000000;--banner-primary:#000000;--banner-secondary:#000000;--banner-tertiary:#565565;--banner-background:#eff0f3">
+     <div class="package-icon" role="img">
+     </div>
+     <div>
+      <div class="title">
+       <h1 class="name">
+        tinyset
+       </h1>
+       <span class="version">
+        0.1.0
+       </span>
+      </div>
+      <p class="description">
+       Simple, consistent, and appealing math homework template
+      </p>
+     </div>
+    </div>
+    <div class="inner-grid">
+     <section id="readme">
+      <p>
+       Extremely simple
+       <a href="https://github.com/typst/typst" rel="nofollow ugc" target="_blank">
+        typst
+       </a>
+       package for writing math problem sets quickly and consistently. Under the hood it is just typst fundamentals that could be defined by hand, however the aim of this package is to make you faster and the code easier to read.
+      </p>
+      <h2>
+       Usage
+      </h2>
+      <p>
+       Import styles and create a new header. I like to copy this from the top of the previous weekâs homework (donât forget to increment the number!).
+      </p>
+      <p>
+       Example using proof, question, and part environments. Indentation in source code is largely ignored and left to personal preference. By default questions are numbered and each part is lettered, you can change this based on course / instructor preference.
+      </p>
+      <pre><code class="language-typ"><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/tinyset:0.1.0"</span><span class="typ-punct">:</span> <span class="typ-op">*</span>
+<span class="typ-func">#</span><span class="typ-func">header</span><span class="typ-punct">(</span>number<span class="typ-punct">:</span> <span class="typ-num">7</span><span class="typ-punct">,</span> name<span class="typ-punct">:</span> <span class="typ-str">"Sylvan Franklin"</span><span class="typ-punct">,</span> class<span class="typ-punct">:</span> <span class="typ-str">"Math 3551 - Fall 2024"</span><span class="typ-punct">)</span>
+
+<span class="typ-marker">+</span> <span class="typ-func">#</span><span class="typ-func">qs</span><span class="typ-punct">[</span>
+Let <span class="typ-math-delim">$</span>G<span class="typ-math-op">_</span>1<span class="typ-math-delim">$</span> and <span class="typ-math-delim">$</span>G<span class="typ-math-op">_</span>2<span class="typ-math-delim">$</span> be groups, <span class="typ-math-delim">$</span><span class="typ-pol">phi</span> : G<span class="typ-math-op">_</span>1 <span class="typ-escape">-&gt;</span> G<span class="typ-math-op">_</span>2<span class="typ-math-delim">$</span> be a homomorphism, and <span class="typ-math-delim">$</span>H<span class="typ-math-delim">$</span> be
+any subgroup of <span class="typ-math-delim">$</span>G<span class="typ-math-op">_</span>2<span class="typ-math-delim">$</span>. Define
+
+<span class="typ-math-delim">$</span> <span class="typ-pol">phi</span><span class="typ-math-op">^</span><span class="typ-punct">(</span><span class="typ-escape">-</span>1<span class="typ-punct">)</span>(H) = {g <span class="typ-pol">in</span> G<span class="typ-math-op">_</span>1 : <span class="typ-func">phi</span><span class="typ-punct">(</span>g<span class="typ-punct">)</span> <span class="typ-pol">in</span> H}. <span class="typ-math-delim">$</span>
+
+<span class="typ-marker">+</span> <span class="typ-func">#</span><span class="typ-func">pt</span><span class="typ-punct">[</span> 
+    Prove that <span class="typ-math-delim">$</span><span class="typ-pol">phi</span><span class="typ-math-op">^</span><span class="typ-punct">(</span><span class="typ-escape">-</span>1<span class="typ-punct">)</span>(H)<span class="typ-math-delim">$</span> is a subgroup of <span class="typ-math-delim">$</span>G<span class="typ-math-op">_</span>1<span class="typ-math-delim">$</span>.
+    <span class="typ-func">#</span><span class="typ-func">prf</span><span class="typ-punct">[</span> Non empty: Since <span class="typ-math-delim">$</span>H<span class="typ-math-delim">$</span> is a subgroup it contains the indentity, and
+    since <span class="typ-math-delim">$</span><span class="typ-pol">phi</span><span class="typ-math-delim">$</span> is a homomorphism and <span class="typ-escape">...</span> <span class="typ-punct">]</span>
+<span class="typ-punct">]</span>
+
+<span class="typ-marker">+</span> <span class="typ-func">#</span><span class="typ-func">pt</span><span class="typ-punct">[</span> 
+    What about a question that you don't need a proof for?
+    <span class="typ-func">#</span><span class="typ-func">ans</span><span class="typ-punct">[</span>Use the ans environment<span class="typ-punct">]</span>
+<span class="typ-punct">]</span>
+
+<span class="typ-punct">]</span>
+
+</code></code></pre>
+      <h2>
+       Custom shorthand
+      </h2>
+      <p>
+       Sometimes when thinking about math I find it easier to phonetically write out these symbols instead of using the built in typst classes. For certain others I find the original symbols annoying to type quickly.
+      </p>
+      <table>
+       <thead>
+        <tr>
+         <th>
+          shorthand
+         </th>
+         <th>
+          expansion
+         </th>
+        </tr>
+       </thead>
+       <tbody>
+        <tr>
+         <td>
+          implies / impl
+         </td>
+         <td>
+          ==&gt;
+         </td>
+        </tr>
+        <tr>
+         <td>
+          iff
+         </td>
+         <td>
+          &lt;==&gt;
+         </td>
+        </tr>
+        <tr>
+         <td>
+          wlog
+         </td>
+         <td>
+          without loss of generality
+         </td>
+        </tr>
+        <tr>
+         <td>
+          inv()
+         </td>
+         <td>
+          ()^(-1)
+         </td>
+        </tr>
+       </tbody>
+      </table>
+     </section>
+     <aside>
+      <section>
+       <h3>
+        How to add
+       </h3>
+       <p>
+        Copy this into your project and use the import as
+        <!-- -->
+        <code>
+         tinyset
+        </code>
+       </p>
+       <div class="import-snippet">
+        <pre><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/tinyset:0.1.0"</span></code></pre>
+        <button class="copy" title="Copy to clipboard">
+         <img alt="Copy" height="16" src="/assets/icons/16-copy.svg" width="16"/>
+        </button>
+       </div>
+       <p class="muted">
+        Check the docs for
+        <!-- -->
+        <a href="https://typst.app/docs/reference/scripting/#packages">
+         more information on how to import packages
+        </a>
+        .
+       </p>
+      </section>
+      <section id="about">
+       <h3>
+        About
+       </h3>
+       <dl>
+        <dt>
+         Author
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         Sylvan Franklin
+        </dd>
+        <dt>
+         License:
+        </dt>
+        <dd>
+         MIT
+        </dd>
+        <dt>
+         Current version:
+        </dt>
+        <dd>
+         0.1.0
+        </dd>
+        <dt>
+         Last updated:
+        </dt>
+        <dd>
+         November 6, 2024
+        </dd>
+        <dt>
+         First released:
+        </dt>
+        <dd>
+         November 6, 2024
+        </dd>
+        <dt>
+         Archive size:
+        </dt>
+        <dd class="archive-size-value">
+         2.28 kB
+         <a href="https://packages.typst.org/preview/tinyset-0.1.0.tar.gz">
+          <img alt="Size icon" src="/assets/icons/16-download.svg"/>
+         </a>
+        </dd>
+        <dt>
+         Repository:
+        </dt>
+        <dd>
+         <a href="https://github.com/sylvanfranklin/tinyset" rel="noopener noreferrer" target="_blank">
+          GitHub
+         </a>
+        </dd>
+        <dt>
+         Discipline
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         <ul class="list-without-icons">
+          <li>
+           <a href="https://typst.app/universe/search/?discipline=mathematics">
+            Mathematics
+           </a>
+          </li>
+         </ul>
+        </dd>
+        <dt>
+         Categor
+         <!-- -->
+         y
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         <ul class="list-with-icons">
+          <li>
+           <img alt="Layout icon" src="/assets/icons/16-layout.svg"/>
+           <a href="https://typst.app/universe/search/?category=layout">
+            Layout
+           </a>
+          </li>
+         </ul>
+        </dd>
+       </dl>
+      </section>
+      <section>
+       <h3>
+        Where to report issues?
+       </h3>
+       <p>
+        This
+        <!-- -->
+        package
+        <!-- -->
+        is a project of
+        <!-- -->
+        <!-- -->
+        Sylvan Franklin
+        <!-- -->
+        .
+        <!-- -->
+        <!-- -->
+        Report issues on
+        <!-- -->
+        <a href="https://github.com/sylvanfranklin/tinyset" rel="noopener noreferrer" target="_blank">
+         their repository
+        </a>
+        .
+        <!-- -->
+        <!-- -->
+        You can also try to ask for help with this
+        <!-- -->
+        package
+        <!-- -->
+        on the
+        <!-- -->
+        <a href="https://forum.typst.app" rel="noopener" target="_blank">
+         Forum
+        </a>
+        .
+       </p>
+       <p>
+        Please report this
+        <!-- -->
+        package
+        <!-- -->
+        to the Typst team using the
+        <!-- -->
+        <a href="https://typst.app/contact" rel="noreferrer" target="_blank">
+         contact form
+        </a>
+        <!-- -->
+        if you believe it is a safety hazard or infringes upon your rights.
+       </p>
+      </section>
+      <section id="versions">
+       <h3>
+        Version history
+       </h3>
+       <table>
+        <thead>
+         <tr>
+          <th align="left">
+           Version
+          </th>
+          <th align="left">
+           Release Date
+          </th>
+         </tr>
+        </thead>
+        <tbody>
+         <tr>
+          <td align="left">
+           0.1.0
+          </td>
+          <td align="left">
+           November 6, 2024
+          </td>
+         </tr>
+        </tbody>
+       </table>
+      </section>
+      <p class="bottom-notice muted">
+       Typst GmbH did not create this
+       <!-- -->
+       package
+       <!-- -->
+       and cannot guarantee correct functionality of this
+       <!-- -->
+       package
+       <!-- -->
+       or compatibility with any version of the Typst compiler or app.
+      </p>
+     </aside>
+    </div>
+   </main>

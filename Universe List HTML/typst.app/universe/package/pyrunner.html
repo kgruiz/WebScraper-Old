@@ -1,0 +1,433 @@
+<main>
+    <div id="banner" style="--banner-accent:#000000;--banner-primary:#000000;--banner-secondary:#000000;--banner-tertiary:#565565;--banner-background:#eff0f3">
+     <div class="package-icon" role="img">
+     </div>
+     <div>
+      <div class="title">
+       <h1 class="name">
+        pyrunner
+       </h1>
+       <span class="version">
+        0.2.0
+       </span>
+      </div>
+      <p class="description">
+       Run python code in typst.
+      </p>
+     </div>
+    </div>
+    <div class="inner-grid">
+     <section id="readme">
+      <p>
+       Run python code in
+       <a href="https://typst.app/" rel="nofollow ugc" target="_blank">
+        typst
+       </a>
+       using
+       <a href="https://github.com/RustPython/RustPython" rel="nofollow ugc" target="_blank">
+        RustPython
+       </a>
+       .
+      </p>
+      <pre><code class="language-typst"><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/pyrunner:0.1.0"</span> <span class="typ-key">as</span> py
+
+<span class="typ-key">#</span><span class="typ-key">let</span> compiled <span class="typ-op">=</span> py<span class="typ-punct">.</span><span class="typ-func">compile</span><span class="typ-punct">(</span>
+<span class="typ-raw">```python
+def find_emails(string):
+    import re
+    return re.findall(r"\b[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}\b", string)
+
+def sum_all(*array):
+    return sum(array)
+```</span><span class="typ-punct">)</span>
+
+<span class="typ-key">#</span><span class="typ-key">let</span> txt <span class="typ-op">=</span> <span class="typ-str">"My email address is john.doe@example.com and my friend's email address is jane.doe@example.net."</span>
+
+<span class="typ-pol">#</span><span class="typ-pol">py</span><span class="typ-punct">.</span><span class="typ-func">call</span><span class="typ-punct">(</span>compiled<span class="typ-punct">,</span> <span class="typ-str">"find_emails"</span><span class="typ-punct">,</span> txt<span class="typ-punct">)</span>
+<span class="typ-pol">#</span><span class="typ-pol">py</span><span class="typ-punct">.</span><span class="typ-func">call</span><span class="typ-punct">(</span>compiled<span class="typ-punct">,</span> <span class="typ-str">"sum_all"</span><span class="typ-punct">,</span> <span class="typ-num">1</span><span class="typ-punct">,</span> <span class="typ-num">2</span><span class="typ-punct">,</span> <span class="typ-num">3</span><span class="typ-punct">)</span>
+</code></code></pre>
+      <p>
+       Block mode is also available.
+      </p>
+      <pre><code class="language-typst"><code><span class="typ-key">#</span><span class="typ-key">let</span> code <span class="typ-op">=</span> <span class="typ-raw">```
+f'{a+b=}'
+```</span>
+
+<span class="typ-pol">#</span><span class="typ-pol">py</span><span class="typ-punct">.</span><span class="typ-func">block</span><span class="typ-punct">(</span>code<span class="typ-punct">,</span> globals<span class="typ-punct">:</span> <span class="typ-punct">(</span>a<span class="typ-punct">:</span> <span class="typ-num">1</span><span class="typ-punct">,</span> b<span class="typ-punct">:</span> <span class="typ-num">2</span><span class="typ-punct">)</span><span class="typ-punct">)</span>
+
+<span class="typ-pol">#</span><span class="typ-pol">py</span><span class="typ-punct">.</span><span class="typ-func">block</span><span class="typ-punct">(</span>code<span class="typ-punct">,</span> globals<span class="typ-punct">:</span> <span class="typ-punct">(</span>a<span class="typ-punct">:</span> <span class="typ-str">"1"</span><span class="typ-punct">,</span> b<span class="typ-punct">:</span> <span class="typ-str">"2"</span><span class="typ-punct">)</span><span class="typ-punct">)</span>
+</code></code></pre>
+      <p>
+       The result will be
+       <code>
+        a+b=3
+       </code>
+       and
+       <code>
+        a+b='12'
+       </code>
+       .
+      </p>
+      <h2>
+       Current limitations
+      </h2>
+      <p>
+       Due to restrictions of typst and its plugin system, some Python function will not work as expected:
+      </p>
+      <ul>
+       <li>
+        File and network IO will always raise an exception.
+       </li>
+       <li>
+        <code>
+         datatime.now
+        </code>
+        will always return 1970-01-01.
+       </li>
+      </ul>
+      <p>
+       Also, there is no way to import third-party modules. Only bundled stdlib modules are available. We might find a way to lift this restriction, so feel free to submit an issue if you want this functionality.
+      </p>
+      <h2>
+       API
+      </h2>
+      <h3>
+       <code>
+        block
+       </code>
+      </h3>
+      <p>
+       Run Python code block and get its result.
+      </p>
+      <h4>
+       Arguments
+      </h4>
+      <ul>
+       <li>
+        <code>
+         code
+        </code>
+        : string | raw content - The Python code to run.
+       </li>
+       <li>
+        <code>
+         globals
+        </code>
+        : dict (named optional) - The global variables to bring into scope.
+       </li>
+      </ul>
+      <h4>
+       Returns
+      </h4>
+      <p>
+       The last expression of the code block.
+      </p>
+      <h3>
+       <code>
+        compile
+       </code>
+      </h3>
+      <p>
+       Compile Python code to bytecode.
+      </p>
+      <h4>
+       Arguments
+      </h4>
+      <ul>
+       <li>
+        <code>
+         code
+        </code>
+        : string | raw content - The Python code to compile.
+       </li>
+      </ul>
+      <h4>
+       Returns
+      </h4>
+      <p>
+       The bytecode representation in
+       <code>
+        bytes
+       </code>
+       .
+      </p>
+      <h3>
+       <code>
+        call
+       </code>
+      </h3>
+      <p>
+       Call a python function with arguments.
+      </p>
+      <h4>
+       Arguments
+      </h4>
+      <ul>
+       <li>
+        <code>
+         compiled
+        </code>
+        : bytes - The bytecode representation of Python code.
+       </li>
+       <li>
+        <code>
+         fn_name
+        </code>
+        : string - The name of the function to be called.
+       </li>
+       <li>
+        <code>
+         ..args
+        </code>
+        : any - The arguments to pass to the function.
+       </li>
+      </ul>
+      <h4>
+       Returns
+      </h4>
+      <p>
+       The result of the function call.
+      </p>
+      <h2>
+       Build from source
+      </h2>
+      <p>
+       Install
+       <a href="https://github.com/astrale-sharp/wasm-minimal-protocol" rel="nofollow ugc" target="_blank">
+        <code>
+         wasi-stub
+        </code>
+       </a>
+       . You should use a slightly modified one. See
+       <a href="https://github.com/astrale-sharp/wasm-minimal-protocol/issues/22#issuecomment-1827379467" rel="nofollow ugc" target="_blank">
+        the related issue
+       </a>
+       .
+      </p>
+      <p>
+       Build pyrunner.
+      </p>
+      <pre><code>rustup target add wasm32-wasi
+cargo build --target wasm32-wasi
+make pkg/typst-pyrunner.wasm
+</code></pre>
+      <p>
+       Add to local package.
+      </p>
+      <pre><code>mkdir -p ~/.local/share/typst/packages/local/pyrunner/0.0.1
+cp pkg/* ~/.local/share/typst/packages/local/pyrunner/0.0.1
+</code></pre>
+     </section>
+     <aside>
+      <section>
+       <h3>
+        How to add
+       </h3>
+       <p>
+        Copy this into your project and use the import as
+        <!-- -->
+        <code>
+         pyrunner
+        </code>
+       </p>
+       <div class="import-snippet">
+        <pre><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/pyrunner:0.2.0"</span></code></pre>
+        <button class="copy" title="Copy to clipboard">
+         <img alt="Copy" height="16" src="/assets/icons/16-copy.svg" width="16"/>
+        </button>
+       </div>
+       <p class="muted">
+        Check the docs for
+        <!-- -->
+        <a href="https://typst.app/docs/reference/scripting/#packages">
+         more information on how to import packages
+        </a>
+        .
+       </p>
+      </section>
+      <section id="about">
+       <h3>
+        About
+       </h3>
+       <dl>
+        <dt>
+         Author
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         Peng Guanwen
+        </dd>
+        <dt>
+         License:
+        </dt>
+        <dd>
+         MIT
+        </dd>
+        <dt>
+         Current version:
+        </dt>
+        <dd>
+         0.2.0
+        </dd>
+        <dt>
+         Last updated:
+        </dt>
+        <dd>
+         March 18, 2024
+        </dd>
+        <dt>
+         First released:
+        </dt>
+        <dd>
+         December 4, 2023
+        </dd>
+        <dt>
+         Minimum Typst version:
+        </dt>
+        <dd>
+         0.10.0
+        </dd>
+        <dt>
+         Archive size:
+        </dt>
+        <dd class="archive-size-value">
+         5.89 MB
+         <a href="https://packages.typst.org/preview/pyrunner-0.2.0.tar.gz">
+          <img alt="Size icon" src="/assets/icons/16-download.svg"/>
+         </a>
+        </dd>
+        <dt>
+         Repository:
+        </dt>
+        <dd>
+         <a href="https://github.com/peng1999/typst-pyrunner" rel="noopener noreferrer" target="_blank">
+          GitHub
+         </a>
+        </dd>
+        <dt>
+         Categor
+         <!-- -->
+         ies
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         <ul class="list-with-icons">
+          <li>
+           <img alt="Scripting icon" src="/assets/icons/16-code.svg"/>
+           <a href="https://typst.app/universe/search/?category=scripting">
+            Scripting
+           </a>
+          </li>
+          <li>
+           <img alt="Integration icon" src="/assets/icons/16-integration.svg"/>
+           <a href="https://typst.app/universe/search/?category=integration">
+            Integration
+           </a>
+          </li>
+         </ul>
+        </dd>
+       </dl>
+      </section>
+      <section>
+       <h3>
+        Where to report issues?
+       </h3>
+       <p>
+        This
+        <!-- -->
+        package
+        <!-- -->
+        is a project of
+        <!-- -->
+        <!-- -->
+        Peng Guanwen
+        <!-- -->
+        .
+        <!-- -->
+        <!-- -->
+        Report issues on
+        <!-- -->
+        <a href="https://github.com/peng1999/typst-pyrunner" rel="noopener noreferrer" target="_blank">
+         their repository
+        </a>
+        .
+        <!-- -->
+        <!-- -->
+        You can also try to ask for help with this
+        <!-- -->
+        package
+        <!-- -->
+        on the
+        <!-- -->
+        <a href="https://forum.typst.app" rel="noopener" target="_blank">
+         Forum
+        </a>
+        .
+       </p>
+       <p>
+        Please report this
+        <!-- -->
+        package
+        <!-- -->
+        to the Typst team using the
+        <!-- -->
+        <a href="https://typst.app/contact" rel="noreferrer" target="_blank">
+         contact form
+        </a>
+        <!-- -->
+        if you believe it is a safety hazard or infringes upon your rights.
+       </p>
+      </section>
+      <section id="versions">
+       <h3>
+        Version history
+       </h3>
+       <table>
+        <thead>
+         <tr>
+          <th align="left">
+           Version
+          </th>
+          <th align="left">
+           Release Date
+          </th>
+         </tr>
+        </thead>
+        <tbody>
+         <tr>
+          <td align="left">
+           0.2.0
+          </td>
+          <td align="left">
+           March 18, 2024
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/pyrunner/0.1.0/">
+            0.1.0
+           </a>
+          </td>
+          <td align="left">
+           December 4, 2023
+          </td>
+         </tr>
+        </tbody>
+       </table>
+      </section>
+      <p class="bottom-notice muted">
+       Typst GmbH did not create this
+       <!-- -->
+       package
+       <!-- -->
+       and cannot guarantee correct functionality of this
+       <!-- -->
+       package
+       <!-- -->
+       or compatibility with any version of the Typst compiler or app.
+      </p>
+     </aside>
+    </div>
+   </main>

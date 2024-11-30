@@ -1,0 +1,353 @@
+<main>
+    <div id="banner" style="--banner-accent:#000000;--banner-primary:#000000;--banner-secondary:#000000;--banner-tertiary:#565565;--banner-background:#eff0f3">
+     <div class="package-icon" role="img">
+     </div>
+     <div>
+      <div class="title">
+       <h1 class="name">
+        numberingx
+       </h1>
+       <span class="version">
+        0.0.1
+       </span>
+      </div>
+      <p class="description">
+       Extended numbering patterns using the CSS Counter Styles spec
+      </p>
+     </div>
+    </div>
+    <div class="inner-grid">
+     <section id="readme">
+      <p>
+       <em>
+        Extended numbering patterns using the
+        <a href="https://www.w3.org/TR/css-counter-styles-3/" rel="nofollow ugc" target="_blank">
+         CSS Counter Styles
+        </a>
+        specification, along with a number of
+        <a href="https://www.w3.org/TR/predefined-counter-styles/" rel="nofollow ugc" target="_blank">
+         Ready-made Counter Styles
+        </a>
+        .
+       </em>
+      </p>
+      <h2>
+       Usage
+      </h2>
+      <pre><code class="language-ts">// numberingx is expected to be imported with the syntax creating a named module
+#import "@preview/numberingx:0.0.1"
+
+// Use full-width roman numerals for titles, and lowercase ukrainian letters
+#set heading(numbering: numberingx.formatter(
+  "{fullwidth-upper-roman}.{fullwidth-lower-roman}.{lower-ukrainian}"
+))
+</code></pre>
+      <h3>
+       Patterns
+      </h3>
+      <p>
+       numberingxâs patterns are similiar to typstâs
+       <a href="https://typst.app/docs/reference/meta/numbering/">
+        numbering patterns
+       </a>
+       and use the same notion of fragments with a prefix and a final suffix. The main difference is that it doesnât use special characters and all numbering styles must be written within braces. To insert a literal brace, you can double it.
+      </p>
+      <p>
+       A list of patterns can be found in the
+       <a href="https://www.w3.org/TR/predefined-counter-styles/" rel="nofollow ugc" target="_blank">
+        Ready-made Counter Styles
+       </a>
+       document. Additionally, numberingx allows typstâs numbering characters to be used in patterns. This way,
+       <code>
+        "{upper-roman}.{decimal})"
+       </code>
+       can be shortened to
+       <code>
+        "{I}.{1})"
+       </code>
+       .
+      </p>
+      <h3>
+       API
+      </h3>
+      <p>
+       numberingx exposes two functions,
+       <code>
+        format
+       </code>
+       and
+       <code>
+        formatter
+       </code>
+       .
+      </p>
+      <h4>
+       <code>
+        format(fmt, styles: (:), ..nums)
+       </code>
+      </h4>
+      <p>
+       This function uses the same api as typstâs
+       <code>
+        numbering()
+       </code>
+       and takes the pattern string as its first positional argument, and numbers as trailing arguments. An optional
+       <code>
+        styles
+       </code>
+       argument allows for
+       <a href="https://github.com/typst/packages/raw/main/packages/preview/numberingx/0.0.1/#user-defined-styles" rel="nofollow ugc" target="_blank">
+        user-defined styles
+       </a>
+       .
+      </p>
+      <h4>
+       <code>
+        formatter(fmt, styles: (:))
+       </code>
+      </h4>
+      <p>
+       This function is little more than a shorter version of
+       <code>
+        format.with(..)
+       </code>
+       . It takes a pattern string and an optional
+       <code>
+        styles
+       </code>
+       argument, and return the matching numbering functions. This is mainly intended to be used for
+       <code>
+        #set
+       </code>
+       rules.
+      </p>
+      <h2>
+       User-defined styles
+      </h2>
+      <p>
+       Custom styles can be defined according to the
+       <a href="https://www.w3.org/TR/css-counter-styles-3/" rel="nofollow ugc" target="_blank">
+        CSS Counter Styles
+       </a>
+       spec and passed through a
+       <code>
+        styles
+       </code>
+       named argument to
+       <code>
+        format
+       </code>
+       and
+       <code>
+        formatter
+       </code>
+       . It must be a dictionary mapping style names to style descriptions.
+      </p>
+      <p>
+       Note that the
+       <code>
+        prefix
+       </code>
+       ,
+       <code>
+        suffix
+       </code>
+       ,
+       <code>
+        pad
+       </code>
+       , and
+       <code>
+        speak-as
+       </code>
+       descriptors are not supported, nor is the
+       <code>
+        extends
+       </code>
+       system.
+      </p>
+      <h2>
+       License
+      </h2>
+      <p>
+       This repository is licensed under
+       <a href="https://spdx.org/licenses/MIT-0.html" rel="nofollow ugc" target="_blank">
+        MIT-0
+       </a>
+       , which is the closest Iâm legally allowed to public domain while being OSI approved.
+      </p>
+     </section>
+     <aside>
+      <section>
+       <h3>
+        How to add
+       </h3>
+       <p>
+        Copy this into your project and use the import as
+        <!-- -->
+        <code>
+         numberingx
+        </code>
+       </p>
+       <div class="import-snippet">
+        <pre><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/numberingx:0.0.1"</span></code></pre>
+        <button class="copy" title="Copy to clipboard">
+         <img alt="Copy" height="16" src="/assets/icons/16-copy.svg" width="16"/>
+        </button>
+       </div>
+       <p class="muted">
+        Check the docs for
+        <!-- -->
+        <a href="https://typst.app/docs/reference/scripting/#packages">
+         more information on how to import packages
+        </a>
+        .
+       </p>
+      </section>
+      <section id="about">
+       <h3>
+        About
+       </h3>
+       <dl>
+        <dt>
+         Author
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         Edhebi
+        </dd>
+        <dt>
+         License:
+        </dt>
+        <dd>
+         MIT-0
+        </dd>
+        <dt>
+         Current version:
+        </dt>
+        <dd>
+         0.0.1
+        </dd>
+        <dt>
+         Last updated:
+        </dt>
+        <dd>
+         July 21, 2023
+        </dd>
+        <dt>
+         First released:
+        </dt>
+        <dd>
+         July 21, 2023
+        </dd>
+        <dt>
+         Archive size:
+        </dt>
+        <dd class="archive-size-value">
+         13.9 kB
+         <a href="https://packages.typst.org/preview/numberingx-0.0.1.tar.gz">
+          <img alt="Size icon" src="/assets/icons/16-download.svg"/>
+         </a>
+        </dd>
+        <dt>
+         Repository:
+        </dt>
+        <dd>
+         <a href="https://github.com/edhebi/numberingx" rel="noopener noreferrer" target="_blank">
+          GitHub
+         </a>
+        </dd>
+       </dl>
+      </section>
+      <section>
+       <h3>
+        Where to report issues?
+       </h3>
+       <p>
+        This
+        <!-- -->
+        package
+        <!-- -->
+        is a project of
+        <!-- -->
+        <!-- -->
+        Edhebi
+        <!-- -->
+        .
+        <!-- -->
+        <!-- -->
+        Report issues on
+        <!-- -->
+        <a href="https://github.com/edhebi/numberingx" rel="noopener noreferrer" target="_blank">
+         their repository
+        </a>
+        .
+        <!-- -->
+        <!-- -->
+        You can also try to ask for help with this
+        <!-- -->
+        package
+        <!-- -->
+        on the
+        <!-- -->
+        <a href="https://forum.typst.app" rel="noopener" target="_blank">
+         Forum
+        </a>
+        .
+       </p>
+       <p>
+        Please report this
+        <!-- -->
+        package
+        <!-- -->
+        to the Typst team using the
+        <!-- -->
+        <a href="https://typst.app/contact" rel="noreferrer" target="_blank">
+         contact form
+        </a>
+        <!-- -->
+        if you believe it is a safety hazard or infringes upon your rights.
+       </p>
+      </section>
+      <section id="versions">
+       <h3>
+        Version history
+       </h3>
+       <table>
+        <thead>
+         <tr>
+          <th align="left">
+           Version
+          </th>
+          <th align="left">
+           Release Date
+          </th>
+         </tr>
+        </thead>
+        <tbody>
+         <tr>
+          <td align="left">
+           0.0.1
+          </td>
+          <td align="left">
+           July 21, 2023
+          </td>
+         </tr>
+        </tbody>
+       </table>
+      </section>
+      <p class="bottom-notice muted">
+       Typst GmbH did not create this
+       <!-- -->
+       package
+       <!-- -->
+       and cannot guarantee correct functionality of this
+       <!-- -->
+       package
+       <!-- -->
+       or compatibility with any version of the Typst compiler or app.
+      </p>
+     </aside>
+    </div>
+   </main>

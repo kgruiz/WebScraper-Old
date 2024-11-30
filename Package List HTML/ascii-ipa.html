@@ -1,0 +1,537 @@
+<main>
+    <div id="banner" style="--banner-accent:#000000;--banner-primary:#000000;--banner-secondary:#000000;--banner-tertiary:#565565;--banner-background:#eff0f3">
+     <div class="package-icon" role="img">
+     </div>
+     <div>
+      <div class="title">
+       <h1 class="name">
+        ascii-ipa
+       </h1>
+       <span class="version">
+        2.0.0
+       </span>
+      </div>
+      <p class="description">
+       Converter for ASCII representations of the International Phonetic Alphabet (IPA)
+      </p>
+     </div>
+    </div>
+    <div class="inner-grid">
+     <section id="readme">
+      <p>
+       ð ASCII / IPA conversion for Typst
+      </p>
+      <p>
+       This package allows you to easily convert different ASCII representations of the International Phonetic Alphabet (IPA) to and from the IPA. It also offers some minor utilities to make phonetic transcriptions easier to use overall. The package is being maintained
+       <a href="https://github.com/imatpot/typst-ascii-ipa" rel="nofollow ugc" target="_blank">
+        here
+       </a>
+       .
+      </p>
+      <p>
+       Note: This is an extended port of the
+       <a href="https://github.com/tirimid/ipa-translate" rel="nofollow ugc" target="_blank">
+        <code>
+         ipa-translate
+        </code>
+       </a>
+       Rust crate by
+       <a href="https://github.com/tirimid" rel="nofollow ugc" target="_blank">
+        tirimid
+       </a>
+       âs conversion features into native Typst. Most conversions are implemented according to
+       <a href="https://en.wikipedia.org/wiki/Comparison_of_ASCII_encodings_of_the_International_Phonetic_Alphabet" rel="nofollow ugc" target="_blank">
+        this Wikipedia article
+       </a>
+       which in turn relies of the official specifications of the respective ASCII representations.
+      </p>
+      <h2>
+       Conversion
+      </h2>
+      <p>
+       The package supports multiple ASCII representations for the IPA with one function each:
+      </p>
+      <table>
+       <thead>
+        <tr>
+         <th>
+          Notation
+         </th>
+         <th>
+          Function name
+         </th>
+        </tr>
+       </thead>
+       <tbody>
+        <tr>
+         <td>
+          Branner
+         </td>
+         <td>
+          <code>
+           #branner(...)
+          </code>
+         </td>
+        </tr>
+        <tr>
+         <td>
+          Praat
+         </td>
+         <td>
+          <code>
+           #praat(...)
+          </code>
+         </td>
+        </tr>
+        <tr>
+         <td>
+          SIL
+         </td>
+         <td>
+          <code>
+           #sil(...)
+          </code>
+         </td>
+        </tr>
+        <tr>
+         <td>
+          X-SAMPA
+         </td>
+         <td>
+          <code>
+           #xsampa(...)
+          </code>
+         </td>
+        </tr>
+       </tbody>
+      </table>
+      <p>
+       They all return the converted value as a
+       <a href="https://typst.app/docs/reference/foundations/str/">
+        <code>
+         string
+        </code>
+       </a>
+       and accept the set of same parameters:
+      </p>
+      <table>
+       <thead>
+        <tr>
+         <th>
+          Parameter
+         </th>
+         <th>
+          Type
+         </th>
+         <th>
+          Positional / Named
+         </th>
+         <th>
+          Default
+         </th>
+         <th>
+          Description
+         </th>
+        </tr>
+       </thead>
+       <tbody>
+        <tr>
+         <td>
+          <code>
+           value
+          </code>
+         </td>
+         <td>
+          <a href="https://typst.app/docs/reference/foundations/str/">
+           <code>
+            string
+           </code>
+          </a>
+         </td>
+         <td>
+          positional
+         </td>
+         <td>
+         </td>
+         <td>
+          Main input to the function. Usually the transcription in the corresponsing ASCII-based notation.
+         </td>
+        </tr>
+        <tr>
+         <td>
+          <code>
+           reverse
+          </code>
+         </td>
+         <td>
+          <a href="https://typst.app/docs/reference/foundations/bool/">
+           <code>
+            bool
+           </code>
+          </a>
+         </td>
+         <td>
+          named
+         </td>
+         <td>
+          <code>
+           false
+          </code>
+         </td>
+         <td>
+          Reverses the conversion. Pass Unicode IPA into
+          <code>
+           value
+          </code>
+          to get the corresponsing ASCII-based notation back.
+         </td>
+        </tr>
+       </tbody>
+      </table>
+      <h3>
+       Examples
+      </h3>
+      <p>
+       All examples use the Swiss German word
+       <a href="https://als.wikipedia.org/wiki/Chuchich%C3%A4schtli" rel="nofollow ugc" target="_blank">
+        â¨ChuchichÃ¤schtliâ© [ËÏÊÏËiËÏÃ¦ÊËtlÉª]
+       </a>
+       for the conversion.
+      </p>
+      <pre><code class="language-typst"><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/ascii-ipa:2.0.0"</span><span class="typ-punct">:</span> <span class="typ-op">*</span>
+
+<span class="typ-comment">// returns "ËÏÊÏËiËÏÃ¦ÊËtlÉª"</span>
+<span class="typ-func">#</span><span class="typ-func">branner</span><span class="typ-punct">(</span><span class="typ-str">"'XUX:i,Xae)S:tlI"</span><span class="typ-punct">)</span>
+
+<span class="typ-comment">// returns "'XUX:i,Xae)S:tlI"</span>
+<span class="typ-func">#</span><span class="typ-func">branner</span><span class="typ-punct">(</span><span class="typ-str">"ËÏÊÏËiËÏÃ¦ÊËtlÉª"</span><span class="typ-punct">,</span> reverse<span class="typ-punct">:</span> <span class="typ-key">true</span><span class="typ-punct">)</span>
+
+<span class="typ-comment">// returns "ËÏÊÏËiËÏÃ¦ÊËtlÉª"</span>
+<span class="typ-func">#</span><span class="typ-func">praat</span><span class="typ-punct">(</span><span class="typ-str">"\\'1\\cf\\hs\\cf\\:f\\'2\\ae\\sh\\:ftl\\ic"</span><span class="typ-punct">)</span>
+
+<span class="typ-comment">// returns "\\'1\\cf\\hs\\cf\\:f\\'2\\ae\\sh\\:ftl\\ic"</span>
+<span class="typ-func">#</span><span class="typ-func">praat</span><span class="typ-punct">(</span><span class="typ-str">"ËÏÊÏËiËÏÃ¦ÊËtlÉª"</span><span class="typ-punct">,</span> reverse<span class="typ-punct">:</span> <span class="typ-key">true</span><span class="typ-punct">)</span>
+
+<span class="typ-comment">// returns "ËÏÊÏËiËÏÃ¦ÊËtlÉª"</span>
+<span class="typ-func">#</span><span class="typ-func">sil</span><span class="typ-punct">(</span><span class="typ-str">"}x=u&lt;x=:i}}x=a&lt;s=:tli="</span><span class="typ-punct">)</span>
+
+<span class="typ-comment">// returns "}x=u&lt;x=:i}}x=a&lt;s=:tli="</span>
+<span class="typ-func">#</span><span class="typ-func">sil</span><span class="typ-punct">(</span><span class="typ-str">"ËÏÊÏËiËÏÃ¦ÊËtlÉª"</span><span class="typ-punct">,</span> reverse<span class="typ-punct">:</span> <span class="typ-key">true</span><span class="typ-punct">)</span>
+
+<span class="typ-comment">// returns "ËÏÊÏËiËÏÃ¦ÊËtlÉª"</span>
+<span class="typ-func">#</span><span class="typ-func">xsampa</span><span class="typ-punct">(</span><span class="typ-str">"\"XUX:i%X{S:tlI"</span><span class="typ-punct">)</span>
+
+<span class="typ-comment">// returns "\"XUX:i%X{S:tlI"</span>
+<span class="typ-func">#</span><span class="typ-func">xsampa</span><span class="typ-punct">(</span><span class="typ-str">"ËÏÊÏËiËÏÃ¦ÊËtlÉª"</span><span class="typ-punct">,</span> reverse<span class="typ-punct">:</span> <span class="typ-key">true</span><span class="typ-punct">)</span>
+</code></code></pre>
+      <h3>
+       With
+       <code>
+        raw
+       </code>
+      </h3>
+      <p>
+       You can also use
+       <a href="https://typst.app/docs/reference/text/raw/">
+        <code>
+         raw
+        </code>
+       </a>
+       for the conversion. This is useful if the notation uses a lot of backslashes.
+      </p>
+      <pre><code class="language-typst"><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/ascii-ipa:2.0.0"</span><span class="typ-punct">:</span> praat
+
+<span class="typ-comment">// regular string</span>
+<span class="typ-func">#</span><span class="typ-func">praat</span><span class="typ-punct">(</span><span class="typ-str">"\\'1\\cf\\hs\\cf\\:f\\'2\\ae\\sh\\:ftl\\ic"</span><span class="typ-punct">)</span>
+
+<span class="typ-comment">// raw</span>
+<span class="typ-func">#</span><span class="typ-func">praat</span><span class="typ-punct">(</span><span class="typ-raw">`\'1\cf\hs\cf\:f\'2\ae\sh\:ftl\ic`</span><span class="typ-punct">)</span>
+</code></code></pre>
+      <p>
+       Note:
+       <code>
+        raw
+       </code>
+       will not play nicely with notations that use
+       <code>
+        `
+       </code>
+       a lot.
+      </p>
+      <h2>
+       Brackets &amp; Braces
+      </h2>
+      <p>
+       You can easily mark your notation text as different types of brackets or braces.
+      </p>
+      <pre><code class="language-typst"><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/ascii-ipa:2.0.0"</span><span class="typ-punct">:</span> <span class="typ-op">*</span>
+
+<span class="typ-func">#</span><span class="typ-func">phonetic</span><span class="typ-punct">(</span><span class="typ-str">"prÊ²ÉªËvÊ²et"</span><span class="typ-punct">)</span> <span class="typ-comment">// [prÊ²ÉªËvÊ²et]</span>
+<span class="typ-func">#</span><span class="typ-func">phnt</span><span class="typ-punct">(</span><span class="typ-str">"prÊ²ÉªËvÊ²et"</span><span class="typ-punct">)</span>     <span class="typ-comment">// [prÊ²ÉªËvÊ²et]</span>
+
+<span class="typ-func">#</span><span class="typ-func">precise</span><span class="typ-punct">(</span><span class="typ-str">"prÊ²ÉªËvÊ²et"</span><span class="typ-punct">)</span> <span class="typ-comment">// â¦prÊ²ÉªËvÊ²etâ§</span>
+<span class="typ-func">#</span><span class="typ-func">prec</span><span class="typ-punct">(</span><span class="typ-str">"prÊ²ÉªËvÊ²et"</span><span class="typ-punct">)</span>    <span class="typ-comment">// â¦prÊ²ÉªËvÊ²etâ§</span>
+
+<span class="typ-func">#</span><span class="typ-func">phonemic</span><span class="typ-punct">(</span><span class="typ-str">"prÉªvet"</span><span class="typ-punct">)</span> <span class="typ-comment">// /prÉªvet/</span>
+<span class="typ-func">#</span><span class="typ-func">phnm</span><span class="typ-punct">(</span><span class="typ-str">"prÉªvet"</span><span class="typ-punct">)</span>     <span class="typ-comment">// /prÉªvet/</span>
+
+<span class="typ-func">#</span><span class="typ-func">morphophonemic</span><span class="typ-punct">(</span><span class="typ-str">"prÉªvet"</span><span class="typ-punct">)</span> <span class="typ-comment">// â«½prÉªvetâ«½</span>
+<span class="typ-func">#</span><span class="typ-func">mphnm</span><span class="typ-punct">(</span><span class="typ-str">"prÉªvet"</span><span class="typ-punct">)</span>          <span class="typ-comment">// â«½prÉªvetâ«½</span>
+
+<span class="typ-func">#</span><span class="typ-func">indistinguishable</span><span class="typ-punct">(</span><span class="typ-str">"prÊ²ÉªËvÊ²et"</span><span class="typ-punct">)</span> <span class="typ-comment">// (prÊ²ÉªËvÊ²et)</span>
+<span class="typ-func">#</span><span class="typ-func">idst</span><span class="typ-punct">(</span><span class="typ-str">"prÊ²ÉªËvÊ²et"</span><span class="typ-punct">)</span>              <span class="typ-comment">// (prÊ²ÉªËvÊ²et)</span>
+
+<span class="typ-func">#</span><span class="typ-func">obscured</span><span class="typ-punct">(</span><span class="typ-str">"prÊ²ÉªËvÊ²et"</span><span class="typ-punct">)</span> <span class="typ-comment">// â¸¨prÊ²ÉªËvÊ²etâ¸©</span>
+<span class="typ-func">#</span><span class="typ-func">obsc</span><span class="typ-punct">(</span><span class="typ-str">"prÊ²ÉªËvÊ²et"</span><span class="typ-punct">)</span>     <span class="typ-comment">// â¸¨prÊ²ÉªËvÊ²etâ¸©</span>
+
+<span class="typ-func">#</span><span class="typ-func">orthographic</span><span class="typ-punct">(</span><span class="typ-str">"Ð¿ÑÐ¸Ð²ÐµÑ"</span><span class="typ-punct">)</span> <span class="typ-comment">// â¨Ð¿ÑÐ¸Ð²ÐµÑâ©</span>
+<span class="typ-func">#</span><span class="typ-func">orth</span><span class="typ-punct">(</span><span class="typ-str">"Ð¿ÑÐ¸Ð²ÐµÑ"</span><span class="typ-punct">)</span>         <span class="typ-comment">// â¨Ð¿ÑÐ¸Ð²ÐµÑâ©</span>
+
+<span class="typ-func">#</span><span class="typ-func">transliterated</span><span class="typ-punct">(</span><span class="typ-str">"privyet"</span><span class="typ-punct">)</span> <span class="typ-comment">// âªprivyetâ«</span>
+<span class="typ-func">#</span><span class="typ-func">trlt</span><span class="typ-punct">(</span><span class="typ-str">"privyet"</span><span class="typ-punct">)</span>           <span class="typ-comment">// âªprivyetâ«</span>
+
+<span class="typ-func">#</span><span class="typ-func">prosodic</span><span class="typ-punct">(</span><span class="typ-str">"prÊ²ÉªËvÊ²et"</span><span class="typ-punct">)</span> <span class="typ-comment">// {prÊ²ÉªËvÊ²et}</span>
+<span class="typ-func">#</span><span class="typ-func">prsd</span><span class="typ-punct">(</span><span class="typ-str">"prÊ²ÉªËvÊ²et"</span><span class="typ-punct">)</span>     <span class="typ-comment">// {prÊ²ÉªËvÊ²et}</span>
+</code></code></pre>
+     </section>
+     <aside>
+      <section>
+       <h3>
+        How to add
+       </h3>
+       <p>
+        Copy this into your project and use the import as
+        <!-- -->
+        <code>
+         ascii-ipa
+        </code>
+       </p>
+       <div class="import-snippet">
+        <pre><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/ascii-ipa:2.0.0"</span></code></pre>
+        <button class="copy" title="Copy to clipboard">
+         <img alt="Copy" height="16" src="/assets/icons/16-copy.svg" width="16"/>
+        </button>
+       </div>
+       <p class="muted">
+        Check the docs for
+        <!-- -->
+        <a href="https://typst.app/docs/reference/scripting/#packages">
+         more information on how to import packages
+        </a>
+        .
+       </p>
+      </section>
+      <section id="about">
+       <h3>
+        About
+       </h3>
+       <dl>
+        <dt>
+         Author
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         imatpot
+        </dd>
+        <dt>
+         License:
+        </dt>
+        <dd>
+         MIT
+        </dd>
+        <dt>
+         Current version:
+        </dt>
+        <dd>
+         2.0.0
+        </dd>
+        <dt>
+         Last updated:
+        </dt>
+        <dd>
+         May 14, 2024
+        </dd>
+        <dt>
+         First released:
+        </dt>
+        <dd>
+         March 26, 2024
+        </dd>
+        <dt>
+         Minimum Typst version:
+        </dt>
+        <dd>
+         0.10.0
+        </dd>
+        <dt>
+         Archive size:
+        </dt>
+        <dd class="archive-size-value">
+         9.84 kB
+         <a href="https://packages.typst.org/preview/ascii-ipa-2.0.0.tar.gz">
+          <img alt="Size icon" src="/assets/icons/16-download.svg"/>
+         </a>
+        </dd>
+        <dt>
+         Repository:
+        </dt>
+        <dd>
+         <a href="https://github.com/imatpot/typst-ascii-ipa" rel="noopener noreferrer" target="_blank">
+          GitHub
+         </a>
+        </dd>
+        <dt>
+         Discipline
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         <ul class="list-without-icons">
+          <li>
+           <a href="https://typst.app/universe/search/?discipline=linguistics">
+            Linguistics
+           </a>
+          </li>
+         </ul>
+        </dd>
+        <dt>
+         Categor
+         <!-- -->
+         y
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         <ul class="list-with-icons">
+          <li>
+           <img alt="Text icon" src="/assets/icons/16-text.svg"/>
+           <a href="https://typst.app/universe/search/?category=text">
+            Text
+           </a>
+          </li>
+         </ul>
+        </dd>
+       </dl>
+      </section>
+      <section>
+       <h3>
+        Where to report issues?
+       </h3>
+       <p>
+        This
+        <!-- -->
+        package
+        <!-- -->
+        is a project of
+        <!-- -->
+        <!-- -->
+        imatpot
+        <!-- -->
+        .
+        <!-- -->
+        <!-- -->
+        Report issues on
+        <!-- -->
+        <a href="https://github.com/imatpot/typst-ascii-ipa" rel="noopener noreferrer" target="_blank">
+         their repository
+        </a>
+        .
+        <!-- -->
+        <!-- -->
+        You can also try to ask for help with this
+        <!-- -->
+        package
+        <!-- -->
+        on the
+        <!-- -->
+        <a href="https://forum.typst.app" rel="noopener" target="_blank">
+         Forum
+        </a>
+        .
+       </p>
+       <p>
+        Please report this
+        <!-- -->
+        package
+        <!-- -->
+        to the Typst team using the
+        <!-- -->
+        <a href="https://typst.app/contact" rel="noreferrer" target="_blank">
+         contact form
+        </a>
+        <!-- -->
+        if you believe it is a safety hazard or infringes upon your rights.
+       </p>
+      </section>
+      <section id="versions">
+       <h3>
+        Version history
+       </h3>
+       <table>
+        <thead>
+         <tr>
+          <th align="left">
+           Version
+          </th>
+          <th align="left">
+           Release Date
+          </th>
+         </tr>
+        </thead>
+        <tbody>
+         <tr>
+          <td align="left">
+           2.0.0
+          </td>
+          <td align="left">
+           May 14, 2024
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/ascii-ipa/1.1.1/">
+            1.1.1
+           </a>
+          </td>
+          <td align="left">
+           March 26, 2024
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/ascii-ipa/1.1.0/">
+            1.1.0
+           </a>
+          </td>
+          <td align="left">
+           March 26, 2024
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/ascii-ipa/1.0.0/">
+            1.0.0
+           </a>
+          </td>
+          <td align="left">
+           March 26, 2024
+          </td>
+         </tr>
+        </tbody>
+       </table>
+      </section>
+      <p class="bottom-notice muted">
+       Typst GmbH did not create this
+       <!-- -->
+       package
+       <!-- -->
+       and cannot guarantee correct functionality of this
+       <!-- -->
+       package
+       <!-- -->
+       or compatibility with any version of the Typst compiler or app.
+      </p>
+     </aside>
+    </div>
+   </main>

@@ -1,0 +1,256 @@
+\title{typst.app/universe/package/diatypst}
+
+\phantomsection\label{banner}
+\phantomsection\label{template-thumbnail}
+\pandocbounded{\includegraphics[keepaspectratio]{https://packages.typst.org/preview/thumbnails/diatypst-0.3.0-small.webp}}
+
+\section{diatypst}\label{diatypst}
+
+{ 0.3.0 }
+
+Easy slides with Typst â€`` sensible defaults, easy syntax, well-styled
+
+{ } Featured Template
+
+\href{/app?template=diatypst&version=0.3.0}{Create project in app}
+
+\phantomsection\label{readme}
+\emph{easy slides in typst}
+
+Features:
+
+\begin{itemize}
+\tightlist
+\item
+  easy delimiter for slides and sections (just use headings)
+\item
+  sensible styling
+\item
+  dot counter in upper right corner (like LaTeX beamer)
+\item
+  adjustable color-theme
+\item
+  default show rules for terms, code, lists, â€¦ that match color-theme
+\end{itemize}
+
+Example Presentation
+
+\begin{longtable}[]{@{}llll@{}}
+\toprule\noalign{}
+Title Slide & Section & Content & Outline \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/diatypst/0.3.0/screenshots/Example-Title.jpg}}
+&
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/diatypst/0.3.0/screenshots/Example-Section.jpg}}
+&
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/diatypst/0.3.0/screenshots/Example-Slide.jpg}}
+&
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/diatypst/0.3.0/screenshots/Example-TOC.jpg}} \\
+\end{longtable}
+
+These example slides and a usage guide are available in the
+\texttt{\ example\ } Folder on GitHub as a
+\href{https://github.com/skriptum/diatypst/blob/main/example/example.typ}{.typ
+file} and a
+\href{https://github.com/skriptum/diatypst/blob/main/example/example.pdf}{compiled
+PDF}
+
+\subsection{Usage}\label{usage}
+
+To start a presentation, initialize it in your typst document:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/diatypst:0.2.0": *}
+\NormalTok{\#show: slides.with(}
+\NormalTok{  title: "Diatypst", // Required}
+\NormalTok{  subtitle: "easy slides in typst",}
+\NormalTok{  date: "01.07.2024",}
+\NormalTok{  authors: ("John Doe"),}
+\NormalTok{)}
+\NormalTok{...}
+\end{Highlighting}
+\end{Shaded}
+
+Then, insert your content.
+
+\begin{itemize}
+\tightlist
+\item
+  Level-one headings corresponds to new sections.
+\item
+  Level-two headings corresponds to new slides.
+\item
+  or manually create a new slide with a \texttt{\ \#pagebreak()\ }
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{...}
+
+\NormalTok{= First Section}
+
+\NormalTok{== First Slide}
+
+\NormalTok{\#lorem(20)}
+\end{Highlighting}
+\end{Shaded}
+
+\emph{diatypst} is also available on the
+\href{https://typst.app/universe/package/diatypst}{Typst Universe} for
+easy importing into a project on typst.app
+
+\subsection{Options}\label{options}
+
+all available Options to initialize the template with
+
+\begin{longtable}[]{@{}lll@{}}
+\toprule\noalign{}
+Keyword & Description & Default \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\emph{title} & Title of your Presentation, visible also in footer &
+\texttt{\ none\ } but required! \\
+\emph{subtitle} & Subtitle, also visible in footer &
+\texttt{\ none\ } \\
+\emph{date} & a normal string presenting your date &
+\texttt{\ none\ } \\
+\emph{authors} & either string or array of strings &
+\texttt{\ none\ } \\
+\emph{layout} & one of â€œsmallâ€?, â€œmediumâ€?, â€œlargeâ€?, adjusts
+sizing of the elements on the slides & \texttt{\ "medium"\ } \\
+\emph{ratio} & aspect ratio of the slides, e.g 16/9 &
+\texttt{\ 4/3\ } \\
+\emph{title-color} & Color to base the Elements of the Presentation on &
+\texttt{\ blue.darken(50\%)\ } \\
+\emph{count} & whether to display the dots for pages in upper right
+corner & \texttt{\ true\ } \\
+\emph{footer} & whether to display the footer at the bottom &
+\texttt{\ true\ } \\
+\emph{toc} & whether to display the table of contents &
+\texttt{\ true\ } \\
+\emph{footer-title} & custom text in the footer title (left) & same as
+\emph{title} \\
+\emph{footer-subtitle} & custom text in the footer subtitle (right) &
+same as \emph{subtitle} \\
+\end{longtable}
+
+\subsection{Quarto}\label{quarto}
+
+This template is also available as a \href{https://quarto.org/}{Quarto}
+extension. To use it, add it to your project with the following command:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{quarto}\NormalTok{ add skriptum/diatypst/diaquarto}
+\end{Highlighting}
+\end{Shaded}
+
+Then, create a qmd file with the following YAML frontmatter:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{title}\KeywordTok{:}\AttributeTok{ }\StringTok{"Untitled"}
+\CommentTok{...}
+\CommentTok{format:}
+\CommentTok{  diaquarto{-}typst: }
+\CommentTok{    layout: medium \# small, medium, large}
+\CommentTok{    ratio: 16/9 \# any ratio possible }
+\CommentTok{    title{-}color: "013220" \# Any Hex code for the title color (without \#)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Inspiration}\label{inspiration}
+
+this template is inspired by
+\href{https://github.com/glambrechts/slydst}{slydst} , and takes part of
+the code from it. If you want simpler slides, look here!
+
+The word \emph{Diatypst} is inspired by the ease of use of a
+\href{https://de.wikipedia.org/wiki/Diaprojektor}{\textbf{Dia}
+-projektor} (German for Slide Projector) and the
+\href{https://en.wikipedia.org/wiki/Diatype_(machine)}{Diatype}
+
+\href{/app?template=diatypst&version=0.3.0}{Create project in app}
+
+\subsubsection{How to use}\label{how-to-use}
+
+Click the button above to create a new project using this template in
+the Typst app.
+
+You can also use the Typst CLI to start a new project on your computer
+using this command:
+
+\begin{verbatim}
+typst init @preview/diatypst:0.3.0
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+skriptum (https://github.com/skriptum)
+\item[License:]
+MIT-0
+\item[Current version:]
+0.3.0
+\item[Last updated:]
+November 18, 2024
+\item[First released:]
+July 22, 2024
+\item[Minimum Typst version:]
+0.12.0
+\item[Archive size:]
+4.89 kB
+\href{https://packages.typst.org/preview/diatypst-0.3.0.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/skriptum/Diatypst}{GitHub}
+\item[Categor y :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-presentation.svg}}
+  \href{https://typst.app/universe/search/?category=presentation}{Presentation}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This template is a project of skriptum (https://github.com/skriptum) .
+Report issues on \href{https://github.com/skriptum/Diatypst}{their
+repository} . You can also try to ask for help with this template on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this template to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.3.0 & November 18, 2024 \\
+\href{https://typst.app/universe/package/diatypst/0.2.0/}{0.2.0} &
+November 6, 2024 \\
+\href{https://typst.app/universe/package/diatypst/0.1.0/}{0.1.0} & July
+22, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this template and cannot guarantee correct
+functionality of this template or compatibility with any version of the
+Typst compiler or app.

@@ -1,0 +1,184 @@
+\title{typst.app/universe/package/iridis}
+
+\phantomsection\label{banner}
+\section{iridis}\label{iridis}
+
+{ 0.1.0 }
+
+A package to colors matching parenthesis
+
+\phantomsection\label{readme}
+Iridis is a package to colorize parenthesis in your typst document.
+Iridis is a latin word that means â€œrainbowâ€?. This package is
+inspired by the many rainbow parenthesis plugins available for code
+editors.
+
+\subsection{Usage}\label{usage}
+
+The package provides a single show-rule \texttt{\ iridis-show\ } that
+can be used to colorize parenthesis in your document and a palette
+\texttt{\ iridis-palette\ } that can be used to define the colors used.
+
+The rule takes 3 arguments:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ opening-parenthesis\ } : The opening parenthesis character.
+  Default is \texttt{\ ("(",\ "{[}",\ "\{")\ } .
+\item
+  \texttt{\ closing-parenthesis\ } : The closing parenthesis character.
+  Default is \texttt{\ (")",\ "{]}",\ "\}")\ } .
+\item
+  \texttt{\ palette\ } : The color palette to use. Default is
+  \texttt{\ iridis-palette\ } .
+\end{itemize}
+
+If the symbols are single characters, they are interpreted as normal
+strings but if you use multi-character strings, then they are
+interpreted as regular expressions.
+
+\subsection{Exemples}\label{exemples}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#show: iridis.iridis{-}show}
+
+\NormalTok{\textasciigrave{}\textasciigrave{}\textasciigrave{}rs}
+\NormalTok{fn main() \{}
+\NormalTok{    let n = false;}
+\NormalTok{    if n \{}
+\NormalTok{        println!("Hello, world!");}
+\NormalTok{    \} else \{}
+\NormalTok{        println!("Goodbye, world!");}
+\NormalTok{    \}}
+\NormalTok{\}}
+\NormalTok{\textasciigrave{}\textasciigrave{}\textasciigrave{}}
+
+\NormalTok{\textasciigrave{}\textasciigrave{}\textasciigrave{}cpp}
+\NormalTok{\#include \textless{}iostream\textgreater{}}
+
+\NormalTok{int main() \{}
+\NormalTok{    bool n = false;}
+\NormalTok{    if (n) \{}
+\NormalTok{        std::cout \textless{}\textless{} "Hello, world!" \textless{}\textless{} std::endl;}
+\NormalTok{    \} else \{}
+\NormalTok{        std::cout \textless{}\textless{} "Goodbye, world!" \textless{}\textless{} std::endl;}
+\NormalTok{    \}}
+\NormalTok{\}}
+\NormalTok{\textasciigrave{}\textasciigrave{}\textasciigrave{}}
+
+\NormalTok{\textasciigrave{}\textasciigrave{}\textasciigrave{}py}
+\NormalTok{if \_\_name\_\_ == "\_\_main\_\_":}
+\NormalTok{    n = False}
+\NormalTok{    if n:}
+\NormalTok{        print("Hello, world!")}
+\NormalTok{    else:}
+\NormalTok{        print("Goodbye, world!")}
+\NormalTok{\textasciigrave{}\textasciigrave{}\textasciigrave{}}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://raw.githubusercontent.com/Robotechnic/iridis/master/images/code1.png}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#show: iridis.iridis{-}show}
+
+\NormalTok{$}
+\NormalTok{    "plus" equiv lambda m. f lambda n. lambda f. lambda x. m f (n f x) \textbackslash{}}
+\NormalTok{    "succ" equiv lambda n. lambda f. lambda x. f (n f x) \textbackslash{}}
+\NormalTok{    "mult" equiv lambda m. lambda n. lambda f. lambda x. m (n f) x \textbackslash{}}
+\NormalTok{    "pred" equiv lambda n. lambda f. lambda x. n (lambda g. lambda h. h (g f)) (lambda u. x) (lambda u. u) \textbackslash{}}
+\NormalTok{    "zero" equiv lambda f. lambda x. x \textbackslash{}}
+\NormalTok{    "one" equiv lambda f. lambda x. f x \textbackslash{}}
+\NormalTok{    "two" equiv lambda f. lambda x. f (f x) \textbackslash{}}
+\NormalTok{    "three" equiv lambda f. lambda x. f (f (f x)) \textbackslash{}}
+\NormalTok{    "four" equiv lambda f. lambda x. f (f (f (f x))) \textbackslash{}}
+\NormalTok{$}
+
+\NormalTok{$}
+\NormalTok{    (((1 + 5) * 7) / (5 {-} 8 * 7) + 3) * 2 approx 4.352941176}
+\NormalTok{$}
+
+\NormalTok{$ mat(}
+\NormalTok{  1, 2, ..., (10 / 2);}
+\NormalTok{  2, 2, ..., 10;}
+\NormalTok{  dots.v, dots.v, dots.down, dots.v;}
+\NormalTok{  10, (10 {-} (5 * 8)) / 2, ..., 10;}
+\NormalTok{) $}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://raw.githubusercontent.com/Robotechnic/iridis/master/images/math1.png}}
+
+\subsection{Changelog}\label{changelog}
+
+\subsubsection{0.1.0}\label{section}
+
+\begin{itemize}
+\tightlist
+\item
+  Initial release
+\end{itemize}
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as \texttt{\ iridis\ }
+
+\begin{verbatim}
+#import "@preview/iridis:0.1.0"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+\href{https://github.com/Robotechnic}{Robotechnic}
+\item[License:]
+MIT
+\item[Current version:]
+0.1.0
+\item[Last updated:]
+June 24, 2024
+\item[First released:]
+June 24, 2024
+\item[Minimum Typst version:]
+0.11.0
+\item[Archive size:]
+3.17 kB
+\href{https://packages.typst.org/preview/iridis-0.1.0.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of Robotechnic . You can also try to ask for
+help with this package on the \href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.1.0 & June 24, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.

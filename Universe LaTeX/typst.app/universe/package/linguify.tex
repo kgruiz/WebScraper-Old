@@ -1,0 +1,180 @@
+\title{typst.app/universe/package/linguify}
+
+\phantomsection\label{banner}
+\section{linguify}\label{linguify}
+
+{ 0.4.1 }
+
+Load strings for different languages easily
+
+\phantomsection\label{readme}
+Load strings for different languages easily. This can be useful if you
+create a package or template for multilingual usage.
+
+\subsection{Usage}\label{usage}
+
+The usage depends if you are using it inside a package or a template or
+in your own document.
+
+\subsubsection{For end users and own
+templates}\label{for-end-users-and-own-templates}
+
+You can use linguify global database.
+
+Example:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/linguify:0.4.0": *}
+
+\NormalTok{\#let lang\_data = toml("lang.toml")}
+\NormalTok{\#set{-}database(lang\_data);}
+
+\NormalTok{\#set text(lang: "de")}
+
+\NormalTok{\#linguify("abstract")  // Shows "Zusammenfassung" in the document.}
+\end{Highlighting}
+\end{Shaded}
+
+The \texttt{\ lang.toml\ } musst look like this:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{[conf]}
+\DataTypeTok{default{-}lang} \OperatorTok{=} \StringTok{"en"}
+
+\KeywordTok{[en]}
+\DataTypeTok{title} \OperatorTok{=} \StringTok{"A simple linguify example"}
+\DataTypeTok{abstract} \OperatorTok{=} \StringTok{"Abstract"}
+
+\KeywordTok{[de]}
+\DataTypeTok{title} \OperatorTok{=} \StringTok{"Ein einfaches Linguify Beispiel"}
+\DataTypeTok{abstract} \OperatorTok{=} \StringTok{"Zusammenfassung"}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{Inside a package}\label{inside-a-package}
+
+So that multiple packages can use linguify simultaneously, they should
+contain their own database. A linguify database is just a dictionary
+with a certain structure. (See database structure.)
+
+Recommend is to store the database in a separate file like
+\texttt{\ lang.toml\ } and load it inside the document. And specify it
+in each \texttt{\ linguify()\ } function call.
+
+Example:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/linguify:0.4.0": *}
+
+\NormalTok{\#let database = toml("lang.toml")}
+
+\NormalTok{\#linguify("key", from: database, default: "key")}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Features}\label{features}
+
+\begin{itemize}
+\tightlist
+\item
+  Use a \texttt{\ toml\ } or other file to load strings for different
+  languages. You need to pass a typst dictionary which follows the
+  structure of the shown toml file.
+\item
+  Specify a \textbf{default-lang} . If none is specified it will default
+  to \texttt{\ en\ }
+\item
+  \textbf{Fallback} to the default-lang if a key is not found for a
+  certain language.
+\item
+  \href{https://projectfluent.org/}{Fluent} support
+\end{itemize}
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as \texttt{\ linguify\ }
+
+\begin{verbatim}
+#import "@preview/linguify:0.4.1"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+\href{https://github.com/jomaway}{Jomaway}
+\item[License:]
+MIT
+\item[Current version:]
+0.4.1
+\item[Last updated:]
+April 29, 2024
+\item[First released:]
+January 31, 2024
+\item[Minimum Typst version:]
+0.11.0
+\item[Archive size:]
+470 kB
+\href{https://packages.typst.org/preview/linguify-0.4.1.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/jomaway/typst-linguify}{GitHub}
+\item[Categor ies :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-world.svg}}
+  \href{https://typst.app/universe/search/?category=languages}{Languages}
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-hammer.svg}}
+  \href{https://typst.app/universe/search/?category=utility}{Utility}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of Jomaway . Report issues on
+\href{https://github.com/jomaway/typst-linguify}{their repository} . You
+can also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.4.1 & April 29, 2024 \\
+\href{https://typst.app/universe/package/linguify/0.4.0/}{0.4.0} & April
+2, 2024 \\
+\href{https://typst.app/universe/package/linguify/0.3.1/}{0.3.1} & March
+26, 2024 \\
+\href{https://typst.app/universe/package/linguify/0.3.0/}{0.3.0} & March
+18, 2024 \\
+\href{https://typst.app/universe/package/linguify/0.2.0/}{0.2.0} & March
+16, 2024 \\
+\href{https://typst.app/universe/package/linguify/0.1.0/}{0.1.0} &
+January 31, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.

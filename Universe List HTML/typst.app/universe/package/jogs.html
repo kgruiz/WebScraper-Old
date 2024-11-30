@@ -1,0 +1,444 @@
+<main>
+    <div id="banner" style="--banner-accent:#000000;--banner-primary:#000000;--banner-secondary:#000000;--banner-tertiary:#565565;--banner-background:#eff0f3">
+     <div class="package-icon" role="img">
+     </div>
+     <div>
+      <div class="title">
+       <h1 class="name">
+        jogs
+       </h1>
+       <span class="version">
+        0.2.3
+       </span>
+      </div>
+      <p class="description">
+       QuickJS JavaScript runtime for Typst
+      </p>
+     </div>
+    </div>
+    <div class="inner-grid">
+     <section id="readme">
+      <p>
+       Quickjs javascript runtime for typst. This package provides a typst plugin for evaluating javascript code.
+      </p>
+      <h2>
+       Example
+      </h2>
+      <pre><code class="language-typst"><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/jogs:0.2.3"</span><span class="typ-punct">:</span> <span class="typ-op">*</span>
+
+<span class="typ-key">#</span><span class="typ-key">set</span> <span class="typ-func">page</span><span class="typ-punct">(</span>height<span class="typ-punct">:</span> <span class="typ-key">auto</span><span class="typ-punct">,</span> width<span class="typ-punct">:</span> <span class="typ-key">auto</span><span class="typ-punct">,</span> fill<span class="typ-punct">:</span> black<span class="typ-punct">,</span> margin<span class="typ-punct">:</span> <span class="typ-num">1em</span><span class="typ-punct">)</span>
+<span class="typ-key">#</span><span class="typ-key">set</span> <span class="typ-func">text</span><span class="typ-punct">(</span>fill<span class="typ-punct">:</span> white<span class="typ-punct">)</span>
+
+<span class="typ-key">#</span><span class="typ-key">let</span> code <span class="typ-op">=</span> <span class="typ-raw">```
+function sum() {
+  const total = Array.prototype.slice.call(arguments).reduce(function(a, b) {
+      return a + b;
+  }, 0);
+  return total;
+}
+
+function string_join(arr) {
+  return arr.join(" | ");
+}
+
+function return_complex_obj() {
+  return {
+    a: 1,
+    b: "2",
+    c: [1, 2, 3],
+    d: {
+      e: 1,
+    },
+  };
+}
+
+```</span>
+<span class="typ-key">#</span><span class="typ-key">let</span> bytecode <span class="typ-op">=</span> <span class="typ-func">compile-js</span><span class="typ-punct">(</span>code<span class="typ-punct">)</span>
+
+<span class="typ-func">#</span><span class="typ-func">list-global-property</span><span class="typ-punct">(</span>bytecode<span class="typ-punct">)</span>
+
+<span class="typ-func">#</span><span class="typ-func">call-js-function</span><span class="typ-punct">(</span>bytecode<span class="typ-punct">,</span> <span class="typ-str">"sum"</span><span class="typ-punct">,</span> <span class="typ-num">6</span><span class="typ-punct">,</span> <span class="typ-num">7</span><span class="typ-punct">,</span> <span class="typ-num">8</span><span class="typ-punct">,</span> <span class="typ-num">9</span><span class="typ-punct">,</span> <span class="typ-num">10</span><span class="typ-punct">)</span>
+
+<span class="typ-func">#</span><span class="typ-func">call-js-function</span><span class="typ-punct">(</span>bytecode<span class="typ-punct">,</span> <span class="typ-str">"string_join"</span><span class="typ-punct">,</span> <span class="typ-punct">(</span><span class="typ-str">"a"</span><span class="typ-punct">,</span> <span class="typ-str">"b"</span><span class="typ-punct">,</span> <span class="typ-str">"c"</span><span class="typ-punct">,</span> <span class="typ-str">"d"</span><span class="typ-punct">,</span> <span class="typ-str">"e"</span><span class="typ-punct">)</span><span class="typ-punct">,</span><span class="typ-punct">)</span>
+
+<span class="typ-func">#</span><span class="typ-func">call-js-function</span><span class="typ-punct">(</span>bytecode<span class="typ-punct">,</span> <span class="typ-str">"return_complex_obj"</span><span class="typ-punct">,</span><span class="typ-punct">)</span>
+
+
+</code></code></pre>
+      <p>
+       result:
+      </p>
+      <p>
+       <img alt="" src="https://github.com/typst/packages/raw/main/packages/preview/jogs/0.2.3/typst-package/examples/fib.svg"/>
+      </p>
+      <h2>
+       Documentation
+      </h2>
+      <p>
+       This package provide following function(s):
+      </p>
+      <h3>
+       <code>
+        eval-js
+       </code>
+      </h3>
+      <p>
+       Run a Javascript code snippet.
+      </p>
+      <h4>
+       Arguments
+      </h4>
+      <ul>
+       <li>
+        <code>
+         code
+        </code>
+        - The Javascript code to run. It can be a string or a raw block.
+       </li>
+      </ul>
+      <h4>
+       Returns
+      </h4>
+      <p>
+       The result of the Javascript code. The type is the typst type which most closely resembles the Javascript type.
+      </p>
+      <h4>
+       Example
+      </h4>
+      <pre><code class="language-typ"><code><span class="typ-key">#</span><span class="typ-key">let</span> result <span class="typ-op">=</span> <span class="typ-func">eval-js</span><span class="typ-punct">(</span><span class="typ-str">"1 + 1"</span><span class="typ-punct">)</span>
+</code></code></pre>
+      <h3>
+       <code>
+        compile-js
+       </code>
+      </h3>
+      <p>
+       Compile a Javascript code snippet into bytecode.
+      </p>
+      <h4>
+       Arguments
+      </h4>
+      <ul>
+       <li>
+        <code>
+         code
+        </code>
+        - The Javascript code to compile. It can be a string or a raw block.
+       </li>
+      </ul>
+      <h4>
+       Returns
+      </h4>
+      <p>
+       The bytecode of the Javascript code. The type is
+       <code>
+        bytes
+       </code>
+       .
+      </p>
+      <h4>
+       Example
+      </h4>
+      <pre><code class="language-typ"><code><span class="typ-key">#</span><span class="typ-key">let</span> bytecode <span class="typ-op">=</span> <span class="typ-func">compile-js</span><span class="typ-punct">(</span><span class="typ-str">"function sum(a, b) { return a + b; }"</span><span class="typ-punct">)</span>
+</code></code></pre>
+      <h3>
+       <code>
+        call-js-function
+       </code>
+      </h3>
+      <p>
+       Call a Javascript function with arguments.
+      </p>
+      <h4>
+       Arguments
+      </h4>
+      <ul>
+       <li>
+        <code>
+         bytecode
+        </code>
+        - The bytecode of the Javascript function. It can be obtained by calling
+        <code>
+         compile-js
+        </code>
+        .
+       </li>
+       <li>
+        <code>
+         name
+        </code>
+        - The name of the Javascript function.
+       </li>
+       <li>
+        <code>
+         ..args
+        </code>
+        - The arguments to pass to the Javascript function. All other positional arguments are passed to the Javascript function as is.
+       </li>
+      </ul>
+      <h4>
+       Returns
+      </h4>
+      <p>
+       The result of the Javascript function. The type is the typst type which most closely resembles the Javascript type.
+      </p>
+      <h4>
+       Example
+      </h4>
+      <pre><code class="language-typ"><code><span class="typ-key">#</span><span class="typ-key">let</span> bytecode <span class="typ-op">=</span> <span class="typ-func">compile-js</span><span class="typ-punct">(</span><span class="typ-str">"function sum(a, b) { return a + b; }"</span><span class="typ-punct">)</span>
+<span class="typ-key">#</span><span class="typ-key">let</span> result <span class="typ-op">=</span> <span class="typ-func">call-js-function</span><span class="typ-punct">(</span>bytecode<span class="typ-punct">,</span> <span class="typ-str">"sum"</span><span class="typ-punct">,</span> <span class="typ-num">1</span><span class="typ-punct">,</span> <span class="typ-num">2</span><span class="typ-punct">)</span>
+</code></code></pre>
+      <h3>
+       <code>
+        list-global-property
+       </code>
+      </h3>
+      <p>
+       List all global properties of a compiled Javascript bytecode. This is useful for inspecting the compiled Javascript bytecode.
+      </p>
+      <h4>
+       Arguments
+      </h4>
+      <ul>
+       <li>
+        <code>
+         bytecode
+        </code>
+        - The bytecode of the Javascript function. It can be obtained by calling
+        <code>
+         compile-js
+        </code>
+        .
+       </li>
+      </ul>
+      <h4>
+       Returns
+      </h4>
+      <p>
+       A list of all global properties of the Javascript bytecode. The type is
+       <code>
+        array
+       </code>
+       .
+      </p>
+      <h4>
+       Example
+      </h4>
+      <pre><code class="language-typ"><code><span class="typ-key">#</span><span class="typ-key">let</span> bytecode <span class="typ-op">=</span> <span class="typ-func">compile-js</span><span class="typ-punct">(</span><span class="typ-str">"function sum(a, b) { return a + b; }"</span><span class="typ-punct">)</span>
+<span class="typ-key">#</span><span class="typ-key">let</span> result <span class="typ-op">=</span> <span class="typ-func">list-global-property</span><span class="typ-punct">(</span>bytecode<span class="typ-punct">)</span>
+</code></code></pre>
+     </section>
+     <aside>
+      <section>
+       <h3>
+        How to add
+       </h3>
+       <p>
+        Copy this into your project and use the import as
+        <!-- -->
+        <code>
+         jogs
+        </code>
+       </p>
+       <div class="import-snippet">
+        <pre><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/jogs:0.2.3"</span></code></pre>
+        <button class="copy" title="Copy to clipboard">
+         <img alt="Copy" height="16" src="/assets/icons/16-copy.svg" width="16"/>
+        </button>
+       </div>
+       <p class="muted">
+        Check the docs for
+        <!-- -->
+        <a href="https://typst.app/docs/reference/scripting/#packages">
+         more information on how to import packages
+        </a>
+        .
+       </p>
+      </section>
+      <section id="about">
+       <h3>
+        About
+       </h3>
+       <dl>
+        <dt>
+         Author
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         Wenzhuo Liu
+        </dd>
+        <dt>
+         License:
+        </dt>
+        <dd>
+         MIT
+        </dd>
+        <dt>
+         Current version:
+        </dt>
+        <dd>
+         0.2.3
+        </dd>
+        <dt>
+         Last updated:
+        </dt>
+        <dd>
+         February 1, 2024
+        </dd>
+        <dt>
+         First released:
+        </dt>
+        <dd>
+         November 6, 2023
+        </dd>
+        <dt>
+         Archive size:
+        </dt>
+        <dd class="archive-size-value">
+         354 kB
+         <a href="https://packages.typst.org/preview/jogs-0.2.3.tar.gz">
+          <img alt="Size icon" src="/assets/icons/16-download.svg"/>
+         </a>
+        </dd>
+        <dt>
+         Repository:
+        </dt>
+        <dd>
+         <a href="https://github.com/Enter-tainer/jogs" rel="noopener noreferrer" target="_blank">
+          GitHub
+         </a>
+        </dd>
+       </dl>
+      </section>
+      <section>
+       <h3>
+        Where to report issues?
+       </h3>
+       <p>
+        This
+        <!-- -->
+        package
+        <!-- -->
+        is a project of
+        <!-- -->
+        <!-- -->
+        Wenzhuo Liu
+        <!-- -->
+        .
+        <!-- -->
+        <!-- -->
+        Report issues on
+        <!-- -->
+        <a href="https://github.com/Enter-tainer/jogs" rel="noopener noreferrer" target="_blank">
+         their repository
+        </a>
+        .
+        <!-- -->
+        <!-- -->
+        You can also try to ask for help with this
+        <!-- -->
+        package
+        <!-- -->
+        on the
+        <!-- -->
+        <a href="https://forum.typst.app" rel="noopener" target="_blank">
+         Forum
+        </a>
+        .
+       </p>
+       <p>
+        Please report this
+        <!-- -->
+        package
+        <!-- -->
+        to the Typst team using the
+        <!-- -->
+        <a href="https://typst.app/contact" rel="noreferrer" target="_blank">
+         contact form
+        </a>
+        <!-- -->
+        if you believe it is a safety hazard or infringes upon your rights.
+       </p>
+      </section>
+      <section id="versions">
+       <h3>
+        Version history
+       </h3>
+       <table>
+        <thead>
+         <tr>
+          <th align="left">
+           Version
+          </th>
+          <th align="left">
+           Release Date
+          </th>
+         </tr>
+        </thead>
+        <tbody>
+         <tr>
+          <td align="left">
+           0.2.3
+          </td>
+          <td align="left">
+           February 1, 2024
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/jogs/0.2.2/">
+            0.2.2
+           </a>
+          </td>
+          <td align="left">
+           January 15, 2024
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/jogs/0.2.1/">
+            0.2.1
+           </a>
+          </td>
+          <td align="left">
+           November 29, 2023
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/jogs/0.2.0/">
+            0.2.0
+           </a>
+          </td>
+          <td align="left">
+           November 7, 2023
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/jogs/0.1.0/">
+            0.1.0
+           </a>
+          </td>
+          <td align="left">
+           November 6, 2023
+          </td>
+         </tr>
+        </tbody>
+       </table>
+      </section>
+      <p class="bottom-notice muted">
+       Typst GmbH did not create this
+       <!-- -->
+       package
+       <!-- -->
+       and cannot guarantee correct functionality of this
+       <!-- -->
+       package
+       <!-- -->
+       or compatibility with any version of the Typst compiler or app.
+      </p>
+     </aside>
+    </div>
+   </main>

@@ -1,0 +1,948 @@
+<main>
+    <div id="banner" style="--banner-accent:#000000;--banner-primary:#000000;--banner-secondary:#000000;--banner-tertiary:#565565;--banner-background:#eff0f3">
+     <div class="package-icon" role="img">
+     </div>
+     <div>
+      <div class="title">
+       <h1 class="name">
+        great-theorems
+       </h1>
+       <span class="version">
+        0.1.1
+       </span>
+      </div>
+      <p class="description">
+       Straightforward and functional theorem/proof environments.
+      </p>
+     </div>
+    </div>
+    <div class="inner-grid">
+     <section id="readme">
+      <p>
+       This package allows you to make
+       <strong>
+        theorem/proof/remark/â¦
+       </strong>
+       blocks.
+      </p>
+      <p>
+       Features:
+      </p>
+      <ul>
+       <li>
+        supports advanced counters through both
+        <a href="https://typst.app/universe/package/headcount/">
+         headcount
+        </a>
+        and
+        <a href="https://typst.app/universe/package/rich-counters/">
+         rich-counters
+        </a>
+       </li>
+       <li>
+        easy adjustment of style:
+        <ul>
+         <li>
+          change prefix
+         </li>
+         <li>
+          change how title is displayed
+         </li>
+         <li>
+          change formatting of body
+         </li>
+         <li>
+          change suffix
+         </li>
+         <li>
+          change numbering style
+         </li>
+         <li>
+          configure
+          <em>
+           all
+          </em>
+          parameters of the
+          <a href="https://typst.app/docs/reference/layout/block/">
+           <code>
+            block
+           </code>
+          </a>
+          , including background color, stroke color, rounded corners, inset, â¦
+         </li>
+        </ul>
+       </li>
+       <li>
+        can adjust style also on individual basis (e.g. to highlight main theorem)
+       </li>
+       <li>
+        works with labels/references
+       </li>
+       <li>
+        sane and smart defaults
+       </li>
+      </ul>
+      <h2>
+       Showcase
+      </h2>
+      <p>
+       In the following example we use
+       <a href="https://typst.app/universe/package/rich-counters/">
+        rich-counters
+       </a>
+       to configure section-based counters. You can also use
+       <a href="https://typst.app/universe/package/headcount/">
+        headcount
+       </a>
+       .
+      </p>
+      <pre><code class="language-typ"><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/great-theorems:0.1.1"</span><span class="typ-punct">:</span> <span class="typ-op">*</span>
+<span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/rich-counters:0.2.1"</span><span class="typ-punct">:</span> <span class="typ-op">*</span>
+
+<span class="typ-key">#</span><span class="typ-key">set</span> <span class="typ-func">heading</span><span class="typ-punct">(</span>numbering<span class="typ-punct">:</span> <span class="typ-str">"1.1"</span><span class="typ-punct">)</span>
+<span class="typ-key">#</span><span class="typ-key">show</span><span class="typ-punct">:</span> <span class="typ-func">great-theorems-init</span>
+
+<span class="typ-key">#</span><span class="typ-key">show</span> <span class="typ-func">link</span><span class="typ-punct">:</span> text<span class="typ-punct">.</span><span class="typ-func">with</span><span class="typ-punct">(</span>fill<span class="typ-punct">:</span> blue<span class="typ-punct">)</span>
+
+<span class="typ-key">#</span><span class="typ-key">let</span> mathcounter <span class="typ-op">=</span> <span class="typ-func">rich-counter</span><span class="typ-punct">(</span>
+  identifier<span class="typ-punct">:</span> <span class="typ-str">"mathblocks"</span><span class="typ-punct">,</span>
+  inherited_levels<span class="typ-punct">:</span> <span class="typ-num">1</span>
+<span class="typ-punct">)</span>
+
+<span class="typ-key">#</span><span class="typ-key">let</span> theorem <span class="typ-op">=</span> <span class="typ-func">mathblock</span><span class="typ-punct">(</span>
+  blocktitle<span class="typ-punct">:</span> <span class="typ-str">"Theorem"</span><span class="typ-punct">,</span>
+  counter<span class="typ-punct">:</span> mathcounter<span class="typ-punct">,</span>
+<span class="typ-punct">)</span>
+
+<span class="typ-key">#</span><span class="typ-key">let</span> lemma <span class="typ-op">=</span> <span class="typ-func">mathblock</span><span class="typ-punct">(</span>
+  blocktitle<span class="typ-punct">:</span> <span class="typ-str">"Lemma"</span><span class="typ-punct">,</span>
+  counter<span class="typ-punct">:</span> mathcounter<span class="typ-punct">,</span>
+<span class="typ-punct">)</span>
+
+<span class="typ-key">#</span><span class="typ-key">let</span> remark <span class="typ-op">=</span> <span class="typ-func">mathblock</span><span class="typ-punct">(</span>
+  blocktitle<span class="typ-punct">:</span> <span class="typ-str">"Remark"</span><span class="typ-punct">,</span>
+  prefix<span class="typ-punct">:</span> <span class="typ-punct">[</span><span class="typ-emph">_Remark._</span><span class="typ-punct">]</span><span class="typ-punct">,</span>
+  inset<span class="typ-punct">:</span> <span class="typ-num">5pt</span><span class="typ-punct">,</span>
+  fill<span class="typ-punct">:</span> lime<span class="typ-punct">,</span>
+  radius<span class="typ-punct">:</span> <span class="typ-num">5pt</span><span class="typ-punct">,</span>
+<span class="typ-punct">)</span>
+
+<span class="typ-key">#</span><span class="typ-key">let</span> proof <span class="typ-op">=</span> <span class="typ-func">proofblock</span><span class="typ-punct">(</span><span class="typ-punct">)</span>
+
+<span class="typ-heading">= Some Heading</span>
+
+<span class="typ-func">#</span><span class="typ-func">theorem</span><span class="typ-punct">[</span>
+  This is some theorem.
+<span class="typ-punct">]</span> <span class="typ-label">&lt;mythm&gt;</span>
+
+<span class="typ-func">#</span><span class="typ-func">lemma</span><span class="typ-punct">[</span>
+  This is a lemma. Maybe it's used to prove <span class="typ-ref">@mythm</span>.
+<span class="typ-punct">]</span>
+
+<span class="typ-func">#</span><span class="typ-func">proof</span><span class="typ-punct">[</span>
+  This is a proof.
+<span class="typ-punct">]</span>
+
+<span class="typ-heading">= Another Heading</span>
+
+<span class="typ-func">#</span><span class="typ-func">theorem</span><span class="typ-punct">(</span>title<span class="typ-punct">:</span> <span class="typ-str">"some title"</span><span class="typ-punct">)</span><span class="typ-punct">[</span>
+  This is a theorem with a title.
+<span class="typ-punct">]</span> <span class="typ-label">&lt;thm2&gt;</span>
+
+<span class="typ-func">#</span><span class="typ-func">proof</span><span class="typ-punct">(</span>of<span class="typ-punct">:</span> <span class="typ-label">&lt;thm2&gt;</span><span class="typ-punct">)</span><span class="typ-punct">[</span>
+  This is a proof of the theorem which has a title.
+<span class="typ-punct">]</span>
+
+<span class="typ-func">#</span><span class="typ-func">remark</span><span class="typ-punct">[</span>
+  This is a remark.
+  The remark box has some custom styling applied.
+<span class="typ-punct">]</span>
+</code></code></pre>
+      <p>
+       <img alt="" src="https://github.com/typst/packages/raw/main/packages/preview/great-theorems/0.1.1/example.png"/>
+      </p>
+      <h2>
+       Usage
+      </h2>
+      <h3>
+       <code>
+        great-theorems-init
+       </code>
+      </h3>
+      <p>
+       First, make sure to apply the following inital
+       <code>
+        show
+       </code>
+       rule to your document:
+      </p>
+      <pre><code class="language-typ"><code><span class="typ-key">#</span><span class="typ-key">show</span><span class="typ-punct">:</span> <span class="typ-func">great-theorems-init</span>
+</code></code></pre>
+      <p>
+       This is important to make the blocks have the correct alignment and to display references correctly.
+      </p>
+      <h3>
+       <code>
+        mathblock
+       </code>
+      </h3>
+      <p>
+       The main constructor you will use is
+       <code>
+        mathblock
+       </code>
+       , which allows you to construct a theorem/proof/remark/â¦ environment in exactly the way you like it.
+      </p>
+      <p>
+       Please see the showcase above for on example on how to use it. We now list and explain all possible arguments.
+      </p>
+      <ul>
+       <li>
+        <p>
+         <code>
+          blocktitle
+         </code>
+         (required)
+        </p>
+        <p>
+         Usually something like
+         <code>
+          "Theorem"
+         </code>
+         or
+         <code>
+          "Lemma"
+         </code>
+         . Determines how references are displayed, and also determines the default
+         <code>
+          prefix
+         </code>
+         .
+        </p>
+       </li>
+       <li>
+        <p>
+         <code>
+          counter
+         </code>
+         (default:
+         <code>
+          none
+         </code>
+         )
+        </p>
+        <p>
+         If you want your
+         <code>
+          mathblock
+         </code>
+         to be counted, pass the counter here. Accepts either a Typst-native
+         <a href="https://typst.app/docs/reference/introspection/counter/">
+          <code>
+           counter
+          </code>
+         </a>
+         (which can be made to depend on the section with the
+         <a href="https://typst.app/universe/package/headcount/">
+          headcount
+         </a>
+         package) or a
+         <code>
+          rich-counter
+         </code>
+         from the
+         <a href="https://typst.app/universe/package/rich-counters/">
+          rich-counters
+         </a>
+         package. If you want multiple
+         <code>
+          mathblock
+         </code>
+         environments to share the same counter, just pass the same counter to all of them.
+        </p>
+       </li>
+       <li>
+        <p>
+         <code>
+          numbering
+         </code>
+         (default:
+         <code>
+          "1.1"
+         </code>
+         )
+        </p>
+        <p>
+         The numbering style that should be used to display the counters.
+        </p>
+        <p>
+         <strong>
+          Note:
+         </strong>
+         If you use the
+         <a href="https://typst.app/universe/package/headcount/">
+          headcount
+         </a>
+         package for your counters, you have to pass the
+         <code>
+          dependent-numbering
+         </code>
+         here.
+        </p>
+       </li>
+       <li>
+        <p>
+         <code>
+          prefix
+         </code>
+         (default: contructed from
+         <code>
+          blocktitle
+         </code>
+         , bold style)
+        </p>
+        <p>
+         What should be displayed before the body. If you didnât pass a counter, it should just be a piece of content like
+         <code>
+          [*Theorem.*]
+         </code>
+         .
+         <em>
+          If you passed a counter
+         </em>
+         , it should a function/closure, which takes the current counter value as an argument and returns the corresponding prefix; for example
+         <code>
+          (count) =&gt; [*Theorem #count.*]
+         </code>
+        </p>
+       </li>
+       <li>
+        <p>
+         <code>
+          titlix
+         </code>
+         (default:
+         <code>
+          title =&gt; [(#title)]
+         </code>
+         )
+        </p>
+        <p>
+         How a title should be displayed. Will be placed after the prefix if a title is present. Must be function which takes the title and returns the corresponding content that should be displayed.
+        </p>
+       </li>
+       <li>
+        <p>
+         <code>
+          suffix
+         </code>
+         (default:
+         <code>
+          none
+         </code>
+         )
+        </p>
+        <p>
+         A suffix that will be displayed after the body.
+        </p>
+       </li>
+       <li>
+        <p>
+         <code>
+          bodyfmt
+         </code>
+         (default:
+         <code>
+          body =&gt; body
+         </code>
+         i.e. no special formatting)
+        </p>
+        <p>
+         A function that will style/transform the body. For example, if you want your theorem contents to be displayed in oblique style, you could pass
+         <code>
+          text.with(style: "oblique")
+         </code>
+         .
+        </p>
+       </li>
+       <li>
+        <p>
+         arguments for the surrounding
+         <a href="https://typst.app/docs/reference/layout/block/">
+          <code>
+           block
+          </code>
+         </a>
+        </p>
+        <p>
+         The
+         <code>
+          mathblock
+         </code>
+         , as the name suggests, is surrounded by a
+         <a href="https://typst.app/docs/reference/layout/block/">
+          <code>
+           block
+          </code>
+         </a>
+         , which can be styled to have a background color, stroke color, rounded corners, etc. . You can just pass all arguments that you could pass to a
+         <code>
+          block
+         </code>
+         also to
+         <code>
+          mathblock
+         </code>
+         , and it will be âpassed throughâ the surrounding
+         <code>
+          block
+         </code>
+         . For example, you could write
+         <code>
+          #let theorem = mathblock(..., fill: yellow, inset: 5pt)
+         </code>
+         .
+        </p>
+       </li>
+      </ul>
+      <p>
+       So far we have discussed how you
+       <em>
+        setup
+       </em>
+       your environment with
+       <code>
+        #let theorem = mathblock(...)
+       </code>
+       . Now letâs discuss how to use the resulting
+       <code>
+        theorem
+       </code>
+       command. Again, please see the showcase above for some examples on how to use it. We now list and explain all possible arguments (apart from the body).
+      </p>
+      <ul>
+       <li>
+        <p>
+         <code>
+          title
+         </code>
+         (default:
+         <code>
+          none
+         </code>
+         )
+        </p>
+        <p>
+         This allows you to set a title for your theorem/lemma/â¦, which will be displayed according to
+         <code>
+          titlix
+         </code>
+         .
+        </p>
+       </li>
+       <li>
+        <p>
+         all the arguments from
+         <code>
+          mathblock
+         </code>
+         , except
+         <code>
+          blocktitle
+         </code>
+         and
+         <code>
+          counter
+         </code>
+        </p>
+        <p>
+         You can change all the parameters of your
+         <code>
+          mathblock
+         </code>
+         also on an individual basis, i.e. for each occurrence separately, by just passing the respective arguments, including
+         <code>
+          numbering
+         </code>
+         ,
+         <code>
+          prefix
+         </code>
+         ,
+         <code>
+          titlix
+         </code>
+         ,
+         <code>
+          suffix
+         </code>
+         ,
+         <code>
+          bodyfmt
+         </code>
+         , and arguments for
+         <code>
+          block
+         </code>
+         . These will take precedence over the global configuration.
+        </p>
+       </li>
+      </ul>
+      <h3>
+       <code>
+        proofblock
+       </code>
+      </h3>
+      <p>
+       Also a proof environment can be constructed with
+       <code>
+        mathblock
+       </code>
+       , for example:
+      </p>
+      <pre><code>#let proof = mathblock(
+  blocktitle: "Proof",
+  prefix: [_Proof._],
+  suffix: [#h(1fr) $square$],
+)
+</code></pre>
+      <p>
+       However, for convenience, we have made another
+       <code>
+        proofblock
+       </code>
+       constructor. It works exactly the same as
+       <code>
+        mathblock
+       </code>
+       , the only differences being:
+      </p>
+      <ul>
+       <li>
+        it has different default values for
+        <code>
+         blocktitle
+        </code>
+        ,
+        <code>
+         prefix
+        </code>
+        , and
+        <code>
+         suffix
+        </code>
+       </li>
+       <li>
+        it has no
+        <code>
+         counter
+        </code>
+        and
+        <code>
+         numbering
+        </code>
+        argument
+       </li>
+       <li>
+        the
+        <code>
+         titlix
+        </code>
+        argument is replaced with a
+        <code>
+         prefix_with_of
+        </code>
+        argument (also consisting of a function), which will be used as a prefix when the constructed environment is used with
+        <code>
+         of
+        </code>
+        parameter
+       </li>
+      </ul>
+      <p>
+       The constructed environment will have the following changes compared to an environment constructed with
+       <code>
+        mathblock
+       </code>
+      </p>
+      <ul>
+       <li>
+        <p>
+         the
+         <code>
+          title
+         </code>
+         argument is replaced with an
+         <code>
+          of
+         </code>
+         argument, which is used to denote to which theorem/lemma/â¦ the proof belongs
+        </p>
+        <p>
+         This can be either just content, or a label, in which case a reference to the label is displayed.
+        </p>
+       </li>
+      </ul>
+      <h2>
+       FAQ
+      </h2>
+      <ul>
+       <li>
+        <p>
+         <em>
+          What is the difference to the ctheorems package?
+         </em>
+        </p>
+        <p>
+         You can achieve pretty much the same results with both packages. One goal of
+         <code>
+          great-theorems
+         </code>
+         was to have a cleaner implementation, for example by separating the counter functionality from the theorem block functionality.
+         <code>
+          ctheorems
+         </code>
+         also uses deprecated Typst functionality that will soon be removed. In the end, however, in comes down to personal preference, and
+         <code>
+          ctheorems
+         </code>
+         was certainly a big inspiration for this package!
+        </p>
+       </li>
+       <li>
+        <p>
+         <em>
+          How to set up the counters the way I want?
+         </em>
+        </p>
+        <p>
+         Please consult the documentation of
+         <a href="https://typst.app/universe/package/headcount/">
+          headcount
+         </a>
+         and
+         <a href="https://typst.app/universe/package/rich-counters/">
+          rich-counters
+         </a>
+         respectively, we support both packages as well as native
+         <a href="https://typst.app/docs/reference/introspection/counter/">
+          <code>
+           counter
+          </code>
+         </a>
+         s.
+        </p>
+       </li>
+       <li>
+        <p>
+         <em>
+          My theorems are all center aligned?!
+         </em>
+        </p>
+        <p>
+         You forgot to put the initial show rule at the start of your document:
+        </p>
+        <pre><code class="language-typ"><code><span class="typ-key">#</span><span class="typ-key">show</span><span class="typ-punct">:</span> <span class="typ-func">great-theorems-init</span>
+</code></code></pre>
+       </li>
+       <li>
+        <p>
+         <em>
+          My theorems break across pages, how do I stop that behavior?
+         </em>
+        </p>
+        <p>
+         You can pass
+         <code>
+          breakable: false
+         </code>
+         to
+         <code>
+          mathblock
+         </code>
+         to construct a non-breakable environment.
+        </p>
+       </li>
+       <li>
+        <p>
+         <em>
+          I have a default style for all my theorems/lemmas/remarks/â¦, and Iâm writing boilerplate when I construct theorem/lemma/remark environments.
+         </em>
+        </p>
+        <p>
+         You can essentially define your own defaults like this:
+        </p>
+        <pre><code class="language-typ"><code><span class="typ-key">#</span><span class="typ-key">let</span> my_mathblock <span class="typ-op">=</span> mathblock<span class="typ-punct">.</span><span class="typ-func">with</span><span class="typ-punct">(</span>fill<span class="typ-punct">:</span> yellow<span class="typ-punct">,</span> radius<span class="typ-punct">:</span> <span class="typ-num">5pt</span><span class="typ-punct">,</span> inset<span class="typ-punct">:</span> <span class="typ-num">5pt</span><span class="typ-punct">)</span>
+
+<span class="typ-key">#</span><span class="typ-key">let</span> theorem <span class="typ-op">=</span> <span class="typ-func">my_mathblock</span><span class="typ-punct">(</span><span class="typ-op">..</span><span class="typ-punct">.</span><span class="typ-punct">)</span>
+<span class="typ-key">#</span><span class="typ-key">let</span> lemma <span class="typ-op">=</span> <span class="typ-func">my_mathblock</span><span class="typ-punct">(</span><span class="typ-op">..</span><span class="typ-punct">.</span><span class="typ-punct">)</span>
+<span class="typ-key">#</span><span class="typ-key">let</span> remark <span class="typ-op">=</span> <span class="typ-func">my_mathblock</span><span class="typ-punct">(</span><span class="typ-op">..</span><span class="typ-punct">.</span><span class="typ-punct">)</span>
+<span class="typ-escape">...</span>
+</code></code></pre>
+       </li>
+       <li>
+        <p>
+         <em>
+          The documentation is too short or unclearâ¦ how do I do X?
+         </em>
+        </p>
+        <p>
+         Please just open an
+         <a href="https://github.com/jbirnick/typst-great-theorems/issues" rel="nofollow ugc" target="_blank">
+          issue on GitHub
+         </a>
+         , and I will happily answer your question and extend the documentation!
+        </p>
+       </li>
+      </ul>
+     </section>
+     <aside>
+      <section>
+       <h3>
+        How to add
+       </h3>
+       <p>
+        Copy this into your project and use the import as
+        <!-- -->
+        <code>
+         great-theorems
+        </code>
+       </p>
+       <div class="import-snippet">
+        <pre><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/great-theorems:0.1.1"</span></code></pre>
+        <button class="copy" title="Copy to clipboard">
+         <img alt="Copy" height="16" src="/assets/icons/16-copy.svg" width="16"/>
+        </button>
+       </div>
+       <p class="muted">
+        Check the docs for
+        <!-- -->
+        <a href="https://typst.app/docs/reference/scripting/#packages">
+         more information on how to import packages
+        </a>
+        .
+       </p>
+      </section>
+      <section id="about">
+       <h3>
+        About
+       </h3>
+       <dl>
+        <dt>
+         Author
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         <a href="https://jbirnick.net" rel="noopener noreferrer" target="_blank">
+          Johann Birnick
+         </a>
+        </dd>
+        <dt>
+         License:
+        </dt>
+        <dd>
+         MIT
+        </dd>
+        <dt>
+         Current version:
+        </dt>
+        <dd>
+         0.1.1
+        </dd>
+        <dt>
+         Last updated:
+        </dt>
+        <dd>
+         October 22, 2024
+        </dd>
+        <dt>
+         First released:
+        </dt>
+        <dd>
+         October 16, 2024
+        </dd>
+        <dt>
+         Archive size:
+        </dt>
+        <dd class="archive-size-value">
+         5.32 kB
+         <a href="https://packages.typst.org/preview/great-theorems-0.1.1.tar.gz">
+          <img alt="Size icon" src="/assets/icons/16-download.svg"/>
+         </a>
+        </dd>
+        <dt>
+         Repository:
+        </dt>
+        <dd>
+         <a href="https://github.com/jbirnick/typst-great-theorems" rel="noopener noreferrer" target="_blank">
+          GitHub
+         </a>
+        </dd>
+        <dt>
+         Discipline
+         <!-- -->
+         s
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         <ul class="list-without-icons">
+          <li>
+           <a href="https://typst.app/universe/search/?discipline=mathematics">
+            Mathematics
+           </a>
+          </li>
+          <li>
+           <a href="https://typst.app/universe/search/?discipline=computer-science">
+            Computer Science
+           </a>
+          </li>
+          <li>
+           <a href="https://typst.app/universe/search/?discipline=physics">
+            Physics
+           </a>
+          </li>
+          <li>
+           <a href="https://typst.app/universe/search/?discipline=engineering">
+            Engineering
+           </a>
+          </li>
+          <li>
+           <a href="https://typst.app/universe/search/?discipline=philosophy">
+            Philosophy
+           </a>
+          </li>
+          <li>
+           <a href="https://typst.app/universe/search/?discipline=education">
+            Education
+           </a>
+          </li>
+         </ul>
+        </dd>
+        <dt>
+         Categor
+         <!-- -->
+         ies
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         <ul class="list-with-icons">
+          <li>
+           <img alt="Components icon" src="/assets/icons/16-package.svg"/>
+           <a href="https://typst.app/universe/search/?category=components">
+            Components
+           </a>
+          </li>
+          <li>
+           <img alt="Model icon" src="/assets/icons/16-list-unordered.svg"/>
+           <a href="https://typst.app/universe/search/?category=model">
+            Model
+           </a>
+          </li>
+         </ul>
+        </dd>
+       </dl>
+      </section>
+      <section>
+       <h3>
+        Where to report issues?
+       </h3>
+       <p>
+        This
+        <!-- -->
+        package
+        <!-- -->
+        is a project of
+        <!-- -->
+        <!-- -->
+        Johann Birnick
+        <!-- -->
+        .
+        <!-- -->
+        <!-- -->
+        Report issues on
+        <!-- -->
+        <a href="https://github.com/jbirnick/typst-great-theorems" rel="noopener noreferrer" target="_blank">
+         their repository
+        </a>
+        .
+        <!-- -->
+        <!-- -->
+        You can also try to ask for help with this
+        <!-- -->
+        package
+        <!-- -->
+        on the
+        <!-- -->
+        <a href="https://forum.typst.app" rel="noopener" target="_blank">
+         Forum
+        </a>
+        .
+       </p>
+       <p>
+        Please report this
+        <!-- -->
+        package
+        <!-- -->
+        to the Typst team using the
+        <!-- -->
+        <a href="https://typst.app/contact" rel="noreferrer" target="_blank">
+         contact form
+        </a>
+        <!-- -->
+        if you believe it is a safety hazard or infringes upon your rights.
+       </p>
+      </section>
+      <section id="versions">
+       <h3>
+        Version history
+       </h3>
+       <table>
+        <thead>
+         <tr>
+          <th align="left">
+           Version
+          </th>
+          <th align="left">
+           Release Date
+          </th>
+         </tr>
+        </thead>
+        <tbody>
+         <tr>
+          <td align="left">
+           0.1.1
+          </td>
+          <td align="left">
+           October 22, 2024
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/great-theorems/0.1.0/">
+            0.1.0
+           </a>
+          </td>
+          <td align="left">
+           October 16, 2024
+          </td>
+         </tr>
+        </tbody>
+       </table>
+      </section>
+      <p class="bottom-notice muted">
+       Typst GmbH did not create this
+       <!-- -->
+       package
+       <!-- -->
+       and cannot guarantee correct functionality of this
+       <!-- -->
+       package
+       <!-- -->
+       or compatibility with any version of the Typst compiler or app.
+      </p>
+     </aside>
+    </div>
+   </main>

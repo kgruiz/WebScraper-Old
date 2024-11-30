@@ -1,0 +1,384 @@
+\title{typst.app/universe/package/chic-hdr}
+
+\phantomsection\label{banner}
+\section{chic-hdr}\label{chic-hdr}
+
+{ 0.4.0 }
+
+Typst package for creating elegant headers and footers
+
+\phantomsection\label{readme}
+\textbf{Chic-header} (chic-hdr) is a Typst package for creating elegant
+headers and footers
+
+\subsection{Usage}\label{usage}
+
+To use this library through the Typst package manager (for Typst 0.6.0
+or greater), write \texttt{\ \#import\ "@preview/chic-hdr:0.4.0":\ *\ }
+at the beginning of your Typst file. Once imported, you can start using
+the package by writing the instruction \texttt{\ \#show:\ chic.with()\ }
+and giving any of the chic functions inside the parenthesis
+\texttt{\ ()\ } .
+
+\emph{\textbf{Important: If you are using a custom template that also
+needs the \texttt{\ \#show\ } instruction to be applied, prefer to use
+\texttt{\ \#show:\ chic()\ } after the templateâ€™s \texttt{\ \#show\ }
+.}}
+
+For example, the code belowâ€¦
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/chic{-}hdr:0.4.0": *}
+
+\NormalTok{\#set page(paper: "a7")}
+
+\NormalTok{\#show: chic.with(}
+\NormalTok{  chic{-}footer(}
+\NormalTok{    left{-}side: strong(}
+\NormalTok{        link("mailto:admin@chic.hdr", "admin@chic.hdr")}
+\NormalTok{    ),}
+\NormalTok{    right{-}side: chic{-}page{-}number()}
+\NormalTok{  ),}
+\NormalTok{  chic{-}header(}
+\NormalTok{    left{-}side: emph(chic{-}heading{-}name(fill: true)),}
+\NormalTok{    right{-}side: smallcaps("Example")}
+\NormalTok{  ),}
+\NormalTok{  chic{-}separator(1pt),}
+\NormalTok{  chic{-}offset(7pt),}
+\NormalTok{  chic{-}height(1.5cm)}
+\NormalTok{)}
+
+\NormalTok{= Introduction}
+\NormalTok{\#lorem(30)}
+
+\NormalTok{== Details}
+\NormalTok{\#lorem(70)}
+\end{Highlighting}
+\end{Shaded}
+
+â€¦will look like this:
+
+\subsubsection{\texorpdfstring{\protect\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/chic-hdr/0.4.0/assets/usage.png}}}{Usage example}}\label{usage-example}
+
+\subsection{Reference}\label{reference}
+
+\emph{Note: For a detailed explanation of the functions and parameters,
+see Chic-headerâ€™s Manual.pdf.}
+
+While using \texttt{\ \#show:\ chic.with()\ } , you can give the
+following parameters inside the parenthesis:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ width\ } : Indicates the with of headers and footers in all
+  the document (default is \texttt{\ 100\%\ } ).
+\item
+  \texttt{\ skip\ } : Which pages must be skipped for setting its header
+  and footer. Other properties changed with \texttt{\ chic-height()\ }
+  or \texttt{\ chic-offset()\ } are preserved. Giving a negative index
+  causes a skip of the last pages using last page as index -1(default is
+  \texttt{\ ()\ } ).
+\item
+  \texttt{\ even\ } : Header and footer for even pages. Here, only
+  \texttt{\ chic-header()\ } , \texttt{\ chic-footer()\ } and
+  \texttt{\ chic-separator()\ } functions will take effect. Other
+  functions must be given as an argument of \texttt{\ chic()\ } .
+\item
+  \texttt{\ odd\ } : Sets the header and footer for odd pages. Here,
+  only \texttt{\ chic-header()\ } , \texttt{\ chic-footer()\ } and
+  \texttt{\ chic-separator()\ } functions will take effect. Other
+  functions must be given as an argument of \texttt{\ chic()\ } .
+\item
+  \texttt{\ ..functions()\ } : These are a variable number of arguments
+  that corresponds to Chic-headerâ€™s style functions.
+\end{itemize}
+
+\subsubsection{Functions}\label{functions}
+
+\begin{enumerate}
+\tightlist
+\item
+  \texttt{\ chic-header()\ } - Sets the header content.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \texttt{\ v-center\ } : Whether to vertically align the header
+    content, or not (default is \texttt{\ false\ } ).
+  \item
+    \texttt{\ side-width\ } : Custom width for the sides. It can be an
+    3-element-array, length or relative length (default is
+    \texttt{\ none\ } and widths are set to \texttt{\ 1fr\ } if a side
+    is present).
+  \item
+    \texttt{\ left-side\ } : Content displayed in the left side of the
+    header (default is \texttt{\ none\ } ).
+  \item
+    \texttt{\ center-side\ } : Content displayed in the center of the
+    header (default is \texttt{\ none\ } ).
+  \item
+    \texttt{\ right-side\ } : Content displayed in the right side of the
+    header (default is \texttt{\ none\ } ).
+  \end{itemize}
+\item
+  \texttt{\ chic-footer()\ } - Sets the footer content.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \texttt{\ v-center\ } : Whether to vertically align the header
+    content, or not (default is \texttt{\ false\ } ).
+  \item
+    \texttt{\ side-width\ } : Custom width for the sides. It can be an
+    3-element-array, length or relative length (default is
+    \texttt{\ none\ } and widths are set to \texttt{\ 1fr\ } if a side
+    is present).
+  \item
+    \texttt{\ left-side\ } : Content displayed in the left side of the
+    footer (default is \texttt{\ none\ } ).
+  \item
+    \texttt{\ center-side\ } : Content displayed in the center of the
+    footer (default is \texttt{\ none\ } ).
+  \item
+    \texttt{\ right-side\ } : Content displayed in the right side of the
+    footer (default is \texttt{\ none\ } ).
+  \end{itemize}
+\item
+  \texttt{\ chic-separator()\ } - Sets the separator for either the
+  header, the footer or both.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \texttt{\ on\ } : Where to apply the separator. It can be
+    \texttt{\ "header"\ } , \texttt{\ "footer"\ } or \texttt{\ "both"\ }
+    (default is \texttt{\ "both"\ } ).
+  \item
+    \texttt{\ outset\ } : Space around the separator beyond the page
+    margins (default is \texttt{\ 0pt\ } ).
+  \item
+    \texttt{\ gutter\ } : How much spacing insert around the separator
+    (default is \texttt{\ 0.65em\ } ).
+  \item
+    (unnamed): A length for a \texttt{\ line()\ } , a stroke for a
+    \texttt{\ line()\ } , or a custom content element.
+  \end{itemize}
+\item
+  \texttt{\ chic-styled-separator()\ } - Returns a pre-made custom
+  separator for using it in \texttt{\ chic-separator()\ }
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \texttt{\ color\ } : Separatorâ€™s color (default is
+    \texttt{\ black\ } ).
+  \item
+    (unnamed): A string indicating the separatorâ€™s style. It can be
+    \texttt{\ "double-line"\ } , \texttt{\ "center-dot"\ } ,
+    \texttt{\ "bold-center"\ } , or \texttt{\ "flower-end"\ } .
+  \end{itemize}
+\item
+  \texttt{\ chic-height()\ } - Sets the height of either the header, the
+  footer or both.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \texttt{\ on\ } : Where to change the height. It can be
+    \texttt{\ "header"\ } , \texttt{\ "footer"\ } or \texttt{\ "both"\ }
+    (default is \texttt{\ "both"\ } ).
+  \item
+    (unnamed): A relative length (the new height value).
+  \end{itemize}
+\item
+  \texttt{\ chic-offset()\ } - Sets the offset of either the header, the
+  footer or both (relative to the page content).
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \texttt{\ on\ } : Where to change the offset It can be
+    \texttt{\ "header"\ } , \texttt{\ "footer"\ } or \texttt{\ "both"\ }
+    (default is \texttt{\ "both\ } ).
+  \item
+    (unnamed): A relative length (the new offset value).
+  \end{itemize}
+\item
+  \texttt{\ chic-page-number()\ } - Returns the current page number.
+  Useful for header and footer \texttt{\ sides\ } . It doesnâ€™t take
+  any parameters.
+\item
+  \texttt{\ chic-heading-name()\ } - Returns the next heading name in
+  the \texttt{\ dir\ } direction. The heading must have a lower or equal
+  level than \texttt{\ level\ } . If thereâ€™re no more headings in that
+  direction, and \texttt{\ fill\ } is \texttt{\ true\ } , then headings
+  are sought in the other direction.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \texttt{\ dir\ } : Direction for searching the next heading:
+    \texttt{\ "next"\ } (from the current page, get the next heading) or
+    \texttt{\ "prev"\ } (from the current page, get the previous
+    heading). Default is \texttt{\ "next"\ } .
+  \item
+    \texttt{\ fill\ } : If thereâ€™s no more headings in the
+    \texttt{\ dir\ } direction, indicates whether to try to get a
+    heading in the opposite direction (default is \texttt{\ false\ } ).
+  \item
+    \texttt{\ level\ } : Up to what level of headings should this
+    function search (default is \texttt{\ 2\ } ).
+  \end{itemize}
+\end{enumerate}
+
+\subsection{Gallery}\label{gallery}
+
+\subsubsection{\texorpdfstring{\protect\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/chic-hdr/0.4.0/assets/example-1.png}}}{Example 1}}\label{example-1}
+
+\emph{Header with \texttt{\ chic-heading-name()\ } at left, and
+\texttt{\ chic-page-number()\ } at right. Thereâ€™s a
+\texttt{\ chic-separator()\ } of \texttt{\ 1pt\ } only for the header.}
+
+\subsubsection{\texorpdfstring{\protect\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/chic-hdr/0.4.0/assets/example-2.png}}}{Example 2}}\label{example-2}
+
+\emph{Footer with \texttt{\ chic-page-number()\ } at right, and a custom
+\texttt{\ chic-separator()\ } showing â€œend of page (No. page)â€?
+between 9 \texttt{\ \textasciitilde{}\ } symbols at each side.}
+
+\subsection{Changelog}\label{changelog}
+
+\subsubsection{Version 0.1.0}\label{version-0.1.0}
+
+\begin{itemize}
+\tightlist
+\item
+  Initial release
+\item
+  Implemented \texttt{\ chic-header()\ } , \texttt{\ chic-footer()\ } ,
+  \texttt{\ chic-separator()\ } , \texttt{\ chic-height()\ } ,
+  \texttt{\ chic-offset()\ } , \texttt{\ chic-page-number()\ } , and
+  \texttt{\ chic-heading-name()\ } functions
+\end{itemize}
+
+\subsubsection{Version 0.2.0}\label{version-0.2.0}
+
+\emph{Thanks to Slashformotion ( \url{https://github.com/slashformotion}
+) for noticing this version bugs, and suggesting a vertical alignment
+for headers.}
+
+\begin{itemize}
+\tightlist
+\item
+  Fix alignment error in \texttt{\ chic-header()\ } and
+  \texttt{\ chic-footer()\ }
+\item
+  Add \texttt{\ v-center\ } option for \texttt{\ chic-header()\ } and
+  \texttt{\ chic-footer()\ }
+\item
+  Add \texttt{\ outset\ } option for \texttt{\ chic-separator()\ }
+\item
+  Add \texttt{\ chic-styled-separator()\ } function
+\end{itemize}
+
+\subsubsection{Version 0.3.0}\label{version-0.3.0}
+
+\begin{itemize}
+\tightlist
+\item
+  Add \texttt{\ side-width\ } option for \texttt{\ chic-header()\ } and
+  \texttt{\ chic-footer()\ }
+\end{itemize}
+
+\subsubsection{Version 0.4.0}\label{version-0.4.0}
+
+\emph{Thanks to David ( \url{https://github.com/davidleejy} ) for being
+interested in the package and giving feedback and ideas for new
+parameters}
+
+\begin{itemize}
+\tightlist
+\item
+  Update \texttt{\ type()\ } conditionals to met Typst 0.8.0 standards
+\item
+  Add \texttt{\ dir\ } , \texttt{\ fill\ } , and \texttt{\ level\ }
+  parameters to \texttt{\ chic-heading-name()\ }
+\item
+  Allow negative indexes for skipping final pages while using
+  \texttt{\ skip\ }
+\item
+  Include some panic alerts for types mismatch
+\item
+  Upload manual code in the package repository
+\end{itemize}
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as \texttt{\ chic-hdr\ }
+
+\begin{verbatim}
+#import "@preview/chic-hdr:0.4.0"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author s :]
+Pablo GonzÃ¡lez CalderÃ³n \& Chic-hdr Contributors
+\item[License:]
+MIT
+\item[Current version:]
+0.4.0
+\item[Last updated:]
+December 28, 2023
+\item[First released:]
+August 19, 2023
+\item[Archive size:]
+7.64 kB
+\href{https://packages.typst.org/preview/chic-hdr-0.4.0.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/Pablo-Gonzalez-Calderon/chic-header-package}{GitHub}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of Pablo GonzÃ¡lez CalderÃ³n and Chic-hdr
+Contributors . Report issues on
+\href{https://github.com/Pablo-Gonzalez-Calderon/chic-header-package}{their
+repository} . You can also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.4.0 & December 28, 2023 \\
+\href{https://typst.app/universe/package/chic-hdr/0.3.0/}{0.3.0} &
+September 11, 2023 \\
+\href{https://typst.app/universe/package/chic-hdr/0.2.0/}{0.2.0} &
+August 19, 2023 \\
+\href{https://typst.app/universe/package/chic-hdr/0.1.0/}{0.1.0} &
+August 19, 2023 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.

@@ -1,0 +1,459 @@
+<main>
+    <div id="banner" style="--banner-accent:#000000;--banner-primary:#000000;--banner-secondary:#000000;--banner-tertiary:#565565;--banner-background:#eff0f3">
+     <div id="template-thumbnail">
+      <img alt="A preview of the blind-cvpr Typst template." src="https://packages.typst.org/preview/thumbnails/blind-cvpr-0.5.0-small.webp"/>
+      <div class="icon" role="img">
+      </div>
+     </div>
+     <div>
+      <div class="title">
+       <h1 class="name">
+        blind-cvpr
+       </h1>
+       <span class="version">
+        0.5.0
+       </span>
+      </div>
+      <p class="description">
+       CVPR-style paper template to publish at the Computer Vision and Pattern Recognition (CVPR) conferences.
+      </p>
+     </div>
+    </div>
+    <div class="inner-grid">
+     <a class="create-project-button mobile" href="/app?template=blind-cvpr&amp;version=0.5.0" rel="noopener noreferrer" target="_blank">
+      Create project in app
+     </a>
+     <section id="readme">
+      <h2>
+       Usage
+      </h2>
+      <p>
+       You can use this template in the Typst web app by clicking
+       <em>
+        Start from template
+       </em>
+       on the dashboard and searching for
+       <code>
+        blind-cvpr
+       </code>
+       .
+      </p>
+      <p>
+       Alternatively, you can use the CLI to kick this project off using the command
+      </p>
+      <pre><code class="language-shell">typst init @preview/blind-cvpr
+</code></pre>
+      <p>
+       Typst will create a new directory with all the files needed to get you started.
+      </p>
+      <h2>
+       Configuration
+      </h2>
+      <p>
+       This template exports the
+       <code>
+        cvpr2022
+       </code>
+       and
+       <code>
+        cvpr2025
+       </code>
+       styling rule with the following named arguments.
+      </p>
+      <ul>
+       <li>
+        <code>
+         title
+        </code>
+        : The paperâs title as content.
+       </li>
+       <li>
+        <code>
+         authors
+        </code>
+        : An array of author dictionaries. Each of the author dictionaries must have a name key and can have the keys department, organization, location, and email.
+       </li>
+       <li>
+        <code>
+         keywords
+        </code>
+        : Publication keywords (used in PDF metadata).
+       </li>
+       <li>
+        <code>
+         date
+        </code>
+        : Creation date (used in PDF metadata).
+       </li>
+       <li>
+        <code>
+         abstract
+        </code>
+        : The content of a brief summary of the paper or none. Appears at the top under the title.
+       </li>
+       <li>
+        <code>
+         bibliography
+        </code>
+        : The result of a call to the bibliography function or none. The function also accepts a single, positional argument for the body of the paper.
+       </li>
+       <li>
+        <code>
+         appendix
+        </code>
+        : Content to append after bibliography section.
+       </li>
+       <li>
+        <code>
+         accepted
+        </code>
+        : If this is set to
+        <code>
+         false
+        </code>
+        then anonymized ready for submission document is produced;
+        <code>
+         accepted: true
+        </code>
+        produces camera-redy version. If the argument is set to
+        <code>
+         none
+        </code>
+        then preprint version is produced (can be uploaded to arXiv).
+       </li>
+       <li>
+        <code>
+         id
+        </code>
+        : Identifier of a submission.
+       </li>
+      </ul>
+      <p>
+       The template will initialize your package with a sample call to the
+       <code>
+        cvpr2025
+       </code>
+       function in a show rule. If you want to change an existing project to use this template, you can add a show rule at the top of your file.
+      </p>
+      <pre><code class="language-typst"><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/blind-cvpr:0.5.0"</span><span class="typ-punct">:</span> cvpr2025
+
+<span class="typ-key">#</span><span class="typ-key">show</span><span class="typ-punct">:</span> cvpr2025<span class="typ-punct">.</span><span class="typ-func">with</span><span class="typ-punct">(</span>
+  title<span class="typ-punct">:</span> <span class="typ-punct">[</span>LaTeX Author Guidelines for CVPR Proceedings<span class="typ-punct">]</span><span class="typ-punct">,</span>
+  authors<span class="typ-punct">:</span> <span class="typ-punct">(</span>authors<span class="typ-punct">,</span> affls<span class="typ-punct">)</span><span class="typ-punct">,</span>
+  keywords<span class="typ-punct">:</span> <span class="typ-punct">(</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+  abstract<span class="typ-punct">:</span> <span class="typ-punct">[</span>
+    The ABSTRACT is to be in fully justified italicized text, at the top of the
+    left-hand column, below the author and affiliation information. Use the
+    word "Abstract" as the title, in 12-point Times, boldface type, centered
+    relative to the column, initially capitalized. The abstract is to be in
+    10-point, single-spaced type. Leave two blank lines after the Abstract,
+    then begin the main text. Look at previous CVPR abstracts to get a feel for
+    style and length.
+  <span class="typ-punct">]</span><span class="typ-punct">,</span>
+  bibliography<span class="typ-punct">:</span> <span class="typ-func">bibliography</span><span class="typ-punct">(</span><span class="typ-str">"main.bib"</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+  accepted<span class="typ-punct">:</span> <span class="typ-key">false</span><span class="typ-punct">,</span>
+  id<span class="typ-punct">:</span> <span class="typ-key">none</span><span class="typ-punct">,</span>
+<span class="typ-punct">)</span>
+</code></code></pre>
+      <h2>
+       Issues
+      </h2>
+      <ul>
+       <li>
+        <p>
+         In case of US Letter, column sizes + gap does not equals to text width (2 * 3.25 + 5/16 != 6 + 7/8). It seems that correct gap should be 3/8.
+        </p>
+       </li>
+       <li>
+        <p>
+         At the moment of Typst v0.11.0, it is impossible to indent the first paragraph in a section (see
+         <a href="https://github.com/typst/typst/issues/311" rel="nofollow ugc" target="_blank">
+          typst/typst#311
+         </a>
+         ). The workaround is to add indentation manually as follows.
+        </p>
+        <pre><code class="language-typst"><code><span class="typ-heading">== H2</span>
+
+<span class="typ-func">#</span><span class="typ-func">h</span><span class="typ-punct">(</span><span class="typ-num">12pt</span><span class="typ-punct">)</span>  Manually as space for the first paragraph.
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do.
+
+<span class="typ-comment">// The second one is just fine.</span>
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do.
+</code></code></pre>
+        <p>
+         Also, we add
+         <code>
+          indent
+         </code>
+         constant as a shortcut for
+         <code>
+          h(12pt)
+         </code>
+         .
+        </p>
+        <p>
+         This issue is relevant to CVPR 2022. In the 2025 template there is no indentaino of the first paragraph in section.
+        </p>
+       </li>
+       <li>
+        <p>
+         At the moment Typst v0.11.0 does not allow flexible customization of citation styles. Specifically, CVPR 2022 citation lookes like
+         <code>
+          [42]
+         </code>
+         where number is colored hyperlink. In order to achive this, we shouuld provide custom CSL-style and then colorize number and put it into square parenthesis in typst markup.
+        </p>
+       </li>
+       <li>
+        <p>
+         CVPR 2022 requires simple ruler which enumerates lines in regular intervals whilst CVPR2025 already requires a ruler which add line numers per line in paragraph or heading. Thus we need the next major Typst release v0.12.0 for ruler. With the next Typst release, we can do the following.
+        </p>
+        <pre><code class="language-typst"><code>set par.line(numbering: "1")
+show figure: set par.line(numbering: none)
+</code></code></pre>
+        <p>
+         For implementation details see
+         <a href="https://github.com/typst/typst/pull/4516" rel="nofollow ugc" target="_blank">
+          typst/typst#4516
+         </a>
+         .
+        </p>
+       </li>
+       <li>
+        <p>
+         CVPR 2022 and 2025 requires IEEE-like bibliography style but does not follow its guidelines closely. Since writing CSL-style files is tedious task, we adopt close enough bibliography style from Zotero.
+        </p>
+       </li>
+      </ul>
+      <h2>
+       References
+      </h2>
+      <ul>
+       <li>
+        CVPR 2022 conference
+        <a href="https://cvpr2022.thecvf.com/author-guidelines#dates" rel="nofollow ugc" target="_blank">
+         web site
+        </a>
+        .
+       </li>
+       <li>
+        CVPR 2025 conference
+        <a href="https://cvpr.thecvf.com/Conferences/2025" rel="nofollow ugc" target="_blank">
+         web site
+        </a>
+        .
+       </li>
+      </ul>
+     </section>
+     <aside>
+      <a class="create-project-button desktop" href="/app?template=blind-cvpr&amp;version=0.5.0" rel="noopener noreferrer" target="_blank">
+       Create project in app
+      </a>
+      <section>
+       <h3>
+        How to use
+       </h3>
+       <p>
+        Click the button above to create a new project using this template in the Typst app.
+       </p>
+       <p>
+        You can also use the Typst CLI to start a new project on your computer using this command:
+       </p>
+       <div class="init-snippet">
+        <pre><code>typst init @preview/<!-- -->blind-cvpr<!-- -->:<!-- -->0.5.0</code></pre>
+        <button class="copy" title="Copy to clipboard">
+         <img alt="Copy" height="16" src="/assets/icons/16-copy.svg" width="16"/>
+        </button>
+       </div>
+      </section>
+      <section id="about">
+       <h3>
+        About
+       </h3>
+       <dl>
+        <dt>
+         Author
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         daskol
+        </dd>
+        <dt>
+         License:
+        </dt>
+        <dd>
+         MIT
+        </dd>
+        <dt>
+         Current version:
+        </dt>
+        <dd>
+         0.5.0
+        </dd>
+        <dt>
+         Last updated:
+        </dt>
+        <dd>
+         September 22, 2024
+        </dd>
+        <dt>
+         First released:
+        </dt>
+        <dd>
+         September 22, 2024
+        </dd>
+        <dt>
+         Minimum Typst version:
+        </dt>
+        <dd>
+         0.11.1
+        </dd>
+        <dt>
+         Archive size:
+        </dt>
+        <dd class="archive-size-value">
+         18.3 kB
+         <a href="https://packages.typst.org/preview/blind-cvpr-0.5.0.tar.gz">
+          <img alt="Size icon" src="/assets/icons/16-download.svg"/>
+         </a>
+        </dd>
+        <dt>
+         Repository:
+        </dt>
+        <dd>
+         <a href="https://github.com/daskol/typst-templates" rel="noopener noreferrer" target="_blank">
+          GitHub
+         </a>
+        </dd>
+        <dt>
+         Discipline
+         <!-- -->
+         s
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         <ul class="list-without-icons">
+          <li>
+           <a href="https://typst.app/universe/search/?discipline=computer-science">
+            Computer Science
+           </a>
+          </li>
+          <li>
+           <a href="https://typst.app/universe/search/?discipline=mathematics">
+            Mathematics
+           </a>
+          </li>
+         </ul>
+        </dd>
+        <dt>
+         Categor
+         <!-- -->
+         y
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         <ul class="list-with-icons">
+          <li>
+           <img alt="Paper icon" src="/assets/icons/16-atom.svg"/>
+           <a href="https://typst.app/universe/search/?category=paper">
+            Paper
+           </a>
+          </li>
+         </ul>
+        </dd>
+       </dl>
+      </section>
+      <section>
+       <h3>
+        Where to report issues?
+       </h3>
+       <p>
+        This
+        <!-- -->
+        template
+        <!-- -->
+        is a project of
+        <!-- -->
+        <!-- -->
+        daskol
+        <!-- -->
+        .
+        <!-- -->
+        <!-- -->
+        Report issues on
+        <!-- -->
+        <a href="https://github.com/daskol/typst-templates" rel="noopener noreferrer" target="_blank">
+         their repository
+        </a>
+        .
+        <!-- -->
+        <!-- -->
+        You can also try to ask for help with this
+        <!-- -->
+        template
+        <!-- -->
+        on the
+        <!-- -->
+        <a href="https://forum.typst.app" rel="noopener" target="_blank">
+         Forum
+        </a>
+        .
+       </p>
+       <p>
+        Please report this
+        <!-- -->
+        template
+        <!-- -->
+        to the Typst team using the
+        <!-- -->
+        <a href="https://typst.app/contact" rel="noreferrer" target="_blank">
+         contact form
+        </a>
+        <!-- -->
+        if you believe it is a safety hazard or infringes upon your rights.
+       </p>
+      </section>
+      <section id="versions">
+       <h3>
+        Version history
+       </h3>
+       <table>
+        <thead>
+         <tr>
+          <th align="left">
+           Version
+          </th>
+          <th align="left">
+           Release Date
+          </th>
+         </tr>
+        </thead>
+        <tbody>
+         <tr>
+          <td align="left">
+           0.5.0
+          </td>
+          <td align="left">
+           September 22, 2024
+          </td>
+         </tr>
+        </tbody>
+       </table>
+      </section>
+      <p class="bottom-notice muted">
+       Typst GmbH did not create this
+       <!-- -->
+       template
+       <!-- -->
+       and cannot guarantee correct functionality of this
+       <!-- -->
+       template
+       <!-- -->
+       or compatibility with any version of the Typst compiler or app.
+      </p>
+     </aside>
+    </div>
+   </main>

@@ -1,0 +1,275 @@
+\title{typst.app/universe/package/rich-counters}
+
+\phantomsection\label{banner}
+\section{rich-counters}\label{rich-counters}
+
+{ 0.2.2 }
+
+Counters which can inherit from other counters.
+
+\phantomsection\label{readme}
+This package allows you to have \textbf{counters which can inherit from
+other counters} .
+
+Concretely, it implements \texttt{\ rich-counter\ } , which is a counter
+that can \emph{inherit} one or more levels from another counter.
+
+The interface is pretty much the same as the
+\href{https://typst.app/docs/reference/introspection/counter/}{usual
+counter} . It provides a \texttt{\ display()\ } , \texttt{\ get()\ } ,
+\texttt{\ final()\ } , \texttt{\ at()\ } , and a \texttt{\ step()\ }
+method. An \texttt{\ update()\ } method will be implemented soon.
+
+\subsection{Simple typical Showcase}\label{simple-typical-showcase}
+
+In the following example, \texttt{\ mycounter\ } inherits the first
+level from \texttt{\ heading\ } (but not deeper levels).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/rich{-}counters:0.2.2": *}
+
+\NormalTok{\#set heading(numbering: "1.1")}
+\NormalTok{\#let mycounter = rich{-}counter(identifier: "mycounter", inherited\_levels: 1)}
+
+\NormalTok{// DOCUMENT}
+
+\NormalTok{Displaying \textasciigrave{}mycounter\textasciigrave{} here: \#context (mycounter.display)()}
+
+\NormalTok{= First level heading}
+
+\NormalTok{Displaying \textasciigrave{}mycounter\textasciigrave{} here: \#context (mycounter.display)()}
+
+\NormalTok{Stepping \textasciigrave{}mycounter\textasciigrave{} here. \#(mycounter.step)()}
+
+\NormalTok{Displaying \textasciigrave{}mycounter\textasciigrave{} here: \#context (mycounter.display)()}
+
+\NormalTok{= Another first level heading}
+
+\NormalTok{Displaying \textasciigrave{}mycounter\textasciigrave{} here: \#context (mycounter.display)()}
+
+\NormalTok{Stepping \textasciigrave{}mycounter\textasciigrave{} here. \#(mycounter.step)()}
+
+\NormalTok{Displaying \textasciigrave{}mycounter\textasciigrave{} here: \#context (mycounter.display)()}
+
+\NormalTok{== Second level heading}
+
+\NormalTok{Displaying \textasciigrave{}mycounter\textasciigrave{} here: \#context (mycounter.display)()}
+
+\NormalTok{Stepping \textasciigrave{}mycounter\textasciigrave{} here. \#(mycounter.step)()}
+
+\NormalTok{Displaying \textasciigrave{}mycounter\textasciigrave{} here: \#context (mycounter.display)()}
+
+\NormalTok{= Aaand another first level heading}
+
+\NormalTok{Displaying \textasciigrave{}mycounter\textasciigrave{} here: \#context (mycounter.display)()}
+
+\NormalTok{Stepping \textasciigrave{}mycounter\textasciigrave{} here. \#(mycounter.step)()}
+
+\NormalTok{Displaying \textasciigrave{}mycounter\textasciigrave{} here: \#context (mycounter.display)()}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/rich-counters/0.2.2/example.png}}
+
+\subsection{\texorpdfstring{Construction of a
+\texttt{\ rich-counter\ }}{Construction of a  rich-counter }}\label{construction-of-a-rich-counter}
+
+To create a \texttt{\ rich-counter\ } , you have to call the
+\texttt{\ rich-counter(...)\ } function. It accepts three arguments:
+
+\begin{itemize}
+\item
+  \texttt{\ identifier\ } (required)
+
+  Must be a unique \texttt{\ string\ } which identifies the counter.
+\item
+  \texttt{\ inherited\_levels\ }
+
+  Specifies how many levels should be inherited from the parent counter.
+\item
+  \texttt{\ inherited\_from\ } (Default: \texttt{\ heading\ } )
+
+  Specifies the parent counter. Can be a \texttt{\ rich-counter\ } or
+  any key that is accepted by the
+  \href{https://typst.app/docs/reference/introspection/counter\#constructor}{\texttt{\ counter(...)\ }
+  constructor} , such as a \texttt{\ label\ } , a \texttt{\ selector\ }
+  , a \texttt{\ location\ } , or a \texttt{\ function\ } like
+  \texttt{\ heading\ } . If not specified, defaults to
+  \texttt{\ heading\ } (and hence it will inherit from the counter of
+  the headings).
+
+  If itâ€™s a \texttt{\ rich-counter\ } and
+  \texttt{\ inherited\_levels\ } is \emph{not} specified, then
+  \texttt{\ inherited\_levels\ } will default to one level higher than
+  the given \texttt{\ rich-counter\ } .
+\end{itemize}
+
+For example, the following creates a \texttt{\ rich-counter\ }
+\texttt{\ foo\ } which inherits one level from the headings, and then
+another \texttt{\ rich-counter\ } \texttt{\ bar\ } which inherits two
+levels (implicitly) from \texttt{\ foo\ } .
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/rich{-}counters:0.2.2": *}
+
+\NormalTok{\#let foo = rich{-}counter(identifier: "foo", inherited\_levels: 1)}
+\NormalTok{\#let bar = rich{-}counter(identifier: "bar", inherited\_from: foo)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{\texorpdfstring{Usage of a
+\texttt{\ rich-counter\ }}{Usage of a  rich-counter }}\label{usage-of-a-rich-counter}
+
+\begin{itemize}
+\item
+  \texttt{\ display(numbering)\ } (needs \texttt{\ context\ } )
+
+  Displays the current value of the counter with the given numbering
+  style. Giving the numbering style is optional, with default value
+  \texttt{\ "1.1"\ } .
+\item
+  \texttt{\ get()\ } (needs \texttt{\ context\ } )
+
+  Returns the current value of the counter (as an \texttt{\ array\ } ).
+\item
+  \texttt{\ final()\ } (needs \texttt{\ context\ } )
+
+  Returns the value of the counter at the end of the document.
+\item
+  \texttt{\ at(loc)\ } (needs \texttt{\ context\ } )
+
+  Returns the value of the counter at \texttt{\ loc\ } , where
+  \texttt{\ loc\ } can be a \texttt{\ label\ } , \texttt{\ selector\ } ,
+  \texttt{\ location\ } , or \texttt{\ function\ } .
+\item
+  \texttt{\ step(depth:\ 1)\ }
+
+  Steps the counter at the specified \texttt{\ depth\ } (default:
+  \texttt{\ 1\ } ). That is, it steps the \texttt{\ rich-counter\ } at
+  level \texttt{\ inherited\_levels\ +\ depth\ } .
+\end{itemize}
+
+\textbf{Due to a Typst limitation, you have to put parentheses before
+you put the arguments. (See below.)}
+
+For example, the following steps \texttt{\ mycounter\ } (at depth 1) and
+then displays it.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/rich{-}counters:0.2.2": *}
+\NormalTok{\#let mycounter = rich{-}counter(...)}
+
+\NormalTok{\#(mycounter.step)()}
+\NormalTok{\#context (mycounter.display)("1.1")}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Limitations}\label{limitations}
+
+Due to current Typst limitations, there is no way to detect manual
+updates or steps of Typst-native counters, like
+\texttt{\ counter(heading).update(...)\ } or
+\texttt{\ counter(heading).step(...)\ } . Only occurrences of actual
+\texttt{\ heading\ } s can be detected. So make sure that after you call
+e.g. \texttt{\ counter(heading).update(...)\ } , you place a heading
+directly after it, before you call any \texttt{\ rich-counter\ } s.
+
+\subsection{Roadmap}\label{roadmap}
+
+\begin{itemize}
+\tightlist
+\item
+  implement \texttt{\ update()\ }
+\item
+  use Typst custom types as soon as they become available
+\item
+  adopt native Typst implementation of dependent counters as soon it
+  becomes available
+\end{itemize}
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as
+\texttt{\ rich-counters\ }
+
+\begin{verbatim}
+#import "@preview/rich-counters:0.2.2"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+\href{https://jbirnick.net}{Johann Birnick}
+\item[License:]
+MIT
+\item[Current version:]
+0.2.2
+\item[Last updated:]
+November 21, 2024
+\item[First released:]
+August 14, 2024
+\item[Archive size:]
+3.60 kB
+\href{https://packages.typst.org/preview/rich-counters-0.2.2.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/jbirnick/typst-rich-counters}{GitHub}
+\item[Categor ies :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-list-unordered.svg}}
+  \href{https://typst.app/universe/search/?category=model}{Model}
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-code.svg}}
+  \href{https://typst.app/universe/search/?category=scripting}{Scripting}
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-hammer.svg}}
+  \href{https://typst.app/universe/search/?category=utility}{Utility}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of Johann Birnick . Report issues on
+\href{https://github.com/jbirnick/typst-rich-counters}{their repository}
+. You can also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.2.2 & November 21, 2024 \\
+\href{https://typst.app/universe/package/rich-counters/0.2.1/}{0.2.1} &
+October 16, 2024 \\
+\href{https://typst.app/universe/package/rich-counters/0.2.0/}{0.2.0} &
+October 14, 2024 \\
+\href{https://typst.app/universe/package/rich-counters/0.1.0/}{0.1.0} &
+August 14, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.

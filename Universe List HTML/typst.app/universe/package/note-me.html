@@ -1,0 +1,377 @@
+<main>
+    <div id="banner" style="--banner-accent:#000000;--banner-primary:#000000;--banner-secondary:#000000;--banner-tertiary:#565565;--banner-background:#eff0f3">
+     <div class="package-icon" role="img">
+     </div>
+     <div>
+      <div class="title">
+       <h1 class="name">
+        note-me
+       </h1>
+       <span class="version">
+        0.3.0
+       </span>
+      </div>
+      <p class="description">
+       Adds GitHub-style Admonitions (Alerts) to Typst.
+      </p>
+     </div>
+    </div>
+    <div class="inner-grid">
+     <section id="readme">
+      <blockquote>
+       <p>
+        [!NOTE] Add GitHub style admonitions (also known as alerts) to Typst.
+       </p>
+      </blockquote>
+      <h2>
+       Usage
+      </h2>
+      <p>
+       Import this package, and do
+      </p>
+      <pre><code class="language-typ"><code><span class="typ-comment">// Import from @preview namespace is suggested</span>
+<span class="typ-comment">// #import "@preview/note-me:0.3.0": *</span>
+
+<span class="typ-comment">// Import from @local namespace is only for debugging purpose</span>
+<span class="typ-comment">// #import "@local/note-me:0.3.0": *</span>
+
+<span class="typ-comment">// Import relatively is for development purpose</span>
+<span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"lib.typ"</span><span class="typ-punct">:</span> <span class="typ-op">*</span>
+
+<span class="typ-heading">= Basic Examples</span>
+
+<span class="typ-func">#</span><span class="typ-func">note</span><span class="typ-punct">[</span>
+  Highlights information that users should take into account, even when skimming.
+<span class="typ-punct">]</span>
+
+<span class="typ-func">#</span><span class="typ-func">tip</span><span class="typ-punct">[</span>
+  Optional information to help a user be more successful.
+<span class="typ-punct">]</span>
+
+<span class="typ-func">#</span><span class="typ-func">important</span><span class="typ-punct">[</span>
+  Crucial information necessary for users to succeed.
+<span class="typ-punct">]</span>
+
+<span class="typ-func">#</span><span class="typ-func">warning</span><span class="typ-punct">[</span>
+  Critical content demanding immediate user attention due to potential risks.
+<span class="typ-punct">]</span>
+
+<span class="typ-func">#</span><span class="typ-func">caution</span><span class="typ-punct">[</span>
+  Negative potential consequences of an action.
+<span class="typ-punct">]</span>
+
+<span class="typ-func">#</span><span class="typ-func">admonition</span><span class="typ-punct">(</span>
+  icon-path<span class="typ-punct">:</span> <span class="typ-str">"icons/stop.svg"</span><span class="typ-punct">,</span>
+  color<span class="typ-punct">:</span> color<span class="typ-punct">.</span>fuchsia<span class="typ-punct">,</span>
+  title<span class="typ-punct">:</span> <span class="typ-str">"Customize"</span><span class="typ-punct">,</span>
+  foreground-color<span class="typ-punct">:</span> color<span class="typ-punct">.</span>white<span class="typ-punct">,</span>
+  background-color<span class="typ-punct">:</span> color<span class="typ-punct">.</span>black<span class="typ-punct">,</span>
+<span class="typ-punct">)</span><span class="typ-punct">[</span>
+  The icon, (theme) color, title, foreground and background color are customizable.
+<span class="typ-punct">]</span>
+
+<span class="typ-func">#</span><span class="typ-func">admonition</span><span class="typ-punct">(</span>
+  icon-string<span class="typ-punct">:</span> <span class="typ-func">read</span><span class="typ-punct">(</span><span class="typ-str">"icons/light-bulb.svg"</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+  color<span class="typ-punct">:</span> color<span class="typ-punct">.</span>fuchsia<span class="typ-punct">,</span>
+  title<span class="typ-punct">:</span> <span class="typ-str">"Customize"</span><span class="typ-punct">,</span>
+<span class="typ-punct">)</span><span class="typ-punct">[</span>
+  The icon can be specified as a string of SVG. This is useful if the user want to use an SVG icon that is not available in this package.
+<span class="typ-punct">]</span>
+
+<span class="typ-func">#</span><span class="typ-func">admonition</span><span class="typ-punct">(</span>
+  icon<span class="typ-punct">:</span> <span class="typ-punct">[</span>ð<span class="typ-punct">]</span><span class="typ-punct">,</span>
+  color<span class="typ-punct">:</span> color<span class="typ-punct">.</span>fuchsia<span class="typ-punct">,</span>
+  title<span class="typ-punct">:</span> <span class="typ-str">"Customize"</span><span class="typ-punct">,</span>
+<span class="typ-punct">)</span><span class="typ-punct">[</span>
+  Or, pass a content directly as the icon<span class="typ-escape">...</span>
+<span class="typ-punct">]</span>
+
+<span class="typ-heading">= More Examples</span>
+
+<span class="typ-func">#</span><span class="typ-func">todo</span><span class="typ-punct">[</span>
+  Fix <span class="typ-raw">`note-me`</span> package.
+<span class="typ-punct">]</span>
+
+
+<span class="typ-heading">= Prevent Page Breaks from Breaking Admonitions</span>
+
+<span class="typ-func">#</span><span class="typ-func">box</span><span class="typ-punct">(</span>
+  width<span class="typ-punct">:</span> <span class="typ-num">1fr</span><span class="typ-punct">,</span>
+  height<span class="typ-punct">:</span> <span class="typ-num">50pt</span><span class="typ-punct">,</span>
+  fill<span class="typ-punct">:</span> gray<span class="typ-punct">,</span>
+<span class="typ-punct">)</span>
+
+<span class="typ-func">#</span><span class="typ-func">note</span><span class="typ-punct">[</span>
+  <span class="typ-func">#</span><span class="typ-func">lorem</span><span class="typ-punct">(</span><span class="typ-num">100</span><span class="typ-punct">)</span>
+<span class="typ-punct">]</span>
+</code></code></pre>
+      <p>
+       <img alt="github-admonition" src="https://github.com/typst/packages/raw/main/packages/preview/note-me/0.3.0/example.svg"/>
+      </p>
+      <p>
+       Further Reading:
+      </p>
+      <ul>
+       <li>
+        <a href="https://github.com/orgs/community/discussions/16925" rel="nofollow ugc" target="_blank">
+         https://github.com/orgs/community/discussions/16925
+        </a>
+       </li>
+       <li>
+        <a href="https://docs.asciidoctor.org/asciidoc/latest/blocks/admonitions/" rel="nofollow ugc" target="_blank">
+         https://docs.asciidoctor.org/asciidoc/latest/blocks/admonitions/
+        </a>
+       </li>
+      </ul>
+      <h2>
+       Style
+      </h2>
+      <p>
+       It borrows the style of GitHubâs admonition.
+      </p>
+      <blockquote>
+       <p>
+        [!NOTE]
+        <br/>
+        Highlights information that users should take into account, even when skimming.
+       </p>
+      </blockquote>
+      <blockquote>
+       <p>
+        [!TIP] Optional information to help a user be more successful.
+       </p>
+      </blockquote>
+      <blockquote>
+       <p>
+        [!IMPORTANT]
+        <br/>
+        Crucial information necessary for users to succeed.
+       </p>
+      </blockquote>
+      <blockquote>
+       <p>
+        [!WARNING]
+        <br/>
+        Critical content demanding immediate user attention due to potential risks.
+       </p>
+      </blockquote>
+      <blockquote>
+       <p>
+        [!CAUTION] Negative potential consequences of an action.
+       </p>
+      </blockquote>
+      <h2>
+       Credits
+      </h2>
+      <p>
+       The admonition icons are from
+       <a href="https://github.com/primer/octicons" rel="nofollow ugc" target="_blank">
+        Octicons
+       </a>
+       .
+      </p>
+     </section>
+     <aside>
+      <section>
+       <h3>
+        How to add
+       </h3>
+       <p>
+        Copy this into your project and use the import as
+        <!-- -->
+        <code>
+         note-me
+        </code>
+       </p>
+       <div class="import-snippet">
+        <pre><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/note-me:0.3.0"</span></code></pre>
+        <button class="copy" title="Copy to clipboard">
+         <img alt="Copy" height="16" src="/assets/icons/16-copy.svg" width="16"/>
+        </button>
+       </div>
+       <p class="muted">
+        Check the docs for
+        <!-- -->
+        <a href="https://typst.app/docs/reference/scripting/#packages">
+         more information on how to import packages
+        </a>
+        .
+       </p>
+      </section>
+      <section id="about">
+       <h3>
+        About
+       </h3>
+       <dl>
+        <dt>
+         Author
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         Flandia Yingman
+        </dd>
+        <dt>
+         License:
+        </dt>
+        <dd>
+         MIT
+        </dd>
+        <dt>
+         Current version:
+        </dt>
+        <dd>
+         0.3.0
+        </dd>
+        <dt>
+         Last updated:
+        </dt>
+        <dd>
+         September 30, 2024
+        </dd>
+        <dt>
+         First released:
+        </dt>
+        <dd>
+         February 11, 2024
+        </dd>
+        <dt>
+         Archive size:
+        </dt>
+        <dd class="archive-size-value">
+         5.02 kB
+         <a href="https://packages.typst.org/preview/note-me-0.3.0.tar.gz">
+          <img alt="Size icon" src="/assets/icons/16-download.svg"/>
+         </a>
+        </dd>
+        <dt>
+         Repository:
+        </dt>
+        <dd>
+         <a href="https://github.com/FlandiaYingman/note-me" rel="noopener noreferrer" target="_blank">
+          GitHub
+         </a>
+        </dd>
+       </dl>
+      </section>
+      <section>
+       <h3>
+        Where to report issues?
+       </h3>
+       <p>
+        This
+        <!-- -->
+        package
+        <!-- -->
+        is a project of
+        <!-- -->
+        <!-- -->
+        Flandia Yingman
+        <!-- -->
+        .
+        <!-- -->
+        <!-- -->
+        Report issues on
+        <!-- -->
+        <a href="https://github.com/FlandiaYingman/note-me" rel="noopener noreferrer" target="_blank">
+         their repository
+        </a>
+        .
+        <!-- -->
+        <!-- -->
+        You can also try to ask for help with this
+        <!-- -->
+        package
+        <!-- -->
+        on the
+        <!-- -->
+        <a href="https://forum.typst.app" rel="noopener" target="_blank">
+         Forum
+        </a>
+        .
+       </p>
+       <p>
+        Please report this
+        <!-- -->
+        package
+        <!-- -->
+        to the Typst team using the
+        <!-- -->
+        <a href="https://typst.app/contact" rel="noreferrer" target="_blank">
+         contact form
+        </a>
+        <!-- -->
+        if you believe it is a safety hazard or infringes upon your rights.
+       </p>
+      </section>
+      <section id="versions">
+       <h3>
+        Version history
+       </h3>
+       <table>
+        <thead>
+         <tr>
+          <th align="left">
+           Version
+          </th>
+          <th align="left">
+           Release Date
+          </th>
+         </tr>
+        </thead>
+        <tbody>
+         <tr>
+          <td align="left">
+           0.3.0
+          </td>
+          <td align="left">
+           September 30, 2024
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/note-me/0.2.1/">
+            0.2.1
+           </a>
+          </td>
+          <td align="left">
+           March 8, 2024
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/note-me/0.1.1/">
+            0.1.1
+           </a>
+          </td>
+          <td align="left">
+           February 25, 2024
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/note-me/0.1.0/">
+            0.1.0
+           </a>
+          </td>
+          <td align="left">
+           February 11, 2024
+          </td>
+         </tr>
+        </tbody>
+       </table>
+      </section>
+      <p class="bottom-notice muted">
+       Typst GmbH did not create this
+       <!-- -->
+       package
+       <!-- -->
+       and cannot guarantee correct functionality of this
+       <!-- -->
+       package
+       <!-- -->
+       or compatibility with any version of the Typst compiler or app.
+      </p>
+     </aside>
+    </div>
+   </main>

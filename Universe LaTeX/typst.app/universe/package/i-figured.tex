@@ -1,0 +1,378 @@
+\title{typst.app/universe/package/i-figured}
+
+\phantomsection\label{banner}
+\section{i-figured}\label{i-figured}
+
+{ 0.2.4 }
+
+Configurable figure and equation numbering per section.
+
+\phantomsection\label{readme}
+Configurable figure numbering per section.
+
+\subsection{Examples}\label{examples}
+
+\subsubsection{Basic}\label{basic}
+
+Have a look at the source
+\href{https://github.com/typst/packages/raw/main/packages/preview/i-figured/0.2.4/examples/basic.typ}{here}
+.
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/i-figured/0.2.4/examples/basic.png}}
+
+\subsubsection{Two levels deep}\label{two-levels-deep}
+
+Have a look at the source
+\href{https://github.com/typst/packages/raw/main/packages/preview/i-figured/0.2.4/examples/level-two.typ}{here}
+.
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/i-figured/0.2.4/examples/level-two.png}}
+
+\subsection{Usage}\label{usage}
+
+The package mainly consists of two customizable show rules, which set up
+all the numbering. There is also an additional function to make showing
+an outline of figures easier.
+
+Because the
+\href{https://github.com/typst/packages/raw/main/packages/preview/i-figured/0.2.4/\#show-figure}{\texttt{\ show-figure()\ }}
+function must internally create another figure element, attached labels
+cannot directly be used for references. To circumvent this, a new label
+is attached to the internal figure, with the same name but prefixed with
+\texttt{\ fig:\ } , \texttt{\ tbl:\ } , or \texttt{\ lst:\ } for images
+(and all other types of generic figures), tables, and raw code figures
+(aka listings) respectively. These new labels can be used for
+referencing without problems.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{// import the package}
+\NormalTok{\#import "@preview/i{-}figured:0.2.4"}
+
+\NormalTok{// make sure you have some heading numbering set}
+\NormalTok{\#set heading(numbering: "1.")}
+
+\NormalTok{// apply the show rules (these can be customized)}
+\NormalTok{\#show heading: i{-}figured.reset{-}counters}
+\NormalTok{\#show figure: i{-}figured.show{-}figure}
+
+\NormalTok{// show an outline}
+\NormalTok{\#i{-}figured.outline()}
+
+\NormalTok{= Hello World}
+
+\NormalTok{\#figure([hi], caption: [Bye World.]) \textless{}bye\textgreater{}}
+
+\NormalTok{// when referencing, the label names must be prefixed with \textasciigrave{}fig:\textasciigrave{}, \textasciigrave{}tbl:\textasciigrave{},}
+\NormalTok{// or \textasciigrave{}lst:\textasciigrave{} depending on the figure kind.}
+\NormalTok{@fig:bye displays the text "hi".}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Reference}\label{reference}
+
+\subsubsection{\texorpdfstring{\texttt{\ reset-counters\ }}{ reset-counters }}\label{reset-counters}
+
+Reset all figure counters. To be used in a heading show rule like
+\texttt{\ \#show\ heading:\ i-figured.reset-counters\ } .
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let reset{-}counters(}
+\NormalTok{  it,}
+\NormalTok{  level: 1,}
+\NormalTok{  extra{-}kinds: (),}
+\NormalTok{  equations: true,}
+\NormalTok{  return{-}orig{-}heading: true,}
+\NormalTok{) = \{ .. \}}
+\end{Highlighting}
+\end{Shaded}
+
+\textbf{Arguments:}
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ it\ } :
+  \href{https://typst.app/docs/reference/foundations/content/}{\texttt{\ content\ }}
+  â€'' The heading element from the show rule.
+\item
+  \texttt{\ level\ } :
+  \href{https://typst.app/docs/reference/foundations/int/}{\texttt{\ int\ }}
+  â€'' At which heading level to reset the counters. A value of
+  \texttt{\ 2\ } will cause the counters to be reset at level two
+  \emph{and} level one headings.
+\item
+  \texttt{\ extra-kinds\ } :
+  \href{https://typst.app/docs/reference/foundations/array/}{\texttt{\ array\ }}
+  of (
+  \href{https://typst.app/docs/reference/foundations/str/}{\texttt{\ str\ }}
+  or
+  \href{https://typst.app/docs/reference/foundations/function/}{\texttt{\ function\ }}
+  ) â€'' Additional custom figure kinds. If you have any figures with a
+  \texttt{\ kind\ } other than \texttt{\ image\ } , \texttt{\ table\ } ,
+  or \texttt{\ raw\ } , you must add the \texttt{\ kind\ } here for its
+  counter to be reset.
+\item
+  \texttt{\ equations\ } :
+  \href{https://typst.app/docs/reference/foundations/bool/}{\texttt{\ bool\ }}
+  â€'' Whether the counter for math equations should be reset.
+\item
+  \texttt{\ return-orig-heading\ } :
+  \href{https://typst.app/docs/reference/foundations/bool/}{\texttt{\ bool\ }}
+  â€'' Whether the original heading element should be included in the
+  returned content. Set this to false if you manually want to construct
+  a heading instead of using the default.
+\end{itemize}
+
+\textbf{Returns:}
+\href{https://typst.app/docs/reference/foundations/content/}{\texttt{\ content\ }}
+â€'' The unmodified heading.
+
+\subsubsection{\texorpdfstring{\texttt{\ show-figure\ }}{ show-figure }}\label{show-figure}
+
+Show a figure with per-section numbering. To be used in a figure show
+rule like \texttt{\ \#show\ figure:\ i-figured.show-figure\ } .
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let show{-}figure(}
+\NormalTok{  it,}
+\NormalTok{  level: 1,}
+\NormalTok{  zero{-}fill: true,}
+\NormalTok{  leading{-}zero: true,}
+\NormalTok{  numbering: "1.1",}
+\NormalTok{  extra{-}prefixes: (:),}
+\NormalTok{  fallback{-}prefix: "fig:",}
+\NormalTok{) = \{ .. \}}
+\end{Highlighting}
+\end{Shaded}
+
+\textbf{Arguments:}
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ it\ } :
+  \href{https://typst.app/docs/reference/foundations/content/}{\texttt{\ content\ }}
+  â€'' The figure element from the show rule.
+\item
+  \texttt{\ level\ } :
+  \href{https://typst.app/docs/reference/foundations/int/}{\texttt{\ int\ }}
+  â€'' How many levels of the current heading counter should be added in
+  front. Note that you can control this individually from the
+  \texttt{\ level\ } parameter on
+  \href{https://github.com/typst/packages/raw/main/packages/preview/i-figured/0.2.4/\#reset-counters}{\texttt{\ reset-counters()\ }}
+  .
+\item
+  \texttt{\ zero-fill\ } :
+  \href{https://typst.app/docs/reference/foundations/bool/}{\texttt{\ bool\ }}
+  â€'' If \texttt{\ true\ } and assuming a \texttt{\ level\ } of
+  \texttt{\ 2\ } , a figure after a \texttt{\ 1.\ } heading but before a
+  \texttt{\ 1.1.\ } heading will show \texttt{\ 1.0.1\ } as numbering,
+  else the middle zero is excluded. Note that if set to
+  \texttt{\ false\ } , not all figure numberings are guaranteed to have
+  the same length.
+\item
+  \texttt{\ leading-zero\ } :
+  \href{https://typst.app/docs/reference/foundations/bool/}{\texttt{\ bool\ }}
+  â€'' Whether figures before the first top-level heading should have a
+  leading \texttt{\ 0\ } . Note that if set to \texttt{\ false\ } , not
+  all figure numberings are guaranteed to have the same length.
+\item
+  \texttt{\ numbering\ } :
+  \href{https://typst.app/docs/reference/foundations/str/}{\texttt{\ str\ }}
+  or
+  \href{https://typst.app/docs/reference/foundations/function/}{\texttt{\ function\ }}
+  â€'' The actual numbering pattern to use for the figures.
+\item
+  \texttt{\ extra-prefixes\ } :
+  \href{https://typst.app/docs/reference/foundations/dictionary/}{\texttt{\ dictionary\ }}
+  of
+  \href{https://typst.app/docs/reference/foundations/str/}{\texttt{\ str\ }}
+  to
+  \href{https://typst.app/docs/reference/foundations/str/}{\texttt{\ str\ }}
+  pairs â€'' Additional label prefixes. This can optionally be used to
+  specify prefixes for custom figure kinds, otherwise they will also use
+  the fallback prefix.
+\item
+  \texttt{\ fallback-prefix\ } :
+  \href{https://typst.app/docs/reference/foundations/str/}{\texttt{\ str\ }}
+  â€'' The label prefix to use for figure kinds which donâ€™t have
+  another prefix set.
+\end{itemize}
+
+\textbf{Returns:}
+\href{https://typst.app/docs/reference/foundations/content/}{\texttt{\ content\ }}
+â€'' The modified figure.
+
+\subsubsection{\texorpdfstring{\texttt{\ show-equation\ }}{ show-equation }}\label{show-equation}
+
+Show a math equation with per-section numbering. To be used in a show
+rule like \texttt{\ \#show\ math.equation:\ i-figured.show-equation\ } .
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let show{-}equation(}
+\NormalTok{  it,}
+\NormalTok{  level: 1,}
+\NormalTok{  zero{-}fill: true,}
+\NormalTok{  leading{-}zero: true,}
+\NormalTok{  numbering: "(1.1)",}
+\NormalTok{  prefix: "eqt:",}
+\NormalTok{  only{-}labeled: false,}
+\NormalTok{  unnumbered{-}label: "{-}",}
+\NormalTok{) = \{ .. \}}
+\end{Highlighting}
+\end{Shaded}
+
+\textbf{Arguments:}
+
+For the arguments \texttt{\ level\ } , \texttt{\ zero-fill\ } ,
+\texttt{\ leading-zero\ } , and \texttt{\ numbering\ } refer to
+\href{https://github.com/typst/packages/raw/main/packages/preview/i-figured/0.2.4/\#show-figure}{\texttt{\ show-figure()\ }}
+.
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ it\ } :
+  \href{https://typst.app/docs/reference/foundations/content/}{\texttt{\ content\ }}
+  â€'' The equation element from the show rule.
+\item
+  \texttt{\ prefix\ } :
+  \href{https://typst.app/docs/reference/foundations/str/}{\texttt{\ str\ }}
+  â€'' The label prefix to use for all equations.
+\item
+  \texttt{\ only-labeled\ } :
+  \href{https://typst.app/docs/reference/foundations/bool/}{\texttt{\ bool\ }}
+  â€'' Whether only equations with labels should be numbered.
+\item
+  \texttt{\ unnumbered-label\ } :
+  \href{https://typst.app/docs/reference/foundations/str/}{\texttt{\ str\ }}
+  â€'' A label to explicitly disable numbering for an equation.
+\end{itemize}
+
+\textbf{Returns:}
+\href{https://typst.app/docs/reference/foundations/content/}{\texttt{\ content\ }}
+â€'' The modified equation.
+
+\subsubsection{\texorpdfstring{\texttt{\ outline\ }}{ outline }}\label{outline}
+
+Show the outline for a kind of figure. This is just the same as calling
+\texttt{\ outline(target:\ figure.where(kind:\ i-figured.\_prefix\ +\ repr(target-kind)),\ ..)\ }
+, the function just exists for convenience and clarity.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let outline(target{-}kind: image, title: [List of Figures], ..args) = \{ .. \}}
+\end{Highlighting}
+\end{Shaded}
+
+\textbf{Arguments:}
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ target-kind\ } :
+  \href{https://typst.app/docs/reference/foundations/str/}{\texttt{\ str\ }}
+  or
+  \href{https://typst.app/docs/reference/foundations/function/}{\texttt{\ function\ }}
+  â€'' Which kind of figure to list.
+\item
+  \texttt{\ title\ } :
+  \href{https://typst.app/docs/reference/foundations/content/}{\texttt{\ content\ }}
+  or \texttt{\ none\ } â€'' The title of the outline.
+\item
+  \texttt{\ ..args\ } â€'' Other arguments to pass to the underlying
+  \href{https://typst.app/docs/reference/meta/outline/}{\texttt{\ outline()\ }}
+  call.
+\end{itemize}
+
+\textbf{Returns:}
+\href{https://typst.app/docs/reference/foundations/content/}{\texttt{\ content\ }}
+â€'' The outline element.
+
+\subsection{Acknowledgements}\label{acknowledgements}
+
+The core code is based off code from
+\href{https://github.com/PgBiel}{@PgBiel} ( \texttt{\ @PgSuper\ } on
+Discord) and \href{https://github.com/aagolovanov}{@aagolovanov} (
+\texttt{\ @aag.\ } on Discord). Specifically from
+\href{https://discord.com/channels/1054443721975922748/1088371919725793360/1158534418760224809}{this
+message} and the conversation around
+\href{https://discord.com/channels/1054443721975922748/1088371919725793360/1159172567282749561}{here}
+.
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as \texttt{\ i-figured\ }
+
+\begin{verbatim}
+#import "@preview/i-figured:0.2.4"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+RubixDev
+\item[License:]
+MIT
+\item[Current version:]
+0.2.4
+\item[Last updated:]
+January 26, 2024
+\item[First released:]
+October 9, 2023
+\item[Archive size:]
+1.97 kB
+\href{https://packages.typst.org/preview/i-figured-0.2.4.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/RubixDev/typst-i-figured}{GitHub}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of RubixDev . Report issues on
+\href{https://github.com/RubixDev/typst-i-figured}{their repository} .
+You can also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.2.4 & January 26, 2024 \\
+\href{https://typst.app/universe/package/i-figured/0.2.3/}{0.2.3} &
+December 11, 2023 \\
+\href{https://typst.app/universe/package/i-figured/0.2.2/}{0.2.2} &
+December 7, 2023 \\
+\href{https://typst.app/universe/package/i-figured/0.2.1/}{0.2.1} &
+November 19, 2023 \\
+\href{https://typst.app/universe/package/i-figured/0.2.0/}{0.2.0} &
+November 16, 2023 \\
+\href{https://typst.app/universe/package/i-figured/0.1.0/}{0.1.0} &
+October 9, 2023 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.

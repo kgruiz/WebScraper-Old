@@ -1,0 +1,2641 @@
+<main>
+    <div id="banner" style="--banner-accent:#5D25C6;--banner-primary:#110733;--banner-secondary:#615296;--banner-tertiary:#80789E;--banner-background:linear-gradient(90deg, #E7D9FF 0%, #DAE0FB 62%, #E8F9FF 100%)">
+     <div id="template-thumbnail">
+      <img alt="A preview of the grape-suite Typst template." src="https://packages.typst.org/preview/thumbnails/grape-suite-1.0.0-small.webp"/>
+      <div class="icon" role="img">
+      </div>
+     </div>
+     <div>
+      <div class="title">
+       <h1 class="name">
+        grape-suite
+       </h1>
+       <span class="version">
+        1.0.0
+       </span>
+      </div>
+      <p class="description">
+       Library of templates for exams, seminar papers, homeworks, etc.
+      </p>
+     </div>
+     <p class="featured-label">
+      <span class="icon" role="img">
+      </span>
+      Featured
+      <!-- -->
+      Template
+     </p>
+    </div>
+    <div class="inner-grid">
+     <a class="create-project-button mobile" href="/app?template=grape-suite&amp;version=1.0.0" rel="noopener noreferrer" target="_blank">
+      Create project in app
+     </a>
+     <section id="readme">
+      <p>
+       The grape suite is a suite consisting of following templates:
+      </p>
+      <ul>
+       <li>
+        <p>
+         exercises (for exams, homework, etc.)
+        </p>
+       </li>
+       <li>
+        <p>
+         seminar papers
+        </p>
+       </li>
+       <li>
+        <p>
+         slides (using polylux)
+        </p>
+       </li>
+      </ul>
+      <h2>
+       Exercises
+      </h2>
+      <h3>
+       Setup
+      </h3>
+      <pre><code class="language-typ"><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/grape-suite:1.0.0"</span><span class="typ-punct">:</span> exercise
+<span class="typ-key">#</span><span class="typ-key">import</span> exercise<span class="typ-punct">:</span> project<span class="typ-punct">,</span> task<span class="typ-punct">,</span> subtask
+
+<span class="typ-key">#</span><span class="typ-key">show</span><span class="typ-punct">:</span> project<span class="typ-punct">.</span><span class="typ-func">with</span><span class="typ-punct">(</span>
+    title<span class="typ-punct">:</span> <span class="typ-str">"Lorem ipsum dolor sit"</span><span class="typ-punct">,</span>
+
+    university<span class="typ-punct">:</span> <span class="typ-punct">[</span>University<span class="typ-punct">]</span><span class="typ-punct">,</span>
+    institute<span class="typ-punct">:</span> <span class="typ-punct">[</span>Institute<span class="typ-punct">]</span><span class="typ-punct">,</span>
+    seminar<span class="typ-punct">:</span> <span class="typ-punct">[</span>Seminar<span class="typ-punct">]</span><span class="typ-punct">,</span>
+
+    abstract<span class="typ-punct">:</span> <span class="typ-func">lorem</span><span class="typ-punct">(</span><span class="typ-num">100</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+    show-outline<span class="typ-punct">:</span> <span class="typ-key">true</span><span class="typ-punct">,</span>
+
+    author<span class="typ-punct">:</span> <span class="typ-str">"John Doe"</span><span class="typ-punct">,</span>
+
+    show-solutions<span class="typ-punct">:</span> <span class="typ-key">false</span>
+<span class="typ-punct">)</span>
+</code></code></pre>
+      <h3>
+       API-Documentation
+      </h3>
+      <table>
+       <thead>
+        <tr>
+         <th align="left">
+          <code>
+           project
+          </code>
+         </th>
+         <th align="left">
+         </th>
+        </tr>
+       </thead>
+       <tbody>
+        <tr>
+         <td align="left">
+          <code>
+           no
+          </code>
+         </td>
+         <td align="left">
+          optional, number, default:
+          <code>
+           none
+          </code>
+          , number of the sheet in the series
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           type
+          </code>
+         </td>
+         <td align="left">
+          optional, content, default:
+          <code>
+           [Exam]
+          </code>
+          , type of the series, eg. exam, homework, protocol, â¦
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           title
+          </code>
+         </td>
+         <td align="left">
+          optional, content, default:
+          <code>
+           none
+          </code>
+          , title of the document: if none, then generated from no, type and suffix-title
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           suffix-title
+          </code>
+         </td>
+         <td align="left">
+          optional, content, default:
+          <code>
+           none
+          </code>
+          , used if title is none to generate the title of the document
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           show-outline
+          </code>
+         </td>
+         <td align="left">
+          optional, bool, default:
+          <code>
+           false
+          </code>
+          , show outline after title iff true
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           abstract
+          </code>
+         </td>
+         <td align="left">
+          optional, content, default:
+          <code>
+           none
+          </code>
+          , show abstract between outline and title
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           document-title
+          </code>
+         </td>
+         <td align="left">
+          optional, content, default:
+          <code>
+           none
+          </code>
+          , shown in the upper right corner of the page header: if none,
+          <code>
+           title
+          </code>
+          is used
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           show-hints
+          </code>
+         </td>
+         <td align="left">
+          optional, bool, default:
+          <code>
+           false
+          </code>
+          , generate hints from tasks iff true
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           show-solutions
+          </code>
+         </td>
+         <td align="left">
+          optional, bool, default:
+          <code>
+           false
+          </code>
+          , generate solutions from tasks iff true
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           show-namefield
+          </code>
+         </td>
+         <td align="left">
+          optional, bool, default:
+          <code>
+           false
+          </code>
+          , show namefield at the end of the left header iff true
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           namefield
+          </code>
+         </td>
+         <td align="left">
+          optional, content, default:
+          <code>
+           [Name:]
+          </code>
+          , content shown iff
+          <code>
+           show-namefield
+          </code>
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           show-timefield
+          </code>
+         </td>
+         <td align="left">
+          optional, bool, default:
+          <code>
+           false
+          </code>
+          , show timefield at the end of right header iff true
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           timefield
+          </code>
+         </td>
+         <td align="left">
+          optional, function, default:
+          <code>
+           (time) =&gt; [Time: #time min.]
+          </code>
+          , to generate the content shown as the timefield iff
+          <code>
+           show-timefield
+          </code>
+          is true
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           max-time
+          </code>
+         </td>
+         <td align="left">
+          optional, number, default:
+          <code>
+           0
+          </code>
+          , time value used in the
+          <code>
+           timefield
+          </code>
+          function generateor
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           show-lines
+          </code>
+         </td>
+         <td align="left">
+          optional, bool, default:
+          <code>
+           false
+          </code>
+          , draw automatic lines for each task, if
+          <code>
+           lines
+          </code>
+          parameter of
+          <code>
+           task
+          </code>
+          is set
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           show-point-distribution-in-tasks
+          </code>
+         </td>
+         <td align="left">
+          optional, bool, default:
+          <code>
+           false
+          </code>
+          , show point distribution after tasks iff true
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           show-point-distribution-in-solutions
+          </code>
+         </td>
+         <td align="left">
+          optional, bool, default:
+          <code>
+           false
+          </code>
+          , show point distributions after solutions iff true
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           solutions-as-matrix
+          </code>
+         </td>
+         <td align="left">
+          optional, bool, default:
+          <code>
+           false
+          </code>
+          , show solutions as a matrix iff true,
+          <strong>
+           mind that
+          </strong>
+          : now the solution parameter of task expects a list of 2-tuples, where the first element of the 2-tuple is the amount of points, a number and the second element is content, how to achieve all points
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           university
+          </code>
+         </td>
+         <td align="left">
+          optional, content, default:
+          <code>
+           none
+          </code>
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           faculty
+          </code>
+         </td>
+         <td align="left">
+          optional, content, default:
+          <code>
+           none
+          </code>
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           institute
+          </code>
+         </td>
+         <td align="left">
+          optional, content, default:
+          <code>
+           none
+          </code>
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           seminar
+          </code>
+         </td>
+         <td align="left">
+          optional, content, default:
+          <code>
+           none
+          </code>
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           semester
+          </code>
+         </td>
+         <td align="left">
+          optional, content, default:
+          <code>
+           none
+          </code>
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           docent
+          </code>
+         </td>
+         <td align="left">
+          optional, content, default:
+          <code>
+           none
+          </code>
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           author
+          </code>
+         </td>
+         <td align="left">
+          optional, content, default:
+          <code>
+           none
+          </code>
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           date
+          </code>
+         </td>
+         <td align="left">
+          optional, datetime, default:
+          <code>
+           datetime.today()
+          </code>
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           header
+          </code>
+         </td>
+         <td align="left">
+          optional, content, default:
+          <code>
+           none
+          </code>
+          , overwrite page header
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           header-right
+          </code>
+         </td>
+         <td align="left">
+          optional, content, default:
+          <code>
+           none
+          </code>
+          , overwrite right header part
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           header-middle
+          </code>
+         </td>
+         <td align="left">
+          optional, content, default:
+          <code>
+           none
+          </code>
+          , overwrite middle header part
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           header-left
+          </code>
+         </td>
+         <td align="left">
+          optional, content, default:
+          <code>
+           none
+          </code>
+          , overwrite left header part
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           footer
+          </code>
+         </td>
+         <td align="left">
+          optional, content, default:
+          <code>
+           none
+          </code>
+          , overwrite footer part
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           footer-right
+          </code>
+         </td>
+         <td align="left">
+          optional, content, default:
+          <code>
+           none
+          </code>
+          , overwrite right footer part
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           footer-middle
+          </code>
+         </td>
+         <td align="left">
+          optional, content, default:
+          <code>
+           none
+          </code>
+          , overwrite middle footer part
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           footer-left
+          </code>
+         </td>
+         <td align="left">
+          optional, content, default:
+          <code>
+           none
+          </code>
+          , overwrite left footer part
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           task-type
+          </code>
+         </td>
+         <td align="left">
+          optional, content, default:
+          <code>
+           [Task]
+          </code>
+          , content shown in task title box before numbering
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           extra-task-type
+          </code>
+         </td>
+         <td align="left">
+          optional, content, default:
+          <code>
+           [Extra task]
+          </code>
+          , for tasks where the
+          <code>
+           extra
+          </code>
+          parameter is true, content shown in title box before numbering
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           box-task-title
+          </code>
+         </td>
+         <td align="left">
+          optional, content, default:
+          <code>
+           [Task]
+          </code>
+          , shown as the title of a task box used by the
+          <code>
+           slides
+          </code>
+          library
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           box-hint-title
+          </code>
+         </td>
+         <td align="left">
+          optional, content, default:
+          <code>
+           [Hint]
+          </code>
+          , shown as the title of a tasks colored hint box
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           box-solution-title
+          </code>
+         </td>
+         <td align="left">
+          optional, content, default:
+          <code>
+           [Solution]
+          </code>
+          , shown as the title of a tasks colored solution box
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           box-definition-title
+          </code>
+         </td>
+         <td align="left">
+          optional, content, default:
+          <code>
+           [Definition]
+          </code>
+          , shown as the title of a definition box used by the
+          <code>
+           slides
+          </code>
+          library
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           box-notice-title
+          </code>
+         </td>
+         <td align="left">
+          optional, content, default:
+          <code>
+           [Notice]
+          </code>
+          , shown as the title of a notice box used by the
+          <code>
+           slides
+          </code>
+          library
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           box-example-title
+          </code>
+         </td>
+         <td align="left">
+          optional, content, default:
+          <code>
+           [Example]
+          </code>
+          , shown as the title of a example box used by the
+          <code>
+           slides
+          </code>
+          library
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           hint-type
+          </code>
+         </td>
+         <td align="left">
+          optional, content, default:
+          <code>
+           [Hint]
+          </code>
+          , title of a tasks hint version
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           hints-title
+          </code>
+         </td>
+         <td align="left">
+          optional, content, default:
+          <code>
+           [Hints]
+          </code>
+          , title of the hints section
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           solution-type
+          </code>
+         </td>
+         <td align="left">
+          optional, content, default:
+          <code>
+           [Suggested solution]
+          </code>
+          , title of a tasks solution version
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           solutions-title
+          </code>
+         </td>
+         <td align="left">
+          optional, content, default:
+          <code>
+           [Suggested solutions]
+          </code>
+          , title of the solutions section
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           solution-matrix-task-header
+          </code>
+         </td>
+         <td align="left">
+          optional, content, default:
+          <code>
+           [Tasks]
+          </code>
+          , first column header of solution matrix, column contains the reasons on how to achieve the points
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           solution-matrix-achieved-points-header
+          </code>
+         </td>
+         <td align="left">
+          optional, content, default:
+          <code>
+           [Points achieved]
+          </code>
+          , second column header of solution matrix, column contains the points the one achieved
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           show-solution-matrix-comment-field
+          </code>
+         </td>
+         <td align="left">
+          optional, bool, default:
+          <code>
+           false
+          </code>
+          , show comment field in solution matrix
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           solution-matrix-comment-field-value
+          </code>
+         </td>
+         <td align="left">
+          optional, content, default:
+          <code>
+           [*Note:* #v(0.5cm)]
+          </code>
+          , value of solution matrix comment fields
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           distribution-header-point-value
+          </code>
+         </td>
+         <td align="left">
+          optional, content, default:
+          <code>
+           [Point]
+          </code>
+          , first row of point distribution, used to indicate the points needed to get a specific grade
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           distribution-header-point-grade
+          </code>
+         </td>
+         <td align="left">
+          optional, content, default:
+          <code>
+           [Grade]
+          </code>
+          , second row of point distribution
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           message
+          </code>
+         </td>
+         <td align="left">
+          optional, function, default:
+          <code>
+           (points-sum, extrapoints-sum) =&gt; [In sum #points-sum + #extrapoints-sum P. are achievable. You achieved #box(line(stroke: purple, length: 1cm)) out of #points-sum points.]
+          </code>
+          , used to generate the message part above the point distribution
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           grade-scale
+          </code>
+         </td>
+         <td align="left">
+          optional, array, default:
+          <code>
+           (([excellent], 0.9), ([very good], 0.8), ([good], 0.7), ([pass], 0.6), ([fail], 0.49))
+          </code>
+          , list of grades and percentage of points to reach that grade
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           page-margins
+          </code>
+         </td>
+         <td align="left">
+          optional, margins, default:
+          <code>
+           none
+          </code>
+          , overwrite page margins
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           fontsize
+          </code>
+         </td>
+         <td align="left">
+          optional, size, default:
+          <code>
+           11pt
+          </code>
+          , overwrite font size
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           show-todolist
+          </code>
+         </td>
+         <td align="left">
+          optional, bool, default:
+          <code>
+           true
+          </code>
+          , show list of usages of the
+          <code>
+           todo
+          </code>
+          function after the outline
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           body
+          </code>
+         </td>
+         <td align="left">
+          content, document content
+         </td>
+        </tr>
+       </tbody>
+      </table>
+      <p>
+       <code>
+        task
+       </code>
+       creates a task element in an exercise project.
+      </p>
+      <table>
+       <thead>
+        <tr>
+         <th align="left">
+          <code>
+           task
+          </code>
+         </th>
+         <th align="left">
+         </th>
+        </tr>
+       </thead>
+       <tbody>
+        <tr>
+         <td align="left">
+          <code>
+           lines
+          </code>
+         </td>
+         <td align="left">
+          optional, number, default:
+          <code>
+           0
+          </code>
+          , number of lines to draw if
+          <code>
+           show-lines
+          </code>
+          in exerciseâs
+          <code>
+           project
+          </code>
+          is set to
+          <code>
+           true
+          </code>
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           points
+          </code>
+         </td>
+         <td align="left">
+          optional, number, default:
+          <code>
+           0
+          </code>
+          , number of points achievable
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           extra
+          </code>
+         </td>
+         <td align="left">
+          optional, bool, default:
+          <code>
+           false
+          </code>
+          , determines if the task is obligatory (
+          <code>
+           false
+          </code>
+          ) or additional (
+          <code>
+           true
+          </code>
+          )
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           numbering-format
+          </code>
+         </td>
+         <td align="left">
+          optional, function, default:
+          <code>
+           none
+          </code>
+          ,
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           title
+          </code>
+         </td>
+         <td align="left">
+          content, title of the task
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           instruction
+          </code>
+         </td>
+         <td align="left">
+          content, instruction of the task, highlighted
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           ..args
+          </code>
+         </td>
+         <td align="left">
+          1: content, task body; 2: content, task solution, not highlighted (see
+          <code>
+           solution-as-matrix
+          </code>
+          of exerciseâs
+          <code>
+           project
+          </code>
+          ), 3: content, task hint
+         </td>
+        </tr>
+       </tbody>
+      </table>
+      <p>
+       <code>
+        subtask
+       </code>
+       creates a part of a task. Its points are added to the parent task.
+       <em>
+        <strong>
+         Subtasks are to be use inside of the taskâs body or inside of another subtaskâs body.
+        </strong>
+       </em>
+      </p>
+      <table>
+       <thead>
+        <tr>
+         <th align="left">
+          <code>
+           subtask
+          </code>
+         </th>
+         <th align="left">
+         </th>
+        </tr>
+       </thead>
+       <tbody>
+        <tr>
+         <td align="left">
+          <code>
+           points
+          </code>
+         </td>
+         <td align="left">
+          optional, number, default:
+          <code>
+           0
+          </code>
+          , points achievable, adds to a tasks point
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           tight
+          </code>
+         </td>
+         <td align="left">
+          optional, bool, default:
+          <code>
+           false
+          </code>
+          , enum style
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           markers
+          </code>
+         </td>
+         <td align="left">
+          optional, array, default:
+          <code>
+           ("1.", "a)")
+          </code>
+          , numbering format for each level, fallback is
+          <code>
+           i.
+          </code>
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           show-points
+          </code>
+         </td>
+         <td align="left">
+          optional, bool, default:
+          <code>
+           true
+          </code>
+          , show points next to subtaskâs body iff
+          <code>
+           true
+          </code>
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           counter
+          </code>
+         </td>
+         <td align="left">
+          optional, counter, default:
+          <code>
+           none
+          </code>
+          , change number styled by the numbering format; if
+          <code>
+           none
+          </code>
+          , each level has an incrementel auto counter
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           content
+          </code>
+         </td>
+         <td align="left">
+          content, subtask body
+         </td>
+        </tr>
+       </tbody>
+      </table>
+      <h2>
+       Seminar paper
+      </h2>
+      <h3>
+       Setup
+      </h3>
+      <pre><code class="language-typ"><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/grape-suite:1.0.0"</span><span class="typ-punct">:</span> seminar-paper
+
+<span class="typ-key">#</span><span class="typ-key">show</span><span class="typ-punct">:</span> seminar-paper<span class="typ-punct">.</span>project<span class="typ-punct">.</span><span class="typ-func">with</span><span class="typ-punct">(</span>
+    title<span class="typ-punct">:</span> <span class="typ-str">"Die IntensionalitÃ¤t von dass-SÃ¤tzen"</span><span class="typ-punct">,</span>
+    subtitle<span class="typ-punct">:</span> <span class="typ-str">"Intensionale Kontexte in philosophischen Argumenten"</span><span class="typ-punct">,</span>
+
+    university<span class="typ-punct">:</span> <span class="typ-punct">[</span>UniversitÃ¤t Musterstadt<span class="typ-punct">]</span><span class="typ-punct">,</span>
+    faculty<span class="typ-punct">:</span> <span class="typ-punct">[</span>Exemplarische FakultÃ¤t<span class="typ-punct">]</span><span class="typ-punct">,</span>
+    institute<span class="typ-punct">:</span> <span class="typ-punct">[</span>Institut fÃ¼r Philosophie<span class="typ-punct">]</span><span class="typ-punct">,</span>
+    docent<span class="typ-punct">:</span> <span class="typ-punct">[</span>Dr. phil. Berta BeispielprÃ¼ferin<span class="typ-punct">]</span><span class="typ-punct">,</span>
+    seminar<span class="typ-punct">:</span> <span class="typ-punct">[</span>Beispielseminar<span class="typ-punct">]</span><span class="typ-punct">,</span>
+
+    submit-to<span class="typ-punct">:</span> <span class="typ-punct">[</span>Eingereicht bei<span class="typ-punct">]</span><span class="typ-punct">,</span>
+    submit-by<span class="typ-punct">:</span> <span class="typ-punct">[</span>Eingereicht durch<span class="typ-punct">]</span><span class="typ-punct">,</span>
+
+    semester<span class="typ-punct">:</span> german-dates<span class="typ-punct">.</span><span class="typ-func">semester</span><span class="typ-punct">(</span>datetime<span class="typ-punct">.</span><span class="typ-func">today</span><span class="typ-punct">(</span><span class="typ-punct">)</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+
+    author<span class="typ-punct">:</span> <span class="typ-str">"Max Muster"</span><span class="typ-punct">,</span>
+    email<span class="typ-punct">:</span> <span class="typ-str">"max.muster@uni-musterstadt.uni"</span><span class="typ-punct">,</span>
+    address<span class="typ-punct">:</span> <span class="typ-punct">[</span>
+        12345 Musterstadt <span class="typ-escape">\</span>
+        MusterstraÃe 67
+    <span class="typ-punct">]</span>
+<span class="typ-punct">)</span>
+</code></code></pre>
+      <h3>
+       Documentation
+      </h3>
+      <table>
+       <thead>
+        <tr>
+         <th align="left">
+          <code>
+           project
+          </code>
+         </th>
+         <th align="left">
+         </th>
+        </tr>
+       </thead>
+       <tbody>
+        <tr>
+         <td align="left">
+          <code>
+           title
+          </code>
+         </td>
+         <td align="left">
+          optional, content, default:
+          <code>
+           none
+          </code>
+          , title used on the title page
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           subtitle
+          </code>
+         </td>
+         <td align="left">
+          optional, content, default:
+          <code>
+           none
+          </code>
+          , subtitle used on title page
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           submit-to
+          </code>
+         </td>
+         <td align="left">
+          optional, content, default:
+          <code>
+           "Submitted to"
+          </code>
+          , title for the assigneesâs section
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           submit-by
+          </code>
+         </td>
+         <td align="left">
+          optional, content, default:
+          <code>
+           "Submitted by"
+          </code>
+          , title for the assignedâs section
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           university
+          </code>
+         </td>
+         <td align="left">
+          optional, content, default:
+          <code>
+           "UNIVERSITY"
+          </code>
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           faculty
+          </code>
+         </td>
+         <td align="left">
+          optional, content, default:
+          <code>
+           "FACULTY"
+          </code>
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           institute
+          </code>
+         </td>
+         <td align="left">
+          optional, content, default:
+          <code>
+           "INSTITUTE"
+          </code>
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           seminar
+          </code>
+         </td>
+         <td align="left">
+          optional, content, default:
+          <code>
+           "SEMINAR"
+          </code>
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           semester
+          </code>
+         </td>
+         <td align="left">
+          optional, content, default:
+          <code>
+           "SEMESTER"
+          </code>
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           docent
+          </code>
+         </td>
+         <td align="left">
+          optional, content, default:
+          <code>
+           "DOCENT"
+          </code>
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           author
+          </code>
+         </td>
+         <td align="left">
+          optional, content, default:
+          <code>
+           "AUTHOR"
+          </code>
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           email
+          </code>
+         </td>
+         <td align="left">
+          optional, content, default:
+          <code>
+           "EMAIL"
+          </code>
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           address
+          </code>
+         </td>
+         <td align="left">
+          optional, content, default:
+          <code>
+           "ADDRESS"
+          </code>
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           title-page-part
+          </code>
+         </td>
+         <td align="left">
+          optional, content, default:
+          <code>
+           none
+          </code>
+          , overwrite date, assignee and assigned section
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           title-page-part-submit-date
+          </code>
+         </td>
+         <td align="left">
+          optional, content, default:
+          <code>
+           none
+          </code>
+          , overwrite date section
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           title-page-part-submit-to
+          </code>
+         </td>
+         <td align="left">
+          optional, content, default:
+          <code>
+           none
+          </code>
+          , overwrite assignee section
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           title-page-part-submit-by
+          </code>
+         </td>
+         <td align="left">
+          optional, content, default:
+          <code>
+           none
+          </code>
+          , overwrite assigned section
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           date
+          </code>
+         </td>
+         <td align="left">
+          optional, datetime, default:
+          <code>
+           datetime.today()
+          </code>
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           date-format
+          </code>
+         </td>
+         <td align="left">
+          optional, function, default:
+          <code>
+           (date) =&gt; date.display("[day].[month].[year]")
+          </code>
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           header
+          </code>
+         </td>
+         <td align="left">
+          optional, content, default:
+          <code>
+           none
+          </code>
+          , overwrite page header
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           header-right
+          </code>
+         </td>
+         <td align="left">
+          optional, content, default:
+          <code>
+           none
+          </code>
+          , overwrite right header part
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           header-middle
+          </code>
+         </td>
+         <td align="left">
+          optional, content, default:
+          <code>
+           none
+          </code>
+          , overwrite middle header part
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           header-left
+          </code>
+         </td>
+         <td align="left">
+          optional, content, default:
+          <code>
+           none
+          </code>
+          , overwrite left header part
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           footer
+          </code>
+         </td>
+         <td align="left">
+          optional, content, default:
+          <code>
+           none
+          </code>
+          , overwrite footer part
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           footer-right
+          </code>
+         </td>
+         <td align="left">
+          optional, content, default:
+          <code>
+           none
+          </code>
+          , overwrite right footer part
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           footer-middle
+          </code>
+         </td>
+         <td align="left">
+          optional, content, default:
+          <code>
+           none
+          </code>
+          , overwrite middle footer part
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           footer-left
+          </code>
+         </td>
+         <td align="left">
+          optional, content, default:
+          <code>
+           none
+          </code>
+          , overwrite left footer part
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           show-outline
+          </code>
+         </td>
+         <td align="left">
+          optional, bool, default:
+          <code>
+           true
+          </code>
+          , show outline
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           show-declaration-of-independent-work
+          </code>
+         </td>
+         <td align="left">
+          optional, bool, default:
+          <code>
+           true
+          </code>
+          , show German declaration of independent work
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           page-margins
+          </code>
+         </td>
+         <td align="left">
+          optional, margins, default:
+          <code>
+           none
+          </code>
+          , overwrite page margins
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           fontsize
+          </code>
+         </td>
+         <td align="left">
+          optional, size, default:
+          <code>
+           11pt
+          </code>
+          , overwrite fontsize
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           show-todolist
+          </code>
+         </td>
+         <td align="left">
+          optional, bool, default:
+          <code>
+           true
+          </code>
+          , show list of usages of the
+          <code>
+           todo
+          </code>
+          function after the outline
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           body
+          </code>
+         </td>
+         <td align="left">
+          content, document content
+         </td>
+        </tr>
+       </tbody>
+      </table>
+      <table>
+       <thead>
+        <tr>
+         <th align="left">
+          <code>
+           sidenote
+          </code>
+         </th>
+         <th align="left">
+         </th>
+        </tr>
+       </thead>
+       <tbody>
+        <tr>
+         <td align="left">
+          <code>
+           body
+          </code>
+         </td>
+         <td align="left">
+          sidenote content, which is a block with 3cm width and will be displayed in the right margin of the page
+         </td>
+        </tr>
+       </tbody>
+      </table>
+      <h2>
+       Slides
+      </h2>
+      <h3>
+       Setup
+      </h3>
+      <pre><code class="language-typ"><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/grape-suite:1.0.0"</span><span class="typ-punct">:</span> slides
+<span class="typ-key">#</span><span class="typ-key">import</span> slides<span class="typ-punct">:</span> <span class="typ-op">*</span>
+
+<span class="typ-key">#</span><span class="typ-key">show</span><span class="typ-punct">:</span> slides<span class="typ-punct">.</span><span class="typ-func">with</span><span class="typ-punct">(</span>
+    no<span class="typ-punct">:</span> <span class="typ-num">1</span><span class="typ-punct">,</span>
+    series<span class="typ-punct">:</span> <span class="typ-punct">[</span>Logik-Tutorium<span class="typ-punct">]</span><span class="typ-punct">,</span>
+    title<span class="typ-punct">:</span> <span class="typ-punct">[</span>Organisatorisches und EinfÃ¼hrung in die Logik<span class="typ-punct">]</span><span class="typ-punct">,</span>
+
+    author<span class="typ-punct">:</span> <span class="typ-str">"Tristan Pieper"</span><span class="typ-punct">,</span>
+    email<span class="typ-punct">:</span> <span class="typ-func">link</span><span class="typ-punct">(</span><span class="typ-str">"mailto:tristan.pieper@uni-rostock.de"</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+<span class="typ-punct">)</span>
+</code></code></pre>
+      <h3>
+       Documentation
+      </h3>
+      <table>
+       <thead>
+        <tr>
+         <th align="left">
+          <code>
+           slides
+          </code>
+         </th>
+         <th align="left">
+         </th>
+        </tr>
+       </thead>
+       <tbody>
+        <tr>
+         <td align="left">
+          <code>
+           no
+          </code>
+         </td>
+         <td align="left">
+          optional, number, default:
+          <code>
+           0
+          </code>
+          , number in the series
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           series
+          </code>
+         </td>
+         <td align="left">
+          optional, content, default:
+          <code>
+           none
+          </code>
+          , name of the series
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           title
+          </code>
+         </td>
+         <td align="left">
+          optional, content, default:
+          <code>
+           none
+          </code>
+          , title of the presentation
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           topics
+          </code>
+         </td>
+         <td align="left">
+          optional, array, default:
+          <code>
+           ()
+          </code>
+          , topics of the presentation
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           author
+          </code>
+         </td>
+         <td align="left">
+          optional, content, default:
+          <code>
+           none
+          </code>
+          , author
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           email
+          </code>
+         </td>
+         <td align="left">
+          optional, content, default:
+          <code>
+           none
+          </code>
+          , authorâs email
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           head-replacement
+          </code>
+         </td>
+         <td align="left">
+          optional, content, default:
+          <code>
+           none
+          </code>
+          , replace head on title slide with given content
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           title-replacement
+          </code>
+         </td>
+         <td align="left">
+          optional, content, default:
+          <code>
+           none
+          </code>
+          , replace title below head on title slide with given content
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           footer
+          </code>
+         </td>
+         <td align="left">
+          optional, content, default:
+          <code>
+           none
+          </code>
+          , replace footer on slides with given content
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           page-numbering
+          </code>
+         </td>
+         <td align="left">
+          optional, function, default:
+          <code>
+           (n, total) =&gt; {...}
+          </code>
+          , function that creates the page numbering (where
+          <code>
+           n
+          </code>
+          is the current,
+          <code>
+           total
+          </code>
+          is the last page)
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           show-semester
+          </code>
+         </td>
+         <td align="left">
+          optional, bool, default:
+          <code>
+           true
+          </code>
+          , show name of the semester (e.g. âSoSe 24â)
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           show-date
+          </code>
+         </td>
+         <td align="left">
+          optional, bool, default:
+          <code>
+           true
+          </code>
+          , show date in german format
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           show-outline
+          </code>
+         </td>
+         <td align="left">
+          optional, bool, default:
+          <code>
+           true
+          </code>
+          , show outline on the second slide
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           box-task-title
+          </code>
+         </td>
+         <td align="left">
+          optional, content, default:
+          <code>
+           [Task]
+          </code>
+          , shown as the title of a slideâs task box
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           box-hint-title
+          </code>
+         </td>
+         <td align="left">
+          optional, content, default:
+          <code>
+           [Hint]
+          </code>
+          , shown as the title of a slideâs tasks colored
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           box-solution-title
+          </code>
+         </td>
+         <td align="left">
+          optional, content, default:
+          <code>
+           [Solution]
+          </code>
+          , shown as the title of a slideâs tasks colored
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           box-definition-title
+          </code>
+         </td>
+         <td align="left">
+          optional, content, default:
+          <code>
+           [Definition]
+          </code>
+          , shown as the title of a slideâs definition box
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           box-notice-title
+          </code>
+         </td>
+         <td align="left">
+          optional, content, default:
+          <code>
+           [Notice]
+          </code>
+          , shown as the title of a slideâs notice box
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           box-example-title
+          </code>
+         </td>
+         <td align="left">
+          optional, content, default:
+          <code>
+           [Example]
+          </code>
+          , shown as the title of a slideâs example box
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           date
+          </code>
+         </td>
+         <td align="left">
+          optional, datetime, default:
+          <code>
+           datetime.today()
+          </code>
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           show-todolist
+          </code>
+         </td>
+         <td align="left">
+          optional, bool, default:
+          <code>
+           true
+          </code>
+          , show list of usages of the
+          <code>
+           todo
+          </code>
+          function after the outline
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           show-title-slide
+          </code>
+         </td>
+         <td align="left">
+          optional, bool, default:
+          <code>
+           true
+          </code>
+          , show title slide
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           show-author
+          </code>
+         </td>
+         <td align="left">
+          optional, bool, default:
+          <code>
+           true
+          </code>
+          , show author name on title slide
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           show-footer
+          </code>
+         </td>
+         <td align="left">
+          optional, bool, default:
+          <code>
+           true
+          </code>
+          , show footer on slides
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           show-page-numbers
+          </code>
+         </td>
+         <td align="left">
+          optional, bool, default:
+          <code>
+           true
+          </code>
+          , show page numbering
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           outline-title-text
+          </code>
+         </td>
+         <td align="left">
+          optional, content, default:
+          <code>
+           "Outline"
+          </code>
+          , title for the outline
+         </td>
+        </tr>
+        <tr>
+         <td align="left">
+          <code>
+           body
+          </code>
+         </td>
+         <td align="left">
+          content, document content
+         </td>
+        </tr>
+       </tbody>
+      </table>
+      <ul>
+       <li>
+        <code>
+         slide
+        </code>
+        ,
+        <code>
+         pause
+        </code>
+        ,
+        <code>
+         only
+        </code>
+        ,
+        <code>
+         uncover
+        </code>
+        : imported from polylux
+       </li>
+      </ul>
+      <h3>
+       Todos
+      </h3>
+      <p>
+       The following functions can be imported from
+       <code>
+        slides
+       </code>
+       ,
+       <code>
+        exercise
+       </code>
+       and
+       <code>
+        seminar-paper
+       </code>
+       :
+      </p>
+      <ul>
+       <li>
+        <code>
+         todo(content, ...)
+        </code>
+        - create a highlighted inline todo-note
+       </li>
+       <li>
+        <code>
+         list-todos()
+        </code>
+        - create list of all todo-usages with page of usage and content
+       </li>
+       <li>
+        <code>
+         hide-todos()
+        </code>
+        - hides all usages of
+        <code>
+         todo()
+        </code>
+        in the document
+       </li>
+      </ul>
+      <h3>
+       Elements
+      </h3>
+      <p>
+       The following functions can be imported from
+       <code>
+        slides
+       </code>
+       ,
+       <code>
+        exercise
+       </code>
+       and
+       <code>
+        seminar-paper
+       </code>
+       :
+       <code>
+        definition
+       </code>
+      </p>
+      <h2>
+       1.0.0
+      </h2>
+      <p>
+       New:
+      </p>
+      <ul>
+       <li>
+        <code>
+         todo
+        </code>
+        ,
+        <code>
+         list-todos
+        </code>
+        ,
+        <code>
+         hide-todos
+        </code>
+        in
+        <code>
+         todo.typ
+        </code>
+        , importable from
+        <code>
+         slides
+        </code>
+        ,
+        <code>
+         exercise.project
+        </code>
+        and
+        <code>
+         seminar-paper.project
+        </code>
+       </li>
+       <li>
+        <code>
+         show-todolist
+        </code>
+        attribute in above templates
+       </li>
+       <li>
+        <code>
+         ignore-points
+        </code>
+        attribute in
+        <code>
+         task
+        </code>
+        and
+        <code>
+         subtask
+        </code>
+        of exercises, so that their points wonât be shown in the solution matrix or point distribution
+       </li>
+       <li>
+        comment field and a standard-value for solution matrix via
+        <code>
+         show-solution-matrix-comment-field
+        </code>
+        and
+        <code>
+         solution-matrix-comment-field-value
+        </code>
+        options in
+        <code>
+         exercise.project
+        </code>
+       </li>
+       <li>
+        optional parameter
+        <code>
+         type
+        </code>
+        in
+        <code>
+         slides.task
+        </code>
+       </li>
+       <li>
+        new parameters in
+        <code>
+         sllides.slides
+        </code>
+        :
+        <ul>
+         <li>
+          <code>
+           head-replacement
+          </code>
+         </li>
+         <li>
+          <code>
+           title-replacement
+          </code>
+         </li>
+         <li>
+          <code>
+           footer
+          </code>
+         </li>
+         <li>
+          <code>
+           page-numbering
+          </code>
+         </li>
+         <li>
+          <code>
+           show-title-slide
+          </code>
+         </li>
+         <li>
+          <code>
+           show-author
+          </code>
+          (on title slide)
+         </li>
+         <li>
+          <code>
+           show-date
+          </code>
+         </li>
+         <li>
+          <code>
+           show-footer
+          </code>
+         </li>
+         <li>
+          <code>
+           show-page-numbers
+          </code>
+         </li>
+        </ul>
+       </li>
+       <li>
+        optional parameter
+        <code>
+         show-outline
+        </code>
+        in
+        <code>
+         seminar-paper.project
+        </code>
+       </li>
+      </ul>
+      <p>
+       Changes:
+      </p>
+      <ul>
+       <li>
+        <code>
+         dates.typ
+        </code>
+        becomes
+        <code>
+         german-dates.typ
+        </code>
+       </li>
+      </ul>
+      <p>
+       Fixes:
+      </p>
+      <ul>
+       <li>
+        remove forced German from the slides template
+       </li>
+       <li>
+        long headings are now properly aligned
+       </li>
+       <li>
+        subtask counter now resets for each part of task
+       </li>
+      </ul>
+      <p>
+       <strong>
+        Breaking Changes:
+       </strong>
+      </p>
+      <ul>
+       <li>
+        <code>
+         dates
+        </code>
+        becomes
+        <code>
+         german-dates
+        </code>
+       </li>
+       <li>
+        changed all
+        <code>
+         with-outline
+        </code>
+        to
+        <code>
+         show-outline
+        </code>
+       </li>
+      </ul>
+     </section>
+     <aside>
+      <a class="create-project-button desktop" href="/app?template=grape-suite&amp;version=1.0.0" rel="noopener noreferrer" target="_blank">
+       Create project in app
+      </a>
+      <section>
+       <h3>
+        How to use
+       </h3>
+       <p>
+        Click the button above to create a new project using this template in the Typst app.
+       </p>
+       <p>
+        You can also use the Typst CLI to start a new project on your computer using this command:
+       </p>
+       <div class="init-snippet">
+        <pre><code>typst init @preview/<!-- -->grape-suite<!-- -->:<!-- -->1.0.0</code></pre>
+        <button class="copy" title="Copy to clipboard">
+         <img alt="Copy" height="16" src="/assets/icons/16-copy.svg" width="16"/>
+        </button>
+       </div>
+      </section>
+      <section id="about">
+       <h3>
+        About
+       </h3>
+       <dl>
+        <dt>
+         Author
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         <a href="mailto:tristanpieper080803@gmail.com">
+          Tristan Pieper
+         </a>
+        </dd>
+        <dt>
+         License:
+        </dt>
+        <dd>
+         MIT
+        </dd>
+        <dt>
+         Current version:
+        </dt>
+        <dd>
+         1.0.0
+        </dd>
+        <dt>
+         Last updated:
+        </dt>
+        <dd>
+         July 22, 2024
+        </dd>
+        <dt>
+         First released:
+        </dt>
+        <dd>
+         May 3, 2024
+        </dd>
+        <dt>
+         Minimum Typst version:
+        </dt>
+        <dd>
+         0.11.0
+        </dd>
+        <dt>
+         Archive size:
+        </dt>
+        <dd class="archive-size-value">
+         15.7 kB
+         <a href="https://packages.typst.org/preview/grape-suite-1.0.0.tar.gz">
+          <img alt="Size icon" src="/assets/icons/16-download.svg"/>
+         </a>
+        </dd>
+        <dt>
+         Repository:
+        </dt>
+        <dd>
+         <a href="https://github.com/piepert/grape-suite" rel="noopener noreferrer" target="_blank">
+          GitHub
+         </a>
+        </dd>
+        <dt>
+         Categor
+         <!-- -->
+         ies
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         <ul class="list-with-icons">
+          <li>
+           <img alt="Layout icon" src="/assets/icons/16-layout.svg"/>
+           <a href="https://typst.app/universe/search/?category=layout">
+            Layout
+           </a>
+          </li>
+          <li>
+           <img alt="Paper icon" src="/assets/icons/16-atom.svg"/>
+           <a href="https://typst.app/universe/search/?category=paper">
+            Paper
+           </a>
+          </li>
+          <li>
+           <img alt="Presentation icon" src="/assets/icons/16-presentation.svg"/>
+           <a href="https://typst.app/universe/search/?category=presentation">
+            Presentation
+           </a>
+          </li>
+         </ul>
+        </dd>
+       </dl>
+      </section>
+      <section>
+       <h3>
+        Where to report issues?
+       </h3>
+       <p>
+        This
+        <!-- -->
+        template
+        <!-- -->
+        is a project of
+        <!-- -->
+        <!-- -->
+        Tristan Pieper
+        <!-- -->
+        .
+        <!-- -->
+        <!-- -->
+        Report issues on
+        <!-- -->
+        <a href="https://github.com/piepert/grape-suite" rel="noopener noreferrer" target="_blank">
+         their repository
+        </a>
+        .
+        <!-- -->
+        <!-- -->
+        You can also try to ask for help with this
+        <!-- -->
+        template
+        <!-- -->
+        on the
+        <!-- -->
+        <a href="https://forum.typst.app" rel="noopener" target="_blank">
+         Forum
+        </a>
+        .
+       </p>
+       <p>
+        Please report this
+        <!-- -->
+        template
+        <!-- -->
+        to the Typst team using the
+        <!-- -->
+        <a href="https://typst.app/contact" rel="noreferrer" target="_blank">
+         contact form
+        </a>
+        <!-- -->
+        if you believe it is a safety hazard or infringes upon your rights.
+       </p>
+      </section>
+      <section id="versions">
+       <h3>
+        Version history
+       </h3>
+       <table>
+        <thead>
+         <tr>
+          <th align="left">
+           Version
+          </th>
+          <th align="left">
+           Release Date
+          </th>
+         </tr>
+        </thead>
+        <tbody>
+         <tr>
+          <td align="left">
+           1.0.0
+          </td>
+          <td align="left">
+           July 22, 2024
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/grape-suite/0.1.0/">
+            0.1.0
+           </a>
+          </td>
+          <td align="left">
+           May 3, 2024
+          </td>
+         </tr>
+        </tbody>
+       </table>
+      </section>
+      <p class="bottom-notice muted">
+       Typst GmbH did not create this
+       <!-- -->
+       template
+       <!-- -->
+       and cannot guarantee correct functionality of this
+       <!-- -->
+       template
+       <!-- -->
+       or compatibility with any version of the Typst compiler or app.
+      </p>
+     </aside>
+    </div>
+   </main>

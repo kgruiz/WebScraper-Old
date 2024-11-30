@@ -1,0 +1,445 @@
+\title{typst.app/universe/package/flyingcircus}
+
+\phantomsection\label{banner}
+\phantomsection\label{template-thumbnail}
+\pandocbounded{\includegraphics[keepaspectratio]{https://packages.typst.org/preview/thumbnails/flyingcircus-3.2.0-small.webp}}
+
+\section{flyingcircus}\label{flyingcircus}
+
+{ 3.2.0 }
+
+For creating homebrew documents with the same fancy style as the Flying
+Circus book? Provides simple commands to generate a whole aircraft stat
+page, vehicle, or even ship.
+
+\href{/app?template=flyingcircus&version=3.2.0}{Create project in app}
+
+\phantomsection\label{readme}
+Version 3.2.0
+
+Do you want your homebrew to have the same fancy style as the Flying
+Circus book? Do you want a simple command to generate a whole aircraft
+stat page, vehicle, or even ship? Iâ€™ll bet you do! Take a look at the
+Flying Circus Aircraft Catalog Template.
+
+\subsection{Acknowledgments and Useful
+Links}\label{acknowledgments-and-useful-links}
+
+Download the fonts from
+\href{https://github.com/Tetragramm/flying-circus-typst-template/archive/refs/heads/Fonts.zip}{HERE}
+. Install them on your computer, upload them to the Typst web-app
+(anywhere in the project is fine) or use the Typst command line option
+-\/-font-path to include them.
+
+Based on the style and work (with the permission of) Erika Chappell for
+the \href{https://opensketch.itch.io/flying-circus}{Flying Circus RPG} .
+
+Integrates with the
+\href{https://tetragramm.github.io/PlaneBuilder/index.html}{Plane
+Builder} . Just click the Catalog JSON button at the bottom to save what
+you need for this template.
+
+Same with the
+\href{https://tetragramm.github.io/VehicleBuilder/}{Vehicle Builder} .
+
+Or check out the \href{https://discord.gg/HKdyUuvmcb}{Discord server} .
+
+\subsection{Getting Started}\label{getting-started}
+
+These instructions will get you a copy of the project up and running on
+the typst web app.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/flyingcircus:3.2.0": *}
+
+\NormalTok{\#show: FlyingCircus.with(}
+\NormalTok{  Title: title,}
+\NormalTok{  Author: author,}
+\NormalTok{  CoverImg: image("images/cover.png"),}
+\NormalTok{  Dedication: [It\textquotesingle{}s Alive!!! MUAHAHAHA!],}
+\NormalTok{)}
+
+\NormalTok{\#FCPlane(read("My Plane\_stats.json"), Nickname:"My First Plane")}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Usage}\label{usage}
+
+The first thing is the FlyingCircus style.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/flyingcircus:3.2.0": *}
+
+\NormalTok{/// Defines the FlyingCircus template}
+\NormalTok{///}
+\NormalTok{/// {-} Title (str): Title of the document. Goes in metadata and on title page.}
+\NormalTok{/// {-} Author (str): Author(s) of the document. Goes in metadata and on title page.}
+\NormalTok{/// {-} CoverImg (image): Image to make the first page of the document.}
+\NormalTok{/// {-} Description (str): Text to go with the title on the title page.}
+\NormalTok{/// {-} Dedication (str): Dedication to go down below the title on the title page.}
+\NormalTok{/// {-} body (content)}
+\NormalTok{/// {-}\textgreater{} content}
+
+\NormalTok{// Example}
+\NormalTok{\#show: FlyingCircus.with(}
+\NormalTok{  Title: title,}
+\NormalTok{  Author: author,}
+\NormalTok{  CoverImg: image("images/cover.png"),}
+\NormalTok{  Dedication: [It\textquotesingle{}s Alive!!! MUAHAHAHA!],}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+Next is the FCPlane function for making plane pages.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{/// Defines the FlyingCircus Plane page.  Always on a new page. Image optional.}
+\NormalTok{///}
+\NormalTok{/// {-} Plane (str | dictionary): JSON string or dictionary representing the plane stats.}
+\NormalTok{/// {-} Nickname (str): Nickname to go under the aircraft name.}
+\NormalTok{/// {-} Img (image | none): Image to go at the top of the page. Set to none to remove.}
+\NormalTok{/// {-} BoxText (dictionary): Pairs of values to go in the box over the image. Does nothing if no Img provided.}
+\NormalTok{/// {-} BoxAnchor (str): Which anchor of the image to put the box in?  Sample values are "north", "south{-}west", "center".}
+\NormalTok{/// {-} DescriptiveText (content)}
+\NormalTok{/// {-}\textgreater{} content}
+
+
+\NormalTok{// Example}
+\NormalTok{\#FCPlane(}
+\NormalTok{  read("Basic Biplane\_stats.json"),}
+\NormalTok{  Nickname: "Bring home the bacon!",}
+\NormalTok{  Img: image("images/Bergziegel\_image.png"),}
+\NormalTok{  BoxText: ("Role": "Fast Bomber", "First Flight": "1601", "Strengths": "Fastest Bomber"),}
+\NormalTok{  BoxAnchor: "north{-}east",}
+\NormalTok{)[}
+\NormalTok{\#lorem(100)}
+\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+The FCVehicleSimple is for when you want to put multiple vehicles on a
+page.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{/// Defines the FlyingCircus Simple Vehicle.  Not always a full page. Image optional.}
+\NormalTok{///}
+\NormalTok{/// {-} Vehicle (str | dictionary): JSON string or dictionary representing the Vehicle stats.}
+\NormalTok{/// {-} Img (image): Image to go above the vehicle. (optional)}
+\NormalTok{/// {-} DescriptiveText (content)}
+\NormalTok{/// {-}\textgreater{} content}
+\NormalTok{\#FCVehicleSimple(read("Sample Vehicle\_stats.json"))[\#lorem(120)]}
+\end{Highlighting}
+\end{Shaded}
+
+FCVehicleFancy is a one or two page vehicle that looks nicer but takes
+up more space.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{/// Defines the FlyingCircus Vehicle page.  Always on a new page. Image optional.}
+\NormalTok{/// If the Img is provided, it will take up two facing pages, otherwise only one, but a full page, unlike the Simple.}
+\NormalTok{///}
+\NormalTok{/// {-} Vehicle (str | dictionary): JSON string or dictionary representing the Vehicle stats.}
+\NormalTok{/// {-} Img (image | none): Image to go at the top of the first page. Set to none to remove.}
+\NormalTok{/// {-} TextVOffset (length): How far to push the text down the page. Want to do that inset text thing the book does? You can, the text can overlap with thte image.  Does nothing if no Img provided.}
+\NormalTok{/// {-} BoxText (dictionary): Pairs of values to go in the box over the image. Does nothing if no Img provided.}
+\NormalTok{/// {-} BoxAnchor (str): Which anchor of the image to put the box in?  Sample values are "north", "south{-}west", "center".}
+\NormalTok{/// {-} FirstPageContent (content): Goes on the first page. If no image is provided, it is not present.}
+\NormalTok{/// {-} AfterContent (content): Goes after the stat block. Always present.}
+\NormalTok{/// {-}\textgreater{} content}
+
+\NormalTok{// Example }
+\NormalTok{\#FCVehicleFancy(}
+\NormalTok{  read("Sample Vehicle\_stats.json"),}
+\NormalTok{  Img: image("images/Wandelburg.png"),}
+\NormalTok{  TextVOffset: 6.2in,}
+\NormalTok{  BoxText: ("Role": "Fast Bomber", "First Flight": "1601", "Strengths": "Fastest Bomber"),}
+\NormalTok{  BoxAnchor: "north{-}east",}
+\NormalTok{)[}
+\NormalTok{\#lorem(100)}
+\NormalTok{][}
+\NormalTok{\#lorem(100)}
+\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+Last of the vehicles, FCShip is for boats like Into the Drink.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{/// Defines the FlyingCircus Ship page.  Always on a new page. Image optional.}
+\NormalTok{///}
+\NormalTok{/// {-} Ship (str | dictionary): JSON string or dictionary representing the Ship stats.}
+\NormalTok{/// {-} Img (image | none): Image to go at the top of the page. Set to none to remove.}
+\NormalTok{/// {-} DescriptiveText (content): Goes below the name and above the stats table.}
+\NormalTok{/// {-} notes (content): Goes in the notes section.}
+\NormalTok{/// {-}\textgreater{} content}
+
+\NormalTok{// Example: No builder for Ships, so you\textquotesingle{}ll have to put it in your own JSON, or just a dict, like this.}
+\NormalTok{\#let ship\_stats = (}
+\NormalTok{  Name: "Macchi Frigate",}
+\NormalTok{  Speed: 5,}
+\NormalTok{  Handling: 15,}
+\NormalTok{  Hardness: 9,}
+\NormalTok{  Soak: 0,}
+\NormalTok{  Strengths: "{-}",}
+\NormalTok{  Weaknesses: "{-}",}
+\NormalTok{  Weapons: (}
+\NormalTok{    (Name: "x2 Light Howitzer", Fore: "x1", Left: "x2", Right: "x2", Rear: "x1"),}
+\NormalTok{    (Name: "x6 Pom{-}Pom Gun", Fore: "x2", Left: "x3", Right: "x3", Rear: "x2", Up: "x6"),}
+\NormalTok{    (Name: "x2 WMG", Left: "x1", Right: "x1"),}
+\NormalTok{  ),}
+\NormalTok{  DamageStates: ("", "{-}1 Speed", "{-}3 Guns", "{-}1 Speed", "{-}3 Guns", "Sinking"),}
+\NormalTok{)}
+
+\NormalTok{\#FCShip(}
+\NormalTok{  Img: image("images/Macchi Frigate.png"),}
+\NormalTok{  Ship: ship\_stats,}
+\NormalTok{)[}
+\NormalTok{  \#lorem(100)}
+\NormalTok{][}
+\NormalTok{  \#lorem(5)}
+\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+Additional functions include FCWeapon
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{/// Defines the FlyingCircus Weapon card. Image optional.}
+\NormalTok{///}
+\NormalTok{/// {-} Weapon (str | dictionary): JSON string or dictionary representing the Weapon stats.}
+\NormalTok{/// {-} Img (image | none): Image to go above the card. Set to none to remove.}
+\NormalTok{/// {-} DescriptiveText (content): Goes below the name and above the stats table.}
+\NormalTok{/// {-}\textgreater{} content}
+
+\NormalTok{//Example }
+\NormalTok{\#FCWeapon(}
+\NormalTok{  (Name: "Rifle/Carbine", Cells: (Hits: 1, Damage: 2, AP: 1, Range: "Extreme"), Price: "Scrip", Tags: "Manual"),}
+\NormalTok{  Img: image("images/Rifle.png"),}
+\NormalTok{)[}
+\NormalTok{Note that you can set the text in the cell boxes to whatever you want.}
+\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+KochFont:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{/// Sets the tex to the Koch Fette FC font for people who don\textquotesingle{}t want to remember the font name.}
+\NormalTok{///}
+\NormalTok{/// {-} body (content)}
+\NormalTok{/// {-} ..args: Any valid argument to the text function}
+\NormalTok{/// {-}\textgreater{} content}
+
+\NormalTok{// Example }
+\NormalTok{\#KochFont(size: 18pt)[Vehicles]}
+\end{Highlighting}
+\end{Shaded}
+
+and HiddenHeading, which is for adding to the table of contents without
+actually putting words on the page.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{//If we don\textquotesingle{}t want all our planes at the top level of the table of contents.  EX: if we want}
+\NormalTok{// {-} Intro}
+\NormalTok{// {-} Story}
+\NormalTok{// {-} Planes }
+\NormalTok{//   {-} First Plane}
+\NormalTok{// We break the page, and create a HiddenHeading, that doesn\textquotesingle{}t show up in the document (Or a normal heading, if that\textquotesingle{}s what you need)}
+\NormalTok{//Then we set the heading offset to one so everything after that is indented one level in the table of contents.}
+\NormalTok{\#pagebreak()}
+\NormalTok{\#HiddenHeading[= Vehicles]}
+\NormalTok{\#set heading(offset: 1)}
+
+
+\NormalTok{New in Version 3.2.0, the FCPlaybook (+utilities), FCNPCShort, and FCAirshipShort}
+
+\NormalTok{//This creates pages like the playbook. Largely customizable, for say, chariots of steel versions.}
+\NormalTok{// {-} Name (str) The name of the Playbook}
+\NormalTok{// {-} Subhead (str) The text that goes with the name in the header}
+\NormalTok{// {-} Character (content) This is the entire left column}
+\NormalTok{// {-} Questions (content) This is the top section of the right column, for motivation and trust questions.}
+\NormalTok{// {-} Starting (content) Middle section of the right column. Starting Assets, Burdens, Planes, Vices, ect}
+\NormalTok{// {-} Stats (content) Bottom section of the right column. Just the four FCPStatTable calls (and a colbreak, probably)}
+\NormalTok{// {-} StatNames () Define the stats to draw circles for on the top part of the 2nd page}
+\NormalTok{// {-} Triggers (content) List of triggers, includes section, because not all playbooks use the same text there.}
+\NormalTok{// {-} Vents (content) List of Vents, customizable like Triggers}
+\NormalTok{// {-} Intimacy (content) Bottom section of the left column, for the intimacy move}
+\NormalTok{// {-} Moves (content) The entire right column of the second page}
+\NormalTok{//}
+\NormalTok{// Utilities for use with FCPlaybook}
+\NormalTok{// {-} FCPRule()  The full{-}column horizontal line}
+\NormalTok{// {-} FCPSection(name: str)[content] The section break}
+\NormalTok{//    {-} name (str) The fancy font name on the lft side of the section line, can be blank.}
+\NormalTok{//    {-} content The italicized text on the right side of the line, can be blank.}
+\NormalTok{// {-} FCPStatTable(name, tagline, stats) For creating Stat tables}
+\NormalTok{//    {-} name (str) The name of the profile, to be rendered in smallcaps}
+\NormalTok{//    {-} tagline (str) The tagline of the profile, italicized}
+\NormalTok{//    {-} stats (dict) A dictionary of stats ex (Hard:"+2") Keys are first row, values are second row, no restrictions otherwise.}
+\NormalTok{\#FCPlaybook(}
+\NormalTok{  Name: str,}
+\NormalTok{  Subhead: str,}
+\NormalTok{  Character: content,}
+\NormalTok{  Questions: content,}
+\NormalTok{  Starting: content,}
+\NormalTok{  Stats: content,}
+\NormalTok{  StatNames: (),}
+\NormalTok{  Triggers: content,}
+\NormalTok{  Vents: content,}
+\NormalTok{  Intimacy: content,}
+\NormalTok{  Moves: content,}
+\NormalTok{)}
+
+\NormalTok{// This creates a short NPC profile like that in the back of the aircraft catalogue}
+\NormalTok{// {-} plane (dict) Contains the keys }
+\NormalTok{//      {-} Name}
+\NormalTok{//      {-} Nickname}
+\NormalTok{//      {-} Price (optional)}
+\NormalTok{//      {-} Upkeep (optional)}
+\NormalTok{//      {-} Used (optional)}
+\NormalTok{//      {-} Speeds}
+\NormalTok{//      {-} Handling}
+\NormalTok{//      {-} Structure}
+\NormalTok{// {-} img (image) Image to draw}
+\NormalTok{// {-} img\_scale (number) What scale to draw the image, relative to the column size}
+\NormalTok{// {-} img\_shift\_dx (percent) How far to shift the image in the x direction}
+\NormalTok{// {-} img\_shift\_dy (percent) How far to shift the image in the y direction}
+\NormalTok{// {-} content The decriptive text to go above the stat block}
+\NormalTok{\#FCShortNPC(}
+\NormalTok{  plane, }
+\NormalTok{  img: none, }
+\NormalTok{  img\_scale: 1.5, }
+\NormalTok{  img\_shift\_dx: {-}10\%, }
+\NormalTok{  img\_shift\_dy: {-}10\%, }
+\NormalTok{  content}
+\NormalTok{)}
+
+
+\NormalTok{// This creates a short airship profile like that in the back of the aircraft catalogue}
+\NormalTok{// {-} airship (dict) Contains the keys }
+\NormalTok{//      {-} Name}
+\NormalTok{//      {-} Nickname}
+\NormalTok{//      {-} Price (optional)}
+\NormalTok{//      {-} Upkeep (optional)}
+\NormalTok{//      {-} Used (optional)}
+\NormalTok{//      {-} Speed}
+\NormalTok{//      {-} Lift}
+\NormalTok{//      {-} Handling}
+\NormalTok{//      {-} Toughness}
+\NormalTok{// {-} img (image) Image to draw}
+\NormalTok{// {-} img\_scale (number) What scale to draw the image, relative to the column size}
+\NormalTok{// {-} img\_shift\_dx (percent) How far to shift the image in the x direction}
+\NormalTok{// {-} img\_shift\_dy (percent) How far to shift the image in the y direction}
+\NormalTok{// {-} content The decriptive text to go above the stat block}
+\NormalTok{\#FCShortAirship(}
+\NormalTok{  airship, }
+\NormalTok{  img: none, }
+\NormalTok{  img\_scale: 1.5, }
+\NormalTok{  img\_shift\_dx: {-}10\%, }
+\NormalTok{  img\_shift\_dy: {-}10\%, }
+\NormalTok{  content}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\href{/app?template=flyingcircus&version=3.2.0}{Create project in app}
+
+\subsubsection{How to use}\label{how-to-use}
+
+Click the button above to create a new project using this template in
+the Typst app.
+
+You can also use the Typst CLI to start a new project on your computer
+using this command:
+
+\begin{verbatim}
+typst init @preview/flyingcircus:3.2.0
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+Tetragramm
+\item[License:]
+MIT
+\item[Current version:]
+3.2.0
+\item[Last updated:]
+October 25, 2024
+\item[First released:]
+August 23, 2024
+\item[Minimum Typst version:]
+0.12.0
+\item[Archive size:]
+476 kB
+\href{https://packages.typst.org/preview/flyingcircus-3.2.0.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/Tetragramm/flying-circus-typst-template}{GitHub}
+\item[Discipline s :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \href{https://typst.app/universe/search/?discipline=engineering}{Engineering}
+\item
+  \href{https://typst.app/universe/search/?discipline=design}{Design}
+\item
+  \href{https://typst.app/universe/search/?discipline=transportation}{Transportation}
+\end{itemize}
+\item[Categor ies :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-docs.svg}}
+  \href{https://typst.app/universe/search/?category=book}{Book}
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-smile.svg}}
+  \href{https://typst.app/universe/search/?category=fun}{Fun}
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-layout.svg}}
+  \href{https://typst.app/universe/search/?category=layout}{Layout}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This template is a project of Tetragramm . Report issues on
+\href{https://github.com/Tetragramm/flying-circus-typst-template}{their
+repository} . You can also try to ask for help with this template on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this template to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+3.2.0 & October 25, 2024 \\
+\href{https://typst.app/universe/package/flyingcircus/3.0.0/}{3.0.0} &
+August 23, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this template and cannot guarantee correct
+functionality of this template or compatibility with any version of the
+Typst compiler or app.

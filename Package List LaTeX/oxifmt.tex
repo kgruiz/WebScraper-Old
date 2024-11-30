@@ -1,0 +1,664 @@
+\title{typst.app/universe/package/oxifmt}
+
+\phantomsection\label{banner}
+\section{oxifmt}\label{oxifmt}
+
+{ 0.2.1 }
+
+Convenient Rust-like string formatting in Typst
+
+\phantomsection\label{readme}
+A Typst library that brings convenient string formatting and
+interpolation through the \texttt{\ strfmt\ } function. Its syntax is
+taken directly from Rustâ€™s \texttt{\ format!\ } syntax, so feel free
+to read its page for more information (
+\url{https://doc.rust-lang.org/std/fmt/} ); however, this README should
+have enough information and examples for all expected uses of the
+library. Only a few things arenâ€™t supported from the Rust syntax, such
+as the \texttt{\ p\ } (pointer) format type, or the \texttt{\ .*\ }
+precision specifier.
+
+A few extras (beyond the Rust-like syntax) will be added over time,
+though (feel free to drop suggestions at the repository:
+\url{https://github.com/PgBiel/typst-oxifmt} ). The first â€œextraâ€? so
+far is the \texttt{\ fmt-decimal-separator:\ "string"\ } parameter,
+which lets you customize the decimal separator for decimal numbers
+(floats) inserted into strings. E.g.
+\texttt{\ strfmt("Result:\ \{\}",\ 5.8,\ fmt-decimal-separator:\ ",")\ }
+will return the string \texttt{\ "Result:\ 5,8"\ } (comma instead of
+dot). See more below.
+
+\textbf{Compatible with:} \href{https://github.com/typst/typst}{Typst}
+v0.4.0+
+
+\subsection{Table of Contents}\label{table-of-contents}
+
+\begin{itemize}
+\tightlist
+\item
+  \href{https://github.com/typst/packages/raw/main/packages/preview/oxifmt/0.2.1/\#usage}{Usage}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \href{https://github.com/typst/packages/raw/main/packages/preview/oxifmt/0.2.1/\#formatting-options}{Formatting
+    options}
+  \item
+    \href{https://github.com/typst/packages/raw/main/packages/preview/oxifmt/0.2.1/\#examples}{Examples}
+  \item
+    \href{https://github.com/typst/packages/raw/main/packages/preview/oxifmt/0.2.1/\#grammar}{Grammar}
+  \end{itemize}
+\item
+  \href{https://github.com/typst/packages/raw/main/packages/preview/oxifmt/0.2.1/\#issues-and-contributing}{Issues
+  and Contributing}
+\item
+  \href{https://github.com/typst/packages/raw/main/packages/preview/oxifmt/0.2.1/\#testing}{Testing}
+\item
+  \href{https://github.com/typst/packages/raw/main/packages/preview/oxifmt/0.2.1/\#changelog}{Changelog}
+\item
+  \href{https://github.com/typst/packages/raw/main/packages/preview/oxifmt/0.2.1/\#license}{License}
+\end{itemize}
+
+\subsection{Usage}\label{usage}
+
+You can use this library through Typstâ€™s package manager (for Typst
+v0.6.0+):
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/oxifmt:0.2.1": strfmt}
+\end{Highlighting}
+\end{Shaded}
+
+For older Typst versions, download the \texttt{\ oxifmt.typ\ } file
+either from Releases or directly from the repository. Then, move it to
+your projectâ€™s folder, and write at the top of your Typst file(s):
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "oxifmt.typ": strfmt}
+\end{Highlighting}
+\end{Shaded}
+
+Doing the above will give you access to the main function provided by
+this library ( \texttt{\ strfmt\ } ), which accepts a format string,
+followed by zero or more replacements to insert in that string
+(according to \texttt{\ \{...\}\ } formats inserted in that string), an
+optional \texttt{\ fmt-decimal-separator\ } parameter, and returns the
+formatted string, as described below.
+
+Its syntax is almost identical to Rustâ€™s \texttt{\ format!\ } (as
+specified here: \url{https://doc.rust-lang.org/std/fmt/} ). You can
+escape formats by duplicating braces ( \texttt{\ \{\{\ } and
+\texttt{\ \}\}\ } become \texttt{\ \{\ } and \texttt{\ \}\ } ). Hereâ€™s
+an example (see more examples in the file
+\texttt{\ tests/strfmt-tests.typ\ } ):
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/oxifmt:0.2.1": strfmt}
+
+\NormalTok{\#let s = strfmt("I\textquotesingle{}m \{\}. I have \{num\} cars. I\textquotesingle{}m \{0\}. \{\} is \{\{cool\}\}.", "John", "Carl", num: 10)}
+\NormalTok{\#assert.eq(s, "I\textquotesingle{}m John. I have 10 cars. I\textquotesingle{}m John. Carl is \{cool\}.")}
+\end{Highlighting}
+\end{Shaded}
+
+Note that \texttt{\ \{\}\ } extracts positional arguments after the
+string sequentially (the first \texttt{\ \{\}\ } extracts the first one,
+the second \texttt{\ \{\}\ } extracts the second one, and so on), while
+\texttt{\ \{0\}\ } , \texttt{\ \{1\}\ } , etc. will always extract the
+first, the second etc. positional arguments after the string.
+Additionally, \texttt{\ \{bananas\}\ } will extract the named argument
+â€œbananasâ€?.
+
+\subsubsection{Formatting options}\label{formatting-options}
+
+You can use \texttt{\ \{:spec\}\ } to customize your output. See the
+Rust docs linked above for more info, but a summary is below.
+
+(You may also want to check out the examples at
+\href{https://github.com/typst/packages/raw/main/packages/preview/oxifmt/0.2.1/\#examples}{Examples}
+.)
+
+\begin{itemize}
+\tightlist
+\item
+  Adding a \texttt{\ ?\ } at the end of \texttt{\ spec\ } (that is,
+  writing e.g. \texttt{\ \{0:?\}\ } ) will call \texttt{\ repr()\ } to
+  stringify your argument, instead of \texttt{\ str()\ } . Note that
+  this only has an effect if your argument is a string, an integer, a
+  float or a \texttt{\ label()\ } /
+  \texttt{\ \textless{}label\textgreater{}\ } - for all other types
+  (such as booleans or elements), \texttt{\ repr()\ } is always called
+  (as \texttt{\ str()\ } is unsupported for those).
+
+  \begin{itemize}
+  \tightlist
+  \item
+    For strings, \texttt{\ ?\ } (and thus \texttt{\ repr()\ } ) has the
+    effect of printing them with double quotes. For floats, this ensures
+    a \texttt{\ .0\ } appears after it, even if it doesnâ€™t have
+    decimal digits. For integers, this doesnâ€™t change anything.
+    Finally, for labels, the \texttt{\ \textless{}label\textgreater{}\ }
+    (with \texttt{\ ?\ } ) is printed as
+    \texttt{\ \textless{}label\textgreater{}\ } instead of
+    \texttt{\ label\ } .
+  \item
+    \textbf{TIP:} Prefer to always use \texttt{\ ?\ } when youâ€™re
+    inserting something that isnâ€™t a string, number or label, in order
+    to ensure consistent results even if the library eventually changes
+    the non- \texttt{\ ?\ } representation.
+  \end{itemize}
+\item
+  After the \texttt{\ :\ } , add e.g. \texttt{\ \_\textless{}8\ } to
+  align the string to the left, padding it with as many \texttt{\ \_\ }
+  s as necessary for it to be at least \texttt{\ 8\ } characters long
+  (for example). Replace \texttt{\ \textless{}\ } by
+  \texttt{\ \textgreater{}\ } for right alignment, or \texttt{\ \^{}\ }
+  for center alignment. (If the \texttt{\ \_\ } is omitted, it defaults
+  to â€™ â€™ (aligns with spaces).)
+
+  \begin{itemize}
+  \tightlist
+  \item
+    If you prefer to specify the minimum width (the \texttt{\ 8\ }
+    there) as a separate argument to \texttt{\ strfmt\ } instead, you
+    can specify \texttt{\ argument\$\ } in place of the width, which
+    will extract it from the integer at \texttt{\ argument\ } . For
+    example, \texttt{\ \_\^{}3\$\ } will center align the output with
+    \texttt{\ \_\ } s, where the minimum width desired is specified by
+    the fourth positional argument (index \texttt{\ 3\ } ), as an
+    integer. This means that a call such as
+    \texttt{\ strfmt("\{:\_\^{}3\$\}",\ 1,\ 2,\ 3,\ 4)\ } would produce
+    \texttt{\ "\_\_1\_\_"\ } , as \texttt{\ 3\$\ } would evaluate to
+    \texttt{\ 4\ } (the value at the fourth positional argument/index
+    \texttt{\ 3\ } ). Similarly, \texttt{\ named\$\ } would take the
+    width from the argument with name \texttt{\ named\ } , if it is an
+    integer (otherwise, error).
+  \end{itemize}
+\item
+  \textbf{For numbers:}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Specify \texttt{\ +\ } after the \texttt{\ :\ } to ensure zero or
+    positive numbers are prefixed with \texttt{\ +\ } before them
+    (instead of having no sign). \texttt{\ -\ } is also accepted but
+    ignored (negative numbers always specify their sign anyways).
+  \item
+    Use something like \texttt{\ :09\ } to add zeroes to the left of the
+    number until it has at least 9 digits / characters.
+
+    \begin{itemize}
+    \tightlist
+    \item
+      The \texttt{\ 9\ } here is also a width, so the same comment from
+      before applies (you can add \texttt{\ \$\ } to take it from an
+      argument to the \texttt{\ strfmt\ } function).
+    \end{itemize}
+  \item
+    Use \texttt{\ :.5\ } to ensure your float is represented with 5
+    decimal digits of precision (zeroes are added to the right if
+    needed; otherwise, it is rounded, \textbf{not truncated} ).
+
+    \begin{itemize}
+    \tightlist
+    \item
+      Note that floating point inaccuracies can be sometimes observed
+      here, which is an unfortunate current limitation.
+    \item
+      Similarly to \texttt{\ width\ } , the precision can also be
+      specified via an argument with the \texttt{\ \$\ } syntax:
+      \texttt{\ .5\$\ } will take the precision from the integer at
+      argument number 5 (the sixth one), while \texttt{\ .test\$\ } will
+      take it from the argument named \texttt{\ test\ } .
+    \end{itemize}
+  \item
+    \textbf{Integers only:} Add \texttt{\ x\ } (lowercase hex) or
+    \texttt{\ X\ } (uppercase) at the end of the \texttt{\ spec\ } to
+    convert the number to hexadecimal. Also, \texttt{\ b\ } will convert
+    it to binary, while \texttt{\ o\ } will convert to octal.
+
+    \begin{itemize}
+    \tightlist
+    \item
+      Specify a hashtag, e.g. \texttt{\ \#x\ } or \texttt{\ \#b\ } , to
+      prepend the corresponding base prefix to the base-converted
+      number, e.g. \texttt{\ 0xABC\ } instead of \texttt{\ ABC\ } .
+    \end{itemize}
+  \item
+    Add \texttt{\ e\ } or \texttt{\ E\ } at the end of the
+    \texttt{\ spec\ } to ensure the number is represented in scientific
+    notation (with \texttt{\ e\ } or \texttt{\ E\ } as the exponent
+    separator, respectively).
+  \item
+    For decimal numbers (floats), you can specify
+    \texttt{\ fmt-decimal-separator:\ ","\ } to \texttt{\ strfmt\ } to
+    have the decimal separator be a comma instead of a dot, for example.
+
+    \begin{itemize}
+    \tightlist
+    \item
+      To have this be the default, you can alias \texttt{\ strfmt\ } ,
+      such as using
+      \texttt{\ \#let\ strfmt\ =\ strfmt.with(fmt-decimal-separator:\ ",")\ }
+      .
+    \end{itemize}
+  \item
+    Number spec arguments (such as \texttt{\ .5\ } ) are ignored when
+    the argument is not a number, but e.g. a string, even if it looks
+    like a number (such as \texttt{\ "5"\ } ).
+  \end{itemize}
+\item
+  Note that all spec arguments above \textbf{have to be specified in
+  order} - if you mix up the order, it wonâ€™t work properly!
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Check the grammar below for the proper order, but, in summary: fill
+    (character) with align ( \texttt{\ \textless{}\ } ,
+    \texttt{\ \textgreater{}\ } or \texttt{\ \^{}\ } ) -\textgreater{}
+    sign ( \texttt{\ +\ } or \texttt{\ -\ } ) -\textgreater{}
+    \texttt{\ \#\ } -\textgreater{} \texttt{\ 0\ } (for 0 left-padding
+    of numbers) -\textgreater{} width (e.g. \texttt{\ 8\ } from
+    \texttt{\ 08\ } or \texttt{\ 9\ } from \texttt{\ -\textless{}9\ } )
+    -\textgreater{} \texttt{\ .precision\ } -\textgreater{} spec type (
+    \texttt{\ ?\ } , \texttt{\ x\ } , \texttt{\ X\ } , \texttt{\ b\ } ,
+    \texttt{\ o\ } , \texttt{\ e\ } , \texttt{\ E\ } )).
+  \end{itemize}
+\end{itemize}
+
+Some examples:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/oxifmt:0.2.1": strfmt}
+
+\NormalTok{\#let s1 = strfmt("\{0:?\}, \{test:+012e\}, \{1:{-}\textless{}\#8x\}", "hi", {-}74, test: 569.4)}
+\NormalTok{\#assert.eq(s1, "\textbackslash{}"hi\textbackslash{}", +00005.694e2, {-}0x4a{-}{-}{-}")}
+
+\NormalTok{\#let s2 = strfmt("\{:\_\textgreater{}+11.5\}", 59.4)}
+\NormalTok{\#assert.eq(s2, "\_\_+59.40000")}
+
+\NormalTok{\#let s3 = strfmt("Dict: \{:!\textless{}10?\}", (a: 5))}
+\NormalTok{\#assert.eq(s3, "Dict: (a: 5)!!!!")}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{Examples}\label{examples}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Inserting labels, text and numbers into strings:}
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/oxifmt:0.2.1": strfmt}
+
+\NormalTok{\#let s = strfmt("First: \{\}, Second: \{\}, Fourth: \{3\}, Banana: \{banana\} (brackets: \{\{escaped\}\})", 1, 2.1, 3, label("four"), banana: "Banana!!")}
+\NormalTok{\#assert.eq(s, "First: 1, Second: 2.1, Fourth: four, Banana: Banana!! (brackets: \{escaped\})")}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Forcing \texttt{\ repr()\ } with \texttt{\ \{:?\}\ }} (which
+  adds quotes around strings, and other things - basically represents a
+  Typst value):
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/oxifmt:0.2.1": strfmt}
+
+\NormalTok{\#let s = strfmt("The value is: \{:?\} | Also the label is \{:?\}", "something", label("label"))}
+\NormalTok{\#assert.eq(s, "The value is: \textbackslash{}"something\textbackslash{}" | Also the label is \textless{}label\textgreater{}")}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Inserting other types than numbers and strings} (for now, they
+  will always use \texttt{\ repr()\ } , even without
+  \texttt{\ \{...:?\}\ } , although that is more explicit):
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/oxifmt:0.2.1": strfmt}
+
+\NormalTok{\#let s = strfmt("Values: \{:?\}, \{1:?\}, \{stuff:?\}", (test: 500), ("a", 5.1), stuff: [a])}
+\NormalTok{\#assert.eq(s, "Values: (test: 500), (\textbackslash{}"a\textbackslash{}", 5.1), [a]")}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Padding to a certain width with characters:} Use
+  \texttt{\ \{:x\textless{}8\}\ } , where \texttt{\ x\ } is the
+  \textbf{character to pad with} (e.g. space or \texttt{\ \_\ } , but
+  can be anything), \texttt{\ \textless{}\ } is the \textbf{alignment of
+  the original text} relative to the padding (can be
+  \texttt{\ \textless{}\ } for left aligned (padding goes to the right),
+  \texttt{\ \textgreater{}\ } for right aligned (padded to its left) and
+  \texttt{\ \^{}\ } for center aligned (padded at both left and right)),
+  and \texttt{\ 8\ } is the \textbf{desired total width} (padding will
+  add enough characters to reach this width; if the replacement string
+  already has this width, no padding will be added):
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/oxifmt:0.2.1": strfmt}
+
+\NormalTok{\#let s = strfmt("Left5 \{:{-}\textless{}5\}, Right6 \{:=\textgreater{}6\}, Center10 \{centered: \^{}10?\}, Left3 \{tleft:\_\textless{}3\}", "xx", 539, tleft: "okay", centered: [a])}
+\NormalTok{\#assert.eq(s, "Left5 xx{-}{-}{-}, Right6 ===539, Center10     [a]    , Left3 okay")}
+\NormalTok{// note how \textquotesingle{}okay\textquotesingle{} didn\textquotesingle{}t suffer any padding at all (it already had at least the desired total width).}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Padding numbers with zeroes to the left:} Itâ€™s a similar
+  functionality to the above, however you write \texttt{\ \{:08\}\ } for
+  8 characters (for instance) - note that any characters in the
+  numberâ€™s representation matter for width (including sign, dot and
+  decimal part):
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/oxifmt:0.2.1": strfmt}
+
+\NormalTok{\#let s = strfmt("Left{-}padded7 numbers: \{:07\} \{:07\} \{:07\} \{3:07\}", 123, {-}344, 44224059, 45.32)}
+\NormalTok{\#assert.eq(s, "Left{-}padded7 numbers: 0000123 {-}000344 44224059 0045.32")}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Defining padding-to width using parameters, not literals:} If
+  you want the desired replacement width (the \texttt{\ 8\ } in
+  \texttt{\ \{:08\}\ } or \texttt{\ \{:\ \^{}8\}\ } ) to be passed via
+  parameter (instead of being hardcoded into the format string), you can
+  specify \texttt{\ parameter\$\ } in place of the width, e.g.
+  \texttt{\ \{:02\$\}\ } to take it from the third positional parameter,
+  or \texttt{\ \{:a\textgreater{}banana\$\}\ } to take it from the
+  parameter named \texttt{\ banana\ } - note that the chosen parameter
+  \textbf{must be an integer} (desired total width):
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/oxifmt:0.2.1": strfmt}
+
+\NormalTok{\#let s = strfmt("Padding depending on parameter: \{0:02$\} and \{0:a\textgreater{}banana$\}", 432, 0, 5, banana: 9)}
+\NormalTok{\#assert.eq(s, "Padding depending on parameter: 00432 aaaaaa432")  // widths 5 and 9}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Displaying \texttt{\ +\ } on positive numbers:} Just add a
+  \texttt{\ +\ } at the â€œbeginningâ€?, i.e., before the
+  \texttt{\ \#0\ } (if either is there), or after the custom fill and
+  align (if itâ€™s there and not \texttt{\ 0\ } - see
+  \href{https://github.com/typst/packages/raw/main/packages/preview/oxifmt/0.2.1/\#grammar}{Grammar}
+  for the exact positioning), like so:
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/oxifmt:0.2.1": strfmt}
+
+\NormalTok{\#let s = strfmt("Some numbers: \{:+\} \{:+08\}; With fill and align: \{:\_\textless{}+8\}; Negative (no{-}op): \{neg:+\}", 123, 456, 4444, neg: {-}435)}
+\NormalTok{\#assert.eq(s, "Some numbers: +123 +0000456; With fill and align: +4444\_\_\_; Negative (no{-}op): {-}435")}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Converting numbers to bases 2, 8 and 16:} Use one of the
+  following specifier types (i.e., characters which always go at the
+  very end of the format): \texttt{\ b\ } (binary), \texttt{\ o\ }
+  (octal), \texttt{\ x\ } (lowercase hexadecimal) or \texttt{\ X\ }
+  (uppercase hexadecimal). You can also add a \texttt{\ \#\ } between
+  \texttt{\ +\ } and \texttt{\ 0\ } (see the exact position at the
+  \href{https://github.com/typst/packages/raw/main/packages/preview/oxifmt/0.2.1/\#grammar}{Grammar}
+  ) to display a \textbf{base prefix} before the number (i.e.
+  \texttt{\ 0b\ } for binary, \texttt{\ 0o\ } for octal and
+  \texttt{\ 0x\ } for hexadecimal):
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/oxifmt:0.2.1": strfmt}
+
+\NormalTok{\#let s = strfmt("Bases (10, 2, 8, 16(l), 16(U):) \{0\} \{0:b\} \{0:o\} \{0:x\} \{0:X\} | W/ prefixes and modifiers: \{0:\#b\} \{0:+\#09o\} \{0:\_\textgreater{}+\#9X\}", 124)}
+\NormalTok{\#assert.eq(s, "Bases (10, 2, 8, 16(l), 16(U):) 124 1111100 174 7c 7C | W/ prefixes and modifiers: 0b1111100 +0o000174 \_\_\_\_+0x7C")}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Picking float precision (right-extending with zeroes):} Add,
+  at the end of the format (just before the spec type (such as
+  \texttt{\ ?\ } ), if thereâ€™s any), either \texttt{\ .precision\ }
+  (hardcoded, e.g. \texttt{\ .8\ } for 8 decimal digits) or
+  \texttt{\ .parameter\$\ } (taking the precision value from the
+  specified parameter, like with \texttt{\ width\ } ):
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/oxifmt:0.2.1": strfmt}
+
+\NormalTok{\#let s = strfmt("\{0:.8\} \{0:.2$\} \{0:.potato$\}", 1.234, 0, 2, potato: 5)}
+\NormalTok{\#assert.eq(s, "1.23400000 1.23 1.23400")}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Scientific notation:} Use \texttt{\ e\ } (lowercase) or
+  \texttt{\ E\ } (uppercase) as specifier types (can be combined with
+  precision):
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/oxifmt:0.2.1": strfmt}
+
+\NormalTok{\#let s = strfmt("\{0:e\} \{0:E\} \{0:+.9e\} | \{1:e\} | \{2:.4E\}", 124.2312, 50, {-}0.02)}
+\NormalTok{\#assert.eq(s, "1.242312e2 1.242312E2 +1.242312000e2 | 5e1 | {-}2.0000E{-}2")}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Customizing the decimal separator on floats:} Just specify
+  \texttt{\ fmt-decimal-separator:\ ","\ } (comma as an example):
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/oxifmt:0.2.1": strfmt}
+
+\NormalTok{\#let s = strfmt("\{0\} \{0:.6\} \{0:.5e\}", 1.432, fmt{-}decimal{-}separator: ",")}
+\NormalTok{\#assert.eq(s, "1,432 1,432000 1,43200e0")}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{Grammar}\label{grammar}
+
+Hereâ€™s the grammar specification for valid format \texttt{\ spec\ } s
+(in \texttt{\ \{name:spec\}\ } ), which is basically Rustâ€™s format:
+
+\begin{verbatim}
+format_spec := [[fill]align][sign]['#']['0'][width]['.' precision]type
+fill := character
+align := '<' | '^' | '>'
+sign := '+' | '-'
+width := count
+precision := count | '*'
+type := '' | '?' | 'x?' | 'X?' | identifier
+count := parameter | integer
+parameter := argument '$'
+\end{verbatim}
+
+Note, however, that precision of type \texttt{\ .*\ } is not supported
+yet and will raise an error.
+
+\subsection{Issues and Contributing}\label{issues-and-contributing}
+
+Please report any issues or send any contributions (through pull
+requests) to the repository at
+\url{https://github.com/PgBiel/typst-oxifmt}
+
+\subsection{Testing}\label{testing}
+
+If you wish to contribute, you may clone the repository and test this
+package with the following commands (from the project root folder):
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{git}\NormalTok{ clone https://github.com/PgBiel/typst{-}oxifmt}
+\BuiltInTok{cd}\NormalTok{ typst{-}oxifmt/tests}
+\ExtensionTok{typst}\NormalTok{ c strfmt{-}tests.typ }\AttributeTok{{-}{-}root}\NormalTok{ ..}
+\end{Highlighting}
+\end{Shaded}
+
+The tests succeeded if you received no error messages from the last
+command (please ensure youâ€™re using a supported Typst version).
+
+\subsection{Changelog}\label{changelog}
+
+\subsubsection{v0.2.1}\label{v0.2.1}
+
+\begin{itemize}
+\tightlist
+\item
+  Fixed formatting of UTF-8 strings. Before, strings with multi-byte
+  UTF-8 codepoints would cause formatting inconsistencies or even
+  crashes. (
+  \href{https://github.com/PgBiel/typst-oxifmt/issues/6}{Issue \#6} )
+\item
+  Fixed an inconsistency in negative number formatting. Now, it will
+  always print a regular hyphen (e.g. â€˜-2â€™), which is consistent
+  with Rustâ€™s behavior; before, it would occasionally print a minus
+  sign instead (as observed in a comment to
+  \href{https://github.com/PgBiel/typst-oxifmt/issues/4}{Issue \#4} ).
+\item
+  Added compatibility with Typst 0.8.0â€™s new type system.
+\end{itemize}
+
+\subsubsection{v0.2.0}\label{v0.2.0}
+
+\begin{itemize}
+\tightlist
+\item
+  The packageâ€™s name is now \texttt{\ oxifmt\ } !
+\item
+  \texttt{\ oxifmt:0.2.0\ } is now available through Typstâ€™s Package
+  Manager! You can now write
+  \texttt{\ \#import\ "@preview/oxifmt:0.2.0":\ strfmt\ } to use the
+  library.
+\item
+  Greatly improved the README, adding a section for common examples.
+\item
+  Fixed negative numbers being formatted with two minus signs.
+\item
+  Fixed custom precision of floats not working when they are exact
+  integers.
+\end{itemize}
+
+\subsubsection{v0.1.0}\label{v0.1.0}
+
+\begin{itemize}
+\tightlist
+\item
+  Initial release, added \texttt{\ strfmt\ } .
+\end{itemize}
+
+\subsection{License}\label{license}
+
+MIT-0 license (see the \texttt{\ LICENSE\ } file).
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as \texttt{\ oxifmt\ }
+
+\begin{verbatim}
+#import "@preview/oxifmt:0.2.1"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+\href{https://github.com/PgBiel}{PgBiel}
+\item[License:]
+MIT-0
+\item[Current version:]
+0.2.1
+\item[Last updated:]
+May 6, 2024
+\item[First released:]
+August 2, 2023
+\item[Archive size:]
+12.0 kB
+\href{https://packages.typst.org/preview/oxifmt-0.2.1.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/PgBiel/typst-oxifmt}{GitHub}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of PgBiel . Report issues on
+\href{https://github.com/PgBiel/typst-oxifmt}{their repository} . You
+can also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.2.1 & May 6, 2024 \\
+\href{https://typst.app/universe/package/oxifmt/0.2.0/}{0.2.0} & August
+2, 2023 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.

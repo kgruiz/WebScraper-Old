@@ -1,0 +1,331 @@
+<main>
+    <div id="banner" style="--banner-accent:#000000;--banner-primary:#000000;--banner-secondary:#000000;--banner-tertiary:#565565;--banner-background:#eff0f3">
+     <div class="package-icon" role="img">
+     </div>
+     <div>
+      <div class="title">
+       <h1 class="name">
+        based
+       </h1>
+       <span class="version">
+        0.2.0
+       </span>
+      </div>
+      <p class="description">
+       Encoder and decoder for base64, base32, and base16.
+      </p>
+     </div>
+    </div>
+    <div class="inner-grid">
+     <section id="readme">
+      <p>
+       A package for encoding and decoding in base64, base32, and base16.
+      </p>
+      <h2>
+       Usage
+      </h2>
+      <p>
+       The package comes with three submodules:
+       <code>
+        base64
+       </code>
+       ,
+       <code>
+        base32
+       </code>
+       , and
+       <code>
+        base16
+       </code>
+       . All of them have an
+       <code>
+        encode
+       </code>
+       and
+       <code>
+        decode
+       </code>
+       function. The package also provides the function aliases
+      </p>
+      <ul>
+       <li>
+        <code>
+         encode64
+        </code>
+        /
+        <code>
+         decode64
+        </code>
+        ,
+       </li>
+       <li>
+        <code>
+         encode32
+        </code>
+        /
+        <code>
+         decode32
+        </code>
+        , and
+       </li>
+       <li>
+        <code>
+         encode16
+        </code>
+        /
+        <code>
+         decode16
+        </code>
+        .
+       </li>
+      </ul>
+      <p>
+       Both base64 and base32 allow you to choose whether to use padding for encoding via the
+       <code>
+        pad
+       </code>
+       parameter, which is enabled by default. Base64 also allows you to encode with the URL-safe alphabet by enabling the
+       <code>
+        url
+       </code>
+       parameter, while base32 allows you to encode or decode with the âextended hexâ alphabet via the
+       <code>
+        hex
+       </code>
+       parameter. Both options are disabled by default. The base16 encoder uses lowercase letters, the decoder is case-insensitive.
+      </p>
+      <p>
+       You can encode strings, arrays and bytes. The
+       <code>
+        encode
+       </code>
+       function will return a string, while the
+       <code>
+        decode
+       </code>
+       function will return bytes.
+      </p>
+      <h2>
+       Example
+      </h2>
+      <pre><code class="language-typ"><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/based:0.2.0"</span><span class="typ-punct">:</span> base64<span class="typ-punct">,</span> base32<span class="typ-punct">,</span> base16
+
+<span class="typ-func">#</span><span class="typ-func">table</span><span class="typ-punct">(</span>
+  columns<span class="typ-punct">:</span> <span class="typ-num">3</span><span class="typ-punct">,</span>
+  
+  table<span class="typ-punct">.</span><span class="typ-func">header</span><span class="typ-punct">[</span><span class="typ-strong">*Base64*</span><span class="typ-punct">]</span><span class="typ-punct">[</span><span class="typ-strong">*Base32*</span><span class="typ-punct">]</span><span class="typ-punct">[</span><span class="typ-strong">*Base16*</span><span class="typ-punct">]</span><span class="typ-punct">,</span>
+
+  <span class="typ-func">raw</span><span class="typ-punct">(</span>base64<span class="typ-punct">.</span><span class="typ-func">encode</span><span class="typ-punct">(</span><span class="typ-str">"Hello world!"</span><span class="typ-punct">)</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+  <span class="typ-func">raw</span><span class="typ-punct">(</span>base32<span class="typ-punct">.</span><span class="typ-func">encode</span><span class="typ-punct">(</span><span class="typ-str">"Hello world!"</span><span class="typ-punct">)</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+  <span class="typ-func">raw</span><span class="typ-punct">(</span>base16<span class="typ-punct">.</span><span class="typ-func">encode</span><span class="typ-punct">(</span><span class="typ-str">"Hello world!"</span><span class="typ-punct">)</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+
+  <span class="typ-func">str</span><span class="typ-punct">(</span>base64<span class="typ-punct">.</span><span class="typ-func">decode</span><span class="typ-punct">(</span><span class="typ-str">"SGVsbG8gd29ybGQh"</span><span class="typ-punct">)</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+  <span class="typ-func">str</span><span class="typ-punct">(</span>base32<span class="typ-punct">.</span><span class="typ-func">decode</span><span class="typ-punct">(</span><span class="typ-str">"JBSWY3DPEB3W64TMMQQQ===="</span><span class="typ-punct">)</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+  <span class="typ-func">str</span><span class="typ-punct">(</span>base16<span class="typ-punct">.</span><span class="typ-func">decode</span><span class="typ-punct">(</span><span class="typ-str">"48656C6C6F20776F726C6421"</span><span class="typ-punct">)</span><span class="typ-punct">)</span>
+<span class="typ-punct">)</span>
+</code></code></pre>
+      <p>
+       <img alt="Result of example code." src="https://github.com/typst/packages/raw/main/packages/preview/based/0.2.0/assets/example.svg"/>
+      </p>
+     </section>
+     <aside>
+      <section>
+       <h3>
+        How to add
+       </h3>
+       <p>
+        Copy this into your project and use the import as
+        <!-- -->
+        <code>
+         based
+        </code>
+       </p>
+       <div class="import-snippet">
+        <pre><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/based:0.2.0"</span></code></pre>
+        <button class="copy" title="Copy to clipboard">
+         <img alt="Copy" height="16" src="/assets/icons/16-copy.svg" width="16"/>
+        </button>
+       </div>
+       <p class="muted">
+        Check the docs for
+        <!-- -->
+        <a href="https://typst.app/docs/reference/scripting/#packages">
+         more information on how to import packages
+        </a>
+        .
+       </p>
+      </section>
+      <section id="about">
+       <h3>
+        About
+       </h3>
+       <dl>
+        <dt>
+         Author
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         Eric Biedert
+        </dd>
+        <dt>
+         License:
+        </dt>
+        <dd>
+         MIT
+        </dd>
+        <dt>
+         Current version:
+        </dt>
+        <dd>
+         0.2.0
+        </dd>
+        <dt>
+         Last updated:
+        </dt>
+        <dd>
+         November 6, 2024
+        </dd>
+        <dt>
+         First released:
+        </dt>
+        <dd>
+         July 5, 2024
+        </dd>
+        <dt>
+         Archive size:
+        </dt>
+        <dd class="archive-size-value">
+         21.1 kB
+         <a href="https://packages.typst.org/preview/based-0.2.0.tar.gz">
+          <img alt="Size icon" src="/assets/icons/16-download.svg"/>
+         </a>
+        </dd>
+        <dt>
+         Repository:
+        </dt>
+        <dd>
+         <a href="https://github.com/EpicEricEE/typst-based" rel="noopener noreferrer" target="_blank">
+          GitHub
+         </a>
+        </dd>
+        <dt>
+         Categor
+         <!-- -->
+         y
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         <ul class="list-with-icons">
+          <li>
+           <img alt="Scripting icon" src="/assets/icons/16-code.svg"/>
+           <a href="https://typst.app/universe/search/?category=scripting">
+            Scripting
+           </a>
+          </li>
+         </ul>
+        </dd>
+       </dl>
+      </section>
+      <section>
+       <h3>
+        Where to report issues?
+       </h3>
+       <p>
+        This
+        <!-- -->
+        package
+        <!-- -->
+        is a project of
+        <!-- -->
+        <!-- -->
+        Eric Biedert
+        <!-- -->
+        .
+        <!-- -->
+        <!-- -->
+        Report issues on
+        <!-- -->
+        <a href="https://github.com/EpicEricEE/typst-based" rel="noopener noreferrer" target="_blank">
+         their repository
+        </a>
+        .
+        <!-- -->
+        <!-- -->
+        You can also try to ask for help with this
+        <!-- -->
+        package
+        <!-- -->
+        on the
+        <!-- -->
+        <a href="https://forum.typst.app" rel="noopener" target="_blank">
+         Forum
+        </a>
+        .
+       </p>
+       <p>
+        Please report this
+        <!-- -->
+        package
+        <!-- -->
+        to the Typst team using the
+        <!-- -->
+        <a href="https://typst.app/contact" rel="noreferrer" target="_blank">
+         contact form
+        </a>
+        <!-- -->
+        if you believe it is a safety hazard or infringes upon your rights.
+       </p>
+      </section>
+      <section id="versions">
+       <h3>
+        Version history
+       </h3>
+       <table>
+        <thead>
+         <tr>
+          <th align="left">
+           Version
+          </th>
+          <th align="left">
+           Release Date
+          </th>
+         </tr>
+        </thead>
+        <tbody>
+         <tr>
+          <td align="left">
+           0.2.0
+          </td>
+          <td align="left">
+           November 6, 2024
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/based/0.1.0/">
+            0.1.0
+           </a>
+          </td>
+          <td align="left">
+           July 5, 2024
+          </td>
+         </tr>
+        </tbody>
+       </table>
+      </section>
+      <p class="bottom-notice muted">
+       Typst GmbH did not create this
+       <!-- -->
+       package
+       <!-- -->
+       and cannot guarantee correct functionality of this
+       <!-- -->
+       package
+       <!-- -->
+       or compatibility with any version of the Typst compiler or app.
+      </p>
+     </aside>
+    </div>
+   </main>

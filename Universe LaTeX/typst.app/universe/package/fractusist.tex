@@ -1,0 +1,307 @@
+\title{typst.app/universe/package/fractusist}
+
+\phantomsection\label{banner}
+\section{fractusist}\label{fractusist}
+
+{ 0.1.0 }
+
+Create a variety of wonderful fractals in Typst.
+
+\phantomsection\label{readme}
+Create a variety of wonderful fractals in Typst.
+
+\subsection{Examples}\label{examples}
+
+The example below creates a dragon curve of the 12th iteration with the
+\texttt{\ dragon-curve\ } function.
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/fractusist/0.1.0/examples/dragon-curve-n12.png}}
+
+Show code
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#set page(width: auto, height: auto, margin: 0pt)}
+
+\NormalTok{\#dragon{-}curve(}
+\NormalTok{  12,}
+\NormalTok{  step{-}size: 6,}
+\NormalTok{  stroke{-}style: stroke(}
+\NormalTok{    paint: gradient.linear(..color.map.crest, angle: 45deg),}
+\NormalTok{    thickness: 3pt,}
+\NormalTok{    cap: "square"}
+\NormalTok{  )}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Features}\label{features}
+
+\begin{itemize}
+\tightlist
+\item
+  Use SVG backend for image rendering.
+\item
+  Generate fractals using
+  \href{https://en.wikipedia.org/wiki/L-system}{L-system} .
+\item
+  The number of iterations, step size, fill and stroke styles, etc. of
+  generated fractals could be customized.
+\end{itemize}
+
+\subsection{Usage}\label{usage}
+
+Import the latest version of this package with:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/fractusist:0.1.0": *}
+\end{Highlighting}
+\end{Shaded}
+
+Each function generates a specific fractal. The input and output
+arguments of all functions have a similar style. Typical input arguments
+are as follows:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ n\ } : the number of iterations ( \textbf{the valid range of
+  values depends on the specific function} ).
+\item
+  \emph{\texttt{\ step-size\ }} : step size (in pt).
+\item
+  \emph{\texttt{\ fill-style\ }} : fill style, can be \texttt{\ none\ }
+  or color or gradient ( \textbf{exists only when the curve is closed}
+  ).
+\item
+  \emph{\texttt{\ stroke-style\ }} : stroke style, can be
+  \texttt{\ none\ } or color or gradient or stroke object.
+\item
+  \emph{\texttt{\ width\ }} : the width of the image.
+\item
+  \emph{\texttt{\ height\ }} : the height of the image.
+\item
+  \emph{\texttt{\ fit\ }} : how the image should adjust itself to a
+  given area, â€œcoverâ€? / â€œcontainâ€? / â€œstretchâ€?.
+\end{itemize}
+
+The content returned is the \texttt{\ image\ } element.
+
+For more codes with these functions see
+\href{https://github.com/typst/packages/raw/main/packages/preview/fractusist/0.1.0/tests}{tests}
+.
+
+\subsection{Reference}\label{reference}
+
+\subsubsection{Dragon}\label{dragon}
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ dragon-curve\ } : Generate dragon curve (n: range
+  \textbf{{[}0, 16{]}} ).
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let dragon{-}curve(n, step{-}size: 10, stroke{-}style: black + 1pt, width: auto, height: auto, fit: "cover") = \{...\}}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{Hilbert}\label{hilbert}
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ hilbert-curve\ } : Generate 2D Hilbert curve. (n: range
+  \textbf{{[}1, 8{]}} ).
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let hilbert{-}curve(n, step{-}size: 10, stroke{-}style: black + 1pt, width: auto, height: auto, fit: "cover") = \{...\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ peano-curve\ } : Generate 2D Peano curve (n: range
+  \textbf{{[}1, 5{]}} ).
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let peano{-}curve(n, step{-}size: 10, stroke{-}style: black + 1pt, width: auto, height: auto, fit: "cover") = \{...\}}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{Koch}\label{koch}
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ koch-curve\ } : Generate Koch curve (n: range \textbf{{[}0,
+  6{]}} ).
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let koch{-}curve(n, step{-}size: 10, stroke{-}style: black + 1pt, width: auto, height: auto, fit: "cover") = \{...\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ koch-snowflake\ } : Generate Koch snowflake (n: range
+  \textbf{{[}0, 6{]}} ).
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let koch{-}snowflake(n, step{-}size: 10, fill{-}style: none, stroke{-}style: black + 1pt, width: auto, height: auto, fit: "cover") = \{...\}}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{SierpiÅ„ski}\label{sierpiuxe5ski}
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ sierpinski-curve\ } : Generate classic SierpiÅ„ski curve (n:
+  range \textbf{{[}0, 7{]}} ).
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let sierpinski{-}curve(n, step{-}size: 10, fill{-}style: none, stroke{-}style: black + 1pt, width: auto, height: auto, fit: "cover") = \{...\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ sierpinski-square-curve\ } : Generate SierpiÅ„ski square
+  curve (n: range \textbf{{[}0, 7{]}} ).
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let sierpinski{-}square{-}curve(n, step{-}size: 10, fill{-}style: none, stroke{-}style: black + 1pt, width: auto, height: auto, fit: "cover") = \{...\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ sierpinski-arrowhead-curve\ } : Generate SierpiÅ„ski
+  arrowhead curve (n: range \textbf{{[}0, 8{]}} ).
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let sierpinski{-}arrowhead{-}curve(n, step{-}size: 10, stroke{-}style: black + 1pt, width: auto, height: auto, fit: "cover") = \{...\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ sierpinski-triangle\ } : Generate 2D SierpiÅ„ski triangle
+  (n: range \textbf{{[}0, 6{]}} ).
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let sierpinski{-}triangle(n, step{-}size: 10, fill{-}style: none, stroke{-}style: black + 1pt, width: auto, height: auto, fit: "cover") = \{...\}}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as
+\texttt{\ fractusist\ }
+
+\begin{verbatim}
+#import "@preview/fractusist:0.1.0"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+\href{https://github.com/liuguangxi}{Guangxi Liu}
+\item[License:]
+MIT
+\item[Current version:]
+0.1.0
+\item[Last updated:]
+May 6, 2024
+\item[First released:]
+May 6, 2024
+\item[Minimum Typst version:]
+0.11.0
+\item[Archive size:]
+5.75 kB
+\href{https://packages.typst.org/preview/fractusist-0.1.0.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/liuguangxi/fractusist}{GitHub}
+\item[Discipline s :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \href{https://typst.app/universe/search/?discipline=computer-science}{Computer
+  Science}
+\item
+  \href{https://typst.app/universe/search/?discipline=mathematics}{Mathematics}
+\end{itemize}
+\item[Categor ies :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-package.svg}}
+  \href{https://typst.app/universe/search/?category=components}{Components}
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-chart.svg}}
+  \href{https://typst.app/universe/search/?category=visualization}{Visualization}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of Guangxi Liu . Report issues on
+\href{https://github.com/liuguangxi/fractusist}{their repository} . You
+can also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.1.0 & May 6, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.

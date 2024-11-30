@@ -1,0 +1,368 @@
+<main>
+    <div id="banner" style="--banner-accent:#000000;--banner-primary:#000000;--banner-secondary:#000000;--banner-tertiary:#565565;--banner-background:#eff0f3">
+     <div class="package-icon" role="img">
+     </div>
+     <div>
+      <div class="title">
+       <h1 class="name">
+        diverential
+       </h1>
+       <span class="version">
+        0.2.0
+       </span>
+      </div>
+      <p class="description">
+       Format differentials conveniently.
+      </p>
+     </div>
+    </div>
+    <div class="inner-grid">
+     <section id="readme">
+      <p>
+       <code>
+        diverential
+       </code>
+       is a
+       <a href="https://github.com/typst/typst" rel="nofollow ugc" target="_blank">
+        Typst
+       </a>
+       package simplifying the typesetting of differentials. It is the equivalent to LaTeXâs
+       <code>
+        diffcoeff
+       </code>
+       , though not as mature.
+      </p>
+      <h2>
+       Overview
+      </h2>
+      <p>
+       <code>
+        diverential
+       </code>
+       allows normal, partial, compact, and separated derivatives with smart degree calculations.
+      </p>
+      <pre><code class="language-ts">#import "@preview/diverential:0.2.0": *
+
+$ dv(f, x, deg: 2, eval: 0) $
+$ dvp(f, x, y, eval: 0, evalsym: "[") $
+$ dvpc(f, x) $
+$ dvps(f, #([x], 2), #([y], [n]), #([z], [m]), eval: 0) $
+</code></pre>
+      <img src="https://github.com/typst/packages/raw/main/packages/preview/diverential/0.2.0/examples/overview.jpg" width="150"/>
+      <h2>
+       <code>
+        dv
+       </code>
+      </h2>
+      <p>
+       <code>
+        dv
+       </code>
+       is an ordinary derivative. It takes the function as its first argument and the variable as its second one. A degree can be specified with
+       <code>
+        deg
+       </code>
+       . The derivate can be specified to be evaluated at a point with
+       <code>
+        eval
+       </code>
+       , the brackets of which can be changed with
+       <code>
+        evalsym
+       </code>
+       .
+       <code>
+        space
+       </code>
+       influences the space between derivative and evaluation bracket. Unless defined otherwise, no space is set by default, except for
+       <code>
+        |
+       </code>
+       , where a small gap is introduced.
+      </p>
+      <h3>
+       <code>
+        dvs
+       </code>
+      </h3>
+      <p>
+       Same as
+       <code>
+        dv
+       </code>
+       , but separates the function from the derivative.
+       <br/>
+       Example: $$ \frac{\mathrm{d}}{\mathrm{d}x} f $$
+      </p>
+      <h3>
+       <code>
+        dvc
+       </code>
+      </h3>
+      <p>
+       Same as
+       <code>
+        dv
+       </code>
+       , but uses a compact derivative.
+       <br/>
+       Example: $$ \mathrm{d}_x f $$
+      </p>
+      <h2>
+       <code>
+        dvp
+       </code>
+      </h2>
+      <p>
+       <code>
+        dv
+       </code>
+       is a partial derivative. It takes the function as its first argument and the variable as the rest. For information on
+       <code>
+        eval
+       </code>
+       ,
+       <code>
+        evalsym
+       </code>
+       , and
+       <code>
+        space
+       </code>
+       , read the description of
+       <code>
+        dv
+       </code>
+       .
+       <br/>
+       The variable can be one of these options:
+      </p>
+      <ul>
+       <li>
+        plain variable, e.g.
+        <code>
+         x
+        </code>
+       </li>
+       <li>
+        list of variables, e.g.
+        <code>
+         x, y
+        </code>
+       </li>
+       <li>
+        list of variables with higher degrees (type
+        <code>
+         (content, integer)
+        </code>
+        ), e.g.
+        <code>
+         x, #([y], 2)
+        </code>
+        The degree is smartly calculated: If all degrees of the variables are integers, the total degree is their sum. If some are content, the integer ones are summed (arithmetically) up and added to the visual sum of the content degrees. Example:
+        <code>
+         #([x], n), #([y], 2), z
+        </code>
+        â $\frac{\partial^{n+3}}{\partial x^n,\partial y^2,\partial z}$
+        <br/>
+        Specifying
+        <code>
+         deg
+        </code>
+        manually is always possible and might be required in more complicated cases.
+       </li>
+      </ul>
+      <h3>
+       <code>
+        dvps
+       </code>
+      </h3>
+      <p>
+       Same as
+       <code>
+        dvp
+       </code>
+       , but separates the function from the derivative.
+       <br/>
+       Example: $$ \frac{\partial}{\partial x} f $$
+      </p>
+      <h3>
+       <code>
+        dvpc
+       </code>
+      </h3>
+      <p>
+       Same as
+       <code>
+        dvp
+       </code>
+       , but uses a compact derivative.
+       <br/>
+       Note: If supplying multiple variables,
+       <code>
+        deg
+       </code>
+       is ignored.
+       <br/>
+       Example: $$ \partial_x f $$
+      </p>
+     </section>
+     <aside>
+      <section>
+       <h3>
+        How to add
+       </h3>
+       <p>
+        Copy this into your project and use the import as
+        <!-- -->
+        <code>
+         diverential
+        </code>
+       </p>
+       <div class="import-snippet">
+        <pre><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/diverential:0.2.0"</span></code></pre>
+        <button class="copy" title="Copy to clipboard">
+         <img alt="Copy" height="16" src="/assets/icons/16-copy.svg" width="16"/>
+        </button>
+       </div>
+       <p class="muted">
+        Check the docs for
+        <!-- -->
+        <a href="https://typst.app/docs/reference/scripting/#packages">
+         more information on how to import packages
+        </a>
+        .
+       </p>
+      </section>
+      <section id="about">
+       <h3>
+        About
+       </h3>
+       <dl>
+        <dt>
+         Author
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         Christopher Hecker
+        </dd>
+        <dt>
+         License:
+        </dt>
+        <dd>
+         MIT
+        </dd>
+        <dt>
+         Current version:
+        </dt>
+        <dd>
+         0.2.0
+        </dd>
+        <dt>
+         Last updated:
+        </dt>
+        <dd>
+         July 29, 2023
+        </dd>
+        <dt>
+         First released:
+        </dt>
+        <dd>
+         July 29, 2023
+        </dd>
+        <dt>
+         Archive size:
+        </dt>
+        <dd class="archive-size-value">
+         3.38 kB
+         <a href="https://packages.typst.org/preview/diverential-0.2.0.tar.gz">
+          <img alt="Size icon" src="/assets/icons/16-download.svg"/>
+         </a>
+        </dd>
+       </dl>
+      </section>
+      <section>
+       <h3>
+        Where to report issues?
+       </h3>
+       <p>
+        This
+        <!-- -->
+        package
+        <!-- -->
+        is a project of
+        <!-- -->
+        <!-- -->
+        Christopher Hecker
+        <!-- -->
+        .
+        <!-- -->
+        <!-- -->
+        <!-- -->
+        You can also try to ask for help with this
+        <!-- -->
+        package
+        <!-- -->
+        on the
+        <!-- -->
+        <a href="https://forum.typst.app" rel="noopener" target="_blank">
+         Forum
+        </a>
+        .
+       </p>
+       <p>
+        Please report this
+        <!-- -->
+        package
+        <!-- -->
+        to the Typst team using the
+        <!-- -->
+        <a href="https://typst.app/contact" rel="noreferrer" target="_blank">
+         contact form
+        </a>
+        <!-- -->
+        if you believe it is a safety hazard or infringes upon your rights.
+       </p>
+      </section>
+      <section id="versions">
+       <h3>
+        Version history
+       </h3>
+       <table>
+        <thead>
+         <tr>
+          <th align="left">
+           Version
+          </th>
+          <th align="left">
+           Release Date
+          </th>
+         </tr>
+        </thead>
+        <tbody>
+         <tr>
+          <td align="left">
+           0.2.0
+          </td>
+          <td align="left">
+           July 29, 2023
+          </td>
+         </tr>
+        </tbody>
+       </table>
+      </section>
+      <p class="bottom-notice muted">
+       Typst GmbH did not create this
+       <!-- -->
+       package
+       <!-- -->
+       and cannot guarantee correct functionality of this
+       <!-- -->
+       package
+       <!-- -->
+       or compatibility with any version of the Typst compiler or app.
+      </p>
+     </aside>
+    </div>
+   </main>

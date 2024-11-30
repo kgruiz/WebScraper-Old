@@ -1,0 +1,500 @@
+<main>
+    <div id="banner" style="--banner-accent:#BF4705;--banner-primary:#330C00;--banner-secondary:#844523;--banner-tertiary:#C2764C;--banner-background:linear-gradient(90deg, #FFC174 0%, #FFD998 56%, #FFE4C4 100%)">
+     <div class="package-icon" role="img">
+     </div>
+     <div>
+      <div class="title">
+       <h1 class="name">
+        curryst
+       </h1>
+       <span class="version">
+        0.3.0
+       </span>
+      </div>
+      <p class="description">
+       Typeset trees of inference rules.
+      </p>
+     </div>
+     <p class="featured-label">
+      <span class="icon" role="img">
+      </span>
+      Featured
+      <!-- -->
+      Package
+     </p>
+    </div>
+    <div class="inner-grid">
+     <section id="readme">
+      <p>
+       A Typst package for typesetting proof trees.
+      </p>
+      <h2>
+       Import
+      </h2>
+      <p>
+       You can import the latest version of this package with:
+      </p>
+      <pre><code class="language-typst"><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/curryst:0.3.0"</span><span class="typ-punct">:</span> rule<span class="typ-punct">,</span> proof-tree
+</code></code></pre>
+      <h2>
+       Basic usage
+      </h2>
+      <p>
+       To display a proof tree, you first need to create a tree, using the
+       <code>
+        rule
+       </code>
+       function. Its first argument is the conclusion, and the other positional arguments are the premises. It also accepts a
+       <code>
+        name
+       </code>
+       for the rule name, displayed on the right of the bar, as well as a
+       <code>
+        label
+       </code>
+       , displayed on the left of the bar.
+      </p>
+      <pre><code class="language-typ"><code><span class="typ-key">#</span><span class="typ-key">let</span> tree <span class="typ-op">=</span> <span class="typ-func">rule</span><span class="typ-punct">(</span>
+  label<span class="typ-punct">:</span> <span class="typ-punct">[</span>Label<span class="typ-punct">]</span><span class="typ-punct">,</span>
+  name<span class="typ-punct">:</span> <span class="typ-punct">[</span>Rule name<span class="typ-punct">]</span><span class="typ-punct">,</span>
+  <span class="typ-punct">[</span>Conclusion<span class="typ-punct">]</span><span class="typ-punct">,</span>
+  <span class="typ-punct">[</span>Premise 1<span class="typ-punct">]</span><span class="typ-punct">,</span>
+  <span class="typ-punct">[</span>Premise 2<span class="typ-punct">]</span><span class="typ-punct">,</span>
+  <span class="typ-punct">[</span>Premise 3<span class="typ-punct">]</span>
+<span class="typ-punct">)</span>
+</code></code></pre>
+      <p>
+       Then, you can display the tree with the
+       <code>
+        proof-tree
+       </code>
+       function:
+      </p>
+      <pre><code class="language-typ"><code><span class="typ-func">#</span><span class="typ-func">proof-tree</span><span class="typ-punct">(</span>tree<span class="typ-punct">)</span>
+</code></code></pre>
+      <p>
+       In this case, we get the following result:
+      </p>
+      <p>
+       <img alt="A proof tree with three premises, a conclusion, and a rule name." src="https://github.com/typst/packages/raw/main/packages/preview/curryst/0.3.0/examples/usage.svg"/>
+      </p>
+      <p>
+       Proof trees can be part of mathematical formulas:
+      </p>
+      <pre><code class="language-typ"><code>Consider the following tree:
+<span class="typ-math-delim">$</span>
+  <span class="typ-pol">Pi</span> <span class="typ-pol">quad</span> = <span class="typ-pol">quad</span> <span class="typ-func">#</span><span class="typ-func">proof-tree</span><span class="typ-punct">(</span>
+    <span class="typ-func">rule</span><span class="typ-punct">(</span>
+      <span class="typ-math-delim">$</span><span class="typ-pol">phi</span><span class="typ-math-delim">$</span><span class="typ-punct">,</span>
+      <span class="typ-math-delim">$</span><span class="typ-pol">Pi</span><span class="typ-math-op">_</span>1<span class="typ-math-delim">$</span><span class="typ-punct">,</span>
+      <span class="typ-math-delim">$</span><span class="typ-pol">Pi</span><span class="typ-math-op">_</span>2<span class="typ-math-delim">$</span><span class="typ-punct">,</span>
+    <span class="typ-punct">)</span>
+  <span class="typ-punct">)</span>
+<span class="typ-math-delim">$</span>
+<span class="typ-math-delim">$</span><span class="typ-pol">Pi</span><span class="typ-math-delim">$</span> constitutes a derivation of <span class="typ-math-delim">$</span><span class="typ-pol">phi</span><span class="typ-math-delim">$</span>.s
+</code></code></pre>
+      <p>
+       <img alt="The rendered document." src="https://github.com/typst/packages/raw/main/packages/preview/curryst/0.3.0/examples/math-formula.svg"/>
+      </p>
+      <p>
+       You can specify a rule as the premises of a rule in order to create a tree:
+      </p>
+      <pre><code class="language-typ"><code><span class="typ-func">#</span><span class="typ-func">proof-tree</span><span class="typ-punct">(</span>
+  <span class="typ-func">rule</span><span class="typ-punct">(</span>
+    name<span class="typ-punct">:</span> <span class="typ-math-delim">$</span>R<span class="typ-math-delim">$</span><span class="typ-punct">,</span>
+    <span class="typ-math-delim">$</span>C<span class="typ-math-op">_</span>1 <span class="typ-pol">or</span> C<span class="typ-math-op">_</span>2 <span class="typ-pol">or</span> C<span class="typ-math-op">_</span>3<span class="typ-math-delim">$</span><span class="typ-punct">,</span>
+    <span class="typ-func">rule</span><span class="typ-punct">(</span>
+      name<span class="typ-punct">:</span> <span class="typ-math-delim">$</span>A<span class="typ-math-delim">$</span><span class="typ-punct">,</span>
+      <span class="typ-math-delim">$</span>C<span class="typ-math-op">_</span>1 <span class="typ-pol">or</span> C<span class="typ-math-op">_</span>2 <span class="typ-pol">or</span> L<span class="typ-math-delim">$</span><span class="typ-punct">,</span>
+      <span class="typ-func">rule</span><span class="typ-punct">(</span>
+        <span class="typ-math-delim">$</span>C<span class="typ-math-op">_</span>1 <span class="typ-pol">or</span> L<span class="typ-math-delim">$</span><span class="typ-punct">,</span>
+        <span class="typ-math-delim">$</span><span class="typ-pol">Pi</span><span class="typ-math-op">_</span>1<span class="typ-math-delim">$</span><span class="typ-punct">,</span>
+      <span class="typ-punct">)</span><span class="typ-punct">,</span>
+    <span class="typ-punct">)</span><span class="typ-punct">,</span>
+    <span class="typ-func">rule</span><span class="typ-punct">(</span>
+      <span class="typ-math-delim">$</span>C<span class="typ-math-op">_</span>2 <span class="typ-pol">or</span> <span class="typ-func">overline</span><span class="typ-punct">(</span>L<span class="typ-punct">)</span><span class="typ-math-delim">$</span><span class="typ-punct">,</span>
+      <span class="typ-math-delim">$</span><span class="typ-pol">Pi</span><span class="typ-math-op">_</span>2<span class="typ-math-delim">$</span><span class="typ-punct">,</span>
+    <span class="typ-punct">)</span><span class="typ-punct">,</span>
+  <span class="typ-punct">)</span>
+<span class="typ-punct">)</span>
+</code></code></pre>
+      <p>
+       <img alt="The rendered tree." src="https://github.com/typst/packages/raw/main/packages/preview/curryst/0.3.0/examples/rule-as-premise.svg"/>
+      </p>
+      <p>
+       As an example, here is a natural deduction proof tree generated with Curryst:
+      </p>
+      <p>
+       <img alt="The rendered tree." src="https://github.com/typst/packages/raw/main/packages/preview/curryst/0.3.0/examples/natural-deduction.svg"/>
+      </p>
+      <details>
+       <summary>
+        Show code
+       </summary>
+       <pre><code class="language-typ"><code><span class="typ-key">#</span><span class="typ-key">let</span> ax <span class="typ-op">=</span> rule<span class="typ-punct">.</span><span class="typ-func">with</span><span class="typ-punct">(</span>name<span class="typ-punct">:</span> <span class="typ-punct">[</span>ax<span class="typ-punct">]</span><span class="typ-punct">)</span>
+<span class="typ-key">#</span><span class="typ-key">let</span> and-el <span class="typ-op">=</span> rule<span class="typ-punct">.</span><span class="typ-func">with</span><span class="typ-punct">(</span>name<span class="typ-punct">:</span> <span class="typ-math-delim">$</span><span class="typ-pol">and</span><span class="typ-math-op">_</span>e<span class="typ-math-op">^</span><span class="typ-pol">ell</span><span class="typ-math-delim">$</span><span class="typ-punct">)</span>
+<span class="typ-key">#</span><span class="typ-key">let</span> and-er <span class="typ-op">=</span> rule<span class="typ-punct">.</span><span class="typ-func">with</span><span class="typ-punct">(</span>name<span class="typ-punct">:</span> <span class="typ-math-delim">$</span><span class="typ-pol">and</span><span class="typ-math-op">_</span>e<span class="typ-math-op">^</span>r<span class="typ-math-delim">$</span><span class="typ-punct">)</span>
+<span class="typ-key">#</span><span class="typ-key">let</span> impl-i <span class="typ-op">=</span> rule<span class="typ-punct">.</span><span class="typ-func">with</span><span class="typ-punct">(</span>name<span class="typ-punct">:</span> <span class="typ-math-delim">$</span><span class="typ-func">scripts</span><span class="typ-punct">(</span><span class="typ-escape">-&gt;</span><span class="typ-punct">)</span><span class="typ-math-op">_</span>i<span class="typ-math-delim">$</span><span class="typ-punct">)</span>
+<span class="typ-key">#</span><span class="typ-key">let</span> impl-e <span class="typ-op">=</span> rule<span class="typ-punct">.</span><span class="typ-func">with</span><span class="typ-punct">(</span>name<span class="typ-punct">:</span> <span class="typ-math-delim">$</span><span class="typ-func">scripts</span><span class="typ-punct">(</span><span class="typ-escape">-&gt;</span><span class="typ-punct">)</span><span class="typ-math-op">_</span>e<span class="typ-math-delim">$</span><span class="typ-punct">)</span>
+<span class="typ-key">#</span><span class="typ-key">let</span> not-i <span class="typ-op">=</span> rule<span class="typ-punct">.</span><span class="typ-func">with</span><span class="typ-punct">(</span>name<span class="typ-punct">:</span> <span class="typ-math-delim">$</span><span class="typ-pol">not</span><span class="typ-math-op">_</span>i<span class="typ-math-delim">$</span><span class="typ-punct">)</span>
+<span class="typ-key">#</span><span class="typ-key">let</span> not-e <span class="typ-op">=</span> rule<span class="typ-punct">.</span><span class="typ-func">with</span><span class="typ-punct">(</span>name<span class="typ-punct">:</span> <span class="typ-math-delim">$</span><span class="typ-pol">not</span><span class="typ-math-op">_</span>e<span class="typ-math-delim">$</span><span class="typ-punct">)</span>
+
+<span class="typ-func">#</span><span class="typ-func">proof-tree</span><span class="typ-punct">(</span>
+  <span class="typ-func">impl-i</span><span class="typ-punct">(</span>
+    <span class="typ-math-delim">$</span><span class="typ-pol">tack</span> (p <span class="typ-escape">-&gt;</span> q) <span class="typ-escape">-&gt;</span> <span class="typ-pol">not</span> (p <span class="typ-pol">and</span> <span class="typ-pol">not</span> q)<span class="typ-math-delim">$</span><span class="typ-punct">,</span>
+    <span class="typ-func">not-i</span><span class="typ-punct">(</span>
+      <span class="typ-math-delim">$</span>p <span class="typ-escape">-&gt;</span> q <span class="typ-pol">tack</span>  <span class="typ-pol">not</span> (p <span class="typ-pol">and</span> <span class="typ-pol">not</span> q)<span class="typ-math-delim">$</span><span class="typ-punct">,</span>
+      <span class="typ-func">not-e</span><span class="typ-punct">(</span>
+        <span class="typ-math-delim">$</span> <span class="typ-func">underbrace</span><span class="typ-punct">(</span>p <span class="typ-escape">-&gt;</span> q<span class="typ-escape">\,</span> p <span class="typ-pol">and</span> <span class="typ-pol">not</span> q<span class="typ-punct">,</span> <span class="typ-pol">Gamma</span><span class="typ-punct">)</span> <span class="typ-pol">tack</span> <span class="typ-pol">bot</span> <span class="typ-math-delim">$</span><span class="typ-punct">,</span>
+        <span class="typ-func">impl-e</span><span class="typ-punct">(</span>
+          <span class="typ-math-delim">$</span><span class="typ-pol">Gamma</span> <span class="typ-pol">tack</span> q<span class="typ-math-delim">$</span><span class="typ-punct">,</span>
+          <span class="typ-func">ax</span><span class="typ-punct">(</span><span class="typ-math-delim">$</span><span class="typ-pol">Gamma</span> <span class="typ-pol">tack</span> p <span class="typ-escape">-&gt;</span> q<span class="typ-math-delim">$</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+          <span class="typ-func">and-el</span><span class="typ-punct">(</span>
+            <span class="typ-math-delim">$</span><span class="typ-pol">Gamma</span> <span class="typ-pol">tack</span> p<span class="typ-math-delim">$</span><span class="typ-punct">,</span>
+            <span class="typ-func">ax</span><span class="typ-punct">(</span><span class="typ-math-delim">$</span><span class="typ-pol">Gamma</span> <span class="typ-pol">tack</span> p <span class="typ-pol">and</span> <span class="typ-pol">not</span> q<span class="typ-math-delim">$</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+          <span class="typ-punct">)</span><span class="typ-punct">,</span>
+        <span class="typ-punct">)</span><span class="typ-punct">,</span>
+        <span class="typ-func">and-er</span><span class="typ-punct">(</span>
+          <span class="typ-math-delim">$</span><span class="typ-pol">Gamma</span> <span class="typ-pol">tack</span> <span class="typ-pol">not</span> q<span class="typ-math-delim">$</span><span class="typ-punct">,</span>
+          <span class="typ-func">ax</span><span class="typ-punct">(</span><span class="typ-math-delim">$</span><span class="typ-pol">Gamma</span> <span class="typ-pol">tack</span> p <span class="typ-pol">and</span> <span class="typ-pol">not</span> q<span class="typ-math-delim">$</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+        <span class="typ-punct">)</span><span class="typ-punct">,</span>
+      <span class="typ-punct">)</span><span class="typ-punct">,</span>
+    <span class="typ-punct">)</span><span class="typ-punct">,</span>
+  <span class="typ-punct">)</span>
+<span class="typ-punct">)</span>
+</code></code></pre>
+      </details>
+      <h2>
+       Advanced usage
+      </h2>
+      <p>
+       The
+       <code>
+        proof-tree
+       </code>
+       function accepts multiple named arguments that let you customize the tree:
+      </p>
+      <dl>
+       <dt>
+        <code>
+         prem-min-spacing
+        </code>
+       </dt>
+       <dd>
+        The minimum amount of space between two premises.
+       </dd>
+       <dt>
+        <code>
+         title-inset
+        </code>
+       </dt>
+       <dd>
+        The amount width with which to extend the horizontal bar beyond the content. Also determines how far from the bar labels and names are displayed.
+       </dd>
+       <dt>
+        <code>
+         stroke
+        </code>
+       </dt>
+       <dd>
+        The stroke to use for the horizontal bars.
+       </dd>
+       <dt>
+        <code>
+         horizontal-spacing
+        </code>
+       </dt>
+       <dd>
+        The space between the bottom of the bar and the conclusion, and between the top of the bar and the premises.
+       </dd>
+       <dt>
+        <code>
+         min-bar-height
+        </code>
+       </dt>
+       <dd>
+        The minimum height of the box containing the horizontal bar.
+       </dd>
+      </dl>
+      <p>
+       For more information, please refer to the documentation in
+       <a href="https://github.com/typst/packages/raw/main/packages/preview/curryst/0.3.0/curryst.typ" rel="nofollow ugc" target="_blank">
+        <code>
+         curryst.typ
+        </code>
+       </a>
+       .
+      </p>
+     </section>
+     <aside>
+      <section>
+       <h3>
+        How to add
+       </h3>
+       <p>
+        Copy this into your project and use the import as
+        <!-- -->
+        <code>
+         curryst
+        </code>
+       </p>
+       <div class="import-snippet">
+        <pre><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/curryst:0.3.0"</span></code></pre>
+        <button class="copy" title="Copy to clipboard">
+         <img alt="Copy" height="16" src="/assets/icons/16-copy.svg" width="16"/>
+        </button>
+       </div>
+       <p class="muted">
+        Check the docs for
+        <!-- -->
+        <a href="https://typst.app/docs/reference/scripting/#packages">
+         more information on how to import packages
+        </a>
+        .
+       </p>
+      </section>
+      <section id="about">
+       <h3>
+        About
+       </h3>
+       <dl>
+        <dt>
+         Author
+         <!-- -->
+         s
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         <a href="https://github.com/remih23" rel="noopener noreferrer" target="_blank">
+          RÃ©mi Hutin
+         </a>
+         ,
+         <a href="https://github.com/pauladam94" rel="noopener noreferrer" target="_blank">
+          Paul Adam
+         </a>
+         , &amp;
+         <a href="https://github.com/MDLC01" rel="noopener noreferrer" target="_blank">
+          Malo
+         </a>
+        </dd>
+        <dt>
+         License:
+        </dt>
+        <dd>
+         MIT
+        </dd>
+        <dt>
+         Current version:
+        </dt>
+        <dd>
+         0.3.0
+        </dd>
+        <dt>
+         Last updated:
+        </dt>
+        <dd>
+         April 16, 2024
+        </dd>
+        <dt>
+         First released:
+        </dt>
+        <dd>
+         December 7, 2023
+        </dd>
+        <dt>
+         Minimum Typst version:
+        </dt>
+        <dd>
+         0.11.0
+        </dd>
+        <dt>
+         Archive size:
+        </dt>
+        <dd class="archive-size-value">
+         4.71 kB
+         <a href="https://packages.typst.org/preview/curryst-0.3.0.tar.gz">
+          <img alt="Size icon" src="/assets/icons/16-download.svg"/>
+         </a>
+        </dd>
+        <dt>
+         Repository:
+        </dt>
+        <dd>
+         <a href="https://github.com/pauladam94/curryst" rel="noopener noreferrer" target="_blank">
+          GitHub
+         </a>
+        </dd>
+        <dt>
+         Discipline
+         <!-- -->
+         s
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         <ul class="list-without-icons">
+          <li>
+           <a href="https://typst.app/universe/search/?discipline=computer-science">
+            Computer Science
+           </a>
+          </li>
+          <li>
+           <a href="https://typst.app/universe/search/?discipline=mathematics">
+            Mathematics
+           </a>
+          </li>
+         </ul>
+        </dd>
+        <dt>
+         Categor
+         <!-- -->
+         ies
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         <ul class="list-with-icons">
+          <li>
+           <img alt="Components icon" src="/assets/icons/16-package.svg"/>
+           <a href="https://typst.app/universe/search/?category=components">
+            Components
+           </a>
+          </li>
+          <li>
+           <img alt="Visualization icon" src="/assets/icons/16-chart.svg"/>
+           <a href="https://typst.app/universe/search/?category=visualization">
+            Visualization
+           </a>
+          </li>
+          <li>
+           <img alt="Integration icon" src="/assets/icons/16-integration.svg"/>
+           <a href="https://typst.app/universe/search/?category=integration">
+            Integration
+           </a>
+          </li>
+         </ul>
+        </dd>
+       </dl>
+      </section>
+      <section>
+       <h3>
+        Where to report issues?
+       </h3>
+       <p>
+        This
+        <!-- -->
+        package
+        <!-- -->
+        is a project of
+        <!-- -->
+        <!-- -->
+        RÃ©mi Hutin, Paul Adam, and Malo
+        <!-- -->
+        .
+        <!-- -->
+        <!-- -->
+        Report issues on
+        <!-- -->
+        <a href="https://github.com/pauladam94/curryst" rel="noopener noreferrer" target="_blank">
+         their repository
+        </a>
+        .
+        <!-- -->
+        <!-- -->
+        You can also try to ask for help with this
+        <!-- -->
+        package
+        <!-- -->
+        on the
+        <!-- -->
+        <a href="https://forum.typst.app" rel="noopener" target="_blank">
+         Forum
+        </a>
+        .
+       </p>
+       <p>
+        Please report this
+        <!-- -->
+        package
+        <!-- -->
+        to the Typst team using the
+        <!-- -->
+        <a href="https://typst.app/contact" rel="noreferrer" target="_blank">
+         contact form
+        </a>
+        <!-- -->
+        if you believe it is a safety hazard or infringes upon your rights.
+       </p>
+      </section>
+      <section id="versions">
+       <h3>
+        Version history
+       </h3>
+       <table>
+        <thead>
+         <tr>
+          <th align="left">
+           Version
+          </th>
+          <th align="left">
+           Release Date
+          </th>
+         </tr>
+        </thead>
+        <tbody>
+         <tr>
+          <td align="left">
+           0.3.0
+          </td>
+          <td align="left">
+           April 16, 2024
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/curryst/0.2.0/">
+            0.2.0
+           </a>
+          </td>
+          <td align="left">
+           March 19, 2024
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/curryst/0.1.1/">
+            0.1.1
+           </a>
+          </td>
+          <td align="left">
+           January 31, 2024
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/curryst/0.1.0/">
+            0.1.0
+           </a>
+          </td>
+          <td align="left">
+           December 7, 2023
+          </td>
+         </tr>
+        </tbody>
+       </table>
+      </section>
+      <p class="bottom-notice muted">
+       Typst GmbH did not create this
+       <!-- -->
+       package
+       <!-- -->
+       and cannot guarantee correct functionality of this
+       <!-- -->
+       package
+       <!-- -->
+       or compatibility with any version of the Typst compiler or app.
+      </p>
+     </aside>
+    </div>
+   </main>

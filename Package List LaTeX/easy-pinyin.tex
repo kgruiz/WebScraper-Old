@@ -1,0 +1,160 @@
+\title{typst.app/universe/package/easy-pinyin}
+
+\phantomsection\label{banner}
+\section{easy-pinyin}\label{easy-pinyin}
+
+{ 0.1.0 }
+
+Write Chinese pinyin easily.
+
+\phantomsection\label{readme}
+Write Chinese pinyin easily.
+
+\subsection{Usage}\label{usage}
+
+Import the package:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/easy{-}pinyin:0.1.0": pinyin, zhuyin}
+\end{Highlighting}
+\end{Shaded}
+
+With the \texttt{\ pinyin\ } function, you can use \texttt{\ a2\ } to
+write an \texttt{\ É‘Ì?\ } , \texttt{\ o3\ } to write an \texttt{\ Ç’\ }
+, \texttt{\ v4\ } to represent \texttt{\ Çœ\ } , etc.
+
+With \texttt{\ zhuyin\ } functionï¼Œyou can put pinyin above the text
+easily, with parameters:
+
+\begin{itemize}
+\tightlist
+\item
+  positional parameters:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \texttt{\ doc:\ content\textbar{}string\ } : main characters
+  \item
+    \texttt{\ ruby:\ content\textbar{}string\ } : zhuyin characters
+  \end{itemize}
+\item
+  named parameters:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \texttt{\ scale:\ number\ =\ 0.7\ } : font size scale of
+    \texttt{\ ruby\ } , default \texttt{\ 0.7\ }
+  \item
+    \texttt{\ gutter:\ length\ =\ 0.3em\ } : spacing between
+    \texttt{\ doc\ } and \texttt{\ ruby\ } , default \texttt{\ 0.3em\ }
+  \item
+    \texttt{\ delimiter:\ string\textbar{}none\ =\ none\ } : if not
+    none, use this character to split \texttt{\ doc\ } and
+    \texttt{\ ruby\ } into parts
+  \item
+    \texttt{\ spacing:\ length\textbar{}none\ =\ none\ } : spacing
+    between each parts
+  \end{itemize}
+\end{itemize}
+
+See example bellow.
+
+\subsection{Example}\label{example}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{æ±ï¼\#pinyin[ha4n]ï¼è¯­ï¼\#pinyin[yu3]ï¼æ¼ï¼\#pinyin[pi1n]ï¼é³ï¼\#pinyin[yi1n]ï¼ã}
+
+\NormalTok{\#let per{-}char(f) = [\#f(delimiter: "|")[æ±|è¯­|æ¼|é³][ha4n|yu3|pi1n|yi1n]]}
+\NormalTok{\#let per{-}word(f) = [\#f(delimiter: "|")[æ±è¯­|æ¼é³][ha4nyu3|pi1nyi1n]]}
+\NormalTok{\#let all{-}in{-}one(f) = [\#f[æ±è¯­æ¼é³][ha4nyu3pi1nyi1n]]}
+\NormalTok{\#let example(f) = (per{-}char(f), per{-}word(f), all{-}in{-}one(f))}
+
+\NormalTok{// argument of scale and spacing}
+\NormalTok{\#let arguments = ((0.5, none), (0.7, none), (0.7, 0.1em), (1.0, none), (1.0, 0.2em))}
+
+\NormalTok{\#table(}
+\NormalTok{  columns: (auto, auto, auto, auto),}
+\NormalTok{  align: (center + horizon, center, center, center),}
+\NormalTok{  [arguments], [per char], [per word], [all in one],}
+\NormalTok{  ..arguments.map(((scale, spacing)) =\textgreater{} (}
+\NormalTok{    text(size: 0.7em)[\#scale,\#repr(spacing)], }
+\NormalTok{    ..example(zhuyin.with(scale: scale, spacing: spacing))}
+\NormalTok{  )).flatten(),}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://raw.githubusercontent.com/7sDream/typst-easy-pinyin/master/example.png?raw=true}}
+
+\subsection{LICENSE}\label{license}
+
+MIT, see License file.
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as
+\texttt{\ easy-pinyin\ }
+
+\begin{verbatim}
+#import "@preview/easy-pinyin:0.1.0"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author s :]
+7sDream \& Other open-source contributors
+\item[License:]
+MIT
+\item[Current version:]
+0.1.0
+\item[Last updated:]
+July 6, 2023
+\item[First released:]
+July 6, 2023
+\item[Archive size:]
+2.43 kB
+\href{https://packages.typst.org/preview/easy-pinyin-0.1.0.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/7sDream/typst-easy-pinyin}{GitHub}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of 7sDream and Other open-source contributors
+. Report issues on
+\href{https://github.com/7sDream/typst-easy-pinyin}{their repository} .
+You can also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.1.0 & July 6, 2023 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.

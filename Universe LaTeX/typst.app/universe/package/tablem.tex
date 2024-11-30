@@ -1,0 +1,178 @@
+\title{typst.app/universe/package/tablem}
+
+\phantomsection\label{banner}
+\section{tablem}\label{tablem}
+
+{ 0.1.0 }
+
+Write markdown-like tables easily.
+
+\phantomsection\label{readme}
+Write markdown-like tables easily.
+
+\subsection{Example}\label{example}
+
+Have a look at the source
+\href{https://github.com/typst/packages/raw/main/packages/preview/tablem/0.1.0/examples/example.typ}{here}
+.
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/tablem/0.1.0/examples/example.png}}
+
+\subsection{Usage}\label{usage}
+
+You can simply copy the markdown table and paste it in
+\texttt{\ tablem\ } function.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/tablem:0.1.0": tablem}
+
+\NormalTok{\#tablem[}
+\NormalTok{  | *Name* | *Location* | *Height* | *Score* |}
+\NormalTok{  | {-}{-}{-}{-}{-}{-} | {-}{-}{-}{-}{-}{-}{-}{-}{-}{-} | {-}{-}{-}{-}{-}{-}{-}{-} | {-}{-}{-}{-}{-}{-}{-} |}
+\NormalTok{  | John   | Second St. | 180 cm   |  5      |}
+\NormalTok{  | Wally  | Third Av.  | 160 cm   |  10     |}
+\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+And you can use custom render function.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/tablex:0.0.6": tablex, hlinex}
+\NormalTok{\#import "@preview/tablem:0.1.0": tablem}
+
+\NormalTok{\#let three{-}line{-}table = tablem.with(}
+\NormalTok{  render: (columns: auto, ..args) =\textgreater{} \{}
+\NormalTok{    tablex(}
+\NormalTok{      columns: columns,}
+\NormalTok{      auto{-}lines: false,}
+\NormalTok{      align: center + horizon,}
+\NormalTok{      hlinex(y: 0),}
+\NormalTok{      hlinex(y: 1),}
+\NormalTok{      ..args,}
+\NormalTok{      hlinex(),}
+\NormalTok{    )}
+\NormalTok{  \}}
+\NormalTok{)}
+
+\NormalTok{\#three{-}line{-}table[}
+\NormalTok{  | *Name* | *Location* | *Height* | *Score* |}
+\NormalTok{  | {-}{-}{-}{-}{-}{-} | {-}{-}{-}{-}{-}{-}{-}{-}{-}{-} | {-}{-}{-}{-}{-}{-}{-}{-} | {-}{-}{-}{-}{-}{-}{-} |}
+\NormalTok{  | John   | Second St. | 180 cm   |  5      |}
+\NormalTok{  | Wally  | Third Av.  | 160 cm   |  10     |}
+\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/tablem/0.1.0/examples/example.png}}
+
+\subsection{\texorpdfstring{\texttt{\ tablem\ }
+function}{ tablem  function}}\label{tablem-function}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let tablem(}
+\NormalTok{  render: table,}
+\NormalTok{  ignore{-}second{-}row: true,}
+\NormalTok{  ..args,}
+\NormalTok{  body}
+\NormalTok{) = \{ .. \}}
+\end{Highlighting}
+\end{Shaded}
+
+\textbf{Arguments:}
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ render\ } : {[}
+  \texttt{\ (columns:\ int,\ ..args)\ =\textgreater{}\ \{\ ..\ \}\ } {]}
+  â€'' Custom render function, default to be \texttt{\ table\ } ,
+  receiving a integer-type columns, which is the count of first row.
+  \texttt{\ ..args\ } is the combination of \texttt{\ args\ } of
+  \texttt{\ tablem\ } function and children genenerated from
+  \texttt{\ body\ } .
+\item
+  \texttt{\ ignore-second-row\ } : {[} \texttt{\ boolean\ } {]} â€''
+  Whether to ignore the second row (something like
+  \texttt{\ \textbar{}-\/-\/-\textbar{}\ } ).
+\item
+  \texttt{\ args\ } : {[} \texttt{\ any\ } {]} â€'' Some arguments you
+  want to pass to \texttt{\ render\ } function.
+\item
+  \texttt{\ body\ } : {[} \texttt{\ content\ } {]} â€'' The
+  markdown-like table. There should be no extra line breaks in it.
+\end{itemize}
+
+\subsection{Limitations}\label{limitations}
+
+Cell merging has not yet been implemented.
+
+\subsection{License}\label{license}
+
+This project is licensed under the MIT License.
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as \texttt{\ tablem\ }
+
+\begin{verbatim}
+#import "@preview/tablem:0.1.0"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+OrangeX4
+\item[License:]
+MIT
+\item[Current version:]
+0.1.0
+\item[Last updated:]
+November 18, 2023
+\item[First released:]
+November 18, 2023
+\item[Archive size:]
+2.37 kB
+\href{https://packages.typst.org/preview/tablem-0.1.0.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/OrangeX4/typst-tablem}{GitHub}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of OrangeX4 . Report issues on
+\href{https://github.com/OrangeX4/typst-tablem}{their repository} . You
+can also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.1.0 & November 18, 2023 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.

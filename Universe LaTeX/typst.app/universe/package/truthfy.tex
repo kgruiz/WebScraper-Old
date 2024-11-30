@@ -1,0 +1,201 @@
+\title{typst.app/universe/package/truthfy}
+
+\phantomsection\label{banner}
+\section{truthfy}\label{truthfy}
+
+{ 0.5.0 }
+
+Make empty or automatically filled truth table
+
+\phantomsection\label{readme}
+Make an empty or filled truth table in Typst
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{truth{-}table{-}empty}\ErrorTok{(}\ExtensionTok{info:}\NormalTok{ array}\PreprocessorTok{[}\SpecialStringTok{math\_block}\PreprocessorTok{]}\NormalTok{, data: array}\PreprocessorTok{[}\SpecialStringTok{str}\PreprocessorTok{]}\KeywordTok{)}\BuiltInTok{:}\NormalTok{ table}
+    \CommentTok{\# Create an empty (or filled with "data") truth table. }
+
+\ExtensionTok{truth{-}table}\ErrorTok{(}\ExtensionTok{..info:}\NormalTok{ array}\PreprocessorTok{[}\SpecialStringTok{math\_block}\PreprocessorTok{]}\KeywordTok{)}\BuiltInTok{:}\NormalTok{ table}
+    \CommentTok{\# Create a filled truth table.}
+
+\ExtensionTok{karnaugh{-}empty}\ErrorTok{(}\ExtensionTok{info:}\NormalTok{ array}\PreprocessorTok{[}\SpecialStringTok{math\_block}\PreprocessorTok{]}\NormalTok{, data: array}\PreprocessorTok{[}\SpecialStringTok{str}\PreprocessorTok{]}\KeywordTok{)}\BuiltInTok{:}\NormalTok{ table}
+    \CommentTok{\# Create an empty karnaugh table.}
+
+\ExtensionTok{NAND:}\NormalTok{ Equivalent to sym.arrow.t}
+\ExtensionTok{NOR:}\NormalTok{ Equivalent to sym.arrow.b}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{\texorpdfstring{\texttt{\ sc\ }}{ sc }}\label{sc}
+
+Theses functions have a new named argument, called \texttt{\ sc\ } for
+symbol-convention.
+
+You can add you own function to customise the render of the 0 and the 1.
+See examples.
+
+Syntax:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let sc(symb) = \{}
+\NormalTok{    if (symb) \{}
+\NormalTok{        "an one"}
+\NormalTok{    \} else \{}
+\NormalTok{        "a zero"}
+\NormalTok{    \}}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{\texorpdfstring{\texttt{\ reverse\ }}{ reverse }}\label{reverse}
+
+Reverse your table, see issue \#3
+
+\subsection{Simple}\label{simple}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/truthfy:0.4.0": truth{-}table, truth{-}table{-}empty}
+
+\NormalTok{\#truth{-}table($A and B$, $B or A$, $A =\textgreater{} B$, $(A =\textgreater{} B) \textless{}=\textgreater{} A$, $ A xor B$)}
+
+\NormalTok{\#truth{-}table($p =\textgreater{} q$, $not p =\textgreater{} (q =\textgreater{} p)$, $p or q$, $not p or q$)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/Thumuss/truthfy/assets/42680097/7edb921d-659e-4348-a12a-07bcc3822012}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/truthfy:0.4.0": truth{-}table, truth{-}table{-}empty}
+
+\NormalTok{\#truth{-}table(sc: (a) =\textgreater{} \{if (a) \{"a"\} else \{"b"\}\}, $a and b$)}
+
+\NormalTok{\#truth{-}table{-}empty(sc: (a) =\textgreater{} \{if (a) \{"x"\} else \{"$"\}\}, ($a and b$,), (false, [], true))}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/Thumuss/truthfy/assets/42680097/1ccf6077-5cfb-4643-b621-1dc9529b8176}}
+
+If you have any idea to add in this package, add a new issue
+\href{https://github.com/Thumuss/truthfy/issues}{here} !
+
+\texttt{\ 0.1.0\ } : Create the package.\\
+\texttt{\ 0.2.0\ } :
+
+\begin{itemize}
+\tightlist
+\item
+  You can now use \texttt{\ t\ } , \texttt{\ r\ } , \texttt{\ u\ } ,
+  \texttt{\ e\ } , \texttt{\ f\ } , \texttt{\ a\ } , \texttt{\ l\ } ,
+  \texttt{\ s\ } without any problems!
+\item
+  You can now add subscript to a letter
+\item
+  Only \texttt{\ generate-table\ } and \texttt{\ generate-empty\ } are
+  now exported
+\item
+  Better example with more cases
+\item
+  Implemented the \texttt{\ a\ ?\ b\ :\ c\ } operator\\
+\end{itemize}
+
+\texttt{\ 0.3.0\ } :
+
+\begin{itemize}
+\tightlist
+\item
+  Changing the name of \texttt{\ generate-table\ } and
+  \texttt{\ generate-empty\ } to \texttt{\ truth-table\ } and
+  \texttt{\ truth-table-empty\ }
+\item
+  Adding support of \texttt{\ NAND\ } and \texttt{\ NOR\ } operators.
+\item
+  Adding support of custom \texttt{\ sc\ } function.
+\item
+  Better example and \href{http://readme.md/}{README.md}
+\end{itemize}
+
+\texttt{\ 0.4.0\ } :
+
+\begin{itemize}
+\tightlist
+\item
+  Add \texttt{\ karnaugh-empty\ }
+\item
+  Images re-added (see \#2)
+\item
+  Add \texttt{\ reverse\ } option (see \#3)
+\end{itemize}
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as \texttt{\ truthfy\ }
+
+\begin{verbatim}
+#import "@preview/truthfy:0.5.0"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+\href{https://github.com/Thumuss}{Quemin Thomas}
+\item[License:]
+MIT
+\item[Current version:]
+0.5.0
+\item[Last updated:]
+September 14, 2024
+\item[First released:]
+October 9, 2023
+\item[Archive size:]
+4.54 kB
+\href{https://packages.typst.org/preview/truthfy-0.5.0.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/Thumuss/truthfy}{GitHub}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of Quemin Thomas . Report issues on
+\href{https://github.com/Thumuss/truthfy}{their repository} . You can
+also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.5.0 & September 14, 2024 \\
+\href{https://typst.app/universe/package/truthfy/0.4.0/}{0.4.0} & June
+10, 2024 \\
+\href{https://typst.app/universe/package/truthfy/0.3.0/}{0.3.0} &
+February 6, 2024 \\
+\href{https://typst.app/universe/package/truthfy/0.2.0/}{0.2.0} &
+October 16, 2023 \\
+\href{https://typst.app/universe/package/truthfy/0.1.0/}{0.1.0} &
+October 9, 2023 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.

@@ -1,0 +1,205 @@
+\title{typst.app/universe/package/equate}
+
+\phantomsection\label{banner}
+\section{equate}\label{equate}
+
+{ 0.2.1 }
+
+Breakable equations with improved numbering.
+
+{ } Featured Package
+
+\phantomsection\label{readme}
+A package for improved layout of equations and mathematical expressions.
+
+When applied, this package will split up multi-line block equations into
+multiple elements, so that each line can be assigned a separate number.
+By default, the equation counter is incremented for each line, but this
+behavior can be changed by setting the \texttt{\ sub-numbering\ }
+argument to \texttt{\ true\ } . In this case, the equation counter will
+only be incremented once for the entire block, and each line will be
+assigned a sub-number like \texttt{\ 1a\ } , \texttt{\ 2.1\ } , or
+similar, depending on the set equation numbering. You can also set the
+\texttt{\ number-mode\ } argument to \texttt{\ "label"\ } to only number
+labelled lines. If a label is only applied to the full equation, all
+lines will be numbered.
+
+This splitting also makes it possible to spread equations over page
+boundaries while keeping alignment in place, which can be useful for
+long derivations or proofs. This can be configured by the
+\texttt{\ breakable\ } parameter of the \texttt{\ equate\ } function, or
+by setting the \texttt{\ breakable\ } parameter of \texttt{\ block\ }
+for equations via a show-set rule. Additionally, the alignment of the
+equation number is improved, so that it always matches the baseline of
+the equation.
+
+If you want to create a â€œstandardâ€? equation with a single equation
+number centered across all lines, you can attach the
+\texttt{\ \textless{}equate:revoke\textgreater{}\ } label to the
+equation. This will disable the effect of this package for the current
+equation. This label can also be used in single lines of an equation to
+disable numbering for that line only.
+
+\subsection{Usage}\label{usage}
+
+The package comes with a single \texttt{\ equate\ } function that is
+supposed to be used as a template. It takes two optional arguments for
+customization:
+
+\begin{longtable}[]{@{}llll@{}}
+\toprule\noalign{}
+Argument & Type & Description & Default \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\texttt{\ breakable\ } & \texttt{\ boolean\ } , \texttt{\ auto\ } &
+Whether to allow the equation to break across pages. &
+\texttt{\ auto\ } \\
+\texttt{\ sub-numbering\ } & \texttt{\ boolean\ } & Whether to assign
+sub-numbers to each line of an equation. & \texttt{\ false\ } \\
+\texttt{\ number-mode\ } & \texttt{\ "line"\ } , \texttt{\ "label"\ } &
+Whether to number all lines or only those with a label. &
+\texttt{\ "line"\ } \\
+\end{longtable}
+
+To reference a specific line of an equation, include the label at the
+end of the line, like in the following example:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/equate:0.2.1": equate}
+
+\NormalTok{\#show: equate.with(breakable: true, sub{-}numbering: true)}
+\NormalTok{\#set math.equation(numbering: "(1.1)")}
+
+\NormalTok{The dot product of two vectors $arrow(a)$ and $arrow(b)$ can}
+\NormalTok{be calculated as shown in @dot{-}product.}
+
+\NormalTok{$}
+\NormalTok{  angle.l a, b angle.r \&= arrow(a) dot arrow(b) \textbackslash{}}
+\NormalTok{                       \&= a\_1 b\_1 + a\_2 b\_2 + ... a\_n b\_n \textbackslash{}}
+\NormalTok{                       \&= sum\_(i=1)\^{}n a\_i b\_i. \#\textless{}sum\textgreater{}}
+\NormalTok{$ \textless{}dot{-}product\textgreater{}}
+
+\NormalTok{The sum notation in @sum is a useful way to express the dot}
+\NormalTok{product of two vectors.}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/equate/0.2.1/assets/example-1.svg}}\\
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/equate/0.2.1/assets/example-2.svg}}
+
+\subsubsection{Local Usage}\label{local-usage}
+
+If you only want to use the package features on selected equations, you
+can also apply the \texttt{\ equate\ } function directly to the
+equation. This will override the default behavior for the current
+equation only. Note, that this will require you to use the
+\texttt{\ equate\ } function as a show rule for references, as shown in
+the following example:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/equate:0.2.1": equate}
+
+\NormalTok{// Allow references to a line of the equation.}
+\NormalTok{\#show ref: equate}
+
+\NormalTok{\#set math.equation(numbering: "(1.1)", supplement: "Eq.")}
+
+\NormalTok{\#equate($}
+\NormalTok{  E \&= m c\^{}2 \#\textless{}short\textgreater{} \textbackslash{}}
+\NormalTok{    \&= sqrt(p\^{}2 c\^{}2 + m\^{}2 c\^{}4) \#\textless{}long\textgreater{}}
+\NormalTok{$)}
+
+\NormalTok{While @short is the famous equation by Einstein, @long is a}
+\NormalTok{more general form of the energy{-}momentum relation.}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/equate/0.2.1/assets/example-local.svg}}
+
+As an alternative to the show rule, it is also possible to manually wrap
+each reference in an \texttt{\ equate\ } function, though this is less
+convenient and more prone to mistakes.
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as \texttt{\ equate\ }
+
+\begin{verbatim}
+#import "@preview/equate:0.2.1"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+Eric Biedert
+\item[License:]
+MIT
+\item[Current version:]
+0.2.1
+\item[Last updated:]
+September 11, 2024
+\item[First released:]
+July 5, 2024
+\item[Minimum Typst version:]
+0.11.0
+\item[Archive size:]
+5.81 kB
+\href{https://packages.typst.org/preview/equate-0.2.1.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/EpicEricEE/typst-equate}{GitHub}
+\item[Categor ies :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-layout.svg}}
+  \href{https://typst.app/universe/search/?category=layout}{Layout}
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-list-unordered.svg}}
+  \href{https://typst.app/universe/search/?category=model}{Model}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of Eric Biedert . Report issues on
+\href{https://github.com/EpicEricEE/typst-equate}{their repository} .
+You can also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.2.1 & September 11, 2024 \\
+\href{https://typst.app/universe/package/equate/0.2.0/}{0.2.0} & July 5,
+2024 \\
+\href{https://typst.app/universe/package/equate/0.1.0/}{0.1.0} & July 5,
+2024 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.

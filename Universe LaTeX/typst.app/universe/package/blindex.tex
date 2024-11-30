@@ -1,0 +1,329 @@
+\title{typst.app/universe/package/blindex}
+
+\phantomsection\label{banner}
+\section{blindex}\label{blindex}
+
+{ 0.1.0 }
+
+Index-making of Biblical literature citations in Typst
+
+\phantomsection\label{readme}
+Blindex ( \texttt{\ blindex:0.1.0\ } ) is a Typst package specifically
+designed for the generation of indices of Biblical literature citations
+in documents. Target audience includes theologians and authors of
+documents that frequently cite biblical literature.
+
+\subsection{Index Sorting Options}\label{index-sorting-options}
+
+The generated indices are gathered and sorted by Biblical literature
+books, which can be ordered according to various Biblical literature
+book ordering conventions, including:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ "LXX"\ } â€`` The Septuagint;
+\item
+  \texttt{\ "Greek-Bible"\ } â€`` Septuagint + New Testament (King
+  James);
+\item
+  \texttt{\ "Hebrew-Tanakh"\ } â€`` The Hebrew (Torah + Neviim +
+  Ketuvim);
+\item
+  \texttt{\ "Hebrew-Bible"\ } â€`` The Hebrew Tanakh + New Testament
+  (King James);
+\item
+  \texttt{\ "Protestant-Bible"\ } â€`` The Protestant Old + New
+  Testaments;
+\item
+  \texttt{\ "Catholic-Bible"\ } â€`` The Catholic Old + New Testaments;
+\item
+  \texttt{\ "Orthodox-Bible"\ } â€`` The Orthodox Old + New Testaments;
+\item
+  \texttt{\ "Oecumenic-Bible"\ } â€`` The Jewish Tanakh + Old Testament
+  Deuterocanonical + New Testament;
+\item
+  \texttt{\ "code"\ } â€`` All registered Biblical literature books: All
+  Protestant + All Apocripha.
+\end{itemize}
+
+\subsection{Biblical Literature
+Abbrevations}\label{biblical-literature-abbrevations}
+
+It is common practice among theologians to refer to biblical literature
+books by their abbreviations. Practice shows that abbreviation
+conventions are language- and tradition- dependent. Therefore,
+\texttt{\ blindex\ } usage reflects this fact, while offering a way to
+input arbitrary language-tradition abbreviations, in the
+\texttt{\ lang.typ\ } source file.
+
+\subsubsection{Language and Traditions
+(Variants)}\label{language-and-traditions-variants}
+
+The \texttt{\ blindex\ } implementation generalizes the concept of
+\textbf{tradition} (in the context of biblical literature book
+abbreviation bookkeeping) as language \textbf{variants} , since the
+software can have things such as a â€œdefaultâ€? of â€œn-charâ€?
+variants.
+
+As of the current release, supported languages include the following few
+ones:
+
+\begin{longtable}[]{@{}llll@{}}
+\toprule\noalign{}
+Language & Variant & Description & Name \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+English & 3-char & A 3-char abbreviations & \texttt{\ en-3\ } \\
+English & Logos & Used in \texttt{\ logos.com\ } &
+\texttt{\ en-logos\ } \\
+Portuguese (BR) & Protestant & Protestant for Brazil &
+\texttt{\ br-pro\ } \\
+Portuguese (BR) & Catholic & Catholic for Brazil &
+\texttt{\ br-cat\ } \\
+\end{longtable}
+
+Additional language-variations can be added to the \texttt{\ lang.typ\ }
+source file by the author and/or by pull requests to the
+\texttt{\ dev\ } branch of the (UNFORKED!) development repository
+\texttt{\ https://github.com/cnaak/blindex.typ\ } .
+
+\subsection{Low-Level Indexing
+Command}\label{low-level-indexing-command}
+
+The \texttt{\ blindex\ } library has a low-level, index entry marking
+function \texttt{\ \#blindex(abrv,\ lang,\ entry)\ } , whose arguments
+are (abbreviation, language, entry), as in:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{"the citation..." \#blindex("1Thess", "en", [1.1{-}{-}3]) citation\textquotesingle{}s typesetting...}
+\end{Highlighting}
+\end{Shaded}
+
+Following the usual index making strategy in Typst, this user
+\texttt{\ \#blindex\ } command only adds the index-marking
+\texttt{\ \#metadata\ } in the document, without producing any visible
+typeset output.
+
+Biblical literature index listings can be generated (typeset) in
+arbitrary amounts and locations throughout the document, just by calling
+the user \texttt{\ \#mkIndex\ } command:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#mkIndex()}
+\end{Highlighting}
+\end{Shaded}
+
+Optional arguments control style and sorting convention parameters, as
+exemplified below.
+
+\subsection{Higher-Level Quoting-Indexing
+Commands}\label{higher-level-quoting-indexing-commands}
+
+The library also offers higher-level functions to assemble the entire
+(i) citation typesetting, (ii) index entry, (iii) citation typesetting,
+and (iv) bibliography entrying (with some typesetting (styling)
+options), of the passage. Such commands are \texttt{\ \#iQuot(...)\ }
+and \texttt{\ \#bQuot(...)\ } , respectively for \textbf{inline} and
+\textbf{block} quoting of Biblical literature, with automatic indexing
+and bibliography citation. Mandatory arguments are identical for either
+command:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{paragraph text...}
+\NormalTok{\#iQuot(body, abrv, lang, pssg, version, cited)}
+\NormalTok{more text...}
+
+\NormalTok{// Displayed block quote of Biblical literature:}
+\NormalTok{\#bQuot(body, abrv, lang, pssg, version, cited)}
+\end{Highlighting}
+\end{Shaded}
+
+In which:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ body\ } ( \texttt{\ content\ } ) is the quoted biblical
+  literature text;
+\item
+  \texttt{\ abrv\ } ( \texttt{\ string\ } ) is the book abbreviation
+  according to the
+\item
+  \texttt{\ lang\ } ( \texttt{\ string\ } ) language-variant (see
+  above);
+\item
+  \texttt{\ pssg\ } ( \texttt{\ content\ } ) is the quoted text passage
+  â€'' usually chapter and verses â€'' as they will appear in the text
+  and in the biblical literature index;
+\item
+  \texttt{\ version\ } ( \texttt{\ string\ } ) is a translation
+  identifier, such as \texttt{\ "LXX"\ } , or \texttt{\ "KJV"\ } ; and
+\item
+  \texttt{\ cited\ } ( \texttt{\ label\ } ) is the corresponding
+  bibliography entry label, which can be constructed through:
+\end{itemize}
+
+\texttt{\ label("bib-key")\ } , where \texttt{\ bib-key\ } is the
+bibliographic entry key, in the bibliography database â€'' whether
+\texttt{\ bibTeX\ } or \texttt{\ Hayagriva\ } .
+
+\subsection{Higher-Level Example}\label{higher-level-example}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#set page(paper: "a7", fill: rgb("\#eec"))}
+\NormalTok{\#import "@preview/blindex:0.1.0": *}
+
+\NormalTok{The Septuagint (LXX) starts with \#iQuot([ÎÎ á¼ÏÏá¿ á¼ÏÎ¿á½·Î·ÏÎµÎ½ á½ ÎÎµá½¸Ï Ïá½¸Î½ Î¿á½ÏÎ±Î½á½¸Î½ ÎºÎ±á½¶ Ïá½´Î½ Î³á¿Î½.],}
+\NormalTok{"Gen", "en", [1.1], "LXX", label("2012{-}LXX{-}SBB")).}
+
+\NormalTok{\#pagebreak()}
+
+\NormalTok{Moreover, the book of Odes begins with: \#iQuot([á¾ Î´á½´ ÎÏÏÏÎ­ÏÏ á¼Î½ Ïá¿ á¼Î¾ÏÎ´á¿³], "Ode", "en", [1.0],}
+\NormalTok{"LXX", label("2012{-}LXX{-}SBB")).}
+
+\NormalTok{\#pagebreak()}
+
+\NormalTok{= Biblical Citations}
+\NormalTok{Books are sorted following the LXX ordering.}
+
+\NormalTok{\#mkIndex(cols: 1, sorting{-}tradition: "LXX")}
+
+\NormalTok{\#pagebreak()}
+
+\NormalTok{\#bibliography("test{-}01{-}readme.yml", title: "References", style: "ieee")}
+\end{Highlighting}
+\end{Shaded}
+
+The listing of the bibliography file, \texttt{\ test-01-readme.yml\ } ,
+as shown in the example, is:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{2012{-}LXX{-}SBB}\KeywordTok{:}
+\AttributeTok{  }\FunctionTok{type}\KeywordTok{:}\AttributeTok{ book}
+\AttributeTok{  }\FunctionTok{title}\KeywordTok{:}
+\AttributeTok{    }\FunctionTok{value}\KeywordTok{:}\AttributeTok{ }\StringTok{"Septuaginta: EdiÃ§Ã£o AcadÃªmica Capa dura â EdiÃ§Ã£o de luxo"}
+\AttributeTok{    }\FunctionTok{sentence{-}case}\KeywordTok{:}\AttributeTok{ }\StringTok{"Septuaginta: ediÃ§Ã£o acadÃªmica capa dura â ediÃ§Ã£o de luxo"}
+\AttributeTok{    }\FunctionTok{short}\KeywordTok{:}\AttributeTok{ Septuaginta}
+\AttributeTok{  }\FunctionTok{publisher}\KeywordTok{:}\AttributeTok{ Sociedade BÃ­blica do Brasil, SBB}
+\AttributeTok{  }\FunctionTok{editor}\KeywordTok{:}\AttributeTok{ Rahlfs, Alfred}
+\AttributeTok{  }\FunctionTok{affiliated}\KeywordTok{:}
+\AttributeTok{    }\KeywordTok{{-}}\AttributeTok{ }\FunctionTok{role}\KeywordTok{:}\AttributeTok{ collaborator}
+\AttributeTok{      }\FunctionTok{names}\KeywordTok{:}\AttributeTok{ }\KeywordTok{[}\AttributeTok{ }\StringTok{"Hanhart, Robert"}\KeywordTok{,}\AttributeTok{ }\KeywordTok{]}
+\AttributeTok{  }\FunctionTok{pages}\KeywordTok{:}\AttributeTok{ }\DecValTok{2240}
+\AttributeTok{  }\FunctionTok{date}\KeywordTok{:}\AttributeTok{ 2012{-}01{-}11}
+\AttributeTok{  }\FunctionTok{edition}\KeywordTok{:}\AttributeTok{ }\DecValTok{1}
+\AttributeTok{  }\FunctionTok{ISBN}\KeywordTok{:}\AttributeTok{ 978{-}3438052278}
+\AttributeTok{  }\FunctionTok{language}\KeywordTok{:}\AttributeTok{ el}
+\end{Highlighting}
+\end{Shaded}
+
+This example results in a 4-page document like this one:
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://raw.githubusercontent.com/cnaak/blindex.typ/55d275e4fdab1f47c13e1fe01cbb2b397de5e0fb/thumbnail.png}}
+
+\subsection{Citing}\label{citing}
+
+This package can be cited with the following bibliography database
+entry:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{blindex{-}package}\KeywordTok{:}
+\AttributeTok{  }\FunctionTok{type}\KeywordTok{:}\AttributeTok{ Web}
+\AttributeTok{  }\FunctionTok{author}\KeywordTok{:}\AttributeTok{ Naaktgeboren, C.}
+\AttributeTok{  }\FunctionTok{title}\KeywordTok{:}
+\AttributeTok{    }\FunctionTok{value}\KeywordTok{:}\AttributeTok{ }\StringTok{"Blindex: Index{-}making of Biblical literature citations in Typst"}
+\AttributeTok{    }\FunctionTok{short}\KeywordTok{:}\AttributeTok{ }\StringTok{"Blindex: Index{-}making in Typst"}
+\AttributeTok{  }\FunctionTok{url}\KeywordTok{:}\AttributeTok{ https://github.com/cnaak/blindex.typ}
+\AttributeTok{  }\FunctionTok{version}\KeywordTok{:}\AttributeTok{ }\FloatTok{0.1.0}
+\AttributeTok{  }\FunctionTok{date}\KeywordTok{:}\AttributeTok{ 2024{-}08}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as \texttt{\ blindex\ }
+
+\begin{verbatim}
+#import "@preview/blindex:0.1.0"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+Naaktgeboren, C.
+\item[License:]
+MIT
+\item[Current version:]
+0.1.0
+\item[Last updated:]
+August 14, 2024
+\item[First released:]
+August 14, 2024
+\item[Minimum Typst version:]
+0.11.1
+\item[Archive size:]
+11.1 kB
+\href{https://packages.typst.org/preview/blindex-0.1.0.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Discipline :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \href{https://typst.app/universe/search/?discipline=theology}{Theology}
+\end{itemize}
+\item[Categor ies :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-list-unordered.svg}}
+  \href{https://typst.app/universe/search/?category=model}{Model}
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-code.svg}}
+  \href{https://typst.app/universe/search/?category=scripting}{Scripting}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of Naaktgeboren, C. . You can also try to ask
+for help with this package on the \href{https://forum.typst.app}{Forum}
+.
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.1.0 & August 14, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.

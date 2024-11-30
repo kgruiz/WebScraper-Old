@@ -1,0 +1,386 @@
+<main>
+    <div id="banner" style="--banner-accent:#000000;--banner-primary:#000000;--banner-secondary:#000000;--banner-tertiary:#565565;--banner-background:#eff0f3">
+     <div class="package-icon" role="img">
+     </div>
+     <div>
+      <div class="title">
+       <h1 class="name">
+        keyle
+       </h1>
+       <span class="version">
+        0.2.0
+       </span>
+      </div>
+      <p class="description">
+       This package provides a simple way to style keyboard shortcuts in your documentation.
+      </p>
+     </div>
+    </div>
+    <div class="inner-grid">
+     <section id="readme">
+      <p align="center">
+       <a href="https://raw.githubusercontent.com/magicwenli/keyle/main/doc/keyle.pdf" rel="nofollow ugc" target="_blank">
+        <img alt="Documentation" src="https://img.shields.io/website?down_message=offline&amp;label=manual&amp;up_color=007aff&amp;up_message=online&amp;url=https://raw.githubusercontent.com/magicwenli/keyle/main/doc/keyle.pdf"/>
+       </a>
+       <a href="https://github.com/magicwenli/keyle/blob/main/LICENSE" rel="nofollow ugc" target="_blank">
+        <img alt="MIT License" src="https://img.shields.io/badge/license-MIT-brightgreen"/>
+       </a>
+      </p>
+      <p>
+       A simple way to style keyboard shortcuts in your documentation.
+      </p>
+      <p>
+       This package was inspired by
+       <a href="https://auth0.github.io/kbd/" rel="nofollow ugc" target="_blank">
+        auth0/kbd
+       </a>
+       and
+       <a href="https://github.com/dogezen/badgery" rel="nofollow ugc" target="_blank">
+        dogezen/badgery
+       </a>
+       . Also thanks to
+       <a href="https://github.com/tweh/menukeys" rel="nofollow ugc" target="_blank">
+        tweh/menukeys
+       </a>
+       â A LaTeX package for menu keys generation.
+      </p>
+      <p>
+       Document generating using
+       <a href="https://github.com/jneug/typst-mantys" rel="nofollow ugc" target="_blank">
+        jneug/typst-mantys
+       </a>
+       .
+      </p>
+      <p>
+       Send them respect and love.
+      </p>
+      <h2>
+       Usage
+      </h2>
+      <p>
+       Please see the
+       <a href="https://github.com/magicwenli/keyle/blob/main/doc/keyle.pdf" rel="nofollow ugc" target="_blank">
+        keyle.pdf
+       </a>
+       for more documentation.
+      </p>
+      <p>
+       <code>
+        keyle
+       </code>
+       is imported using:
+      </p>
+      <pre><code class="language-typst"><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/keyle:0.2.0"</span>
+</code></code></pre>
+      <h3>
+       Example
+      </h3>
+      <h4>
+       Custom Delimiter
+      </h4>
+      <pre><code class="language-tpy">#let kbd = keyle.config()
+#kbd("Ctrl", "Shift", "K", delim: "-")
+</code></pre>
+      <p>
+       <img alt="Custom Delimiter" src="https://github.com/typst/packages/raw/main/packages/preview/keyle/0.2.0/test/test-1.png"/>
+      </p>
+      <h4>
+       Compact Mode
+      </h4>
+      <pre><code class="language-tpy">#let kbd = keyle.config()
+#kbd("Ctrl", "Shift", "K", compact: true)
+</code></pre>
+      <p>
+       <img alt="Compact Mode" src="https://github.com/typst/packages/raw/main/packages/preview/keyle/0.2.0/test/test-2.png"/>
+      </p>
+      <h4>
+       Standard Theme
+      </h4>
+      <pre><code class="language-tpy">#let kbd = keyle.config(theme: keyle.themes.standard)
+#keyle.gen-examples(kbd)
+</code></pre>
+      <p>
+       <img alt="Standard Theme" src="https://github.com/typst/packages/raw/main/packages/preview/keyle/0.2.0/test/test-3.png"/>
+      </p>
+      <h4>
+       Deep Blue Theme
+      </h4>
+      <pre><code class="language-tpy">#let kbd = keyle.config(theme: keyle.themes.deep-blue)
+#keyle.gen-examples(kbd)
+</code></pre>
+      <p>
+       <img alt="Deep Blue Theme" src="https://github.com/typst/packages/raw/main/packages/preview/keyle/0.2.0/test/test-4.png"/>
+      </p>
+      <h4>
+       Type Writer Theme
+      </h4>
+      <pre><code class="language-tpy">#let kbd = keyle.config(theme: keyle.themes.type-writer)
+#keyle.gen-examples(kbd)
+</code></pre>
+      <p>
+       <img alt="Type Writer Theme" src="https://github.com/typst/packages/raw/main/packages/preview/keyle/0.2.0/test/test-5.png"/>
+      </p>
+      <h4>
+       Biolinum Theme
+      </h4>
+      <pre><code class="language-tpy">#let kbd = keyle.config(theme: keyle.themes.biolinum, delim: keyle.biolinum-key.delim_plus)
+#keyle.gen-examples(kbd)
+</code></pre>
+      <p>
+       <img alt="Biolinum Theme" src="https://github.com/typst/packages/raw/main/packages/preview/keyle/0.2.0/test/test-6.png"/>
+      </p>
+      <h4>
+       Custom Theme
+      </h4>
+      <pre><code class="language-tpy">// https://www.radix-ui.com/themes/playground#kbd
+#let radix_kdb(content) = box(
+  rect(
+    inset: (x: 0.5em),
+    outset: (y:0.05em),
+    stroke: rgb("#1c2024") + 0.3pt,
+    radius: 0.35em,
+    fill: rgb("#fcfcfd"),
+    text(fill: black, font: (
+      "Roboto",
+      "Helvetica Neue",
+    ), content),
+  ),
+)
+#let kbd = keyle.config(theme: radix_kdb)
+#keyle.gen-examples(kbd)
+</code></pre>
+      <p>
+       <img alt="Custom Theme" src="https://github.com/typst/packages/raw/main/packages/preview/keyle/0.2.0/test/test-7.png"/>
+      </p>
+      <h2>
+       License
+      </h2>
+      <p>
+       MIT
+      </p>
+     </section>
+     <aside>
+      <section>
+       <h3>
+        How to add
+       </h3>
+       <p>
+        Copy this into your project and use the import as
+        <!-- -->
+        <code>
+         keyle
+        </code>
+       </p>
+       <div class="import-snippet">
+        <pre><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/keyle:0.2.0"</span></code></pre>
+        <button class="copy" title="Copy to clipboard">
+         <img alt="Copy" height="16" src="/assets/icons/16-copy.svg" width="16"/>
+        </button>
+       </div>
+       <p class="muted">
+        Check the docs for
+        <!-- -->
+        <a href="https://typst.app/docs/reference/scripting/#packages">
+         more information on how to import packages
+        </a>
+        .
+       </p>
+      </section>
+      <section id="about">
+       <h3>
+        About
+       </h3>
+       <dl>
+        <dt>
+         Author
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         <a href="mailto:yxnian@outlook.com">
+          magicwenli
+         </a>
+        </dd>
+        <dt>
+         License:
+        </dt>
+        <dd>
+         MIT
+        </dd>
+        <dt>
+         Current version:
+        </dt>
+        <dd>
+         0.2.0
+        </dd>
+        <dt>
+         Last updated:
+        </dt>
+        <dd>
+         August 27, 2024
+        </dd>
+        <dt>
+         First released:
+        </dt>
+        <dd>
+         July 24, 2024
+        </dd>
+        <dt>
+         Minimum Typst version:
+        </dt>
+        <dd>
+         0.11.1
+        </dd>
+        <dt>
+         Archive size:
+        </dt>
+        <dd class="archive-size-value">
+         5.97 kB
+         <a href="https://packages.typst.org/preview/keyle-0.2.0.tar.gz">
+          <img alt="Size icon" src="/assets/icons/16-download.svg"/>
+         </a>
+        </dd>
+        <dt>
+         Repository:
+        </dt>
+        <dd>
+         <a href="https://github.com/magicwenli/keyle" rel="noopener noreferrer" target="_blank">
+          GitHub
+         </a>
+        </dd>
+        <dt>
+         Categor
+         <!-- -->
+         ies
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         <ul class="list-with-icons">
+          <li>
+           <img alt="Utility icon" src="/assets/icons/16-hammer.svg"/>
+           <a href="https://typst.app/universe/search/?category=utility">
+            Utility
+           </a>
+          </li>
+          <li>
+           <img alt="Fun icon" src="/assets/icons/16-smile.svg"/>
+           <a href="https://typst.app/universe/search/?category=fun">
+            Fun
+           </a>
+          </li>
+         </ul>
+        </dd>
+       </dl>
+      </section>
+      <section>
+       <h3>
+        Where to report issues?
+       </h3>
+       <p>
+        This
+        <!-- -->
+        package
+        <!-- -->
+        is a project of
+        <!-- -->
+        <!-- -->
+        magicwenli
+        <!-- -->
+        .
+        <!-- -->
+        <!-- -->
+        Report issues on
+        <!-- -->
+        <a href="https://github.com/magicwenli/keyle" rel="noopener noreferrer" target="_blank">
+         their repository
+        </a>
+        .
+        <!-- -->
+        <!-- -->
+        You can also try to ask for help with this
+        <!-- -->
+        package
+        <!-- -->
+        on the
+        <!-- -->
+        <a href="https://forum.typst.app" rel="noopener" target="_blank">
+         Forum
+        </a>
+        .
+       </p>
+       <p>
+        Please report this
+        <!-- -->
+        package
+        <!-- -->
+        to the Typst team using the
+        <!-- -->
+        <a href="https://typst.app/contact" rel="noreferrer" target="_blank">
+         contact form
+        </a>
+        <!-- -->
+        if you believe it is a safety hazard or infringes upon your rights.
+       </p>
+      </section>
+      <section id="versions">
+       <h3>
+        Version history
+       </h3>
+       <table>
+        <thead>
+         <tr>
+          <th align="left">
+           Version
+          </th>
+          <th align="left">
+           Release Date
+          </th>
+         </tr>
+        </thead>
+        <tbody>
+         <tr>
+          <td align="left">
+           0.2.0
+          </td>
+          <td align="left">
+           August 27, 2024
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/keyle/0.1.1/">
+            0.1.1
+           </a>
+          </td>
+          <td align="left">
+           August 12, 2024
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/keyle/0.1.0/">
+            0.1.0
+           </a>
+          </td>
+          <td align="left">
+           July 24, 2024
+          </td>
+         </tr>
+        </tbody>
+       </table>
+      </section>
+      <p class="bottom-notice muted">
+       Typst GmbH did not create this
+       <!-- -->
+       package
+       <!-- -->
+       and cannot guarantee correct functionality of this
+       <!-- -->
+       package
+       <!-- -->
+       or compatibility with any version of the Typst compiler or app.
+      </p>
+     </aside>
+    </div>
+   </main>

@@ -1,0 +1,220 @@
+\title{typst.app/universe/package/derive-it}
+
+\phantomsection\label{banner}
+\section{derive-it}\label{derive-it}
+
+{ 0.1.1 }
+
+Simple functions for creating fitch-style natural deduction proofs and
+derivations.
+
+\phantomsection\label{readme}
+A Typst package to create Fitch-style natural deductions.
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/derive-it/0.1.1/examples/example.png}}
+
+\subsection{Usage}\label{usage}
+
+This package provides two functions:
+
+\texttt{\ ded-nat\ } is a function that expects 2 parameters:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ stcolor\ } : the stroke color of the indentation guides. The
+  default is \texttt{\ black\ } .
+\item
+  \texttt{\ arr\ } : an array with the shape, it can be provided in two
+  shapes.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    4 items: (dependency: text content, indentation: integer starting
+    from 0, formula: text content, rule: text content).
+  \item
+    3 items: the same as above, but without the dependency.
+  \end{itemize}
+\end{itemize}
+
+\texttt{\ ded-nat-boxed\ } is a function that expects 4 parameters, and
+returns the deduction in a \texttt{\ box\ } :
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ stcolor\ } : the stroke color of the indentation guides. The
+  default is \texttt{\ black\ } .
+\item
+  \texttt{\ premises-and-conclusion\ } : bool, whether to automatically
+  insert or not the premises and conclusion of the derivation above the
+  lines. The default is \texttt{\ true\ } .
+\item
+  \texttt{\ premise-rule-text\ } : text content, used for finding the
+  premisesâ€™ formulas when \texttt{\ premises-and-conclusion\ } is set
+  to \texttt{\ true\ } . The default is \texttt{\ "PR"\ } .
+\item
+  \texttt{\ arr\ } : an array with the shape, it can be provided in two
+  shapes.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    4 items: (dependency: text content, indentation: integer starting
+    from 0, formula: text content, rule: text content).
+  \item
+    3 items: the same as above, but without the dependency.
+  \end{itemize}
+\end{itemize}
+
+\subsubsection{Example}\label{example}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/derive{-}it:0.1.1": *}
+
+\NormalTok{\#ded{-}nat(stcolor: black, arr:(}
+\NormalTok{    ("1", 0, $forall x (P x) and forall x (Q x)$, "PR"),}
+\NormalTok{    ("2", 0, $forall x (P x {-}\textgreater{} R x)$, "PR"),}
+  
+\NormalTok{    ("1", 0, $forall x (P x)$, "S 1"),}
+\NormalTok{    ("1", 0, $P a$, "IU 3"),}
+\NormalTok{    ("2", 0, $P a {-}\textgreater{} R a$, "IU 2"),}
+\NormalTok{    ("1,2", 0, $R a$, "MP 4, 5"),}
+  
+\NormalTok{    ("1,2", 0, $forall x (R x)$, "GU 6"),}
+\NormalTok{))}
+
+\NormalTok{\#ded{-}nat{-}boxed(stcolor: black, premises{-}and{-}conclusion: false, arr: (}
+\NormalTok{  ("1", 0, $forall x (S x b) and not forall y (P y {-}\textgreater{} Q b y)$, "PR"),}
+\NormalTok{  ("2", 0, $forall x forall y (Q x y {-}\textgreater{} not Q y x)$, "PR"),}
+\NormalTok{    ("3", 1, $not forall x (not P x) {-}\textgreater{} forall y (S y b {-}\textgreater{} Q b y)$, "Sup. RAA"),}
+\NormalTok{    ("1", 1, $not forall y (P y {-}\textgreater{} Q b y)$, "S 1"),}
+\NormalTok{    ("1", 1, $exists y not (P y {-}\textgreater{} Q b y)$, "EMC 4"),}
+\NormalTok{      ("6", 2, $not (P a {-}\textgreater{} Q b a)$, "Sup. IE 5"),}
+\NormalTok{        ("7", 3, $not (P a and not Q b a)$, "Sup. RAA"),}
+\NormalTok{        ("7", 3, $not P a or not not Q  b a$, "DM 7"),}
+\NormalTok{          ("9", 4, $not P a$, "Sup. PC"),}
+\NormalTok{          ("9", 4, $not P a or Q b a$, "Disy. 9"),}
+\NormalTok{        ("", 3, $not P a {-}\textgreater{} (not P a or Q b a)$, "PC 9{-}10"),}
+\NormalTok{          ("12", 4, $not  not Q b a$, "Sup. PC"),}
+\NormalTok{          ("12", 4, $Q b a$, "DN 12"),}
+\NormalTok{          ("12", 4, $not P a or Q b a$, "Disy. 13"),}
+\NormalTok{        ("", 3, $not not Q b a {-}\textgreater{} (not P a or Q b a)$, "PC 12{-}14"),}
+\NormalTok{        ("7", 3, $not P a or Q b a$, "Dil. 8,11,15"),}
+\NormalTok{        ("7", 3, $P a {-}\textgreater{} Q b a$, "IM 16"),}
+\NormalTok{        ("6,7", 3, $(P a {-}\textgreater{} Q b a) and not (P a {-}\textgreater{} Q b a)$, "Conj. 6, 17"),}
+\NormalTok{      ("6", 2, $P a and not Q b a$, "RAA 7{-}18"),}
+\NormalTok{      ("6", 2, $P a$, "S 19"),}
+\NormalTok{      ("6", 2, $exists x (P x)$, "GE 20"),}
+\NormalTok{      ("6", 2, $not forall x (not P x)$, "EMC 21"),}
+\NormalTok{      ("3,6", 2, $forall y (S y b {-}\textgreater{} Q b y)$, "MP 3, 22"),}
+\NormalTok{      ("3,6", 2, $S a b {-}\textgreater{} Q b a$, "IU 23"),}
+\NormalTok{      ("1", 2, $forall x (S x b)$, "S 1"),}
+\NormalTok{      ("1", 2, $S a b$, "IU 25"),}
+\NormalTok{      ("1,3,6", 2, $Q b a$, "MP 24, 25"),}
+\NormalTok{      ("6", 2, $not Q b a$, "S 19"),}
+\NormalTok{      ("1,3,6", 2, $Q b a or not exists y not (P y {-}\textgreater{} Q b y)$, "Disy. 27"),}
+\NormalTok{      ("1,3,6", 2, $not exists y not (P y {-}\textgreater{} Q b y)$, "MTP 28, 29"),}
+\NormalTok{    ("1,3", 1, $not exists y not (P y {-}\textgreater{} Q b y)$, "IE 5, 6, 30"),}
+\NormalTok{    ("1,3", 1, $not exists y not (P y {-}\textgreater{} Q b y) and exists y not (P y {-}\textgreater{} Q b y)$, "Conj. 5, 31"),}
+
+\NormalTok{  ("1", 0, $not (not forall x (not P x) {-}\textgreater{} forall y ( S y b {-}\textgreater{} Q b y))$, "RAA 3{-}32"),}
+\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+In order to compile locally \texttt{\ examples/example.typ\ } the
+command is:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{typst}\NormalTok{ compile examples/example.typ }\AttributeTok{{-}root}\NormalTok{ .}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as \texttt{\ derive-it\ }
+
+\begin{verbatim}
+#import "@preview/derive-it:0.1.1"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+\href{https://github.com/0rphee}{0rphee}
+\item[License:]
+MIT
+\item[Current version:]
+0.1.1
+\item[Last updated:]
+November 14, 2024
+\item[First released:]
+November 12, 2024
+\item[Archive size:]
+3.31 kB
+\href{https://packages.typst.org/preview/derive-it-0.1.1.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/0rphee/derive-it}{GitHub}
+\item[Discipline s :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \href{https://typst.app/universe/search/?discipline=mathematics}{Mathematics}
+\item
+  \href{https://typst.app/universe/search/?discipline=philosophy}{Philosophy}
+\end{itemize}
+\item[Categor ies :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-layout.svg}}
+  \href{https://typst.app/universe/search/?category=layout}{Layout}
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-chart.svg}}
+  \href{https://typst.app/universe/search/?category=visualization}{Visualization}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of 0rphee . Report issues on
+\href{https://github.com/0rphee/derive-it}{their repository} . You can
+also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.1.1 & November 14, 2024 \\
+\href{https://typst.app/universe/package/derive-it/0.1.0/}{0.1.0} &
+November 12, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.

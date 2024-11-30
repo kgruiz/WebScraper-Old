@@ -1,0 +1,621 @@
+<main>
+    <div id="banner" style="--banner-accent:#000000;--banner-primary:#000000;--banner-secondary:#000000;--banner-tertiary:#565565;--banner-background:#eff0f3">
+     <div id="template-thumbnail">
+      <img alt="A preview of the slydst Typst template." src="https://packages.typst.org/preview/thumbnails/slydst-0.1.3-small.webp"/>
+      <div class="icon" role="img">
+      </div>
+     </div>
+     <div>
+      <div class="title">
+       <h1 class="name">
+        slydst
+       </h1>
+       <span class="version">
+        0.1.3
+       </span>
+      </div>
+      <p class="description">
+       Create simple static slides using standard headings
+      </p>
+     </div>
+    </div>
+    <div class="inner-grid">
+     <a class="create-project-button mobile" href="/app?template=slydst&amp;version=0.1.3" rel="noopener noreferrer" target="_blank">
+      Create project in app
+     </a>
+     <section id="readme">
+      <p>
+       Create simple static slides with Typst.
+      </p>
+      <p>
+       Slydst allows the creation of slides using Typst headings. This simplicity comes at the expense of dynamic content such as subslide animations. For more complete and complex slides functionalities, see other tools such as Polylux.
+      </p>
+      <p>
+       See the
+       <a href="https://github.com/typst/packages/raw/main/packages/preview/slydst/0.1.3/#example" rel="nofollow ugc" target="_blank">
+        preview
+       </a>
+       below.
+      </p>
+      <h2>
+       Usage
+      </h2>
+      <p>
+       To start, just use the following preamble (only the title is required).
+      </p>
+      <pre><code class="language-typst"><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/slydst:0.1.3"</span><span class="typ-punct">:</span> <span class="typ-op">*</span>
+
+<span class="typ-key">#</span><span class="typ-key">show</span><span class="typ-punct">:</span> slides<span class="typ-punct">.</span><span class="typ-func">with</span><span class="typ-punct">(</span>
+  title<span class="typ-punct">:</span> <span class="typ-str">"Slydst: Slides with Typst"</span><span class="typ-punct">,</span>
+  subtitle<span class="typ-punct">:</span> <span class="typ-key">none</span><span class="typ-punct">,</span>
+  date<span class="typ-punct">:</span> <span class="typ-key">none</span><span class="typ-punct">,</span>
+  authors<span class="typ-punct">:</span> <span class="typ-punct">(</span><span class="typ-str">"Gaspard Lambrechts"</span><span class="typ-punct">,</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+  layout<span class="typ-punct">:</span> <span class="typ-str">"medium"</span><span class="typ-punct">,</span>
+  ratio<span class="typ-punct">:</span> <span class="typ-num">4</span><span class="typ-op">/</span><span class="typ-num">3</span><span class="typ-punct">,</span>
+  title-color<span class="typ-punct">:</span> <span class="typ-key">none</span><span class="typ-punct">,</span>
+<span class="typ-punct">)</span>
+
+Insert your content here.
+</code></code></pre>
+      <p>
+       Then, insert your content.
+      </p>
+      <ul>
+       <li>
+        <strong>
+         Level-one headings
+        </strong>
+        corresponds to new sections.
+       </li>
+       <li>
+        <strong>
+         Level-two headings
+        </strong>
+        corresponds to new slides.
+       </li>
+       <li>
+        Blank space can be filled with
+        <strong>
+         vertical spaces
+        </strong>
+        like
+        <code>
+         #v(1fr)
+        </code>
+        .
+       </li>
+      </ul>
+      <pre><code class="language-typst"><code><span class="typ-heading">== Outline</span>
+
+<span class="typ-func">#</span><span class="typ-func">outline</span><span class="typ-punct">(</span><span class="typ-punct">)</span>
+
+<span class="typ-heading">= First section</span>
+
+<span class="typ-heading">== First slide</span>
+
+<span class="typ-func">#</span><span class="typ-func">figure</span><span class="typ-punct">(</span><span class="typ-func">image</span><span class="typ-punct">(</span><span class="typ-str">"figure.png"</span><span class="typ-punct">,</span> width<span class="typ-punct">:</span> <span class="typ-num">60%</span><span class="typ-punct">)</span><span class="typ-punct">,</span> caption<span class="typ-punct">:</span> <span class="typ-str">"Caption"</span><span class="typ-punct">)</span>
+
+<span class="typ-func">#</span><span class="typ-func">v</span><span class="typ-punct">(</span><span class="typ-num">1fr</span><span class="typ-punct">)</span>
+
+<span class="typ-func">#</span><span class="typ-func">lorem</span><span class="typ-punct">(</span><span class="typ-num">20</span><span class="typ-punct">)</span>
+</code></code></pre>
+      <h2>
+       Title page
+      </h2>
+      <p>
+       Alternatively, you can omit the title argument and write your own title page. Note that the subtitle, date and authors arguments be ignored in that case.
+      </p>
+      <pre><code class="language-typst"><code><span class="typ-key">#</span><span class="typ-key">show</span><span class="typ-punct">:</span> slides<span class="typ-punct">.</span><span class="typ-func">with</span><span class="typ-punct">(</span>
+  layout<span class="typ-punct">:</span> <span class="typ-str">"medium"</span><span class="typ-punct">,</span>
+<span class="typ-punct">)</span>
+
+<span class="typ-func">#</span><span class="typ-func">align</span><span class="typ-punct">(</span>center <span class="typ-op">+</span> horizon<span class="typ-punct">)</span><span class="typ-punct">[</span>
+  <span class="typ-func">#</span><span class="typ-func">text</span><span class="typ-punct">(</span><span class="typ-num">2em</span><span class="typ-punct">,</span> default-color<span class="typ-punct">)</span><span class="typ-punct">[</span><span class="typ-strong">*Slydst: Slides in Typst*</span><span class="typ-punct">]</span>
+<span class="typ-punct">]</span>
+
+Insert your content here.
+</code></code></pre>
+      <p>
+       We advise the use of the
+       <code>
+        title-slide
+       </code>
+       function that ensures a proper centering and no page numbering.
+      </p>
+      <pre><code class="language-typst"><code><span class="typ-key">#</span><span class="typ-key">show</span><span class="typ-punct">:</span> <span class="typ-func">slides</span>
+
+<span class="typ-func">#</span><span class="typ-func">title-slide</span><span class="typ-punct">(</span>layout<span class="typ-punct">:</span> <span class="typ-str">"medium"</span><span class="typ-punct">)</span><span class="typ-punct">[</span>
+  <span class="typ-func">#</span><span class="typ-func">text</span><span class="typ-punct">(</span><span class="typ-num">2em</span><span class="typ-punct">,</span> default-color<span class="typ-punct">)</span><span class="typ-punct">[</span><span class="typ-strong">*Slydst: Slides in Typst*</span><span class="typ-punct">]</span>
+<span class="typ-punct">]</span>
+
+Insert your content here.
+</code></code></pre>
+      <h2>
+       Components
+      </h2>
+      <p>
+       Definitions, theorems, lemmas, corollaries and algorithms boxes are also available.
+      </p>
+      <pre><code class="language-typst"><code><span class="typ-func">#</span><span class="typ-func">definition</span><span class="typ-punct">(</span>title<span class="typ-punct">:</span> <span class="typ-str">"An interesting definition"</span><span class="typ-punct">)</span><span class="typ-punct">[</span>
+  <span class="typ-func">#</span><span class="typ-func">lorem</span><span class="typ-punct">(</span><span class="typ-num">20</span><span class="typ-punct">)</span>
+<span class="typ-punct">]</span>
+</code></code></pre>
+      <h2>
+       Documentation
+      </h2>
+      <h3>
+       <code>
+        slides
+       </code>
+      </h3>
+      <ul>
+       <li>
+        <code>
+         content
+        </code>
+        :
+        <code>
+         content
+        </code>
+        - content of the presentation
+       </li>
+       <li>
+        <code>
+         title
+        </code>
+        :
+        <code>
+         str
+        </code>
+        - title (required)
+       </li>
+       <li>
+        <code>
+         subtitle
+        </code>
+        :
+        <code>
+         str
+        </code>
+        - subtitle
+       </li>
+       <li>
+        <code>
+         date
+        </code>
+        :
+        <code>
+         str
+        </code>
+        - date
+       </li>
+       <li>
+        <code>
+         authors
+        </code>
+        :
+        <code>
+         array
+        </code>
+        of
+        <code>
+         content
+        </code>
+        or
+        <code>
+         content
+        </code>
+        - list of authors or author content
+       </li>
+       <li>
+        <code>
+         layout
+        </code>
+        :
+        <code>
+         str in ("small", "medium", "large")
+        </code>
+        - layout selection
+       </li>
+       <li>
+        <code>
+         ratio
+        </code>
+        :
+        <code>
+         float
+        </code>
+        or
+        <code>
+         ratio
+        </code>
+        or
+        <code>
+         int
+        </code>
+        - width to height ratio
+       </li>
+       <li>
+        <code>
+         title-color
+        </code>
+        :
+        <code>
+         color
+        </code>
+        or
+        <code>
+         gradient
+        </code>
+        - color of title and headings
+       </li>
+      </ul>
+      <h3>
+       <code>
+        title-slide
+       </code>
+      </h3>
+      <ul>
+       <li>
+        <code>
+         content
+        </code>
+        :
+        <code>
+         content
+        </code>
+        - content of the slide
+       </li>
+      </ul>
+      <h3>
+       <code>
+        definition
+       </code>
+       ,
+       <code>
+        theorem
+       </code>
+       ,
+       <code>
+        lemma
+       </code>
+       ,
+       <code>
+        corollary
+       </code>
+       ,
+       <code>
+        algorithm
+       </code>
+      </h3>
+      <ul>
+       <li>
+        <code>
+         content
+        </code>
+        :
+        <code>
+         content
+        </code>
+        - content of the block
+       </li>
+       <li>
+        <code>
+         title
+        </code>
+        :
+        <code>
+         str
+        </code>
+        - title of the block
+       </li>
+       <li>
+        <code>
+         fill-header
+        </code>
+        :
+        <code>
+         color
+        </code>
+        - color of the header (inferred if only
+        <code>
+         fill-body
+        </code>
+        is specified)
+       </li>
+       <li>
+        <code>
+         fill-body
+        </code>
+        :
+        <code>
+         color
+        </code>
+        - color of the body (inferred if only
+        <code>
+         fill-header
+        </code>
+        is specified)
+       </li>
+       <li>
+        <code>
+         radius
+        </code>
+        :
+        <code>
+         length
+        </code>
+        - radius of the corners of the block
+       </li>
+      </ul>
+      <h2>
+       Example
+      </h2>
+      <p>
+       <kbd>
+        <img src="https://github.com/typst/packages/raw/main/packages/preview/slydst/0.1.3/svg/example-01.svg" width="300"/>
+       </kbd>
+       <kbd>
+        <img src="https://github.com/typst/packages/raw/main/packages/preview/slydst/0.1.3/svg/example-02.svg" width="300"/>
+       </kbd>
+       <kbd>
+        <img src="https://github.com/typst/packages/raw/main/packages/preview/slydst/0.1.3/svg/example-03.svg" width="300"/>
+       </kbd>
+       <kbd>
+        <img src="https://github.com/typst/packages/raw/main/packages/preview/slydst/0.1.3/svg/example-04.svg" width="300"/>
+       </kbd>
+       <kbd>
+        <img src="https://github.com/typst/packages/raw/main/packages/preview/slydst/0.1.3/svg/example-05.svg" width="300"/>
+       </kbd>
+       <kbd>
+        <img src="https://github.com/typst/packages/raw/main/packages/preview/slydst/0.1.3/svg/example-06.svg" width="300"/>
+       </kbd>
+       <kbd>
+        <img src="https://github.com/typst/packages/raw/main/packages/preview/slydst/0.1.3/svg/example-07.svg" width="300"/>
+       </kbd>
+       <kbd>
+        <img src="https://github.com/typst/packages/raw/main/packages/preview/slydst/0.1.3/svg/example-08.svg" width="300"/>
+       </kbd>
+       <kbd>
+        <img src="https://github.com/typst/packages/raw/main/packages/preview/slydst/0.1.3/svg/example-09.svg" width="300"/>
+       </kbd>
+       <kbd>
+        <img src="https://github.com/typst/packages/raw/main/packages/preview/slydst/0.1.3/svg/example-10.svg" width="300"/>
+       </kbd>
+      </p>
+     </section>
+     <aside>
+      <a class="create-project-button desktop" href="/app?template=slydst&amp;version=0.1.3" rel="noopener noreferrer" target="_blank">
+       Create project in app
+      </a>
+      <section>
+       <h3>
+        How to use
+       </h3>
+       <p>
+        Click the button above to create a new project using this template in the Typst app.
+       </p>
+       <p>
+        You can also use the Typst CLI to start a new project on your computer using this command:
+       </p>
+       <div class="init-snippet">
+        <pre><code>typst init @preview/<!-- -->slydst<!-- -->:<!-- -->0.1.3</code></pre>
+        <button class="copy" title="Copy to clipboard">
+         <img alt="Copy" height="16" src="/assets/icons/16-copy.svg" width="16"/>
+        </button>
+       </div>
+      </section>
+      <section id="about">
+       <h3>
+        About
+       </h3>
+       <dl>
+        <dt>
+         Author
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         <a href="https://github.com/glambrechts" rel="noopener noreferrer" target="_blank">
+          Gaspard Lambrechts
+         </a>
+        </dd>
+        <dt>
+         License:
+        </dt>
+        <dd>
+         MIT
+        </dd>
+        <dt>
+         Current version:
+        </dt>
+        <dd>
+         0.1.3
+        </dd>
+        <dt>
+         Last updated:
+        </dt>
+        <dd>
+         November 12, 2024
+        </dd>
+        <dt>
+         First released:
+        </dt>
+        <dd>
+         November 18, 2023
+        </dd>
+        <dt>
+         Minimum Typst version:
+        </dt>
+        <dd>
+         0.12.0
+        </dd>
+        <dt>
+         Archive size:
+        </dt>
+        <dd class="archive-size-value">
+         4.12 kB
+         <a href="https://packages.typst.org/preview/slydst-0.1.3.tar.gz">
+          <img alt="Size icon" src="/assets/icons/16-download.svg"/>
+         </a>
+        </dd>
+        <dt>
+         Repository:
+        </dt>
+        <dd>
+         <a href="https://github.com/glambrechts/slydst" rel="noopener noreferrer" target="_blank">
+          GitHub
+         </a>
+        </dd>
+        <dt>
+         Categor
+         <!-- -->
+         ies
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         <ul class="list-with-icons">
+          <li>
+           <img alt="Presentation icon" src="/assets/icons/16-presentation.svg"/>
+           <a href="https://typst.app/universe/search/?category=presentation">
+            Presentation
+           </a>
+          </li>
+          <li>
+           <img alt="Layout icon" src="/assets/icons/16-layout.svg"/>
+           <a href="https://typst.app/universe/search/?category=layout">
+            Layout
+           </a>
+          </li>
+          <li>
+           <img alt="Components icon" src="/assets/icons/16-package.svg"/>
+           <a href="https://typst.app/universe/search/?category=components">
+            Components
+           </a>
+          </li>
+         </ul>
+        </dd>
+       </dl>
+      </section>
+      <section>
+       <h3>
+        Where to report issues?
+       </h3>
+       <p>
+        This
+        <!-- -->
+        template
+        <!-- -->
+        is a project of
+        <!-- -->
+        <!-- -->
+        Gaspard Lambrechts
+        <!-- -->
+        .
+        <!-- -->
+        <!-- -->
+        Report issues on
+        <!-- -->
+        <a href="https://github.com/glambrechts/slydst" rel="noopener noreferrer" target="_blank">
+         their repository
+        </a>
+        .
+        <!-- -->
+        <!-- -->
+        You can also try to ask for help with this
+        <!-- -->
+        template
+        <!-- -->
+        on the
+        <!-- -->
+        <a href="https://forum.typst.app" rel="noopener" target="_blank">
+         Forum
+        </a>
+        .
+       </p>
+       <p>
+        Please report this
+        <!-- -->
+        template
+        <!-- -->
+        to the Typst team using the
+        <!-- -->
+        <a href="https://typst.app/contact" rel="noreferrer" target="_blank">
+         contact form
+        </a>
+        <!-- -->
+        if you believe it is a safety hazard or infringes upon your rights.
+       </p>
+      </section>
+      <section id="versions">
+       <h3>
+        Version history
+       </h3>
+       <table>
+        <thead>
+         <tr>
+          <th align="left">
+           Version
+          </th>
+          <th align="left">
+           Release Date
+          </th>
+         </tr>
+        </thead>
+        <tbody>
+         <tr>
+          <td align="left">
+           0.1.3
+          </td>
+          <td align="left">
+           November 12, 2024
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/slydst/0.1.2/">
+            0.1.2
+           </a>
+          </td>
+          <td align="left">
+           November 12, 2024
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/slydst/0.1.1/">
+            0.1.1
+           </a>
+          </td>
+          <td align="left">
+           March 18, 2024
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/slydst/0.1.0/">
+            0.1.0
+           </a>
+          </td>
+          <td align="left">
+           November 18, 2023
+          </td>
+         </tr>
+        </tbody>
+       </table>
+      </section>
+      <p class="bottom-notice muted">
+       Typst GmbH did not create this
+       <!-- -->
+       template
+       <!-- -->
+       and cannot guarantee correct functionality of this
+       <!-- -->
+       template
+       <!-- -->
+       or compatibility with any version of the Typst compiler or app.
+      </p>
+     </aside>
+    </div>
+   </main>

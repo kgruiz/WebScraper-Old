@@ -1,0 +1,4384 @@
+\title{typst.app/universe/package/lemmify}
+
+\phantomsection\label{banner}
+\section{lemmify}\label{lemmify}
+
+{ 0.1.6 }
+
+Theorem typesetting library.
+
+\phantomsection\label{readme}
+Lemmify is a library for typesetting mathematical theorems in typst. It
+aims to be easy to use while trying to be as flexible and idiomatic as
+possible. This means that the interface might change with updates to
+typst (for example if user-defined element functions are introduced).
+But no functionality should be lost.
+
+\subsection{Basic Usage}\label{basic-usage}
+
+To get started with Lemmify, follow these steps:
+
+\begin{enumerate}
+\tightlist
+\item
+  Import the Lemmify library:
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/lemmify:0.1.6": *}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{enumerate}
+\setcounter{enumi}{1}
+\tightlist
+\item
+  Define the default styling for a few default theorem types:
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let (}
+\NormalTok{  theorem, lemma, corollary,}
+\NormalTok{  remark, proposition, example,}
+\NormalTok{  proof, rules: thm{-}rules}
+\NormalTok{) = default{-}theorems("thm{-}group", lang: "en")}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{enumerate}
+\setcounter{enumi}{2}
+\tightlist
+\item
+  Apply the generated styling:
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#show: thm{-}rules}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{enumerate}
+\setcounter{enumi}{3}
+\tightlist
+\item
+  Create theorems, lemmas, and proofs using the defined styling:
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#theorem(name: "Some theorem")[}
+\NormalTok{  Theorem content goes here.}
+\NormalTok{]\textless{}thm\textgreater{}}
+
+\NormalTok{\#proof[}
+\NormalTok{  Complicated proof.}
+\NormalTok{]\textless{}proof\textgreater{}}
+
+\NormalTok{@proof and @thm[theorem]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{enumerate}
+\setcounter{enumi}{4}
+\tightlist
+\item
+  Customize the styling further using show rules. For example, to add a
+  red box around proofs:
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#show thm{-}selector("thm{-}group", subgroup: "proof"): it =\textgreater{} box(}
+\NormalTok{  it,}
+\NormalTok{  stroke: red + 1pt,}
+\NormalTok{  inset: 1em}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+The result should now look something like this:
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/Marmare314/lemmify/assets/49279081/ba5e7ed4-336d-4b1a-8470-99fa23bf5119}}
+
+\subsection{Useful examples}\label{useful-examples}
+
+If you do not want to reset the theorem counter on headings you can use
+the \texttt{\ max-reset-level\ } parameter:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{default{-}theorems("thm{-}group", max{-}reset{-}level: 0)}
+\end{Highlighting}
+\end{Shaded}
+
+It specifies the highest level at which the counter is reset. To
+manually reset the counter you can use the
+\texttt{\ thm-reset-counter\ } function.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+By specifying \texttt{\ numbering:\ none\ } you can create unnumbered
+theorems.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#example(numbering: none)[}
+\NormalTok{  Some example.}
+\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+To make all examples unnumbered you could use the following code:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let example = example.with(numbering: none)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+To create other types (or subgroups) of theorems you can use the
+\texttt{\ new-theorems\ } function.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let (note, rules) = new{-}theorems("thm{-}group", ("note": text(red)[Note]))}
+\NormalTok{\#show: rules}
+\end{Highlighting}
+\end{Shaded}
+
+If you have already defined custom styling you will notice that the
+newly created theorem does not use it. You can create a dictionary to
+make applying it again easier.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let my{-}styling = (}
+\NormalTok{  thm{-}styling: thm{-}styling{-}simple,}
+\NormalTok{  thm{-}numbering: ..,}
+\NormalTok{  ref{-}styling: ..}
+\NormalTok{)}
+
+\NormalTok{\#let (note, rules) = new{-}theorems("thm{-}group", ("note": "Note), ..my{-}styling)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+By varying the \texttt{\ group\ } parameter you can create independently
+numbered theorems:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let (}
+\NormalTok{  theorem, proof,}
+\NormalTok{  rules: thm{-}rules{-}a}
+\NormalTok{) = default{-}theorems("thm{-}group{-}a")}
+\NormalTok{\#let (}
+\NormalTok{  definition,}
+\NormalTok{  rules: thm{-}rules{-}b}
+\NormalTok{) = default{-}theorems("thm{-}group{-}b")}
+
+\NormalTok{\#show: thm{-}rules{-}a}
+\NormalTok{\#show: thm{-}rules{-}b}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+To specify parameters of the
+\href{https://github.com/typst/packages/raw/main/packages/preview/lemmify/0.1.6/\#styling-parameters}{styling}
+functions the \texttt{\ .with\ } function is used.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let (}
+\NormalTok{  theorem,}
+\NormalTok{  rules: thm{-}rules}
+\NormalTok{) = default{-}theorems(}
+\NormalTok{  "thm{-}group",}
+\NormalTok{  thm{-}numbering: thm{-}numbering{-}heading.with(max{-}heading{-}level: 2)}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Example}\label{example}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/lemmify:0.1.6": *}
+
+\NormalTok{\#let my{-}thm{-}style(}
+\NormalTok{  thm{-}type, name, number, body}
+\NormalTok{) = grid(}
+\NormalTok{  columns: (1fr, 3fr),}
+\NormalTok{  column{-}gutter: 1em,}
+\NormalTok{  stack(spacing: .5em, strong(thm{-}type), number, emph(name)),}
+\NormalTok{  body}
+\NormalTok{)}
+
+\NormalTok{\#let my{-}styling = (}
+\NormalTok{  thm{-}styling: my{-}thm{-}style}
+\NormalTok{)}
+
+\NormalTok{\#let (}
+\NormalTok{  theorem, rules}
+\NormalTok{) = default{-}theorems("thm{-}group", lang: "en", ..my{-}styling)}
+\NormalTok{\#show: rules}
+\NormalTok{\#show thm{-}selector("thm{-}group"): box.with(inset: 1em)}
+
+\NormalTok{\#lorem(20)}
+\NormalTok{\#theorem[}
+\NormalTok{  \#lorem(40)}
+\NormalTok{]}
+\NormalTok{\#lorem(20)}
+\NormalTok{\#theorem(name: "Some theorem")[}
+\NormalTok{  \#lorem(30)}
+\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/Marmare314/lemmify/assets/49279081/b3c72b3e-7e21-4acd-82bb-3d63f87ec84b}}
+
+\subsection{Documentation}\label{documentation}
+
+The two most important functions are:
+
+\texttt{\ default-theorems\ } : Create a default set of theorems based
+on the given language and styling.
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ group\ } : The group id.
+\item
+  \texttt{\ lang\ } : The language to which the theorems are adapted.
+\item
+  \texttt{\ thm-styling\ } , \texttt{\ thm-numbering\ } ,
+  \texttt{\ ref-styling\ } : Styling parameters are explained in further
+  detail in the
+  \href{https://github.com/typst/packages/raw/main/packages/preview/lemmify/0.1.6/\#styling-parameters}{Styling}
+  section.
+\item
+  \texttt{\ proof-styling\ } : Styling which is only applied to proofs.
+\item
+  \texttt{\ max-reset-level\ } : The highest heading level on which
+  theorems are still reset.
+\end{itemize}
+
+\texttt{\ new-theorems\ } : Create custom sets of theorems with the
+given styling.
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ group\ } : The group id.
+\item
+  \texttt{\ subgroup-map\ } : Mapping from group id to some argument.
+  The simple styles use \texttt{\ thm-type\ } as the argument (ie
+  â€œBeispielâ€? or â€œExampleâ€? for group id â€œexampleâ€?)
+\item
+  \texttt{\ thm-styling\ } , \texttt{\ thm-numbering\ } ,
+  \texttt{\ ref-styling\ } , \texttt{\ ref-numbering\ } : Styling which
+  to apply to all subgroups.
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\texttt{\ use-proof-numbering\ } : Decreases the numbering of a theorem
+function by one. See
+\href{https://github.com/typst/packages/raw/main/packages/preview/lemmify/0.1.6/\#styling}{Styling}
+for more information.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\texttt{\ thm-selector\ } : Returns a selector for all theorems of the
+specified group. If subgroup is specified, only the theorems belonging
+to it will be selected.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+There are also a few functions to help with resetting counters.
+
+\texttt{\ thm-reset-counter\ } : Reset theorem group counter manually.
+Returned content needs to added to the document.
+
+\texttt{\ thm-reset-counter-heading-at\ } : Reset theorem group counter
+at headings of the specified level. Returns a rule that needs to be
+shown.
+
+\texttt{\ thm-reset-counter-heading\ } : Reset theorem group counter at
+headings of at most the specified level. Returns a rule that needs to be
+shown.
+
+\subsubsection{Styling parameters}\label{styling-parameters}
+
+If possible the best way to adapt the look of theorems is to use show
+rules as shown
+\href{https://github.com/typst/packages/raw/main/packages/preview/lemmify/0.1.6/\#basic-usage}{above}
+, but this is not always possible. For example if we wanted theorems to
+start with \texttt{\ 1.1\ Theorem\ } instead of
+\texttt{\ Theorem\ 1.1\ } . You can provide the following functions to
+adapt the look of the theorems.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\texttt{\ thm-styling\ } : A function:
+\texttt{\ (arg,\ name,\ number,\ body)\ -\textgreater{}\ content\ } ,
+that allows you to define the styling for different types of theorems.
+Below only the \texttt{\ arg\ } will be specified.
+
+Pre-defined functions
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ thm-style-simple(thm-type)\ } : \textbf{thm-type num}
+  \emph{(name)} body
+\item
+  \texttt{\ thm-style-proof(thm-type)\ } : \textbf{thm-type num}
+  \emph{(name)} body â--¡
+\item
+  \texttt{\ thm-style-reversed(thm-type)\ } : \textbf{num thm-type}
+  \emph{(name)} body
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\texttt{\ thm-numbering\ } : A function:
+\texttt{\ figure\ -\textgreater{}\ content\ } , that determines how
+theorems are numbered.
+
+Pre-defined functions: (Assume heading is 1.1 and theorem count is 2)
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ thm-numbering-heading\ } : 1.1.2
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \texttt{\ max-heading-level\ } : only use the a limited number of
+    subheadings. In this case if it is set to \texttt{\ 1\ } the result
+    would be \texttt{\ 1.2\ } instead.
+  \end{itemize}
+\item
+  \texttt{\ thm-numbering-linear\ } : 2
+\item
+  \texttt{\ thm-numbering-proof\ } : No visible content is returned, but
+  the counter is reduced by 1 (so that the proof keeps the same count as
+  the theorem). Useful in combination with
+  \texttt{\ use-proof-numbering\ } to create theorems that reference the
+  previous theorem (like proofs).
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\texttt{\ ref-styling\ } : A function:
+\texttt{\ (arg,\ thm-numbering,\ ref)\ -\textgreater{}\ content\ } , to
+style theorem references.
+
+Pre-defined functions:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ thm-ref-style-simple(thm-type)\ }
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \texttt{\ @thm\ -\textgreater{}\ thm-type\ 1.1\ }
+  \item
+    \texttt{\ @thm{[}custom{]}\ -\textgreater{}\ custom\ 1.1\ }
+  \end{itemize}
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\texttt{\ ref-numbering\ } : Same as \texttt{\ thm-numbering\ } but only
+applies to the references.
+
+\subsection{Roadmap}\label{roadmap}
+
+\begin{itemize}
+\tightlist
+\item
+  More pre-defined styles.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Referencing theorems by name.
+  \end{itemize}
+\item
+  Support more languages.
+\item
+  Better documentation.
+\item
+  Outlining theorems.
+\end{itemize}
+
+If you are encountering any bugs, have questions or are missing
+features, feel free to open an issue on
+\href{https://github.com/Marmare314/lemmify}{Github} .
+
+\subsection{Changelog}\label{changelog}
+
+\begin{itemize}
+\item
+  Version 0.1.6
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Add Portuguese translation (
+    \href{https://github.com/PgBiel}{@PgBiel} )
+  \item
+    Add Catalan translation (
+    \href{https://github.com/Eloitor}{@Eloitor} )
+  \item
+    Add Spanish translation (
+    \href{https://github.com/mismorgano}{@mismorgano} )
+  \item
+    Remove extra space before empty supplements (
+    \href{https://github.com/PgBiel}{@PgBiel} )
+  \item
+    Use ref-styling parameter of default-theorems
+  \end{itemize}
+\item
+  Version 0.1.5
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Add Russian translation (
+    \href{https://github.com/WeetHet}{@WeetHet} )
+  \end{itemize}
+\item
+  Version 0.1.4
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Fix error on unnamed theorems
+  \end{itemize}
+\item
+  Version 0.1.3
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Allow â€œ1.1.â€? numbering style by default
+  \item
+    Ignore unnumbered subheadings
+  \item
+    Add max-heading-level parameter to thm-numbering-heading
+  \item
+    Adapt lemmify to typst version 0.8.0
+  \end{itemize}
+\item
+  Version 0.1.2
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Better error message on unnumbered headings
+  \item
+    Add Italian translations (
+    \href{https://github.com/porcaror}{@porcaror} )
+  \end{itemize}
+\item
+  Version 0.1.1
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Add Dutch translations (
+    \href{https://github.com/BroodjeKroepoek}{@BroodjeKroepoek} )
+  \item
+    Add French translations ( \href{https://github.com/MDLC01}{@MDLC01}
+    )
+  \item
+    Fix size of default styles and make them breakable
+  \end{itemize}
+\end{itemize}
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as \texttt{\ lemmify\ }
+
+\begin{verbatim}
+#import "@preview/lemmify:0.1.6"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+Marmare314
+\item[License:]
+GPL-3.0-only
+\item[Current version:]
+0.1.6
+\item[Last updated:]
+August 29, 2024
+\item[First released:]
+July 2, 2023
+\item[Archive size:]
+18.2 kB
+\href{https://packages.typst.org/preview/lemmify-0.1.6.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/Marmare314/lemmify}{GitHub}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of Marmare314 . Report issues on
+\href{https://github.com/Marmare314/lemmify}{their repository} . You can
+also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.1.6 & August 29, 2024 \\
+\href{https://typst.app/universe/package/lemmify/0.1.5/}{0.1.5} &
+December 3, 2023 \\
+\href{https://typst.app/universe/package/lemmify/0.1.4/}{0.1.4} &
+September 26, 2023 \\
+\href{https://typst.app/universe/package/lemmify/0.1.3/}{0.1.3} &
+September 22, 2023 \\
+\href{https://typst.app/universe/package/lemmify/0.1.2/}{0.1.2} & July
+24, 2023 \\
+\href{https://typst.app/universe/package/lemmify/0.1.1/}{0.1.1} & July
+8, 2023 \\
+\href{https://typst.app/universe/package/lemmify/0.1.0/}{0.1.0} & July
+2, 2023 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.
+
+
+\title{typst.app/universe/package/nulite}
+
+\phantomsection\label{banner}
+\section{nulite}\label{nulite}
+
+{ 0.1.0 }
+
+Generate charts with vegalite.
+
+\phantomsection\label{readme}
+A typst plugin to generate charts using
+\href{https://vega.github.io/vega-lite/}{vegalite}
+
+\subsection{Usage}\label{usage}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/nulite:0.1.0" as vegalite}
+
+\NormalTok{\#vegalite.render(}
+\NormalTok{  width: 100\%,}
+\NormalTok{  height: 100\%,}
+\NormalTok{  zoom: 1,}
+\NormalTok{  json("spec.json")}
+\NormalTok{  )}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/nulite/0.1.0/examples/image.png}}
+
+The module exports a single function, \texttt{\ render\ } with four
+arguments
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ width\ } : Width of the chart in percent of the
+  containerâ€™s width
+\item
+  \texttt{\ height\ } : Height of the chart in percent of the
+  containerâ€™s height
+\item
+  \texttt{\ zoom\ } : Zoom factor applied to the SVG. This mainly
+  affects the sizing of text in relation to the graphical elements.
+\item
+  \texttt{\ spec\ } :
+  \href{https://vega.github.io/vega-lite/docs/spec.html}{Vegalite
+  specification}
+\end{itemize}
+
+\subsection{Compatibility}\label{compatibility}
+
+This plugin uses vegalite v5.21 and vega v5.30.
+
+The following features of vegalite are \textbf{not supported} :
+
+\begin{itemize}
+\tightlist
+\item
+  Setting \texttt{\ width\ } and \texttt{\ height\ } in the spec. These
+  values should be provided as arguments to \texttt{\ render\ } . If
+  \texttt{\ width\ } or \texttt{\ height\ } are included in the spec
+  then they will be ignored.
+\item
+  Loading data with the \texttt{\ url\ } property. Attempting to do this
+  will result in an error while trying to compile the \texttt{\ typst\ }
+  document. All data should be provided as part of the spec itself
+  (inline).
+\item
+  Interactive charts and tooltips.
+\end{itemize}
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as \texttt{\ nulite\ }
+
+\begin{verbatim}
+#import "@preview/nulite:0.1.0"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+j-mueller
+\item[License:]
+MIT
+\item[Current version:]
+0.1.0
+\item[Last updated:]
+September 30, 2024
+\item[First released:]
+September 30, 2024
+\item[Minimum Typst version:]
+0.11.1
+\item[Archive size:]
+686 kB
+\href{https://packages.typst.org/preview/nulite-0.1.0.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/j-mueller/typst-vegalite}{GitHub}
+\item[Discipline :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \href{https://typst.app/universe/search/?discipline=mathematics}{Mathematics}
+\end{itemize}
+\item[Categor ies :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-chart.svg}}
+  \href{https://typst.app/universe/search/?category=visualization}{Visualization}
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-integration.svg}}
+  \href{https://typst.app/universe/search/?category=integration}{Integration}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of j-mueller . Report issues on
+\href{https://github.com/j-mueller/typst-vegalite}{their repository} .
+You can also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.1.0 & September 30, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.
+
+
+\title{typst.app/universe/package/acrostiche}
+
+\phantomsection\label{banner}
+\section{acrostiche}\label{acrostiche}
+
+{ 0.4.1 }
+
+Manage acronyms and their definitions in Typst.
+
+\phantomsection\label{readme}
+Manages acronyms so you donâ€™t have to.
+
+\subsection{Quick Start}\label{quick-start}
+
+\begin{verbatim}
+#import "@preview/acrostiche:0.4.0": *
+
+#init-acronyms((
+  "WTP": ("Wonderful Typst Package","Wonderful Typst Packages"),
+))
+
+Acrostiche is a #acr("WTP")! This #acr("WTP") enables easy acronyms manipulation.
+
+Its main features are auto-expansion of the first occurence, global or selective expansion reset #reset-all-acronyms(), implicit or manual plural form support (there may be multiple #acrpl("WTP")), and customizable index printing. Have Fun!
+\end{verbatim}
+
+\subsection{Usage}\label{usage}
+
+The main goal of Acrostiche is to keep track of which acronyms to
+define.
+
+\subsubsection{Define acronyms}\label{define-acronyms}
+
+All acronyms used with Acrostiche must be defined in a dictionary passed
+to the \texttt{\ init-acronyms\ } function. There are two possible forms
+for the definition, depending on the required features.
+
+\paragraph{Simple Definitions}\label{simple-definitions}
+
+For a quick and easy definion, you can use the acronym to display as the
+key and an array of one or more strings as the singular and plural
+versions of the expanded meaning of the acronym.
+
+\begin{verbatim}
+#init-acronyms((
+  "SDA": ("Simply Defined Acronym","Simply Defined Acronyms"),
+  "ASDA": ("Another Simply Defined Acronym","Another Simply Defined Acronyms"),
+))
+\end{verbatim}
+
+If there is only a singular version of the definition, the array
+contains only one value. If there are both singular and plural versions,
+define the definition as an array where the first item is the singular
+definition and the second item is the plural.
+
+\paragraph{Advanced Definitions}\label{advanced-definitions}
+
+If you find yourself needing more flexibility when defining the
+acronyms, you can pass a dictionary for each acronym. The expected keys
+are: \texttt{\ short\ } the singular short form to display,
+\texttt{\ short-pl\ } the plural short form, \texttt{\ long\ } singular
+long (expanded) form to display, and \texttt{\ long-pl\ } the plural
+long form. The main benefit of this definition is to use a separate key
+for calling the acronym, useful when acronyms are long and tedious to
+write.
+
+\begin{verbatim}
+#init-acronyms((
+  "la": (
+short: "LATATW",
+long: "Long And Tedious Acronym To Write",
+short-pl: "LATAsTW",
+long-pl: "Long And Tedious Acronyms To Write"),
+))
+\end{verbatim}
+
+Any other keys than these will be discarded.
+
+\subsubsection{Call Acrostiche
+functions}\label{call-acrostiche-functions}
+
+Once the acronyms are defined, you can use them in the text with the
+\texttt{\ \#acr(...)\ } function. The argument is the acronym as a
+string (for example, â€œBIOSâ€?). On the first call of the function, it
+prints the acronym with its definition (for example, â€œBasic
+Input/Output System (BIOS)â€?). On the next calls, it prints only the
+acronym.
+
+To get the plural version of the acronym, you can use the
+\texttt{\ \#acrpl(...)\ } function that adds an â€˜sâ€™ after the
+acronym. If a plural version of the definition is provided, it will be
+used if the first use of the acronym is plural. Otherwise, the singular
+version is used, and a trailing â€˜sâ€™ is added.
+
+To intentionally print the full version of the acronym (definition +
+acronym, as for the first instance), without affecting the state, you
+can use the \texttt{\ \#acrfull(...)\ } function. For the plural
+version, use the \texttt{\ \#acrfullpl(...)\ } function. Both functions
+have shortcuts with \texttt{\ \#acrf(...)\ } and
+\texttt{\ \#acrfpl(...)\ } .
+
+At any point in the document, you can reset acronyms with the functions
+\texttt{\ \#reset-acronym(...)\ } (for a single acronym) or
+\texttt{\ reset-all-acronyms()\ } (to reset all acronyms). After a
+reset, the next use of the acronym is expanded. Both functions have
+shortcuts with \texttt{\ \#racr(...)\ } and \texttt{\ \#raacr(...)\ } .
+
+You can also print an index of all acronyms used in the document with
+the \texttt{\ \#print-index()\ } function. The index is printed as a
+section for which you can choose the heading level, the numbering, and
+the outline parameters (with respectively the \texttt{\ level:\ int\ } ,
+\texttt{\ numbering:\ none\ \textbar{}\ string\ \textbar{}\ function\ }
+, and \texttt{\ outlined:\ bool\ } parameters). You can also choose
+their order with the \texttt{\ sorted:\ string\ } parameter that accepts
+either an empty string (print in the order they are defined), â€œupâ€?
+(print in ascending alphabetical order), or â€œdownâ€? (print in
+descending alphabetical order). By default, the index contains all the
+acronyms you defined. You can choose to only display acronyms that are
+actually used in the document by passing \texttt{\ used-only:\ true\ }
+to the function. Warning, the detection of used acronym uses the states
+at the end of the document. Thus, if you reset an acronym and do not use
+it again until the end, it will not appear in the index. You can use the
+\texttt{\ title:\ string\ } parameter to change the name of the heading
+for the index section. The default value is â€œAcronyms Indexâ€?.
+Passing an empty string for \texttt{\ title\ } results in the index
+having no heading (i.e., no section for the index). You can customize
+the string displayed after the acronym in the list with the
+\texttt{\ delimiter:\ ":"\ } parameter. To adjust the spacing between
+the acronyms adjust the
+\texttt{\ row-gutter:\ auto\ \textbar{}\ int\ \textbar{}\ relative\ \textbar{}\ fraction\ \textbar{}\ array\ }
+parameter, the default is \texttt{\ 2pt\ } .
+
+Finally, you can call the \texttt{\ \#display-def(...)\ } function to
+display the definition of an acronym. Set the \texttt{\ plural\ }
+parameter to true to get the plural version.
+
+\subsubsection{Functions Summary:}\label{functions-summary}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+\textbf{Function} & \textbf{Description} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{\#init-acronyms(â€¦)} & Initializes the acronyms by defining
+them in a dictionary where the keys are acronyms and the values are
+definitions. \\
+\textbf{\#acr(â€¦)} & Prints the acronym with its definition on the
+first call, then just the acronym in subsequent calls. \\
+\textbf{\#acrpl(â€¦)} & Prints the plural version of the acronym. Uses
+plural definition if available, otherwise adds an â€˜sâ€™ to the
+acronym. \\
+\textbf{\#acrfull(â€¦)} & Displays the full (long) version of the
+acronym without affecting the state or tracking its usage. \\
+\textbf{\#acrfullpl(â€¦)} & Displays the full plural version of the
+acronym without affecting the state or tracking its usage. \\
+\textbf{\#reset-acronym(â€¦)} & Resets a single acronym so the next
+usage will include its definition again. \\
+\textbf{\#reset-all-acronyms()} & Resets all acronyms so the next usage
+will include their definitions again. \\
+\textbf{\#print-index(â€¦)} & Prints an index of all acronyms used, with
+customizable heading level, order, and display parameters. \\
+\textbf{\#display-def(â€¦)} & Displays the definition of an acronym. Use
+\texttt{\ plural:\ true\ } to display the plural version of the
+definition. \\
+\textbf{racr, raacr, acrf, acrfpl} & Shortcuts names for respectively
+\texttt{\ reset-acronym\ } , \texttt{\ reset-all-acronyms\ } ,
+\texttt{\ acrfull\ } , and \texttt{\ acrfullpl\ } . \\
+\end{longtable}
+
+\subsection{Advanced Definitions}\label{advanced-definitions-1}
+
+This is a bit of a hacky feature coming from pure serendipity. There is
+no enforcement of the type of the definitions. Most users would
+naturally use strings as definitions, but any other content is
+acceptable. For example, you set your definition to a content block with
+rainbow-fille text, or even an image. The rainbow text is kinda cool
+because the gradient depend on the position in the page so depending on
+the position of first use the acronym will have a pseudo-random color.
+
+If you use anything else than string for the definition, do not forget
+the trailing comma to force the definition to be an array (an array of a
+single element is not an array in Typst at the time of writing this). I
+cannot guarantee that arbitrary content will remain available in future
+versions but I will do my best to keep it as it is kinda cool. If you
+find cool uses, please reach out to show me!
+
+\begin{quote}
+Yes it is posible to build nest/recursive acronyms definitions. If you
+point to another acronym, it all works fine. If you point to the same
+acronym, you obviously create a recursive situation, and it fails. It
+will not converge, and the compiler will warn you and will panic. Be
+nice to the compiler, don\textquotesingle t throw recursive traps.
+\end{quote}
+
+Here is a minimal working example of funky acronyms:
+
+\begin{verbatim}
+#import "@preview/acrostiche:0.4.0": *                                                           
+#init-acronyms((
+  "RFA": ([#text(fill: gradient.linear(..color.map.rainbow))[Rainbow Filled Acronym]],),                                                             
+  "NA": ([Nested #acr("RFA") Acronym],)
+))
+#acr("NA")
+\end{verbatim}
+
+\subsection{Possible Errors:}\label{possible-errors}
+
+\begin{itemize}
+\tightlist
+\item
+  If an acronym is not defined, an error will tell you which one is
+  causing the error. Simply add it to the dictionary or check the
+  spelling.
+\item
+  \texttt{\ display-def\ } leverages the state \texttt{\ display\ }
+  function and only works if the return value is actually printed in the
+  document. For more information on states, see the Typst documentation
+  on states.
+\item
+  Acrostiche uses a state named \texttt{\ acronyms\ } to keep track of
+  the definitions and usage. If you redefined this state or use it
+  manually in your document, unexpacted behaviour might happen.
+\end{itemize}
+
+Thank you to the contributors: \textbf{caemor} , \textbf{AurelWeinhold}
+, \textbf{daniel-eder} , \textbf{iostapyshyn} .
+
+If you notice any bug or want to contribute a new feature, please open
+an issue or a merge request on the fork
+\href{https://github.com/Grisely/packages}{Grisely/packages}
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as
+\texttt{\ acrostiche\ }
+
+\begin{verbatim}
+#import "@preview/acrostiche:0.4.1"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+Grizzly
+\item[License:]
+MIT
+\item[Current version:]
+0.4.1
+\item[Last updated:]
+November 21, 2024
+\item[First released:]
+July 6, 2023
+\item[Archive size:]
+6.52 kB
+\href{https://packages.typst.org/preview/acrostiche-0.4.1.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/Grisely/packages}{GitHub}
+\item[Categor ies :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-hammer.svg}}
+  \href{https://typst.app/universe/search/?category=utility}{Utility}
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-list-unordered.svg}}
+  \href{https://typst.app/universe/search/?category=model}{Model}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of Grizzly . Report issues on
+\href{https://github.com/Grisely/packages}{their repository} . You can
+also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.4.1 & November 21, 2024 \\
+\href{https://typst.app/universe/package/acrostiche/0.4.0/}{0.4.0} &
+October 31, 2024 \\
+\href{https://typst.app/universe/package/acrostiche/0.3.5/}{0.3.5} &
+October 28, 2024 \\
+\href{https://typst.app/universe/package/acrostiche/0.3.4/}{0.3.4} &
+October 22, 2024 \\
+\href{https://typst.app/universe/package/acrostiche/0.3.3/}{0.3.3} &
+September 24, 2024 \\
+\href{https://typst.app/universe/package/acrostiche/0.3.2/}{0.3.2} &
+July 10, 2024 \\
+\href{https://typst.app/universe/package/acrostiche/0.3.1/}{0.3.1} &
+January 6, 2024 \\
+\href{https://typst.app/universe/package/acrostiche/0.3.0/}{0.3.0} &
+August 22, 2023 \\
+\href{https://typst.app/universe/package/acrostiche/0.2.0/}{0.2.0} &
+July 8, 2023 \\
+\href{https://typst.app/universe/package/acrostiche/0.1.0/}{0.1.0} &
+July 6, 2023 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.
+
+
+\title{typst.app/universe/package/haw-hamburg}
+
+\phantomsection\label{banner}
+\section{haw-hamburg}\label{haw-hamburg}
+
+{ 0.3.1 }
+
+Unofficial template for writing a report or thesis in the HAW Hamburg
+department of Computer Science design.
+
+\phantomsection\label{readme}
+This is an \textbf{\texttt{\ unofficial\ }} template for writing a
+report or thesis in the \texttt{\ HAW\ Hamburg\ } department of
+\texttt{\ Computer\ Science\ } design using
+\href{https://github.com/typst/typst}{Typst} .
+
+\subsection{Required Fonts}\label{required-fonts}
+
+To correctly render this template please make sure that the
+\texttt{\ New\ Computer\ Modern\ } font is installed on your system.
+
+\subsection{Usage}\label{usage}
+
+To use this package just add the following code to your
+\href{https://github.com/typst/typst}{Typst} document:
+
+\subsubsection{Report}\label{report}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/haw{-}hamburg:0.3.0": report}
+
+\NormalTok{\#show: report.with(}
+\NormalTok{  language: "en",}
+\NormalTok{  title: "Example title",}
+\NormalTok{  author:"Example author",}
+\NormalTok{  faculty: "Engineering and Computer Science",}
+\NormalTok{  department: "Computer Science",}
+\NormalTok{  include{-}declaration{-}of{-}independent{-}processing: true,}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{Bachelor Thesis}\label{bachelor-thesis}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/haw{-}hamburg:0.3.0": bachelor{-}thesis}
+
+\NormalTok{\#show: bachelor{-}thesis.with(}
+\NormalTok{  language: "en",}
+
+\NormalTok{  title{-}de: "Beispiel Titel",}
+\NormalTok{  keywords{-}de: ("Stichwort", "Wichtig", "Super"),}
+\NormalTok{  abstract{-}de: "Beispiel Zusammenfassung",}
+
+\NormalTok{  title{-}en: "Example title",}
+\NormalTok{  keywords{-}en:  ("Keyword", "Important", "Super"),}
+\NormalTok{  abstract{-}en: "Example abstract",}
+
+\NormalTok{  author: "Example author",}
+\NormalTok{  faculty: "Engineering and Computer Science",}
+\NormalTok{  department: "Computer Science",}
+\NormalTok{  study{-}course: "Bachelor of Science Informatik Technischer Systeme",}
+\NormalTok{  supervisors: ("Prof. Dr. Example", "Prof. Dr. Example"),}
+\NormalTok{  submission{-}date: datetime(year: 1948, month: 12, day: 10),}
+\NormalTok{  include{-}declaration{-}of{-}independent{-}processing: true,}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{Master Thesis}\label{master-thesis}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/haw{-}hamburg:0.3.0": master{-}thesis}
+
+\NormalTok{\#show: master{-}thesis.with(}
+\NormalTok{  language: "en",}
+
+\NormalTok{  title{-}de: "Beispiel Titel",}
+\NormalTok{  keywords{-}de: ("Stichwort", "Wichtig", "Super"),}
+\NormalTok{  abstract{-}de: "Beispiel Zusammenfassung",}
+
+\NormalTok{  title{-}en: "Example title",}
+\NormalTok{  keywords{-}en:  ("Keyword", "Important", "Super"),}
+\NormalTok{  abstract{-}en: "Example abstract",}
+
+\NormalTok{  author: "The Computer",}
+\NormalTok{  faculty: "Engineering and Computer Science",}
+\NormalTok{  department: "Computer Science",}
+\NormalTok{  study{-}course: "Master of Science Computer Science",}
+\NormalTok{  supervisors: ("Prof. Dr. Example", "Prof. Dr. Example"),}
+\NormalTok{  submission{-}date: datetime(year: 1948, month: 12, day: 10),}
+\NormalTok{  include{-}declaration{-}of{-}independent{-}processing: true,}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{How to Compile}\label{how-to-compile}
+
+This project contains an example setup that splits individual chapters
+into different files.\\
+This can cause problems when using references etc.\\
+These problems can be avoided by following these steps:
+
+\begin{itemize}
+\tightlist
+\item
+  Make sure to always compile your \texttt{\ main.typ\ } file which
+  includes all of your chapters for references to work correctly.
+\item
+  VSCode:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Install the
+    \href{https://marketplace.visualstudio.com/items?itemName=myriad-dreamin.tinymist}{Tinymist
+    Typst} extension.
+  \item
+    Make sure to start the \texttt{\ PDF\ } or
+    \texttt{\ Live\ Preview\ } only from within your
+    \texttt{\ main.typ\ } file.
+  \item
+    If problems occur it usually helps to close the preview and restart
+    it from your \texttt{\ main.typ\ } file.
+  \end{itemize}
+\end{itemize}
+
+\subsection{Examples}\label{examples}
+
+Examples can be found inside of the
+\href{https://github.com/LasseRosenow/HAW-Hamburg-Typst-Template/tree/main/examples}{examples}
+directory
+
+\begin{itemize}
+\tightlist
+\item
+  For Bachelor theses see:
+  \href{https://github.com/LasseRosenow/HAW-Hamburg-Typst-Template/tree/main/examples/bachelor-thesis}{Bachelor
+  thesis example}
+\item
+  For Master theses see:
+  \href{https://github.com/LasseRosenow/HAW-Hamburg-Typst-Template/tree/main/examples/master-thesis}{Master
+  thesis example}
+\item
+  For reports see:
+  \href{https://github.com/LasseRosenow/HAW-Hamburg-Typst-Template/tree/main/examples/report}{Report
+  example}
+\end{itemize}
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as
+\texttt{\ haw-hamburg\ }
+
+\begin{verbatim}
+#import "@preview/haw-hamburg:0.3.1"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+Lasse Rosenow
+\item[License:]
+MIT
+\item[Current version:]
+0.3.1
+\item[Last updated:]
+November 13, 2024
+\item[First released:]
+September 26, 2024
+\item[Archive size:]
+12.2 kB
+\href{https://packages.typst.org/preview/haw-hamburg-0.3.1.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/LasseRosenow/HAW-Hamburg-Typst-Template}{GitHub}
+\item[Categor ies :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-speak.svg}}
+  \href{https://typst.app/universe/search/?category=report}{Report}
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-mortarboard.svg}}
+  \href{https://typst.app/universe/search/?category=thesis}{Thesis}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of Lasse Rosenow . Report issues on
+\href{https://github.com/LasseRosenow/HAW-Hamburg-Typst-Template}{their
+repository} . You can also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.3.1 & November 13, 2024 \\
+\href{https://typst.app/universe/package/haw-hamburg/0.3.0/}{0.3.0} &
+October 14, 2024 \\
+\href{https://typst.app/universe/package/haw-hamburg/0.2.0/}{0.2.0} &
+October 9, 2024 \\
+\href{https://typst.app/universe/package/haw-hamburg/0.1.0/}{0.1.0} &
+September 26, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.
+
+
+\title{typst.app/universe/package/light-cv}
+
+\phantomsection\label{banner}
+\phantomsection\label{template-thumbnail}
+\pandocbounded{\includegraphics[keepaspectratio]{https://packages.typst.org/preview/thumbnails/light-cv-0.1.1-small.webp}}
+
+\section{light-cv}\label{light-cv}
+
+{ 0.1.1 }
+
+Minimalistic CV template for your own CV. Please install the font
+awesome fonts on your system before using the template.
+
+\href{/app?template=light-cv&version=0.1.1}{Create project in app}
+
+\phantomsection\label{readme}
+This is my CV template written in Typst. You can find a two example CVs
+in this repository as PDFs:
+
+\begin{itemize}
+\tightlist
+\item
+  \href{https://github.com/AnsgarLichter/light-cv/blob/main/cv-de.pdf}{German
+  CV}
+\item
+  \href{https://github.com/AnsgarLichter/light-cv/blob/main/cv-en.pdf}{English
+  CV}
+\end{itemize}
+
+\subsection{Setup}\label{setup}
+
+To use the CV you have to install the font awesome fonts for the icons
+to work. Please refer to the intstructons of the font awesome package
+itself. You can find these on: -
+\href{https://typst.app/universe/package/fontawesome}{Typst Universe} -
+\href{https://github.com/duskmoon314/typst-fontawesome}{GitHub} .
+
+\subsection{Functions}\label{functions}
+
+\begin{enumerate}
+\item
+  \texttt{\ header\ } : Creates a page haeder including your name,
+  current job title or any other sub title, socials and profile picture
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \texttt{\ full-name\ } : your full name
+  \item
+    \texttt{\ job-title\ } : your current job title rendered below your
+    name
+  \item
+    \texttt{\ socials\ } : array containing all socials. Every social
+    must have the following properties: \texttt{\ icon\ } ,
+    \texttt{\ link\ } and \texttt{\ text\ }
+  \item
+    \texttt{\ profile-picture\ } : path to your profile picture
+  \end{itemize}
+\item
+  \texttt{\ section\ } : Creates a new section, e. g.
+  \texttt{\ Professional\ Experience\ } or \texttt{\ Education\ }
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \texttt{\ title\ } : sectionâ€™s title
+  \end{itemize}
+\item
+  \texttt{\ entry\ } : Adds an entry / item to the current section
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \texttt{\ title\ } : the entryâ€™s title, e. g. your job title
+  \item
+    \texttt{\ company-or-university\ } : the name of the institution
+    which you were at, e. g. company or university
+  \item
+    \texttt{\ date\ } : start and end date of this entry, e. g. 2020 -
+    2022
+  \item
+    \texttt{\ location\ } : describes where you worked, e. g. London, UK
+  \item
+    \texttt{\ logo\ } : path to the logo of this entry
+  \item
+    ``description`: description what you have done - normally supplied
+    as a list
+  \end{itemize}
+\end{enumerate}
+
+\subsection{Customization}\label{customization}
+
+In the folder \texttt{\ settings\ } you will a file
+\texttt{\ styles.typ\ } which includes all used styles. You can
+customize them as you want to.
+
+\subsection{Multi Language Support}\label{multi-language-support}
+
+If you want to add a new language, copy the \texttt{\ cv-en.typ\ } and
+rename it. Afterwards you can adapt the text correspondingly. Maybe I
+will introduce i18n in the future.
+
+\subsection{Insipration}\label{insipration}
+
+A big thanks to
+\href{https://github.com/mintyfrankie/brilliant-CV}{brilliant-CV} as
+this project was an inspiraton for my CV and for the scripting.
+
+\subsection{Questions \& Issues}\label{questions-issues}
+
+If you have questions, plase create a
+\href{https://github.com/AnsgarLichter/light-cv/discussions}{discussion}
+. If you have an issue, please create an
+\href{https://github.com/AnsgarLichter/light-cv/issues}{issue} .
+
+\href{/app?template=light-cv&version=0.1.1}{Create project in app}
+
+\subsubsection{How to use}\label{how-to-use}
+
+Click the button above to create a new project using this template in
+the Typst app.
+
+You can also use the Typst CLI to start a new project on your computer
+using this command:
+
+\begin{verbatim}
+typst init @preview/light-cv:0.1.1
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+Ansgar Lichter
+\item[License:]
+MIT
+\item[Current version:]
+0.1.1
+\item[Last updated:]
+May 6, 2024
+\item[First released:]
+April 17, 2024
+\item[Archive size:]
+414 kB
+\href{https://packages.typst.org/preview/light-cv-0.1.1.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/AnsgarLichter/cv-typst-template}{GitHub}
+\item[Categor y :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-user.svg}}
+  \href{https://typst.app/universe/search/?category=cv}{CV}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This template is a project of Ansgar Lichter . Report issues on
+\href{https://github.com/AnsgarLichter/cv-typst-template}{their
+repository} . You can also try to ask for help with this template on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this template to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.1.1 & May 6, 2024 \\
+\href{https://typst.app/universe/package/light-cv/0.1.0/}{0.1.0} & April
+17, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this template and cannot guarantee correct
+functionality of this template or compatibility with any version of the
+Typst compiler or app.
+
+
+\title{typst.app/universe/package/glossy}
+
+\phantomsection\label{banner}
+\section{glossy}\label{glossy}
+
+{ 0.2.0 }
+
+A very simple glossary system with easily customizable output.
+
+\phantomsection\label{readme}
+This package provides utilities to manage and render glossaries within
+documents. It includes functions to define and use glossary terms, track
+their usage, and generate a glossary list with references to where terms
+are used in the document.
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/glossy/0.2.0/thumbnail.png}}
+
+\subsection{Motivation}\label{motivation}
+
+Glossy is heavily inspired by
+\href{https://typst.app/universe/package/glossarium}{glossarium} , with
+a few key different goals:
+
+\begin{enumerate}
+\tightlist
+\item
+  Provide a simple interface which allows for complete control over
+  glossary display. To do this, \texttt{\ glossy\ } â€™s
+  \texttt{\ \#glossary()\ } function accepts a theme parameter. The goal
+  here is to separate presentation and logic.
+\item
+  Simplify the user interface as much as possible. Glossy has exactly
+  two exports, \texttt{\ init-glossary\ } and \texttt{\ glossary\ } .
+\item
+  Double-down on \texttt{\ glossy\ } â€™s excellent \texttt{\ @term\ }
+  reference approach, completely eliminating the need to make any calls
+  to \texttt{\ gls()\ } and friends.
+\item
+  Mimic established patterns and best practices. For example,
+  \texttt{\ glossy\ } â€™s \texttt{\ \#glossary()\ } function is
+  intentionally similar (in naming and parameters) to \texttt{\ typst\ }
+  â€™s built-in \texttt{\ \#bibliography\ } , to the degree possible.
+\item
+  Simplify the implementation. The \texttt{\ glossy\ } code is
+  significantly shorter and easier to understand.
+\end{enumerate}
+
+\subsection{Features}\label{features}
+
+\begin{itemize}
+\tightlist
+\item
+  Define glossary terms with short and long forms, descriptions, and
+  grouping
+\item
+  Automatically tracks term usage in the document through
+  \texttt{\ @labels\ }
+\item
+  Supports modifiers to adjust how terms are displayed (capitalize,
+  pluralize, etc.)
+\item
+  Generates a formatted glossary section with backlinks to term
+  occurrences
+\item
+  Customizable themes for rendering glossary sections, groups, and
+  entries
+\item
+  Automatic pluralization of terms with custom override options
+\item
+  Page number references back to term usage locations
+\end{itemize}
+
+\subsection{Usage}\label{usage}
+
+\subsubsection{Import the package}\label{import-the-package}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/glossy:0.2.0": *}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{Defining Glossary Terms}\label{defining-glossary-terms}
+
+Use the \texttt{\ init-glossary\ } function to initialize glossary
+entries:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let myGlossary = (}
+\NormalTok{    html: (}
+\NormalTok{      short: "HTML",}
+\NormalTok{      long: "Hypertext Markup Language",}
+\NormalTok{      description: "A standard language for creating web pages",}
+\NormalTok{      group: "Web"}
+\NormalTok{    ),}
+\NormalTok{    css: (}
+\NormalTok{      short: "CSS",}
+\NormalTok{      long: "Cascading Style Sheets",}
+\NormalTok{      description: "A stylesheet language used for describing the presentation of a document",}
+\NormalTok{      group: "Web"}
+\NormalTok{    ),}
+\NormalTok{    tps: (}
+\NormalTok{      short: "TPS",}
+\NormalTok{      long: "test procedure specification",}
+\NormalTok{      description: "A formal document describing test steps and expected results",}
+\NormalTok{      // Optional: Override automatic pluralization}
+\NormalTok{      plural: "TPSes",}
+\NormalTok{      longplural: "test procedure specifications"}
+\NormalTok{    )}
+\NormalTok{)}
+
+\NormalTok{\#show: init{-}glossary.with(myGlossary)}
+\end{Highlighting}
+\end{Shaded}
+
+Each glossary entry supports the following fields:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ short\ } (required): Short form of the term
+\item
+  \texttt{\ long\ } (optional): Long form of the term
+\item
+  \texttt{\ description\ } (optional): Term description (often a
+  definition)
+\item
+  \texttt{\ group\ } (optional): Category grouping
+\item
+  \texttt{\ plural\ } (optional): Override automatic pluralization of
+  short form
+\item
+  \texttt{\ longplural\ } (optional): Override automatic pluralization
+  of long form
+\end{itemize}
+
+You can also load glossary entries from a data file using \#yaml(),
+\#json(), or similar.
+
+For example, the above glossary could be in this YAML file:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{html}\KeywordTok{:}
+\AttributeTok{  }\FunctionTok{short}\KeywordTok{:}\AttributeTok{ HTML}
+\AttributeTok{  }\FunctionTok{long}\KeywordTok{:}\AttributeTok{ Hypertext Markup Language}
+\AttributeTok{  }\FunctionTok{description}\KeywordTok{:}\AttributeTok{ A standard language for creating web pages}
+\AttributeTok{  }\FunctionTok{group}\KeywordTok{:}\AttributeTok{ Web}
+
+\FunctionTok{css}\KeywordTok{:}
+\AttributeTok{  }\FunctionTok{short}\KeywordTok{:}\AttributeTok{ CSS}
+\AttributeTok{  }\FunctionTok{long}\KeywordTok{:}\AttributeTok{ Cascading Style Sheets}
+\AttributeTok{  }\FunctionTok{description}\KeywordTok{:}\AttributeTok{ A stylesheet language used for describing the presentation of a document}
+\AttributeTok{  }\FunctionTok{group}\KeywordTok{:}\AttributeTok{ Web}
+
+\FunctionTok{tps}\KeywordTok{:}
+\AttributeTok{  }\FunctionTok{short}\KeywordTok{:}\AttributeTok{ TPS}
+\AttributeTok{  }\FunctionTok{long}\KeywordTok{:}\AttributeTok{ test procedure specification}
+\AttributeTok{  }\FunctionTok{description}\KeywordTok{:}\AttributeTok{ A formal document describing test steps and expected results}
+\AttributeTok{  }\FunctionTok{plural}\KeywordTok{:}\AttributeTok{ TPSes}
+\AttributeTok{  }\FunctionTok{longplural}\KeywordTok{:}\AttributeTok{ test procedure specifications}
+\end{Highlighting}
+\end{Shaded}
+
+And then loaded during initialization as follows:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#show: init{-}glossary.with(yaml("glossary.yaml"))}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{Using Glossary Terms}\label{using-glossary-terms}
+
+Reference glossary terms using Typstâ€™s \texttt{\ @reference\ } syntax:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{In modern web development, languages like @html and @css are essential.}
+\NormalTok{The @tps:pl need to be submitted by Friday.}
+\end{Highlighting}
+\end{Shaded}
+
+Available modifiers:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{cap} : Capitalizes the term
+\item
+  \textbf{pl} : Uses the plural form
+\item
+  \textbf{both} : Shows â€œLong Form (Short Form)â€?
+\item
+  \textbf{short} : Shows only short form
+\item
+  \textbf{long} : Shows only long form
+\item
+  \textbf{def} or \textbf{desc} : Shows the description
+\end{itemize}
+
+Modifiers can be combined with colons:
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+\textbf{Input} & \textbf{Output} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\texttt{\ @tps\ } (first use) & â€œtest procedure specification
+(TPS)â€? \\
+\texttt{\ @tps\ } (subsequent) & â€œTPSâ€? \\
+\texttt{\ @tps:short\ } & â€œTPSâ€? \\
+\texttt{\ @tps:long\ } & â€œtest procedure specificationâ€? \\
+\texttt{\ @tps:both\ } & â€œtest procedure specification (TPS)â€? \\
+\texttt{\ @tps:long:cap\ } & â€œTest procedure specificationâ€? \\
+\texttt{\ @tps:long:pl\ } & â€œtest procedure specificationsâ€? \\
+\texttt{\ @tps:short:pl\ } & â€œTPSesâ€? \\
+\texttt{\ @tps:both:pl:cap\ } & â€œTechnical procedure specifications
+(TPSes)â€? \\
+\texttt{\ @tps:def\ } & â€œA formal document describing test steps and
+expected resultsâ€? \\
+\end{longtable}
+
+\subsubsection{Generating the Glossary}\label{generating-the-glossary}
+
+Display the glossary using the \texttt{\ glossary()\ } function:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#glossary(}
+\NormalTok{  title: "Web Development Glossary",}
+\NormalTok{  theme: my{-}theme,}
+\NormalTok{  groups: ("Web")  // Optional: Filter to specific groups}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{Customizing Term Display}\label{customizing-term-display}
+
+Control how terms appear in the document by providing a custom
+\texttt{\ show-term\ } function:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let emph{-}term(term{-}body) = \{ emph(term{-}body) \}}
+
+\NormalTok{\#show: init{-}glossary.with(}
+\NormalTok{  myGlossary,}
+\NormalTok{  show{-}term: emph{-}term}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{Glossary Themes}\label{glossary-themes}
+
+\paragraph{Included Themes}\label{included-themes}
+
+Glossy comes with several built-in themes that can be used directly or
+serve as examples for custom themes:
+
+\subparagraph{theme-twocol}\label{theme-twocol}
+
+A professional two-column layout ideal for technical documentation.
+Features:
+
+\begin{itemize}
+\tightlist
+\item
+  Two-column layout for efficient space usage
+\item
+  Dotted leaders to page numbers
+\item
+  Clear hierarchy with optional group headings
+\item
+  Compact but readable formatting
+\item
+  Terms in regular weight with long forms and descriptions inline
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#glossary(theme: theme{-}twocol)}
+\end{Highlighting}
+\end{Shaded}
+
+\subparagraph{theme-basic}\label{theme-basic}
+
+A traditional single-column layout similar to book glossaries. Features:
+
+\begin{itemize}
+\tightlist
+\item
+  Bold terms with indented content
+\item
+  Clear separation between entries
+\item
+  Hanging indentation for wrapped lines
+\item
+  Parenthetical long forms
+\item
+  Page numbers with â€œpp.â€? prefix
+\item
+  Simple, clean design
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#glossary(theme: theme{-}basic)}
+\end{Highlighting}
+\end{Shaded}
+
+\subparagraph{theme-compact}\label{theme-compact}
+
+A space-efficient layout perfect for technical documents or appendices.
+Features:
+
+\begin{itemize}
+\tightlist
+\item
+  Reduced vertical spacing
+\item
+  Smaller font sizes for secondary information
+\item
+  Color-coded term components
+\item
+  Grid-based alignment
+\item
+  Minimal decorative elements
+\item
+  Gray text for supplementary information
+\item
+  Bullet separators between components
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#glossary(theme: theme{-}compact)}
+\end{Highlighting}
+\end{Shaded}
+
+\paragraph{Custom Themes}\label{custom-themes}
+
+Customize glossary appearance by defining a theme with three functions:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let my{-}theme = (}
+\NormalTok{  // Main glossary section}
+\NormalTok{  section: (title, body) =\textgreater{} \{}
+\NormalTok{    heading(level: 1, title)}
+\NormalTok{    body}
+\NormalTok{  \},}
+
+\NormalTok{  // Group of related terms}
+\NormalTok{  group: (name, index, total, body) =\textgreater{} \{}
+\NormalTok{    // index = group index, total = total groups}
+\NormalTok{    if name != "" and total \textgreater{} 1 \{}
+\NormalTok{      heading(level: 2, name)}
+\NormalTok{    \}}
+\NormalTok{    body}
+\NormalTok{  \},}
+
+\NormalTok{  // Individual glossary entry}
+\NormalTok{  entry: (entry, index, total) =\textgreater{} \{}
+\NormalTok{    // index = entry index, total = total entries in group}
+\NormalTok{    let output = [\#entry.short]}
+\NormalTok{    if entry.long != none \{}
+\NormalTok{      output = [\#output {-}{-} \#entry.long]}
+\NormalTok{    \}}
+\NormalTok{    if entry.description != none \{}
+\NormalTok{      output = [\#output: \#entry.description]}
+\NormalTok{    \}}
+\NormalTok{    block(}
+\NormalTok{      grid(}
+\NormalTok{        columns: (auto, 1fr, auto),}
+\NormalTok{        output,}
+\NormalTok{        repeat([\#h(0.25em) . \#h(0.25em)]),}
+\NormalTok{        entry.pages,}
+\NormalTok{      )}
+\NormalTok{    )}
+\NormalTok{  \}}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+Entry fields available to themes:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ short\ } : Short form (always present)
+\item
+  \texttt{\ long\ } : Long form (can be \texttt{\ none\ } )
+\item
+  \texttt{\ description\ } : Term description (can be \texttt{\ none\ }
+  )
+\item
+  \texttt{\ label\ } : Termâ€™s dictionary label
+\item
+  \texttt{\ pages\ } : Linked page numbers where term appears
+\end{itemize}
+
+\subsection{License}\label{license}
+
+This project is licensed under the MIT License.
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as \texttt{\ glossy\ }
+
+\begin{verbatim}
+#import "@preview/glossy:0.2.0"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+\href{mailto:steve@waits.net}{Stephen Waits}
+\item[License:]
+MIT
+\item[Current version:]
+0.2.0
+\item[Last updated:]
+November 26, 2024
+\item[First released:]
+October 23, 2024
+\item[Archive size:]
+10.2 kB
+\href{https://packages.typst.org/preview/glossy-0.2.0.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/swaits/typst-collection}{GitHub}
+\item[Categor y :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-list-unordered.svg}}
+  \href{https://typst.app/universe/search/?category=model}{Model}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of Stephen Waits . Report issues on
+\href{https://github.com/swaits/typst-collection}{their repository} .
+You can also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.2.0 & November 26, 2024 \\
+\href{https://typst.app/universe/package/glossy/0.1.2/}{0.1.2} & October
+31, 2024 \\
+\href{https://typst.app/universe/package/glossy/0.1.1/}{0.1.1} & October
+24, 2024 \\
+\href{https://typst.app/universe/package/glossy/0.1.0/}{0.1.0} & October
+23, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.
+
+
+\title{typst.app/universe/package/minimal-cv}
+
+\phantomsection\label{banner}
+\phantomsection\label{template-thumbnail}
+\pandocbounded{\includegraphics[keepaspectratio]{https://packages.typst.org/preview/thumbnails/minimal-cv-0.1.0-small.webp}}
+
+\section{minimal-cv}\label{minimal-cv}
+
+{ 0.1.0 }
+
+A clean and customizable CV template
+
+\href{/app?template=minimal-cv&version=0.1.0}{Create project in app}
+
+\phantomsection\label{readme}
+Yet another John Doe CV.
+
+\href{https://github.com/typst/packages/raw/main/packages/preview/minimal-cv/0.1.0/thumbnail.png}{\includegraphics[width=3.125in,height=\textheight,keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/minimal-cv/0.1.0/thumbnail.png}}
+
+A Typst CV template that aims for :
+
+\begin{itemize}
+\tightlist
+\item
+  Clean aesthetics
+\item
+  Easy customizability
+\end{itemize}
+
+\subsection{Usage}\label{usage}
+
+\subsubsection{From Typst app}\label{from-typst-app}
+
+Create a new project based on the template
+\href{https://typst.app/universe/package/minimal-cv}{minimal-cv} .
+
+\subsubsection{Locally}\label{locally}
+
+The default font is
+\href{https://fonts.google.com/specimen/Inria+Sans}{â€œInria Sansâ€?} .
+Make sure it is installed on your system, or change it in
+\href{https://github.com/typst/packages/raw/main/packages/preview/minimal-cv/0.1.0/\#theme}{\#
+Theme} .
+
+Copy the
+\href{https://raw.githubusercontent.com/lelimacon/typst-minimal-cv/main/template/cv.typ}{template}
+to your Typst project.
+
+\subsubsection{From a blank project}\label{from-a-blank-project}
+
+Import the library :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/minimal{-}cv:0.1.0": *}
+\end{Highlighting}
+\end{Shaded}
+
+Show the root \texttt{\ cv\ } function :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#show: cv.with(}
+\NormalTok{  theme: (),}
+\NormalTok{  title: "YOUR NAME",}
+\NormalTok{  subtitle: "YOUR POSITION",}
+\NormalTok{  aside: [}
+\NormalTok{    ASIDE CONTENT}
+\NormalTok{  ]}
+
+\NormalTok{MAIN CONTENT}
+\end{Highlighting}
+\end{Shaded}
+
+Several content functions are available.
+
+\textbf{Section}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#section(}
+\NormalTok{  theme: (),}
+\NormalTok{  "TITLE\_CONTENT",}
+\NormalTok{  "BODY\_CONTENT",}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\textbf{Entry}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#entry(}
+\NormalTok{  theme: (),}
+\NormalTok{  right: "FLOATING\_CONTENT",}
+
+\NormalTok{  "GUTTER\_CONTENT",}
+\NormalTok{  "TITLE\_CONTENT",}
+\NormalTok{  "BODY\_CONTENT",}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\textbf{Progress bar}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#progress{-}bar(50\%)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Theme}\label{theme}
+
+Customize the theme by specifying the \texttt{\ theme\ } parameter and
+overriding 1 or more keys.
+
+\subsubsection{\texorpdfstring{Function
+\texttt{\ cv\ }}{Function  cv }}\label{function-cv}
+
+\begin{longtable}[]{@{}lll@{}}
+\toprule\noalign{}
+Key & Type & Default \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\texttt{\ margin\ } & relative & \texttt{\ 22pt\ } \\
+\texttt{\ font\ } & relative & \texttt{\ "Inria\ Sans"\ } \\
+\texttt{\ font-size\ } & relative & \texttt{\ 11pt\ } \\
+\texttt{\ accent-color\ } & color & \texttt{\ blue\ } \\
+\texttt{\ body-color\ } & color & \texttt{\ rgb("222")\ } \\
+\texttt{\ header-accent-color\ } & color & inherit \\
+\texttt{\ header-body-color\ } & color & inherit \\
+\texttt{\ main-accent-color\ } & color & inherit \\
+\texttt{\ main-body-color\ } & color & inherit \\
+\texttt{\ main-width\ } & relative & \texttt{\ 5fr\ } \\
+\texttt{\ main-gutter-width\ } & relative & \texttt{\ 64pt\ } \\
+\texttt{\ aside-accent-color\ } & color & inherit \\
+\texttt{\ aside-body-color\ } & color & inherit \\
+\texttt{\ aside-width\ } & relative & \texttt{\ 3fr\ } \\
+\texttt{\ aside-gutter-width\ } & relative & \texttt{\ 48pt\ } \\
+\end{longtable}
+
+\subsubsection{\texorpdfstring{Function
+\texttt{\ section\ }}{Function  section }}\label{function-section}
+
+\begin{longtable}[]{@{}lll@{}}
+\toprule\noalign{}
+Key & Type & Default \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\texttt{\ gutter-size\ } & color & inherit \\
+\texttt{\ accent-color\ } & color & inherit \\
+\texttt{\ body-color\ } & color & inherit \\
+\end{longtable}
+
+\subsubsection{\texorpdfstring{Function
+\texttt{\ entry\ }}{Function  entry }}\label{function-entry}
+
+\begin{longtable}[]{@{}lll@{}}
+\toprule\noalign{}
+Key & Type & Default \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\texttt{\ gutter-size\ } & color & inherit \\
+\texttt{\ accent-color\ } & color & inherit \\
+\texttt{\ body-color\ } & color & inherit \\
+\end{longtable}
+
+\href{/app?template=minimal-cv&version=0.1.0}{Create project in app}
+
+\subsubsection{How to use}\label{how-to-use}
+
+Click the button above to create a new project using this template in
+the Typst app.
+
+You can also use the Typst CLI to start a new project on your computer
+using this command:
+
+\begin{verbatim}
+typst init @preview/minimal-cv:0.1.0
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+\href{https://github.com/lelimacon}{lelimacon}
+\item[License:]
+MIT
+\item[Current version:]
+0.1.0
+\item[Last updated:]
+June 12, 2024
+\item[First released:]
+June 12, 2024
+\item[Archive size:]
+4.43 kB
+\href{https://packages.typst.org/preview/minimal-cv-0.1.0.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/lelimacon/typst-minimal-cv}{GitHub}
+\item[Categor y :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-user.svg}}
+  \href{https://typst.app/universe/search/?category=cv}{CV}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This template is a project of lelimacon . Report issues on
+\href{https://github.com/lelimacon/typst-minimal-cv}{their repository} .
+You can also try to ask for help with this template on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this template to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.1.0 & June 12, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this template and cannot guarantee correct
+functionality of this template or compatibility with any version of the
+Typst compiler or app.
+
+
+\title{typst.app/universe/package/mitex}
+
+\phantomsection\label{banner}
+\section{mitex}\label{mitex}
+
+{ 0.2.4 }
+
+LaTeX support for Typst, powered by Rust and WASM.
+
+\phantomsection\label{readme}
+\textbf{\href{https://www.latex-project.org/}{LaTeX} support for
+\href{https://typst.app/}{Typst} , powered by
+\href{https://www.rust-lang.org/}{Rust} and
+\href{https://webassembly.org/}{WASM} .}
+
+\href{https://github.com/mitex-rs/mitex}{MiTeX} processes LaTeX code
+into an abstract syntax tree (AST). Then it transforms the AST into
+Typst code and evaluates code into Typst content by \texttt{\ eval\ }
+function.
+
+MiTeX has been proved to be practical on a large project. It has already
+correctly converted 32.5k equations from
+\href{https://github.com/OI-wiki/OI-wiki}{OI Wiki} . Compared to
+\href{https://github.com/jgm/texmath}{texmath} , MiTeX has a better
+display effect and performance in that wiki project. It is also more
+easy to use, since importing MiTeX to Typst is just one line of code,
+while texmath is an external program.
+
+In addition, MiTeX is not only \textbf{SMALL} but also \textbf{FAST} !
+MiTeX has a size of just about 185 KB, comparing that texmath has a size
+of 17 MB. A not strict but intuitive comparison is shown below. To
+convert 32.5k equations from OI Wiki, texmath takes about 109s, while
+MiTeX WASM takes only 2.28s and MiTeX x86 takes merely 0.085s.
+
+Thanks to \href{https://github.com/Myriad-Dreamin}{@Myriad-Dreamin} , he
+completed the most complex development work: developing the parser for
+generating AST.
+
+\subsection{MiTeX as a Typst Package}\label{mitex-as-a-typst-package}
+
+\begin{itemize}
+\tightlist
+\item
+  Use \texttt{\ mitex-convert\ } to convert LaTeX code into Typst code
+  in string.
+\item
+  Use \texttt{\ mi\ } to render an inline LaTeX equation in Typst.
+\item
+  Use \texttt{\ mitex(numbering:\ none,\ supplement:\ auto,\ ..)\ } or
+  \texttt{\ mimath\ } to render a block LaTeX equation in Typst.
+\item
+  Use \texttt{\ mitext\ } to render a LaTeX text in Typst.
+\end{itemize}
+
+PS: \texttt{\ \#set\ math.equation(numbering:\ "(1)")\ } is also valid
+for MiTeX.
+
+Following is
+\href{https://github.com/mitex-rs/mitex/blob/main/packages/mitex/examples/example.typ}{a
+simple example} of using MiTeX in Typst:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/mitex:0.2.4": *}
+
+\NormalTok{\#assert.eq(mitex{-}convert("\textbackslash{}alpha x"), "alpha  x ")}
+
+\NormalTok{Write inline equations like \#mi("x") or \#mi[y].}
+
+\NormalTok{Also block equations (this case is from \#text(blue.lighten(20\%), link("https://katex.org/")[katex.org])):}
+
+\NormalTok{\#mitex(\textasciigrave{}}
+\NormalTok{  \textbackslash{}newcommand\{\textbackslash{}f\}[2]\{\#1f(\#2)\}}
+\NormalTok{  \textbackslash{}f\textbackslash{}relax\{x\} = \textbackslash{}int\_\{{-}\textbackslash{}infty\}\^{}\textbackslash{}infty}
+\NormalTok{    \textbackslash{}f\textbackslash{}hat\textbackslash{}xi\textbackslash{},e\^{}\{2 \textbackslash{}pi i \textbackslash{}xi x\}}
+\NormalTok{    \textbackslash{},d\textbackslash{}xi}
+\NormalTok{\textasciigrave{})}
+
+\NormalTok{We also support text mode (in development):}
+
+\NormalTok{\#mitext(\textasciigrave{}}
+\NormalTok{  \textbackslash{}iftypst}
+\NormalTok{    \#set math.equation(numbering: "(1)", supplement: "equation")}
+\NormalTok{  \textbackslash{}fi}
+
+\NormalTok{  \textbackslash{}section\{Title\}}
+
+\NormalTok{  A \textbackslash{}textbf\{strong\} text, a \textbackslash{}emph\{emph\} text and inline equation $x + y$.}
+
+\NormalTok{  Also block \textbackslash{}eqref\{eq:pythagoras\}.}
+
+\NormalTok{  \textbackslash{}begin\{equation\}}
+\NormalTok{    a\^{}2 + b\^{}2 = c\^{}2 \textbackslash{}label\{eq:pythagoras\}}
+\NormalTok{  \textbackslash{}end\{equation\}}
+\NormalTok{\textasciigrave{})}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/mitex/0.2.4/examples/example.png}}
+
+\subsection{MiTeX as a CLI Tool}\label{mitex-as-a-cli-tool}
+
+\subsubsection{Installation}\label{installation}
+
+Install latest nightly version by
+\texttt{\ cargo\ install\ -\/-git\ https://github.com/mitex-rs/mitex\ mitex-cli\ }
+.
+
+\subsubsection{Usage}\label{usage}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{mitex}\NormalTok{ compile main.tex}
+\CommentTok{\# or (same as above)}
+\ExtensionTok{mitex}\NormalTok{ compile main.tex mitex.typ}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{MiTeX as a Web App}\label{mitex-as-a-web-app}
+
+\subsubsection{MiTeX Online Math
+Converter}\label{mitex-online-math-converter}
+
+We can convert LaTeX equations to Typst equations in web by wasm.
+\url{https://mitex-rs.github.io/mitex/}
+
+\subsubsection{Underleaf}\label{underleaf}
+
+We made a proof of concept online tex editor to show our conversion
+speed in text mode. The PoC loads files from a git repository and then
+runs typst compile in browser. As you see, each keystroking get response
+in preview quickly.
+
+\url{https://mitex-rs.github.io/mitex/tools/underleaf.html}
+
+\url{https://github.com/mitex-rs/mitex/assets/34951714/0ce77a2c-0a7d-445f-b26d-e139f3038f83}
+
+\subsection{Implemented Features}\label{implemented-features}
+
+\begin{itemize}
+\tightlist
+\item
+  {[}x{]} User-defined TeX (macro) commands, such as
+  \texttt{\ \textbackslash{}newcommand\{\textbackslash{}mysym\}\{\textbackslash{}alpha\}\ }
+  .
+\item
+  {[}x{]} LaTeX equations support.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    {[}x{]} Coloring commands (
+    \texttt{\ \textbackslash{}color\{red\}\ text\ } ,
+    \texttt{\ \textbackslash{}textcolor\{red\}\{text\}\ } ).
+  \item
+    {[}x{]} Support for various environments, such as aligned, matrix,
+    cases.
+  \end{itemize}
+\item
+  {[}x{]} Basic text mode support, you can use it to write LaTeX drafts.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    {[}x{]} \texttt{\ \textbackslash{}section\ } ,
+    \texttt{\ \textbackslash{}textbf\ } ,
+    \texttt{\ \textbackslash{}emph\ } .
+  \item
+    {[}x{]} Inline and block math equations.
+  \item
+    {[}x{]} \texttt{\ \textbackslash{}ref\ } ,
+    \texttt{\ \textbackslash{}eqref\ } and
+    \texttt{\ \textbackslash{}label\ } .
+  \item
+    {[}x{]} \texttt{\ itemize\ } and \texttt{\ enumerate\ }
+    environments.
+  \end{itemize}
+\end{itemize}
+
+\subsection{Features to Implement}\label{features-to-implement}
+
+\begin{itemize}
+\tightlist
+\item
+  {[} {]} Pass command specification to MiTeX plugin dynamically. With
+  that you can define a typst function
+  \texttt{\ let\ myop(it)\ =\ op(upright(it))\ } and then use it by
+  \texttt{\ \textbackslash{}myop\{it\}\ } .
+\item
+  {[} {]} Package support, which means that you can change set of
+  commands by telling MiTeX to use a list of packages.
+\item
+  {[} {]} Better text mode support, such as figure, algorithm and
+  description environments.
+\end{itemize}
+
+To achieve the latter two goals, we need a well-structured architecture
+for the text mode, along with intricate work. Currently, we donâ€™t have
+very clear ideas yet. If you are willing to contribute by discussing in
+the issues or even submitting pull requests, your contribution is highly
+welcome.
+
+\subsection{Differences between MiTeX and other
+solutions}\label{differences-between-mitex-and-other-solutions}
+
+MiTeX has different objectives compared to
+\href{https://github.com/jgm/texmath}{texmath} (a.k.a.
+\href{https://pandoc.org/}{pandoc} ):
+
+\begin{itemize}
+\tightlist
+\item
+  MiTeX focuses on rendering LaTeX content correctly within Typst,
+  leveraging the powerful programming capabilities of WASM and typst to
+  achieve results that are essentially consistent with LaTeX display.
+\item
+  texmath aims to be general-purpose converters and generate strings
+  that are more human-readable.
+\end{itemize}
+
+For example, MiTeX transforms
+\texttt{\ \textbackslash{}frac\{1\}\{2\}\_3\ } into
+\texttt{\ frac(1,\ 2)\_3\ } , while texmath converts it into
+\texttt{\ 1\ /\ 2\_3\ } . The latterâ€™s display is not entirely
+correct, whereas the former ensures consistency in display.
+
+Another example is that MiTeX transforms
+\texttt{\ (\textbackslash{}frac\{1\}\{2\})\ } into
+\texttt{\ \textbackslash{}(frac(1,\ 2)\textbackslash{})\ } instead of
+\texttt{\ (frac(1,\ 2))\ } , avoiding the use of automatic Left/Right to
+achieve consistency with LaTeX rendering.
+
+\textbf{Certainly, the greatest advantage is that you can directly write
+LaTeX content in Typst without the need for manual conversion!}
+
+\subsection{Submitting Issues}\label{submitting-issues}
+
+If you find missing commands or bugs of MiTeX, please feel free to
+submit an issue \href{https://github.com/mitex-rs/mitex/issues}{here} .
+
+\subsection{Contributing to MiTeX}\label{contributing-to-mitex}
+
+Currently, MiTeX maintains following three parts of code:
+
+\begin{itemize}
+\tightlist
+\item
+  A TeX parser library written in \textbf{Rust} , see
+  \href{https://github.com/mitex-rs/mitex/tree/main/crates/mitex-lexer}{mitex-lexer}
+  and
+  \href{https://github.com/mitex-rs/mitex/tree/main/crates/mitex-parser}{mitex-parser}
+  .
+\item
+  A TeX to Typst converter library written in \textbf{Rust} , see
+  \href{https://github.com/mitex-rs/mitex/tree/main/crates/mitex}{mitex}
+  .
+\item
+  A list of TeX packages and comamnds written in \textbf{Typst} , which
+  then used by the typst package, see
+  \href{https://github.com/mitex-rs/mitex/tree/main/packages/mitex/specs}{MiTeX
+  Command Specification} .
+\end{itemize}
+
+For a translation process, for example, we have:
+
+\begin{verbatim}
+\frac{1}{2}
+
+===[parser]===> AST ===[converter]===>
+
+#eval("$frac(1, 2)$", scope: (frac: (num, den) => $(num)/(den)$))
+\end{verbatim}
+
+You can use the \texttt{\ \#mitex-convert()\ } function to get the Typst
+Code generated from LaTeX Code.
+
+\subsubsection{Add missing TeX commands}\label{add-missing-tex-commands}
+
+Even if you donâ€™t know Rust at all, you can still add missing TeX
+commands to MiTeX by modifying
+\href{https://github.com/mitex-rs/mitex/tree/main/packages/mitex/specs}{specification
+files} , since they are written in typst! You can open an issue to
+acquire the commands you want to add, or you can edit the files and
+submit a pull request.
+
+In the future, we will provide the ability to customize TeX commands,
+which will make it easier for you to use the commands you create for
+yourself.
+
+\subsubsection{Develop the parser and the
+converter}\label{develop-the-parser-and-the-converter}
+
+See
+\href{https://github.com/mitex-rs/mitex/blob/main/CONTRIBUTING.md}{CONTRIBUTING.md}
+.
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as \texttt{\ mitex\ }
+
+\begin{verbatim}
+#import "@preview/mitex:0.2.4"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author s :]
+Myriad-Dreamin , OrangeX4 , \& Enter-tainer
+\item[License:]
+Apache-2.0
+\item[Current version:]
+0.2.4
+\item[Last updated:]
+May 13, 2024
+\item[First released:]
+December 23, 2023
+\item[Archive size:]
+109 kB
+\href{https://packages.typst.org/preview/mitex-0.2.4.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/mitex-rs/mitex}{GitHub}
+\item[Categor y :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-hammer.svg}}
+  \href{https://typst.app/universe/search/?category=utility}{Utility}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of Myriad-Dreamin, OrangeX4, and Enter-tainer
+. Report issues on \href{https://github.com/mitex-rs/mitex}{their
+repository} . You can also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.2.4 & May 13, 2024 \\
+\href{https://typst.app/universe/package/mitex/0.2.3/}{0.2.3} & April 1,
+2024 \\
+\href{https://typst.app/universe/package/mitex/0.2.2/}{0.2.2} & March
+10, 2024 \\
+\href{https://typst.app/universe/package/mitex/0.2.1/}{0.2.1} & January
+15, 2024 \\
+\href{https://typst.app/universe/package/mitex/0.2.0/}{0.2.0} & January
+1, 2024 \\
+\href{https://typst.app/universe/package/mitex/0.1.0/}{0.1.0} & December
+23, 2023 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.
+
+
+\title{typst.app/universe/package/cetz}
+
+\phantomsection\label{banner}
+\section{cetz}\label{cetz}
+
+{ 0.3.1 }
+
+Drawing with Typst made easy, providing an API inspired by TikZ and
+Processing. Includes modules for plotting, charts and tree layout.
+
+{ } Featured Package
+
+\phantomsection\label{readme}
+CeTZ (CeTZ, ein Typst Zeichenpaket) is a library for drawing with
+\href{https://typst.app/}{Typst} with an API inspired by TikZ and
+\href{https://processing.org/}{Processing} .
+
+\subsection{Examples}\label{examples}
+
+\begin{longtable}[]{@{}lll@{}}
+\toprule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\href{https://github.com/typst/packages/raw/main/packages/preview/cetz/0.3.1/gallery/karls-picture.typ}{\includegraphics[width=2.60417in,height=\textheight,keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/cetz/0.3.1/gallery/karls-picture.png}}
+&
+\href{https://github.com/typst/packages/raw/main/packages/preview/cetz/0.3.1/gallery/tree.typ}{\includegraphics[width=2.60417in,height=\textheight,keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/cetz/0.3.1/gallery/tree.png}}
+&
+\href{https://github.com/typst/packages/raw/main/packages/preview/cetz/0.3.1/gallery/waves.typ}{\includegraphics[width=2.60417in,height=\textheight,keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/cetz/0.3.1/gallery/waves.png}} \\
+Karl\textquotesingle s Picture & Tree Layout & Waves \\
+\end{longtable}
+
+\emph{Click on the example image to jump to the code.}
+
+\subsection{Usage}\label{usage}
+
+For information, see the
+\href{https://cetz-package.github.io/docs}{online manual} .
+
+To use this package, simply add the following code to your document:
+
+\begin{verbatim}
+#import "@preview/cetz:0.3.1"
+
+#cetz.canvas({
+  import cetz.draw: *
+  // Your drawing code goes here
+})
+\end{verbatim}
+
+\subsection{CeTZ Libraries}\label{cetz-libraries}
+
+\begin{itemize}
+\tightlist
+\item
+  \href{https://github.com/cetz-package/cetz-plot}{cetz-plot - Plotting
+  and Charts Library}
+\item
+  \href{https://github.com/cetz-package/cetz-venn}{cetz-venn - Simple
+  two- or three-set Venn diagrams}
+\end{itemize}
+
+\subsection{Installing}\label{installing}
+
+To install the CeTZ package under
+\href{https://github.com/typst/packages?tab=readme-ov-file\#local-packages}{your
+local typst package dir} you can use the \texttt{\ install\ } script
+from the repository.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{just}\NormalTok{ install}
+\end{Highlighting}
+\end{Shaded}
+
+The installed version can be imported by prefixing the package name with
+\texttt{\ @local\ } .
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@local/cetz:0.3.1"}
+
+\NormalTok{\#cetz.canvas(\{}
+\NormalTok{  import cetz.draw: *}
+\NormalTok{  // Your drawing code goes here}
+\NormalTok{\})}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{Just}\label{just}
+
+This project uses \href{https://github.com/casey/just}{just} , a handy
+command runner.
+
+You can run all commands without having \texttt{\ just\ } installed,
+just have a look into the \texttt{\ justfile\ } . To install
+\texttt{\ just\ } on your system, use your systems package manager. On
+Windows, \href{https://doc.rust-lang.org/cargo/}{Cargo} (
+\texttt{\ cargo\ install\ just\ } ),
+\href{https://chocolatey.org/}{Chocolatey} (
+\texttt{\ choco\ install\ just\ } ) and
+\href{https://just.systems/man/en/chapter_4.html}{some other sources}
+can be used. You need to run it from a \texttt{\ sh\ } compatible shell
+on Windows (e.g git-bash).
+
+\subsection{Testing}\label{testing}
+
+This package comes with some unit tests under the \texttt{\ tests\ }
+directory. To run all tests you can run the \texttt{\ just\ test\ }
+target. You need to have
+\href{https://github.com/tingerrr/typst-test/}{\texttt{\ typst-test\ }}
+in your \texttt{\ PATH\ } :
+\texttt{\ cargo\ install\ typst-test\ -\/-git\ https://github.com/tingerrr/typst-test\ }
+.
+
+\subsection{Projects using CeTZ}\label{projects-using-cetz}
+
+\begin{itemize}
+\tightlist
+\item
+  \href{https://github.com/fenjalien/cirCeTZ}{cirCeTZ} A port of
+  \href{https://github.com/circuitikz/circuitikz}{circuitikz} to Typst.
+\item
+  \href{https://github.com/sitandr/conchord}{conchord} Package for
+  writing lyrics with chords that generates fretboard diagrams using
+  CeTZ.
+\item
+  \href{https://github.com/jneug/typst-finite}{finite} Finite is a Typst
+  package for rendering finite automata.
+\item
+  \href{https://github.com/Jollywatt/typst-fletcher}{fletcher} Package
+  for drawing commutative diagrams and figures with arrows.
+\item
+  \href{https://github.com/ThatOneCalculator/riesketcher}{riesketcher}
+  Package for drawing Riemann sums.
+\end{itemize}
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as \texttt{\ cetz\ }
+
+\begin{verbatim}
+#import "@preview/cetz:0.3.1"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author s :]
+\href{https://github.com/johannes-wolf}{Johannes Wolf} \&
+\href{https://github.com/fenjalien}{fenjalien}
+\item[License:]
+LGPL-3.0-or-later
+\item[Current version:]
+0.3.1
+\item[Last updated:]
+October 21, 2024
+\item[First released:]
+July 8, 2023
+\item[Minimum Typst version:]
+0.12.0
+\item[Archive size:]
+74.3 kB
+\href{https://packages.typst.org/preview/cetz-0.3.1.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/cetz-package/cetz}{GitHub}
+\item[Categor y :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-chart.svg}}
+  \href{https://typst.app/universe/search/?category=visualization}{Visualization}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of Johannes Wolf and fenjalien . Report issues
+on \href{https://github.com/cetz-package/cetz}{their repository} . You
+can also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.3.1 & October 21, 2024 \\
+\href{https://typst.app/universe/package/cetz/0.3.0/}{0.3.0} & October
+15, 2024 \\
+\href{https://typst.app/universe/package/cetz/0.2.2/}{0.2.2} & March 18,
+2024 \\
+\href{https://typst.app/universe/package/cetz/0.2.1/}{0.2.1} & February
+23, 2024 \\
+\href{https://typst.app/universe/package/cetz/0.2.0/}{0.2.0} & January
+16, 2024 \\
+\href{https://typst.app/universe/package/cetz/0.1.2/}{0.1.2} & October
+1, 2023 \\
+\href{https://typst.app/universe/package/cetz/0.1.1/}{0.1.1} & September
+11, 2023 \\
+\href{https://typst.app/universe/package/cetz/0.1.0/}{0.1.0} & August
+19, 2023 \\
+\href{https://typst.app/universe/package/cetz/0.0.2/}{0.0.2} & July 31,
+2023 \\
+\href{https://typst.app/universe/package/cetz/0.0.1/}{0.0.1} & July 8,
+2023 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.
+
+
+\title{typst.app/universe/package/touying-simpl-hkustgz}
+
+\phantomsection\label{banner}
+\phantomsection\label{template-thumbnail}
+\pandocbounded{\includegraphics[keepaspectratio]{https://packages.typst.org/preview/thumbnails/touying-simpl-hkustgz-0.1.1-small.webp}}
+
+\section{touying-simpl-hkustgz}\label{touying-simpl-hkustgz}
+
+{ 0.1.1 }
+
+Touying Slide Theme for HKUST(GZ)
+
+\href{/app?template=touying-simpl-hkustgz&version=0.1.1}{Create project
+in app}
+
+\phantomsection\label{readme}
+Inspired by \href{https://github.com/Coekjan/touying-buaa}{Touying Slide
+Theme for Beihang University}
+
+\subsection{Use as Typst Template
+Package}\label{use-as-typst-template-package}
+
+Use \texttt{\ typst\ init\ @preview/touying-simpl-hkustgz\ } to create a
+new project with this theme.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{$ typst init @preview/touying{-}simpl{-}hkustgz}
+\NormalTok{Successfully created new project from @preview/touying{-}simpl{-}hkustgz:}
+\NormalTok{To start writing, run:}
+\NormalTok{\textgreater{} cd touying{-}simpl{-}hkustgz}
+\NormalTok{\textgreater{} typst watch main.typ}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Examples}\label{examples}
+
+See
+\href{https://github.com/typst/packages/raw/main/packages/preview/touying-simpl-hkustgz/0.1.1/examples}{examples}
+and \href{https://exaclior.github.io/touying-simpl-hkustgz}{Github
+Pages} for more details.
+
+You can compile the examples by yourself.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{$ typst compile ./examples/main.typ {-}{-}root .}
+\end{Highlighting}
+\end{Shaded}
+
+And the PDF file \texttt{\ ./examples/main.pdf\ } will be generated.
+
+\subsection{License}\label{license}
+
+Licensed under the
+\href{https://github.com/typst/packages/raw/main/packages/preview/touying-simpl-hkustgz/0.1.1/LICENSE}{MIT
+License} .
+
+\href{/app?template=touying-simpl-hkustgz&version=0.1.1}{Create project
+in app}
+
+\subsubsection{How to use}\label{how-to-use}
+
+Click the button above to create a new project using this template in
+the Typst app.
+
+You can also use the Typst CLI to start a new project on your computer
+using this command:
+
+\begin{verbatim}
+typst init @preview/touying-simpl-hkustgz:0.1.1
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+\href{mailto:yushengzhao2020@outlook.com}{Yusheng Zhao}
+\item[License:]
+MIT
+\item[Current version:]
+0.1.1
+\item[Last updated:]
+November 12, 2024
+\item[First released:]
+August 28, 2024
+\item[Archive size:]
+9.83 kB
+\href{https://packages.typst.org/preview/touying-simpl-hkustgz-0.1.1.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/exAClior/touying-simpl-hkustgz}{GitHub}
+\item[Categor y :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-presentation.svg}}
+  \href{https://typst.app/universe/search/?category=presentation}{Presentation}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This template is a project of Yusheng Zhao . Report issues on
+\href{https://github.com/exAClior/touying-simpl-hkustgz}{their
+repository} . You can also try to ask for help with this template on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this template to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.1.1 & November 12, 2024 \\
+\href{https://typst.app/universe/package/touying-simpl-hkustgz/0.1.0/}{0.1.0}
+& August 28, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this template and cannot guarantee correct
+functionality of this template or compatibility with any version of the
+Typst compiler or app.
+
+
+\title{typst.app/universe/package/orange-book}
+
+\phantomsection\label{banner}
+\phantomsection\label{template-thumbnail}
+\pandocbounded{\includegraphics[keepaspectratio]{https://packages.typst.org/preview/thumbnails/orange-book-0.4.0-small.webp}}
+
+\section{orange-book}\label{orange-book}
+
+{ 0.4.0 }
+
+A book template inspired by The Legrand Orange Book of Mathias Legrand
+and Vel
+
+\href{/app?template=orange-book&version=0.4.0}{Create project in app}
+
+\phantomsection\label{readme}
+A book template inspired by The Legrand Orange Book of Mathias Legrand
+and Vel
+\url{https://www.latextemplates.com/template/legrand-orange-book} .
+
+\subsection{Usage}\label{usage}
+
+You can use this template in the Typst web app by clicking â€œStart from
+templateâ€? on the dashboard and searching for \texttt{\ orange-book\ }
+.
+
+Alternatively, you can use the CLI to kick this project off using the
+command
+
+\begin{verbatim}
+typst init @preview/orange-book
+\end{verbatim}
+
+Typst will create a new directory with all the files needed to get you
+started.
+
+\subsection{Configuration}\label{configuration}
+
+This template exports the \texttt{\ book\ } function with the following
+named arguments:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ title\ } : The bookâ€™s title as content.
+\item
+  \texttt{\ subtitle\ } : The bookâ€™s subtitle as content.
+\item
+  \texttt{\ author\ } : Content or an array of content to specify the
+  author.
+\item
+  \texttt{\ paper-size\ } : Defaults to \texttt{\ a4\ } . Specify a
+  \href{https://typst.app/docs/reference/layout/page/\#parameters-paper}{paper
+  size string} to change the page format.
+\item
+  \texttt{\ copyright\ } : Details about the copyright or
+  \texttt{\ none\ } .
+\item
+  \texttt{\ lowercase-references\ } : True to have references in
+  lowercase (Eg. table 1.1)
+\end{itemize}
+
+The function also accepts a single, positional argument for the body of
+the book.
+
+The template will initialize your package with a sample call to the
+\texttt{\ book\ } function in a show rule. If you, however, want to
+change an existing project to use this template, you can add a show rule
+like this at the top of your file:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/orange{-}book:0.1.0": book}
+
+\NormalTok{\#show: book.with(}
+\NormalTok{  title: "Exploring the Physical Manifestation of Humanityâs Subconscious Desires",}
+\NormalTok{  subtitle: "A Practical Guide",}
+\NormalTok{  date: "Anno scolastico 2023{-}2024",}
+\NormalTok{  author: "Goro Akechi",}
+\NormalTok{  mainColor: rgb("\#F36619"),}
+\NormalTok{  lang: "en",}
+\NormalTok{  cover: image("./background.svg"),}
+\NormalTok{  imageIndex: image("./orange1.jpg"),}
+\NormalTok{  listOfFigureTitle: "List of Figures",}
+\NormalTok{  listOfTableTitle: "List of Tables",}
+\NormalTok{  supplementChapter: "Chapter",}
+\NormalTok{  supplementPart: "Part",}
+\NormalTok{  part\_style: 0,}
+\NormalTok{  copyright: [}
+\NormalTok{    Copyright Â© 2023 Flavio Barisi}
+
+\NormalTok{    PUBLISHED BY PUBLISHER}
+
+\NormalTok{    \#link("https://github.com/flavio20002/typst{-}orange{-}template", "TEMPLATE{-}WEBSITE")}
+
+\NormalTok{    Licensed under the Apache 2.0 License (the âLicenseâ).}
+\NormalTok{    You may not use this file except in compliance with the License. You may obtain a copy of}
+\NormalTok{    the License at https://www.apache.org/licenses/LICENSE{-}2.0. Unless required by}
+\NormalTok{    applicable law or agreed to in writing, software distributed under the License is distributed on an}
+\NormalTok{    âAS ISâ BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.}
+\NormalTok{    See the License for the specific language governing permissions and limitations under the License.}
+
+\NormalTok{    \_First printing, July 2023\_}
+\NormalTok{  ],}
+\NormalTok{  lowercase{-}references: false}
+\NormalTok{)}
+
+\NormalTok{// Your content goes below.}
+\end{Highlighting}
+\end{Shaded}
+
+\href{/app?template=orange-book&version=0.4.0}{Create project in app}
+
+\subsubsection{How to use}\label{how-to-use}
+
+Click the button above to create a new project using this template in
+the Typst app.
+
+You can also use the Typst CLI to start a new project on your computer
+using this command:
+
+\begin{verbatim}
+typst init @preview/orange-book:0.4.0
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+Flavio Barisi
+\item[License:]
+MIT-0
+\item[Current version:]
+0.4.0
+\item[Last updated:]
+November 4, 2024
+\item[First released:]
+August 26, 2024
+\item[Minimum Typst version:]
+0.12.0
+\item[Archive size:]
+661 kB
+\href{https://packages.typst.org/preview/orange-book-0.4.0.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/flavio20002/typst-orange-template}{GitHub}
+\item[Categor y :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-docs.svg}}
+  \href{https://typst.app/universe/search/?category=book}{Book}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This template is a project of Flavio Barisi . Report issues on
+\href{https://github.com/flavio20002/typst-orange-template}{their
+repository} . You can also try to ask for help with this template on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this template to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.4.0 & November 4, 2024 \\
+\href{https://typst.app/universe/package/orange-book/0.3.0/}{0.3.0} &
+October 22, 2024 \\
+\href{https://typst.app/universe/package/orange-book/0.2.0/}{0.2.0} &
+October 3, 2024 \\
+\href{https://typst.app/universe/package/orange-book/0.1.0/}{0.1.0} &
+August 26, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this template and cannot guarantee correct
+functionality of this template or compatibility with any version of the
+Typst compiler or app.
+
+
+\title{typst.app/universe/package/riesketcher}
+
+\phantomsection\label{banner}
+\section{riesketcher}\label{riesketcher}
+
+{ 0.2.1 }
+
+A package to draw Riemann sums (and their plots) of a function with
+CeTZ.
+
+\phantomsection\label{readme}
+A package to draw Riemann sums (and their plots) of a function with
+CeTZ.
+
+Usage example and docs:
+\href{https://github.com/ThatOneCalculator/riesketcher/blob/main/manual.pdf}{manual.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/riesketcher:0.2.1": riesketcher}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/ThatOneCalculator/riesketcher/assets/44733677/4f87b750-e4be-4698-b650-74f4fe56789d}}
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as
+\texttt{\ riesketcher\ }
+
+\begin{verbatim}
+#import "@preview/riesketcher:0.2.1"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+Kainoa Kanter
+\item[License:]
+MIT
+\item[Current version:]
+0.2.1
+\item[Last updated:]
+May 22, 2024
+\item[First released:]
+December 19, 2023
+\item[Archive size:]
+2.40 kB
+\href{https://packages.typst.org/preview/riesketcher-0.2.1.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/ThatOneCalculator/riesketcher}{GitHub}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of Kainoa Kanter . Report issues on
+\href{https://github.com/ThatOneCalculator/riesketcher}{their
+repository} . You can also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.2.1 & May 22, 2024 \\
+\href{https://typst.app/universe/package/riesketcher/0.2.0/}{0.2.0} &
+January 17, 2024 \\
+\href{https://typst.app/universe/package/riesketcher/0.1.0/}{0.1.0} &
+December 19, 2023 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.
+
+
+\title{typst.app/universe/package/outrageous}
+
+\phantomsection\label{banner}
+\section{outrageous}\label{outrageous}
+
+{ 0.3.0 }
+
+Easier customization of outline entries.
+
+\phantomsection\label{readme}
+Easier customization of outline entries.
+
+\subsection{Examples}\label{examples}
+
+For the full source see
+\href{https://github.com/typst/packages/raw/main/packages/preview/outrageous/0.3.0/examples/basic.typ}{\texttt{\ examples/basic.typ\ }}
+and for more examples see the
+\href{https://github.com/typst/packages/raw/main/packages/preview/outrageous/0.3.0/examples}{\texttt{\ examples\ }
+directory} .
+
+\subsubsection{Default Style}\label{default-style}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/outrageous/0.3.0/example-default.png}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/outrageous:0.1.0"}
+\NormalTok{\#show outline.entry: outrageous.show{-}entry}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{Custom Settings}\label{custom-settings}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/outrageous/0.3.0/example-custom.png}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/outrageous:0.1.0"}
+\NormalTok{\#show outline.entry: outrageous.show{-}entry.with(}
+\NormalTok{  // the typst preset retains the normal Typst appearance}
+\NormalTok{  ..outrageous.presets.typst,}
+\NormalTok{  // we only override a few things:}
+\NormalTok{  // level{-}1 entries are italic, all others keep their font style}
+\NormalTok{  font{-}style: ("italic", auto),}
+\NormalTok{  // no fill for level{-}1 entries, a thin gray line for all deeper levels}
+\NormalTok{  fill: (none, line(length: 100\%, stroke: gray + .5pt)),}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Usage}\label{usage}
+
+\subsubsection{\texorpdfstring{\texttt{\ show-entry\ }}{ show-entry }}\label{show-entry}
+
+Show the given outline entry with the provided styling. Should be used
+in a show rule like
+\texttt{\ \#show\ outline.entry:\ outrageous.show-entry\ } .
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let show{-}entry(}
+\NormalTok{  entry,}
+\NormalTok{  font{-}weight: presets.outrageous{-}toc.font{-}weight,}
+\NormalTok{  font{-}style: presets.outrageous{-}toc.font{-}style,}
+\NormalTok{  vspace: presets.outrageous{-}toc.vspace,}
+\NormalTok{  font: presets.outrageous{-}toc.font,}
+\NormalTok{  fill: presets.outrageous{-}toc.fill,}
+\NormalTok{  fill{-}right{-}pad: presets.outrageous{-}toc.fill{-}right{-}pad,}
+\NormalTok{  fill{-}align: presets.outrageous{-}toc.fill{-}align,}
+\NormalTok{  body{-}transform: presets.outrageous{-}toc.body{-}transform,}
+\NormalTok{  label: \textless{}outrageous{-}modified{-}entry\textgreater{},}
+\NormalTok{  state{-}key: "outline{-}page{-}number{-}max{-}width",}
+\NormalTok{) = \{ .. \}}
+\end{Highlighting}
+\end{Shaded}
+
+\textbf{Arguments:}
+
+For all the arguments that take arrays, the arrayâ€™s first item
+specifies the value for all level-one entries, the second item for
+level-two, and so on. The arrayâ€™s last item will be used for all
+deeper/following levels as well.
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ entry\ } :
+  \href{https://typst.app/docs/reference/foundations/content/}{\texttt{\ content\ }}
+  â€'' The
+  \href{https://typst.app/docs/reference/model/outline/\#definitions-entry}{\texttt{\ outline.entry\ }}
+  element from the show rule.
+\item
+  \texttt{\ font-weight\ } :
+  \href{https://typst.app/docs/reference/foundations/array/}{\texttt{\ array\ }}
+  of (
+  \href{https://typst.app/docs/reference/foundations/str/}{\texttt{\ str\ }}
+  or
+  \href{https://typst.app/docs/reference/foundations/int/}{\texttt{\ int\ }}
+  or \texttt{\ auto\ } or \texttt{\ none\ } ) â€'' The entryâ€™s font
+  weight. Setting to \texttt{\ auto\ } or \texttt{\ none\ } keeps the
+  contextâ€™s current style.
+\item
+  \texttt{\ font-style\ } :
+  \href{https://typst.app/docs/reference/foundations/array/}{\texttt{\ array\ }}
+  of (
+  \href{https://typst.app/docs/reference/foundations/str/}{\texttt{\ str\ }}
+  or \texttt{\ auto\ } or \texttt{\ none\ } ) â€'' The entryâ€™s font
+  style. Setting to \texttt{\ auto\ } or \texttt{\ none\ } keeps the
+  contextâ€™s current style.
+\item
+  \texttt{\ vspace\ } :
+  \href{https://typst.app/docs/reference/foundations/array/}{\texttt{\ array\ }}
+  of (
+  \href{https://typst.app/docs/reference/layout/relative/}{\texttt{\ relative\ }}
+  or
+  \href{https://typst.app/docs/reference/layout/fraction/}{\texttt{\ fraction\ }}
+  or \texttt{\ none\ } ) â€'' Vertical spacing to add above the entry.
+  Setting to \texttt{\ none\ } adds no space.
+\item
+  \texttt{\ font\ } :
+  \href{https://typst.app/docs/reference/foundations/array/}{\texttt{\ array\ }}
+  of (
+  \href{https://typst.app/docs/reference/foundations/str/}{\texttt{\ str\ }}
+  or
+  \href{https://typst.app/docs/reference/foundations/array/}{\texttt{\ array\ }}
+  or \texttt{\ auto\ } or \texttt{\ none\ } ) â€'' The entryâ€™s font.
+  Setting to \texttt{\ auto\ } or \texttt{\ none\ } keeps the
+  contextâ€™s current font.
+\item
+  \texttt{\ fill\ } :
+  \href{https://typst.app/docs/reference/foundations/array/}{\texttt{\ array\ }}
+  of (
+  \href{https://typst.app/docs/reference/foundations/content/}{\texttt{\ content\ }}
+  or \texttt{\ auto\ } or \texttt{\ none\ } ) â€'' The entryâ€™s fill.
+  Setting to \texttt{\ auto\ } keeps the contextâ€™s current setting.
+\item
+  \texttt{\ fill-right-pad\ } :
+  \href{https://typst.app/docs/reference/layout/relative/}{\texttt{\ relative\ }}
+  or \texttt{\ none\ } â€'' Horizontal space to put between the fill and
+  page number.
+\item
+  \texttt{\ fill-align\ } :
+  \href{https://typst.app/docs/reference/foundations/bool/}{\texttt{\ bool\ }}
+  â€'' Whether \texttt{\ fill-right-pad\ } should be relative to the
+  current page number or the widest page number. Setting this to
+  \texttt{\ true\ } has the effect of all fills ending on the same
+  vertical line.
+\item
+  \texttt{\ body-transform\ } :
+  \href{https://typst.app/docs/reference/foundations/function/}{\texttt{\ function\ }}
+  or \texttt{\ none\ } â€'' Callback for custom edits to the entryâ€™s
+  body. It gets passed the entryâ€™s level (
+  \href{https://typst.app/docs/reference/foundations/int/}{\texttt{\ int\ }}
+  ) and body (
+  \href{https://typst.app/docs/reference/foundations/content/}{\texttt{\ content\ }}
+  ) and should return
+  \href{https://typst.app/docs/reference/foundations/content/}{\texttt{\ content\ }}
+  or \texttt{\ none\ } . If \texttt{\ none\ } is returned, no
+  modifications are made.
+\item
+  \texttt{\ page-transform\ } :
+  \href{https://typst.app/docs/reference/foundations/function/}{\texttt{\ function\ }}
+  or \texttt{\ none\ } â€'' Callback for custom edits to the entryâ€™s
+  page number. It gets passed the entryâ€™s level (
+  \href{https://typst.app/docs/reference/foundations/int/}{\texttt{\ int\ }}
+  ) and page number (
+  \href{https://typst.app/docs/reference/foundations/content/}{\texttt{\ content\ }}
+  ) and should return
+  \href{https://typst.app/docs/reference/foundations/content/}{\texttt{\ content\ }}
+  or \texttt{\ none\ } . If \texttt{\ none\ } is returned, no
+  modifications are made.
+\item
+  \texttt{\ label\ } :
+  \href{https://typst.app/docs/reference/foundations/label/}{\texttt{\ label\ }}
+  â€'' The label to internally use for tracking recursion. This should
+  not need to be modified.
+\item
+  \texttt{\ state-key\ } :
+  \href{https://typst.app/docs/reference/foundations/str/}{\texttt{\ str\ }}
+  â€'' The key to use for the internal state which tracks the maximum
+  page number width. The state is global for the entire document and
+  thus applies to all outlines. If you wish to re-calculate the max page
+  number width for \texttt{\ fill-align\ } , then you must provide a
+  different key for each outline.
+\end{itemize}
+
+\textbf{Returns:}
+\href{https://typst.app/docs/reference/foundations/content/}{\texttt{\ content\ }}
+
+\subsubsection{\texorpdfstring{\texttt{\ presets\ }}{ presets }}\label{presets}
+
+Presets for the arguments for
+\href{https://github.com/typst/packages/raw/main/packages/preview/outrageous/0.3.0/\#show-entry}{\texttt{\ show-entry()\ }}
+. You can use them in your show rule with
+\texttt{\ \#show\ outline.entry:\ outrageous.show-entry.with(..outrageous.presets.outrageous-figures)\ }
+.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let presets = (}
+\NormalTok{  // outrageous preset for a Table of Contents}
+\NormalTok{  outrageous{-}toc: (}
+\NormalTok{    // ...}
+\NormalTok{  ),}
+\NormalTok{  // outrageous preset for List of Figures/Tables/Listings}
+\NormalTok{  outrageous{-}figures: (}
+\NormalTok{    // ...}
+\NormalTok{  ),}
+\NormalTok{  // preset without any style changes}
+\NormalTok{  typst: (}
+\NormalTok{    // ...}
+\NormalTok{  ),}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{\texorpdfstring{\texttt{\ repeat\ }}{ repeat }}\label{repeat}
+
+Utility function to repeat content to fill space with a fixed size gap.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let repeat(gap: none, justify: false, body) = \{ .. \}}
+\end{Highlighting}
+\end{Shaded}
+
+\textbf{Arguments:}
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ gap\ } :
+  \href{https://typst.app/docs/reference/layout/length/}{\texttt{\ length\ }}
+  or \texttt{\ none\ } â€'' The gap between repeated items.
+\item
+  \texttt{\ justify\ } :
+  \href{https://typst.app/docs/reference/foundations/bool/}{\texttt{\ bool\ }}
+  â€'' Whether to increase the gap to justify the items.
+\item
+  \texttt{\ body\ } :
+  \href{https://typst.app/docs/reference/foundations/content/}{\texttt{\ content\ }}
+  â€'' The content to repeat.
+\end{itemize}
+
+\textbf{Returns:}
+\href{https://typst.app/docs/reference/foundations/content/}{\texttt{\ content\ }}
+
+\subsubsection{\texorpdfstring{\texttt{\ align-helper\ }}{ align-helper }}\label{align-helper}
+
+Utility function to help with aligning multiple items.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let align{-}helper(state{-}key, what{-}to{-}measure, display) = \{ .. \}}
+\end{Highlighting}
+\end{Shaded}
+
+\textbf{Arguments:}
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ state-key\ } :
+  \href{https://typst.app/docs/reference/foundations/str/}{\texttt{\ str\ }}
+  â€'' The key to use for the
+  \href{https://typst.app/docs/reference/introspection/state/}{\texttt{\ state\ }}
+  that keeps track of the maximum encountered width.
+\item
+  \texttt{\ what-to-measure\ } :
+  \href{https://typst.app/docs/reference/foundations/content/}{\texttt{\ content\ }}
+  â€'' The content to measure at this call.
+\item
+  \texttt{\ display\ } :
+  \href{https://typst.app/docs/reference/foundations/function/}{\texttt{\ function\ }}
+  â€'' A callback which gets passed the maximum encountered width and
+  the width of the current item (what was given to
+  \texttt{\ what-to-measure\ } ), both as
+  \href{https://typst.app/docs/reference/layout/length/}{\texttt{\ length\ }}
+  , and should return
+  \href{https://typst.app/docs/reference/foundations/content/}{\texttt{\ content\ }}
+  which can make use of these widths for alignment.
+\end{itemize}
+
+\textbf{Returns:}
+\href{https://typst.app/docs/reference/foundations/content/}{\texttt{\ content\ }}
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as
+\texttt{\ outrageous\ }
+
+\begin{verbatim}
+#import "@preview/outrageous:0.3.0"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+RubixDev
+\item[License:]
+GPL-3.0-only
+\item[Current version:]
+0.3.0
+\item[Last updated:]
+October 21, 2024
+\item[First released:]
+October 9, 2023
+\item[Minimum Typst version:]
+0.11.0
+\item[Archive size:]
+15.8 kB
+\href{https://packages.typst.org/preview/outrageous-0.3.0.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/RubixDev/typst-outrageous}{GitHub}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of RubixDev . Report issues on
+\href{https://github.com/RubixDev/typst-outrageous}{their repository} .
+You can also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.3.0 & October 21, 2024 \\
+\href{https://typst.app/universe/package/outrageous/0.2.0/}{0.2.0} &
+September 14, 2024 \\
+\href{https://typst.app/universe/package/outrageous/0.1.0/}{0.1.0} &
+October 9, 2023 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.
+
+
+\title{typst.app/universe/package/glossarium}
+
+\phantomsection\label{banner}
+\section{glossarium}\label{glossarium}
+
+{ 0.5.1 }
+
+Glossarium is a simple, easily customizable typst glossary.
+
+{ } Featured Package
+
+\phantomsection\label{readme}
+\begin{quote}
+{[}!TIP{]} Glossarium is based in great part of the work of
+\href{https://github.com/Dherse}{SÃ©bastien dâ€™Herbais de Thun} from
+his master thesis available at:
+\url{https://github.com/Dherse/masterproef} . His glossary is available
+under the MIT license
+\href{https://github.com/Dherse/masterproef/blob/main/elems/acronyms.typ}{here}
+.
+\end{quote}
+
+Glossarium is a simple, easily customizable typst glossary inspired by
+\href{https://www.ctan.org/pkg/glossaries}{LaTeX glossaries package} .
+You can see various examples showcasing the different features in the
+\texttt{\ examples\ } folder.
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/glossarium/0.5.1/.github/example.png}}
+
+\subsection{Manual}\label{manual}
+
+\subsection{Fast start}\label{fast-start}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/glossarium:0.5.1": make{-}glossary, register{-}glossary, print{-}glossary, gls, glspl}
+\NormalTok{\#show: make{-}glossary}
+\NormalTok{\#let entry{-}list = (}
+\NormalTok{  (}
+\NormalTok{    key: "kuleuven",}
+\NormalTok{    short: "KU Leuven",}
+\NormalTok{    long: "Katholieke Universiteit Leuven",}
+\NormalTok{    description: "A university in Belgium.",}
+\NormalTok{  ),}
+\NormalTok{  // Add more terms}
+\NormalTok{)}
+\NormalTok{\#register{-}glossary(entry{-}list)}
+\NormalTok{// Your document body}
+\NormalTok{\#print{-}glossary(}
+\NormalTok{ entry{-}list}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{Import and setup}\label{import-and-setup}
+
+This manual assume you have a good enough understanding of typst markup
+and scripting.
+
+For Typst 0.6.0 or later import the package from the typst preview
+repository:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/glossarium:0.5.1": make{-}glossary, register{-}glossary, print{-}glossary, gls, glspl}
+\end{Highlighting}
+\end{Shaded}
+
+For Typst before 0.6.0 or to use \textbf{glossarium} as a local module,
+download the package files into your project folder and import
+\texttt{\ glossarium.typ\ } :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "glossarium.typ": make{-}glossary, register{-}glossary, print{-}glossary, gls, glspl}
+\end{Highlighting}
+\end{Shaded}
+
+After importing the package and before making any calls to
+\texttt{\ gls\ } , \texttt{\ print-glossary\ } or \texttt{\ glspl\ } ,
+please \emph{\textbf{MAKE SURE}} you add this line
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#show: make{-}glossary}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{quote}
+\emph{WHY DO WE NEED THAT ?} : In order to be able to create references
+to the terms in your glossary using typst ref syntax \texttt{\ @key\ }
+glossarium needs to setup some
+\href{https://typst.app/docs/tutorial/advanced-styling/}{show rules}
+before any references exist. This is due to the way typst works, there
+is no workaround.
+
+Therefore I recommend that you always put the \texttt{\ \#show:\ ...\ }
+statement on the line just below the \texttt{\ \#import\ } statement.
+\end{quote}
+
+\subsubsection{Registering the glossary}\label{registering-the-glossary}
+
+First we have to define the terms. A term is a
+\href{https://typst.app/docs/reference/types/dictionary/}{dictionary} as
+follows:
+
+\begin{longtable}[]{@{}llll@{}}
+\toprule\noalign{}
+Key & Type & Required/Optional & Description \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\texttt{\ key\ } & string & required & Case-sensitive, unique identifier
+used to reference the term. \\
+\texttt{\ short\ } & string & semi-optional & The short form of the term
+replacing the term citation. \\
+\texttt{\ long\ } & string or content & semi-optional & The long form of
+the term, displayed in the glossary and on the first citation of the
+term. \\
+\texttt{\ description\ } & string or content & optional & The
+description of the term. \\
+\texttt{\ plural\ } & string or content & optional & The pluralized
+short form of the term. \\
+\texttt{\ longplural\ } & string or content & optional & The pluralized
+long form of the term. \\
+\texttt{\ group\ } & string & optional & Case-sensitive group the term
+belongs to. The terms are displayed by groups in the glossary. \\
+\end{longtable}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let entry{-}list = (}
+\NormalTok{  // minimal term}
+\NormalTok{  (}
+\NormalTok{    key: "kuleuven",}
+\NormalTok{    short: "KU Leuven"}
+\NormalTok{  ),}
+\NormalTok{  // a term with a long form and a group}
+\NormalTok{  (}
+\NormalTok{    key: "unamur",}
+\NormalTok{    short: "UNamur",}
+\NormalTok{    long: "Namur University",}
+\NormalTok{    group: "Universities"}
+\NormalTok{  ),}
+\NormalTok{  // a term with a markup description}
+\NormalTok{  (}
+\NormalTok{    key: "oidc",}
+\NormalTok{    short: "OIDC",}
+\NormalTok{    long: "OpenID Connect",}
+\NormalTok{    description: [}
+\NormalTok{      OpenID is an open standard and decentralized authentication protocol promoted by the non{-}profit}
+\NormalTok{      \#link("https://en.wikipedia.org/wiki/OpenID\#OpenID\_Foundation")[OpenID Foundation].}
+\NormalTok{    ],}
+\NormalTok{    group: "Acronyms",}
+\NormalTok{  ),}
+\NormalTok{  // a term with a short plural}
+\NormalTok{  (}
+\NormalTok{    key: "potato",}
+\NormalTok{    short: "potato",}
+\NormalTok{    // "plural" will be used when "short" should be pluralized}
+\NormalTok{    plural: "potatoes",}
+\NormalTok{    description: [\#lorem(10)],}
+\NormalTok{  ),}
+\NormalTok{  // a term with a long plural}
+\NormalTok{  (}
+\NormalTok{    key: "dm",}
+\NormalTok{    short: "DM",}
+\NormalTok{    long: "diagonal matrix",}
+\NormalTok{    // "longplural" will be used when "long" should be pluralized}
+\NormalTok{    longplural: "diagonal matrices",}
+\NormalTok{    description: "Probably some math stuff idk",}
+\NormalTok{  ),}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+Then the terms are passed as a list to \texttt{\ register-glossary\ }
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#register{-}glossary(entry{-}list)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{Printing the glossary}\label{printing-the-glossary}
+
+Now, you can display the glossary using the \texttt{\ print-glossary\ }
+function.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#print{-}glossary(entry{-}list)}
+\end{Highlighting}
+\end{Shaded}
+
+By default, the terms that are not referenced in the document are not
+shown in the glossary, you can force their appearance by setting the
+\texttt{\ show-all\ } argument to true.
+
+You can also disable the back-references by setting the parameter
+\texttt{\ disable-back-references\ } to \texttt{\ true\ } .
+
+By default, group breaks use \texttt{\ linebreaks\ } . This behaviour
+can be changed by setting the \texttt{\ user-group-break\ } parameter to
+\texttt{\ pagebreak()\ } , or \texttt{\ colbreak()\ } , or any other
+function that returns the \texttt{\ content\ } you want.
+
+You can call this function from anywhere in your document.
+
+\subsubsection{Referencing terms.}\label{referencing-terms.}
+
+Referencing terms is done using the key of the terms using the
+\texttt{\ gls\ } function or the reference syntax.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{// referencing the OIDC term using gls}
+\NormalTok{\#gls("oidc")}
+\NormalTok{// displaying the long form forcibly}
+\NormalTok{\#gls("oidc", long: true)}
+
+\NormalTok{// referencing the OIDC term using the reference syntax}
+\NormalTok{@oidc}
+\end{Highlighting}
+\end{Shaded}
+
+\paragraph{Handling plurals}\label{handling-plurals}
+
+You can use the \texttt{\ glspl\ } function and the references
+supplements to pluralize terms. The \texttt{\ plural\ } key will be used
+when \texttt{\ short\ } should be pluralized and \texttt{\ longplural\ }
+will be used when \texttt{\ long\ } should be pluralized. If the
+\texttt{\ plural\ } key is missing then glossarium will add an â€˜sâ€™
+at the end of the short form as a fallback.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#glspl("potato")}
+\end{Highlighting}
+\end{Shaded}
+
+Please look at the examples regarding plurals.
+
+\paragraph{Overriding the text shown}\label{overriding-the-text-shown}
+
+You can also override the text displayed by setting the
+\texttt{\ display\ } argument.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#gls("oidc", display: "whatever you want")}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Final tips}\label{final-tips}
+
+I recommend setting a show rule for the links to that your readers
+understand that they can click on the references to go to the term in
+the glossary.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#show link: set text(fill: blue.darken(60\%))}
+\NormalTok{// links are now blue !}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as
+\texttt{\ glossarium\ }
+
+\begin{verbatim}
+#import "@preview/glossarium:0.5.1"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author s :]
+slashformotion \& Dherse
+\item[License:]
+MIT
+\item[Current version:]
+0.5.1
+\item[Last updated:]
+October 28, 2024
+\item[First released:]
+July 31, 2023
+\item[Archive size:]
+10.5 kB
+\href{https://packages.typst.org/preview/glossarium-0.5.1.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/typst-community/glossarium}{GitHub}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of slashformotion and Dherse . Report issues
+on \href{https://github.com/typst-community/glossarium}{their
+repository} . You can also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.5.1 & October 28, 2024 \\
+\href{https://typst.app/universe/package/glossarium/0.5.0/}{0.5.0} &
+October 14, 2024 \\
+\href{https://typst.app/universe/package/glossarium/0.4.2/}{0.4.2} &
+October 7, 2024 \\
+\href{https://typst.app/universe/package/glossarium/0.4.1/}{0.4.1} & May
+29, 2024 \\
+\href{https://typst.app/universe/package/glossarium/0.4.0/}{0.4.0} &
+April 29, 2024 \\
+\href{https://typst.app/universe/package/glossarium/0.3.0/}{0.3.0} &
+April 8, 2024 \\
+\href{https://typst.app/universe/package/glossarium/0.2.6/}{0.2.6} &
+January 29, 2024 \\
+\href{https://typst.app/universe/package/glossarium/0.2.5/}{0.2.5} &
+December 3, 2023 \\
+\href{https://typst.app/universe/package/glossarium/0.2.4/}{0.2.4} &
+November 16, 2023 \\
+\href{https://typst.app/universe/package/glossarium/0.2.3/}{0.2.3} &
+October 30, 2023 \\
+\href{https://typst.app/universe/package/glossarium/0.2.2/}{0.2.2} &
+September 16, 2023 \\
+\href{https://typst.app/universe/package/glossarium/0.2.1/}{0.2.1} &
+September 3, 2023 \\
+\href{https://typst.app/universe/package/glossarium/0.2.0/}{0.2.0} &
+August 19, 2023 \\
+\href{https://typst.app/universe/package/glossarium/0.1.0/}{0.1.0} &
+July 31, 2023 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.
+
+
+\title{typst.app/universe/package/stv-vub-huisstijl}
+
+\phantomsection\label{banner}
+\phantomsection\label{template-thumbnail}
+\pandocbounded{\includegraphics[keepaspectratio]{https://packages.typst.org/preview/thumbnails/stv-vub-huisstijl-0.1.0-small.webp}}
+
+\section{stv-vub-huisstijl}\label{stv-vub-huisstijl}
+
+{ 0.1.0 }
+
+An unofficial template to get the look of the Vrije Universiteit Brussel
+(VUB) huisstijl in Typst.
+
+\href{/app?template=stv-vub-huisstijl&version=0.1.0}{Create project in
+app}
+
+\phantomsection\label{readme}
+An unofficial template to get the look of the
+\href{https://www.vub.be/}{Vrije Universiteit Brussel (VUB)} huisstijl
+in Typst based on \href{https://gitlab.com/rubdos/texlive-vub}{this
+LaTeX template}
+
+\subsection{Getting Started}\label{getting-started}
+
+You can choose â€œStart from templateâ€? in the web app, and search for
+\texttt{\ vub-huisstijl\ } .
+
+If you are running Typst locally, you can use the following command to
+initialize the template:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{typst init @preview/stv{-}vub{-}huisstijl:0.1.0}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{Fonts}\label{fonts}
+
+The package makes use of the â€œTeX Gyre Adventorâ€? font, with
+â€œRobotoâ€? as a fallback. These should be installed for the title page
+to look right. They are available for free, and also come bundled with
+texlive.
+
+\subsection{Note}\label{note}
+
+This only provides a template for a thesis title page, not for slides.
+That can be added in the future.
+
+\subsection{About the name}\label{about-the-name}
+
+St V ( \href{https://en.wikipedia.org/wiki/Saint_Verhaegen}{Saint
+Verhaegen} ) is an important part of the folklore of the VUB and the
+ULB.
+
+\href{/app?template=stv-vub-huisstijl&version=0.1.0}{Create project in
+app}
+
+\subsubsection{How to use}\label{how-to-use}
+
+Click the button above to create a new project using this template in
+the Typst app.
+
+You can also use the Typst CLI to start a new project on your computer
+using this command:
+
+\begin{verbatim}
+typst init @preview/stv-vub-huisstijl:0.1.0
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+\href{https://github.com/WannesMalfait}{Wannes Malfait}
+\item[License:]
+MIT
+\item[Current version:]
+0.1.0
+\item[Last updated:]
+October 21, 2024
+\item[First released:]
+October 21, 2024
+\item[Archive size:]
+8.02 kB
+\href{https://packages.typst.org/preview/stv-vub-huisstijl-0.1.0.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/WannesMalfait/vub-huisstijl-typst/}{GitHub}
+\item[Categor y :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-mortarboard.svg}}
+  \href{https://typst.app/universe/search/?category=thesis}{Thesis}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This template is a project of Wannes Malfait . Report issues on
+\href{https://github.com/WannesMalfait/vub-huisstijl-typst/}{their
+repository} . You can also try to ask for help with this template on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this template to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.1.0 & October 21, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this template and cannot guarantee correct
+functionality of this template or compatibility with any version of the
+Typst compiler or app.
+
+
+\title{typst.app/universe/package/aero-check}
+
+\phantomsection\label{banner}
+\phantomsection\label{template-thumbnail}
+\pandocbounded{\includegraphics[keepaspectratio]{https://packages.typst.org/preview/thumbnails/aero-check-0.1.1-small.webp}}
+
+\section{aero-check}\label{aero-check}
+
+{ 0.1.1 }
+
+A simple template to create checklists with an aviation inspired style.
+
+{ } Featured Template
+
+\href{/app?template=aero-check&version=0.1.1}{Create project in app}
+
+\phantomsection\label{readme}
+\pandocbounded{\includegraphics[keepaspectratio]{https://img.shields.io/github/v/release/TomVer99/Typst-checklist-template?style=flat-square}}
+\pandocbounded{\includegraphics[keepaspectratio]{https://img.shields.io/github/stars/TomVer99/Typst-checklist-template?style=flat-square}}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://img.shields.io/maintenance/Yes/2024?style=flat-square}}
+
+This template is meant to create checklists with a style inspired by
+aviation checklists.
+
+It includes 2 different styles!
+
+\subsection{Usage}\label{usage}
+
+Start your checklist with the following code:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/aero{-}check:0.1.1": *}
+
+\NormalTok{\#show: checklist.with(}
+\NormalTok{  title: "Title",}
+\NormalTok{  // disclaimer: "",}
+\NormalTok{  // 0 or 1}
+\NormalTok{  // style: 0,}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+You can then add items to your checklist with the following code:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#topic("Topic")[}
+\NormalTok{  \#section("Section")[}
+\NormalTok{    \#step("Step", "Check")}
+\NormalTok{    \#step("Step", "Check")}
+\NormalTok{    \#step("Step", "Check")}
+\NormalTok{    \#step("Step", "Check")}
+\NormalTok{  ]}
+\NormalTok{\#section("Section")[}
+\NormalTok{    \#step("Step", "Check")}
+\NormalTok{    \#step("Step", "Check")}
+\NormalTok{    \#step("Step", "Check")}
+\NormalTok{    \#step("Step", "Check")}
+\NormalTok{  ]}
+\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+And you can use \texttt{\ \#colbreak()\ } to add a column break.
+
+\href{/app?template=aero-check&version=0.1.1}{Create project in app}
+
+\subsubsection{How to use}\label{how-to-use}
+
+Click the button above to create a new project using this template in
+the Typst app.
+
+You can also use the Typst CLI to start a new project on your computer
+using this command:
+
+\begin{verbatim}
+typst init @preview/aero-check:0.1.1
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+TomVer99
+\item[License:]
+MIT
+\item[Current version:]
+0.1.1
+\item[Last updated:]
+September 14, 2024
+\item[First released:]
+May 13, 2024
+\item[Minimum Typst version:]
+0.11.0
+\item[Archive size:]
+2.59 kB
+\href{https://packages.typst.org/preview/aero-check-0.1.1.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/TomVer99/Typst-checklist-template}{GitHub}
+\item[Categor y :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-hammer.svg}}
+  \href{https://typst.app/universe/search/?category=utility}{Utility}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This template is a project of TomVer99 . Report issues on
+\href{https://github.com/TomVer99/Typst-checklist-template}{their
+repository} . You can also try to ask for help with this template on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this template to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.1.1 & September 14, 2024 \\
+\href{https://typst.app/universe/package/aero-check/0.1.0/}{0.1.0} & May
+13, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this template and cannot guarantee correct
+functionality of this template or compatibility with any version of the
+Typst compiler or app.
+
+
+\title{typst.app/universe/package/sweet-graduate-resume}
+
+\phantomsection\label{banner}
+\phantomsection\label{template-thumbnail}
+\pandocbounded{\includegraphics[keepaspectratio]{https://packages.typst.org/preview/thumbnails/sweet-graduate-resume-0.1.0-small.webp}}
+
+\section{sweet-graduate-resume}\label{sweet-graduate-resume}
+
+{ 0.1.0 }
+
+A simple graduate student resume template
+
+\href{/app?template=sweet-graduate-resume&version=0.1.0}{Create project
+in app}
+
+\phantomsection\label{readme}
+A basic resume template in typst.
+
+To compile/watch, make sure you pass the argument
+\texttt{\ -\/-font-path\ ./fonts/\ } to typst-cli.
+
+If you use the helix editor, a configuration has been given in the
+repository. This auto-compiles your document on saving and you can
+preview the results in real time using a pdf viewer. Also provides
+autocomplete, code renaming, and other cool (LSP) features.
+
+Make sure you have tinymist and typstyle installed before using the
+helix config.
+
+\subsection{Preview}\label{preview}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/sweet-graduate-resume/0.1.0/screenshot.png}}
+
+\subsection{LICENSE}\label{license}
+
+The FontAwesome Free/Brand fonts are licensed under
+\href{https://github.com/FortAwesome/Font-Awesome?tab=License-1-ov-file}{Font
+Awesome Free License}
+
+The Codeberg SVG in the svg directory are licensed under
+\href{https://codeberg.org/Codeberg/Design/src/commit/ac514aa9aaa2457d4af3c3e13df3ab136d22a49a/LICENSE}{Creative
+Commons CC0}
+
+For the rest, see
+\href{https://github.com/typst/packages/raw/main/packages/preview/sweet-graduate-resume/0.1.0/LICENSE}{LICENSE}
+.
+
+\subsection{Fonts}\label{fonts}
+
+For fonts, please install the fonts from the repository of the project
+in codeberg.
+
+\href{/app?template=sweet-graduate-resume&version=0.1.0}{Create project
+in app}
+
+\subsubsection{How to use}\label{how-to-use}
+
+Click the button above to create a new project using this template in
+the Typst app.
+
+You can also use the Typst CLI to start a new project on your computer
+using this command:
+
+\begin{verbatim}
+typst init @preview/sweet-graduate-resume:0.1.0
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+\href{https://innocent_zero.codeberg.page}{innocentzero (Md Isfarul
+Haque)}
+\item[License:]
+MIT
+\item[Current version:]
+0.1.0
+\item[Last updated:]
+July 4, 2024
+\item[First released:]
+July 4, 2024
+\item[Archive size:]
+47.6 kB
+\href{https://packages.typst.org/preview/sweet-graduate-resume-0.1.0.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://codeberg.org/innocent_zero/typst-resume}{Codeberg}
+\item[Discipline :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \href{https://typst.app/universe/search/?discipline=engineering}{Engineering}
+\end{itemize}
+\item[Categor y :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-user.svg}}
+  \href{https://typst.app/universe/search/?category=cv}{CV}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This template is a project of innocentzero (Md Isfarul Haque) . Report
+issues on \href{https://codeberg.org/innocent_zero/typst-resume}{their
+repository} . You can also try to ask for help with this template on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this template to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.1.0 & July 4, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this template and cannot guarantee correct
+functionality of this template or compatibility with any version of the
+Typst compiler or app.
+
+

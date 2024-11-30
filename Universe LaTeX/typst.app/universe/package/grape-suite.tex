@@ -1,0 +1,667 @@
+\title{typst.app/universe/package/grape-suite}
+
+\phantomsection\label{banner}
+\phantomsection\label{template-thumbnail}
+\pandocbounded{\includegraphics[keepaspectratio]{https://packages.typst.org/preview/thumbnails/grape-suite-1.0.0-small.webp}}
+
+\section{grape-suite}\label{grape-suite}
+
+{ 1.0.0 }
+
+Library of templates for exams, seminar papers, homeworks, etc.
+
+{ } Featured Template
+
+\href{/app?template=grape-suite&version=1.0.0}{Create project in app}
+
+\phantomsection\label{readme}
+The grape suite is a suite consisting of following templates:
+
+\begin{itemize}
+\item
+  exercises (for exams, homework, etc.)
+\item
+  seminar papers
+\item
+  slides (using polylux)
+\end{itemize}
+
+\subsection{Exercises}\label{exercises}
+
+\subsubsection{Setup}\label{setup}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/grape{-}suite:1.0.0": exercise}
+\NormalTok{\#import exercise: project, task, subtask}
+
+\NormalTok{\#show: project.with(}
+\NormalTok{    title: "Lorem ipsum dolor sit",}
+
+\NormalTok{    university: [University],}
+\NormalTok{    institute: [Institute],}
+\NormalTok{    seminar: [Seminar],}
+
+\NormalTok{    abstract: lorem(100),}
+\NormalTok{    show{-}outline: true,}
+
+\NormalTok{    author: "John Doe",}
+
+\NormalTok{    show{-}solutions: false}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{API-Documentation}\label{api-documentation}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+\texttt{\ project\ } & \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\texttt{\ no\ } & optional, number, default: \texttt{\ none\ } , number
+of the sheet in the series \\
+\texttt{\ type\ } & optional, content, default: \texttt{\ {[}Exam{]}\ }
+, type of the series, eg. exam, homework, protocol, â€¦ \\
+\texttt{\ title\ } & optional, content, default: \texttt{\ none\ } ,
+title of the document: if none, then generated from no, type and
+suffix-title \\
+\texttt{\ suffix-title\ } & optional, content, default:
+\texttt{\ none\ } , used if title is none to generate the title of the
+document \\
+\texttt{\ show-outline\ } & optional, bool, default: \texttt{\ false\ }
+, show outline after title iff true \\
+\texttt{\ abstract\ } & optional, content, default: \texttt{\ none\ } ,
+show abstract between outline and title \\
+\texttt{\ document-title\ } & optional, content, default:
+\texttt{\ none\ } , shown in the upper right corner of the page header:
+if none, \texttt{\ title\ } is used \\
+\texttt{\ show-hints\ } & optional, bool, default: \texttt{\ false\ } ,
+generate hints from tasks iff true \\
+\texttt{\ show-solutions\ } & optional, bool, default:
+\texttt{\ false\ } , generate solutions from tasks iff true \\
+\texttt{\ show-namefield\ } & optional, bool, default:
+\texttt{\ false\ } , show namefield at the end of the left header iff
+true \\
+\texttt{\ namefield\ } & optional, content, default:
+\texttt{\ {[}Name:{]}\ } , content shown iff
+\texttt{\ show-namefield\ } \\
+\texttt{\ show-timefield\ } & optional, bool, default:
+\texttt{\ false\ } , show timefield at the end of right header iff
+true \\
+\texttt{\ timefield\ } & optional, function, default:
+\texttt{\ (time)\ =\textgreater{}\ {[}Time:\ \#time\ min.{]}\ } , to
+generate the content shown as the timefield iff
+\texttt{\ show-timefield\ } is true \\
+\texttt{\ max-time\ } & optional, number, default: \texttt{\ 0\ } , time
+value used in the \texttt{\ timefield\ } function generateor \\
+\texttt{\ show-lines\ } & optional, bool, default: \texttt{\ false\ } ,
+draw automatic lines for each task, if \texttt{\ lines\ } parameter of
+\texttt{\ task\ } is set \\
+\texttt{\ show-point-distribution-in-tasks\ } & optional, bool, default:
+\texttt{\ false\ } , show point distribution after tasks iff true \\
+\texttt{\ show-point-distribution-in-solutions\ } & optional, bool,
+default: \texttt{\ false\ } , show point distributions after solutions
+iff true \\
+\texttt{\ solutions-as-matrix\ } & optional, bool, default:
+\texttt{\ false\ } , show solutions as a matrix iff true, \textbf{mind
+that} : now the solution parameter of task expects a list of 2-tuples,
+where the first element of the 2-tuple is the amount of points, a number
+and the second element is content, how to achieve all points \\
+\texttt{\ university\ } & optional, content, default:
+\texttt{\ none\ } \\
+\texttt{\ faculty\ } & optional, content, default: \texttt{\ none\ } \\
+\texttt{\ institute\ } & optional, content, default:
+\texttt{\ none\ } \\
+\texttt{\ seminar\ } & optional, content, default: \texttt{\ none\ } \\
+\texttt{\ semester\ } & optional, content, default: \texttt{\ none\ } \\
+\texttt{\ docent\ } & optional, content, default: \texttt{\ none\ } \\
+\texttt{\ author\ } & optional, content, default: \texttt{\ none\ } \\
+\texttt{\ date\ } & optional, datetime, default:
+\texttt{\ datetime.today()\ } \\
+\texttt{\ header\ } & optional, content, default: \texttt{\ none\ } ,
+overwrite page header \\
+\texttt{\ header-right\ } & optional, content, default:
+\texttt{\ none\ } , overwrite right header part \\
+\texttt{\ header-middle\ } & optional, content, default:
+\texttt{\ none\ } , overwrite middle header part \\
+\texttt{\ header-left\ } & optional, content, default: \texttt{\ none\ }
+, overwrite left header part \\
+\texttt{\ footer\ } & optional, content, default: \texttt{\ none\ } ,
+overwrite footer part \\
+\texttt{\ footer-right\ } & optional, content, default:
+\texttt{\ none\ } , overwrite right footer part \\
+\texttt{\ footer-middle\ } & optional, content, default:
+\texttt{\ none\ } , overwrite middle footer part \\
+\texttt{\ footer-left\ } & optional, content, default: \texttt{\ none\ }
+, overwrite left footer part \\
+\texttt{\ task-type\ } & optional, content, default:
+\texttt{\ {[}Task{]}\ } , content shown in task title box before
+numbering \\
+\texttt{\ extra-task-type\ } & optional, content, default:
+\texttt{\ {[}Extra\ task{]}\ } , for tasks where the \texttt{\ extra\ }
+parameter is true, content shown in title box before numbering \\
+\texttt{\ box-task-title\ } & optional, content, default:
+\texttt{\ {[}Task{]}\ } , shown as the title of a task box used by the
+\texttt{\ slides\ } library \\
+\texttt{\ box-hint-title\ } & optional, content, default:
+\texttt{\ {[}Hint{]}\ } , shown as the title of a tasks colored hint
+box \\
+\texttt{\ box-solution-title\ } & optional, content, default:
+\texttt{\ {[}Solution{]}\ } , shown as the title of a tasks colored
+solution box \\
+\texttt{\ box-definition-title\ } & optional, content, default:
+\texttt{\ {[}Definition{]}\ } , shown as the title of a definition box
+used by the \texttt{\ slides\ } library \\
+\texttt{\ box-notice-title\ } & optional, content, default:
+\texttt{\ {[}Notice{]}\ } , shown as the title of a notice box used by
+the \texttt{\ slides\ } library \\
+\texttt{\ box-example-title\ } & optional, content, default:
+\texttt{\ {[}Example{]}\ } , shown as the title of a example box used by
+the \texttt{\ slides\ } library \\
+\texttt{\ hint-type\ } & optional, content, default:
+\texttt{\ {[}Hint{]}\ } , title of a tasks hint version \\
+\texttt{\ hints-title\ } & optional, content, default:
+\texttt{\ {[}Hints{]}\ } , title of the hints section \\
+\texttt{\ solution-type\ } & optional, content, default:
+\texttt{\ {[}Suggested\ solution{]}\ } , title of a tasks solution
+version \\
+\texttt{\ solutions-title\ } & optional, content, default:
+\texttt{\ {[}Suggested\ solutions{]}\ } , title of the solutions
+section \\
+\texttt{\ solution-matrix-task-header\ } & optional, content, default:
+\texttt{\ {[}Tasks{]}\ } , first column header of solution matrix,
+column contains the reasons on how to achieve the points \\
+\texttt{\ solution-matrix-achieved-points-header\ } & optional, content,
+default: \texttt{\ {[}Points\ achieved{]}\ } , second column header of
+solution matrix, column contains the points the one achieved \\
+\texttt{\ show-solution-matrix-comment-field\ } & optional, bool,
+default: \texttt{\ false\ } , show comment field in solution matrix \\
+\texttt{\ solution-matrix-comment-field-value\ } & optional, content,
+default: \texttt{\ {[}*Note:*\ \#v(0.5cm){]}\ } , value of solution
+matrix comment fields \\
+\texttt{\ distribution-header-point-value\ } & optional, content,
+default: \texttt{\ {[}Point{]}\ } , first row of point distribution,
+used to indicate the points needed to get a specific grade \\
+\texttt{\ distribution-header-point-grade\ } & optional, content,
+default: \texttt{\ {[}Grade{]}\ } , second row of point distribution \\
+\texttt{\ message\ } & optional, function, default:
+\texttt{\ (points-sum,\ extrapoints-sum)\ =\textgreater{}\ {[}In\ sum\ \#points-sum\ +\ \#extrapoints-sum\ P.\ are\ achievable.\ You\ achieved\ \#box(line(stroke:\ purple,\ length:\ 1cm))\ out\ of\ \#points-sum\ points.{]}\ }
+, used to generate the message part above the point distribution \\
+\texttt{\ grade-scale\ } & optional, array, default:
+\texttt{\ (({[}excellent{]},\ 0.9),\ ({[}very\ good{]},\ 0.8),\ ({[}good{]},\ 0.7),\ ({[}pass{]},\ 0.6),\ ({[}fail{]},\ 0.49))\ }
+, list of grades and percentage of points to reach that grade \\
+\texttt{\ page-margins\ } & optional, margins, default:
+\texttt{\ none\ } , overwrite page margins \\
+\texttt{\ fontsize\ } & optional, size, default: \texttt{\ 11pt\ } ,
+overwrite font size \\
+\texttt{\ show-todolist\ } & optional, bool, default: \texttt{\ true\ }
+, show list of usages of the \texttt{\ todo\ } function after the
+outline \\
+\texttt{\ body\ } & content, document content \\
+\end{longtable}
+
+\texttt{\ task\ } creates a task element in an exercise project.
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+\texttt{\ task\ } & \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\texttt{\ lines\ } & optional, number, default: \texttt{\ 0\ } , number
+of lines to draw if \texttt{\ show-lines\ } in exerciseâ€™s
+\texttt{\ project\ } is set to \texttt{\ true\ } \\
+\texttt{\ points\ } & optional, number, default: \texttt{\ 0\ } , number
+of points achievable \\
+\texttt{\ extra\ } & optional, bool, default: \texttt{\ false\ } ,
+determines if the task is obligatory ( \texttt{\ false\ } ) or
+additional ( \texttt{\ true\ } ) \\
+\texttt{\ numbering-format\ } & optional, function, default:
+\texttt{\ none\ } , \\
+\texttt{\ title\ } & content, title of the task \\
+\texttt{\ instruction\ } & content, instruction of the task,
+highlighted \\
+\texttt{\ ..args\ } & 1: content, task body; 2: content, task solution,
+not highlighted (see \texttt{\ solution-as-matrix\ } of exerciseâ€™s
+\texttt{\ project\ } ), 3: content, task hint \\
+\end{longtable}
+
+\texttt{\ subtask\ } creates a part of a task. Its points are added to
+the parent task. \emph{\textbf{Subtasks are to be use inside of the
+taskâ€™s body or inside of another subtaskâ€™s body.}}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+\texttt{\ subtask\ } & \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\texttt{\ points\ } & optional, number, default: \texttt{\ 0\ } , points
+achievable, adds to a tasks point \\
+\texttt{\ tight\ } & optional, bool, default: \texttt{\ false\ } , enum
+style \\
+\texttt{\ markers\ } & optional, array, default:
+\texttt{\ ("1.",\ "a)")\ } , numbering format for each level, fallback
+is \texttt{\ i.\ } \\
+\texttt{\ show-points\ } & optional, bool, default: \texttt{\ true\ } ,
+show points next to subtaskâ€™s body iff \texttt{\ true\ } \\
+\texttt{\ counter\ } & optional, counter, default: \texttt{\ none\ } ,
+change number styled by the numbering format; if \texttt{\ none\ } ,
+each level has an incrementel auto counter \\
+\texttt{\ content\ } & content, subtask body \\
+\end{longtable}
+
+\subsection{Seminar paper}\label{seminar-paper}
+
+\subsubsection{Setup}\label{setup-1}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/grape{-}suite:1.0.0": seminar{-}paper}
+
+\NormalTok{\#show: seminar{-}paper.project.with(}
+\NormalTok{    title: "Die IntensionalitÃ¤t von dass{-}SÃ¤tzen",}
+\NormalTok{    subtitle: "Intensionale Kontexte in philosophischen Argumenten",}
+
+\NormalTok{    university: [UniversitÃ¤t Musterstadt],}
+\NormalTok{    faculty: [Exemplarische FakultÃ¤t],}
+\NormalTok{    institute: [Institut fÃ¼r Philosophie],}
+\NormalTok{    docent: [Dr. phil. Berta BeispielprÃ¼ferin],}
+\NormalTok{    seminar: [Beispielseminar],}
+
+\NormalTok{    submit{-}to: [Eingereicht bei],}
+\NormalTok{    submit{-}by: [Eingereicht durch],}
+
+\NormalTok{    semester: german{-}dates.semester(datetime.today()),}
+
+\NormalTok{    author: "Max Muster",}
+\NormalTok{    email: "max.muster@uni{-}musterstadt.uni",}
+\NormalTok{    address: [}
+\NormalTok{        12345 Musterstadt \textbackslash{}}
+\NormalTok{        MusterstraÃe 67}
+\NormalTok{    ]}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{Documentation}\label{documentation}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+\texttt{\ project\ } & \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\texttt{\ title\ } & optional, content, default: \texttt{\ none\ } ,
+title used on the title page \\
+\texttt{\ subtitle\ } & optional, content, default: \texttt{\ none\ } ,
+subtitle used on title page \\
+\texttt{\ submit-to\ } & optional, content, default:
+\texttt{\ "Submitted\ to"\ } , title for the assigneesâ€™s section \\
+\texttt{\ submit-by\ } & optional, content, default:
+\texttt{\ "Submitted\ by"\ } , title for the assignedâ€™s section \\
+\texttt{\ university\ } & optional, content, default:
+\texttt{\ "UNIVERSITY"\ } \\
+\texttt{\ faculty\ } & optional, content, default:
+\texttt{\ "FACULTY"\ } \\
+\texttt{\ institute\ } & optional, content, default:
+\texttt{\ "INSTITUTE"\ } \\
+\texttt{\ seminar\ } & optional, content, default:
+\texttt{\ "SEMINAR"\ } \\
+\texttt{\ semester\ } & optional, content, default:
+\texttt{\ "SEMESTER"\ } \\
+\texttt{\ docent\ } & optional, content, default:
+\texttt{\ "DOCENT"\ } \\
+\texttt{\ author\ } & optional, content, default:
+\texttt{\ "AUTHOR"\ } \\
+\texttt{\ email\ } & optional, content, default: \texttt{\ "EMAIL"\ } \\
+\texttt{\ address\ } & optional, content, default:
+\texttt{\ "ADDRESS"\ } \\
+\texttt{\ title-page-part\ } & optional, content, default:
+\texttt{\ none\ } , overwrite date, assignee and assigned section \\
+\texttt{\ title-page-part-submit-date\ } & optional, content, default:
+\texttt{\ none\ } , overwrite date section \\
+\texttt{\ title-page-part-submit-to\ } & optional, content, default:
+\texttt{\ none\ } , overwrite assignee section \\
+\texttt{\ title-page-part-submit-by\ } & optional, content, default:
+\texttt{\ none\ } , overwrite assigned section \\
+\texttt{\ date\ } & optional, datetime, default:
+\texttt{\ datetime.today()\ } \\
+\texttt{\ date-format\ } & optional, function, default:
+\texttt{\ (date)\ =\textgreater{}\ date.display("{[}day{]}.{[}month{]}.{[}year{]}")\ } \\
+\texttt{\ header\ } & optional, content, default: \texttt{\ none\ } ,
+overwrite page header \\
+\texttt{\ header-right\ } & optional, content, default:
+\texttt{\ none\ } , overwrite right header part \\
+\texttt{\ header-middle\ } & optional, content, default:
+\texttt{\ none\ } , overwrite middle header part \\
+\texttt{\ header-left\ } & optional, content, default: \texttt{\ none\ }
+, overwrite left header part \\
+\texttt{\ footer\ } & optional, content, default: \texttt{\ none\ } ,
+overwrite footer part \\
+\texttt{\ footer-right\ } & optional, content, default:
+\texttt{\ none\ } , overwrite right footer part \\
+\texttt{\ footer-middle\ } & optional, content, default:
+\texttt{\ none\ } , overwrite middle footer part \\
+\texttt{\ footer-left\ } & optional, content, default: \texttt{\ none\ }
+, overwrite left footer part \\
+\texttt{\ show-outline\ } & optional, bool, default: \texttt{\ true\ } ,
+show outline \\
+\texttt{\ show-declaration-of-independent-work\ } & optional, bool,
+default: \texttt{\ true\ } , show German declaration of independent
+work \\
+\texttt{\ page-margins\ } & optional, margins, default:
+\texttt{\ none\ } , overwrite page margins \\
+\texttt{\ fontsize\ } & optional, size, default: \texttt{\ 11pt\ } ,
+overwrite fontsize \\
+\texttt{\ show-todolist\ } & optional, bool, default: \texttt{\ true\ }
+, show list of usages of the \texttt{\ todo\ } function after the
+outline \\
+\texttt{\ body\ } & content, document content \\
+\end{longtable}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+\texttt{\ sidenote\ } & \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\texttt{\ body\ } & sidenote content, which is a block with 3cm width
+and will be displayed in the right margin of the page \\
+\end{longtable}
+
+\subsection{Slides}\label{slides}
+
+\subsubsection{Setup}\label{setup-2}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/grape{-}suite:1.0.0": slides}
+\NormalTok{\#import slides: *}
+
+\NormalTok{\#show: slides.with(}
+\NormalTok{    no: 1,}
+\NormalTok{    series: [Logik{-}Tutorium],}
+\NormalTok{    title: [Organisatorisches und EinfÃ¼hrung in die Logik],}
+
+\NormalTok{    author: "Tristan Pieper",}
+\NormalTok{    email: link("mailto:tristan.pieper@uni{-}rostock.de"),}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{Documentation}\label{documentation-1}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+\texttt{\ slides\ } & \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\texttt{\ no\ } & optional, number, default: \texttt{\ 0\ } , number in
+the series \\
+\texttt{\ series\ } & optional, content, default: \texttt{\ none\ } ,
+name of the series \\
+\texttt{\ title\ } & optional, content, default: \texttt{\ none\ } ,
+title of the presentation \\
+\texttt{\ topics\ } & optional, array, default: \texttt{\ ()\ } , topics
+of the presentation \\
+\texttt{\ author\ } & optional, content, default: \texttt{\ none\ } ,
+author \\
+\texttt{\ email\ } & optional, content, default: \texttt{\ none\ } ,
+authorâ€™s email \\
+\texttt{\ head-replacement\ } & optional, content, default:
+\texttt{\ none\ } , replace head on title slide with given content \\
+\texttt{\ title-replacement\ } & optional, content, default:
+\texttt{\ none\ } , replace title below head on title slide with given
+content \\
+\texttt{\ footer\ } & optional, content, default: \texttt{\ none\ } ,
+replace footer on slides with given content \\
+\texttt{\ page-numbering\ } & optional, function, default:
+\texttt{\ (n,\ total)\ =\textgreater{}\ \{...\}\ } , function that
+creates the page numbering (where \texttt{\ n\ } is the current,
+\texttt{\ total\ } is the last page) \\
+\texttt{\ show-semester\ } & optional, bool, default: \texttt{\ true\ }
+, show name of the semester (e.g. â€œSoSe 24â€?) \\
+\texttt{\ show-date\ } & optional, bool, default: \texttt{\ true\ } ,
+show date in german format \\
+\texttt{\ show-outline\ } & optional, bool, default: \texttt{\ true\ } ,
+show outline on the second slide \\
+\texttt{\ box-task-title\ } & optional, content, default:
+\texttt{\ {[}Task{]}\ } , shown as the title of a slideâ€™s task box \\
+\texttt{\ box-hint-title\ } & optional, content, default:
+\texttt{\ {[}Hint{]}\ } , shown as the title of a slideâ€™s tasks
+colored \\
+\texttt{\ box-solution-title\ } & optional, content, default:
+\texttt{\ {[}Solution{]}\ } , shown as the title of a slideâ€™s tasks
+colored \\
+\texttt{\ box-definition-title\ } & optional, content, default:
+\texttt{\ {[}Definition{]}\ } , shown as the title of a slideâ€™s
+definition box \\
+\texttt{\ box-notice-title\ } & optional, content, default:
+\texttt{\ {[}Notice{]}\ } , shown as the title of a slideâ€™s notice
+box \\
+\texttt{\ box-example-title\ } & optional, content, default:
+\texttt{\ {[}Example{]}\ } , shown as the title of a slideâ€™s example
+box \\
+\texttt{\ date\ } & optional, datetime, default:
+\texttt{\ datetime.today()\ } \\
+\texttt{\ show-todolist\ } & optional, bool, default: \texttt{\ true\ }
+, show list of usages of the \texttt{\ todo\ } function after the
+outline \\
+\texttt{\ show-title-slide\ } & optional, bool, default:
+\texttt{\ true\ } , show title slide \\
+\texttt{\ show-author\ } & optional, bool, default: \texttt{\ true\ } ,
+show author name on title slide \\
+\texttt{\ show-footer\ } & optional, bool, default: \texttt{\ true\ } ,
+show footer on slides \\
+\texttt{\ show-page-numbers\ } & optional, bool, default:
+\texttt{\ true\ } , show page numbering \\
+\texttt{\ outline-title-text\ } & optional, content, default:
+\texttt{\ "Outline"\ } , title for the outline \\
+\texttt{\ body\ } & content, document content \\
+\end{longtable}
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ slide\ } , \texttt{\ pause\ } , \texttt{\ only\ } ,
+  \texttt{\ uncover\ } : imported from polylux
+\end{itemize}
+
+\subsubsection{Todos}\label{todos}
+
+The following functions can be imported from \texttt{\ slides\ } ,
+\texttt{\ exercise\ } and \texttt{\ seminar-paper\ } :
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ todo(content,\ ...)\ } - create a highlighted inline
+  todo-note
+\item
+  \texttt{\ list-todos()\ } - create list of all todo-usages with page
+  of usage and content
+\item
+  \texttt{\ hide-todos()\ } - hides all usages of \texttt{\ todo()\ } in
+  the document
+\end{itemize}
+
+\subsubsection{Elements}\label{elements}
+
+The following functions can be imported from \texttt{\ slides\ } ,
+\texttt{\ exercise\ } and \texttt{\ seminar-paper\ } :
+\texttt{\ definition\ }
+
+\subsection{1.0.0}\label{section}
+
+New:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ todo\ } , \texttt{\ list-todos\ } , \texttt{\ hide-todos\ }
+  in \texttt{\ todo.typ\ } , importable from \texttt{\ slides\ } ,
+  \texttt{\ exercise.project\ } and \texttt{\ seminar-paper.project\ }
+\item
+  \texttt{\ show-todolist\ } attribute in above templates
+\item
+  \texttt{\ ignore-points\ } attribute in \texttt{\ task\ } and
+  \texttt{\ subtask\ } of exercises, so that their points wonâ€™t be
+  shown in the solution matrix or point distribution
+\item
+  comment field and a standard-value for solution matrix via
+  \texttt{\ show-solution-matrix-comment-field\ } and
+  \texttt{\ solution-matrix-comment-field-value\ } options in
+  \texttt{\ exercise.project\ }
+\item
+  optional parameter \texttt{\ type\ } in \texttt{\ slides.task\ }
+\item
+  new parameters in \texttt{\ sllides.slides\ } :
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \texttt{\ head-replacement\ }
+  \item
+    \texttt{\ title-replacement\ }
+  \item
+    \texttt{\ footer\ }
+  \item
+    \texttt{\ page-numbering\ }
+  \item
+    \texttt{\ show-title-slide\ }
+  \item
+    \texttt{\ show-author\ } (on title slide)
+  \item
+    \texttt{\ show-date\ }
+  \item
+    \texttt{\ show-footer\ }
+  \item
+    \texttt{\ show-page-numbers\ }
+  \end{itemize}
+\item
+  optional parameter \texttt{\ show-outline\ } in
+  \texttt{\ seminar-paper.project\ }
+\end{itemize}
+
+Changes:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ dates.typ\ } becomes \texttt{\ german-dates.typ\ }
+\end{itemize}
+
+Fixes:
+
+\begin{itemize}
+\tightlist
+\item
+  remove forced German from the slides template
+\item
+  long headings are now properly aligned
+\item
+  subtask counter now resets for each part of task
+\end{itemize}
+
+\textbf{Breaking Changes:}
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ dates\ } becomes \texttt{\ german-dates\ }
+\item
+  changed all \texttt{\ with-outline\ } to \texttt{\ show-outline\ }
+\end{itemize}
+
+\href{/app?template=grape-suite&version=1.0.0}{Create project in app}
+
+\subsubsection{How to use}\label{how-to-use}
+
+Click the button above to create a new project using this template in
+the Typst app.
+
+You can also use the Typst CLI to start a new project on your computer
+using this command:
+
+\begin{verbatim}
+typst init @preview/grape-suite:1.0.0
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+\href{mailto:tristanpieper080803@gmail.com}{Tristan Pieper}
+\item[License:]
+MIT
+\item[Current version:]
+1.0.0
+\item[Last updated:]
+July 22, 2024
+\item[First released:]
+May 3, 2024
+\item[Minimum Typst version:]
+0.11.0
+\item[Archive size:]
+15.7 kB
+\href{https://packages.typst.org/preview/grape-suite-1.0.0.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/piepert/grape-suite}{GitHub}
+\item[Categor ies :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-layout.svg}}
+  \href{https://typst.app/universe/search/?category=layout}{Layout}
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-atom.svg}}
+  \href{https://typst.app/universe/search/?category=paper}{Paper}
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-presentation.svg}}
+  \href{https://typst.app/universe/search/?category=presentation}{Presentation}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This template is a project of Tristan Pieper . Report issues on
+\href{https://github.com/piepert/grape-suite}{their repository} . You
+can also try to ask for help with this template on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this template to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+1.0.0 & July 22, 2024 \\
+\href{https://typst.app/universe/package/grape-suite/0.1.0/}{0.1.0} &
+May 3, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this template and cannot guarantee correct
+functionality of this template or compatibility with any version of the
+Typst compiler or app.

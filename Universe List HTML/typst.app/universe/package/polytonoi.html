@@ -1,0 +1,732 @@
+<main>
+    <div id="banner" style="--banner-accent:#000000;--banner-primary:#000000;--banner-secondary:#000000;--banner-tertiary:#565565;--banner-background:#eff0f3">
+     <div class="package-icon" role="img">
+     </div>
+     <div>
+      <div class="title">
+       <h1 class="name">
+        polytonoi
+       </h1>
+       <span class="version">
+        0.1.0
+       </span>
+      </div>
+      <p class="description">
+       Renders Roman letters into polytonic Greek.
+      </p>
+     </div>
+    </div>
+    <div class="inner-grid">
+     <section id="readme">
+      <p>
+       A typst package for rendering text into polytonic Greek using a hopefully-intuitive transliteration scheme.
+      </p>
+      <h2>
+       Usage
+      </h2>
+      <p>
+       First, be sure you include the package at the top of your typst file:
+      </p>
+      <pre><code class="language-typ"><code><span class="typ-ref">@import</span> "preview/polytonoi@0.1.0: <span class="typ-strong">*
+</span></code></code></pre>
+      <p>
+       The package currently exposes one function,
+       <code>
+        #ptgk(&lt;string&gt;)
+       </code>
+       , which will convert
+       <code>
+        &lt;string&gt;
+       </code>
+       into polytonic Greek text in the same location where the function appears in the typst document.
+      </p>
+      <p>
+       For example:
+       <code>
+        #ptgk("polu/s")
+       </code>
+       would render: ÏÎ¿Î»ÏÏ
+      </p>
+      <p>
+       <strong>
+        NOTE:
+       </strong>
+       Quotation marks within the function call (see above example) are
+       <strong>
+        mandatory
+       </strong>
+       , and the code will not work without them.
+      </p>
+      <p>
+       Where possible, Greek letters have been linked with their closest Roman equivalent (e.g. a --&gt; Î±, b --&gt; Î²). Where not possible, Iâve tried to stick to common convention, such as what is used by the Perseus Project for their transliteration. A couple letters (Î¾ and Ï) are made up of two letters (
+       <code>
+        ks
+       </code>
+       and
+       <code>
+        ps
+       </code>
+       respectively), which the
+       <code>
+        #ptgk()
+       </code>
+       function handles as special cases. See below for the full transliteration scheme.
+      </p>
+      <h4>
+       Additional Usage Notes
+      </h4>
+      <ol>
+       <li>
+        Any character that isnât specifically accounted for (including white space, most punctuation, numbers, etc.) is rendered as-is.
+       </li>
+       <li>
+        Smooth breathing marks are automatically added to a vowel that begins a word, unless that first vowel is followed by another. In this case, youâll need to manually add it to the second vowel.
+       </li>
+      </ol>
+      <h3>
+       Text Formatting
+      </h3>
+      <p>
+       As of now, the text is processed as a string, which means that any formatting markup (such as
+       <code>
+        _
+       </code>
+       or
+       <code>
+        *
+       </code>
+       ) is
+       <strong>
+        not
+       </strong>
+       included in how the text is rendered, and is instead passed through and will display literally. To apply any kind of formatting to the Greek text, the markup or commands must be put outside the text passed to the function. Compare the following two examples to see how this works:
+      </p>
+      <p>
+       <code>
+        #ptgk("_Arxh\_")
+       </code>
+       would display as _á¼ÏÏá½´_
+      </p>
+      <p>
+       whereas
+      </p>
+      <p>
+       <code>
+        _#ptgk("Arxh\")_
+       </code>
+       would display as
+       <em>
+        á¼ÏÏá½´
+       </em>
+      </p>
+      <h2>
+       Transliteration Scheme
+      </h2>
+      <table>
+       <thead>
+        <tr>
+         <th>
+          Roman letter
+         </th>
+         <th>
+          Greek result
+         </th>
+         <th>
+          Notes
+         </th>
+        </tr>
+       </thead>
+       <tbody>
+        <tr>
+         <td>
+          a
+         </td>
+         <td>
+          Î±
+         </td>
+         <td>
+         </td>
+        </tr>
+        <tr>
+         <td>
+          b
+         </td>
+         <td>
+          Î²
+         </td>
+         <td>
+         </td>
+        </tr>
+        <tr>
+         <td>
+          g
+         </td>
+         <td>
+          Î³
+         </td>
+         <td>
+         </td>
+        </tr>
+        <tr>
+         <td>
+          d
+         </td>
+         <td>
+          Î´
+         </td>
+         <td>
+         </td>
+        </tr>
+        <tr>
+         <td>
+          e
+         </td>
+         <td>
+          Îµ
+         </td>
+         <td>
+         </td>
+        </tr>
+        <tr>
+         <td>
+          z
+         </td>
+         <td>
+          Î¶
+         </td>
+         <td>
+         </td>
+        </tr>
+        <tr>
+         <td>
+          h
+         </td>
+         <td>
+          Î·
+         </td>
+         <td>
+         </td>
+        </tr>
+        <tr>
+         <td>
+          q
+         </td>
+         <td>
+          Î¸
+         </td>
+         <td>
+         </td>
+        </tr>
+        <tr>
+         <td>
+          i
+         </td>
+         <td>
+          Î¹
+         </td>
+         <td>
+         </td>
+        </tr>
+        <tr>
+         <td>
+          k
+         </td>
+         <td>
+          Îº
+         </td>
+         <td>
+         </td>
+        </tr>
+        <tr>
+         <td>
+          l
+         </td>
+         <td>
+          Î»
+         </td>
+         <td>
+         </td>
+        </tr>
+        <tr>
+         <td>
+          m
+         </td>
+         <td>
+          Î¼
+         </td>
+         <td>
+         </td>
+        </tr>
+        <tr>
+         <td>
+          n
+         </td>
+         <td>
+          Î½
+         </td>
+         <td>
+         </td>
+        </tr>
+        <tr>
+         <td>
+          ks
+         </td>
+         <td>
+          Î¾
+         </td>
+         <td>
+         </td>
+        </tr>
+        <tr>
+         <td>
+          o
+         </td>
+         <td>
+          Î¿
+         </td>
+         <td>
+         </td>
+        </tr>
+        <tr>
+         <td>
+          p
+         </td>
+         <td>
+          Ï
+         </td>
+         <td>
+         </td>
+        </tr>
+        <tr>
+         <td>
+          r
+         </td>
+         <td>
+          Ï
+         </td>
+         <td>
+         </td>
+        </tr>
+        <tr>
+         <td>
+          s
+         </td>
+         <td>
+          Ï/Ï
+         </td>
+         <td>
+          Renders as final sigma automatically
+         </td>
+        </tr>
+        <tr>
+         <td>
+          t
+         </td>
+         <td>
+          Ï
+         </td>
+         <td>
+         </td>
+        </tr>
+        <tr>
+         <td>
+          u
+         </td>
+         <td>
+          Ï
+         </td>
+         <td>
+         </td>
+        </tr>
+        <tr>
+         <td>
+          v
+         </td>
+         <td>
+          Ï
+         </td>
+         <td>
+         </td>
+        </tr>
+        <tr>
+         <td>
+          x
+         </td>
+         <td>
+          Ï
+         </td>
+         <td>
+         </td>
+        </tr>
+        <tr>
+         <td>
+          ps
+         </td>
+         <td>
+          Ï
+         </td>
+         <td>
+         </td>
+        </tr>
+        <tr>
+         <td>
+          w
+         </td>
+         <td>
+          Ï
+         </td>
+         <td>
+         </td>
+        </tr>
+       </tbody>
+      </table>
+      <p>
+       Upper-case letters are handled the same way, just with an upper-case letter as input. The upper-case versions of the two âcombinedâ letters (Î and Î¨) can be entered either as âKSâ/âPSâ or âKsâ/âPsâ.
+      </p>
+      <h3>
+       Accents &amp; Breathing Marks
+      </h3>
+      <p>
+       As mentioned above, this package will automatically put a smooth breathing mark on a vowel that begins a word, unless that vowel is followed immediately by a second vowel. In that instance, youâll have to manually put the smooth breathing mark in its correct place. (This is to avoid having to code for edge cases, such as where a word starts with three vowels in a row.) By the same token, rough breathing must always be entered manually.
+      </p>
+      <table>
+       <thead>
+        <tr>
+         <th>
+          Input
+         </th>
+         <th>
+          Greek
+         </th>
+         <th>
+          Notes
+         </th>
+         <th>
+          Example
+         </th>
+        </tr>
+       </thead>
+       <tbody>
+        <tr>
+         <td>
+          (
+         </td>
+         <td>
+          rough breathing
+         </td>
+         <td>
+          Put before the vowel
+         </td>
+         <td>
+          <code>
+           (a
+          </code>
+          --&gt; á¼
+         </td>
+        </tr>
+        <tr>
+         <td>
+          )
+         </td>
+         <td>
+          smooth breathing
+         </td>
+         <td>
+          Put before the vowel
+         </td>
+         <td>
+          <code>
+           )a
+          </code>
+          --&gt; á¼
+         </td>
+        </tr>
+        <tr>
+         <td>
+          \
+         </td>
+         <td>
+          Grave / varia
+         </td>
+         <td>
+          Put after the vowel
+         </td>
+         <td>
+          <code>
+           a\
+          </code>
+          --&gt; á½°
+         </td>
+        </tr>
+        <tr>
+         <td>
+          /
+         </td>
+         <td>
+          Acute / oxia / tonos
+         </td>
+         <td>
+          Put after the vowel
+         </td>
+         <td>
+          <code>
+           a/
+          </code>
+          --&gt; Î¬
+         </td>
+        </tr>
+        <tr>
+         <td>
+          =
+         </td>
+         <td>
+          Tilde / perispomeni
+         </td>
+         <td>
+          Put after the vowel
+         </td>
+         <td>
+          <code>
+           a=
+          </code>
+          --&gt; á¾¶
+         </td>
+        </tr>
+        <tr>
+         <td>
+          |
+         </td>
+         <td>
+          Iota subscript
+         </td>
+         <td>
+          Put after the vowel
+         </td>
+         <td>
+          <code>
+           a|
+          </code>
+          --&gt; á¾³
+         </td>
+        </tr>
+        <tr>
+         <td>
+          :
+         </td>
+         <td>
+          Diaresis
+         </td>
+         <td>
+          Put after the vowel
+         </td>
+         <td>
+          <code>
+           i:
+          </code>
+          --&gt; Ï
+         </td>
+        </tr>
+       </tbody>
+      </table>
+      <p>
+       Multiple diacriticals can be added to a vowel, e.g.
+       <code>
+        (h|
+       </code>
+       --&gt; á¾
+      </p>
+      <h3>
+       Punctuation
+      </h3>
+      <p>
+       Most Roman punctuation characters are left unchanged. The exceptions are
+       <code>
+        ;
+       </code>
+       (semicolon) and
+       <code>
+        ?
+       </code>
+       (question mark), which are rendered as a high dot (Î) and the Greek question mark (Í¾) respectively.
+      </p>
+      <h2>
+       Feedback
+      </h2>
+      <p>
+       Feedback is welcome, and please donât hesitate to open an issue if something doesnât work. Iâve tried to account for edge cases, but I certainly canât guarantee that Iâve found everything.
+      </p>
+     </section>
+     <aside>
+      <section>
+       <h3>
+        How to add
+       </h3>
+       <p>
+        Copy this into your project and use the import as
+        <!-- -->
+        <code>
+         polytonoi
+        </code>
+       </p>
+       <div class="import-snippet">
+        <pre><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/polytonoi:0.1.0"</span></code></pre>
+        <button class="copy" title="Copy to clipboard">
+         <img alt="Copy" height="16" src="/assets/icons/16-copy.svg" width="16"/>
+        </button>
+       </div>
+       <p class="muted">
+        Check the docs for
+        <!-- -->
+        <a href="https://typst.app/docs/reference/scripting/#packages">
+         more information on how to import packages
+        </a>
+        .
+       </p>
+      </section>
+      <section id="about">
+       <h3>
+        About
+       </h3>
+       <dl>
+        <dt>
+         Author
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         Dei Layborer
+        </dd>
+        <dt>
+         License:
+        </dt>
+        <dd>
+         GPL-3.0-only
+        </dd>
+        <dt>
+         Current version:
+        </dt>
+        <dd>
+         0.1.0
+        </dd>
+        <dt>
+         Last updated:
+        </dt>
+        <dd>
+         December 28, 2023
+        </dd>
+        <dt>
+         First released:
+        </dt>
+        <dd>
+         December 28, 2023
+        </dd>
+        <dt>
+         Archive size:
+        </dt>
+        <dd class="archive-size-value">
+         15.6 kB
+         <a href="https://packages.typst.org/preview/polytonoi-0.1.0.tar.gz">
+          <img alt="Size icon" src="/assets/icons/16-download.svg"/>
+         </a>
+        </dd>
+        <dt>
+         Repository:
+        </dt>
+        <dd>
+         <a href="https://github.com/dei-layborer/polytonoi" rel="noopener noreferrer" target="_blank">
+          GitHub
+         </a>
+        </dd>
+       </dl>
+      </section>
+      <section>
+       <h3>
+        Where to report issues?
+       </h3>
+       <p>
+        This
+        <!-- -->
+        package
+        <!-- -->
+        is a project of
+        <!-- -->
+        <!-- -->
+        Dei Layborer
+        <!-- -->
+        .
+        <!-- -->
+        <!-- -->
+        Report issues on
+        <!-- -->
+        <a href="https://github.com/dei-layborer/polytonoi" rel="noopener noreferrer" target="_blank">
+         their repository
+        </a>
+        .
+        <!-- -->
+        <!-- -->
+        You can also try to ask for help with this
+        <!-- -->
+        package
+        <!-- -->
+        on the
+        <!-- -->
+        <a href="https://forum.typst.app" rel="noopener" target="_blank">
+         Forum
+        </a>
+        .
+       </p>
+       <p>
+        Please report this
+        <!-- -->
+        package
+        <!-- -->
+        to the Typst team using the
+        <!-- -->
+        <a href="https://typst.app/contact" rel="noreferrer" target="_blank">
+         contact form
+        </a>
+        <!-- -->
+        if you believe it is a safety hazard or infringes upon your rights.
+       </p>
+      </section>
+      <section id="versions">
+       <h3>
+        Version history
+       </h3>
+       <table>
+        <thead>
+         <tr>
+          <th align="left">
+           Version
+          </th>
+          <th align="left">
+           Release Date
+          </th>
+         </tr>
+        </thead>
+        <tbody>
+         <tr>
+          <td align="left">
+           0.1.0
+          </td>
+          <td align="left">
+           December 28, 2023
+          </td>
+         </tr>
+        </tbody>
+       </table>
+      </section>
+      <p class="bottom-notice muted">
+       Typst GmbH did not create this
+       <!-- -->
+       package
+       <!-- -->
+       and cannot guarantee correct functionality of this
+       <!-- -->
+       package
+       <!-- -->
+       or compatibility with any version of the Typst compiler or app.
+      </p>
+     </aside>
+    </div>
+   </main>

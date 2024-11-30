@@ -1,0 +1,406 @@
+<main>
+    <div id="banner" style="--banner-accent:#000000;--banner-primary:#000000;--banner-secondary:#000000;--banner-tertiary:#565565;--banner-background:#eff0f3">
+     <div class="package-icon" role="img">
+     </div>
+     <div>
+      <div class="title">
+       <h1 class="name">
+        cartao
+       </h1>
+       <span class="version">
+        0.1.0
+       </span>
+      </div>
+      <p class="description">
+       Dead simple flashcards with Typst.
+      </p>
+     </div>
+    </div>
+    <div class="inner-grid">
+     <section id="readme">
+      <p>
+       Dead simple flashcards with Typst.
+      </p>
+      <h2>
+       Example usage:
+      </h2>
+      <pre><code class="language-typ"><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/cartao:0.1.0"</span><span class="typ-punct">:</span> card<span class="typ-punct">,</span> letter8up<span class="typ-punct">,</span> a48up
+
+<span class="typ-key">#</span><span class="typ-key">set</span> <span class="typ-func">page</span><span class="typ-punct">(</span>
+  paper<span class="typ-punct">:</span> <span class="typ-str">"a4"</span><span class="typ-punct">,</span>
+  <span class="typ-comment">// paper: "us-letter",</span>
+  <span class="typ-comment">// paper: "presentation-16-9",</span>
+  margin<span class="typ-punct">:</span> <span class="typ-punct">(</span>x<span class="typ-punct">:</span> <span class="typ-num">0cm</span><span class="typ-punct">,</span> y<span class="typ-punct">:</span> <span class="typ-num">0cm</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+<span class="typ-punct">)</span>
+
+<span class="typ-comment">// build the cards</span>
+<span class="typ-pol">#</span><span class="typ-pol">a48up</span>
+<span class="typ-comment">// #letter8up</span>
+<span class="typ-comment">// #present</span>
+
+<span class="typ-comment">// define your cards</span>
+<span class="typ-func">#</span><span class="typ-func">card</span><span class="typ-punct">(</span>
+  <span class="typ-punct">[</span>Header<span class="typ-punct">]</span><span class="typ-punct">,</span>
+  <span class="typ-punct">[</span>Footer<span class="typ-punct">]</span><span class="typ-punct">,</span>
+  <span class="typ-punct">[</span>Question?<span class="typ-punct">]</span><span class="typ-punct">,</span>
+  <span class="typ-punct">[</span>answer<span class="typ-punct">]</span>
+<span class="typ-punct">)</span>
+
+<span class="typ-func">#</span><span class="typ-func">card</span><span class="typ-punct">(</span>
+  <span class="typ-punct">[</span>portuguese<span class="typ-punct">]</span><span class="typ-punct">,</span>
+  <span class="typ-punct">[</span>Hint: Its the title of this package!<span class="typ-punct">]</span><span class="typ-punct">,</span>
+  <span class="typ-punct">[</span>card<span class="typ-punct">]</span><span class="typ-punct">,</span>
+  <span class="typ-punct">[</span>cartÃ£o<span class="typ-punct">]</span>
+<span class="typ-punct">)</span>
+
+<span class="typ-func">#</span><span class="typ-func">card</span><span class="typ-punct">(</span>
+  <span class="typ-punct">[</span>french<span class="typ-punct">]</span><span class="typ-punct">,</span>
+  <span class="typ-punct">[</span>Hint: close to the portuguese<span class="typ-punct">]</span><span class="typ-punct">,</span>
+  <span class="typ-punct">[</span>card<span class="typ-punct">]</span><span class="typ-punct">,</span>
+  <span class="typ-punct">[</span>carte<span class="typ-punct">]</span>
+<span class="typ-punct">)</span>
+</code></code></pre>
+      <h2>
+       Documentation
+      </h2>
+      <h3>
+       <code>
+        card
+       </code>
+      </h3>
+      <p>
+       Defines a card by updating the below
+       <code>
+        counter
+       </code>
+       and
+       <code>
+        state
+       </code>
+       (s), and dropping a label.
+      </p>
+      <pre><code class="language-typ"><code><span class="typ-key">#</span><span class="typ-key">let</span> <span class="typ-func">card</span><span class="typ-punct">(</span>header<span class="typ-punct">,</span> footer<span class="typ-punct">,</span> question<span class="typ-punct">,</span> answer<span class="typ-punct">)</span> <span class="typ-op">=</span> <span class="typ-punct">[</span>
+  <span class="typ-pol">#</span><span class="typ-pol">cardnumber</span><span class="typ-punct">.</span><span class="typ-func">step</span><span class="typ-punct">(</span><span class="typ-punct">)</span>
+  <span class="typ-pol">#</span><span class="typ-pol">cardheader</span><span class="typ-punct">.</span><span class="typ-func">update</span><span class="typ-punct">(</span>header<span class="typ-punct">)</span>
+  <span class="typ-pol">#</span><span class="typ-pol">cardfooter</span><span class="typ-punct">.</span><span class="typ-func">update</span><span class="typ-punct">(</span>footer<span class="typ-punct">)</span>
+  <span class="typ-pol">#</span><span class="typ-pol">cardquestion</span><span class="typ-punct">.</span><span class="typ-func">update</span><span class="typ-punct">(</span>question<span class="typ-punct">)</span>
+  <span class="typ-pol">#</span><span class="typ-pol">cardanswer</span><span class="typ-punct">.</span><span class="typ-func">update</span><span class="typ-punct">(</span>answer<span class="typ-punct">)</span>
+  <span class="typ-label">&lt;card&gt;</span>
+<span class="typ-punct">]</span>
+</code></code></pre>
+      <h4>
+       Arguments
+      </h4>
+      <ul>
+       <li>
+        <code>
+         header
+        </code>
+       </li>
+       <li>
+        <code>
+         footer
+        </code>
+       </li>
+       <li>
+        <code>
+         question
+        </code>
+       </li>
+       <li>
+        <code>
+         answer
+        </code>
+       </li>
+      </ul>
+      <h3>
+       card builders
+      </h3>
+      <p>
+       <strong>
+        How they work
+       </strong>
+      </p>
+      <ol>
+       <li>
+        Find all locations of the
+        <code>
+         &lt;card&gt;
+        </code>
+        label
+       </li>
+       <li>
+        Get the values of the
+        <code>
+         cardnumber
+        </code>
+        counter, and
+        <code>
+         cardheader
+        </code>
+        ,
+        <code>
+         cardfooter
+        </code>
+        ,
+        <code>
+         cardquestion
+        </code>
+        ,
+        <code>
+         cardanswer
+        </code>
+        states at each
+        <code>
+         &lt;card&gt;
+        </code>
+        .
+       </li>
+       <li>
+        Populates an array of questions and an array of answers using these values
+        <ul>
+         <li>
+          The
+          <code>
+           #a48up
+          </code>
+          and
+          <code>
+           #letter8up
+          </code>
+          functions describe the layout of each card for each item in these arrays, and also rearrange the answers so that the layout makes sense when printed double sided.
+         </li>
+        </ul>
+       </li>
+       <li>
+        Loop over the arrays and dump each itemâs
+        <code>
+         content
+        </code>
+        onto the page.
+        <ul>
+         <li>
+          in the case of
+          <code>
+           #a48up
+          </code>
+          and
+          <code>
+           letter8up
+          </code>
+          , each item is dumped into a 2-column table.
+         </li>
+        </ul>
+       </li>
+      </ol>
+      <p>
+       <code>
+        cartao
+       </code>
+       comes builtin with the following card building functions. Take a look at the source for how they work, and use them as a guide to help you build your own flashcards with different sizes/formats.
+      </p>
+      <h3>
+       <code>
+        a48up
+       </code>
+      </h3>
+      <p>
+       Produces a 2x8 portrait card layout on a4 paper.
+      </p>
+      <p>
+       Designed to be printed double-sided on the perforated 8-up a4 card paper you can find on
+       <a href="https://www.amazon.ca/s?k=a4+perforated+card&amp;crid=37RT2L4H5XSD0&amp;sprefix=a4+perforated+ca%2Caps%2C648&amp;ref=nb_sb_noss" rel="nofollow ugc" target="_blank">
+        Amazon
+       </a>
+      </p>
+      <h6>
+       Usage
+      </h6>
+      <pre><code class="language-typ"><code><span class="typ-pol">#</span><span class="typ-pol">a48up</span>
+</code></code></pre>
+      <h3>
+       <code>
+        letter8up
+       </code>
+      </h3>
+      <p>
+       Produces a 2x8 portrait card layout on us-letter paper.
+      </p>
+      <h6>
+       Usage
+      </h6>
+      <pre><code class="language-typ"><code><span class="typ-pol">#</span><span class="typ-pol">letter8up</span>
+</code></code></pre>
+      <h3>
+       <code>
+        present
+       </code>
+      </h3>
+      <p>
+       A 16:9 presentation of the flashcards with questions and answers on different slides
+      </p>
+      <h6>
+       Usage
+      </h6>
+      <pre><code class="language-typ"><code><span class="typ-pol">#</span><span class="typ-pol">present</span>
+</code></code></pre>
+     </section>
+     <aside>
+      <section>
+       <h3>
+        How to add
+       </h3>
+       <p>
+        Copy this into your project and use the import as
+        <!-- -->
+        <code>
+         cartao
+        </code>
+       </p>
+       <div class="import-snippet">
+        <pre><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/cartao:0.1.0"</span></code></pre>
+        <button class="copy" title="Copy to clipboard">
+         <img alt="Copy" height="16" src="/assets/icons/16-copy.svg" width="16"/>
+        </button>
+       </div>
+       <p class="muted">
+        Check the docs for
+        <!-- -->
+        <a href="https://typst.app/docs/reference/scripting/#packages">
+         more information on how to import packages
+        </a>
+        .
+       </p>
+      </section>
+      <section id="about">
+       <h3>
+        About
+       </h3>
+       <dl>
+        <dt>
+         Author
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         Gavin Vales
+        </dd>
+        <dt>
+         License:
+        </dt>
+        <dd>
+         MIT
+        </dd>
+        <dt>
+         Current version:
+        </dt>
+        <dd>
+         0.1.0
+        </dd>
+        <dt>
+         Last updated:
+        </dt>
+        <dd>
+         November 21, 2023
+        </dd>
+        <dt>
+         First released:
+        </dt>
+        <dd>
+         November 21, 2023
+        </dd>
+        <dt>
+         Archive size:
+        </dt>
+        <dd class="archive-size-value">
+         3.40 kB
+         <a href="https://packages.typst.org/preview/cartao-0.1.0.tar.gz">
+          <img alt="Size icon" src="/assets/icons/16-download.svg"/>
+         </a>
+        </dd>
+       </dl>
+      </section>
+      <section>
+       <h3>
+        Where to report issues?
+       </h3>
+       <p>
+        This
+        <!-- -->
+        package
+        <!-- -->
+        is a project of
+        <!-- -->
+        <!-- -->
+        Gavin Vales
+        <!-- -->
+        .
+        <!-- -->
+        <!-- -->
+        <!-- -->
+        You can also try to ask for help with this
+        <!-- -->
+        package
+        <!-- -->
+        on the
+        <!-- -->
+        <a href="https://forum.typst.app" rel="noopener" target="_blank">
+         Forum
+        </a>
+        .
+       </p>
+       <p>
+        Please report this
+        <!-- -->
+        package
+        <!-- -->
+        to the Typst team using the
+        <!-- -->
+        <a href="https://typst.app/contact" rel="noreferrer" target="_blank">
+         contact form
+        </a>
+        <!-- -->
+        if you believe it is a safety hazard or infringes upon your rights.
+       </p>
+      </section>
+      <section id="versions">
+       <h3>
+        Version history
+       </h3>
+       <table>
+        <thead>
+         <tr>
+          <th align="left">
+           Version
+          </th>
+          <th align="left">
+           Release Date
+          </th>
+         </tr>
+        </thead>
+        <tbody>
+         <tr>
+          <td align="left">
+           0.1.0
+          </td>
+          <td align="left">
+           November 21, 2023
+          </td>
+         </tr>
+        </tbody>
+       </table>
+      </section>
+      <p class="bottom-notice muted">
+       Typst GmbH did not create this
+       <!-- -->
+       package
+       <!-- -->
+       and cannot guarantee correct functionality of this
+       <!-- -->
+       package
+       <!-- -->
+       or compatibility with any version of the Typst compiler or app.
+      </p>
+     </aside>
+    </div>
+   </main>

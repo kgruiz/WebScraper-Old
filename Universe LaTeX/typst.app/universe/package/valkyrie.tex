@@ -1,0 +1,140 @@
+\title{typst.app/universe/package/valkyrie}
+
+\phantomsection\label{banner}
+\section{valkyrie}\label{valkyrie}
+
+{ 0.2.1 }
+
+Type safe type validation
+
+\phantomsection\label{readme}
+Version 0.2.1
+
+This package implements type validation, and is targeted mainly at
+package and template developers. The desired outcome is that it becomes
+easier for the programmer to quickly put a package together without
+spending a long time on type safety, but also to make the usage of those
+packages by end-users less painful by generating useful error messages.
+
+\subsection{Example Usage}\label{example-usage}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/valkyrie:0.2.1" as z}
+
+\NormalTok{\#let my{-}schema = z.dictionary((}
+\NormalTok{    should{-}be{-}string: z.string(),}
+\NormalTok{    complicated{-}tuple: z.tuple(}
+\NormalTok{      z.email(),}
+\NormalTok{      z.ip(),}
+\NormalTok{      z.either(}
+\NormalTok{        z.string(),}
+\NormalTok{        z.number(),}
+\NormalTok{      ),}
+\NormalTok{    ),}
+\NormalTok{  )}
+\NormalTok{)}
+
+\NormalTok{\#z.parse(}
+\NormalTok{  (}
+\NormalTok{    should{-}be{-}string: "This doesn\textquotesingle{}t error",}
+\NormalTok{    complicated{-}tuple: (}
+\NormalTok{      "neither@does{-}this.com",}
+\NormalTok{      // Error: Schema validation failed on argument.complicated{-}tuple.1: }
+\NormalTok{      //        String must be a valid IP address}
+\NormalTok{      "NOT AN IP",}
+\NormalTok{      1,}
+\NormalTok{    ),}
+\NormalTok{  ),}
+\NormalTok{  my{-}schema,}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Community-lead}\label{community-lead}
+
+As of version 0.2.0, \texttt{\ valkyrie\ } now resides in the
+typst-community organisation. Typst users are encouraged to submit
+additional types, assertions, coercions, and schemas that they believe
+are already used widely, or should be widely adopted for the health of
+the ecosystem.
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as \texttt{\ valkyrie\ }
+
+\begin{verbatim}
+#import "@preview/valkyrie:0.2.1"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author s :]
+James R. Swift \& \href{mailto:me@tinger.dev}{tinger}
+\item[License:]
+MIT
+\item[Current version:]
+0.2.1
+\item[Last updated:]
+July 15, 2024
+\item[First released:]
+November 19, 2023
+\item[Archive size:]
+9.99 kB
+\href{https://packages.typst.org/preview/valkyrie-0.2.1.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/typst-community/valkyrie}{GitHub}
+\item[Categor ies :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-code.svg}}
+  \href{https://typst.app/universe/search/?category=scripting}{Scripting}
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-hammer.svg}}
+  \href{https://typst.app/universe/search/?category=utility}{Utility}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of James R. Swift and tinger . Report issues
+on \href{https://github.com/typst-community/valkyrie}{their repository}
+. You can also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.2.1 & July 15, 2024 \\
+\href{https://typst.app/universe/package/valkyrie/0.2.0/}{0.2.0} & May
+27, 2024 \\
+\href{https://typst.app/universe/package/valkyrie/0.1.1/}{0.1.1} & April
+29, 2024 \\
+\href{https://typst.app/universe/package/valkyrie/0.1.0/}{0.1.0} &
+November 19, 2023 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.

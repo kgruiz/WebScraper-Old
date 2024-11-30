@@ -1,0 +1,538 @@
+\title{typst.app/universe/package/cmarker}
+
+\phantomsection\label{banner}
+\section{cmarker}\label{cmarker}
+
+{ 0.1.1 }
+
+Transpile CommonMark Markdown to Typst, from within Typst!
+
+\phantomsection\label{readme}
+\#set document(title: "cmarker.typ") \#set page(numbering: "1",
+number-align: center) \#set text(lang: "en") \#align(center,
+text(weight: 700, 1.75em){[}cmarker.typ{]}) \#set heading(numbering:
+"1.") \#show link: c =\textgreater{} text(underline(c), fill: blue)
+\#set image(height: 2em) \#show par: set block(above: 1.2em, below:
+1.2em) \#align(center){[}https://github.com/SabrinaJewson/cmarker.typ{]}
+\#"
+
+This package enables you to write CommonMark Markdown, and import it
+directly into Typst.
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.5000}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.5000}}@{}}
+\toprule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\texttt{\ simple.typ\ } & \texttt{\ simple.md\ } \\
+\begin{minipage}[t]{\linewidth}\raggedright
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/cmarker:0.1.1"}
+
+\NormalTok{\#cmarker.render(read("simple.md"))}
+\end{Highlighting}
+\end{Shaded}
+\end{minipage} & \begin{minipage}[t]{\linewidth}\raggedright
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{\# We can write Markdown!}
+
+\NormalTok{*Using* \_\_lots\_\_ \textasciitilde{}of\textasciitilde{} }\InformationTok{\textasciigrave{}fancy\textasciigrave{}} \CommentTok{[}\OtherTok{features}\CommentTok{](https://example.org/)}\NormalTok{.}
+\end{Highlighting}
+\end{Shaded}
+\end{minipage} \\
+\end{longtable}
+
+\begin{longtable}[]{@{}l@{}}
+\toprule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\texttt{\ simple.pdf\ } \\
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/cmarker/0.1.1/examples/simple.png}} \\
+\end{longtable}
+
+This document is available in
+\href{https://github.com/SabrinaJewson/cmarker.typ/tree/main\#cmarker}{Markdown}
+and
+\href{https://github.com/SabrinaJewson/cmarker.typ/blob/main/README.pdf}{rendered
+PDF} formats.
+
+\subsection{API}\label{api}
+
+We offer a single function:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{render(}
+\NormalTok{  markdown,}
+\NormalTok{  smart{-}punctuation: true,}
+\NormalTok{  blockquote: none,}
+\NormalTok{  math: none,}
+\NormalTok{  h1{-}level: 1,}
+\NormalTok{  raw{-}typst: true,}
+\NormalTok{  scope: (:),}
+\NormalTok{  show{-}source: false,}
+\NormalTok{) {-}\textgreater{} content}
+\end{Highlighting}
+\end{Shaded}
+
+The parameters are as follows:
+
+\begin{itemize}
+\item
+  \texttt{\ markdown\ } : The
+  \href{https://spec.commonmark.org/0.30/}{CommonMark} Markdown string
+  to be processed. Parsed with the
+  \href{https://docs.rs/pulldown-cmark}{pulldown-cmark} Rust library.
+  You can set this to \texttt{\ read("somefile.md")\ } to import an
+  external markdown file; see the
+  \href{https://typst.app/docs/reference/data-loading/read/}{documentation
+  for the read function} .
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Accepted values: Strings and raw text code blocks.
+  \item
+    Required.
+  \end{itemize}
+\item
+  \texttt{\ smart-punctuation\ } : Automatically convert ASCII
+  punctuation to Unicode equivalents:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    nondirectional quotations (" and \textquotesingle) become
+    directional (â€œâ€? and â€˜â€™);
+  \item
+    three consecutive full stops (â€¦) become ellipses (â€¦);
+  \item
+    two and three consecutive hypen-minus signs (-\/- and â€'') become
+    en and em dashes (â€`` and â€'').
+  \end{itemize}
+
+  Note that although Typst also offers this functionality, this
+  conversion is done through the Markdown parser rather than Typst.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Accepted values: Booleans.
+  \item
+    Default value: \texttt{\ true\ } .
+  \end{itemize}
+\item
+  \texttt{\ blockquote\ } : A callback to be used when a blockquote is
+  encountered in the Markdown, or \texttt{\ none\ } if blockquotes
+  should be treated as normal text. Because Typst does not support
+  blockquotes natively, the user must configure this.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Accepted values: Functions accepting content and returning content,
+    or \texttt{\ none\ } .
+  \item
+    Default value: \texttt{\ none\ } .
+  \end{itemize}
+
+  For example, to display a black border to the left of the text one can
+  use:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{box.with(stroke: (left: 1pt + black), inset: (left: 5pt, y: 6pt))}
+\end{Highlighting}
+\end{Shaded}
+\item
+  \texttt{\ math\ } : A callback to be used when equations are
+  encountered in the Markdown, or \texttt{\ none\ } if it should be
+  treated as normal text. Because Typst does not support LaTeX equations
+  natively, the user must configure this.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Accepted values: Functions that take a boolean argument named
+    \texttt{\ block\ } and a positional string argument (often, the
+    \texttt{\ mitex\ } function from
+    \href{https://typst.app/universe/package/mitex}{the mitex package}
+    ), or \texttt{\ none\ } .
+  \item
+    Default value: \texttt{\ none\ } .
+  \end{itemize}
+
+  For example, to render math equation as a Typst math block, one can
+  use:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/mitex:0.2.4": mitex}
+\NormalTok{\#cmarker.render(\textasciigrave{}$\textbackslash{}int\_1\^{}2 x \textbackslash{}mathrm\{d\} x$\textasciigrave{}, math: mitex)}
+\end{Highlighting}
+\end{Shaded}
+\item
+  \texttt{\ h1-level\ } : The level that top-level headings in Markdown
+  should get in Typst. When set to zero, top-level headings are treated
+  as text, \texttt{\ \#\#\ } headings become \texttt{\ =\ } headings,
+  \texttt{\ \#\#\#\ } headings become \texttt{\ ==\ } headings, et
+  cetera; when set to \texttt{\ 2\ } , \texttt{\ \#\ } headings become
+  \texttt{\ ==\ } headings, \texttt{\ \#\#\ } headings become
+  \texttt{\ ===\ } headings, et cetera.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Accepted values: Integers in the range {[}0, 255{]}.
+  \item
+    Default value: 1.
+  \end{itemize}
+\item
+  \texttt{\ raw-typst\ } : Whether to allow raw Typst code to be
+  injected into the document via HTML comments. If disabled, the
+  comments will act as regular HTML comments.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Accepted values: Booleans.
+  \item
+    Default value: \texttt{\ true\ } .
+  \end{itemize}
+
+  For example, when this is enabled,
+  \texttt{\ \textless{}!-\/-raw-typst\ \#circle(radius:\ 10pt)\ -\/-\textgreater{}\ }
+  will result in a circle in the document (but only when rendered
+  through Typst). See also
+  \texttt{\ \textless{}!-\/-typst-begin-exclude-\/-\textgreater{}\ } and
+  \texttt{\ \textless{}!-\/-typst-end-exclude-\/-\textgreater{}\ } ,
+  which is the inverse of this.
+\item
+  \texttt{\ scope\ } : When \texttt{\ raw-typst\ } is enabled, this is a
+  dictionary providing the context in which the evaluated Typst code
+  runs. It is useful to pass values in to code inside
+  \texttt{\ \textless{}!-\/-raw-typst-\/-\textgreater{}\ } blocks.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Accepted values: Any dictionary.
+  \item
+    Default value: \texttt{\ (:)\ } .
+  \end{itemize}
+\item
+  \texttt{\ show-source\ } : A debugging tool. When set to
+  \texttt{\ true\ } , the Typst code that would otherwise have been
+  displayed will be instead rendered in a code block.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Accepted values: Booleans.
+  \item
+    Default value: \texttt{\ false\ } .
+  \end{itemize}
+\end{itemize}
+
+This function returns the rendered \texttt{\ content\ } .
+
+\subsection{Supported Markdown Syntax}\label{supported-markdown-syntax}
+
+We support CommonMark with a couple extensions.
+
+\begin{itemize}
+\item
+  Paragraph breaks: Two newlines, i.e. one blank line.
+\item
+  Hard line breaks (used more in poetry than prose): Put two spaces at
+  the end of the line.
+\item
+  \texttt{\ *emphasis*\ } or \texttt{\ \_emphasis\_\ } : \emph{emphasis}
+\item
+  \texttt{\ **strong**\ } or \texttt{\ \_\_strong\_\_\ } :
+  \textbf{strong}
+\item
+  \texttt{\ \textasciitilde{}strikethrough\textasciitilde{}\ } :
+  \textasciitilde strikethrough\textasciitilde{}
+\item
+  \texttt{\ {[}links{]}(https://example.org)\ } :
+  \href{https://example.org/}{links}
+\item
+  \texttt{\ \#\#\#\ Headings\ } , where \texttt{\ \#\ } is a top-level
+  heading, \texttt{\ \#\#\ } a subheading, \texttt{\ \#\#\#\ } a
+  sub-subheading, etc
+\item
+  \texttt{\ \textasciigrave{}inline\ code\ blocks\textasciigrave{}\ } :
+  \texttt{\ inline\ code\ blocks\ }
+\item
+\begin{verbatim}
+```
+out of line code blocks
+```
+\end{verbatim}
+
+  Syntax highlighting can be achieved by specifying a language after the
+  opening backticks:
+
+\begin{verbatim}
+```rust
+let x = 5;
+```
+\end{verbatim}
+
+  giving:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{let}\NormalTok{ x }\OperatorTok{=} \DecValTok{5}\OperatorTok{;}
+\end{Highlighting}
+\end{Shaded}
+\item
+  \texttt{\ -\/-\/-\ } , making a horizontal rule:
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\begin{itemize}
+\item
+\begin{Shaded}
+\begin{Highlighting}[]
+\SpecialStringTok{{-} }\NormalTok{Unordered}
+\SpecialStringTok{{-} }\NormalTok{lists}
+\end{Highlighting}
+\end{Shaded}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Unordered
+  \item
+    Lists
+  \end{itemize}
+\item
+\begin{Shaded}
+\begin{Highlighting}[]
+\SpecialStringTok{1. }\NormalTok{Ordered}
+\SpecialStringTok{1. }\NormalTok{Lists}
+\end{Highlighting}
+\end{Shaded}
+
+  \begin{enumerate}
+  \tightlist
+  \item
+    Ordered
+  \item
+    Lists
+  \end{enumerate}
+\item
+  \texttt{\ \$x\ +\ y\$\ } or \texttt{\ \$\$x\ +\ y\$\$\ } : math
+  equations, if the \texttt{\ math\ } parameter is set.
+\item
+  \texttt{\ \textgreater{}\ blockquotes\ } , if the
+  \texttt{\ blockquote\ } parameter is set.
+\item
+  Images:
+  \texttt{\ !{[}Some\ tiled\ hexagons{]}(examples/hexagons.png)\ } ,
+  giving
+  \pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/cmarker/0.1.1/examples/hexagons.png}}
+\end{itemize}
+
+\subsection{Interleaving Markdown and
+Typst}\label{interleaving-markdown-and-typst}
+
+Sometimes, you might want to render a certain section of the document
+only when viewed as Markdown, or only when viewed through Typst. To
+achieve the former, you can simply wrap the section in
+\texttt{\ \textless{}!-\/-typst-begin-exclude-\/-\textgreater{}\ } and
+\texttt{\ \textless{}!-\/-typst-end-exclude-\/-\textgreater{}\ } :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{Hello from not Typst!}
+\end{Highlighting}
+\end{Shaded}
+
+Most Markdown parsers support HTML comments, so from their perspective
+this is no different to just writing out the Markdown directly; but
+\texttt{\ cmarker.typ\ } knows to search for those comments and avoid
+rendering the content in between.
+
+Note that when the opening comment is followed by the end of an element,
+\texttt{\ cmarker.typ\ } will close the block for you. For example:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\AttributeTok{\textgreater{} }
+\AttributeTok{\textgreater{} One}
+
+\NormalTok{Two}
+\end{Highlighting}
+\end{Shaded}
+
+In this code, â€œTwoâ€? will be given no matter where the document is
+rendered. This is done to prevent us from generating invalid Typst code.
+
+Conversely, one can put Typst code inside a HTML comment of the form
+\texttt{\ \textless{}!-\/-raw-typst\ {[}â€¦{]}-\/-\textgreater{}\ } to
+have it evaluated directly as Typst code (but only if the
+\texttt{\ raw-typst\ } option to \texttt{\ render\ } is set to
+\texttt{\ true\ } , otherwise it will just be seen as a regular comment
+and removed):
+
+\begin{Shaded}
+\begin{Highlighting}[]
+
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Markdownâ€``Typst
+Polyglots}\label{markdownuxe2typst-polyglots}
+
+This project has a manual as a PDF and a README as a Markdown document,
+but by the power of this library they are in fact the same thing!
+Furthermore, one can read the \texttt{\ README.md\ } in a markdown
+viewer and it will display correctly, but one can \emph{also} run
+\texttt{\ typst\ compile\ README.md\ } to generate the Typst-typeset
+\texttt{\ README.pdf\ } .
+
+How does this work? We just have to be clever about how we write the
+README:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{(Typst preamble content)}
+\NormalTok{\#"}
+
+
+\NormalTok{Regular Markdown goes hereâ¦}
+
+\end{Highlighting}
+\end{Shaded}
+
+The same code but syntax-highlighted as Typst code helps to illuminate
+it:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\textless{}picture\textgreater{}}
+\NormalTok{(Typst preamble content)}
+\NormalTok{\#"\textless{}/picture\textgreater{}}
+\NormalTok{\textless{}!{-}{-}".slice(0,0)}
+\NormalTok{\#import "@preview/cmarker:0.1.1"}
+\NormalTok{\#let markdown = read("README.md")}
+\NormalTok{\#markdown = markdown.slice(markdown.position("\textless{}/picture\textgreater{}") + "\textless{}/picture\textgreater{}".len())}
+\NormalTok{\#cmarker.render(markdown, h1{-}level: 0)}
+\NormalTok{/*{-}{-}\textgreater{}}
+
+\NormalTok{Regular Markdown goes hereâ¦}
+
+\NormalTok{\textless{}!{-}{-}*///{-}{-}\textgreater{}}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Limitations}\label{limitations}
+
+\begin{itemize}
+\tightlist
+\item
+  We do not currently support HTML tags, and they will be stripped from
+  the output; for example, GitHub supports writing
+  \texttt{\ \textless{}sub\textgreater{}text\textless{}/sub\textgreater{}\ }
+  to get subscript text, but we will render that as simply â€œtextâ€?.
+  In future it would be nice to support a subset of HTML tags.
+\item
+  We do not currently support Markdown tables and footnotes. In future
+  it would be good to.
+\item
+  Although I tried my best to escape everything correctly, I wonâ€™t
+  provide a hard guarantee that everything is fully sandboxed even if
+  you set \texttt{\ raw-typst:\ false\ } . That said, Typst itself is
+  well-sandboxed anyway.
+\end{itemize}
+
+\subsection{Development}\label{development}
+
+\begin{itemize}
+\tightlist
+\item
+  Build the plugin with \texttt{\ ./build.sh\ } , which produces the
+  \texttt{\ plugin.wasm\ } necessary to use this.
+\item
+  Compile examples with
+  \texttt{\ typst\ compile\ examples/\{name\}.typ\ -\/-root\ .\ } .
+\item
+  Compile this README to PDF with \texttt{\ typst\ compile\ README.md\ }
+  .
+\end{itemize}
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as \texttt{\ cmarker\ }
+
+\begin{verbatim}
+#import "@preview/cmarker:0.1.1"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+Sabrina Jewson
+\item[License:]
+MIT
+\item[Current version:]
+0.1.1
+\item[Last updated:]
+September 11, 2024
+\item[First released:]
+October 23, 2023
+\item[Minimum Typst version:]
+0.8.0
+\item[Archive size:]
+94.8 kB
+\href{https://packages.typst.org/preview/cmarker-0.1.1.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/SabrinaJewson/cmarker.typ}{GitHub}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of Sabrina Jewson . Report issues on
+\href{https://github.com/SabrinaJewson/cmarker.typ}{their repository} .
+You can also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.1.1 & September 11, 2024 \\
+\href{https://typst.app/universe/package/cmarker/0.1.0/}{0.1.0} &
+October 23, 2023 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.

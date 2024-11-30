@@ -1,0 +1,224 @@
+\title{typst.app/universe/package/icu-datetime}
+
+\phantomsection\label{banner}
+\section{icu-datetime}\label{icu-datetime}
+
+{ 0.1.2 }
+
+Date and time formatting using ICU4X via WASM
+
+\phantomsection\label{readme}
+This library is a wrapper around
+\href{https://github.com/unicode-org/icu4x}{ICU4X} â€™
+\texttt{\ datetime\ } formatting for Typst which provides
+internationalized formatting for dates, times, and timezones.
+
+As the WASM bundle includes all localization data, itâ€™s quite large
+(about 8 MiB).
+
+See \href{https://nerixyz.github.io/icu-typ}{nerixyz.github.io/icu-typ}
+for a full API reference with more examples.
+
+\subsection{Example}\label{example}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/icu{-}datetime:0.1.2": fmt{-}date, fmt{-}time, fmt{-}datetime, experimental}
+\NormalTok{// These functions may change at any time}
+\NormalTok{\#import experimental: fmt{-}timezone, fmt{-}zoned{-}datetime}
+
+\NormalTok{\#let day = datetime(}
+\NormalTok{  year: 2024,}
+\NormalTok{  month: 5,}
+\NormalTok{  day: 31,}
+\NormalTok{)}
+\NormalTok{\#let time = datetime(}
+\NormalTok{  hour: 18,}
+\NormalTok{  minute: 2,}
+\NormalTok{  second: 23,}
+\NormalTok{)}
+\NormalTok{\#let dt = datetime(}
+\NormalTok{  year: 2024,}
+\NormalTok{  month: 5,}
+\NormalTok{  day: 31,}
+\NormalTok{  hour: 18,}
+\NormalTok{  minute: 2,}
+\NormalTok{  second: 23,}
+\NormalTok{)}
+\NormalTok{\#let tz = (}
+\NormalTok{  offset: "{-}07",}
+\NormalTok{  iana: "America/Los\_Angeles",}
+\NormalTok{  zone{-}variant: "st", // standard}
+\NormalTok{)}
+
+\NormalTok{= Dates}
+\NormalTok{\#fmt{-}date(day, locale: "km", length: "full") \textbackslash{}}
+\NormalTok{\#fmt{-}date(day, locale: "af", length: "full") \textbackslash{}}
+\NormalTok{\#fmt{-}date(day, locale: "za", length: "full") \textbackslash{}}
+
+\NormalTok{= Time}
+\NormalTok{\#fmt{-}time(time, locale: "id", length: "medium") \textbackslash{}}
+\NormalTok{\#fmt{-}time(time, locale: "en", length: "medium") \textbackslash{}}
+\NormalTok{\#fmt{-}time(time, locale: "ga", length: "medium") \textbackslash{}}
+
+\NormalTok{= Date and Time}
+\NormalTok{\#fmt{-}datetime(dt, locale: "ru", date{-}length: "full") \textbackslash{}}
+\NormalTok{\#fmt{-}datetime(dt, locale: "en{-}US", date{-}length: "full") \textbackslash{}}
+\NormalTok{\#fmt{-}datetime(dt, locale: "zh{-}Hans{-}CN", date{-}length: "full") \textbackslash{}}
+\NormalTok{\#fmt{-}datetime(dt, locale: "ar", date{-}length: "full") \textbackslash{}}
+\NormalTok{\#fmt{-}datetime(dt, locale: "fi", date{-}length: "full")}
+
+\NormalTok{= Timezones (experimental)}
+\NormalTok{\#fmt{-}timezone(}
+\NormalTok{  ..tz,}
+\NormalTok{  local{-}date: datetime.today(),}
+\NormalTok{  format: "specific{-}non{-}location{-}long"}
+\NormalTok{) \textbackslash{}}
+\NormalTok{\#fmt{-}timezone(}
+\NormalTok{  ..tz,}
+\NormalTok{  format: (}
+\NormalTok{    iso8601: (}
+\NormalTok{      format: "utc{-}extended",}
+\NormalTok{      minutes: "required",}
+\NormalTok{      seconds: "optional",}
+\NormalTok{    )}
+\NormalTok{  )}
+\NormalTok{)}
+
+\NormalTok{= Zoned Datetimes (experimental)}
+\NormalTok{\#fmt{-}zoned{-}datetime(dt, tz) \textbackslash{}}
+\NormalTok{\#fmt{-}zoned{-}datetime(dt, tz, locale: "lv") \textbackslash{}}
+\NormalTok{\#fmt{-}zoned{-}datetime(dt, tz, locale: "en{-}CA{-}u{-}hc{-}h24{-}ca{-}buddhist")}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/icu-datetime/0.1.2/res/example.png}}
+
+Locales must be
+\href{https://unicode.org/reports/tr35/tr35.html\#Unicode_locale_identifier}{Unicode
+Locale Identifier} s. Use
+\href{https://nerixyz.github.io/icu-typ/locale-info/}{\texttt{\ locale-info(locale)\ }}
+to get information on how a locale is parsed. Unicode extensions are
+supported, so you can, for example, set the hour cycle with
+\texttt{\ hc-h12\ } or set the calendar with \texttt{\ ca-buddhist\ }
+(e.g. \texttt{\ en-CA-u-hc-h24-ca-buddhist\ } ).
+
+\subsection{Documentation}\label{documentation}
+
+Documentation can be found on
+\href{https://nerixyz.github.io/icu-typ}{nerixyz.github.io/icu-typ} .
+
+\subsection{Using Locally}\label{using-locally}
+
+Download the \href{https://github.com/Nerixyz/icu-typ/releases}{latest
+release} , unzip it to your
+\href{https://github.com/typst/packages\#local-packages}{local Typst
+packages} , and use \texttt{\ \#import\ "@local/icu-datetime:0.1.2"\ } .
+
+\subsection{Building}\label{building}
+
+To build the library, you need to have
+\href{https://www.rust-lang.org/}{Rust} ,
+\href{https://just.systems/}{just} , and
+\href{https://github.com/WebAssembly/binaryen}{\texttt{\ wasm-opt\ }}
+installed.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{just}\NormalTok{ build}
+\CommentTok{\# to deploy the package locally, use \textasciigrave{}just deploy\textasciigrave{}}
+\end{Highlighting}
+\end{Shaded}
+
+While developing, you can symlink the WASM file into the root of the
+repository (itâ€™s in the \texttt{\ .gitignore\ } ):
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Windows (PowerShell)}
+\ExtensionTok{New{-}Item}\NormalTok{ icu{-}datetime.wasm }\AttributeTok{{-}ItemType}\NormalTok{ SymbolicLink }\AttributeTok{{-}Value}\NormalTok{ ./target/wasm32{-}unknown{-}unknown/debug/icu\_typ.wasm}
+\CommentTok{\# Unix}
+\FunctionTok{ln} \AttributeTok{{-}s}\NormalTok{ ./target/wasm32{-}unknown{-}unknown/debug/icu\_typ.wasm icu{-}datetime.wasm}
+\end{Highlighting}
+\end{Shaded}
+
+Use \texttt{\ cargo\ b\ -\/-target\ wasm32-unknown-unknown\ } to build
+in debug mode.
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as
+\texttt{\ icu-datetime\ }
+
+\begin{verbatim}
+#import "@preview/icu-datetime:0.1.2"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+\href{https://github.com/Nerixyz}{Nerixyz}
+\item[License:]
+MIT
+\item[Current version:]
+0.1.2
+\item[Last updated:]
+June 14, 2024
+\item[First released:]
+June 3, 2024
+\item[Minimum Typst version:]
+0.11.0
+\item[Archive size:]
+1.55 MB
+\href{https://packages.typst.org/preview/icu-datetime-0.1.2.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/Nerixyz/icu-typ}{GitHub}
+\item[Categor y :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-world.svg}}
+  \href{https://typst.app/universe/search/?category=languages}{Languages}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of Nerixyz . Report issues on
+\href{https://github.com/Nerixyz/icu-typ}{their repository} . You can
+also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.1.2 & June 14, 2024 \\
+\href{https://typst.app/universe/package/icu-datetime/0.1.1/}{0.1.1} &
+June 10, 2024 \\
+\href{https://typst.app/universe/package/icu-datetime/0.1.0/}{0.1.0} &
+June 3, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.

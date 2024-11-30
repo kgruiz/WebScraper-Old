@@ -1,0 +1,412 @@
+\title{typst.app/universe/package/game-theoryst}
+
+\phantomsection\label{banner}
+\section{game-theoryst}\label{game-theoryst}
+
+{ 0.1.0 }
+
+A package for typesetting games in Typst.
+
+{ } Featured Package
+
+\phantomsection\label{readme}
+A package for typesetting games in Typst.
+
+Full manual available
+\href{https://github.com/typst/packages/raw/main/packages/preview/game-theoryst/0.1.0/doc/gtheoryst-manual.pdf}{here}
+
+Work in progress â€`` \emph{coming soon!}
+
+\subsection{Overview}\label{overview}
+
+\paragraph{Simple Example}\label{simple-example}
+
+The main function to make strategic (or \textbf{normal} ) form games is
+\texttt{\ nfg\ } . For a basic 2x2 game, you can do
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#nfg(}
+\NormalTok{  players: ("Jack", "Diane"),}
+\NormalTok{  s1: ($C$, $D$),}
+\NormalTok{  s2: ($C$, $D$),}
+\NormalTok{  [$10, 10$], [$2, 20$], }
+\NormalTok{  [$20, 2$], [$5, 5$],}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics[width=4.16667in,height=\textheight,keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/game-theoryst/0.1.0/doc/gallery/simple-example.png}
+
+\subsubsection{Importing}\label{importing}
+
+Simply insert the following into your Typst code:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/game{-}theoryst:0.1.0": *}
+\end{Highlighting}
+\end{Shaded}
+
+This imports the \texttt{\ nfg()\ } function as well as the underlining
+methods. If you want to tweak the helper functions for generating an
+\texttt{\ nfg\ } , import them explicitly through the
+\texttt{\ utils/\ } directory.
+
+\paragraph{Full Example}\label{full-example}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#nfg(}
+\NormalTok{  players: ([A\textbackslash{} Joe], [Bas Pro]),}
+\NormalTok{  s1: ([$x$], [a]),}
+\NormalTok{  s2: ("x", "aaaa", [$a$]),}
+\NormalTok{  pad: ("x": 12pt, "y": 10pt),}
+\NormalTok{  eliminations: ("s11", "s21", "s22"),}
+\NormalTok{  ejust: (}
+\NormalTok{    s11: (x: (0pt, 36pt), y: ({-}3pt, {-}3.5pt)),}
+\NormalTok{    s22: (x: ({-}10pt, {-}12pt), y: ({-}10pt, 10pt)),}
+\NormalTok{    s21: (x: ({-}3pt, {-}9pt), y: ({-}10pt, 10pt)),}
+\NormalTok{  ),}
+\NormalTok{  mixings: (hmix: ($p$, $1{-}p$), vmix: ($q$, $r$, $1{-}q{-}r$)),}
+\NormalTok{  custom{-}fills: (hp: maroon, vp: navy, hm: purple, vm: fuchsia, he: gray, ve: gray),}
+\NormalTok{  [$0,vul(100000000)$], [$0,1$], [$0,0$],}
+\NormalTok{  [$hul(1),1$], [$0, {-}1$], table.cell(fill: yellow.lighten(30\%), [$hful(0),vful(0)$])}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics[width=5.46875in,height=\textheight,keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/game-theoryst/0.1.0/doc/gallery/full-example.png}
+
+\subsubsection{Color}\label{color}
+
+By default, player names, mixed-strategy parameters (called
+\emph{mixings} ), and elimination lines are shown in color. These colors
+can be turned off at the method-level by passing \texttt{\ bw:\ true\ }
+, or at the document level by running the state helper-function
+\texttt{\ \#colorless()\ } .
+
+\texttt{\ nfg\ } accepts custom colors for all of the aforementioned
+parameters by passing a \texttt{\ dictionary\ } of colors to the
+\texttt{\ custom-fills\ } arg. The keys for this dictionary are as
+follows ( \texttt{\ \textless{}defaults\textgreater{}\ } ):
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ hp\ } â€`` â€œhorizontal playerâ€? (red)
+\item
+  \texttt{\ vp\ } â€`` â€œvertical playerâ€? (blue)
+\item
+  \texttt{\ hm\ } â€`` â€œhor. mixingâ€? (\#e64173)
+\item
+  \texttt{\ vm\ } â€`` â€œver. mixingâ€? (eastern)
+\item
+  \texttt{\ he\ } â€`` â€œhor. eliminationâ€? line (orange)
+\item
+  \texttt{\ ve\ } â€`` â€œver. eliminationâ€? line (olive)
+\end{itemize}
+
+\subsection{Cell Customization}\label{cell-customization}
+
+Since the payoffs are implemented as argument sinks (
+\texttt{\ ..args\ } ) which are passed directly to Typstâ€™s
+\texttt{\ \#table()\ } , underlining of non-math can be accomplished via
+the standard \texttt{\ \#underline()\ } command. Similarly, any of the
+payoff cells can be customized by using \texttt{\ table.cell()\ }
+directly. For instance,
+\texttt{\ table.cell(fill:\ yellow.lighten(30\%),\ {[}\$1,\ 1\${]})\ }
+can be used to highlight a specific cell.
+
+\subsubsection{Padding}\label{padding}
+
+There are edge cases where the default padding may be off. These can be
+mended by passing the optional \texttt{\ pad\ } argument to
+\texttt{\ nfg()\ } . This should represent how much
+\textbf{\emph{additional}} padding you want. The \texttt{\ pad\ } arg.
+is interpreted as follows:
+
+\begin{itemize}
+\tightlist
+\item
+  If a \texttt{\ length\ } is provided, it assumes you want that much
+  length added to all cell walls
+\item
+  If an array of the form \texttt{\ (L1,\ L2)\ } is provided, it assumes
+  you want padding a horizontal ( \texttt{\ x\ } ) padding of
+  \texttt{\ L1\ } and a vertical padding ( \texttt{\ y\ } ) of
+  \texttt{\ L2\ }
+\item
+  If a \texttt{\ dictionary\ } is provided, it operates identically to
+  that of the array, but you must specify the \texttt{\ x\ } /
+  \texttt{\ y\ } keys yourself
+\end{itemize}
+
+\subsubsection{AUtomatic Cell Sizing}\label{automatic-cell-sizing}
+
+Cell are automatically sized to equal heights/widths according to the
+longest/tallest content. If you want to avoid this behavior, pass
+\texttt{\ lazy-cells:\ true\ } to \texttt{\ nfg\ } . This behavior can
+be combined with the custom \texttt{\ padding\ } argument.
+
+\subsection{Semantic Game Theory
+Features}\label{semantic-game-theory-features}
+
+\subsubsection{Underlining}\label{underlining}
+
+The package imports a small set of underlining utility functions.
+
+The primary functions for underlining are
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ hul()\ } â€`` \emph{Horizontal Underline}
+\item
+  \texttt{\ vul()\ } â€`` \emph{Vertical Underline}
+\item
+  \texttt{\ bul()\ } â€`` \emph{Black Underline} These can be wrapped
+  around values in math-mode ( \texttt{\ \$..\$\ } ) within the payoff
+  matrix. The underlines for \texttt{\ hul\ } and \texttt{\ vul\ } are
+  colored by default according to the default colors for names, but they
+  accept an optional \texttt{\ col\ } parameter for changing the color
+  of the underline. \texttt{\ bul()\ } produces a black underline.
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#nfg(}
+\NormalTok{  players: ("Jack", "Diane"),}
+\NormalTok{  s2: ($x$, $y$, $z$),}
+\NormalTok{  s1: ($a$, $b$),}
+\NormalTok{  [$hul(0),vul(0)$], [$1,1$], [$2,2$],}
+\NormalTok{  [$3,3$], [$4,4$], [$5,5$],}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+By default, these commands leave the numbers themselves black, but
+boldfaces them. \emph{Full Color} versions of \texttt{\ hul\ } and
+\texttt{\ vul\ } , which color the numbers and under-lines identically,
+are available via \texttt{\ hful()\ } and \texttt{\ vful()\ } . Like
+their counterparts, they accept an optional \texttt{\ col\ } command for
+the color.
+
+Both of the colors can be modified individually via the general
+\texttt{\ cul()\ } command, which takes in content ( \texttt{\ cont\ }
+), an underline color ( \texttt{\ ucol\ } ), and the color for the text
+value ( \texttt{\ tcol\ } ). For instance,
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let new{-}ul(cont, col: olive, tcol: fuchsia) = \{ cul(cont, col, tcol) \}}
+\end{Highlighting}
+\end{Shaded}
+
+will define a new command which underlines in olive and sets the text
+(math) color to fuchsia.
+
+\subsubsection{Mixed Strategies}\label{mixed-strategies}
+
+You can optionally mark mixed strategies that a player will in a
+\texttt{\ nfg\ } using the \texttt{\ mixing\ } argument. This can be a
+\texttt{\ dictionary\ } with \texttt{\ hmix\ } and \texttt{\ vmix\ }
+keys, or an \texttt{\ array\ } , interpreted as a dictionary with the
+aforementioned keys in the \texttt{\ (hmix,\ vmix)\ } order. The
+values/entries here should be arrays which mimic \texttt{\ s1\ } and
+\texttt{\ s2\ } in size, with some parameter denoting the proportion of
+time the relevant player uses that strategy. If you would like to omit a
+strategy from this markup, pass \texttt{\ {[}{]}\ } in itâ€™s place.
+
+For example:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#nfg(}
+\NormalTok{  players: ("Chet", "North"),}
+\NormalTok{  s1: ([$F$], [$G$], [$H$]),}
+\NormalTok{  s2: ([$X$], [$Y$]),}
+\NormalTok{  mixings: (}
+\NormalTok{    hmix: ($p$, $1{-}p$), }
+\NormalTok{    vmix: ($q$, [], $1{-}q$)),}
+\NormalTok{  [$7,3$], [$2,4$], }
+\NormalTok{  [$5,2$], [$6,1$], }
+\NormalTok{  [$6,1$], [$5,4$]}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics[width=4.16667in,height=\textheight,keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/game-theoryst/0.1.0/doc/gallery/mix-ex.png}
+
+\subsubsection{Iterated Deletion (Elimination) of Dominated
+Strategies}\label{iterated-deletion-elimination-of-dominated-strategies}
+
+You can use the \texttt{\ pinit\ } package to cross out lines,
+semantically eliminating strategies. \texttt{\ pinit\ } comes
+pre-imported with \texttt{\ game-theoryst\ } by default.
+
+You can tell \texttt{\ nfg\ } which strategies to eliminate with the
+\texttt{\ eliminations\ } argument and the corresponding
+\texttt{\ ejust\ } helper-argument. The \texttt{\ eliminations\ }
+argument is simply an \texttt{\ array\ } of \texttt{\ strings\ } of the
+form
+\texttt{\ "s\textless{}i\textgreater{}\textless{}j\textgreater{}"\ } ,
+where \texttt{\ \textless{}i\textgreater{}\ } is the player â€`` 1 or 2
+â€`` and \texttt{\ \textless{}j\textgreater{}\ } is player
+\texttt{\ i\ } â€™s \texttt{\ \textless{}j\textgreater{}\ } th strategy,
+in left-to-right / top-to-bottom order \emph{starting at 1} . These
+strategy strings represent the rows/columns which you want to eliminate.
+For instance, \texttt{\ ("s12",\ "s21")\ } denotes an elimination of
+player 1â€™s second strategy as well as player 2â€™s first strategy.
+
+Due to \texttt{\ context\ } dependence, the lines typically need manual
+adjustments, which can be done via the \texttt{\ ejust\ } arg.
+\texttt{\ ejust\ } needs to be a dictionary with keys of matching those
+strings present in \texttt{\ eliminations\ } ( \texttt{\ s11\ } ,
+\texttt{\ s21\ } , etc.). The values of one of these dictionary entries
+is itself a dictionary: one with \texttt{\ x\ } and \texttt{\ y\ } keys.
+Each of these keys needs an array consisting of 2 lengths, corresponding
+to the starting/ending \texttt{\ dx/dy\ } adjustments from
+\texttt{\ pinit-line\ } .
+
+For example, one such \texttt{\ ejust\ } argument could be
+\texttt{\ ("s12":\ (x:\ (5pt,\ -5pt),\ y:\ (-10pt,\ 3pt)))\ } . This
+says to adjust the â€œs12â€? elimination line by \texttt{\ 5pt\ } in the
+x direction and \texttt{\ -10pt\ } in the y direction for the starting
+(strategy-) side of the line, and adjust by \texttt{\ -5pt\ } in x and
+\texttt{\ 3pt\ } in y on the ending (payoff-) side of the line.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let just{-}arr = (}
+\NormalTok{    "s12": (x: (0pt, 10pt), y: ({-}3pt, {-}3pt)),}
+\NormalTok{    "s13": (x: (0pt, 10pt), y: ({-}3pt, {-}3pt)),}
+\NormalTok{    "s14": (x: (0pt, 10pt), y: ({-}3pt, {-}3pt)),}
+\NormalTok{    "s21": (x: ({-}6pt, {-}8pt), y: (3pt, 8pt)),}
+\NormalTok{    "s22": (x: ({-}4pt, {-}8pt), y: (3pt, 8pt)),}
+\NormalTok{    "s23": (x: ({-}4pt, {-}8pt), y: (3pt, 8pt)),}
+\NormalTok{)}
+
+\NormalTok{\#nfg(}
+\NormalTok{  players: ("A", "B"),}
+\NormalTok{  s1: ([$N$], [$S$], [$E$], [$W$] ),}
+\NormalTok{  s2: ([$W$], [$E$], [$F$], [$A$]),}
+\NormalTok{  eliminations: ("s12", "s13", "s14", "s21", "s22", "s23"),}
+\NormalTok{  ejust: just{-}arr,}
+\NormalTok{  [$6,4$], [$7,3$], [$5,5$], [$6,6$],}
+\NormalTok{  [$7,3$], [$2,7$], [$4,6$], [$5,5$],}
+\NormalTok{  [$8,2$], [$6,4$], [$3,7$], [$2,8$],}
+\NormalTok{  [$3,7$], [$5,5$], [$4,6$], [$5,5$],}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics[width=4.16667in,height=\textheight,keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/game-theoryst/0.1.0/doc/gallery/elim-ex.png}
+
+\subsubsection{Debugging}\label{debugging}
+
+If you want to see all of the lines for the table, including the ones
+for a players, strategies, and mixings, set the following at the top of
+your document.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#set table.cell(stroke: (thickness: auto))}
+\end{Highlighting}
+\end{Shaded}
+
+Note that cells are always present for mixings, they just have 0
+width/height when no mixings of a specific variety are provided.
+
+\subsection{License}\label{license}
+
+game-theoryst Copyright Â© 2024 Connor T. Wiegand
+
+This program is free software: you can redistribute it and/or modify it
+under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or (at
+your option) any later version.
+
+This program is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero
+General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with this program. If not, see
+\href{http://www.gnu.org/licenses/}{http:www.gnu.org/licenses/} .
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as
+\texttt{\ game-theoryst\ }
+
+\begin{verbatim}
+#import "@preview/game-theoryst:0.1.0"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+\href{https://github.com/connortwiegand}{Connor T. Wiegand}
+\item[License:]
+AGPL-3.0-only
+\item[Current version:]
+0.1.0
+\item[Last updated:]
+August 14, 2024
+\item[First released:]
+August 14, 2024
+\item[Archive size:]
+18.9 kB
+\href{https://packages.typst.org/preview/game-theoryst-0.1.0.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/connortwiegand/game-theoryst}{GitHub}
+\item[Discipline s :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \href{https://typst.app/universe/search/?discipline=economics}{Economics}
+\item
+  \href{https://typst.app/universe/search/?discipline=education}{Education}
+\item
+  \href{https://typst.app/universe/search/?discipline=mathematics}{Mathematics}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of Connor T. Wiegand . Report issues on
+\href{https://github.com/connortwiegand/game-theoryst}{their repository}
+. You can also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.1.0 & August 14, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.

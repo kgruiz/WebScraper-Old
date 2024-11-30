@@ -1,0 +1,273 @@
+\title{typst.app/universe/package/jlyfish}
+
+\phantomsection\label{banner}
+\section{jlyfish}\label{jlyfish}
+
+{ 0.1.0 }
+
+Julia code evaluation inside your Typst document
+
+\phantomsection\label{readme}
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/jlyfish/0.1.0/assets/logo.svg}}
+
+Jlyfish is a package for Julia and Typst that allows you to integrate
+Julia computations in your Typst document.
+
+\href{https://github.com/andreasKroepelin/TypstJlyfish.jl/wiki}{\pandocbounded{\includegraphics[keepaspectratio]{https://img.shields.io/badge/docs-wiki-blue}}}
+\pandocbounded{\includegraphics[keepaspectratio]{https://img.shields.io/github/license/andreasKroepelin/TypstJlyfish.jl}}
+\pandocbounded{\includegraphics[keepaspectratio]{https://img.shields.io/github/v/release/andreasKroepelin/TypstJlyfish.jl}}
+\href{https://github.com/andreasKroepelin/TypstJlyfish.jl}{\pandocbounded{\includegraphics[keepaspectratio]{https://img.shields.io/github/stars/andreasKroepelin/TypstJlyfish.jl}}}
+
+You should use Jlyfish if you want to write a Typst document and have
+some of the content automatically produced by Julia code but want the
+source code for that within your document source. It fills a similar
+role as \href{https://github.com/gpoore/pythontex}{PythonTeX} does for
+Python and LaTeX. Note that this is different from tools like
+\href{https://quarto.org/}{Quarto} where you write documents in
+Markdown, also integrate some Julia code, but then might use Typst only
+as a backend to produce the final document.
+
+See below for a quick introduction or read the
+\href{https://github.com/andreasKroepelin/TypstJlyfish.jl/wiki}{wiki}
+for an in depth explanation.
+
+Since Jlyfish builds a bridge between Julia and Typst, we also have to
+get two things running. First, install the Julia package
+\texttt{\ TypstJlyfish\ } from the general registry by executing
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{julia\textgreater{} ]}
+
+\NormalTok{(@v1.10) pkg\textgreater{} add TypstJlyfish}
+\end{Highlighting}
+\end{Shaded}
+
+You only have to do this once. (It is like installing and using the
+Pluto notebook system, if you are familiar with that.)
+
+When you want to use Jlyfish in a Typst document (say,
+\texttt{\ your-document.typ\ } ), add the following line at the top:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/jlyfish:0.1.0": *}
+\end{Highlighting}
+\end{Shaded}
+
+Then, open a Julia REPL and run
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{julia\textgreater{} import TypstJlyfish}
+
+\NormalTok{julia\textgreater{} TypstJlyfish.watch("your{-}document.typ")}
+\end{Highlighting}
+\end{Shaded}
+
+Jlyfish facilitates the communication between Julia and Typst via a JSON
+file. By default, Jlyfish uses the name of your document and adds a
+\texttt{\ -jlyfish.json\ } , so \texttt{\ your-document.typ\ } would
+become \texttt{\ your-document-jlyfish.json\ } . This can be configured,
+of course.
+
+To let Typst know of the computed data in the JSON file, add the
+following line to your document:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#read{-}julia{-}output(json("your{-}document{-}jlyfish.json"))}
+\end{Highlighting}
+\end{Shaded}
+
+You can then place some Julia code in your Typst source using the
+\texttt{\ \#jl\ } function:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{What is the sum of the whole numbers from one to a hundred? \#jl(\textasciigrave{}sum(1:100)\textasciigrave{})}
+\end{Highlighting}
+\end{Shaded}
+
+Head over to the
+\href{https://github.com/andreasKroepelin/TypstJlyfish.jl/wiki}{wiki} to
+learn more!
+
+Just to show what is possible with Jlyfish:
+
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/jlyfish/0.1.0/examples/demo.svg}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/jlyfish:0.1.0": *}
+
+\NormalTok{\#set page(width: auto, height: auto, margin: 1em)}
+\NormalTok{\#set text(font: "Alegreya Sans")}
+\NormalTok{\#let note = text.with(size: .7em, fill: luma(100), style: "italic")}
+
+\NormalTok{\#read{-}julia{-}output(json("demo{-}jlyfish.json"))}
+\NormalTok{\#jl{-}pkg("Colors", "Typstry", "Makie", "CairoMakie")}
+
+\NormalTok{\#grid(}
+\NormalTok{  columns: 2,}
+\NormalTok{  gutter: 1em,}
+\NormalTok{  align: top,}
+\NormalTok{  [}
+\NormalTok{    \#note[Generate Typst code in Julia:]}
+
+\NormalTok{    \#set text(size: 4em)}
+\NormalTok{    \#jl(\textasciigrave{}\textasciigrave{}\textasciigrave{}julia}
+\NormalTok{      using Typstry, Colors}
+
+\NormalTok{      parts = map([:red, :green, :purple], ["Ju", "li", "a"]) do name, text}
+\NormalTok{        color = hex(Colors.JULIA\_LOGO\_COLORS[name])}
+\NormalTok{        "\#text(fill: rgb(\textbackslash{}"$color\textbackslash{}"))[$text]"}
+\NormalTok{      end}
+\NormalTok{      TypstText(join(parts))}
+\NormalTok{    \textasciigrave{}\textasciigrave{}\textasciigrave{})}
+\NormalTok{  ],}
+\NormalTok{  [}
+\NormalTok{    \#note[Produce images in Julia:]}
+
+\NormalTok{    \#set image(width: 10em)}
+\NormalTok{    \#jl(recompute: false, \textasciigrave{}\textasciigrave{}\textasciigrave{}}
+\NormalTok{      using Makie, CairoMakie}
+
+\NormalTok{      as = {-}2.2:.01:.7}
+\NormalTok{      bs = {-}1.5:.01:1.5}
+\NormalTok{      C = [a + b * im for a in as, b in bs]}
+\NormalTok{      function mandelbrot(c)}
+\NormalTok{        z = c}
+\NormalTok{        i = 1}
+\NormalTok{        while i \textless{} 100 \&\& abs2(z) \textless{} 4}
+\NormalTok{          z = z\^{}2 + c}
+\NormalTok{          i += 1}
+\NormalTok{        end}
+\NormalTok{        i}
+\NormalTok{      end}
+
+\NormalTok{      contour(as, bs, mandelbrot.(C), axis = (;aspect = DataAspect()))}
+\NormalTok{    \textasciigrave{}\textasciigrave{}\textasciigrave{})}
+\NormalTok{  ],}
+\NormalTok{  [}
+\NormalTok{    \#note[Hand over raw data from Julia to Typst:]}
+\NormalTok{    \#let barchart(counts) = \{}
+\NormalTok{      set align(bottom)}
+\NormalTok{      let bars = counts.map(count =\textgreater{} rect(}
+\NormalTok{        width: .3em,}
+\NormalTok{        height: count * 9em,}
+\NormalTok{        stroke: white,}
+\NormalTok{        fill: blue,}
+\NormalTok{      ))}
+\NormalTok{      stack(dir: ltr, ..bars)}
+\NormalTok{    \}}
+
+\NormalTok{    \#jl{-}raw(fn: it =\textgreater{} barchart(it.result.data), \textasciigrave{}\textasciigrave{}\textasciigrave{}julia}
+\NormalTok{      p = .5}
+\NormalTok{      n = 40}
+\NormalTok{      counts = zeros(n + 1)}
+\NormalTok{      for \_ in 1:10\_000}
+\NormalTok{        count = 0}
+\NormalTok{        for \_ in 1:n}
+\NormalTok{          if rand() \textless{} p}
+\NormalTok{            count += 1}
+\NormalTok{          end}
+\NormalTok{        end}
+\NormalTok{        counts[count + 1] += 1}
+\NormalTok{      end}
+
+\NormalTok{      counts ./= maximum(counts)}
+\NormalTok{      lo, hi = findfirst(\textgreater{}(1e{-}3), counts), findlast(\textgreater{}(1e{-}3), counts)}
+\NormalTok{      counts[lo:hi]}
+\NormalTok{    \textasciigrave{}\textasciigrave{}\textasciigrave{})}
+\NormalTok{  ],}
+\NormalTok{  [}
+\NormalTok{    \#note[See errors, stdout, and logs:]}
+
+\NormalTok{    \#jl(\textasciigrave{}\textasciigrave{}\textasciigrave{}julia}
+\NormalTok{      println("Hello from stdout!")}
+\NormalTok{      @info "Something to note" n p}
+\NormalTok{      @warn "You should read this!"}
+\NormalTok{      this\_does\_not\_exist}
+\NormalTok{    \textasciigrave{}\textasciigrave{}\textasciigrave{})}
+\NormalTok{  ]}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as \texttt{\ jlyfish\ }
+
+\begin{verbatim}
+#import "@preview/jlyfish:0.1.0"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+Andreas KrÃ¶pelin
+\item[License:]
+MIT
+\item[Current version:]
+0.1.0
+\item[Last updated:]
+July 8, 2024
+\item[First released:]
+July 8, 2024
+\item[Archive size:]
+2.75 kB
+\href{https://packages.typst.org/preview/jlyfish-0.1.0.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/andreasKroepelin/TypstJlyfish.jl}{GitHub}
+\item[Categor ies :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-code.svg}}
+  \href{https://typst.app/universe/search/?category=scripting}{Scripting}
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-hammer.svg}}
+  \href{https://typst.app/universe/search/?category=utility}{Utility}
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-integration.svg}}
+  \href{https://typst.app/universe/search/?category=integration}{Integration}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of Andreas KrÃ¶pelin . Report issues on
+\href{https://github.com/andreasKroepelin/TypstJlyfish.jl}{their
+repository} . You can also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.1.0 & July 8, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.

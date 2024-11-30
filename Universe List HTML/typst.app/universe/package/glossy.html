@@ -1,0 +1,867 @@
+<main>
+    <div id="banner" style="--banner-accent:#000000;--banner-primary:#000000;--banner-secondary:#000000;--banner-tertiary:#565565;--banner-background:#eff0f3">
+     <div class="package-icon" role="img">
+     </div>
+     <div>
+      <div class="title">
+       <h1 class="name">
+        glossy
+       </h1>
+       <span class="version">
+        0.2.0
+       </span>
+      </div>
+      <p class="description">
+       A very simple glossary system with easily customizable output.
+      </p>
+     </div>
+    </div>
+    <div class="inner-grid">
+     <section id="readme">
+      <p>
+       This package provides utilities to manage and render glossaries within documents. It includes functions to define and use glossary terms, track their usage, and generate a glossary list with references to where terms are used in the document.
+      </p>
+      <p>
+       <img alt="image of sample output" src="https://github.com/typst/packages/raw/main/packages/preview/glossy/0.2.0/thumbnail.png"/>
+      </p>
+      <h2>
+       Motivation
+      </h2>
+      <p>
+       Glossy is heavily inspired by
+       <a href="https://typst.app/universe/package/glossarium">
+        glossarium
+       </a>
+       , with a few key different goals:
+      </p>
+      <ol>
+       <li>
+        Provide a simple interface which allows for complete control over glossary display. To do this,
+        <code>
+         glossy
+        </code>
+        âs
+        <code>
+         #glossary()
+        </code>
+        function accepts a theme parameter. The goal here is to separate presentation and logic.
+       </li>
+       <li>
+        Simplify the user interface as much as possible. Glossy has exactly two exports,
+        <code>
+         init-glossary
+        </code>
+        and
+        <code>
+         glossary
+        </code>
+        .
+       </li>
+       <li>
+        Double-down on
+        <code>
+         glossy
+        </code>
+        âs excellent
+        <code>
+         @term
+        </code>
+        reference approach, completely eliminating the need to make any calls to
+        <code>
+         gls()
+        </code>
+        and friends.
+       </li>
+       <li>
+        Mimic established patterns and best practices. For example,
+        <code>
+         glossy
+        </code>
+        âs
+        <code>
+         #glossary()
+        </code>
+        function is intentionally similar (in naming and parameters) to
+        <code>
+         typst
+        </code>
+        âs built-in
+        <code>
+         #bibliography
+        </code>
+        , to the degree possible.
+       </li>
+       <li>
+        Simplify the implementation. The
+        <code>
+         glossy
+        </code>
+        code is significantly shorter and easier to understand.
+       </li>
+      </ol>
+      <h2>
+       Features
+      </h2>
+      <ul>
+       <li>
+        Define glossary terms with short and long forms, descriptions, and grouping
+       </li>
+       <li>
+        Automatically tracks term usage in the document through
+        <code>
+         @labels
+        </code>
+       </li>
+       <li>
+        Supports modifiers to adjust how terms are displayed (capitalize, pluralize, etc.)
+       </li>
+       <li>
+        Generates a formatted glossary section with backlinks to term occurrences
+       </li>
+       <li>
+        Customizable themes for rendering glossary sections, groups, and entries
+       </li>
+       <li>
+        Automatic pluralization of terms with custom override options
+       </li>
+       <li>
+        Page number references back to term usage locations
+       </li>
+      </ul>
+      <h2>
+       Usage
+      </h2>
+      <h3>
+       Import the package
+      </h3>
+      <pre><code class="language-typst"><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/glossy:0.2.0"</span><span class="typ-punct">:</span> <span class="typ-op">*</span>
+</code></code></pre>
+      <h3>
+       Defining Glossary Terms
+      </h3>
+      <p>
+       Use the
+       <code>
+        init-glossary
+       </code>
+       function to initialize glossary entries:
+      </p>
+      <pre><code class="language-typst"><code><span class="typ-key">#</span><span class="typ-key">let</span> myGlossary <span class="typ-op">=</span> <span class="typ-punct">(</span>
+    html<span class="typ-punct">:</span> <span class="typ-punct">(</span>
+      short<span class="typ-punct">:</span> <span class="typ-str">"HTML"</span><span class="typ-punct">,</span>
+      long<span class="typ-punct">:</span> <span class="typ-str">"Hypertext Markup Language"</span><span class="typ-punct">,</span>
+      description<span class="typ-punct">:</span> <span class="typ-str">"A standard language for creating web pages"</span><span class="typ-punct">,</span>
+      group<span class="typ-punct">:</span> <span class="typ-str">"Web"</span>
+    <span class="typ-punct">)</span><span class="typ-punct">,</span>
+    css<span class="typ-punct">:</span> <span class="typ-punct">(</span>
+      short<span class="typ-punct">:</span> <span class="typ-str">"CSS"</span><span class="typ-punct">,</span>
+      long<span class="typ-punct">:</span> <span class="typ-str">"Cascading Style Sheets"</span><span class="typ-punct">,</span>
+      description<span class="typ-punct">:</span> <span class="typ-str">"A stylesheet language used for describing the presentation of a document"</span><span class="typ-punct">,</span>
+      group<span class="typ-punct">:</span> <span class="typ-str">"Web"</span>
+    <span class="typ-punct">)</span><span class="typ-punct">,</span>
+    tps<span class="typ-punct">:</span> <span class="typ-punct">(</span>
+      short<span class="typ-punct">:</span> <span class="typ-str">"TPS"</span><span class="typ-punct">,</span>
+      long<span class="typ-punct">:</span> <span class="typ-str">"test procedure specification"</span><span class="typ-punct">,</span>
+      description<span class="typ-punct">:</span> <span class="typ-str">"A formal document describing test steps and expected results"</span><span class="typ-punct">,</span>
+      <span class="typ-comment">// Optional: Override automatic pluralization</span>
+      plural<span class="typ-punct">:</span> <span class="typ-str">"TPSes"</span><span class="typ-punct">,</span>
+      longplural<span class="typ-punct">:</span> <span class="typ-str">"test procedure specifications"</span>
+    <span class="typ-punct">)</span>
+<span class="typ-punct">)</span>
+
+<span class="typ-key">#</span><span class="typ-key">show</span><span class="typ-punct">:</span> init-glossary<span class="typ-punct">.</span><span class="typ-func">with</span><span class="typ-punct">(</span>myGlossary<span class="typ-punct">)</span>
+</code></code></pre>
+      <p>
+       Each glossary entry supports the following fields:
+      </p>
+      <ul>
+       <li>
+        <code>
+         short
+        </code>
+        (required): Short form of the term
+       </li>
+       <li>
+        <code>
+         long
+        </code>
+        (optional): Long form of the term
+       </li>
+       <li>
+        <code>
+         description
+        </code>
+        (optional): Term description (often a definition)
+       </li>
+       <li>
+        <code>
+         group
+        </code>
+        (optional): Category grouping
+       </li>
+       <li>
+        <code>
+         plural
+        </code>
+        (optional): Override automatic pluralization of short form
+       </li>
+       <li>
+        <code>
+         longplural
+        </code>
+        (optional): Override automatic pluralization of long form
+       </li>
+      </ul>
+      <p>
+       You can also load glossary entries from a data file using #yaml(), #json(), or similar.
+      </p>
+      <p>
+       For example, the above glossary could be in this YAML file:
+      </p>
+      <pre><code class="language-yaml">html:
+  short: HTML
+  long: Hypertext Markup Language
+  description: A standard language for creating web pages
+  group: Web
+
+css:
+  short: CSS
+  long: Cascading Style Sheets
+  description: A stylesheet language used for describing the presentation of a document
+  group: Web
+
+tps:
+  short: TPS
+  long: test procedure specification
+  description: A formal document describing test steps and expected results
+  plural: TPSes
+  longplural: test procedure specifications
+</code></pre>
+      <p>
+       And then loaded during initialization as follows:
+      </p>
+      <pre><code class="language-typst"><code><span class="typ-key">#</span><span class="typ-key">show</span><span class="typ-punct">:</span> init-glossary<span class="typ-punct">.</span><span class="typ-func">with</span><span class="typ-punct">(</span><span class="typ-func">yaml</span><span class="typ-punct">(</span><span class="typ-str">"glossary.yaml"</span><span class="typ-punct">)</span><span class="typ-punct">)</span>
+</code></code></pre>
+      <h3>
+       Using Glossary Terms
+      </h3>
+      <p>
+       Reference glossary terms using Typstâs
+       <code>
+        @reference
+       </code>
+       syntax:
+      </p>
+      <pre><code class="language-typst"><code>In modern web development, languages like <span class="typ-ref">@html</span> and <span class="typ-ref">@css</span> are essential.
+The <span class="typ-ref">@tps:pl</span> need to be submitted by Friday.
+</code></code></pre>
+      <p>
+       Available modifiers:
+      </p>
+      <ul>
+       <li>
+        <strong>
+         cap
+        </strong>
+        : Capitalizes the term
+       </li>
+       <li>
+        <strong>
+         pl
+        </strong>
+        : Uses the plural form
+       </li>
+       <li>
+        <strong>
+         both
+        </strong>
+        : Shows âLong Form (Short Form)â
+       </li>
+       <li>
+        <strong>
+         short
+        </strong>
+        : Shows only short form
+       </li>
+       <li>
+        <strong>
+         long
+        </strong>
+        : Shows only long form
+       </li>
+       <li>
+        <strong>
+         def
+        </strong>
+        or
+        <strong>
+         desc
+        </strong>
+        : Shows the description
+       </li>
+      </ul>
+      <p>
+       Modifiers can be combined with colons:
+      </p>
+      <table>
+       <thead>
+        <tr>
+         <th>
+          <strong>
+           Input
+          </strong>
+         </th>
+         <th>
+          <strong>
+           Output
+          </strong>
+         </th>
+        </tr>
+       </thead>
+       <tbody>
+        <tr>
+         <td>
+          <code>
+           @tps
+          </code>
+          (first use)
+         </td>
+         <td>
+          âtest procedure specification (TPS)â
+         </td>
+        </tr>
+        <tr>
+         <td>
+          <code>
+           @tps
+          </code>
+          (subsequent)
+         </td>
+         <td>
+          âTPSâ
+         </td>
+        </tr>
+        <tr>
+         <td>
+          <code>
+           @tps:short
+          </code>
+         </td>
+         <td>
+          âTPSâ
+         </td>
+        </tr>
+        <tr>
+         <td>
+          <code>
+           @tps:long
+          </code>
+         </td>
+         <td>
+          âtest procedure specificationâ
+         </td>
+        </tr>
+        <tr>
+         <td>
+          <code>
+           @tps:both
+          </code>
+         </td>
+         <td>
+          âtest procedure specification (TPS)â
+         </td>
+        </tr>
+        <tr>
+         <td>
+          <code>
+           @tps:long:cap
+          </code>
+         </td>
+         <td>
+          âTest procedure specificationâ
+         </td>
+        </tr>
+        <tr>
+         <td>
+          <code>
+           @tps:long:pl
+          </code>
+         </td>
+         <td>
+          âtest procedure specificationsâ
+         </td>
+        </tr>
+        <tr>
+         <td>
+          <code>
+           @tps:short:pl
+          </code>
+         </td>
+         <td>
+          âTPSesâ
+         </td>
+        </tr>
+        <tr>
+         <td>
+          <code>
+           @tps:both:pl:cap
+          </code>
+         </td>
+         <td>
+          âTechnical procedure specifications (TPSes)â
+         </td>
+        </tr>
+        <tr>
+         <td>
+          <code>
+           @tps:def
+          </code>
+         </td>
+         <td>
+          âA formal document describing test steps and expected resultsâ
+         </td>
+        </tr>
+       </tbody>
+      </table>
+      <h3>
+       Generating the Glossary
+      </h3>
+      <p>
+       Display the glossary using the
+       <code>
+        glossary()
+       </code>
+       function:
+      </p>
+      <pre><code class="language-typst"><code><span class="typ-func">#</span><span class="typ-func">glossary</span><span class="typ-punct">(</span>
+  title<span class="typ-punct">:</span> <span class="typ-str">"Web Development Glossary"</span><span class="typ-punct">,</span>
+  theme<span class="typ-punct">:</span> my-theme<span class="typ-punct">,</span>
+  groups<span class="typ-punct">:</span> <span class="typ-punct">(</span><span class="typ-str">"Web"</span><span class="typ-punct">)</span>  <span class="typ-comment">// Optional: Filter to specific groups</span>
+<span class="typ-punct">)</span>
+</code></code></pre>
+      <h3>
+       Customizing Term Display
+      </h3>
+      <p>
+       Control how terms appear in the document by providing a custom
+       <code>
+        show-term
+       </code>
+       function:
+      </p>
+      <pre><code class="language-typst"><code><span class="typ-key">#</span><span class="typ-key">let</span> <span class="typ-func">emph-term</span><span class="typ-punct">(</span>term-body<span class="typ-punct">)</span> <span class="typ-op">=</span> <span class="typ-punct">{</span> <span class="typ-func">emph</span><span class="typ-punct">(</span>term-body<span class="typ-punct">)</span> <span class="typ-punct">}</span>
+
+<span class="typ-key">#</span><span class="typ-key">show</span><span class="typ-punct">:</span> init-glossary<span class="typ-punct">.</span><span class="typ-func">with</span><span class="typ-punct">(</span>
+  myGlossary<span class="typ-punct">,</span>
+  show-term<span class="typ-punct">:</span> emph-term
+<span class="typ-punct">)</span>
+</code></code></pre>
+      <h3>
+       Glossary Themes
+      </h3>
+      <h4>
+       Included Themes
+      </h4>
+      <p>
+       Glossy comes with several built-in themes that can be used directly or serve as examples for custom themes:
+      </p>
+      <h5>
+       theme-twocol
+      </h5>
+      <p>
+       A professional two-column layout ideal for technical documentation. Features:
+      </p>
+      <ul>
+       <li>
+        Two-column layout for efficient space usage
+       </li>
+       <li>
+        Dotted leaders to page numbers
+       </li>
+       <li>
+        Clear hierarchy with optional group headings
+       </li>
+       <li>
+        Compact but readable formatting
+       </li>
+       <li>
+        Terms in regular weight with long forms and descriptions inline
+       </li>
+      </ul>
+      <pre><code class="language-typst"><code><span class="typ-func">#</span><span class="typ-func">glossary</span><span class="typ-punct">(</span>theme<span class="typ-punct">:</span> theme-twocol<span class="typ-punct">)</span>
+</code></code></pre>
+      <h5>
+       theme-basic
+      </h5>
+      <p>
+       A traditional single-column layout similar to book glossaries. Features:
+      </p>
+      <ul>
+       <li>
+        Bold terms with indented content
+       </li>
+       <li>
+        Clear separation between entries
+       </li>
+       <li>
+        Hanging indentation for wrapped lines
+       </li>
+       <li>
+        Parenthetical long forms
+       </li>
+       <li>
+        Page numbers with âpp.â prefix
+       </li>
+       <li>
+        Simple, clean design
+       </li>
+      </ul>
+      <pre><code class="language-typst"><code><span class="typ-func">#</span><span class="typ-func">glossary</span><span class="typ-punct">(</span>theme<span class="typ-punct">:</span> theme-basic<span class="typ-punct">)</span>
+</code></code></pre>
+      <h5>
+       theme-compact
+      </h5>
+      <p>
+       A space-efficient layout perfect for technical documents or appendices. Features:
+      </p>
+      <ul>
+       <li>
+        Reduced vertical spacing
+       </li>
+       <li>
+        Smaller font sizes for secondary information
+       </li>
+       <li>
+        Color-coded term components
+       </li>
+       <li>
+        Grid-based alignment
+       </li>
+       <li>
+        Minimal decorative elements
+       </li>
+       <li>
+        Gray text for supplementary information
+       </li>
+       <li>
+        Bullet separators between components
+       </li>
+      </ul>
+      <pre><code class="language-typst"><code><span class="typ-func">#</span><span class="typ-func">glossary</span><span class="typ-punct">(</span>theme<span class="typ-punct">:</span> theme-compact<span class="typ-punct">)</span>
+</code></code></pre>
+      <h4>
+       Custom Themes
+      </h4>
+      <p>
+       Customize glossary appearance by defining a theme with three functions:
+      </p>
+      <pre><code class="language-typst"><code><span class="typ-key">#</span><span class="typ-key">let</span> my-theme <span class="typ-op">=</span> <span class="typ-punct">(</span>
+  <span class="typ-comment">// Main glossary section</span>
+  section<span class="typ-punct">:</span> <span class="typ-punct">(</span>title<span class="typ-punct">,</span> body<span class="typ-punct">)</span> <span class="typ-op">=&gt;</span> <span class="typ-punct">{</span>
+    <span class="typ-func">heading</span><span class="typ-punct">(</span>level<span class="typ-punct">:</span> <span class="typ-num">1</span><span class="typ-punct">,</span> title<span class="typ-punct">)</span>
+    body
+  <span class="typ-punct">}</span><span class="typ-punct">,</span>
+
+  <span class="typ-comment">// Group of related terms</span>
+  group<span class="typ-punct">:</span> <span class="typ-punct">(</span>name<span class="typ-punct">,</span> index<span class="typ-punct">,</span> total<span class="typ-punct">,</span> body<span class="typ-punct">)</span> <span class="typ-op">=&gt;</span> <span class="typ-punct">{</span>
+    <span class="typ-comment">// index = group index, total = total groups</span>
+    <span class="typ-key">if</span> name <span class="typ-op">!=</span> <span class="typ-str">""</span> <span class="typ-key">and</span> total <span class="typ-op">&gt;</span> <span class="typ-num">1</span> <span class="typ-punct">{</span>
+      <span class="typ-func">heading</span><span class="typ-punct">(</span>level<span class="typ-punct">:</span> <span class="typ-num">2</span><span class="typ-punct">,</span> name<span class="typ-punct">)</span>
+    <span class="typ-punct">}</span>
+    body
+  <span class="typ-punct">}</span><span class="typ-punct">,</span>
+
+  <span class="typ-comment">// Individual glossary entry</span>
+  entry<span class="typ-punct">:</span> <span class="typ-punct">(</span>entry<span class="typ-punct">,</span> index<span class="typ-punct">,</span> total<span class="typ-punct">)</span> <span class="typ-op">=&gt;</span> <span class="typ-punct">{</span>
+    <span class="typ-comment">// index = entry index, total = total entries in group</span>
+    <span class="typ-key">let</span> output <span class="typ-op">=</span> <span class="typ-punct">[</span><span class="typ-pol">#</span><span class="typ-pol">entry</span><span class="typ-punct">.</span><span class="typ-pol">short</span><span class="typ-punct">]</span>
+    <span class="typ-key">if</span> entry<span class="typ-punct">.</span>long <span class="typ-op">!=</span> <span class="typ-key">none</span> <span class="typ-punct">{</span>
+      output <span class="typ-op">=</span> <span class="typ-punct">[</span><span class="typ-pol">#</span><span class="typ-pol">output</span> <span class="typ-escape">--</span> <span class="typ-pol">#</span><span class="typ-pol">entry</span><span class="typ-punct">.</span><span class="typ-pol">long</span><span class="typ-punct">]</span>
+    <span class="typ-punct">}</span>
+    <span class="typ-key">if</span> entry<span class="typ-punct">.</span>description <span class="typ-op">!=</span> <span class="typ-key">none</span> <span class="typ-punct">{</span>
+      output <span class="typ-op">=</span> <span class="typ-punct">[</span><span class="typ-pol">#</span><span class="typ-pol">output</span>: <span class="typ-pol">#</span><span class="typ-pol">entry</span><span class="typ-punct">.</span><span class="typ-pol">description</span><span class="typ-punct">]</span>
+    <span class="typ-punct">}</span>
+    <span class="typ-func">block</span><span class="typ-punct">(</span>
+      <span class="typ-func">grid</span><span class="typ-punct">(</span>
+        columns<span class="typ-punct">:</span> <span class="typ-punct">(</span><span class="typ-key">auto</span><span class="typ-punct">,</span> <span class="typ-num">1fr</span><span class="typ-punct">,</span> <span class="typ-key">auto</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+        output<span class="typ-punct">,</span>
+        <span class="typ-func">repeat</span><span class="typ-punct">(</span><span class="typ-punct">[</span><span class="typ-func">#</span><span class="typ-func">h</span><span class="typ-punct">(</span><span class="typ-num">0.25em</span><span class="typ-punct">)</span> . <span class="typ-func">#</span><span class="typ-func">h</span><span class="typ-punct">(</span><span class="typ-num">0.25em</span><span class="typ-punct">)</span><span class="typ-punct">]</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+        entry<span class="typ-punct">.</span>pages<span class="typ-punct">,</span>
+      <span class="typ-punct">)</span>
+    <span class="typ-punct">)</span>
+  <span class="typ-punct">}</span>
+<span class="typ-punct">)</span>
+</code></code></pre>
+      <p>
+       Entry fields available to themes:
+      </p>
+      <ul>
+       <li>
+        <code>
+         short
+        </code>
+        : Short form (always present)
+       </li>
+       <li>
+        <code>
+         long
+        </code>
+        : Long form (can be
+        <code>
+         none
+        </code>
+        )
+       </li>
+       <li>
+        <code>
+         description
+        </code>
+        : Term description (can be
+        <code>
+         none
+        </code>
+        )
+       </li>
+       <li>
+        <code>
+         label
+        </code>
+        : Termâs dictionary label
+       </li>
+       <li>
+        <code>
+         pages
+        </code>
+        : Linked page numbers where term appears
+       </li>
+      </ul>
+      <h2>
+       License
+      </h2>
+      <p>
+       This project is licensed under the MIT License.
+      </p>
+     </section>
+     <aside>
+      <section>
+       <h3>
+        How to add
+       </h3>
+       <p>
+        Copy this into your project and use the import as
+        <!-- -->
+        <code>
+         glossy
+        </code>
+       </p>
+       <div class="import-snippet">
+        <pre><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/glossy:0.2.0"</span></code></pre>
+        <button class="copy" title="Copy to clipboard">
+         <img alt="Copy" height="16" src="/assets/icons/16-copy.svg" width="16"/>
+        </button>
+       </div>
+       <p class="muted">
+        Check the docs for
+        <!-- -->
+        <a href="https://typst.app/docs/reference/scripting/#packages">
+         more information on how to import packages
+        </a>
+        .
+       </p>
+      </section>
+      <section id="about">
+       <h3>
+        About
+       </h3>
+       <dl>
+        <dt>
+         Author
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         <a href="mailto:steve@waits.net">
+          Stephen Waits
+         </a>
+        </dd>
+        <dt>
+         License:
+        </dt>
+        <dd>
+         MIT
+        </dd>
+        <dt>
+         Current version:
+        </dt>
+        <dd>
+         0.2.0
+        </dd>
+        <dt>
+         Last updated:
+        </dt>
+        <dd>
+         November 26, 2024
+        </dd>
+        <dt>
+         First released:
+        </dt>
+        <dd>
+         October 23, 2024
+        </dd>
+        <dt>
+         Archive size:
+        </dt>
+        <dd class="archive-size-value">
+         10.2 kB
+         <a href="https://packages.typst.org/preview/glossy-0.2.0.tar.gz">
+          <img alt="Size icon" src="/assets/icons/16-download.svg"/>
+         </a>
+        </dd>
+        <dt>
+         Repository:
+        </dt>
+        <dd>
+         <a href="https://github.com/swaits/typst-collection" rel="noopener noreferrer" target="_blank">
+          GitHub
+         </a>
+        </dd>
+        <dt>
+         Categor
+         <!-- -->
+         y
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         <ul class="list-with-icons">
+          <li>
+           <img alt="Model icon" src="/assets/icons/16-list-unordered.svg"/>
+           <a href="https://typst.app/universe/search/?category=model">
+            Model
+           </a>
+          </li>
+         </ul>
+        </dd>
+       </dl>
+      </section>
+      <section>
+       <h3>
+        Where to report issues?
+       </h3>
+       <p>
+        This
+        <!-- -->
+        package
+        <!-- -->
+        is a project of
+        <!-- -->
+        <!-- -->
+        Stephen Waits
+        <!-- -->
+        .
+        <!-- -->
+        <!-- -->
+        Report issues on
+        <!-- -->
+        <a href="https://github.com/swaits/typst-collection" rel="noopener noreferrer" target="_blank">
+         their repository
+        </a>
+        .
+        <!-- -->
+        <!-- -->
+        You can also try to ask for help with this
+        <!-- -->
+        package
+        <!-- -->
+        on the
+        <!-- -->
+        <a href="https://forum.typst.app" rel="noopener" target="_blank">
+         Forum
+        </a>
+        .
+       </p>
+       <p>
+        Please report this
+        <!-- -->
+        package
+        <!-- -->
+        to the Typst team using the
+        <!-- -->
+        <a href="https://typst.app/contact" rel="noreferrer" target="_blank">
+         contact form
+        </a>
+        <!-- -->
+        if you believe it is a safety hazard or infringes upon your rights.
+       </p>
+      </section>
+      <section id="versions">
+       <h3>
+        Version history
+       </h3>
+       <table>
+        <thead>
+         <tr>
+          <th align="left">
+           Version
+          </th>
+          <th align="left">
+           Release Date
+          </th>
+         </tr>
+        </thead>
+        <tbody>
+         <tr>
+          <td align="left">
+           0.2.0
+          </td>
+          <td align="left">
+           November 26, 2024
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/glossy/0.1.2/">
+            0.1.2
+           </a>
+          </td>
+          <td align="left">
+           October 31, 2024
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/glossy/0.1.1/">
+            0.1.1
+           </a>
+          </td>
+          <td align="left">
+           October 24, 2024
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/glossy/0.1.0/">
+            0.1.0
+           </a>
+          </td>
+          <td align="left">
+           October 23, 2024
+          </td>
+         </tr>
+        </tbody>
+       </table>
+      </section>
+      <p class="bottom-notice muted">
+       Typst GmbH did not create this
+       <!-- -->
+       package
+       <!-- -->
+       and cannot guarantee correct functionality of this
+       <!-- -->
+       package
+       <!-- -->
+       or compatibility with any version of the Typst compiler or app.
+      </p>
+     </aside>
+    </div>
+   </main>

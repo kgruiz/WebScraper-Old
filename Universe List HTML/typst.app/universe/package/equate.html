@@ -1,0 +1,469 @@
+<main>
+    <div id="banner" style="--banner-accent:#145B49;--banner-primary:#092F27;--banner-secondary:#1B4C3A;--banner-tertiary:#448472;--banner-background:linear-gradient(90deg, #92E8BE 0%, #D1F5F8 100%)">
+     <div class="package-icon" role="img">
+     </div>
+     <div>
+      <div class="title">
+       <h1 class="name">
+        equate
+       </h1>
+       <span class="version">
+        0.2.1
+       </span>
+      </div>
+      <p class="description">
+       Breakable equations with improved numbering.
+      </p>
+     </div>
+     <p class="featured-label">
+      <span class="icon" role="img">
+      </span>
+      Featured
+      <!-- -->
+      Package
+     </p>
+    </div>
+    <div class="inner-grid">
+     <section id="readme">
+      <p>
+       A package for improved layout of equations and mathematical expressions.
+      </p>
+      <p>
+       When applied, this package will split up multi-line block equations into multiple elements, so that each line can be assigned a separate number. By default, the equation counter is incremented for each line, but this behavior can be changed by setting the
+       <code>
+        sub-numbering
+       </code>
+       argument to
+       <code>
+        true
+       </code>
+       . In this case, the equation counter will only be incremented once for the entire block, and each line will be assigned a sub-number like
+       <code>
+        1a
+       </code>
+       ,
+       <code>
+        2.1
+       </code>
+       , or similar, depending on the set equation numbering. You can also set the
+       <code>
+        number-mode
+       </code>
+       argument to
+       <code>
+        "label"
+       </code>
+       to only number labelled lines. If a label is only applied to the full equation, all lines will be numbered.
+      </p>
+      <p>
+       This splitting also makes it possible to spread equations over page boundaries while keeping alignment in place, which can be useful for long derivations or proofs. This can be configured by the
+       <code>
+        breakable
+       </code>
+       parameter of the
+       <code>
+        equate
+       </code>
+       function, or by setting the
+       <code>
+        breakable
+       </code>
+       parameter of
+       <code>
+        block
+       </code>
+       for equations via a show-set rule. Additionally, the alignment of the equation number is improved, so that it always matches the baseline of the equation.
+      </p>
+      <p>
+       If you want to create a âstandardâ equation with a single equation number centered across all lines, you can attach the
+       <code>
+        &lt;equate:revoke&gt;
+       </code>
+       label to the equation. This will disable the effect of this package for the current equation. This label can also be used in single lines of an equation to disable numbering for that line only.
+      </p>
+      <h2>
+       Usage
+      </h2>
+      <p>
+       The package comes with a single
+       <code>
+        equate
+       </code>
+       function that is supposed to be used as a template. It takes two optional arguments for customization:
+      </p>
+      <table>
+       <thead>
+        <tr>
+         <th>
+          Argument
+         </th>
+         <th>
+          Type
+         </th>
+         <th>
+          Description
+         </th>
+         <th>
+          Default
+         </th>
+        </tr>
+       </thead>
+       <tbody>
+        <tr>
+         <td>
+          <code>
+           breakable
+          </code>
+         </td>
+         <td>
+          <code>
+           boolean
+          </code>
+          ,
+          <code>
+           auto
+          </code>
+         </td>
+         <td>
+          Whether to allow the equation to break across pages.
+         </td>
+         <td>
+          <code>
+           auto
+          </code>
+         </td>
+        </tr>
+        <tr>
+         <td>
+          <code>
+           sub-numbering
+          </code>
+         </td>
+         <td>
+          <code>
+           boolean
+          </code>
+         </td>
+         <td>
+          Whether to assign sub-numbers to each line of an equation.
+         </td>
+         <td>
+          <code>
+           false
+          </code>
+         </td>
+        </tr>
+        <tr>
+         <td>
+          <code>
+           number-mode
+          </code>
+         </td>
+         <td>
+          <code>
+           "line"
+          </code>
+          ,
+          <code>
+           "label"
+          </code>
+         </td>
+         <td>
+          Whether to number all lines or only those with a label.
+         </td>
+         <td>
+          <code>
+           "line"
+          </code>
+         </td>
+        </tr>
+       </tbody>
+      </table>
+      <p>
+       To reference a specific line of an equation, include the label at the end of the line, like in the following example:
+      </p>
+      <pre><code class="language-typ"><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/equate:0.2.1"</span><span class="typ-punct">:</span> equate
+
+<span class="typ-key">#</span><span class="typ-key">show</span><span class="typ-punct">:</span> equate<span class="typ-punct">.</span><span class="typ-func">with</span><span class="typ-punct">(</span>breakable<span class="typ-punct">:</span> <span class="typ-key">true</span><span class="typ-punct">,</span> sub-numbering<span class="typ-punct">:</span> <span class="typ-key">true</span><span class="typ-punct">)</span>
+<span class="typ-key">#</span><span class="typ-key">set</span> math<span class="typ-punct">.</span><span class="typ-func">equation</span><span class="typ-punct">(</span>numbering<span class="typ-punct">:</span> <span class="typ-str">"(1.1)"</span><span class="typ-punct">)</span>
+
+The dot product of two vectors <span class="typ-math-delim">$</span><span class="typ-func">arrow</span><span class="typ-punct">(</span>a<span class="typ-punct">)</span><span class="typ-math-delim">$</span> and <span class="typ-math-delim">$</span><span class="typ-func">arrow</span><span class="typ-punct">(</span>b<span class="typ-punct">)</span><span class="typ-math-delim">$</span> can
+be calculated as shown in <span class="typ-ref">@dot-product</span>.
+
+<span class="typ-math-delim">$</span>
+  <span class="typ-pol">angle</span><span class="typ-punct">.</span><span class="typ-pol">l</span> a, b <span class="typ-pol">angle</span><span class="typ-punct">.</span><span class="typ-pol">r</span> <span class="typ-math-op">&amp;</span>= <span class="typ-func">arrow</span><span class="typ-punct">(</span>a<span class="typ-punct">)</span> <span class="typ-pol">dot</span> <span class="typ-func">arrow</span><span class="typ-punct">(</span>b<span class="typ-punct">)</span> <span class="typ-escape">\</span>
+                       <span class="typ-math-op">&amp;</span>= a<span class="typ-math-op">_</span>1 b<span class="typ-math-op">_</span>1 + a<span class="typ-math-op">_</span>2 b<span class="typ-math-op">_</span>2 + <span class="typ-escape">...</span> a<span class="typ-math-op">_</span>n b<span class="typ-math-op">_</span>n <span class="typ-escape">\</span>
+                       <span class="typ-math-op">&amp;</span>= <span class="typ-pol">sum</span><span class="typ-math-op">_</span><span class="typ-punct">(</span>i=1<span class="typ-punct">)</span><span class="typ-math-op">^</span>n a<span class="typ-math-op">_</span>i b<span class="typ-math-op">_</span>i. #<span class="typ-label">&lt;sum&gt;</span>
+<span class="typ-math-delim">$</span> <span class="typ-label">&lt;dot-product&gt;</span>
+
+The sum notation in <span class="typ-ref">@sum</span> is a useful way to express the dot
+product of two vectors.
+</code></code></pre>
+      <p>
+       <img alt="Result of example code (page 1)." src="https://github.com/typst/packages/raw/main/packages/preview/equate/0.2.1/assets/example-1.svg"/>
+       <br/>
+       <img alt="Result of example code (page 2)." src="https://github.com/typst/packages/raw/main/packages/preview/equate/0.2.1/assets/example-2.svg"/>
+      </p>
+      <h3>
+       Local Usage
+      </h3>
+      <p>
+       If you only want to use the package features on selected equations, you can also apply the
+       <code>
+        equate
+       </code>
+       function directly to the equation. This will override the default behavior for the current equation only. Note, that this will require you to use the
+       <code>
+        equate
+       </code>
+       function as a show rule for references, as shown in the following example:
+      </p>
+      <pre><code class="language-typ"><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/equate:0.2.1"</span><span class="typ-punct">:</span> equate
+
+<span class="typ-comment">// Allow references to a line of the equation.</span>
+<span class="typ-key">#</span><span class="typ-key">show</span> <span class="typ-func">ref</span><span class="typ-punct">:</span> <span class="typ-func">equate</span>
+
+<span class="typ-key">#</span><span class="typ-key">set</span> math<span class="typ-punct">.</span><span class="typ-func">equation</span><span class="typ-punct">(</span>numbering<span class="typ-punct">:</span> <span class="typ-str">"(1.1)"</span><span class="typ-punct">,</span> supplement<span class="typ-punct">:</span> <span class="typ-str">"Eq."</span><span class="typ-punct">)</span>
+
+<span class="typ-func">#</span><span class="typ-func">equate</span><span class="typ-punct">(</span><span class="typ-math-delim">$</span>
+  E <span class="typ-math-op">&amp;</span>= m c<span class="typ-math-op">^</span>2 #<span class="typ-label">&lt;short&gt;</span> <span class="typ-escape">\</span>
+    <span class="typ-math-op">&amp;</span>= <span class="typ-func">sqrt</span><span class="typ-punct">(</span>p<span class="typ-math-op">^</span>2 c<span class="typ-math-op">^</span>2 + m<span class="typ-math-op">^</span>2 c<span class="typ-math-op">^</span>4<span class="typ-punct">)</span> #<span class="typ-label">&lt;long&gt;</span>
+<span class="typ-math-delim">$</span><span class="typ-punct">)</span>
+
+While <span class="typ-ref">@short</span> is the famous equation by Einstein, <span class="typ-ref">@long</span> is a
+more general form of the energy-momentum relation.
+</code></code></pre>
+      <p>
+       <img alt="Result of example code." src="https://github.com/typst/packages/raw/main/packages/preview/equate/0.2.1/assets/example-local.svg"/>
+      </p>
+      <p>
+       As an alternative to the show rule, it is also possible to manually wrap each reference in an
+       <code>
+        equate
+       </code>
+       function, though this is less convenient and more prone to mistakes.
+      </p>
+     </section>
+     <aside>
+      <section>
+       <h3>
+        How to add
+       </h3>
+       <p>
+        Copy this into your project and use the import as
+        <!-- -->
+        <code>
+         equate
+        </code>
+       </p>
+       <div class="import-snippet">
+        <pre><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/equate:0.2.1"</span></code></pre>
+        <button class="copy" title="Copy to clipboard">
+         <img alt="Copy" height="16" src="/assets/icons/16-copy.svg" width="16"/>
+        </button>
+       </div>
+       <p class="muted">
+        Check the docs for
+        <!-- -->
+        <a href="https://typst.app/docs/reference/scripting/#packages">
+         more information on how to import packages
+        </a>
+        .
+       </p>
+      </section>
+      <section id="about">
+       <h3>
+        About
+       </h3>
+       <dl>
+        <dt>
+         Author
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         Eric Biedert
+        </dd>
+        <dt>
+         License:
+        </dt>
+        <dd>
+         MIT
+        </dd>
+        <dt>
+         Current version:
+        </dt>
+        <dd>
+         0.2.1
+        </dd>
+        <dt>
+         Last updated:
+        </dt>
+        <dd>
+         September 11, 2024
+        </dd>
+        <dt>
+         First released:
+        </dt>
+        <dd>
+         July 5, 2024
+        </dd>
+        <dt>
+         Minimum Typst version:
+        </dt>
+        <dd>
+         0.11.0
+        </dd>
+        <dt>
+         Archive size:
+        </dt>
+        <dd class="archive-size-value">
+         5.81 kB
+         <a href="https://packages.typst.org/preview/equate-0.2.1.tar.gz">
+          <img alt="Size icon" src="/assets/icons/16-download.svg"/>
+         </a>
+        </dd>
+        <dt>
+         Repository:
+        </dt>
+        <dd>
+         <a href="https://github.com/EpicEricEE/typst-equate" rel="noopener noreferrer" target="_blank">
+          GitHub
+         </a>
+        </dd>
+        <dt>
+         Categor
+         <!-- -->
+         ies
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         <ul class="list-with-icons">
+          <li>
+           <img alt="Layout icon" src="/assets/icons/16-layout.svg"/>
+           <a href="https://typst.app/universe/search/?category=layout">
+            Layout
+           </a>
+          </li>
+          <li>
+           <img alt="Model icon" src="/assets/icons/16-list-unordered.svg"/>
+           <a href="https://typst.app/universe/search/?category=model">
+            Model
+           </a>
+          </li>
+         </ul>
+        </dd>
+       </dl>
+      </section>
+      <section>
+       <h3>
+        Where to report issues?
+       </h3>
+       <p>
+        This
+        <!-- -->
+        package
+        <!-- -->
+        is a project of
+        <!-- -->
+        <!-- -->
+        Eric Biedert
+        <!-- -->
+        .
+        <!-- -->
+        <!-- -->
+        Report issues on
+        <!-- -->
+        <a href="https://github.com/EpicEricEE/typst-equate" rel="noopener noreferrer" target="_blank">
+         their repository
+        </a>
+        .
+        <!-- -->
+        <!-- -->
+        You can also try to ask for help with this
+        <!-- -->
+        package
+        <!-- -->
+        on the
+        <!-- -->
+        <a href="https://forum.typst.app" rel="noopener" target="_blank">
+         Forum
+        </a>
+        .
+       </p>
+       <p>
+        Please report this
+        <!-- -->
+        package
+        <!-- -->
+        to the Typst team using the
+        <!-- -->
+        <a href="https://typst.app/contact" rel="noreferrer" target="_blank">
+         contact form
+        </a>
+        <!-- -->
+        if you believe it is a safety hazard or infringes upon your rights.
+       </p>
+      </section>
+      <section id="versions">
+       <h3>
+        Version history
+       </h3>
+       <table>
+        <thead>
+         <tr>
+          <th align="left">
+           Version
+          </th>
+          <th align="left">
+           Release Date
+          </th>
+         </tr>
+        </thead>
+        <tbody>
+         <tr>
+          <td align="left">
+           0.2.1
+          </td>
+          <td align="left">
+           September 11, 2024
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/equate/0.2.0/">
+            0.2.0
+           </a>
+          </td>
+          <td align="left">
+           July 5, 2024
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/equate/0.1.0/">
+            0.1.0
+           </a>
+          </td>
+          <td align="left">
+           July 5, 2024
+          </td>
+         </tr>
+        </tbody>
+       </table>
+      </section>
+      <p class="bottom-notice muted">
+       Typst GmbH did not create this
+       <!-- -->
+       package
+       <!-- -->
+       and cannot guarantee correct functionality of this
+       <!-- -->
+       package
+       <!-- -->
+       or compatibility with any version of the Typst compiler or app.
+      </p>
+     </aside>
+    </div>
+   </main>

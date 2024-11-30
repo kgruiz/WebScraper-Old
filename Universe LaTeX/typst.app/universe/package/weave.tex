@@ -1,0 +1,156 @@
+\title{typst.app/universe/package/weave}
+
+\phantomsection\label{banner}
+\section{weave}\label{weave}
+
+{ 0.2.0 }
+
+A helper library for chaining lambda abstractions
+
+\phantomsection\label{readme}
+A helper library for chaining lambda abstractions, imitating the
+\texttt{\ \textbar{}\textgreater{}\ } or \texttt{\ .\ } operator in some
+functional languages.
+
+The function \texttt{\ compose\ } is the \texttt{\ pipe\ } function in
+the mathematical order. Functions suffixed with underscore have their
+arguments flipped.
+
+\subsection{Changelog}\label{changelog}
+
+\begin{itemize}
+\tightlist
+\item
+  0.2.0 Redesigned interface to work with typstâ€™s \texttt{\ with\ }
+  keyword.
+\item
+  0.1.0 Initial release
+\end{itemize}
+
+\subsection{Basic usage}\label{basic-usage}
+
+It can help improve readability with nested applications to a content
+value, or make the diff cleaner.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#compose\_((}
+\NormalTok{  text.with(blue),}
+\NormalTok{  emph,}
+\NormalTok{  strong,}
+\NormalTok{  underline,}
+\NormalTok{  strike,}
+\NormalTok{))[This is a very long content with a lot of words]}
+\NormalTok{// Is equivalent to}
+\NormalTok{\#text(}
+\NormalTok{  blue,}
+\NormalTok{  emph(}
+\NormalTok{    strong(}
+\NormalTok{      underline(}
+\NormalTok{        strike[This is a very long content with a lot of words]}
+\NormalTok{      )}
+\NormalTok{    )}
+\NormalTok{  )}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+You can use it for show rules just like the example above.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#show link: compose\_.with((}
+\NormalTok{  text.with(fill: blue),}
+\NormalTok{  emph,}
+\NormalTok{  underline,}
+\NormalTok{))}
+\NormalTok{// These two are equivalent}
+\NormalTok{\#show link: text.with(fill: blue)}
+\NormalTok{\#show link: emph}
+\NormalTok{\#show link: underline}
+\end{Highlighting}
+\end{Shaded}
+
+This can also be useful when you need to destructure lists, as it allows
+creating binds that are scoped by each lambda expression.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let two\_and\_one = pipe(}
+\NormalTok{  (1, 2),}
+\NormalTok{  (}
+\NormalTok{    ((a, b)) =\textgreater{} (a, b, {-}1), // becomes a list of length three}
+\NormalTok{    ((a, b, \_)) =\textgreater{} (b, a), // discard the third element and swap}
+\NormalTok{  ),}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as \texttt{\ weave\ }
+
+\begin{verbatim}
+#import "@preview/weave:0.2.0"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+\href{https://github.com/leana8959}{LÃ©ana æ±Ÿ}
+\item[License:]
+MIT
+\item[Current version:]
+0.2.0
+\item[Last updated:]
+October 21, 2024
+\item[First released:]
+October 21, 2024
+\item[Archive size:]
+1.92 kB
+\href{https://packages.typst.org/preview/weave-0.2.0.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Categor y :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-code.svg}}
+  \href{https://typst.app/universe/search/?category=scripting}{Scripting}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of LÃ©ana æ±Ÿ . You can also try to ask for
+help with this package on the \href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.2.0 & October 21, 2024 \\
+\href{https://typst.app/universe/package/weave/0.1.0/}{0.1.0} & October
+21, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.

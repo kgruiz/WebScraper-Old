@@ -1,0 +1,197 @@
+\title{typst.app/universe/package/wrap-it}
+
+\phantomsection\label{banner}
+\section{wrap-it}\label{wrap-it}
+
+{ 0.1.1 }
+
+Wrap text around figures and content
+
+{ } Featured Package
+
+\phantomsection\label{readme}
+Until \ul{\ul{\url{https://github.com/typst/typst/issues/553}}} is
+resolved, \texttt{\ typst\ } doesnâ€™t natively support wrapping text
+around figures or other content. However, you can use
+\texttt{\ wrap-it\ } to mimic much of this functionality:
+
+\begin{itemize}
+\item
+  Wrapping images left or right of their text
+\item
+  Specifying margins
+\item
+  And more
+\end{itemize}
+
+Detailed descriptions of each parameter are available in the
+\ul{\ul{\href{https://github.com/ntjess/wrap-it/blob/main/docs/manual.pdf}{wrap-it
+documentation}}} .
+
+The easiest method is to import \texttt{\ wrap-it:\ wrap-content\ } from
+the \texttt{\ @preview\ } package:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/wrap{-}it:0.1.0": wrap{-}content}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Vanilla}\label{vanilla}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let fig = figure(}
+\NormalTok{rect(fill: teal, radius: 0.5em, width: 8em),}
+\NormalTok{caption: [A figure],}
+\NormalTok{)}
+\NormalTok{\#let body = lorem(30)}
+\NormalTok{\#wrap{-}content(fig, body)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://www.github.com/ntjess/wrap-it/raw/v0.1.1/assets/example-1.png}}
+
+\subsection{Changing alignment and
+margin}\label{changing-alignment-and-margin}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#wrap{-}content(}
+\NormalTok{fig,}
+\NormalTok{body,}
+\NormalTok{align: bottom + right,}
+\NormalTok{column{-}gutter: 2em}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://www.github.com/ntjess/wrap-it/raw/v0.1.1/assets/example-2.png}}
+
+\subsection{Uniform margin around the
+image}\label{uniform-margin-around-the-image}
+
+The easiest way to get a uniform, highly-customizable margin is through
+boxing your image:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let boxed = box(fig, inset: 0.25em)}
+\NormalTok{\#wrap{-}content(boxed)[}
+\NormalTok{\#lorem(30)}
+\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://www.github.com/ntjess/wrap-it/raw/v0.1.1/assets/example-3.png}}
+
+\subsection{Wrapping two images in the same
+paragraph}\label{wrapping-two-images-in-the-same-paragraph}
+
+Note that for longer captions (as is the case in the bottom figure
+below), providing an explicit \texttt{\ columns\ } parameter is
+necessary to inform caption text of where to wrap.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let fig2 = figure(}
+\NormalTok{rect(fill: lime, radius: 0.5em),}
+\NormalTok{caption: [\#lorem(10)],}
+\NormalTok{)}
+\NormalTok{\#wrap{-}top{-}bottom(}
+\NormalTok{bottom{-}kwargs: (columns: (1fr, 2fr)),}
+\NormalTok{box(fig, inset: 0.25em),}
+\NormalTok{fig2,}
+\NormalTok{lorem(50),}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://www.github.com/ntjess/wrap-it/raw/v0.1.1/assets/example-4.png}}
+
+\subsection{Adding a label to a wrapped
+figure}\label{adding-a-label-to-a-wrapped-figure}
+
+Typst can only append labels to figures in content mode. So, when
+wrapping text around a figure that needs a label, you must first place
+your figure in a content block with its label, then wrap it:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#show ref: it =\textgreater{} underline(text(blue, it))}
+\NormalTok{\#let fig = [}
+\NormalTok{  \#figure(}
+\NormalTok{    rect(fill: red, radius: 0.5em, width: 8em),}
+\NormalTok{    caption:[Labeled]}
+\NormalTok{  )\textless{}fig:lbl\textgreater{}}
+\NormalTok{]}
+\NormalTok{\#wrap{-}content(fig, [Fortunately, @fig:lbl\textquotesingle{}s label can be referenced within the wrapped text. \#lorem(15)])}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://www.github.com/ntjess/wrap-it/raw/v0.1.1/assets/example-5.png}}
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as \texttt{\ wrap-it\ }
+
+\begin{verbatim}
+#import "@preview/wrap-it:0.1.1"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+Nathan Jessurun
+\item[License:]
+Unlicense
+\item[Current version:]
+0.1.1
+\item[Last updated:]
+November 28, 2024
+\item[First released:]
+January 26, 2024
+\item[Archive size:]
+5.30 kB
+\href{https://packages.typst.org/preview/wrap-it-0.1.1.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/ntjess/wrap-it}{GitHub}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of Nathan Jessurun . Report issues on
+\href{https://github.com/ntjess/wrap-it}{their repository} . You can
+also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.1.1 & November 28, 2024 \\
+\href{https://typst.app/universe/package/wrap-it/0.1.0/}{0.1.0} &
+January 26, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.

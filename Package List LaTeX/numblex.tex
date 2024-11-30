@@ -1,0 +1,168 @@
+\title{typst.app/universe/package/numblex}
+
+\phantomsection\label{banner}
+\section{numblex}\label{numblex}
+
+{ 0.2.0 }
+
+Numbering helper.
+
+\phantomsection\label{readme}
+How to number the heading like this?
+
+\begin{itemize}
+\tightlist
+\item
+  Appendix A. XXXX
+
+  \begin{itemize}
+  \tightlist
+  \item
+    A.1. YYY
+  \item
+    A.2. ZZZ
+  \end{itemize}
+\end{itemize}
+
+Or this?
+
+\begin{itemize}
+\tightlist
+\item
+  ä¸€ã€?è¯?é¢˜
+
+  \begin{itemize}
+  \tightlist
+  \item
+    1. è®ºç‚¹
+
+    \begin{itemize}
+    \tightlist
+    \item
+      (1) è¯?æ?®
+    \end{itemize}
+  \end{itemize}
+\end{itemize}
+
+You might use a function:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#set heading(numbering: (..nums) =\textgreater{} \{}
+\NormalTok{  if nums.pos().len() == 1 \{}
+\NormalTok{    return "Appendix " + numbering("A.", ..nums)}
+\NormalTok{  \}}
+\NormalTok{  return numbering("A.1.", ..nums)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+Or set up a couple of \texttt{\ set\ } rules:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#set heading(numbering: "A.1.")}
+\NormalTok{\#show heading.where(level: 1): set heading(numbering: (n) =\textgreater{} "Appendix " + numbering("A.", n))}
+\NormalTok{// No, you can\textquotesingle{}t use "Appendix A." since Typst would treat the first "A" as a numbering}
+\end{Highlighting}
+\end{Shaded}
+
+Or simply use Numblex:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/numblex:0.2.0": numblex}
+
+\NormalTok{\#set heading(numbering: numblex("\{Appendix [A].:d==1;[A].\}\{[1].\}"))}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Usage}\label{usage}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/numblex:0.2.0": numblex}
+
+\NormalTok{\#set heading(numbering: numblex("\{Section [A].:d==1;[A].\}\{[1].\}\{[1])\}"))}
+\end{Highlighting}
+\end{Shaded}
+
+You can read the
+\href{https://github.com/ParaN3xus/numblex/blob/main/manual.pdf}{Manual}
+for more information.
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as \texttt{\ numblex\ }
+
+\begin{verbatim}
+#import "@preview/numblex:0.2.0"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author s :]
+\href{https://github.com/ParaN3xus}{ParaN3xus} \&
+\href{https://github.com/sjfhsjfh}{sjfhsjfh}
+\item[License:]
+MIT
+\item[Current version:]
+0.2.0
+\item[Last updated:]
+June 24, 2024
+\item[First released:]
+May 3, 2024
+\item[Archive size:]
+217 kB
+\href{https://packages.typst.org/preview/numblex-0.2.0.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/ParaN3xus/numblex}{GitHub}
+\item[Categor y :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-hammer.svg}}
+  \href{https://typst.app/universe/search/?category=utility}{Utility}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of ParaN3xus and sjfhsjfh . Report issues on
+\href{https://github.com/ParaN3xus/numblex}{their repository} . You can
+also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.2.0 & June 24, 2024 \\
+\href{https://typst.app/universe/package/numblex/0.1.1/}{0.1.1} & May 6,
+2024 \\
+\href{https://typst.app/universe/package/numblex/0.1.0/}{0.1.0} & May 3,
+2024 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.

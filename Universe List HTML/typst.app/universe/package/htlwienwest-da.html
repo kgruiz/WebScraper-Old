@@ -1,0 +1,556 @@
+<main>
+    <div id="banner" style="--banner-accent:#000000;--banner-primary:#000000;--banner-secondary:#000000;--banner-tertiary:#565565;--banner-background:#eff0f3">
+     <div id="template-thumbnail">
+      <img alt="A preview of the htlwienwest-da Typst template." src="https://packages.typst.org/preview/thumbnails/htlwienwest-da-0.1.0-small.webp"/>
+      <div class="icon" role="img">
+      </div>
+     </div>
+     <div>
+      <div class="title">
+       <h1 class="name">
+        htlwienwest-da
+       </h1>
+       <span class="version">
+        0.1.0
+       </span>
+      </div>
+      <p class="description">
+       The diploma thesis template for students of the HTL Wien West.
+      </p>
+     </div>
+     <p class="official-label">
+      <span class="icon" role="img">
+      </span>
+      Officially affiliated
+     </p>
+    </div>
+    <div class="inner-grid">
+     <a class="create-project-button mobile" href="/app?template=htlwienwest-da&amp;version=0.1.0" rel="noopener noreferrer" target="_blank">
+      Create project in app
+     </a>
+     <section id="readme">
+      <p>
+       This is a Typst diploma thesis template for students of the HTL Wien West. It fulfils all the necessary requirements for the diploma thesis.
+      </p>
+      <h2>
+       Usage
+      </h2>
+      <p>
+       You can use this template in the Typst web app by clicking âStart from templateâ on the dashboard and searching for
+       <code>
+        htlwienwest-da
+       </code>
+       .
+      </p>
+      <p>
+       Alternatively, you can use the CLI to kick this project off using the command
+      </p>
+      <pre><code>typst init @preview/htlwienwest-da
+</code></pre>
+      <p>
+       Typst will create a new directory with all the files needed to get you started.
+      </p>
+      <h2>
+       Configuration
+      </h2>
+      <p>
+       This template exports the
+       <code>
+        diplomarbeit
+       </code>
+       function with the following named arguments:
+      </p>
+      <ul>
+       <li>
+        <code>
+         titel
+        </code>
+        :
+        <code>
+         string
+        </code>
+        - The title of the thesis
+       </li>
+       <li>
+        <code>
+         schuljahr
+        </code>
+        :
+        <code>
+         string
+        </code>
+        - The current school year
+       </li>
+       <li>
+        <code>
+         abteilung
+        </code>
+        :
+        <code>
+         string
+        </code>
+        - The studentâs department
+       </li>
+       <li>
+        <code>
+         unterschrifts-datum
+        </code>
+        :
+        <code>
+         string
+        </code>
+        - The submission date
+       </li>
+       <li>
+        <code>
+         autoren
+        </code>
+        :
+        <code>
+         array(dict)
+        </code>
+        - An array of all authors, represented as dictionaries. Each of them has the following properties
+        <ul>
+         <li>
+          <code>
+           vorname
+          </code>
+          :
+          <code>
+           string
+          </code>
+          - Firstname of the student
+         </li>
+         <li>
+          <code>
+           nachname
+          </code>
+          :
+          <code>
+           string
+          </code>
+          - Lastname of the student
+         </li>
+         <li>
+          <code>
+           klasse
+          </code>
+          :
+          <code>
+           string
+          </code>
+          - School class of the student
+         </li>
+         <li>
+          <code>
+           betreuer
+          </code>
+          :
+          <code>
+           dict
+          </code>
+          - The studentâs advisor as dictionary
+          <ul>
+           <li>
+            <code>
+             name
+            </code>
+            :
+            <code>
+             string | content
+            </code>
+            - The advisorâs name
+           </li>
+           <li>
+            <code>
+             geschlecht
+            </code>
+            :
+            <code>
+             "male" | "female"
+            </code>
+            - Gender of advisor for correct gendering
+           </li>
+          </ul>
+         </li>
+         <li>
+          <code>
+           aufgaben
+          </code>
+          :
+          <code>
+           content
+          </code>
+          - The studentâs responsibilities
+         </li>
+        </ul>
+       </li>
+       <li>
+        <code>
+         kurzfassung
+        </code>
+        :
+        <code>
+         content
+        </code>
+        - Abstract in german as content block
+       </li>
+       <li>
+        <code>
+         abstract
+        </code>
+        :
+        <code>
+         content
+        </code>
+        - Abstract in english as content block
+       </li>
+       <li>
+        <code>
+         vorwort
+        </code>
+        :
+        <code>
+         content
+        </code>
+        - The thesisâ preface
+       </li>
+       <li>
+        <code>
+         danksagung
+        </code>
+        :
+        <code>
+         content
+        </code>
+        - Acknowledgement
+       </li>
+       <li>
+        <code>
+         anhang
+        </code>
+        :
+        <code>
+         content | none
+        </code>
+        - Appendix
+       </li>
+       <li>
+        <code>
+         literaturverzeichnis
+        </code>
+        :
+        <code>
+         function
+        </code>
+        - The bibliography prefilled with the BibTex file path
+       </li>
+      </ul>
+      <p>
+       The function also accepts a single, positional argument for the body of the paper.
+      </p>
+      <p>
+       The template will initialize your package with a sample call to the
+       <code>
+        diplomarbeit
+       </code>
+       function in a show rule. If you want to change an existing project to use thistemplate, you can add a show rule like this at the top of your file:
+      </p>
+      <pre><code class="language-typ"><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/htlwienwest-da:0.1.0"</span><span class="typ-punct">:</span> <span class="typ-op">*</span>
+
+<span class="typ-key">#</span><span class="typ-key">show</span><span class="typ-punct">:</span> diplomarbeit<span class="typ-punct">.</span>with(
+  titel<span class="typ-punct">:</span> <span class="typ-str">"Titel der Diplomarbeit"</span><span class="typ-punct">,</span>
+  abteilung<span class="typ-punct">:</span> <span class="typ-str">"Informationstechnologie"</span><span class="typ-punct">,</span>
+  schuljahr<span class="typ-punct">:</span> <span class="typ-str">"2023/24"</span><span class="typ-punct">,</span>
+  unterschrifts-datum<span class="typ-punct">:</span> <span class="typ-str">"20.04.2024"</span><span class="typ-punct">,</span>
+  autoren<span class="typ-punct">:</span> <span class="typ-punct">(</span>
+   <span class="typ-punct">(</span>
+     vorname<span class="typ-punct">:</span> <span class="typ-str">"Hans"</span><span class="typ-punct">,</span> nachname<span class="typ-punct">:</span> <span class="typ-str">"Mustermann"</span><span class="typ-punct">,</span>
+     klasse<span class="typ-punct">:</span> <span class="typ-str">"5AHITN"</span><span class="typ-punct">,</span>
+     betreuer<span class="typ-punct">:</span> <span class="typ-punct">(</span>name<span class="typ-punct">:</span> <span class="typ-str">"Dr. Walter Turbo"</span><span class="typ-punct">,</span> geschlecht<span class="typ-punct">:</span> <span class="typ-str">"male"</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+     aufgaben<span class="typ-punct">:</span> <span class="typ-punct">[</span>
+       <span class="typ-func">#</span><span class="typ-func">lorem</span><span class="typ-punct">(</span><span class="typ-num">100</span><span class="typ-punct">)</span>
+     <span class="typ-punct">]</span>
+   <span class="typ-punct">)</span><span class="typ-punct">,</span>
+   <span class="typ-punct">(</span>
+     vorname<span class="typ-punct">:</span> <span class="typ-str">"Herta"</span><span class="typ-punct">,</span> nachname<span class="typ-punct">:</span> <span class="typ-str">"Musterfrau"</span><span class="typ-punct">,</span>
+     klasse<span class="typ-punct">:</span> <span class="typ-str">"5AHITN"</span><span class="typ-punct">,</span>
+     betreuer<span class="typ-punct">:</span> <span class="typ-punct">(</span>name<span class="typ-punct">:</span> <span class="typ-str">"Dipl.-Ing Maria Kreisel"</span><span class="typ-punct">,</span> geschlecht<span class="typ-punct">:</span> <span class="typ-str">"female"</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+     aufgaben<span class="typ-punct">:</span> <span class="typ-punct">[</span>
+       <span class="typ-func">#</span><span class="typ-func">lorem</span><span class="typ-punct">(</span><span class="typ-num">100</span><span class="typ-punct">)</span>
+     <span class="typ-punct">]</span>
+   <span class="typ-punct">)</span><span class="typ-punct">,</span>
+  kurzfassung: [
+    Die Kurzfassung muss die folgenden Inhalte darlegen (Â§8, Absatz 5 PruÌfungsordnung): Thema, Fragestellung, Problemformulierung, wesentliche Ergebnisse. Sie soll einen prÃ¤gnanten Ãberblick uÌber die Arbeit geben.
+  ]<span class="typ-punct">,</span>
+  abstract: [
+    Englische Version der Kurzfassung (siehe #link(&lt;Kurzfassung&gt;)[_Kurzfassung_])
+  ]<span class="typ-punct">,</span>
+  vorwort: [
+    PerÃ¶nlicher Zugang zum Thema. GrÃ¼nde fÃ¼r die Themenwahl.
+  ]<span class="typ-punct">,</span>
+  danksagung: [
+    Dank an Personen, die bei der Erstellung der Arbeit unterstÃ¼tzt haben.
+  ]<span class="typ-punct">,</span>
+  anhang: include "anhang.typ"<span class="typ-punct">,</span> <span class="typ-comment">// entfernen falls nicht benÃ¶tigt</span>
+  literaturverzeichnis: bibliography.with("literaturverzeichnis.bib")
+<span class="typ-punct">)</span>
+
+<span class="typ-comment">// Your content goes below.</span>
+</code></code></pre>
+      <h2>
+       Provided Functions
+      </h2>
+      <p>
+       Beside the
+       <code>
+        diplomarbeit
+       </code>
+       function, the template also provides the
+       <code>
+        autor
+       </code>
+       function that is used after a heading to indicate the specific author of the current section.
+      </p>
+      <pre><code>== Some Heading
+#autor[Your Name]
+</code></pre>
+      <p>
+       This will render additional information to the sectionâs heading.
+      </p>
+      <p>
+       To install the template locally, you can use
+      </p>
+      <pre><code class="language-bash">just install
+</code></pre>
+      <p>
+       which uses the
+       <a href="https://github.com/casey/just" rel="nofollow ugc" target="_blank">
+        just
+       </a>
+       command runner.
+      </p>
+      <p>
+       If you donât want to install
+       <code>
+        just
+       </code>
+       , you can run
+      </p>
+      <pre><code class="language-bash">bash ./scripts/package @local
+</code></pre>
+      <p>
+       The installed version can be used via
+       <code>
+        @local
+       </code>
+       instead of
+       <code>
+        @preview
+       </code>
+       . To create a new typst project from the template, run
+      </p>
+      <pre><code class="language-bash">typst init @local/htlwienwest-da:
+</code></pre>
+     </section>
+     <aside>
+      <a class="create-project-button desktop" href="/app?template=htlwienwest-da&amp;version=0.1.0" rel="noopener noreferrer" target="_blank">
+       Create project in app
+      </a>
+      <section>
+       <h3>
+        How to use
+       </h3>
+       <p>
+        Click the button above to create a new project using this template in the Typst app.
+       </p>
+       <p>
+        You can also use the Typst CLI to start a new project on your computer using this command:
+       </p>
+       <div class="init-snippet">
+        <pre><code>typst init @preview/<!-- -->htlwienwest-da<!-- -->:<!-- -->0.1.0</code></pre>
+        <button class="copy" title="Copy to clipboard">
+         <img alt="Copy" height="16" src="/assets/icons/16-copy.svg" width="16"/>
+        </button>
+       </div>
+      </section>
+      <section id="about">
+       <h3>
+        About
+       </h3>
+       <dl>
+        <dt>
+         Author
+         <!-- -->
+         s
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         <a href="https://github.com/jozott00" rel="noopener noreferrer" target="_blank">
+          Johannes Zottele
+         </a>
+         &amp;
+         <a href="https://github.com/peterw16" rel="noopener noreferrer" target="_blank">
+          peterw16
+         </a>
+        </dd>
+        <dt>
+         License:
+        </dt>
+        <dd>
+         MIT
+        </dd>
+        <dt>
+         Current version:
+        </dt>
+        <dd>
+         0.1.0
+        </dd>
+        <dt>
+         Last updated:
+        </dt>
+        <dd>
+         May 3, 2024
+        </dd>
+        <dt>
+         First released:
+        </dt>
+        <dd>
+         May 3, 2024
+        </dd>
+        <dt>
+         Archive size:
+        </dt>
+        <dd class="archive-size-value">
+         61.9 kB
+         <a href="https://packages.typst.org/preview/htlwienwest-da-0.1.0.tar.gz">
+          <img alt="Size icon" src="/assets/icons/16-download.svg"/>
+         </a>
+        </dd>
+        <dt>
+         Verification:
+        </dt>
+        <dd class="verification-value">
+         We verified that the author is affiliated with their institution
+         <!-- -->
+         <img alt="Verified icon" src="/assets/icons/16-verified.svg"/>
+        </dd>
+        <dt>
+         Repository:
+        </dt>
+        <dd>
+         <a href="https://github.com/htlwienwest/da-vorlage-typst" rel="noopener noreferrer" target="_blank">
+          GitHub
+         </a>
+        </dd>
+        <dt>
+         Categor
+         <!-- -->
+         y
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         <ul class="list-with-icons">
+          <li>
+           <img alt="Thesis icon" src="/assets/icons/16-mortarboard.svg"/>
+           <a href="https://typst.app/universe/search/?category=thesis">
+            Thesis
+           </a>
+          </li>
+         </ul>
+        </dd>
+       </dl>
+      </section>
+      <section>
+       <h3>
+        Where to report issues?
+       </h3>
+       <p>
+        This
+        <!-- -->
+        template
+        <!-- -->
+        is a project of
+        <!-- -->
+        <!-- -->
+        Johannes Zottele and peterw16
+        <!-- -->
+        .
+        <!-- -->
+        <!-- -->
+        Report issues on
+        <!-- -->
+        <a href="https://github.com/htlwienwest/da-vorlage-typst" rel="noopener noreferrer" target="_blank">
+         their repository
+        </a>
+        .
+        <!-- -->
+        <!-- -->
+        You can also try to ask for help with this
+        <!-- -->
+        template
+        <!-- -->
+        on the
+        <!-- -->
+        <a href="https://forum.typst.app" rel="noopener" target="_blank">
+         Forum
+        </a>
+        .
+       </p>
+       <p>
+        Please report this
+        <!-- -->
+        template
+        <!-- -->
+        to the Typst team using the
+        <!-- -->
+        <a href="https://typst.app/contact" rel="noreferrer" target="_blank">
+         contact form
+        </a>
+        <!-- -->
+        if you believe it is a safety hazard or infringes upon your rights.
+       </p>
+      </section>
+      <section id="versions">
+       <h3>
+        Version history
+       </h3>
+       <table>
+        <thead>
+         <tr>
+          <th align="left">
+           Version
+          </th>
+          <th align="left">
+           Release Date
+          </th>
+         </tr>
+        </thead>
+        <tbody>
+         <tr>
+          <td align="left">
+           0.1.0
+          </td>
+          <td align="left">
+           May 3, 2024
+          </td>
+         </tr>
+        </tbody>
+       </table>
+      </section>
+      <p class="bottom-notice muted">
+       Typst GmbH did not create this
+       <!-- -->
+       template
+       <!-- -->
+       and cannot guarantee correct functionality of this
+       <!-- -->
+       template
+       <!-- -->
+       or compatibility with any version of the Typst compiler or app.
+      </p>
+     </aside>
+    </div>
+   </main>

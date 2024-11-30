@@ -1,0 +1,455 @@
+<main>
+    <div id="banner" style="--banner-accent:#000000;--banner-primary:#000000;--banner-secondary:#000000;--banner-tertiary:#565565;--banner-background:#eff0f3">
+     <div class="package-icon" role="img">
+     </div>
+     <div>
+      <div class="title">
+       <h1 class="name">
+        abbr
+       </h1>
+       <span class="version">
+        0.1.0
+       </span>
+      </div>
+      <p class="description">
+       An Abbreviations package.
+      </p>
+     </div>
+    </div>
+    <div class="inner-grid">
+     <section id="readme">
+      <p>
+       Short package for making the handling of abbreviations, acronyms, and initialisms
+       <em>
+        easy
+       </em>
+       .
+      </p>
+      <p>
+       Declare your abbreviations anywhere, use everywhere â they get picked up automatically.
+      </p>
+      <h2>
+       Features
+      </h2>
+      <ul>
+       <li>
+        Automatic plurals, with optional overrides.
+       </li>
+       <li>
+        Automatic 1- or 2-column sorted list of abbreviations
+       </li>
+       <li>
+        Automatic links to list of abbreviations, if included.
+       </li>
+       <li>
+        styling configuration
+       </li>
+      </ul>
+      <h2>
+       Getting started
+      </h2>
+      <pre><code class="language-typst"><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/abbr:0.1.0"</span>
+
+<span class="typ-pol">#</span><span class="typ-pol">abbr</span><span class="typ-punct">.</span><span class="typ-func">list</span><span class="typ-punct">(</span><span class="typ-punct">)</span>
+<span class="typ-pol">#</span><span class="typ-pol">abbr</span><span class="typ-punct">.</span><span class="typ-func">make</span><span class="typ-punct">(</span>
+  <span class="typ-punct">(</span><span class="typ-str">"PDE"</span><span class="typ-punct">,</span> <span class="typ-str">"Partial Differential Equation"</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+  <span class="typ-punct">(</span><span class="typ-str">"BC"</span><span class="typ-punct">,</span> <span class="typ-str">"Boundary Condition"</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+  <span class="typ-punct">(</span><span class="typ-str">"DOF"</span><span class="typ-punct">,</span> <span class="typ-str">"Degree of Freedom"</span><span class="typ-punct">,</span> <span class="typ-str">"Degrees of Freedom"</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+<span class="typ-punct">)</span>
+
+<span class="typ-heading">= Constrained Equations</span>
+
+<span class="typ-pol">#</span><span class="typ-pol">abbr</span><span class="typ-punct">.</span><span class="typ-func">pla</span><span class="typ-punct">[</span>BC<span class="typ-punct">]</span> constrain the <span class="typ-pol">#</span><span class="typ-pol">abbr</span><span class="typ-punct">.</span><span class="typ-func">pla</span><span class="typ-punct">[</span>DOF<span class="typ-punct">]</span> of the <span class="typ-pol">#</span><span class="typ-pol">abbr</span><span class="typ-punct">.</span><span class="typ-func">pla</span><span class="typ-punct">[</span>PDE<span class="typ-punct">]</span> they act on.<span class="typ-escape">\</span>
+<span class="typ-pol">#</span><span class="typ-pol">abbr</span><span class="typ-punct">.</span><span class="typ-func">pla</span><span class="typ-punct">[</span>BC<span class="typ-punct">]</span> constrain the <span class="typ-pol">#</span><span class="typ-pol">abbr</span><span class="typ-punct">.</span><span class="typ-func">pla</span><span class="typ-punct">[</span>DOF<span class="typ-punct">]</span> of the <span class="typ-pol">#</span><span class="typ-pol">abbr</span><span class="typ-punct">.</span><span class="typ-func">pla</span><span class="typ-punct">[</span>PDE<span class="typ-punct">]</span> they act on.
+
+<span class="typ-pol">#</span><span class="typ-pol">abbr</span><span class="typ-punct">.</span><span class="typ-func">add</span><span class="typ-punct">(</span><span class="typ-str">"MOL"</span><span class="typ-punct">,</span> <span class="typ-str">"Method of Lines"</span><span class="typ-punct">)</span>
+The <span class="typ-pol">#</span><span class="typ-pol">abbr</span><span class="typ-punct">.</span><span class="typ-func">a</span><span class="typ-punct">[</span>MOL<span class="typ-punct">]</span> is a procedure to solve <span class="typ-pol">#</span><span class="typ-pol">abbr</span><span class="typ-punct">.</span><span class="typ-func">pla</span><span class="typ-punct">[</span>PDE<span class="typ-punct">]</span> in time.
+</code></code></pre>
+      <p>
+       <img alt="" src="https://github.com/typst/packages/raw/main/packages/preview/abbr/0.1.0/example.png"/>
+      </p>
+      <h2>
+       API Reference
+      </h2>
+      <h3>
+       Configuration
+      </h3>
+      <ul>
+       <li>
+        <strong>
+         style
+        </strong>
+        <code>
+         (func)
+        </code>
+        <br/>
+        Set a callable for styling the short version in the text.
+       </li>
+      </ul>
+      <h3>
+       Creation
+      </h3>
+      <ul>
+       <li>
+        <p>
+         <strong>
+          add
+         </strong>
+         <code>
+          (short, long, long-plural)
+         </code>
+         <br/>
+         Add single entry to use later.
+         <br/>
+         <code>
+          long-plural
+         </code>
+         is
+         <em>
+          optional
+         </em>
+         , if not given but used, an
+         <code>
+          s
+         </code>
+         is appended to create a plural.
+        </p>
+       </li>
+       <li>
+        <p>
+         <strong>
+          make
+         </strong>
+         <code>
+          (list, of, entries)
+         </code>
+         <br/>
+         Add multiple entries, each of the form
+         <code>
+          (short, long, long-plural)
+         </code>
+         .
+        </p>
+       </li>
+      </ul>
+      <h3>
+       Listing
+      </h3>
+      <ul>
+       <li>
+        <strong>
+         list
+        </strong>
+        <code>
+         (title)
+        </code>
+        <br/>
+        Create an outline with all abbreviations in short and expanded form
+       </li>
+      </ul>
+      <h3>
+       Usage
+      </h3>
+      <ul>
+       <li>
+        <strong>
+         s
+        </strong>
+        <code>
+         ()
+        </code>
+        - short
+        <br/>
+        force short form of abbreviation
+       </li>
+       <li>
+        <strong>
+         l
+        </strong>
+        <code>
+         ()
+        </code>
+        - long
+        <br/>
+        force long form of abbreviation
+       </li>
+       <li>
+        <strong>
+         a
+        </strong>
+        <code>
+         ()
+        </code>
+        - auto
+        <br/>
+        first occurence will be long form, the rest short
+       </li>
+       <li>
+        <strong>
+         pls
+        </strong>
+        <code>
+         ()
+        </code>
+        - plural short
+        <br/>
+        plural short form
+       </li>
+       <li>
+        <strong>
+         pll
+        </strong>
+        <code>
+         ()
+        </code>
+        - plural long
+        <br/>
+        plural long form
+       </li>
+       <li>
+        <strong>
+         pl
+        </strong>
+        <code>
+         ()
+        </code>
+        - plural automatic
+        <br/>
+        plural. first occurence long form, then short
+       </li>
+      </ul>
+      <h2>
+       Why yet another Abbreviations package?
+      </h2>
+      <p>
+       This mostly exists because I started working on it before checking if somebody already made a package for it. After I saw that e.g.
+       <code>
+        acrotastic
+       </code>
+       exists, I kept convincing myself a new package still makes sense for the following reasons:
+      </p>
+      <ul>
+       <li>
+        Getting to know Typst
+       </li>
+       <li>
+        More automatic handling than other packages
+       </li>
+       <li>
+        Ability to keep keys as [Content] instead of having to stringify everything
+       </li>
+      </ul>
+      <p>
+       Especially the last part seems to lower the friction of writing for me. It seems silly, I know.
+      </p>
+      <h2>
+       Contributing
+      </h2>
+      <p>
+       Please head over to the
+       <a href="https://sr.ht/~slowjo/typst-packages" rel="nofollow ugc" target="_blank">
+        hub
+       </a>
+       to find the mailing list and ticket tracker.
+      </p>
+      <p>
+       Or simply reach out on IRC (
+       <a href="https://web.libera.chat/gamja/?autojoin=#typst" rel="nofollow ugc" target="_blank">
+        #typst on libera.chat
+       </a>
+       )!
+      </p>
+     </section>
+     <aside>
+      <section>
+       <h3>
+        How to add
+       </h3>
+       <p>
+        Copy this into your project and use the import as
+        <!-- -->
+        <code>
+         abbr
+        </code>
+       </p>
+       <div class="import-snippet">
+        <pre><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/abbr:0.1.0"</span></code></pre>
+        <button class="copy" title="Copy to clipboard">
+         <img alt="Copy" height="16" src="/assets/icons/16-copy.svg" width="16"/>
+        </button>
+       </div>
+       <p class="muted">
+        Check the docs for
+        <!-- -->
+        <a href="https://typst.app/docs/reference/scripting/#packages">
+         more information on how to import packages
+        </a>
+        .
+       </p>
+      </section>
+      <section id="about">
+       <h3>
+        About
+       </h3>
+       <dl>
+        <dt>
+         Author
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         <a href="mailto:slowjo@halmen.xyz">
+          Jonathan Halmen
+         </a>
+        </dd>
+        <dt>
+         License:
+        </dt>
+        <dd>
+         MIT
+        </dd>
+        <dt>
+         Current version:
+        </dt>
+        <dd>
+         0.1.0
+        </dd>
+        <dt>
+         Last updated:
+        </dt>
+        <dd>
+         November 5, 2024
+        </dd>
+        <dt>
+         First released:
+        </dt>
+        <dd>
+         November 5, 2024
+        </dd>
+        <dt>
+         Archive size:
+        </dt>
+        <dd class="archive-size-value">
+         3.40 kB
+         <a href="https://packages.typst.org/preview/abbr-0.1.0.tar.gz">
+          <img alt="Size icon" src="/assets/icons/16-download.svg"/>
+         </a>
+        </dd>
+        <dt>
+         Repository:
+        </dt>
+        <dd>
+         <a href="https://git.sr.ht/~slowjo/typst-abbr" rel="noopener noreferrer" target="_blank">
+          git.sr.ht
+         </a>
+        </dd>
+        <dt>
+         Categor
+         <!-- -->
+         y
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         <ul class="list-with-icons">
+          <li>
+           <img alt="Model icon" src="/assets/icons/16-list-unordered.svg"/>
+           <a href="https://typst.app/universe/search/?category=model">
+            Model
+           </a>
+          </li>
+         </ul>
+        </dd>
+       </dl>
+      </section>
+      <section>
+       <h3>
+        Where to report issues?
+       </h3>
+       <p>
+        This
+        <!-- -->
+        package
+        <!-- -->
+        is a project of
+        <!-- -->
+        <!-- -->
+        Jonathan Halmen
+        <!-- -->
+        .
+        <!-- -->
+        <!-- -->
+        Report issues on
+        <!-- -->
+        <a href="https://git.sr.ht/~slowjo/typst-abbr" rel="noopener noreferrer" target="_blank">
+         their repository
+        </a>
+        .
+        <!-- -->
+        <!-- -->
+        You can also try to ask for help with this
+        <!-- -->
+        package
+        <!-- -->
+        on the
+        <!-- -->
+        <a href="https://forum.typst.app" rel="noopener" target="_blank">
+         Forum
+        </a>
+        .
+       </p>
+       <p>
+        Please report this
+        <!-- -->
+        package
+        <!-- -->
+        to the Typst team using the
+        <!-- -->
+        <a href="https://typst.app/contact" rel="noreferrer" target="_blank">
+         contact form
+        </a>
+        <!-- -->
+        if you believe it is a safety hazard or infringes upon your rights.
+       </p>
+      </section>
+      <section id="versions">
+       <h3>
+        Version history
+       </h3>
+       <table>
+        <thead>
+         <tr>
+          <th align="left">
+           Version
+          </th>
+          <th align="left">
+           Release Date
+          </th>
+         </tr>
+        </thead>
+        <tbody>
+         <tr>
+          <td align="left">
+           0.1.0
+          </td>
+          <td align="left">
+           November 5, 2024
+          </td>
+         </tr>
+        </tbody>
+       </table>
+      </section>
+      <p class="bottom-notice muted">
+       Typst GmbH did not create this
+       <!-- -->
+       package
+       <!-- -->
+       and cannot guarantee correct functionality of this
+       <!-- -->
+       package
+       <!-- -->
+       or compatibility with any version of the Typst compiler or app.
+      </p>
+     </aside>
+    </div>
+   </main>

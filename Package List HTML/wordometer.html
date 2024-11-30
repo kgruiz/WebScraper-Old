@@ -1,0 +1,364 @@
+<main>
+    <div id="banner" style="--banner-accent:#BF4705;--banner-primary:#330C00;--banner-secondary:#844523;--banner-tertiary:#C2764C;--banner-background:linear-gradient(90deg, #FFC174 0%, #FFD998 56%, #FFE4C4 100%)">
+     <div class="package-icon" role="img">
+     </div>
+     <div>
+      <div class="title">
+       <h1 class="name">
+        wordometer
+       </h1>
+       <span class="version">
+        0.1.4
+       </span>
+      </div>
+      <p class="description">
+       Word counts and document statistics.
+      </p>
+     </div>
+     <p class="featured-label">
+      <span class="icon" role="img">
+      </span>
+      Featured
+      <!-- -->
+      Package
+     </p>
+    </div>
+    <div class="inner-grid">
+     <section id="readme">
+      <p>
+       <a href="https://github.com/typst/packages/raw/main/packages/preview/wordometer/0.1.4/docs/manual.pdf" rel="nofollow ugc" target="_blank">
+        <img alt="Manual" src="https://img.shields.io/badge/docs-manual.pdf-green"/>
+       </a>
+       <img alt="Version" src="https://img.shields.io/badge/dynamic/toml?url=https%3A%2F%2Fgithub.com%2FJollywatt%2Ftypst-wordometer%2Fraw%2Fmaster%2Ftypst.toml&amp;query=package.version&amp;label=latest%20version"/>
+       <a href="https://github.com/Jollywatt/typst-wordometer" rel="nofollow ugc" target="_blank">
+        <img alt="Repo" src="https://img.shields.io/badge/GitHub-repo-blue"/>
+       </a>
+      </p>
+      <p>
+       A small
+       <a href="https://github.com/typst/packages/raw/main/packages/preview/wordometer/0.1.4/%22https://typst.app/%22" rel="nofollow ugc" target="_blank">
+        Typst
+       </a>
+       package for quick and easy in-document word counts.
+      </p>
+      <h2>
+       Basic usage
+      </h2>
+      <pre><code class="language-typ"><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/wordometer:0.1.3"</span><span class="typ-punct">:</span> word-count<span class="typ-punct">,</span> total-words
+
+<span class="typ-key">#</span><span class="typ-key">show</span><span class="typ-punct">:</span> <span class="typ-func">word-count</span>
+
+In this document, there are <span class="typ-pol">#</span><span class="typ-pol">total-words</span> words all up.
+
+<span class="typ-func">#</span><span class="typ-func">word-count</span><span class="typ-punct">(</span>total <span class="typ-op">=&gt;</span> <span class="typ-punct">[</span>
+  The number of words in this block is <span class="typ-pol">#</span><span class="typ-pol">total</span><span class="typ-punct">.</span><span class="typ-pol">words</span>
+  and there are <span class="typ-pol">#</span><span class="typ-pol">total</span><span class="typ-punct">.</span><span class="typ-pol">characters</span> letters.
+<span class="typ-punct">]</span><span class="typ-punct">)</span>
+</code></code></pre>
+      <h2>
+       Excluding elements
+      </h2>
+      <p>
+       You can exclude elements by name (e.g.,
+       <code>
+        "caption"
+       </code>
+       ), function (e.g.,
+       <code>
+        figure.caption
+       </code>
+       ), where-selector (e.g.,
+       <code>
+        raw.where(block: true)
+       </code>
+       ), or label (e.g.,
+       <code>
+        &lt;no-wc&gt;
+       </code>
+       ).
+      </p>
+      <pre><code class="language-typ"><code><span class="typ-key">#</span><span class="typ-key">show</span><span class="typ-punct">:</span> word-count<span class="typ-punct">.</span><span class="typ-func">with</span><span class="typ-punct">(</span>exclude<span class="typ-punct">:</span> <span class="typ-punct">(</span>heading<span class="typ-punct">.</span><span class="typ-func">where</span><span class="typ-punct">(</span>level<span class="typ-punct">:</span> <span class="typ-num">1</span><span class="typ-punct">)</span><span class="typ-punct">,</span> strike<span class="typ-punct">)</span><span class="typ-punct">)</span>
+
+<span class="typ-heading">= This Heading Doesn't Count</span>
+<span class="typ-heading">== But I do!</span>
+
+In this document <span class="typ-func">#</span><span class="typ-func">strike</span><span class="typ-punct">[</span>(excluding me)<span class="typ-punct">]</span>, there are <span class="typ-pol">#</span><span class="typ-pol">total-words</span> words all up.
+
+<span class="typ-func">#</span><span class="typ-func">word-count</span><span class="typ-punct">(</span>total <span class="typ-op">=&gt;</span> <span class="typ-punct">[</span>
+  You can exclude elements by label, too.
+  <span class="typ-punct">#</span><span class="typ-punct">[</span>That was <span class="typ-pol">#</span><span class="typ-pol">total</span><span class="typ-punct">.</span><span class="typ-pol">words</span>, excluding this sentence!<span class="typ-punct">]</span> <span class="typ-label">&lt;no-wc&gt;</span>
+<span class="typ-punct">]</span><span class="typ-punct">,</span> exclude<span class="typ-punct">:</span> <span class="typ-label">&lt;no-wc&gt;</span><span class="typ-punct">)</span>
+</code></code></pre>
+      <h2>
+       Changelog
+      </h2>
+      <h3>
+       v0.1.4
+      </h3>
+      <ul>
+       <li>
+        Fix deprecated use of
+        <code>
+         locate()
+        </code>
+        for Typst
+        <code>
+         &gt;=0.12.0
+        </code>
+       </li>
+      </ul>
+      <h3>
+       v0.1.3
+      </h3>
+      <p>
+       (No changes ð¤¡)
+      </p>
+      <h3>
+       v0.1.2
+      </h3>
+      <ul>
+       <li>
+        Fix bugs when using labels and where-selectors to exclude elements
+       </li>
+      </ul>
+      <h3>
+       v0.1.1
+      </h3>
+      <ul>
+       <li>
+        Allow excluding elements by passing their element functions
+       </li>
+       <li>
+        Add basic
+        <code>
+         element.where(..)
+        </code>
+        selectors
+       </li>
+       <li>
+        Fix crash for figures without captions
+       </li>
+      </ul>
+      <h3>
+       v0.1.0
+      </h3>
+      <ul>
+       <li>
+        Initial version
+       </li>
+      </ul>
+     </section>
+     <aside>
+      <section>
+       <h3>
+        How to add
+       </h3>
+       <p>
+        Copy this into your project and use the import as
+        <!-- -->
+        <code>
+         wordometer
+        </code>
+       </p>
+       <div class="import-snippet">
+        <pre><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/wordometer:0.1.4"</span></code></pre>
+        <button class="copy" title="Copy to clipboard">
+         <img alt="Copy" height="16" src="/assets/icons/16-copy.svg" width="16"/>
+        </button>
+       </div>
+       <p class="muted">
+        Check the docs for
+        <!-- -->
+        <a href="https://typst.app/docs/reference/scripting/#packages">
+         more information on how to import packages
+        </a>
+        .
+       </p>
+      </section>
+      <section id="about">
+       <h3>
+        About
+       </h3>
+       <dl>
+        <dt>
+         Author
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         Joseph Wilson (Jollywatt)
+        </dd>
+        <dt>
+         License:
+        </dt>
+        <dd>
+         MIT
+        </dd>
+        <dt>
+         Current version:
+        </dt>
+        <dd>
+         0.1.4
+        </dd>
+        <dt>
+         Last updated:
+        </dt>
+        <dd>
+         October 29, 2024
+        </dd>
+        <dt>
+         First released:
+        </dt>
+        <dd>
+         January 29, 2024
+        </dd>
+        <dt>
+         Archive size:
+        </dt>
+        <dd class="archive-size-value">
+         7.49 kB
+         <a href="https://packages.typst.org/preview/wordometer-0.1.4.tar.gz">
+          <img alt="Size icon" src="/assets/icons/16-download.svg"/>
+         </a>
+        </dd>
+        <dt>
+         Repository:
+        </dt>
+        <dd>
+         <a href="https://github.com/Jollywatt/typst-wordometer" rel="noopener noreferrer" target="_blank">
+          GitHub
+         </a>
+        </dd>
+       </dl>
+      </section>
+      <section>
+       <h3>
+        Where to report issues?
+       </h3>
+       <p>
+        This
+        <!-- -->
+        package
+        <!-- -->
+        is a project of
+        <!-- -->
+        <!-- -->
+        Joseph Wilson (Jollywatt)
+        <!-- -->
+        .
+        <!-- -->
+        <!-- -->
+        Report issues on
+        <!-- -->
+        <a href="https://github.com/Jollywatt/typst-wordometer" rel="noopener noreferrer" target="_blank">
+         their repository
+        </a>
+        .
+        <!-- -->
+        <!-- -->
+        You can also try to ask for help with this
+        <!-- -->
+        package
+        <!-- -->
+        on the
+        <!-- -->
+        <a href="https://forum.typst.app" rel="noopener" target="_blank">
+         Forum
+        </a>
+        .
+       </p>
+       <p>
+        Please report this
+        <!-- -->
+        package
+        <!-- -->
+        to the Typst team using the
+        <!-- -->
+        <a href="https://typst.app/contact" rel="noreferrer" target="_blank">
+         contact form
+        </a>
+        <!-- -->
+        if you believe it is a safety hazard or infringes upon your rights.
+       </p>
+      </section>
+      <section id="versions">
+       <h3>
+        Version history
+       </h3>
+       <table>
+        <thead>
+         <tr>
+          <th align="left">
+           Version
+          </th>
+          <th align="left">
+           Release Date
+          </th>
+         </tr>
+        </thead>
+        <tbody>
+         <tr>
+          <td align="left">
+           0.1.4
+          </td>
+          <td align="left">
+           October 29, 2024
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/wordometer/0.1.3/">
+            0.1.3
+           </a>
+          </td>
+          <td align="left">
+           October 8, 2024
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/wordometer/0.1.2/">
+            0.1.2
+           </a>
+          </td>
+          <td align="left">
+           April 29, 2024
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/wordometer/0.1.1/">
+            0.1.1
+           </a>
+          </td>
+          <td align="left">
+           March 3, 2024
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/wordometer/0.1.0/">
+            0.1.0
+           </a>
+          </td>
+          <td align="left">
+           January 29, 2024
+          </td>
+         </tr>
+        </tbody>
+       </table>
+      </section>
+      <p class="bottom-notice muted">
+       Typst GmbH did not create this
+       <!-- -->
+       package
+       <!-- -->
+       and cannot guarantee correct functionality of this
+       <!-- -->
+       package
+       <!-- -->
+       or compatibility with any version of the Typst compiler or app.
+      </p>
+     </aside>
+    </div>
+   </main>

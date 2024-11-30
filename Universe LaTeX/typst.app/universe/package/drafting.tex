@@ -1,0 +1,299 @@
+\title{typst.app/universe/package/drafting}
+
+\phantomsection\label{banner}
+\section{drafting}\label{drafting}
+
+{ 0.2.1 }
+
+Helpful functions for content positioning and margin comments/notes
+
+{ } Featured Package
+
+\phantomsection\label{readme}
+\subsection{Setup}\label{setup}
+
+\texttt{\ drafting\ } exists in the official typst package repository,
+so the recommended approach is to import it from the
+\texttt{\ preview\ } namespace:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/drafting:0.2.1"}
+\end{Highlighting}
+\end{Shaded}
+
+Margin notes cannot lay themselves out correctly until they know your
+page size and margins. By default, they occupy nearly the entirety of
+the left or right margin, but you can provide explicit left/right bounds
+if desired:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{// Example:}
+\NormalTok{// Default margin in typst is 2.5cm, but we want to use 2cm}
+\NormalTok{// On the left}
+\NormalTok{\#set{-}page{-}properties(margin{-}left: 2cm)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{The basics}\label{the-basics}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#lorem(20)}
+\NormalTok{\#margin{-}note(side: left)[Hello, world!]}
+\NormalTok{\#lorem(10)}
+\NormalTok{\#margin{-}note[Hello from the other side]}
+\NormalTok{\#margin{-}note[When notes are about to overlap, they\textquotesingle{}re automatically shifted]}
+\NormalTok{\#margin{-}note(stroke: aqua + 3pt)[To avoid collision]}
+\NormalTok{\#lorem(25)}
+\NormalTok{\#margin{-}note(stroke: green, side: left)[You can provide two positional arguments if you want to highlight a phrase associated with your note.][The first is text which should be inline{-}noted, and the second is the standard margin note.]}
+
+\NormalTok{\#let caution{-}rect = rect.with(inset: 1em, radius: 0.5em, fill: orange.lighten(80\%))}
+\NormalTok{\#inline{-}note(rect: caution{-}rect)[}
+\NormalTok{  Be aware that \textasciigrave{}typst\textasciigrave{} will complain when 4 notes overlap, and stop automatically avoiding collisions when 5 or more notes}
+\NormalTok{  overlap. This is because the compiler stops attempting to reposition notes after a few attempts}
+\NormalTok{  (initial layout + adjustment for each note).}
+
+\NormalTok{  You can manually adjust the position of notes with \textasciigrave{}dy\textasciigrave{} to silence the warning.}
+\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://www.github.com/ntjess/typst-drafting/raw/v0.2.1/assets/example-1.png}}
+
+\subsection{Adjusting the default
+style}\label{adjusting-the-default-style}
+
+All function defaults are customizable through updating the module
+state:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#lorem(14) \#margin{-}note[Default style]}
+\NormalTok{\#lorem(10)}
+\NormalTok{\#set{-}margin{-}note{-}defaults(stroke: orange, side: left)}
+\NormalTok{\#margin{-}note[Updated style]}
+\NormalTok{\#lorem(10)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://www.github.com/ntjess/typst-drafting/raw/v0.2.1/assets/example-2.png}}
+
+Even deeper customization is possible by overriding the default
+\texttt{\ rect\ } :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/colorful{-}boxes:1.1.0": stickybox}
+
+\NormalTok{\#let default{-}rect(stroke: none, fill: none, width: 0pt, content) = \{}
+\NormalTok{  set text(0.9em)}
+\NormalTok{  stickybox(rotation: 30deg, width: width/1.5, content)}
+\NormalTok{\}}
+\NormalTok{\#set{-}margin{-}note{-}defaults(rect: default{-}rect, stroke: none, side: right)}
+
+\NormalTok{\#lorem(20)}
+\NormalTok{\#margin{-}note(dy: {-}5em)[Why not use sticky notes in the margin?]}
+
+\NormalTok{// Undo changes from this example}
+\NormalTok{\#set{-}margin{-}note{-}defaults(rect: rect, stroke: red)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://www.github.com/ntjess/typst-drafting/raw/v0.2.1/assets/example-3.png}}
+
+\subsection{Multiple document
+reviewers}\label{multiple-document-reviewers}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let reviewer{-}a = margin{-}note.with(stroke: blue)}
+\NormalTok{\#let reviewer{-}b = margin{-}note.with(stroke: purple)}
+\NormalTok{\#lorem(10)}
+\NormalTok{\#reviewer{-}a[Comment from reviewer A]}
+\NormalTok{\#lorem(5)}
+\NormalTok{\#reviewer{-}b(side: left)[Reviewer B comment]}
+\NormalTok{\#lorem(10)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://www.github.com/ntjess/typst-drafting/raw/v0.2.1/assets/example-4.png}}
+
+\subsection{Inline Notes}\label{inline-notes}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#lorem(10)}
+\NormalTok{\#inline{-}note[The default inline note will split the paragraph at its location]}
+\NormalTok{\#lorem(10)}
+\NormalTok{\#inline{-}note(par{-}break: false, stroke: (paint: orange, dash: "dashed"))[}
+\NormalTok{  But you can specify \textasciigrave{}par{-}break: false\textasciigrave{} to prevent this}
+\NormalTok{]}
+\NormalTok{\#lorem(10)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://www.github.com/ntjess/typst-drafting/raw/v0.2.1/assets/example-5.png}}
+
+\subsection{Hiding notes for print
+preview}\label{hiding-notes-for-print-preview}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#set{-}margin{-}note{-}defaults(hidden: true)}
+
+\NormalTok{\#lorem(20)}
+\NormalTok{\#margin{-}note[This will respect the global "hidden" state]}
+\NormalTok{\#margin{-}note(hidden: false, dy: {-}2.5em)[This note will never be hidden]}
+\NormalTok{// Undo these changes}
+\NormalTok{\#set{-}margin{-}note{-}defaults(hidden: false)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://www.github.com/ntjess/typst-drafting/raw/v0.2.1/assets/example-6.png}}
+
+\subsection{Precise placement: rule
+grid}\label{precise-placement-rule-grid}
+
+Need to measure space for fine-tuned positioning? You can use
+\texttt{\ rule-grid\ } to cross-hatch the page with rule lines:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#rule{-}grid(width: 10cm, height: 3cm, spacing: 20pt)}
+\NormalTok{\#place(}
+\NormalTok{  dx: 180pt,}
+\NormalTok{  dy: 40pt,}
+\NormalTok{  rect(fill: white, stroke: red, width: 1in, "This will originate at (180pt, 40pt)")}
+\NormalTok{)}
+
+\NormalTok{// Optionally specify divisions of the smallest dimension to automatically calculate}
+\NormalTok{// spacing}
+\NormalTok{\#rule{-}grid(dx: 10cm + 3em, width: 3cm, height: 1.2cm, divisions: 5, square: true,  stroke: green)}
+
+\NormalTok{// The rule grid doesn\textquotesingle{}t take up space, so add it explicitly}
+\NormalTok{\#v(3cm + 1em)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://www.github.com/ntjess/typst-drafting/raw/v0.2.1/assets/example-7.png}}
+
+\subsection{Absolute positioning}\label{absolute-positioning}
+
+What about absolutely positioning something regardless of margin and
+relative location? \texttt{\ absolute-place\ } is your friend. You can
+put content anywhere:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#context \{}
+\NormalTok{  let (dx, dy) = (here().position().x, here().position().y)}
+\NormalTok{  let content{-}str = (}
+\NormalTok{    "This absolutely{-}placed box will originate at (" + repr(dx) + ", " + repr(dy) + ")"}
+\NormalTok{    + " in page coordinates"}
+\NormalTok{  )}
+\NormalTok{  absolute{-}place(}
+\NormalTok{    dx: dx, dy: dy,}
+\NormalTok{    rect(}
+\NormalTok{      fill: green.lighten(60\%),}
+\NormalTok{      radius: 0.5em,}
+\NormalTok{      width: 2.5in,}
+\NormalTok{      height: 0.5in,}
+\NormalTok{      [\#align(center + horizon, content{-}str)]}
+\NormalTok{    )}
+\NormalTok{  )}
+\NormalTok{\}}
+\NormalTok{\#v(0.5in)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://www.github.com/ntjess/typst-drafting/raw/v0.2.1/assets/example-8.png}}
+
+The â€œrule-gridâ€? also supports absolute placement at the top-left of
+the page by passing \texttt{\ relative:\ false\ } . This is helpful for
+â€œruleâ€œ-ing the whole page.
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as \texttt{\ drafting\ }
+
+\begin{verbatim}
+#import "@preview/drafting:0.2.1"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+Nathan Jessurun
+\item[License:]
+Unlicense
+\item[Current version:]
+0.2.1
+\item[Last updated:]
+November 25, 2024
+\item[First released:]
+September 3, 2023
+\item[Minimum Typst version:]
+0.12.0
+\item[Archive size:]
+7.98 kB
+\href{https://packages.typst.org/preview/drafting-0.2.1.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/ntjess/typst-drafting}{GitHub}
+\item[Categor ies :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-layout.svg}}
+  \href{https://typst.app/universe/search/?category=layout}{Layout}
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-hammer.svg}}
+  \href{https://typst.app/universe/search/?category=utility}{Utility}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of Nathan Jessurun . Report issues on
+\href{https://github.com/ntjess/typst-drafting}{their repository} . You
+can also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.2.1 & November 25, 2024 \\
+\href{https://typst.app/universe/package/drafting/0.2.0/}{0.2.0} & March
+16, 2024 \\
+\href{https://typst.app/universe/package/drafting/0.1.2/}{0.1.2} &
+December 11, 2023 \\
+\href{https://typst.app/universe/package/drafting/0.1.1/}{0.1.1} &
+September 11, 2023 \\
+\href{https://typst.app/universe/package/drafting/0.1.0/}{0.1.0} &
+September 3, 2023 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.

@@ -1,0 +1,328 @@
+<main>
+    <div id="banner" style="--banner-accent:#000000;--banner-primary:#000000;--banner-secondary:#000000;--banner-tertiary:#565565;--banner-background:#eff0f3">
+     <div class="package-icon" role="img">
+     </div>
+     <div>
+      <div class="title">
+       <h1 class="name">
+        hidden-bib
+       </h1>
+       <span class="version">
+        0.1.1
+       </span>
+      </div>
+      <p class="description">
+       Create hidden bibliographies or bibliographies with unmentioned (hidden) citations.
+      </p>
+     </div>
+    </div>
+    <div class="inner-grid">
+     <section id="readme">
+      <p>
+       <a href="https://github.com/pklaschka/typst-hidden-bib" rel="nofollow ugc" target="_blank">
+        GitHub Repository including Examples
+       </a>
+      </p>
+      <p>
+       A Typst package to create hidden bibliographies or bibliographies with unmentioned (hidden) citations.
+      </p>
+      <h2>
+       Use Cases
+      </h2>
+      <h3>
+       Hidden Bibliographies
+      </h3>
+      <p>
+       In some documents, such as a letter, you may want to cite a reference without printing a bibliography.
+      </p>
+      <p>
+       This can easily be achieved by wrapping your
+       <code>
+        bibliography(...)
+       </code>
+       with the
+       <code>
+        hidden-bibliography
+       </code>
+       function after importing the
+       <code>
+        hidden-bib
+       </code>
+       package.
+      </p>
+      <p>
+       The code then looks like this:
+      </p>
+      <pre><code class="language-typ"><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/hidden-bib:0.1.0"</span><span class="typ-punct">:</span> hidden-bibliography
+
+<span class="typ-func">#</span><span class="typ-func">lorem</span><span class="typ-punct">(</span><span class="typ-num">20</span><span class="typ-punct">)</span> <span class="typ-ref">@example1</span>
+<span class="typ-func">#</span><span class="typ-func">lorem</span><span class="typ-punct">(</span><span class="typ-num">40</span><span class="typ-punct">)</span> <span class="typ-ref">@example2<span class="typ-punct">[</span>p. 2<span class="typ-punct">]</span></span>
+
+<span class="typ-func">#</span><span class="typ-func">hidden-bibliography</span><span class="typ-punct">(</span>
+  <span class="typ-func">bibliography</span><span class="typ-punct">(</span><span class="typ-str">"/refs.yml"</span><span class="typ-punct">)</span>
+<span class="typ-punct">)</span>
+</code></code></pre>
+      <p>
+       <em>
+        Note that this automatically sets the
+        <code>
+         style
+        </code>
+        option to
+        <code>
+         "chicago-notes"
+        </code>
+        unless you specify a different style.
+       </em>
+      </p>
+      <h3>
+       Hidden Citations
+      </h3>
+      <p>
+       In some documents, it may be necessary to include items in your bibliography which werenât explicitly cited at any specific point in your document.
+      </p>
+      <p>
+       The code then looks like this:
+      </p>
+      <pre><code class="language-typ"><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/hidden-bib:0.1.0"</span><span class="typ-punct">:</span> hidden-cite
+
+<span class="typ-func">#</span><span class="typ-func">hidden-cite</span><span class="typ-punct">(</span><span class="typ-str">"example1"</span><span class="typ-punct">)</span>
+</code></code></pre>
+      <h3>
+       Multiple Hidden Citations
+      </h3>
+      <p>
+       If you want to include a large number of items in your bibliography without having to use
+       <code>
+        hidden-cite
+       </code>
+       (to still get autocompletion in the web editor), you can use the
+       <code>
+        hidden-citations
+       </code>
+       environment.
+      </p>
+      <p>
+       The code then looks like this:
+      </p>
+      <pre><code class="language-typ"><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/hidden-bib:0.1.0"</span><span class="typ-punct">:</span> hidden-citations
+
+<span class="typ-func">#</span><span class="typ-func">hidden-citations</span><span class="typ-punct">[</span>
+  <span class="typ-ref">@example1</span>
+  <span class="typ-ref">@example2</span>
+<span class="typ-punct">]</span>
+</code></code></pre>
+      <h2>
+       FAQ
+      </h2>
+      <h3>
+       Why would I want to have hidden citations and a hidden bibliography?
+      </h3>
+      <p>
+       You donât. While this package solves both (related) problems, you should only use one of them at a time. Otherwise, youâll simply see nothing at all.
+      </p>
+      <h3>
+       Why would I want to have hidden citations?
+      </h3>
+      <p>
+       Thatâs for you to decide. It essentially enables you to include âuncited referencesâ, similar to LaTeXâs
+       <code>
+        \nocite{}
+       </code>
+       command.
+      </p>
+      <h2>
+       License
+      </h2>
+      <p>
+       This package is licensed under the MIT license. See the
+       <a href="https://github.com/typst/packages/raw/main/packages/preview/hidden-bib/0.1.1/LICENSE" rel="nofollow ugc" target="_blank">
+        LICENSE
+       </a>
+       file for details.
+      </p>
+     </section>
+     <aside>
+      <section>
+       <h3>
+        How to add
+       </h3>
+       <p>
+        Copy this into your project and use the import as
+        <!-- -->
+        <code>
+         hidden-bib
+        </code>
+       </p>
+       <div class="import-snippet">
+        <pre><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/hidden-bib:0.1.1"</span></code></pre>
+        <button class="copy" title="Copy to clipboard">
+         <img alt="Copy" height="16" src="/assets/icons/16-copy.svg" width="16"/>
+        </button>
+       </div>
+       <p class="muted">
+        Check the docs for
+        <!-- -->
+        <a href="https://typst.app/docs/reference/scripting/#packages">
+         more information on how to import packages
+        </a>
+        .
+       </p>
+      </section>
+      <section id="about">
+       <h3>
+        About
+       </h3>
+       <dl>
+        <dt>
+         Author
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         Zuri Klaschka
+        </dd>
+        <dt>
+         License:
+        </dt>
+        <dd>
+         MIT
+        </dd>
+        <dt>
+         Current version:
+        </dt>
+        <dd>
+         0.1.1
+        </dd>
+        <dt>
+         Last updated:
+        </dt>
+        <dd>
+         October 10, 2023
+        </dd>
+        <dt>
+         First released:
+        </dt>
+        <dd>
+         October 2, 2023
+        </dd>
+        <dt>
+         Archive size:
+        </dt>
+        <dd class="archive-size-value">
+         2.12 kB
+         <a href="https://packages.typst.org/preview/hidden-bib-0.1.1.tar.gz">
+          <img alt="Size icon" src="/assets/icons/16-download.svg"/>
+         </a>
+        </dd>
+        <dt>
+         Repository:
+        </dt>
+        <dd>
+         <a href="https://github.com/pklaschka/typst-hidden-bib" rel="noopener noreferrer" target="_blank">
+          GitHub
+         </a>
+        </dd>
+       </dl>
+      </section>
+      <section>
+       <h3>
+        Where to report issues?
+       </h3>
+       <p>
+        This
+        <!-- -->
+        package
+        <!-- -->
+        is a project of
+        <!-- -->
+        <!-- -->
+        Zuri Klaschka
+        <!-- -->
+        .
+        <!-- -->
+        <!-- -->
+        Report issues on
+        <!-- -->
+        <a href="https://github.com/pklaschka/typst-hidden-bib" rel="noopener noreferrer" target="_blank">
+         their repository
+        </a>
+        .
+        <!-- -->
+        <!-- -->
+        You can also try to ask for help with this
+        <!-- -->
+        package
+        <!-- -->
+        on the
+        <!-- -->
+        <a href="https://forum.typst.app" rel="noopener" target="_blank">
+         Forum
+        </a>
+        .
+       </p>
+       <p>
+        Please report this
+        <!-- -->
+        package
+        <!-- -->
+        to the Typst team using the
+        <!-- -->
+        <a href="https://typst.app/contact" rel="noreferrer" target="_blank">
+         contact form
+        </a>
+        <!-- -->
+        if you believe it is a safety hazard or infringes upon your rights.
+       </p>
+      </section>
+      <section id="versions">
+       <h3>
+        Version history
+       </h3>
+       <table>
+        <thead>
+         <tr>
+          <th align="left">
+           Version
+          </th>
+          <th align="left">
+           Release Date
+          </th>
+         </tr>
+        </thead>
+        <tbody>
+         <tr>
+          <td align="left">
+           0.1.1
+          </td>
+          <td align="left">
+           October 10, 2023
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/hidden-bib/0.1.0/">
+            0.1.0
+           </a>
+          </td>
+          <td align="left">
+           October 2, 2023
+          </td>
+         </tr>
+        </tbody>
+       </table>
+      </section>
+      <p class="bottom-notice muted">
+       Typst GmbH did not create this
+       <!-- -->
+       package
+       <!-- -->
+       and cannot guarantee correct functionality of this
+       <!-- -->
+       package
+       <!-- -->
+       or compatibility with any version of the Typst compiler or app.
+      </p>
+     </aside>
+    </div>
+   </main>

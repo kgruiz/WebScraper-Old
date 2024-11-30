@@ -1,0 +1,513 @@
+<main>
+    <div id="banner" style="--banner-accent:#000000;--banner-primary:#000000;--banner-secondary:#000000;--banner-tertiary:#565565;--banner-background:#eff0f3">
+     <div id="template-thumbnail">
+      <img alt="A preview of the g-exam Typst template." src="https://packages.typst.org/preview/thumbnails/g-exam-0.4.1-small.webp"/>
+      <div class="icon" role="img">
+      </div>
+     </div>
+     <div>
+      <div class="title">
+       <h1 class="name">
+        g-exam
+       </h1>
+       <span class="version">
+        0.4.1
+       </span>
+      </div>
+      <p class="description">
+       Create exams with student information, grade chart, score control, questions, and sub-questions.
+      </p>
+     </div>
+    </div>
+    <div class="inner-grid">
+     <a class="create-project-button mobile" href="/app?template=g-exam&amp;version=0.4.1" rel="noopener noreferrer" target="_blank">
+      Create project in app
+     </a>
+     <section id="readme">
+      <p>
+       This template provides a way to generate exams. You can create questions and sub-questions, header with information about the academic center, score box, subject, exam, header with student information, clarifications, solutions, watermark with information about the exam model and teacher.
+      </p>
+      <h4>
+       Features
+      </h4>
+      <ul>
+       <li>
+        Scoreboard.
+       </li>
+       <li>
+        Scoring by questions and subquestions.
+       </li>
+       <li>
+        Student information, on the first page or on all odd pages.
+       </li>
+       <li>
+        Question and subcuestion.
+       </li>
+       <li>
+        Show solutions and clarifications
+       </li>
+       <li>
+        List of clarifications.
+       </li>
+       <li>
+        Teacherâs Watermark
+       </li>
+       <li>
+        Exam Model Watermark
+       </li>
+       <li>
+        Draft mode
+       </li>
+      </ul>
+      <h2>
+       Usage
+      </h2>
+      <p>
+       For information, see the
+       <a href="https://matheschool.github.io/typst-g-exam/" rel="nofollow ugc" target="_blank">
+        online docucumentation
+       </a>
+       .
+      </p>
+      <p>
+       To use this package, simply add the following code to your document:
+      </p>
+      <h4>
+       A sample exam
+      </h4>
+      <img alt="Exam - Table of content" src="https://github.com/typst/packages/raw/main/packages/preview/g-exam/0.4.1/gallery/exam-table-content.png"/>
+      <h4>
+       Source:
+      </h4>
+      <pre><code class="language-typ"><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/g-exam:0.4.1"</span><span class="typ-punct">:</span> <span class="typ-op">*</span>
+
+<span class="typ-key">#</span><span class="typ-key">show</span><span class="typ-punct">:</span> exam<span class="typ-punct">.</span><span class="typ-func">with</span><span class="typ-punct">(</span>
+  school<span class="typ-punct">:</span> <span class="typ-punct">(</span>
+    name<span class="typ-punct">:</span> <span class="typ-str">"Sunrise Secondary School"</span><span class="typ-punct">,</span>
+    logo<span class="typ-punct">:</span> <span class="typ-func">read</span><span class="typ-punct">(</span><span class="typ-str">"./logo.png"</span><span class="typ-punct">,</span> encoding<span class="typ-punct">:</span> <span class="typ-key">none</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+  <span class="typ-punct">)</span><span class="typ-punct">,</span>
+  exam-info<span class="typ-punct">:</span> <span class="typ-punct">(</span>
+    academic-period<span class="typ-punct">:</span> <span class="typ-str">"Academic year 2023/2024"</span><span class="typ-punct">,</span>
+    academic-level<span class="typ-punct">:</span> <span class="typ-str">"1st Secondary Education"</span><span class="typ-punct">,</span>
+    academic-subject<span class="typ-punct">:</span> <span class="typ-str">"Mathematics"</span><span class="typ-punct">,</span>
+    number<span class="typ-punct">:</span> <span class="typ-str">"2nd Assessment 1st Exam"</span><span class="typ-punct">,</span>
+    content<span class="typ-punct">:</span> <span class="typ-str">"Radicals and fractions"</span><span class="typ-punct">,</span>
+    model<span class="typ-punct">:</span> <span class="typ-str">"Model A"</span>
+  <span class="typ-punct">)</span><span class="typ-punct">,</span>
+  
+  show-student-data<span class="typ-punct">:</span> <span class="typ-str">"first-page"</span><span class="typ-punct">,</span>
+  show-grade-table<span class="typ-punct">:</span> <span class="typ-key">true</span><span class="typ-punct">,</span>
+  clarifications<span class="typ-punct">:</span> <span class="typ-str">"Answer the questions in the spaces provided. If you run out of room for an answer, continue on the back of the page."</span>
+<span class="typ-punct">)</span>
+<span class="typ-func">#</span><span class="typ-func">question</span><span class="typ-punct">(</span>points<span class="typ-punct">:</span><span class="typ-num">2.5</span><span class="typ-punct">)</span><span class="typ-punct">[</span>Is it true that <span class="typ-math-delim">$</span>x<span class="typ-math-op">^</span>n + y<span class="typ-math-op">^</span>n = z<span class="typ-math-op">^</span>n<span class="typ-math-delim">$</span> if <span class="typ-math-delim">$</span>(x,y,z)<span class="typ-math-delim">$</span> and <span class="typ-math-delim">$</span>n<span class="typ-math-delim">$</span> are positive integers?. Explain.<span class="typ-punct">]</span> 
+<span class="typ-func">#</span><span class="typ-func">v</span><span class="typ-punct">(</span><span class="typ-num">1fr</span><span class="typ-punct">)</span>
+
+<span class="typ-func">#</span><span class="typ-func">question</span><span class="typ-punct">(</span>points<span class="typ-punct">:</span><span class="typ-num">2.5</span><span class="typ-punct">)</span><span class="typ-punct">[</span>Prove that the real part of all non-trivial zeros of the function <span class="typ-math-delim">$</span><span class="typ-func">zeta</span><span class="typ-punct">(</span>z<span class="typ-punct">)</span> <span class="typ-str">"is"</span> 1<span class="typ-math-op">/</span>2<span class="typ-math-delim">$</span><span class="typ-punct">]</span>.
+<span class="typ-func">#</span><span class="typ-func">v</span><span class="typ-punct">(</span><span class="typ-num">1fr</span><span class="typ-punct">)</span>
+
+<span class="typ-func">#</span><span class="typ-func">question</span><span class="typ-punct">(</span>points<span class="typ-punct">:</span><span class="typ-num">2</span><span class="typ-punct">)</span><span class="typ-punct">[</span>Compute <span class="typ-math-delim">$</span> <span class="typ-pol">integral</span><span class="typ-math-op">_</span>0<span class="typ-math-op">^</span><span class="typ-pol">infinity</span> <span class="typ-punct">(</span><span class="typ-func">sin</span><span class="typ-punct">(</span>x<span class="typ-punct">)</span><span class="typ-punct">)</span><span class="typ-math-op">/</span>x <span class="typ-math-delim">$</span> <span class="typ-punct">]</span>
+<span class="typ-func">#</span><span class="typ-func">v</span><span class="typ-punct">(</span><span class="typ-num">1fr</span><span class="typ-punct">)</span>
+</code></code></pre>
+      <h2>
+       Changelog
+      </h2>
+      <h3>
+       v0.4.1
+      </h3>
+      <ul>
+       <li>
+        Fix student data.
+       </li>
+       <li>
+        Fix Indenting subquestion.
+       </li>
+      </ul>
+      <h3>
+       v0.4.0
+      </h3>
+      <ul>
+       <li>
+        Change g-exam for exam.
+       </li>
+       <li>
+        Change g-question and g-subquestion for question and subquestion.
+       </li>
+       <li>
+        Change point parameter to points in question and subquestion.
+       </li>
+       <li>
+        Change question-points-position paramet to question-points-position.
+       </li>
+       <li>
+        Include online documentation.
+       </li>
+       <li>
+        Use paper by default.
+       </li>
+       <li>
+        Indenting subquestion.
+       </li>
+       <li>
+        Include support for dutch language.
+       </li>
+       <li>
+        Corrections in English texts.
+       </li>
+       <li>
+        Draft label.
+       </li>
+      </ul>
+      <h3>
+       v0.3.2
+      </h3>
+      <ul>
+       <li>
+        Change show-studen-data to show-student-data parameter.
+       </li>
+       <li>
+        Change languaje to language parameter.
+       </li>
+      </ul>
+      <h3>
+       v0.3.1
+      </h3>
+      <ul>
+       <li>
+        Corrections in French.
+       </li>
+      </ul>
+      <h3>
+       v0.3.0
+      </h3>
+      <ul>
+       <li>
+        Include parameter question-text-parameters.
+       </li>
+       <li>
+        Show solution.
+       </li>
+       <li>
+        Expand documentation.
+       </li>
+       <li>
+        Possibility of estrablecer question-point-position to none.
+       </li>
+       <li>
+        Bug fix show watermark.
+       </li>
+      </ul>
+      <h3>
+       v0.2.0
+      </h3>
+      <ul>
+       <li>
+        Control the size of the logo image.
+       </li>
+       <li>
+        Convert to template
+       </li>
+       <li>
+        Allow true and false values in show-student-data.
+       </li>
+       <li>
+        Show clarifications.
+       </li>
+       <li>
+        Widen margin points.
+       </li>
+       <li>
+        Show solution.
+       </li>
+      </ul>
+      <h3>
+       v0.1.1
+      </h3>
+      <ul>
+       <li>
+        Fix loading image.
+       </li>
+      </ul>
+      <h3>
+       v0.1.0
+      </h3>
+      <ul>
+       <li>
+        Initial version submitted to typst/packages.
+       </li>
+      </ul>
+     </section>
+     <aside>
+      <a class="create-project-button desktop" href="/app?template=g-exam&amp;version=0.4.1" rel="noopener noreferrer" target="_blank">
+       Create project in app
+      </a>
+      <section>
+       <h3>
+        How to use
+       </h3>
+       <p>
+        Click the button above to create a new project using this template in the Typst app.
+       </p>
+       <p>
+        You can also use the Typst CLI to start a new project on your computer using this command:
+       </p>
+       <div class="init-snippet">
+        <pre><code>typst init @preview/<!-- -->g-exam<!-- -->:<!-- -->0.4.1</code></pre>
+        <button class="copy" title="Copy to clipboard">
+         <img alt="Copy" height="16" src="/assets/icons/16-copy.svg" width="16"/>
+        </button>
+       </div>
+      </section>
+      <section id="about">
+       <h3>
+        About
+       </h3>
+       <dl>
+        <dt>
+         Author
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         AndrÃ©s GimÃ©nez MuÃ±oz
+        </dd>
+        <dt>
+         License:
+        </dt>
+        <dd>
+         MIT
+        </dd>
+        <dt>
+         Current version:
+        </dt>
+        <dd>
+         0.4.1
+        </dd>
+        <dt>
+         Last updated:
+        </dt>
+        <dd>
+         November 19, 2024
+        </dd>
+        <dt>
+         First released:
+        </dt>
+        <dd>
+         February 21, 2024
+        </dd>
+        <dt>
+         Minimum Typst version:
+        </dt>
+        <dd>
+         0.12.0
+        </dd>
+        <dt>
+         Archive size:
+        </dt>
+        <dd class="archive-size-value">
+         177 kB
+         <a href="https://packages.typst.org/preview/g-exam-0.4.1.tar.gz">
+          <img alt="Size icon" src="/assets/icons/16-download.svg"/>
+         </a>
+        </dd>
+        <dt>
+         Repository:
+        </dt>
+        <dd>
+         <a href="https://github.com/MatheSchool/typst-g-exam" rel="noopener noreferrer" target="_blank">
+          GitHub
+         </a>
+        </dd>
+        <dt>
+         Discipline
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         <ul class="list-without-icons">
+          <li>
+           <a href="https://typst.app/universe/search/?discipline=education">
+            Education
+           </a>
+          </li>
+         </ul>
+        </dd>
+        <dt>
+         Categor
+         <!-- -->
+         y
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         <ul class="list-with-icons">
+          <li>
+           <img alt="Office icon" src="/assets/icons/16-envelope.svg"/>
+           <a href="https://typst.app/universe/search/?category=office">
+            Office
+           </a>
+          </li>
+         </ul>
+        </dd>
+       </dl>
+      </section>
+      <section>
+       <h3>
+        Where to report issues?
+       </h3>
+       <p>
+        This
+        <!-- -->
+        template
+        <!-- -->
+        is a project of
+        <!-- -->
+        <!-- -->
+        AndrÃ©s GimÃ©nez MuÃ±oz
+        <!-- -->
+        .
+        <!-- -->
+        <!-- -->
+        Report issues on
+        <!-- -->
+        <a href="https://github.com/MatheSchool/typst-g-exam" rel="noopener noreferrer" target="_blank">
+         their repository
+        </a>
+        .
+        <!-- -->
+        <!-- -->
+        You can also try to ask for help with this
+        <!-- -->
+        template
+        <!-- -->
+        on the
+        <!-- -->
+        <a href="https://forum.typst.app" rel="noopener" target="_blank">
+         Forum
+        </a>
+        .
+       </p>
+       <p>
+        Please report this
+        <!-- -->
+        template
+        <!-- -->
+        to the Typst team using the
+        <!-- -->
+        <a href="https://typst.app/contact" rel="noreferrer" target="_blank">
+         contact form
+        </a>
+        <!-- -->
+        if you believe it is a safety hazard or infringes upon your rights.
+       </p>
+      </section>
+      <section id="versions">
+       <h3>
+        Version history
+       </h3>
+       <table>
+        <thead>
+         <tr>
+          <th align="left">
+           Version
+          </th>
+          <th align="left">
+           Release Date
+          </th>
+         </tr>
+        </thead>
+        <tbody>
+         <tr>
+          <td align="left">
+           0.4.1
+          </td>
+          <td align="left">
+           November 19, 2024
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/g-exam/0.4.0/">
+            0.4.0
+           </a>
+          </td>
+          <td align="left">
+           November 8, 2024
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/g-exam/0.3.2/">
+            0.3.2
+           </a>
+          </td>
+          <td align="left">
+           August 26, 2024
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/g-exam/0.3.1/">
+            0.3.1
+           </a>
+          </td>
+          <td align="left">
+           July 23, 2024
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/g-exam/0.3.0/">
+            0.3.0
+           </a>
+          </td>
+          <td align="left">
+           April 8, 2024
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/g-exam/0.2.0/">
+            0.2.0
+           </a>
+          </td>
+          <td align="left">
+           March 21, 2024
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/g-exam/0.1.1/">
+            0.1.1
+           </a>
+          </td>
+          <td align="left">
+           February 22, 2024
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/g-exam/0.1.0/">
+            0.1.0
+           </a>
+          </td>
+          <td align="left">
+           February 21, 2024
+          </td>
+         </tr>
+        </tbody>
+       </table>
+      </section>
+      <p class="bottom-notice muted">
+       Typst GmbH did not create this
+       <!-- -->
+       template
+       <!-- -->
+       and cannot guarantee correct functionality of this
+       <!-- -->
+       template
+       <!-- -->
+       or compatibility with any version of the Typst compiler or app.
+      </p>
+     </aside>
+    </div>
+   </main>

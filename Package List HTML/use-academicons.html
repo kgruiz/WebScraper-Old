@@ -1,0 +1,569 @@
+<main>
+    <div id="banner" style="--banner-accent:#000000;--banner-primary:#000000;--banner-secondary:#000000;--banner-tertiary:#565565;--banner-background:#eff0f3">
+     <div class="package-icon" role="img">
+     </div>
+     <div>
+      <div class="title">
+       <h1 class="name">
+        use-academicons
+       </h1>
+       <span class="version">
+        0.1.0
+       </span>
+      </div>
+      <p class="description">
+       A Typst library for Academicons the desktop fonts.
+      </p>
+     </div>
+    </div>
+    <div class="inner-grid">
+     <section id="readme">
+      <p>
+       A Typst library for Academicons through the desktop fonts.
+      </p>
+      <p>
+       This is based on the code from
+       <code>
+        duskmoon314
+       </code>
+       and the package for
+       <a href="https://github.com/duskmoon314/typst-fontawesome" rel="nofollow ugc" target="_blank">
+        <strong>
+         typst-fontawesome
+        </strong>
+       </a>
+       .
+      </p>
+      <p>
+       p.s. The library is based on the Academicons desktop fonts (v1.9.4)
+      </p>
+      <h2>
+       Usage
+      </h2>
+      <h3>
+       Install the fonts
+      </h3>
+      <p>
+       You can download the fonts from the
+       <a href="https://jpswalsh.github.io/academicons/" rel="nofollow ugc" target="_blank">
+        official website
+       </a>
+      </p>
+      <p>
+       After downloading the zip file, you can install the fonts depending on your OS.
+      </p>
+      <h4>
+       Typst web app
+      </h4>
+      <p>
+       You can simply upload the
+       <code>
+        ttf
+       </code>
+       files to the web app and use them with this package.
+      </p>
+      <h4>
+       Mac
+      </h4>
+      <p>
+       You can double click the
+       <code>
+        ttf
+       </code>
+       files to install them.
+      </p>
+      <h4>
+       Windows
+      </h4>
+      <p>
+       You can right-click the
+       <code>
+        ttf
+       </code>
+       files and select
+       <code>
+        Install
+       </code>
+       .
+      </p>
+      <h3>
+       Import the library
+      </h3>
+      <h4>
+       Using the typst packages
+      </h4>
+      <p>
+       You can install the library using the typst packages:
+      </p>
+      <p>
+       <code>
+        #import "@preview/use-academicons:0.1.0": *
+       </code>
+      </p>
+      <h4>
+       Manually install
+      </h4>
+      <p>
+       Copy all files start with
+       <code>
+        lib
+       </code>
+       to your project and import the library:
+      </p>
+      <p>
+       <code>
+        #import "lib.typ": *
+       </code>
+      </p>
+      <p>
+       There are three files:
+      </p>
+      <ul>
+       <li>
+        <code>
+         lib.typ
+        </code>
+        : The main entrypoint of the library.
+       </li>
+       <li>
+        <code>
+         lib-impl.typ
+        </code>
+        : The implementation of
+        <code>
+         ai-icon
+        </code>
+        .
+       </li>
+       <li>
+        <code>
+         lib-gen.typ
+        </code>
+        : The generated icon map and functions.
+       </li>
+      </ul>
+      <p>
+       I recommend renaming these files to avoid conflicts with other libraries.
+      </p>
+      <h3>
+       Use the icons
+      </h3>
+      <p>
+       You can use the
+       <code>
+        ai-icon
+       </code>
+       function to create an icon with its name:
+      </p>
+      <p>
+       <code>
+        #ai-icon("lattes")
+       </code>
+      </p>
+      <p>
+       Or you can use the
+       <code>
+        ai-
+       </code>
+       prefix to create an icon with its name:
+      </p>
+      <p>
+       <code>
+        #ai-lattes()
+       </code>
+       (This is equivalent to
+       <code>
+        #ai-icon().with("lattes")
+       </code>
+       )
+      </p>
+      <h4>
+       Full list of icons
+      </h4>
+      <p>
+       You can find all icons on the
+       <a href="https://jpswalsh.github.io/academicons/" rel="nofollow ugc" target="_blank">
+        official website
+       </a>
+      </p>
+      <h4>
+       Customization
+      </h4>
+      <p>
+       The
+       <code>
+        ai-icon
+       </code>
+       function passes args to
+       <code>
+        text
+       </code>
+       , so you can customize the icon by passing parameters to it:
+      </p>
+      <p>
+       <code>
+        #ai-icon("lattes", fill: blue)
+       </code>
+      </p>
+      <h4>
+       Stacking icons
+      </h4>
+      <p>
+       The
+       <code>
+        ai-stack
+       </code>
+       function can be used to create stacked icons:
+      </p>
+      <p>
+       <code>
+        #ai-stack(ai-icon-args: (fill: black), "doi", ("cv", (fill: blue, size: 20pt)))
+       </code>
+      </p>
+      <p>
+       Declaration is
+       <code>
+        ai-stack(box-args: (:), grid-args: (:), ai-icon-args: (:), ..icons)
+       </code>
+      </p>
+      <ul>
+       <li>
+        The order of the icons is from the bottom to the top.
+       </li>
+       <li>
+        <code>
+         ai-icon-args
+        </code>
+        is used to set the default args for all icons.
+       </li>
+       <li>
+        You can also control the internal
+        <code>
+         box
+        </code>
+        and
+        <code>
+         grid
+        </code>
+        by passing the
+        <code>
+         box-args
+        </code>
+        and
+        <code>
+         grid-args
+        </code>
+        to the
+        <code>
+         ai-stack
+        </code>
+        function.
+       </li>
+       <li>
+        Currently, four types of icons are supported. The first three types leverage the
+        <code>
+         ai-icon
+        </code>
+        function, and the last type is just a content you want to put in the stack.
+        <ul>
+         <li>
+          <code>
+           str
+          </code>
+          , e.g.,
+          <code>
+           "lattes"
+          </code>
+         </li>
+         <li>
+          <code>
+           array
+          </code>
+          , e.g.,
+          <code>
+           ("lattes", (fill: white, size: 5.5pt))
+          </code>
+         </li>
+         <li>
+          <code>
+           arguments
+          </code>
+          , e.g.
+          <code>
+           arguments("lattes", fill: white)
+          </code>
+         </li>
+         <li>
+          <code>
+           content
+          </code>
+          , e.g.
+          <code>
+           ai-lattes(fill: white)
+          </code>
+         </li>
+        </ul>
+       </li>
+      </ul>
+      <h2>
+       Example
+      </h2>
+      <p>
+       See the
+       <a href="https://typst.app/project/rsgOFC4YkwpN7OqtRyiXP3">
+        <code>
+         use-academicons.typ
+        </code>
+       </a>
+       file for a complete example.
+      </p>
+      <h2>
+       Contribution
+      </h2>
+      <p>
+       Feel free to open an issue or a pull request if you find any problems or have any suggestions.
+      </p>
+      <h3>
+       R helper
+      </h3>
+      <p>
+       The
+       <code>
+        helper.R
+       </code>
+       script is used to get unicodes for icons and generate typst code.
+      </p>
+      <h3>
+       Repo structure
+      </h3>
+      <ul>
+       <li>
+        <code>
+         helper.R
+        </code>
+        : The helper script to get unicodes and generate typst code.
+       </li>
+       <li>
+        <code>
+         lib.typ
+        </code>
+        : The main entrypoint of the library.
+       </li>
+       <li>
+        <code>
+         lib-impl.typ
+        </code>
+        : The implementation of
+        <code>
+         ai-icon
+        </code>
+        .
+       </li>
+       <li>
+        <code>
+         lib-gen.typ
+        </code>
+        : The generated functions of icons.
+       </li>
+       <li>
+        <code>
+         example.typ
+        </code>
+        : An example file to show how to use the library.
+       </li>
+       <li>
+        <code>
+         gallery.typ
+        </code>
+        : The generated gallery of icons. It is used in the example file.
+       </li>
+      </ul>
+      <h2>
+       License
+      </h2>
+      <p>
+       This library is licensed under the MIT license. Feel free to use it in your project.
+      </p>
+     </section>
+     <aside>
+      <section>
+       <h3>
+        How to add
+       </h3>
+       <p>
+        Copy this into your project and use the import as
+        <!-- -->
+        <code>
+         use-academicons
+        </code>
+       </p>
+       <div class="import-snippet">
+        <pre><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/use-academicons:0.1.0"</span></code></pre>
+        <button class="copy" title="Copy to clipboard">
+         <img alt="Copy" height="16" src="/assets/icons/16-copy.svg" width="16"/>
+        </button>
+       </div>
+       <p class="muted">
+        Check the docs for
+        <!-- -->
+        <a href="https://typst.app/docs/reference/scripting/#packages">
+         more information on how to import packages
+        </a>
+        .
+       </p>
+      </section>
+      <section id="about">
+       <h3>
+        About
+       </h3>
+       <dl>
+        <dt>
+         Author
+         <!-- -->
+         s
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         <a href="mailto:kp.campbell.he@duskmoon314.com">
+          duskmoon (Campbell He)
+         </a>
+         &amp;
+         <a href="mailto:philipp.kleer@posteo.com">
+          bpkleer (Philipp Kleer)
+         </a>
+        </dd>
+        <dt>
+         License:
+        </dt>
+        <dd>
+         MIT
+        </dd>
+        <dt>
+         Current version:
+        </dt>
+        <dd>
+         0.1.0
+        </dd>
+        <dt>
+         Last updated:
+        </dt>
+        <dd>
+         August 8, 2024
+        </dd>
+        <dt>
+         First released:
+        </dt>
+        <dd>
+         August 8, 2024
+        </dd>
+        <dt>
+         Archive size:
+        </dt>
+        <dd class="archive-size-value">
+         5.41 kB
+         <a href="https://packages.typst.org/preview/use-academicons-0.1.0.tar.gz">
+          <img alt="Size icon" src="/assets/icons/16-download.svg"/>
+         </a>
+        </dd>
+        <dt>
+         Repository:
+        </dt>
+        <dd>
+         <a href="https://github.com/bpkleer/typst-academicons" rel="noopener noreferrer" target="_blank">
+          GitHub
+         </a>
+        </dd>
+       </dl>
+      </section>
+      <section>
+       <h3>
+        Where to report issues?
+       </h3>
+       <p>
+        This
+        <!-- -->
+        package
+        <!-- -->
+        is a project of
+        <!-- -->
+        <!-- -->
+        duskmoon (Campbell He) and bpkleer (Philipp Kleer)
+        <!-- -->
+        .
+        <!-- -->
+        <!-- -->
+        Report issues on
+        <!-- -->
+        <a href="https://github.com/bpkleer/typst-academicons" rel="noopener noreferrer" target="_blank">
+         their repository
+        </a>
+        .
+        <!-- -->
+        <!-- -->
+        You can also try to ask for help with this
+        <!-- -->
+        package
+        <!-- -->
+        on the
+        <!-- -->
+        <a href="https://forum.typst.app" rel="noopener" target="_blank">
+         Forum
+        </a>
+        .
+       </p>
+       <p>
+        Please report this
+        <!-- -->
+        package
+        <!-- -->
+        to the Typst team using the
+        <!-- -->
+        <a href="https://typst.app/contact" rel="noreferrer" target="_blank">
+         contact form
+        </a>
+        <!-- -->
+        if you believe it is a safety hazard or infringes upon your rights.
+       </p>
+      </section>
+      <section id="versions">
+       <h3>
+        Version history
+       </h3>
+       <table>
+        <thead>
+         <tr>
+          <th align="left">
+           Version
+          </th>
+          <th align="left">
+           Release Date
+          </th>
+         </tr>
+        </thead>
+        <tbody>
+         <tr>
+          <td align="left">
+           0.1.0
+          </td>
+          <td align="left">
+           August 8, 2024
+          </td>
+         </tr>
+        </tbody>
+       </table>
+      </section>
+      <p class="bottom-notice muted">
+       Typst GmbH did not create this
+       <!-- -->
+       package
+       <!-- -->
+       and cannot guarantee correct functionality of this
+       <!-- -->
+       package
+       <!-- -->
+       or compatibility with any version of the Typst compiler or app.
+      </p>
+     </aside>
+    </div>
+   </main>

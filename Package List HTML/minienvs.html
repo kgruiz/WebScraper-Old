@@ -1,0 +1,293 @@
+<main>
+    <div id="banner" style="--banner-accent:#000000;--banner-primary:#000000;--banner-secondary:#000000;--banner-tertiary:#565565;--banner-background:#eff0f3">
+     <div class="package-icon" role="img">
+     </div>
+     <div>
+      <div class="title">
+       <h1 class="name">
+        minienvs
+       </h1>
+       <span class="version">
+        0.1.0
+       </span>
+      </div>
+      <p class="description">
+       Theorem environments with minimal fuss
+      </p>
+     </div>
+    </div>
+    <div class="inner-grid">
+     <section id="readme">
+      <p>
+       Theorem environments in
+       <a href="https://typst.app/">
+        Typst
+       </a>
+       with minimal fuss.
+      </p>
+      <p>
+       To use, import and add a show rule:
+      </p>
+      <pre><code class="language-typst"><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/minienvs:0.1.0"</span><span class="typ-punct">:</span> <span class="typ-op">*</span>
+<span class="typ-key">#</span><span class="typ-key">show</span><span class="typ-punct">:</span> <span class="typ-func">minienvs</span>
+</code></code></pre>
+      <p>
+       You can optionally pass a custom configuration in the show-rule via
+       <code>
+        minienvs.with(â¦)
+       </code>
+       (see
+       <a href="https://github.com/typst/packages/raw/main/packages/preview/minienvs/0.1.0/#customization" rel="nofollow ugc" target="_blank">
+        Customization
+       </a>
+       ).
+      </p>
+      <p>
+       You can now just add a theorem along with its proof using the term list syntax. For example:
+      </p>
+      <pre><code class="language-typst"><code><span class="typ-marker">/</span> <span class="typ-term">Theorem (Ville's inequality)</span><span class="typ-punct">:</span>
+  Let <span class="typ-math-delim">$</span>X<span class="typ-math-op">_</span>0, <span class="typ-escape">...</span><span class="typ-math-delim">$</span> be a non-negative supermartingale. Then, for any real number <span class="typ-math-delim">$</span>a &gt; 0<span class="typ-math-delim">$</span>,
+
+  <span class="typ-math-delim">$</span> <span class="typ-pol">PP</span>[<span class="typ-pol">sup</span><span class="typ-math-op">_</span><span class="typ-punct">(</span>n<span class="typ-escape">&gt;=</span>0<span class="typ-punct">)</span> X<span class="typ-math-op">_</span>n <span class="typ-escape">&gt;=</span> a] <span class="typ-escape">&lt;=</span> <span class="typ-pol">EE</span>[X<span class="typ-math-op">_</span>0]<span class="typ-math-op">/</span>a. <span class="typ-math-delim">$</span>
+
+Let us now prove it:
+
+<span class="typ-marker">/</span> <span class="typ-term">Proof</span><span class="typ-punct">:</span>
+  Consider the stopping time <span class="typ-math-delim">$</span>N = <span class="typ-pol">inf</span> {t <span class="typ-escape">&gt;=</span> 1 : X<span class="typ-math-op">_</span>t <span class="typ-escape">&gt;=</span> a}<span class="typ-math-delim">$</span>.
+  By the optional stopping theorem and the supermartingale convergence theorem, we have that
+
+  <span class="typ-math-delim">$</span>
+    <span class="typ-pol">EE</span>[X<span class="typ-math-op">_</span>0] <span class="typ-escape">&gt;=</span> <span class="typ-pol">EE</span>[X<span class="typ-math-op">_</span>N]
+    <span class="typ-math-op">&amp;</span>= <span class="typ-pol">EE</span>[X<span class="typ-math-op">_</span>N | N &lt; <span class="typ-pol">oo</span>] <span class="typ-pol">PP</span>[N &lt; <span class="typ-pol">oo</span>] + <span class="typ-pol">EE</span>[X<span class="typ-math-op">_</span><span class="typ-pol">oo</span> | N = <span class="typ-pol">oo</span>] <span class="typ-pol">PP</span>[N = <span class="typ-pol">oo</span>] <span class="typ-escape">\</span>
+    <span class="typ-math-op">&amp;</span><span class="typ-escape">&gt;=</span> <span class="typ-pol">EE</span>[X<span class="typ-math-op">_</span>N | N &lt; <span class="typ-pol">oo</span>] <span class="typ-pol">PP</span>[N &lt; <span class="typ-pol">oo</span>]
+    = <span class="typ-pol">EE</span>[X<span class="typ-math-op">_</span>N<span class="typ-math-op">/</span>a | N &lt; <span class="typ-pol">oo</span>] a <span class="typ-pol">PP</span>[N &lt; <span class="typ-pol">oo</span>]. <span class="typ-escape">\</span>
+  <span class="typ-math-delim">$</span>
+
+  And, therefore,
+
+  <span class="typ-math-delim">$</span> <span class="typ-pol">PP</span>[N &lt; <span class="typ-pol">oo</span>] <span class="typ-escape">&lt;=</span> <span class="typ-pol">EE</span>[X<span class="typ-math-op">_</span>0] <span class="typ-escape">\/</span> a <span class="typ-pol">EE</span>[X<span class="typ-math-op">_</span>N<span class="typ-math-op">/</span>a | N &lt; <span class="typ-pol">oo</span>] <span class="typ-escape">&lt;=</span> <span class="typ-pol">EE</span>[X<span class="typ-math-op">_</span>0] <span class="typ-escape">\/</span> a. <span class="typ-math-delim">$</span>
+</code></code></pre>
+      <p>
+       <img alt="" src="https://github.com/typst/packages/raw/main/packages/preview/minienvs/0.1.0/assets/ville.png"/>
+      </p>
+      <h2>
+       Labels and references
+      </h2>
+      <p>
+       Currently, in order to label a minienv one needs to use the
+       <code>
+        envlabel
+       </code>
+       function. For example:
+      </p>
+      <pre><code class="language-typst"><code><span class="typ-marker">/</span> <span class="typ-term">Lemma (Donsker and Varadhan's variational formula) <span class="typ-func">#</span><span class="typ-func">envlabel</span><span class="typ-punct">(</span><span class="typ-label">&lt;change-of-measure&gt;</span><span class="typ-punct">)</span></span><span class="typ-punct">:</span>
+  For any measureable, bounded function <span class="typ-math-delim">$</span>h : <span class="typ-pol">Theta</span> <span class="typ-escape">-&gt;</span> <span class="typ-pol">RR</span><span class="typ-math-delim">$</span> we have:
+
+  <span class="typ-math-delim">$</span> <span class="typ-pol">log</span> <span class="typ-pol">EE</span><span class="typ-math-op">_</span><span class="typ-punct">(</span><span class="typ-pol">theta</span> ~ <span class="typ-pol">pi</span><span class="typ-punct">)</span>[<span class="typ-pol">exp</span> h(<span class="typ-pol">theta</span>)] = <span class="typ-pol">sup</span><span class="typ-math-op">_</span><span class="typ-punct">(</span><span class="typ-pol">rho</span> <span class="typ-pol">in</span> <span class="typ-func">cal</span><span class="typ-punct">(</span>P<span class="typ-punct">)</span>(<span class="typ-pol">Theta</span>)<span class="typ-punct">)</span> [ <span class="typ-pol">EE</span><span class="typ-math-op">_</span><span class="typ-punct">(</span><span class="typ-pol">theta</span>~<span class="typ-pol">rho</span><span class="typ-punct">)</span>[h(<span class="typ-pol">theta</span>)] <span class="typ-escape">-</span> <span class="typ-func">KL</span><span class="typ-punct">(</span><span class="typ-pol">rho</span> <span class="typ-escape">||</span> <span class="typ-pol">pi</span><span class="typ-punct">)</span> ]. <span class="typ-math-delim">$</span>
+
+As we will see, <span class="typ-ref">@change-of-measure</span> is a fundamental building block of PAC-Bayes bounds.
+</code></code></pre>
+      <p>
+       <img alt="" src="https://github.com/typst/packages/raw/main/packages/preview/minienvs/0.1.0/assets/donsker-varadhan.png"/>
+      </p>
+      <h2>
+       Customization
+      </h2>
+      <p>
+       You can customize the appearance of minienvs by providing a configuration to the show-rule. For example, for the default configuration, you can do:
+      </p>
+      <pre><code class="language-typst"><code><span class="typ-key">#</span><span class="typ-key">show</span><span class="typ-punct">:</span> minienvs<span class="typ-punct">.</span><span class="typ-func">with</span><span class="typ-punct">(</span>config<span class="typ-punct">:</span> <span class="typ-punct">(</span>
+  <span class="typ-comment">// Whether to give numbers for environments.</span>
+  <span class="typ-comment">// If the environment is not mentioned in this dict, it has a number.</span>
+  no-numbering<span class="typ-punct">:</span> <span class="typ-punct">(</span>
+    proof<span class="typ-punct">:</span> <span class="typ-key">true</span><span class="typ-punct">,</span>
+  <span class="typ-punct">)</span><span class="typ-punct">,</span>
+  <span class="typ-comment">// Additional options for the `block` containing the minienv (e.g., to put a box around the minienv).</span>
+  <span class="typ-comment">// If the environment is not mentioned in this dict, no additional options are passed.</span>
+  bbox<span class="typ-punct">:</span> <span class="typ-punct">(</span><span class="typ-punct">:</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+  <span class="typ-comment">// How to format the head of the minienv.</span>
+  <span class="typ-comment">// If the environment is not mentioned in this dict, then it is formatted in bold.</span>
+  head-style<span class="typ-punct">:</span> <span class="typ-punct">(</span>
+    proof<span class="typ-punct">:</span> it <span class="typ-op">=&gt;</span> <span class="typ-punct">[</span><span class="typ-emph">_<span class="typ-punct">#</span><span class="typ-punct">{</span>it<span class="typ-punct">}</span>_</span><span class="typ-punct">]</span><span class="typ-punct">,</span>
+  <span class="typ-punct">)</span><span class="typ-punct">,</span>
+  <span class="typ-comment">// How to format the body of the minienv.</span>
+  <span class="typ-comment">// If the environment is not mentioned in this dict, then it is formatted in italic.</span>
+  transforms<span class="typ-punct">:</span> <span class="typ-punct">(</span>
+    proof<span class="typ-punct">:</span> it <span class="typ-op">=&gt;</span> <span class="typ-punct">[</span><span class="typ-pol">#</span><span class="typ-pol">it</span> <span class="typ-func">#</span><span class="typ-func">h</span><span class="typ-punct">(</span><span class="typ-num">1fr</span><span class="typ-punct">)</span> <span class="typ-math-delim">$</span><span class="typ-pol">space</span> <span class="typ-pol">qed</span><span class="typ-math-delim">$</span><span class="typ-punct">]</span><span class="typ-punct">,</span>
+  <span class="typ-punct">)</span>
+<span class="typ-punct">)</span><span class="typ-punct">)</span>
+</code></code></pre>
+      <h2>
+       Coming soon / Work in progress
+      </h2>
+      <ul>
+       <li>
+        Presets for multiple languages
+       </li>
+       <li>
+        Separate counters
+       </li>
+       <li>
+        More customization
+       </li>
+      </ul>
+     </section>
+     <aside>
+      <section>
+       <h3>
+        How to add
+       </h3>
+       <p>
+        Copy this into your project and use the import as
+        <!-- -->
+        <code>
+         minienvs
+        </code>
+       </p>
+       <div class="import-snippet">
+        <pre><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/minienvs:0.1.0"</span></code></pre>
+        <button class="copy" title="Copy to clipboard">
+         <img alt="Copy" height="16" src="/assets/icons/16-copy.svg" width="16"/>
+        </button>
+       </div>
+       <p class="muted">
+        Check the docs for
+        <!-- -->
+        <a href="https://typst.app/docs/reference/scripting/#packages">
+         more information on how to import packages
+        </a>
+        .
+       </p>
+      </section>
+      <section id="about">
+       <h3>
+        About
+       </h3>
+       <dl>
+        <dt>
+         Author
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         Daniel Csillag
+        </dd>
+        <dt>
+         License:
+        </dt>
+        <dd>
+         MIT
+        </dd>
+        <dt>
+         Current version:
+        </dt>
+        <dd>
+         0.1.0
+        </dd>
+        <dt>
+         Last updated:
+        </dt>
+        <dd>
+         December 14, 2023
+        </dd>
+        <dt>
+         First released:
+        </dt>
+        <dd>
+         December 14, 2023
+        </dd>
+        <dt>
+         Archive size:
+        </dt>
+        <dd class="archive-size-value">
+         3.13 kB
+         <a href="https://packages.typst.org/preview/minienvs-0.1.0.tar.gz">
+          <img alt="Size icon" src="/assets/icons/16-download.svg"/>
+         </a>
+        </dd>
+       </dl>
+      </section>
+      <section>
+       <h3>
+        Where to report issues?
+       </h3>
+       <p>
+        This
+        <!-- -->
+        package
+        <!-- -->
+        is a project of
+        <!-- -->
+        <!-- -->
+        Daniel Csillag
+        <!-- -->
+        .
+        <!-- -->
+        <!-- -->
+        <!-- -->
+        You can also try to ask for help with this
+        <!-- -->
+        package
+        <!-- -->
+        on the
+        <!-- -->
+        <a href="https://forum.typst.app" rel="noopener" target="_blank">
+         Forum
+        </a>
+        .
+       </p>
+       <p>
+        Please report this
+        <!-- -->
+        package
+        <!-- -->
+        to the Typst team using the
+        <!-- -->
+        <a href="https://typst.app/contact" rel="noreferrer" target="_blank">
+         contact form
+        </a>
+        <!-- -->
+        if you believe it is a safety hazard or infringes upon your rights.
+       </p>
+      </section>
+      <section id="versions">
+       <h3>
+        Version history
+       </h3>
+       <table>
+        <thead>
+         <tr>
+          <th align="left">
+           Version
+          </th>
+          <th align="left">
+           Release Date
+          </th>
+         </tr>
+        </thead>
+        <tbody>
+         <tr>
+          <td align="left">
+           0.1.0
+          </td>
+          <td align="left">
+           December 14, 2023
+          </td>
+         </tr>
+        </tbody>
+       </table>
+      </section>
+      <p class="bottom-notice muted">
+       Typst GmbH did not create this
+       <!-- -->
+       package
+       <!-- -->
+       and cannot guarantee correct functionality of this
+       <!-- -->
+       package
+       <!-- -->
+       or compatibility with any version of the Typst compiler or app.
+      </p>
+     </aside>
+    </div>
+   </main>

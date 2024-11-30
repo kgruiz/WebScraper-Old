@@ -1,0 +1,249 @@
+\title{typst.app/universe/package/ansi-render}
+
+\phantomsection\label{banner}
+\section{ansi-render}\label{ansi-render}
+
+{ 0.6.1 }
+
+provides a simple way to render text with ANSI escape sequences.
+
+\phantomsection\label{readme}
+\href{https://github.com/8LWXpg/typst-ansi-render/tags}{\pandocbounded{\includegraphics[keepaspectratio]{https://img.shields.io/github/v/tag/8LWXpg/typst-ansi-render}}}
+\href{https://github.com/8LWXpg/typst-ansi-render}{\pandocbounded{\includegraphics[keepaspectratio]{https://img.shields.io/github/stars/8LWXpg/typst-ansi-render}}}
+\href{https://github.com/8LWXpg/typst-ansi-render/blob/master/LICENSE}{\pandocbounded{\includegraphics[keepaspectratio]{https://img.shields.io/github/license/8LWXpg/typst-ansi-render}}}
+\href{https://github.com/typst/packages/tree/main/packages/preview/ansi-render}{\pandocbounded{\includegraphics[keepaspectratio]{https://img.shields.io/badge/typst-package-239dad}}}
+
+This script provides a simple way to render text with ANSI escape
+sequences. Package \texttt{\ ansi-render\ } provides a function
+\texttt{\ ansi-render\ } , and a dictionary of themes
+\texttt{\ terminal-themes\ } .
+
+contribution is welcomed!
+
+\subsection{Usage}\label{usage}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/ansi{-}render:0.6.1": *}
+
+\NormalTok{\#ansi{-}render(}
+\NormalTok{  string,}
+\NormalTok{  font:           string or none,}
+\NormalTok{  size:           length,}
+\NormalTok{  width:          auto or relative length,}
+\NormalTok{  height:         auto or relative length,}
+\NormalTok{  breakable:      boolean,}
+\NormalTok{  radius:         relative length or dictionary,}
+\NormalTok{  inset:          relative length or dictionary,}
+\NormalTok{  outset:         relative length or dictionary,}
+\NormalTok{  spacing:        relative length or fraction,}
+\NormalTok{  above:          relative length or fraction,}
+\NormalTok{  below:          relative length or fraction,}
+\NormalTok{  clip:           boolean,}
+\NormalTok{  bold{-}is{-}bright: boolean,}
+\NormalTok{  theme:          terminal{-}themes.theme,}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{Parameters}\label{parameters}
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ string\ } - string with ANSI escape sequences
+\item
+  \texttt{\ font\ } - font name or none, default is
+  \texttt{\ Cascadia\ Code\ } , set to \texttt{\ none\ } to use the same
+  font as \texttt{\ raw\ }
+\item
+  \texttt{\ size\ } - font size, default is \texttt{\ 1em\ }
+\item
+  \texttt{\ bold-is-bright\ } - boolean, whether bold text is rendered
+  with bright colors, default is \texttt{\ false\ }
+\item
+  \texttt{\ theme\ } - theme, default is \texttt{\ vscode-light\ }
+\item
+  parameters from
+  \href{https://typst.app/docs/reference/layout/block/}{\texttt{\ block\ }}
+  function with the same default value, only affects outmost block
+  layout:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \texttt{\ width\ }
+  \item
+    \texttt{\ height\ }
+  \item
+    \texttt{\ breakable\ }
+  \item
+    \texttt{\ radius\ }
+  \item
+    \texttt{\ inset\ }
+  \item
+    \texttt{\ outset\ }
+  \item
+    \texttt{\ spacing\ }
+  \item
+    \texttt{\ above\ }
+  \item
+    \texttt{\ below\ }
+  \item
+    \texttt{\ clip\ }
+  \end{itemize}
+\end{itemize}
+
+\subsection{Themes}\label{themes}
+
+see
+\href{https://github.com/8LWXpg/typst-ansi-render/blob/master/test/themes.pdf}{themes}
+
+\subsection{Demo}\label{demo}
+
+see
+\href{https://github.com/8LWXpg/typst-ansi-render/blob/master/test/demo.typ}{demo.typ}
+\href{https://github.com/8LWXpg/typst-ansi-render/blob/master/test/demo.pdf}{demo.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#ansi{-}render(}
+\NormalTok{"\textbackslash{}u\{1b\}[38;2;255;0;0mThis text is red.\textbackslash{}u\{1b\}[0m}
+\NormalTok{\textbackslash{}u\{1b\}[48;2;0;255;0mThis background is green.\textbackslash{}u\{1b\}[0m}
+\NormalTok{\textbackslash{}u\{1b\}[38;2;255;255;255m\textbackslash{}u\{1b\}[48;2;0;0;255mThis text is white on a blue background.\textbackslash{}u\{1b\}[0m}
+\NormalTok{\textbackslash{}u\{1b\}[1mThis text is bold.\textbackslash{}u\{1b\}[0m}
+\NormalTok{\textbackslash{}u\{1b\}[4mThis text is underlined.\textbackslash{}u\{1b\}[0m}
+\NormalTok{\textbackslash{}u\{1b\}[38;2;255;165;0m\textbackslash{}u\{1b\}[48;2;255;255;0mThis text is orange on a yellow background.\textbackslash{}u\{1b\}[0m",}
+\NormalTok{inset: 5pt, radius: 3pt,}
+\NormalTok{theme: terminal{-}themes.vscode}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://raw.githubusercontent.com/8LWXpg/typst-ansi-render/master/img/1.png}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#ansi{-}render(}
+\NormalTok{"\textbackslash{}u\{1b\}[38;5;196mRed text\textbackslash{}u\{1b\}[0m}
+\NormalTok{\textbackslash{}u\{1b\}[48;5;27mBlue background\textbackslash{}u\{1b\}[0m}
+\NormalTok{\textbackslash{}u\{1b\}[38;5;226;48;5;18mYellow text on blue background\textbackslash{}u\{1b\}[0m}
+\NormalTok{\textbackslash{}u\{1b\}[7mInverted text\textbackslash{}u\{1b\}[0m}
+\NormalTok{\textbackslash{}u\{1b\}[38;5;208;48;5;237mOrange text on gray background\textbackslash{}u\{1b\}[0m}
+\NormalTok{\textbackslash{}u\{1b\}[38;5;39;48;5;208mBlue text on orange background\textbackslash{}u\{1b\}[0m}
+\NormalTok{\textbackslash{}u\{1b\}[38;5;255;48;5;0mWhite text on black background\textbackslash{}u\{1b\}[0m",}
+\NormalTok{inset: 5pt, radius: 3pt,}
+\NormalTok{theme: terminal{-}themes.vscode}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://raw.githubusercontent.com/8LWXpg/typst-ansi-render/master/img/2.png}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#ansi{-}render(}
+\NormalTok{"\textbackslash{}u\{1b\}[31;1mHello \textbackslash{}u\{1b\}[7mWorld\textbackslash{}u\{1b\}[0m}
+
+\NormalTok{\textbackslash{}u\{1b\}[53;4;36mOver  and \textbackslash{}u\{1b\}[35m Under!}
+\NormalTok{\textbackslash{}u\{1b\}[7;90mreverse\textbackslash{}u\{1b\}[101m and \textbackslash{}u\{1b\}[94;27mreverse",}
+\NormalTok{inset: 5pt, radius: 3pt,}
+\NormalTok{theme: terminal{-}themes.vscode}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://raw.githubusercontent.com/8LWXpg/typst-ansi-render/master/img/3.png}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{// uses the font that supports ligatures}
+\NormalTok{\#ansi{-}render(read("test.txt"), inset: 5pt, radius: 3pt, font: "Cascadia Code", theme: terminal{-}themes.putty)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://raw.githubusercontent.com/8LWXpg/typst-ansi-render/master/img/4.png}}
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as
+\texttt{\ ansi-render\ }
+
+\begin{verbatim}
+#import "@preview/ansi-render:0.6.1"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+8LWXpg
+\item[License:]
+MIT
+\item[Current version:]
+0.6.1
+\item[Last updated:]
+December 28, 2023
+\item[First released:]
+July 3, 2023
+\item[Minimum Typst version:]
+0.10.0
+\item[Archive size:]
+6.23 kB
+\href{https://packages.typst.org/preview/ansi-render-0.6.1.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/8LWXpg/typst-ansi-render}{GitHub}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of 8LWXpg . Report issues on
+\href{https://github.com/8LWXpg/typst-ansi-render}{their repository} .
+You can also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.6.1 & December 28, 2023 \\
+\href{https://typst.app/universe/package/ansi-render/0.6.0/}{0.6.0} &
+December 10, 2023 \\
+\href{https://typst.app/universe/package/ansi-render/0.5.1/}{0.5.1} &
+October 21, 2023 \\
+\href{https://typst.app/universe/package/ansi-render/0.5.0/}{0.5.0} &
+September 29, 2023 \\
+\href{https://typst.app/universe/package/ansi-render/0.4.2/}{0.4.2} &
+September 25, 2023 \\
+\href{https://typst.app/universe/package/ansi-render/0.4.1/}{0.4.1} &
+September 22, 2023 \\
+\href{https://typst.app/universe/package/ansi-render/0.4.0/}{0.4.0} &
+September 13, 2023 \\
+\href{https://typst.app/universe/package/ansi-render/0.3.0/}{0.3.0} &
+September 9, 2023 \\
+\href{https://typst.app/universe/package/ansi-render/0.2.0/}{0.2.0} &
+August 5, 2023 \\
+\href{https://typst.app/universe/package/ansi-render/0.1.0/}{0.1.0} &
+July 3, 2023 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.

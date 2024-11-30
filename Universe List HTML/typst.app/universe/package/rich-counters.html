@@ -1,0 +1,693 @@
+<main>
+    <div id="banner" style="--banner-accent:#000000;--banner-primary:#000000;--banner-secondary:#000000;--banner-tertiary:#565565;--banner-background:#eff0f3">
+     <div class="package-icon" role="img">
+     </div>
+     <div>
+      <div class="title">
+       <h1 class="name">
+        rich-counters
+       </h1>
+       <span class="version">
+        0.2.2
+       </span>
+      </div>
+      <p class="description">
+       Counters which can inherit from other counters.
+      </p>
+     </div>
+    </div>
+    <div class="inner-grid">
+     <section id="readme">
+      <p>
+       This package allows you to have
+       <strong>
+        counters which can inherit from other counters
+       </strong>
+       .
+      </p>
+      <p>
+       Concretely, it implements
+       <code>
+        rich-counter
+       </code>
+       , which is a counter that can
+       <em>
+        inherit
+       </em>
+       one or more levels from another counter.
+      </p>
+      <p>
+       The interface is pretty much the same as the
+       <a href="https://typst.app/docs/reference/introspection/counter/">
+        usual counter
+       </a>
+       . It provides a
+       <code>
+        display()
+       </code>
+       ,
+       <code>
+        get()
+       </code>
+       ,
+       <code>
+        final()
+       </code>
+       ,
+       <code>
+        at()
+       </code>
+       , and a
+       <code>
+        step()
+       </code>
+       method. An
+       <code>
+        update()
+       </code>
+       method will be implemented soon.
+      </p>
+      <h2>
+       Simple typical Showcase
+      </h2>
+      <p>
+       In the following example,
+       <code>
+        mycounter
+       </code>
+       inherits the first level from
+       <code>
+        heading
+       </code>
+       (but not deeper levels).
+      </p>
+      <pre><code class="language-typ"><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/rich-counters:0.2.2"</span><span class="typ-punct">:</span> <span class="typ-op">*</span>
+
+<span class="typ-key">#</span><span class="typ-key">set</span> <span class="typ-func">heading</span><span class="typ-punct">(</span>numbering<span class="typ-punct">:</span> <span class="typ-str">"1.1"</span><span class="typ-punct">)</span>
+<span class="typ-key">#</span><span class="typ-key">let</span> mycounter <span class="typ-op">=</span> <span class="typ-func">rich-counter</span><span class="typ-punct">(</span>identifier<span class="typ-punct">:</span> <span class="typ-str">"mycounter"</span><span class="typ-punct">,</span> inherited_levels<span class="typ-punct">:</span> <span class="typ-num">1</span><span class="typ-punct">)</span>
+
+<span class="typ-comment">// DOCUMENT</span>
+
+Displaying <span class="typ-raw">`mycounter`</span> here: <span class="typ-key">#</span><span class="typ-key">context</span> <span class="typ-punct">(</span>mycounter<span class="typ-punct">.</span>display<span class="typ-punct">)</span><span class="typ-punct">(</span><span class="typ-punct">)</span>
+
+<span class="typ-heading">= First level heading</span>
+
+Displaying <span class="typ-raw">`mycounter`</span> here: <span class="typ-key">#</span><span class="typ-key">context</span> <span class="typ-punct">(</span>mycounter<span class="typ-punct">.</span>display<span class="typ-punct">)</span><span class="typ-punct">(</span><span class="typ-punct">)</span>
+
+Stepping <span class="typ-raw">`mycounter`</span> here. <span class="typ-punct">#</span><span class="typ-punct">(</span>mycounter<span class="typ-punct">.</span>step<span class="typ-punct">)</span><span class="typ-punct">(</span><span class="typ-punct">)</span>
+
+Displaying <span class="typ-raw">`mycounter`</span> here: <span class="typ-key">#</span><span class="typ-key">context</span> <span class="typ-punct">(</span>mycounter<span class="typ-punct">.</span>display<span class="typ-punct">)</span><span class="typ-punct">(</span><span class="typ-punct">)</span>
+
+<span class="typ-heading">= Another first level heading</span>
+
+Displaying <span class="typ-raw">`mycounter`</span> here: <span class="typ-key">#</span><span class="typ-key">context</span> <span class="typ-punct">(</span>mycounter<span class="typ-punct">.</span>display<span class="typ-punct">)</span><span class="typ-punct">(</span><span class="typ-punct">)</span>
+
+Stepping <span class="typ-raw">`mycounter`</span> here. <span class="typ-punct">#</span><span class="typ-punct">(</span>mycounter<span class="typ-punct">.</span>step<span class="typ-punct">)</span><span class="typ-punct">(</span><span class="typ-punct">)</span>
+
+Displaying <span class="typ-raw">`mycounter`</span> here: <span class="typ-key">#</span><span class="typ-key">context</span> <span class="typ-punct">(</span>mycounter<span class="typ-punct">.</span>display<span class="typ-punct">)</span><span class="typ-punct">(</span><span class="typ-punct">)</span>
+
+<span class="typ-heading">== Second level heading</span>
+
+Displaying <span class="typ-raw">`mycounter`</span> here: <span class="typ-key">#</span><span class="typ-key">context</span> <span class="typ-punct">(</span>mycounter<span class="typ-punct">.</span>display<span class="typ-punct">)</span><span class="typ-punct">(</span><span class="typ-punct">)</span>
+
+Stepping <span class="typ-raw">`mycounter`</span> here. <span class="typ-punct">#</span><span class="typ-punct">(</span>mycounter<span class="typ-punct">.</span>step<span class="typ-punct">)</span><span class="typ-punct">(</span><span class="typ-punct">)</span>
+
+Displaying <span class="typ-raw">`mycounter`</span> here: <span class="typ-key">#</span><span class="typ-key">context</span> <span class="typ-punct">(</span>mycounter<span class="typ-punct">.</span>display<span class="typ-punct">)</span><span class="typ-punct">(</span><span class="typ-punct">)</span>
+
+<span class="typ-heading">= Aaand another first level heading</span>
+
+Displaying <span class="typ-raw">`mycounter`</span> here: <span class="typ-key">#</span><span class="typ-key">context</span> <span class="typ-punct">(</span>mycounter<span class="typ-punct">.</span>display<span class="typ-punct">)</span><span class="typ-punct">(</span><span class="typ-punct">)</span>
+
+Stepping <span class="typ-raw">`mycounter`</span> here. <span class="typ-punct">#</span><span class="typ-punct">(</span>mycounter<span class="typ-punct">.</span>step<span class="typ-punct">)</span><span class="typ-punct">(</span><span class="typ-punct">)</span>
+
+Displaying <span class="typ-raw">`mycounter`</span> here: <span class="typ-key">#</span><span class="typ-key">context</span> <span class="typ-punct">(</span>mycounter<span class="typ-punct">.</span>display<span class="typ-punct">)</span><span class="typ-punct">(</span><span class="typ-punct">)</span>
+</code></code></pre>
+      <p>
+       <img alt="" src="https://github.com/typst/packages/raw/main/packages/preview/rich-counters/0.2.2/example.png"/>
+      </p>
+      <h2>
+       Construction of a
+       <code>
+        rich-counter
+       </code>
+      </h2>
+      <p>
+       To create a
+       <code>
+        rich-counter
+       </code>
+       , you have to call the
+       <code>
+        rich-counter(...)
+       </code>
+       function. It accepts three arguments:
+      </p>
+      <ul>
+       <li>
+        <p>
+         <code>
+          identifier
+         </code>
+         (required)
+        </p>
+        <p>
+         Must be a unique
+         <code>
+          string
+         </code>
+         which identifies the counter.
+        </p>
+       </li>
+       <li>
+        <p>
+         <code>
+          inherited_levels
+         </code>
+        </p>
+        <p>
+         Specifies how many levels should be inherited from the parent counter.
+        </p>
+       </li>
+       <li>
+        <p>
+         <code>
+          inherited_from
+         </code>
+         (Default:
+         <code>
+          heading
+         </code>
+         )
+        </p>
+        <p>
+         Specifies the parent counter. Can be a
+         <code>
+          rich-counter
+         </code>
+         or any key that is accepted by the
+         <a href="https://typst.app/docs/reference/introspection/counter#constructor">
+          <code>
+           counter(...)
+          </code>
+          constructor
+         </a>
+         , such as a
+         <code>
+          label
+         </code>
+         , a
+         <code>
+          selector
+         </code>
+         , a
+         <code>
+          location
+         </code>
+         , or a
+         <code>
+          function
+         </code>
+         like
+         <code>
+          heading
+         </code>
+         . If not specified, defaults to
+         <code>
+          heading
+         </code>
+         (and hence it will inherit from the counter of the headings).
+        </p>
+        <p>
+         If itâs a
+         <code>
+          rich-counter
+         </code>
+         and
+         <code>
+          inherited_levels
+         </code>
+         is
+         <em>
+          not
+         </em>
+         specified, then
+         <code>
+          inherited_levels
+         </code>
+         will default to one level higher than the given
+         <code>
+          rich-counter
+         </code>
+         .
+        </p>
+       </li>
+      </ul>
+      <p>
+       For example, the following creates a
+       <code>
+        rich-counter
+       </code>
+       <code>
+        foo
+       </code>
+       which inherits one level from the headings, and then another
+       <code>
+        rich-counter
+       </code>
+       <code>
+        bar
+       </code>
+       which inherits two levels (implicitly) from
+       <code>
+        foo
+       </code>
+       .
+      </p>
+      <pre><code class="language-typ"><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/rich-counters:0.2.2"</span><span class="typ-punct">:</span> <span class="typ-op">*</span>
+
+<span class="typ-key">#</span><span class="typ-key">let</span> foo <span class="typ-op">=</span> <span class="typ-func">rich-counter</span><span class="typ-punct">(</span>identifier<span class="typ-punct">:</span> <span class="typ-str">"foo"</span><span class="typ-punct">,</span> inherited_levels<span class="typ-punct">:</span> <span class="typ-num">1</span><span class="typ-punct">)</span>
+<span class="typ-key">#</span><span class="typ-key">let</span> bar <span class="typ-op">=</span> <span class="typ-func">rich-counter</span><span class="typ-punct">(</span>identifier<span class="typ-punct">:</span> <span class="typ-str">"bar"</span><span class="typ-punct">,</span> inherited_from<span class="typ-punct">:</span> foo<span class="typ-punct">)</span>
+</code></code></pre>
+      <h2>
+       Usage of a
+       <code>
+        rich-counter
+       </code>
+      </h2>
+      <ul>
+       <li>
+        <p>
+         <code>
+          display(numbering)
+         </code>
+         (needs
+         <code>
+          context
+         </code>
+         )
+        </p>
+        <p>
+         Displays the current value of the counter with the given numbering style. Giving the numbering style is optional, with default value
+         <code>
+          "1.1"
+         </code>
+         .
+        </p>
+       </li>
+       <li>
+        <p>
+         <code>
+          get()
+         </code>
+         (needs
+         <code>
+          context
+         </code>
+         )
+        </p>
+        <p>
+         Returns the current value of the counter (as an
+         <code>
+          array
+         </code>
+         ).
+        </p>
+       </li>
+       <li>
+        <p>
+         <code>
+          final()
+         </code>
+         (needs
+         <code>
+          context
+         </code>
+         )
+        </p>
+        <p>
+         Returns the value of the counter at the end of the document.
+        </p>
+       </li>
+       <li>
+        <p>
+         <code>
+          at(loc)
+         </code>
+         (needs
+         <code>
+          context
+         </code>
+         )
+        </p>
+        <p>
+         Returns the value of the counter at
+         <code>
+          loc
+         </code>
+         , where
+         <code>
+          loc
+         </code>
+         can be a
+         <code>
+          label
+         </code>
+         ,
+         <code>
+          selector
+         </code>
+         ,
+         <code>
+          location
+         </code>
+         , or
+         <code>
+          function
+         </code>
+         .
+        </p>
+       </li>
+       <li>
+        <p>
+         <code>
+          step(depth: 1)
+         </code>
+        </p>
+        <p>
+         Steps the counter at the specified
+         <code>
+          depth
+         </code>
+         (default:
+         <code>
+          1
+         </code>
+         ). That is, it steps the
+         <code>
+          rich-counter
+         </code>
+         at level
+         <code>
+          inherited_levels + depth
+         </code>
+         .
+        </p>
+       </li>
+      </ul>
+      <p>
+       <strong>
+        Due to a Typst limitation, you have to put parentheses before you put the arguments. (See below.)
+       </strong>
+      </p>
+      <p>
+       For example, the following steps
+       <code>
+        mycounter
+       </code>
+       (at depth 1) and then displays it.
+      </p>
+      <pre><code class="language-typ"><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/rich-counters:0.2.2"</span><span class="typ-punct">:</span> <span class="typ-op">*</span>
+<span class="typ-key">#</span><span class="typ-key">let</span> mycounter <span class="typ-op">=</span> <span class="typ-func">rich-counter</span><span class="typ-punct">(</span><span class="typ-op">..</span><span class="typ-punct">.</span><span class="typ-punct">)</span>
+
+<span class="typ-punct">#</span><span class="typ-punct">(</span>mycounter<span class="typ-punct">.</span>step<span class="typ-punct">)</span><span class="typ-punct">(</span><span class="typ-punct">)</span>
+<span class="typ-key">#</span><span class="typ-key">context</span> <span class="typ-punct">(</span>mycounter<span class="typ-punct">.</span>display<span class="typ-punct">)</span><span class="typ-punct">(</span><span class="typ-str">"1.1"</span><span class="typ-punct">)</span>
+</code></code></pre>
+      <h2>
+       Limitations
+      </h2>
+      <p>
+       Due to current Typst limitations, there is no way to detect manual updates or steps of Typst-native counters, like
+       <code>
+        counter(heading).update(...)
+       </code>
+       or
+       <code>
+        counter(heading).step(...)
+       </code>
+       . Only occurrences of actual
+       <code>
+        heading
+       </code>
+       s can be detected. So make sure that after you call e.g.
+       <code>
+        counter(heading).update(...)
+       </code>
+       , you place a heading directly after it, before you call any
+       <code>
+        rich-counter
+       </code>
+       s.
+      </p>
+      <h2>
+       Roadmap
+      </h2>
+      <ul>
+       <li>
+        implement
+        <code>
+         update()
+        </code>
+       </li>
+       <li>
+        use Typst custom types as soon as they become available
+       </li>
+       <li>
+        adopt native Typst implementation of dependent counters as soon it becomes available
+       </li>
+      </ul>
+     </section>
+     <aside>
+      <section>
+       <h3>
+        How to add
+       </h3>
+       <p>
+        Copy this into your project and use the import as
+        <!-- -->
+        <code>
+         rich-counters
+        </code>
+       </p>
+       <div class="import-snippet">
+        <pre><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/rich-counters:0.2.2"</span></code></pre>
+        <button class="copy" title="Copy to clipboard">
+         <img alt="Copy" height="16" src="/assets/icons/16-copy.svg" width="16"/>
+        </button>
+       </div>
+       <p class="muted">
+        Check the docs for
+        <!-- -->
+        <a href="https://typst.app/docs/reference/scripting/#packages">
+         more information on how to import packages
+        </a>
+        .
+       </p>
+      </section>
+      <section id="about">
+       <h3>
+        About
+       </h3>
+       <dl>
+        <dt>
+         Author
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         <a href="https://jbirnick.net" rel="noopener noreferrer" target="_blank">
+          Johann Birnick
+         </a>
+        </dd>
+        <dt>
+         License:
+        </dt>
+        <dd>
+         MIT
+        </dd>
+        <dt>
+         Current version:
+        </dt>
+        <dd>
+         0.2.2
+        </dd>
+        <dt>
+         Last updated:
+        </dt>
+        <dd>
+         November 21, 2024
+        </dd>
+        <dt>
+         First released:
+        </dt>
+        <dd>
+         August 14, 2024
+        </dd>
+        <dt>
+         Archive size:
+        </dt>
+        <dd class="archive-size-value">
+         3.60 kB
+         <a href="https://packages.typst.org/preview/rich-counters-0.2.2.tar.gz">
+          <img alt="Size icon" src="/assets/icons/16-download.svg"/>
+         </a>
+        </dd>
+        <dt>
+         Repository:
+        </dt>
+        <dd>
+         <a href="https://github.com/jbirnick/typst-rich-counters" rel="noopener noreferrer" target="_blank">
+          GitHub
+         </a>
+        </dd>
+        <dt>
+         Categor
+         <!-- -->
+         ies
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         <ul class="list-with-icons">
+          <li>
+           <img alt="Model icon" src="/assets/icons/16-list-unordered.svg"/>
+           <a href="https://typst.app/universe/search/?category=model">
+            Model
+           </a>
+          </li>
+          <li>
+           <img alt="Scripting icon" src="/assets/icons/16-code.svg"/>
+           <a href="https://typst.app/universe/search/?category=scripting">
+            Scripting
+           </a>
+          </li>
+          <li>
+           <img alt="Utility icon" src="/assets/icons/16-hammer.svg"/>
+           <a href="https://typst.app/universe/search/?category=utility">
+            Utility
+           </a>
+          </li>
+         </ul>
+        </dd>
+       </dl>
+      </section>
+      <section>
+       <h3>
+        Where to report issues?
+       </h3>
+       <p>
+        This
+        <!-- -->
+        package
+        <!-- -->
+        is a project of
+        <!-- -->
+        <!-- -->
+        Johann Birnick
+        <!-- -->
+        .
+        <!-- -->
+        <!-- -->
+        Report issues on
+        <!-- -->
+        <a href="https://github.com/jbirnick/typst-rich-counters" rel="noopener noreferrer" target="_blank">
+         their repository
+        </a>
+        .
+        <!-- -->
+        <!-- -->
+        You can also try to ask for help with this
+        <!-- -->
+        package
+        <!-- -->
+        on the
+        <!-- -->
+        <a href="https://forum.typst.app" rel="noopener" target="_blank">
+         Forum
+        </a>
+        .
+       </p>
+       <p>
+        Please report this
+        <!-- -->
+        package
+        <!-- -->
+        to the Typst team using the
+        <!-- -->
+        <a href="https://typst.app/contact" rel="noreferrer" target="_blank">
+         contact form
+        </a>
+        <!-- -->
+        if you believe it is a safety hazard or infringes upon your rights.
+       </p>
+      </section>
+      <section id="versions">
+       <h3>
+        Version history
+       </h3>
+       <table>
+        <thead>
+         <tr>
+          <th align="left">
+           Version
+          </th>
+          <th align="left">
+           Release Date
+          </th>
+         </tr>
+        </thead>
+        <tbody>
+         <tr>
+          <td align="left">
+           0.2.2
+          </td>
+          <td align="left">
+           November 21, 2024
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/rich-counters/0.2.1/">
+            0.2.1
+           </a>
+          </td>
+          <td align="left">
+           October 16, 2024
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/rich-counters/0.2.0/">
+            0.2.0
+           </a>
+          </td>
+          <td align="left">
+           October 14, 2024
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/rich-counters/0.1.0/">
+            0.1.0
+           </a>
+          </td>
+          <td align="left">
+           August 14, 2024
+          </td>
+         </tr>
+        </tbody>
+       </table>
+      </section>
+      <p class="bottom-notice muted">
+       Typst GmbH did not create this
+       <!-- -->
+       package
+       <!-- -->
+       and cannot guarantee correct functionality of this
+       <!-- -->
+       package
+       <!-- -->
+       or compatibility with any version of the Typst compiler or app.
+      </p>
+     </aside>
+    </div>
+   </main>

@@ -1,0 +1,515 @@
+<main>
+    <div id="banner" style="--banner-accent:#000000;--banner-primary:#000000;--banner-secondary:#000000;--banner-tertiary:#565565;--banner-background:#eff0f3">
+     <div id="template-thumbnail">
+      <img alt="A preview of the abiding-ifacconf Typst template." src="https://packages.typst.org/preview/thumbnails/abiding-ifacconf-0.1.0-small.webp"/>
+      <div class="icon" role="img">
+      </div>
+     </div>
+     <div>
+      <div class="title">
+       <h1 class="name">
+        abiding-ifacconf
+       </h1>
+       <span class="version">
+        0.1.0
+       </span>
+      </div>
+      <p class="description">
+       An IFAC-style paper template to publish at conferences for International Federation of Automatic Control
+      </p>
+     </div>
+    </div>
+    <div class="inner-grid">
+     <a class="create-project-button mobile" href="/app?template=abiding-ifacconf&amp;version=0.1.0" rel="noopener noreferrer" target="_blank">
+      Create project in app
+     </a>
+     <section id="readme">
+      <h2>
+       (unofficial) IFAC Conference Template for Typst
+      </h2>
+      <p>
+       IFAC stands for
+       <a href="https://ifac-control.org/" rel="nofollow ugc" target="_blank">
+        International Federation of Automatic Control
+       </a>
+       . This repository is meant to be a port of the existing author tools for conference papers (e.g., for LaTeX, see
+       <a href="https://www.ifac-control.org/conferences/author-guide/copy_of_ifacconf_latex.zip/view" rel="nofollow ugc" target="_blank">
+        ifacconf_latex.zip
+       </a>
+       ) for Typst.
+      </p>
+      <h2>
+       Usage
+      </h2>
+      <p>
+       Running the following command will create a new directory with all the files that are needed:
+      </p>
+      <pre><code>typst init @preview/abiding-ifacconf
+</code></pre>
+      <h2>
+       Configuration
+      </h2>
+      <p>
+       This template exports the
+       <code>
+        ifacconf
+       </code>
+       function with the following named arguments:
+      </p>
+      <ul>
+       <li>
+        <code>
+         authors
+        </code>
+        : (default: ()) array of authors. For each author you can specify a name, email (optional), and affiliation. The affiliation must be an integer corresponding to an entry in the 1-indexed affiliations list (or 0 for no affiliation).
+       </li>
+       <li>
+        <code>
+         affiliations
+        </code>
+        : (default: ()) array of affiliations. For each affiliation you can specify a department, organization, and address. Everything is optional (i.e., an affiliation can be an empty array).
+       </li>
+       <li>
+        <code>
+         abstract
+        </code>
+        : (default: none) the paperâs abstract. Can be omitted if you donât have one.
+       </li>
+       <li>
+        <code>
+         keywords
+        </code>
+        : (default: ()) array of keywords to display after the abstract
+       </li>
+       <li>
+        <code>
+         sponsor
+        </code>
+        : (default: none) acknowledgment of sponsor or financial support (appears as a footnote on the first page)
+       </li>
+      </ul>
+      <h2>
+       Minimal Working Example
+      </h2>
+      <pre><code class="language-typst"><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview:abiding-ifacconf:0.1.0"</span><span class="typ-punct">:</span> <span class="typ-op">*</span>
+<span class="typ-key">#</span><span class="typ-key">show</span><span class="typ-punct">:</span> <span class="typ-func">ifacconf-rules</span>
+<span class="typ-key">#</span><span class="typ-key">show</span><span class="typ-punct">:</span> ifacconf<span class="typ-punct">.</span><span class="typ-func">with</span><span class="typ-punct">(</span>
+  title<span class="typ-punct">:</span> <span class="typ-str">"Minimal Working Example"</span><span class="typ-punct">,</span>
+  authors<span class="typ-punct">:</span> <span class="typ-punct">(</span>
+    <span class="typ-punct">(</span>
+      name<span class="typ-punct">:</span> <span class="typ-str">"First A. Author"</span><span class="typ-punct">,</span>
+      email<span class="typ-punct">:</span> <span class="typ-str">"author@boulder.nist.gov"</span><span class="typ-punct">,</span>
+      affiliation<span class="typ-punct">:</span> <span class="typ-num">1</span><span class="typ-punct">,</span>
+    <span class="typ-punct">)</span><span class="typ-punct">,</span>
+  <span class="typ-punct">)</span><span class="typ-punct">,</span>
+  affiliations<span class="typ-punct">:</span> <span class="typ-punct">(</span>
+    <span class="typ-punct">(</span>
+      department<span class="typ-punct">:</span> <span class="typ-str">"Engineering"</span><span class="typ-punct">,</span>
+      organization<span class="typ-punct">:</span> <span class="typ-str">"National Institute of Standards and Technology"</span><span class="typ-punct">,</span>
+      address<span class="typ-punct">:</span> <span class="typ-str">"Boulder, CO 80305 USA"</span><span class="typ-punct">,</span>
+    <span class="typ-punct">)</span><span class="typ-punct">,</span>
+  <span class="typ-punct">)</span><span class="typ-punct">,</span>
+  abstract<span class="typ-punct">:</span> <span class="typ-punct">[</span>
+    Abstract should be 50-100 words.
+  <span class="typ-punct">]</span><span class="typ-punct">,</span>
+  keywords<span class="typ-punct">:</span> <span class="typ-punct">(</span><span class="typ-str">"keyword1"</span><span class="typ-punct">,</span> <span class="typ-str">"keyword2"</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+  sponsor<span class="typ-punct">:</span> <span class="typ-punct">[</span>
+    Sponsor information.
+  <span class="typ-punct">]</span><span class="typ-punct">,</span>
+<span class="typ-punct">)</span>
+
+<span class="typ-heading">= Introduction</span>
+
+A minimum working example (with bibliography) <span class="typ-ref">@Abl56</span>.
+
+<span class="typ-func">#</span><span class="typ-func">lorem</span><span class="typ-punct">(</span><span class="typ-num">80</span><span class="typ-punct">)</span>
+
+<span class="typ-func">#</span><span class="typ-func">lorem</span><span class="typ-punct">(</span><span class="typ-num">80</span><span class="typ-punct">)</span>
+
+<span class="typ-func">#</span><span class="typ-func">bibliography</span><span class="typ-punct">(</span><span class="typ-str">"refs.bib"</span><span class="typ-punct">)</span>
+</code></code></pre>
+      <h2>
+       Full(er) Example
+      </h2>
+      <p>
+       See
+       <a href="https://github.com/avonmoll/ifacconf-typst/blob/main/template/main.typ" rel="nofollow ugc" target="_blank">
+        <code>
+         main.typ
+        </code>
+       </a>
+       .
+      </p>
+      <h2>
+       Dependencies
+      </h2>
+      <ul>
+       <li>
+        typst 0.11.0
+       </li>
+       <li>
+        ctheorems 1.1.0 (a Typst package for handling theorem-like environments)
+       </li>
+      </ul>
+      <h2>
+       Notes, features, etc.
+      </h2>
+      <ul>
+       <li>
+        the call to
+        <code>
+         #show: ifacconf-rules
+        </code>
+        is necessary for some show rules defined in
+        <code>
+         template.typ
+        </code>
+        to get activated
+       </li>
+       <li>
+        <code>
+         ifac-conference.csl
+        </code>
+        is a lightly modified version of
+        <code>
+         apa.csl
+        </code>
+        and is included in order to change the citation format from, e.g.,
+        <code>
+         (Able 1956)
+        </code>
+        to
+        <code>
+         Able (1956)
+        </code>
+        in order to match
+        <code>
+         ifacconf_latex
+        </code>
+       </li>
+       <li>
+        Tables have formatting rules that get activated inside calls to
+        <code>
+         figure
+        </code>
+        with
+        <code>
+         kind: "table"
+        </code>
+        ; a convenience function
+        <code>
+         tablefig
+        </code>
+        is provided which sets this automatically
+       </li>
+       <li>
+        all theorem-like environments that were available in
+        <code>
+         ifacconf_latex
+        </code>
+        are defined in
+        <code>
+         template.typ
+        </code>
+        ; simply call, for example,
+        <code>
+         #theorem[Content...] ... #proof[Proof...]
+        </code>
+       </li>
+       <li>
+        the LaTeX version does not include a QED symbol at the end of proofs, however one is included here (this is easy to change)
+       </li>
+       <li>
+        Typst did not seem to like BibTeX citation keys containing colons (which was how they came from
+        <code>
+         ifacconf_latex
+        </code>
+        )
+       </li>
+       <li>
+        alignment for linebreaks in long equations is somewhat manual (e.g., for equation (2) in
+        <code>
+         ifacconf.typ
+        </code>
+        ) but probably there is a better way to handle this now or in the future
+       </li>
+       <li>
+        the files
+        <code>
+         refs.bib
+        </code>
+        (essentially) and
+        <code>
+         bifurcation.jpg
+        </code>
+        come from
+        <code>
+         ifacconf_latex
+        </code>
+       </li>
+       <li>
+        the file
+        <code>
+         ifacconf.typ
+        </code>
+        is modeled directly after
+        <code>
+         ifacconf.tex
+        </code>
+        by Juan a. de la Puente
+       </li>
+       <li>
+        the
+        <code>
+         citep
+        </code>
+        function renders citations like
+        <code>
+         (Keohane, 1958)
+        </code>
+        instead of the default style of
+        <code>
+         Keohane (1958)
+        </code>
+       </li>
+      </ul>
+      <h2>
+       License
+      </h2>
+      <p>
+       This template is licensed according to the MIT No Attribution license (see
+       <code>
+        LICENSE.MD
+       </code>
+       ).
+      </p>
+      <p>
+       The files in the
+       <code>
+        CSL
+       </code>
+       folder are licensed according to
+       <code>
+        CSL/LICENSE.md
+       </code>
+       (CC BY/SA 4.0) because it is a lightly modified version of
+       <code>
+        apa.csl
+       </code>
+       by Brenton M. Wiernik which is also licensed by a CC BY/SA license.
+      </p>
+     </section>
+     <aside>
+      <a class="create-project-button desktop" href="/app?template=abiding-ifacconf&amp;version=0.1.0" rel="noopener noreferrer" target="_blank">
+       Create project in app
+      </a>
+      <section>
+       <h3>
+        How to use
+       </h3>
+       <p>
+        Click the button above to create a new project using this template in the Typst app.
+       </p>
+       <p>
+        You can also use the Typst CLI to start a new project on your computer using this command:
+       </p>
+       <div class="init-snippet">
+        <pre><code>typst init @preview/<!-- -->abiding-ifacconf<!-- -->:<!-- -->0.1.0</code></pre>
+        <button class="copy" title="Copy to clipboard">
+         <img alt="Copy" height="16" src="/assets/icons/16-copy.svg" width="16"/>
+        </button>
+       </div>
+      </section>
+      <section id="about">
+       <h3>
+        About
+       </h3>
+       <dl>
+        <dt>
+         Author
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         <a href="https://avonmoll.github.io" rel="noopener noreferrer" target="_blank">
+          Alexander Von Moll
+         </a>
+        </dd>
+        <dt>
+         License:
+        </dt>
+        <dd>
+         MIT-0
+        </dd>
+        <dt>
+         Current version:
+        </dt>
+        <dd>
+         0.1.0
+        </dd>
+        <dt>
+         Last updated:
+        </dt>
+        <dd>
+         March 21, 2024
+        </dd>
+        <dt>
+         First released:
+        </dt>
+        <dd>
+         March 21, 2024
+        </dd>
+        <dt>
+         Minimum Typst version:
+        </dt>
+        <dd>
+         0.11.0
+        </dd>
+        <dt>
+         Archive size:
+        </dt>
+        <dd class="archive-size-value">
+         27.8 kB
+         <a href="https://packages.typst.org/preview/abiding-ifacconf-0.1.0.tar.gz">
+          <img alt="Size icon" src="/assets/icons/16-download.svg"/>
+         </a>
+        </dd>
+        <dt>
+         Repository:
+        </dt>
+        <dd>
+         <a href="https://github.com/avonmoll/ifacconf-typst" rel="noopener noreferrer" target="_blank">
+          GitHub
+         </a>
+        </dd>
+        <dt>
+         Discipline
+         <!-- -->
+         s
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         <ul class="list-without-icons">
+          <li>
+           <a href="https://typst.app/universe/search/?discipline=computer-science">
+            Computer Science
+           </a>
+          </li>
+          <li>
+           <a href="https://typst.app/universe/search/?discipline=engineering">
+            Engineering
+           </a>
+          </li>
+         </ul>
+        </dd>
+        <dt>
+         Categor
+         <!-- -->
+         y
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         <ul class="list-with-icons">
+          <li>
+           <img alt="Paper icon" src="/assets/icons/16-atom.svg"/>
+           <a href="https://typst.app/universe/search/?category=paper">
+            Paper
+           </a>
+          </li>
+         </ul>
+        </dd>
+       </dl>
+      </section>
+      <section>
+       <h3>
+        Where to report issues?
+       </h3>
+       <p>
+        This
+        <!-- -->
+        template
+        <!-- -->
+        is a project of
+        <!-- -->
+        <!-- -->
+        Alexander Von Moll
+        <!-- -->
+        .
+        <!-- -->
+        <!-- -->
+        Report issues on
+        <!-- -->
+        <a href="https://github.com/avonmoll/ifacconf-typst" rel="noopener noreferrer" target="_blank">
+         their repository
+        </a>
+        .
+        <!-- -->
+        <!-- -->
+        You can also try to ask for help with this
+        <!-- -->
+        template
+        <!-- -->
+        on the
+        <!-- -->
+        <a href="https://forum.typst.app" rel="noopener" target="_blank">
+         Forum
+        </a>
+        .
+       </p>
+       <p>
+        Please report this
+        <!-- -->
+        template
+        <!-- -->
+        to the Typst team using the
+        <!-- -->
+        <a href="https://typst.app/contact" rel="noreferrer" target="_blank">
+         contact form
+        </a>
+        <!-- -->
+        if you believe it is a safety hazard or infringes upon your rights.
+       </p>
+      </section>
+      <section id="versions">
+       <h3>
+        Version history
+       </h3>
+       <table>
+        <thead>
+         <tr>
+          <th align="left">
+           Version
+          </th>
+          <th align="left">
+           Release Date
+          </th>
+         </tr>
+        </thead>
+        <tbody>
+         <tr>
+          <td align="left">
+           0.1.0
+          </td>
+          <td align="left">
+           March 21, 2024
+          </td>
+         </tr>
+        </tbody>
+       </table>
+      </section>
+      <p class="bottom-notice muted">
+       Typst GmbH did not create this
+       <!-- -->
+       template
+       <!-- -->
+       and cannot guarantee correct functionality of this
+       <!-- -->
+       template
+       <!-- -->
+       or compatibility with any version of the Typst compiler or app.
+      </p>
+     </aside>
+    </div>
+   </main>

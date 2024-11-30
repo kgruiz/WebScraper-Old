@@ -1,0 +1,225 @@
+\title{typst.app/universe/package/alchemist}
+
+\phantomsection\label{banner}
+\section{alchemist}\label{alchemist}
+
+{ 0.1.2 }
+
+A package to render skeletal formulas using cetz
+
+{ } Featured Package
+
+\phantomsection\label{readme}
+Alchemist is a typst package to draw skeletal formulae. It is based on
+the \href{https://ctan.org/pkg/chemfig}{chemfig} package. The main goal
+of alchemist is not to reproduce one-to-one chemfig. Instead, it aims to
+provide an interface to achieve the same results in Typst.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#skeletize(\{}
+\NormalTok{  molecule(name: "A", "A")}
+\NormalTok{  single()}
+\NormalTok{  molecule("B")}
+\NormalTok{  branch(\{}
+\NormalTok{    single(angle: 1)}
+\NormalTok{    molecule(}
+\NormalTok{      "W",}
+\NormalTok{      links: (}
+\NormalTok{        "A": double(stroke: red),}
+\NormalTok{      ),}
+\NormalTok{    )}
+\NormalTok{    single()}
+\NormalTok{    molecule(name: "X", "X")}
+\NormalTok{  \})}
+\NormalTok{  branch(\{}
+\NormalTok{    single(angle: {-}1)}
+\NormalTok{    molecule("Y")}
+\NormalTok{    single()}
+\NormalTok{    molecule(}
+\NormalTok{      name: "Z",}
+\NormalTok{      "Z",}
+\NormalTok{      links: (}
+\NormalTok{        "X": single(stroke: black + 3pt),}
+\NormalTok{      ),}
+\NormalTok{    )}
+\NormalTok{  \})}
+\NormalTok{  single()}
+\NormalTok{  molecule(}
+\NormalTok{    "C",}
+\NormalTok{    links: (}
+\NormalTok{      "X": cram{-}filled{-}left(fill: blue),}
+\NormalTok{      "Z": single(),}
+\NormalTok{    ),}
+\NormalTok{  )}
+\NormalTok{\})}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://raw.githubusercontent.com/Robotechnic/alchemist/master/images/links1.png}}
+
+Alchemist uses cetz to draw the molecules. This means that you can draw
+cetz shapes in the same canvas as the molecules. Like this:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#skeletize(\{}
+\NormalTok{  import cetz.draw: *}
+\NormalTok{  double(absolute: 30deg, name: "l1")}
+\NormalTok{  single(absolute: {-}30deg, name: "l2")}
+\NormalTok{  molecule("X", name: "X")}
+\NormalTok{  hobby(}
+\NormalTok{    "l1.50\%",}
+\NormalTok{    ("l1.start", 0.5, 90deg, "l1.end"),}
+\NormalTok{    "l1.start",}
+\NormalTok{    stroke: (paint: red, dash: "dashed"),}
+\NormalTok{    mark: (end: "\textgreater{}"),}
+\NormalTok{  )}
+\NormalTok{  hobby(}
+\NormalTok{    (to: "X.north", rel: (0, 1pt)),}
+\NormalTok{    ("l2.end", 0.4, {-}90deg, "l2.start"),}
+\NormalTok{    "l2.50\%",}
+\NormalTok{    mark: (end: "\textgreater{}"),}
+\NormalTok{  )}
+\NormalTok{\})}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://raw.githubusercontent.com/Robotechnic/alchemist/master/images/cetz1.png}}
+
+\subsection{Usage}\label{usage}
+
+To start using alchemist, just use the following code:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/alchemist:0.1.2": *}
+
+\NormalTok{\#skeletize(\{}
+\NormalTok{  // Your molecule here}
+\NormalTok{\})}
+\end{Highlighting}
+\end{Shaded}
+
+For more information, check the
+\href{https://raw.githubusercontent.com/Robotechnic/alchemist/master/doc/manual.pdf}{manual}
+.
+
+\subsection{Changelog}\label{changelog}
+
+\subsubsection{0.1.2}\label{section}
+
+\begin{itemize}
+\tightlist
+\item
+  Added default values for link style properties.
+\item
+  Updated \texttt{\ cetz\ } to version 0.3.1.
+\item
+  Added a \texttt{\ tip-lenght\ } argument to dashed cram links.
+\end{itemize}
+
+\subsubsection{0.1.1}\label{section-1}
+
+\begin{itemize}
+\tightlist
+\item
+  Exposed the \texttt{\ draw-skeleton\ } function. This allows to draw
+  in a cetz canvas directly.
+\item
+  Fixed multiples bugs that causes overdraws of links.
+\end{itemize}
+
+\subsubsection{0.1.0}\label{section-2}
+
+\begin{itemize}
+\tightlist
+\item
+  Initial release
+\end{itemize}
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as \texttt{\ alchemist\ }
+
+\begin{verbatim}
+#import "@preview/alchemist:0.1.2"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+\href{https://github.com/Robotechnic}{Robotechnic}
+\item[License:]
+MIT
+\item[Current version:]
+0.1.2
+\item[Last updated:]
+November 13, 2024
+\item[First released:]
+August 14, 2024
+\item[Minimum Typst version:]
+0.11.0
+\item[Archive size:]
+11.5 kB
+\href{https://packages.typst.org/preview/alchemist-0.1.2.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/Robotechnic/alchemist}{GitHub}
+\item[Discipline s :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \href{https://typst.app/universe/search/?discipline=chemistry}{Chemistry}
+\item
+  \href{https://typst.app/universe/search/?discipline=biology}{Biology}
+\end{itemize}
+\item[Categor y :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-chart.svg}}
+  \href{https://typst.app/universe/search/?category=visualization}{Visualization}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of Robotechnic . Report issues on
+\href{https://github.com/Robotechnic/alchemist}{their repository} . You
+can also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.1.2 & November 13, 2024 \\
+\href{https://typst.app/universe/package/alchemist/0.1.1/}{0.1.1} &
+August 19, 2024 \\
+\href{https://typst.app/universe/package/alchemist/0.1.0/}{0.1.0} &
+August 14, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.

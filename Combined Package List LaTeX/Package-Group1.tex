@@ -1,0 +1,4971 @@
+\title{typst.app/universe/package/parcio-thesis}
+
+\phantomsection\label{banner}
+\phantomsection\label{template-thumbnail}
+\pandocbounded{\includegraphics[keepaspectratio]{https://packages.typst.org/preview/thumbnails/parcio-thesis-0.1.0-small.webp}}
+
+\section{parcio-thesis}\label{parcio-thesis}
+
+{ 0.1.0 }
+
+A simple thesis template based on the ParCIO working group at OvGU
+Magdeburg.
+
+\href{/app?template=parcio-thesis&version=0.1.0}{Create project in app}
+
+\phantomsection\label{readme}
+\includegraphics[width=0.32\linewidth,height=\textheight,keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/parcio-thesis/0.1.0/thumbnails/1.png}
+\includegraphics[width=0.32\linewidth,height=\textheight,keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/parcio-thesis/0.1.0/thumbnails/2.png}
+\includegraphics[width=0.32\linewidth,height=\textheight,keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/parcio-thesis/0.1.0/thumbnails/3.png}
+
+A simple thesis template based on the ParCIO working group at
+Otto-von-Guericke University Magdeburg.
+
+\subsection{Getting Started}\label{getting-started}
+
+To use this template, simply import it as shown below (more options
+under \texttt{\ Usage\ } ):
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/parcio{-}thesis:0.1.0": *}
+
+\NormalTok{\#show: parcio.with(}
+\NormalTok{  title: "My great thesis",}
+\NormalTok{  author: (}
+\NormalTok{    name: "Author",}
+\NormalTok{    mail: "author@ovgu.de"}
+\NormalTok{  ),}
+\NormalTok{  abstract: [My abstract begins here.],}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{Local Installation}\label{local-installation}
+
+Following these steps will make the template available locally under the
+\texttt{\ @local\ } namespace. Requires
+\href{https://github.com/casey/just}{â€œJust - A Command Runnerâ€?} .
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{git}\NormalTok{ clone git@github.com:xkevio/parcio{-}typst.git }
+\BuiltInTok{cd}\NormalTok{ parcio{-}typst/parcio{-}thesis/}
+\ExtensionTok{just}\NormalTok{ install}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Usage}\label{usage}
+
+See here for \textbf{all} possible arguments (and their default values)
+and utility functions:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/parcio{-}thesis:0.1.0": *}
+
+\NormalTok{\#show: parcio.with(}
+\NormalTok{  title: "Title",}
+\NormalTok{  author: (name: "Author", mail: "author@ovgu.de"),}
+\NormalTok{  abstract: [],}
+\NormalTok{  thesis{-}type: "Bachelor/Master",}
+\NormalTok{  reviewers: (),}
+\NormalTok{  date: datetime.today(),}
+\NormalTok{  lang: "en",}
+\NormalTok{  header{-}logo: none,}
+\NormalTok{  translations: none,}
+\NormalTok{)}
+
+\NormalTok{// Use these to *enable* or *change* page numbering for your frontmatter and mainmatter respectively.}
+\NormalTok{// (By default, this template hides the page numbering!)}
+\NormalTok{\#show: roman{-}numbering.with(reset: \textless{}true|false\textgreater{})}
+\NormalTok{\#show: arabic{-}numbering.with(alternate: \textless{}true|false\textgreater{}, reset: \textless{}true|false\textgreater{})}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{Utility Functions}\label{utility-functions}
+
+These could be useful while writing your thesis!
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{// A TODO marker. (inline: false {-}\textgreater{} margin note, inline: true {-}\textgreater{} box).}
+\NormalTok{\#let todo(inline: false, body)}
+
+\NormalTok{// Like \textbackslash{}section* in LaTeX. (unnumbered level 2 heading, not in ToC).}
+\NormalTok{\#let section = heading.with(level: 2, outlined: false, numbering: none)}
+
+\NormalTok{// A neat inline{-}section in smallcaps and sans font.}
+\NormalTok{\#let inline{-}section(title) = smallcaps[*\#text(font: "Libertinus Sans", title)*] }
+
+\NormalTok{// Fully empty page, no page numbering.}
+\NormalTok{\#let empty{-}page = page([], footer: [])}
+
+\NormalTok{// Subfigures (see chapters/introduction for syntax).}
+\NormalTok{\#let subfigure(..)}
+
+\NormalTok{// A ParCIO{-}like table with a design taken from the LaTeX template.}
+\NormalTok{\#let parcio{-}table(max{-}rows, ..args)}
+
+\NormalTok{// Nicer handling of (multiple) appendices. Specify \textasciigrave{}reset: true\textasciigrave{} with your first appendix to reset the heading counter!}
+\NormalTok{\#let appendix(reset: false, label: none, body)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{Translations}\label{translations}
+
+If you wish, you can provide custom translations for things like
+â€œSectionâ€?, â€œContentsâ€?, etc. by providing a custom
+\texttt{\ translations.toml\ } (this template already comes with
+translations for English and German) with the following schema:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Top{-}level dict name should follow ISO 639 language codes!}
+\DataTypeTok{default{-}lang} \OperatorTok{=} \StringTok{"en"}
+
+\KeywordTok{[de]}
+\DataTypeTok{contents} \OperatorTok{=} \StringTok{"Inhaltsverzeichnis"}
+\DataTypeTok{chapter} \OperatorTok{=} \StringTok{"Kapitel"}
+\DataTypeTok{section} \OperatorTok{=} \StringTok{"Sektion"}
+\DataTypeTok{thesis} \OperatorTok{=} \OperatorTok{\{ }\DataTypeTok{value}\OperatorTok{ =} \StringTok{"Arbeit"}\OperatorTok{, }\DataTypeTok{compound}\OperatorTok{ =} \ConstantTok{true}\OperatorTok{ \}}
+
+\KeywordTok{[de.title{-}page]}
+\DataTypeTok{first{-}reviewer} \OperatorTok{=} \StringTok{"Erstgutachter"}
+\DataTypeTok{second{-}reviewer} \OperatorTok{=} \StringTok{"Zweitgutachter"}
+\DataTypeTok{supervisor} \OperatorTok{=} \StringTok{"Betreuer"}
+
+\KeywordTok{[de.bibliography]}
+\DataTypeTok{bibliography} \OperatorTok{=} \StringTok{"Quellenverzeichnis"}
+\DataTypeTok{cited{-}on{-}page} \OperatorTok{=} \StringTok{"Zitiert auf Seite"}
+\DataTypeTok{cited{-}on{-}pages} \OperatorTok{=} \StringTok{"Zitiert auf Seiten"}
+\DataTypeTok{join} \OperatorTok{=} \StringTok{"und"}
+
+\KeywordTok{[de.date]}
+\DataTypeTok{date{-}format} \OperatorTok{=} \StringTok{"[day]. [month repr:long] [year]"}
+\DataTypeTok{months} \OperatorTok{=} \OperatorTok{[}\StringTok{"Januar"}\OperatorTok{,} \StringTok{"Februar"}\OperatorTok{,} \StringTok{"MÃ¤rz"}\OperatorTok{,} \StringTok{"April"}\OperatorTok{,} \StringTok{"Mai"}\OperatorTok{,} \StringTok{"Juni"}\OperatorTok{,} \StringTok{"Juli"}\OperatorTok{,} \StringTok{"August"}\OperatorTok{,} \StringTok{"September"}\OperatorTok{,} \StringTok{"Oktober"}\OperatorTok{,} \StringTok{"November"}\OperatorTok{,} \StringTok{"Dezember"}\OperatorTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Fonts and OvGU Corporate
+Design}\label{fonts-and-ovgu-corporate-design}
+
+This template requires these three fonts to be installed on your
+system{[}\^{}1{]}:
+
+\begin{itemize}
+\tightlist
+\item
+  Libertinus Serif ( \url{https://github.com/alerque/libertinus} )
+\item
+  Libertinus Sans ( \url{https://github.com/alerque/libertinus} )
+\item
+  Inconsolata ( \url{https://github.com/googlefonts/Inconsolata} )
+\end{itemize}
+
+We bundle the default â€œFaculty of Computer Scienceâ€? head banner and
+use it as the \texttt{\ header-logo\ } . You can find yours at:
+\href{https://www.cd.ovgu.de/Fakult\%C3\%A4ten.html}{https://www.cd.ovgu.de/FakultÃ¤ten.html}
+.
+
+{[}\^{}1{]}: Typst should already provide the Libertinus font family by
+default as it is their standard font.
+
+\href{/app?template=parcio-thesis&version=0.1.0}{Create project in app}
+
+\subsubsection{How to use}\label{how-to-use}
+
+Click the button above to create a new project using this template in
+the Typst app.
+
+You can also use the Typst CLI to start a new project on your computer
+using this command:
+
+\begin{verbatim}
+typst init @preview/parcio-thesis:0.1.0
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+\href{https://github.com/xkevio}{Kevin Kulot}
+\item[License:]
+0BSD
+\item[Current version:]
+0.1.0
+\item[Last updated:]
+November 19, 2024
+\item[First released:]
+November 19, 2024
+\item[Minimum Typst version:]
+0.12.0
+\item[Archive size:]
+20.3 kB
+\href{https://packages.typst.org/preview/parcio-thesis-0.1.0.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/xkevio/parcio-typst/}{GitHub}
+\item[Categor ies :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-mortarboard.svg}}
+  \href{https://typst.app/universe/search/?category=thesis}{Thesis}
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-speak.svg}}
+  \href{https://typst.app/universe/search/?category=report}{Report}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This template is a project of Kevin Kulot . Report issues on
+\href{https://github.com/xkevio/parcio-typst/}{their repository} . You
+can also try to ask for help with this template on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this template to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.1.0 & November 19, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this template and cannot guarantee correct
+functionality of this template or compatibility with any version of the
+Typst compiler or app.
+
+
+\title{typst.app/universe/package/not-tudabeamer-2023}
+
+\phantomsection\label{banner}
+\phantomsection\label{template-thumbnail}
+\pandocbounded{\includegraphics[keepaspectratio]{https://packages.typst.org/preview/thumbnails/not-tudabeamer-2023-0.1.0-small.webp}}
+
+\section{not-tudabeamer-2023}\label{not-tudabeamer-2023}
+
+{ 0.1.0 }
+
+Not the TU Darmstadt Beamer 2023 template
+
+\href{/app?template=not-tudabeamer-2023&version=0.1.0}{Create project in
+app}
+
+\phantomsection\label{readme}
+A \href{https://github.com/touying-typ/touying}{touying} presentation
+template matching the TU Darmstadt Beamer Template 2023.
+
+\subsection{Usage}\label{usage}
+
+Install Roboto font for your system or download them from
+\url{https://github.com/googlefonts/roboto/releases/download/v2.138/roboto-unhinted.zip}
+.
+
+Run \texttt{\ typst\ init\ @preview/not-tudabeamer-2023:0.1.0\ }
+
+Download
+\url{https://download.hrz.tu-darmstadt.de/protected/ULB/tuda_logo.pdf} .
+
+Run \texttt{\ pdf2svg\ tuda\_logo.pdf\ tuda\_logo.svg\ } or convert to
+\texttt{\ .svg\ } using e.g. Inkscape.
+
+\subsubsection{Examples}\label{examples}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/not{-}tudabeamer{-}2023:0.1.0": *}
+
+\NormalTok{\#show: not{-}tudabeamer{-}2023{-}theme.with(}
+\NormalTok{  config{-}info(}
+\NormalTok{    title: [Title],}
+\NormalTok{    short{-}title: [Title],}
+\NormalTok{    subtitle: [Subtitle],}
+\NormalTok{    author: "Author",}
+\NormalTok{    short{-}author: "Author",}
+\NormalTok{    date: datetime.today(),}
+\NormalTok{    department: [Department],}
+\NormalTok{    institute: [Institute],}
+\NormalTok{    logo: text(fallback: true, size: 0.75in, emoji.cat.face)}
+\NormalTok{    //logo: image("tuda\_logo.svg", height: 100\%)}
+\NormalTok{  )}
+\NormalTok{)}
+
+\NormalTok{\#title{-}slide()}
+
+\NormalTok{\#outline{-}slide()}
+
+\NormalTok{= Section}
+
+\NormalTok{== Subsection}
+
+\NormalTok{{-} Some text}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Development}\label{development}
+
+This template currently only follows the TU Darmstadt Beamer template in
+spirit but not pixel-perfect. As the PowerPoint template uses non-free
+fonts a goal of this project is to more closely match the LaTeX TU
+Darmstadt Beamer 2023 template. Pull requests to improve this are really
+welcome.
+
+\begin{verbatim}
+mkdir -p ~/.cache/typst/packages/preview/not-tudabeamer-2023
+ln -s $PWD ~/.cache/typst/packages/preview/not-tudabeamer-2023/0.1.0
+\end{verbatim}
+
+\href{/app?template=not-tudabeamer-2023&version=0.1.0}{Create project in
+app}
+
+\subsubsection{How to use}\label{how-to-use}
+
+Click the button above to create a new project using this template in
+the Typst app.
+
+You can also use the Typst CLI to start a new project on your computer
+using this command:
+
+\begin{verbatim}
+typst init @preview/not-tudabeamer-2023:0.1.0
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+Moritz Hedtke
+\item[License:]
+Unlicense
+\item[Current version:]
+0.1.0
+\item[Last updated:]
+September 8, 2024
+\item[First released:]
+September 8, 2024
+\item[Archive size:]
+3.39 kB
+\href{https://packages.typst.org/preview/not-tudabeamer-2023-0.1.0.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/mohe2015/not-tudabeamer-2023}{GitHub}
+\item[Categor y :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-presentation.svg}}
+  \href{https://typst.app/universe/search/?category=presentation}{Presentation}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This template is a project of Moritz Hedtke . Report issues on
+\href{https://github.com/mohe2015/not-tudabeamer-2023}{their repository}
+. You can also try to ask for help with this template on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this template to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.1.0 & September 8, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this template and cannot guarantee correct
+functionality of this template or compatibility with any version of the
+Typst compiler or app.
+
+
+\title{typst.app/universe/package/vonsim}
+
+\phantomsection\label{banner}
+\section{vonsim}\label{vonsim}
+
+{ 0.1.0 }
+
+Syntax highlighting support for VonSim.
+
+\phantomsection\label{readme}
+This package adds the ability to syntax highlighting VonSim source code
+in Typst.
+
+\subsection{How to use}\label{how-to-use}
+
+To add global support for VonSim, just add these lines and use a raw
+block with \texttt{\ vonsim\ } as its language.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/vonsim:0.1.0": init{-}vonsim}
+
+\NormalTok{// Adds global support for VonSim}
+\NormalTok{\#show: init{-}vonsim}
+
+\NormalTok{// Highlight VonSim code}
+\NormalTok{\textasciigrave{}\textasciigrave{}\textasciigrave{}vonsim}
+\NormalTok{; Welcome to VonSim!}
+\NormalTok{; This is an example program that calculates the first}
+\NormalTok{; n numbers of the Fibonacci sequence, and stores them}
+\NormalTok{; starting at memory position 1000h.}
+
+\NormalTok{     n  equ 10    ; Calculate the first 10 numbers}
+
+\NormalTok{        org 1000h}
+\NormalTok{start   db 1}
+
+\NormalTok{        org 2000h}
+\NormalTok{        mov bx, offset start + 1}
+\NormalTok{        mov al, 0}
+\NormalTok{        mov ah, start}
+
+\NormalTok{loop:   cmp bx, offset start + n}
+\NormalTok{        jns finish}
+\NormalTok{        mov cl, ah}
+\NormalTok{        add cl, al}
+\NormalTok{        mov al, ah}
+\NormalTok{        mov ah, cl}
+\NormalTok{        mov [bx], cl}
+\NormalTok{        inc bx}
+\NormalTok{        jmp loop}
+\NormalTok{finish: hlt}
+\NormalTok{        end}
+\NormalTok{\textasciigrave{}\textasciigrave{}\textasciigrave{}}
+\end{Highlighting}
+\end{Shaded}
+
+Alternatively, use \texttt{\ init-vonsim-full\ } to also use the VonSim
+theme.
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as \texttt{\ vonsim\ }
+
+\begin{verbatim}
+#import "@preview/vonsim:0.1.0"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+\href{https://github.com/JuanM04}{Juan MartÃ­n Seery}
+\item[License:]
+AGPL-3.0-only
+\item[Current version:]
+0.1.0
+\item[Last updated:]
+June 10, 2024
+\item[First released:]
+June 10, 2024
+\item[Minimum Typst version:]
+0.11.0
+\item[Archive size:]
+13.8 kB
+\href{https://packages.typst.org/preview/vonsim-0.1.0.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/vonsim/typst-package}{GitHub}
+\item[Categor y :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-text.svg}}
+  \href{https://typst.app/universe/search/?category=text}{Text}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of Juan MartÃ­n Seery . Report issues on
+\href{https://github.com/vonsim/typst-package}{their repository} . You
+can also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.1.0 & June 10, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.
+
+
+\title{typst.app/universe/package/gridlock}
+
+\phantomsection\label{banner}
+\section{gridlock}\label{gridlock}
+
+{ 0.2.0 }
+
+Grid typesetting in Typst
+
+\phantomsection\label{readme}
+Grid typesetting in Typst. Use this package if you want to line up your
+body text across columns and pages.
+
+\subsection{Example}\label{example}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/gridlock/0.2.0/docs/assets/example-lines.png}}
+
+\subsection{Getting Started}\label{getting-started}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/gridlock:0.2.0": *}
+
+\NormalTok{\#show: gridlock.with()}
+
+\NormalTok{\#lock[= This is a heading]}
+
+\NormalTok{\#lorem(30)}
+
+\NormalTok{\#figure(}
+\NormalTok{  placement: auto,}
+\NormalTok{  caption: [a caption],}
+\NormalTok{  rect()}
+\NormalTok{)}
+
+\NormalTok{\#lorem(30)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Usage}\label{usage}
+
+Check out
+\href{https://github.com/typst/packages/raw/main/packages/preview/gridlock/0.2.0/docs/gridlock-manual.pdf}{the
+manual} for a detailed description.
+
+To get started, import the package into your document:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/gridlock:0.2.0": *}
+\end{Highlighting}
+\end{Shaded}
+
+Set up the basic parameters:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#show: gridlock.with(}
+\NormalTok{  paper: "a4",}
+\NormalTok{  margin: (y: 76.445pt),}
+\NormalTok{  font{-}size: 11pt,}
+\NormalTok{  line{-}height: 13pt}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+You can now use the \texttt{\ lock()\ } function to align any block to
+the text grid. Block quotes bulleted/numbered lists, and floating
+figures do \emph{not} need to be wrapped in \texttt{\ lock()\ } . Their
+spacing is handled fully automatically.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#lock[= Heading]}
+
+\NormalTok{\#lorem(50)}
+
+\NormalTok{\#lock(figure(}
+\NormalTok{  rect(),}
+\NormalTok{  caption: [An example figure aligned to the grid.]}
+\NormalTok{))}
+
+\NormalTok{\#lorem(50)}
+
+\NormalTok{\#lock[$ a\^{}2 = b\^{}2 + c\^{}2 $]}
+
+\NormalTok{\#lorem(50)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as \texttt{\ gridlock\ }
+
+\begin{verbatim}
+#import "@preview/gridlock:0.2.0"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+ssotoen
+\item[License:]
+Unlicense
+\item[Current version:]
+0.2.0
+\item[Last updated:]
+October 21, 2024
+\item[First released:]
+August 8, 2024
+\item[Minimum Typst version:]
+0.12.0
+\item[Archive size:]
+4.03 kB
+\href{https://packages.typst.org/preview/gridlock-0.2.0.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/ssotoen/gridlock}{GitHub}
+\item[Categor y :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-layout.svg}}
+  \href{https://typst.app/universe/search/?category=layout}{Layout}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of ssotoen . Report issues on
+\href{https://github.com/ssotoen/gridlock}{their repository} . You can
+also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.2.0 & October 21, 2024 \\
+\href{https://typst.app/universe/package/gridlock/0.1.0/}{0.1.0} &
+August 8, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.
+
+
+\title{typst.app/universe/package/valkyrie}
+
+\phantomsection\label{banner}
+\section{valkyrie}\label{valkyrie}
+
+{ 0.2.1 }
+
+Type safe type validation
+
+\phantomsection\label{readme}
+Version 0.2.1
+
+This package implements type validation, and is targeted mainly at
+package and template developers. The desired outcome is that it becomes
+easier for the programmer to quickly put a package together without
+spending a long time on type safety, but also to make the usage of those
+packages by end-users less painful by generating useful error messages.
+
+\subsection{Example Usage}\label{example-usage}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/valkyrie:0.2.1" as z}
+
+\NormalTok{\#let my{-}schema = z.dictionary((}
+\NormalTok{    should{-}be{-}string: z.string(),}
+\NormalTok{    complicated{-}tuple: z.tuple(}
+\NormalTok{      z.email(),}
+\NormalTok{      z.ip(),}
+\NormalTok{      z.either(}
+\NormalTok{        z.string(),}
+\NormalTok{        z.number(),}
+\NormalTok{      ),}
+\NormalTok{    ),}
+\NormalTok{  )}
+\NormalTok{)}
+
+\NormalTok{\#z.parse(}
+\NormalTok{  (}
+\NormalTok{    should{-}be{-}string: "This doesn\textquotesingle{}t error",}
+\NormalTok{    complicated{-}tuple: (}
+\NormalTok{      "neither@does{-}this.com",}
+\NormalTok{      // Error: Schema validation failed on argument.complicated{-}tuple.1: }
+\NormalTok{      //        String must be a valid IP address}
+\NormalTok{      "NOT AN IP",}
+\NormalTok{      1,}
+\NormalTok{    ),}
+\NormalTok{  ),}
+\NormalTok{  my{-}schema,}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Community-lead}\label{community-lead}
+
+As of version 0.2.0, \texttt{\ valkyrie\ } now resides in the
+typst-community organisation. Typst users are encouraged to submit
+additional types, assertions, coercions, and schemas that they believe
+are already used widely, or should be widely adopted for the health of
+the ecosystem.
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as \texttt{\ valkyrie\ }
+
+\begin{verbatim}
+#import "@preview/valkyrie:0.2.1"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author s :]
+James R. Swift \& \href{mailto:me@tinger.dev}{tinger}
+\item[License:]
+MIT
+\item[Current version:]
+0.2.1
+\item[Last updated:]
+July 15, 2024
+\item[First released:]
+November 19, 2023
+\item[Archive size:]
+9.99 kB
+\href{https://packages.typst.org/preview/valkyrie-0.2.1.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/typst-community/valkyrie}{GitHub}
+\item[Categor ies :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-code.svg}}
+  \href{https://typst.app/universe/search/?category=scripting}{Scripting}
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-hammer.svg}}
+  \href{https://typst.app/universe/search/?category=utility}{Utility}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of James R. Swift and tinger . Report issues
+on \href{https://github.com/typst-community/valkyrie}{their repository}
+. You can also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.2.1 & July 15, 2024 \\
+\href{https://typst.app/universe/package/valkyrie/0.2.0/}{0.2.0} & May
+27, 2024 \\
+\href{https://typst.app/universe/package/valkyrie/0.1.1/}{0.1.1} & April
+29, 2024 \\
+\href{https://typst.app/universe/package/valkyrie/0.1.0/}{0.1.0} &
+November 19, 2023 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.
+
+
+\title{typst.app/universe/package/touying-aqua}
+
+\phantomsection\label{banner}
+\phantomsection\label{template-thumbnail}
+\pandocbounded{\includegraphics[keepaspectratio]{https://packages.typst.org/preview/thumbnails/touying-aqua-0.5.3-small.webp}}
+
+\section{touying-aqua}\label{touying-aqua}
+
+{ 0.5.3 }
+
+Aqua theme in Touying - a powerful package for creating presentation
+slides in Typst.
+
+\href{/app?template=touying-aqua&version=0.5.3}{Create project in app}
+
+\phantomsection\label{readme}
+\href{https://github.com/touying-typ/touying}{Touying} (æŠ•å½± in
+chinese, /tÃ³uyÇ?ng/, meaning projection) is a user-friendly, powerful
+and efficient package for creating presentation slides in Typst. Partial
+code is inherited from
+\href{https://github.com/andreasKroepelin/polylux}{Polylux} . Therefore,
+some concepts and APIs remain consistent with Polylux.
+
+Touying provides automatically injected global configurations, which is
+convenient for configuring themes. Besides, Touying does not rely on
+\texttt{\ counter\ } and \texttt{\ context\ } to implement
+\texttt{\ \#pause\ } , resulting in better performance.
+
+If you like it, consider
+\href{https://github.com/touying-typ/touying}{giving a star on GitHub} .
+Touying is a community-driven project, feel free to suggest any ideas
+and contribute.
+
+\href{https://touying-typ.github.io/}{\pandocbounded{\includegraphics[keepaspectratio]{https://img.shields.io/badge/docs-book-green}}}
+\href{https://github.com/touying-typ/touying/wiki}{\pandocbounded{\includegraphics[keepaspectratio]{https://img.shields.io/badge/docs-gallery-orange}}}
+\pandocbounded{\includegraphics[keepaspectratio]{https://img.shields.io/github/license/touying-typ/touying}}
+\pandocbounded{\includegraphics[keepaspectratio]{https://img.shields.io/github/v/release/touying-typ/touying}}
+\pandocbounded{\includegraphics[keepaspectratio]{https://img.shields.io/github/stars/touying-typ/touying}}
+\pandocbounded{\includegraphics[keepaspectratio]{https://img.shields.io/badge/themes-6-aqua}}
+
+\subsection{Document}\label{document}
+
+Read \href{https://touying-typ.github.io/}{the document} to learn all
+about Touying.
+
+We will maintain \textbf{English} and \textbf{Chinese} versions of the
+documentation for Touying, and for each major version, we will maintain
+a documentation copy. This allows you to easily refer to old versions of
+the Touying documentation and migrate to new versions.
+
+\textbf{Note that the documentation may be outdated, and you can also
+use Tinymist to view Touyingâ€™s annotated documentation by hovering
+over the code.}
+
+\subsection{Gallery}\label{gallery}
+
+Touying offers \href{https://github.com/touying-typ/touying/wiki}{a
+gallery page} via wiki, where you can browse elegant slides created by
+Touying users. Youâ€™re also encouraged to contribute your own beautiful
+slides here!
+
+\subsection{Special Features}\label{special-features}
+
+\begin{enumerate}
+\tightlist
+\item
+  Split slides by headings
+  \href{https://touying-typ.github.io/docs/sections}{document}
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{= Section}
+
+\NormalTok{== Subsection}
+
+\NormalTok{=== First Slide}
+
+\NormalTok{Hello, Touying!}
+
+\NormalTok{=== Second Slide}
+
+\NormalTok{Hello, Typst!}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{enumerate}
+\setcounter{enumi}{1}
+\tightlist
+\item
+  \texttt{\ \#pause\ } and \texttt{\ \#meanwhile\ } animations
+  \href{https://touying-typ.github.io/docs/dynamic/simple}{document}
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#slide[}
+\NormalTok{  First}
+
+\NormalTok{  \#pause}
+
+\NormalTok{  Second}
+
+\NormalTok{  \#meanwhile}
+
+\NormalTok{  Third}
+
+\NormalTok{  \#pause}
+
+\NormalTok{  Fourth}
+\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/touying-typ/touying/assets/34951714/24ca19a3-b27c-4d31-ab75-09c37911e6ac}}
+
+\begin{enumerate}
+\setcounter{enumi}{2}
+\tightlist
+\item
+  Math Equation Animation
+  \href{https://touying-typ.github.io/docs/dynamic/equation}{document}
+\end{enumerate}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/touying-typ/touying/assets/34951714/8640fe0a-95e4-46ac-b570-c8c79f993de4}}
+
+\begin{enumerate}
+\setcounter{enumi}{3}
+\tightlist
+\item
+  \texttt{\ touying-reducer\ } Cetz and Fletcher Animations
+  \href{https://touying-typ.github.io/docs/dynamic/other}{document}
+\end{enumerate}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/touying-typ/touying/assets/34951714/9ba71f54-2a5d-4144-996c-4a42833cc5cc}}
+
+\begin{enumerate}
+\setcounter{enumi}{4}
+\tightlist
+\item
+  Correct outline and bookmark (no duplicate and correct page number)
+\end{enumerate}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/touying-typ/touying/assets/34951714/7b62fcaf-6342-4dba-901b-818c16682529}}
+
+\begin{enumerate}
+\setcounter{enumi}{5}
+\tightlist
+\item
+  Dewdrop Theme Navigation Bar
+  \href{https://touying-typ.github.io/docs/themes/dewdrop}{document}
+\end{enumerate}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/touying-typ/touying/assets/34951714/0426516d-aa3c-4b7a-b7b6-2d5d276fb971}}
+
+\begin{enumerate}
+\setcounter{enumi}{6}
+\tightlist
+\item
+  Semi-transparent cover mode
+  \href{https://touying-typ.github.io/docs/dynamic/cover}{document}
+\end{enumerate}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/touying-typ/touying/assets/34951714/22a9ea66-c8b5-431e-a52c-2c8ca3f18e49}}
+
+\begin{enumerate}
+\setcounter{enumi}{7}
+\tightlist
+\item
+  Speaker notes for dual-screen
+  \href{https://touying-typ.github.io/docs/external/pympress}{document}
+\end{enumerate}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/touying-typ/touying/assets/34951714/afbe17cb-46d4-4507-90e8-959c53de95d5}}
+
+\begin{enumerate}
+\setcounter{enumi}{8}
+\tightlist
+\item
+  Export slides to PPTX and HTML formats and show presentation online.
+  \href{https://github.com/touying-typ/touying-exporter}{touying-exporter}
+  \href{https://github.com/touying-typ/touying-template}{touying-template}
+  \href{https://touying-typ.github.io/touying-template/}{online}
+\end{enumerate}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/touying-typ/touying-exporter/assets/34951714/207ddffc-87c8-4976-9bf4-4c6c5e2573ea}}
+
+\subsection{Quick start}\label{quick-start}
+
+Before you begin, make sure you have installed the Typst environment. If
+not, you can use the \href{https://typst.app/}{Web App} or the
+\href{https://marketplace.visualstudio.com/items?itemName=myriad-dreamin.tinymist}{Tinymist
+LSP} extensions for VS Code.
+
+To use Touying, you only need to include the following code in your
+document:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/touying:0.5.3": *}
+\NormalTok{\#import themes.simple: *}
+
+\NormalTok{\#show: simple{-}theme.with(aspect{-}ratio: "16{-}9")}
+
+\NormalTok{= Title}
+
+\NormalTok{== First Slide}
+
+\NormalTok{Hello, Touying!}
+
+\NormalTok{\#pause}
+
+\NormalTok{Hello, Typst!}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/touying-typ/touying/assets/34951714/f5bdbf8f-7bf9-45fd-9923-0fa5d66450b2}}
+
+Itâ€™s simple. Congratulations on creating your first Touying slide!
+ðŸŽ‰
+
+\textbf{Tip:} You can use Typst syntax like
+\texttt{\ \#import\ "config.typ":\ *\ } or
+\texttt{\ \#include\ "content.typ"\ } to implement Touyingâ€™s
+multi-file architecture.
+
+\subsection{More Complex Examples}\label{more-complex-examples}
+
+In fact, Touying provides various styles for writing slides. For
+example, the above example uses first-level and second-level titles to
+create new slides. However, you can also use the
+\texttt{\ \#slide{[}..{]}\ } format to access more powerful features
+provided by Touying.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/touying:0.5.3": *}
+\NormalTok{\#import themes.university: *}
+\NormalTok{\#import "@preview/cetz:0.2.2"}
+\NormalTok{\#import "@preview/fletcher:0.5.1" as fletcher: node, edge}
+\NormalTok{\#import "@preview/ctheorems:1.1.2": *}
+\NormalTok{\#import "@preview/numbly:0.1.0": numbly}
+
+\NormalTok{// cetz and fletcher bindings for touying}
+\NormalTok{\#let cetz{-}canvas = touying{-}reducer.with(reduce: cetz.canvas, cover: cetz.draw.hide.with(bounds: true))}
+\NormalTok{\#let fletcher{-}diagram = touying{-}reducer.with(reduce: fletcher.diagram, cover: fletcher.hide)}
+
+\NormalTok{// Theorems configuration by ctheorems}
+\NormalTok{\#show: thmrules.with(qed{-}symbol: $square$)}
+\NormalTok{\#let theorem = thmbox("theorem", "Theorem", fill: rgb("\#eeffee"))}
+\NormalTok{\#let corollary = thmplain(}
+\NormalTok{  "corollary",}
+\NormalTok{  "Corollary",}
+\NormalTok{  base: "theorem",}
+\NormalTok{  titlefmt: strong}
+\NormalTok{)}
+\NormalTok{\#let definition = thmbox("definition", "Definition", inset: (x: 1.2em, top: 1em))}
+\NormalTok{\#let example = thmplain("example", "Example").with(numbering: none)}
+\NormalTok{\#let proof = thmproof("proof", "Proof")}
+
+\NormalTok{\#show: university{-}theme.with(}
+\NormalTok{  aspect{-}ratio: "16{-}9",}
+\NormalTok{  // config{-}common(handout: true),}
+\NormalTok{  config{-}info(}
+\NormalTok{    title: [Title],}
+\NormalTok{    subtitle: [Subtitle],}
+\NormalTok{    author: [Authors],}
+\NormalTok{    date: datetime.today(),}
+\NormalTok{    institution: [Institution],}
+\NormalTok{    logo: emoji.school,}
+\NormalTok{  ),}
+\NormalTok{)}
+
+\NormalTok{\#set heading(numbering: numbly("\{1\}.", default: "1.1"))}
+
+\NormalTok{\#title{-}slide()}
+
+\NormalTok{== Outline \textless{}touying:hidden\textgreater{}}
+
+\NormalTok{\#components.adaptive{-}columns(outline(title: none, indent: 1em))}
+
+\NormalTok{= Animation}
+
+\NormalTok{== Simple Animation}
+
+\NormalTok{We can use \textasciigrave{}\#pause\textasciigrave{} to \#pause display something later.}
+
+\NormalTok{\#pause}
+
+\NormalTok{Just like this.}
+
+\NormalTok{\#meanwhile}
+
+\NormalTok{Meanwhile, \#pause we can also use \textasciigrave{}\#meanwhile\textasciigrave{} to \#pause display other content synchronously.}
+
+\NormalTok{\#speaker{-}note[}
+\NormalTok{  + This is a speaker note.}
+\NormalTok{  + You won\textquotesingle{}t see it unless you use \textasciigrave{}config{-}common(show{-}notes{-}on{-}second{-}screen: right)\textasciigrave{}}
+\NormalTok{]}
+
+
+\NormalTok{== Complex Animation}
+
+\NormalTok{At subslide \#touying{-}fn{-}wrapper((self: none) =\textgreater{} str(self.subslide)), we can}
+
+\NormalTok{use \#uncover("2{-}")[\textasciigrave{}\#uncover\textasciigrave{} function] for reserving space,}
+
+\NormalTok{use \#only("2{-}")[\textasciigrave{}\#only\textasciigrave{} function] for not reserving space,}
+
+\NormalTok{\#alternatives[call \textasciigrave{}\#only\textasciigrave{} multiple times \textbackslash{}u\{2717\}][use \textasciigrave{}\#alternatives\textasciigrave{} function \#sym.checkmark] for choosing one of the alternatives.}
+
+
+\NormalTok{== Callback Style Animation}
+
+\NormalTok{\#slide(repeat: 3, self =\textgreater{} [}
+\NormalTok{  \#let (uncover, only, alternatives) = utils.methods(self)}
+
+\NormalTok{  At subslide \#self.subslide, we can}
+
+\NormalTok{  use \#uncover("2{-}")[\textasciigrave{}\#uncover\textasciigrave{} function] for reserving space,}
+
+\NormalTok{  use \#only("2{-}")[\textasciigrave{}\#only\textasciigrave{} function] for not reserving space,}
+
+\NormalTok{  \#alternatives[call \textasciigrave{}\#only\textasciigrave{} multiple times \textbackslash{}u\{2717\}][use \textasciigrave{}\#alternatives\textasciigrave{} function \#sym.checkmark] for choosing one of the alternatives.}
+\NormalTok{])}
+
+
+\NormalTok{== Math Equation Animation}
+
+\NormalTok{Equation with \textasciigrave{}pause\textasciigrave{}:}
+
+\NormalTok{$}
+\NormalTok{  f(x) \&= pause x\^{}2 + 2x + 1  \textbackslash{}}
+\NormalTok{       \&= pause (x + 1)\^{}2  \textbackslash{}}
+\NormalTok{$}
+
+\NormalTok{\#meanwhile}
+
+\NormalTok{Here, \#pause we have the expression of $f(x)$.}
+
+\NormalTok{\#pause}
+
+\NormalTok{By factorizing, we can obtain this result.}
+
+
+\NormalTok{== CeTZ Animation}
+
+\NormalTok{CeTZ Animation in Touying:}
+
+\NormalTok{\#cetz{-}canvas(\{}
+\NormalTok{  import cetz.draw: *}
+  
+\NormalTok{  rect((0,0), (5,5))}
+
+\NormalTok{  (pause,)}
+
+\NormalTok{  rect((0,0), (1,1))}
+\NormalTok{  rect((1,1), (2,2))}
+\NormalTok{  rect((2,2), (3,3))}
+
+\NormalTok{  (pause,)}
+
+\NormalTok{  line((0,0), (2.5, 2.5), name: "line")}
+\NormalTok{\})}
+
+
+\NormalTok{== Fletcher Animation}
+
+\NormalTok{Fletcher Animation in Touying:}
+
+\NormalTok{\#fletcher{-}diagram(}
+\NormalTok{  node{-}stroke: .1em,}
+\NormalTok{  node{-}fill: gradient.radial(blue.lighten(80\%), blue, center: (30\%, 20\%), radius: 80\%),}
+\NormalTok{  spacing: 4em,}
+\NormalTok{  edge(({-}1,0), "r", "{-}|\textgreater{}", \textasciigrave{}open(path)\textasciigrave{}, label{-}pos: 0, label{-}side: center),}
+\NormalTok{  node((0,0), \textasciigrave{}reading\textasciigrave{}, radius: 2em),}
+\NormalTok{  edge((0,0), (0,0), \textasciigrave{}read()\textasciigrave{}, "{-}{-}|\textgreater{}", bend: 130deg),}
+\NormalTok{  pause,}
+\NormalTok{  edge(\textasciigrave{}read()\textasciigrave{}, "{-}|\textgreater{}"),}
+\NormalTok{  node((1,0), \textasciigrave{}eof\textasciigrave{}, radius: 2em),}
+\NormalTok{  pause,}
+\NormalTok{  edge(\textasciigrave{}close()\textasciigrave{}, "{-}|\textgreater{}"),}
+\NormalTok{  node((2,0), \textasciigrave{}closed\textasciigrave{}, radius: 2em, extrude: ({-}2.5, 0)),}
+\NormalTok{  edge((0,0), (2,0), \textasciigrave{}close()\textasciigrave{}, "{-}|\textgreater{}", bend: {-}40deg),}
+\NormalTok{)}
+
+
+\NormalTok{= Theorems}
+
+\NormalTok{== Prime numbers}
+
+\NormalTok{\#definition[}
+\NormalTok{  A natural number is called a \#highlight[\_prime number\_] if it is greater}
+\NormalTok{  than 1 and cannot be written as the product of two smaller natural numbers.}
+\NormalTok{]}
+\NormalTok{\#example[}
+\NormalTok{  The numbers $2$, $3$, and $17$ are prime.}
+\NormalTok{  @cor\_largest\_prime shows that this list is not exhaustive!}
+\NormalTok{]}
+
+\NormalTok{\#theorem("Euclid")[}
+\NormalTok{  There are infinitely many primes.}
+\NormalTok{]}
+\NormalTok{\#proof[}
+\NormalTok{  Suppose to the contrary that $p\_1, p\_2, dots, p\_n$ is a finite enumeration}
+\NormalTok{  of all primes. Set $P = p\_1 p\_2 dots p\_n$. Since $P + 1$ is not in our list,}
+\NormalTok{  it cannot be prime. Thus, some prime factor $p\_j$ divides $P + 1$.  Since}
+\NormalTok{  $p\_j$ also divides $P$, it must divide the difference $(P + 1) {-} P = 1$, a}
+\NormalTok{  contradiction.}
+\NormalTok{]}
+
+\NormalTok{\#corollary[}
+\NormalTok{  There is no largest prime number.}
+\NormalTok{] \textless{}cor\_largest\_prime\textgreater{}}
+\NormalTok{\#corollary[}
+\NormalTok{  There are infinitely many composite numbers.}
+\NormalTok{]}
+
+\NormalTok{\#theorem[}
+\NormalTok{  There are arbitrarily long stretches of composite numbers.}
+\NormalTok{]}
+
+\NormalTok{\#proof[}
+\NormalTok{  For any $n \textgreater{} 2$, consider $}
+\NormalTok{    n! + 2, quad n! + 3, quad ..., quad n! + n \#qedhere}
+\NormalTok{  $}
+\NormalTok{]}
+
+
+\NormalTok{= Others}
+
+\NormalTok{== Side{-}by{-}side}
+
+\NormalTok{\#slide(composer: (1fr, 1fr))[}
+\NormalTok{  First column.}
+\NormalTok{][}
+\NormalTok{  Second column.}
+\NormalTok{]}
+
+
+\NormalTok{== Multiple Pages}
+
+\NormalTok{\#lorem(200)}
+
+
+\NormalTok{\#show: appendix}
+
+\NormalTok{= Appendix}
+
+\NormalTok{== Appendix}
+
+\NormalTok{Please pay attention to the current slide number.}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/user-attachments/assets/3488f256-a0b3-43d0-a266-009d9d0a7bd3}}
+
+\subsection{Acknowledgements}\label{acknowledgements}
+
+Thanks toâ€¦
+
+\begin{itemize}
+\tightlist
+\item
+  \href{https://github.com/andreasKroepelin}{@andreasKroepelin} for the
+  \texttt{\ polylux\ } package
+\item
+  \href{https://github.com/Enivex}{@Enivex} for the
+  \texttt{\ metropolis\ } theme
+\item
+  \href{https://github.com/drupol}{@drupol} for the
+  \texttt{\ university\ } theme
+\item
+  \href{https://github.com/pride7}{@pride7} for the \texttt{\ aqua\ }
+  theme
+\item
+  \href{https://github.com/Coekjan}{@Coekjan} and
+  \href{https://github.com/QuadnucYard}{@QuadnucYard} for the
+  \texttt{\ stargazer\ } theme
+\item
+  \href{https://github.com/ntjess}{@ntjess} for contributing to
+  \texttt{\ fit-to-height\ } , \texttt{\ fit-to-width\ } and
+  \texttt{\ cover-with-rect\ }
+\end{itemize}
+
+\subsection{Poster}\label{poster}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/user-attachments/assets/e1ddb672-8e8f-472d-b364-b8caed1da16b}}
+
+\href{https://github.com/touying-typ/touying-poster}{View Code}
+
+\subsection{Star History}\label{star-history}
+
+\href{https://star-history.com/\#touying-typ/touying&Date}{\pandocbounded{\includegraphics[keepaspectratio]{https://api.star-history.com/svg?repos=touying-typ/touying&type=Date}}}
+
+\href{/app?template=touying-aqua&version=0.5.3}{Create project in app}
+
+\subsubsection{How to use}\label{how-to-use}
+
+Click the button above to create a new project using this template in
+the Typst app.
+
+You can also use the Typst CLI to start a new project on your computer
+using this command:
+
+\begin{verbatim}
+typst init @preview/touying-aqua:0.5.3
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author s :]
+OrangeX4 , Andreas KrÃ¶pelin , ntjess , Enivex , Pol Dellaiera , \&
+pride7
+\item[License:]
+MIT
+\item[Current version:]
+0.5.3
+\item[Last updated:]
+October 15, 2024
+\item[First released:]
+March 26, 2024
+\item[Archive size:]
+5.09 kB
+\href{https://packages.typst.org/preview/touying-aqua-0.5.3.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/touying-typ/touying}{GitHub}
+\item[Categor y :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-presentation.svg}}
+  \href{https://typst.app/universe/search/?category=presentation}{Presentation}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This template is a project of OrangeX4, Andreas KrÃ¶pelin, ntjess,
+Enivex, Pol Dellaiera, and pride7 . Report issues on
+\href{https://github.com/touying-typ/touying}{their repository} . You
+can also try to ask for help with this template on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this template to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.5.3 & October 15, 2024 \\
+\href{https://typst.app/universe/package/touying-aqua/0.5.2/}{0.5.2} &
+September 3, 2024 \\
+\href{https://typst.app/universe/package/touying-aqua/0.5.1/}{0.5.1} &
+September 3, 2024 \\
+\href{https://typst.app/universe/package/touying-aqua/0.5.0/}{0.5.0} &
+September 2, 2024 \\
+\href{https://typst.app/universe/package/touying-aqua/0.4.2/}{0.4.2} &
+May 27, 2024 \\
+\href{https://typst.app/universe/package/touying-aqua/0.4.1/}{0.4.1} &
+May 13, 2024 \\
+\href{https://typst.app/universe/package/touying-aqua/0.4.0/}{0.4.0} &
+April 6, 2024 \\
+\href{https://typst.app/universe/package/touying-aqua/0.3.3/}{0.3.3} &
+March 26, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this template and cannot guarantee correct
+functionality of this template or compatibility with any version of the
+Typst compiler or app.
+
+
+\title{typst.app/universe/package/touying-flow}
+
+\phantomsection\label{banner}
+\phantomsection\label{template-thumbnail}
+\pandocbounded{\includegraphics[keepaspectratio]{https://packages.typst.org/preview/thumbnails/touying-flow-1.0.0-small.webp}}
+
+\section{touying-flow}\label{touying-flow}
+
+{ 1.0.0 }
+
+Discard irrelevant decorative elements, aiming to better immerse the
+audience into a state of flow.
+
+\href{/app?template=touying-flow&version=1.0.0}{Create project in app}
+
+\phantomsection\label{readme}
+Discard irrelevant decorative elements, aiming to better immerse the
+audience into a state of flow.
+
+Inspired by \href{https://github.com/touying-typ/touying.git}{Dewdrop} ,
+made by \href{https://github.com/OrangeX4}{OrangeX4}
+
+A \href{https://github.com/typst/typst}{Typst} template created based on
+\href{https://github.com/touying-typ/touying}{Touying} , designed for
+academic presentations in university settings.
+
+\subsection{Example}\label{example}
+
+See
+\href{https://github.com/typst/packages/raw/main/packages/preview/touying-flow/1.0.0/main.pdf}{main.pdf}
+for a sample PDF output. While the project is already complete, the
+example content is still under development.
+
+\subsection{Installation}\label{installation}
+
+These steps assume that you already have
+\href{https://typst.app/}{Typst} installed and running. If not, please
+refer to
+\href{https://github.com/typst/typst/releases/}{github.com/typst/typst/releases/}
+for installation instructions.Alternatively, you can use VS Code for
+editing by installing the Tinymist Typst extension ( \emph{recommended}
+).
+
+\subsubsection{Import from Typst
+Universe}\label{import-from-typst-universe}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/touying{-}flow:1.0.0":*}
+
+\NormalTok{\#show: dewdrop{-}theme.with(}
+\NormalTok{  aspect{-}ratio: "16{-}9",}
+\NormalTok{  footer: self =\textgreater{} self.info.title,}
+\NormalTok{  footer{-}alt: self =\textgreater{} self.info.subtitle,}
+\NormalTok{  navigation: "mini{-}slides",}
+\NormalTok{  config{-}info(}
+\NormalTok{    title: [Title],}
+\NormalTok{    subtitle: [Subtitle],}
+\NormalTok{    author: [Quaternijkon],}
+\NormalTok{    date: datetime.today(),}
+\NormalTok{    institution: [USTC],}
+\NormalTok{  ),}
+\NormalTok{)}
+
+\NormalTok{\#let primary= rgb("\#004098")}
+
+\NormalTok{\#show :show{-}cn{-}fakebold}
+\NormalTok{\#show outline.entry.where(}
+\NormalTok{  level: 1}
+\NormalTok{): it =\textgreater{} \{}
+\NormalTok{  v(1em, weak: true)}
+\NormalTok{  text(primary, it.body)}
+\NormalTok{\}}
+\NormalTok{\#show emph: it =\textgreater{} \{  }
+\NormalTok{  underline(stroke: (thickness: 1em, paint: primary.transparentize(95\%), cap: "round"),offset: {-}7pt,background: true,evade: false,extent: {-}8pt,text(primary, it.body))}
+\NormalTok{\}}
+
+\NormalTok{\#title{-}slide()}
+
+\NormalTok{= Example Section Title}
+
+\NormalTok{== Example Page Title}
+\end{Highlighting}
+\end{Shaded}
+
+\href{/app?template=touying-flow&version=1.0.0}{Create project in app}
+
+\subsubsection{How to use}\label{how-to-use}
+
+Click the button above to create a new project using this template in
+the Typst app.
+
+You can also use the Typst CLI to start a new project on your computer
+using this command:
+
+\begin{verbatim}
+typst init @preview/touying-flow:1.0.0
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+\href{https://github.com/Quaternijkon}{Quaternijkon}
+\item[License:]
+MIT
+\item[Current version:]
+1.0.0
+\item[Last updated:]
+November 26, 2024
+\item[First released:]
+November 26, 2024
+\item[Minimum Typst version:]
+0.11.0
+\item[Archive size:]
+12.2 kB
+\href{https://packages.typst.org/preview/touying-flow-1.0.0.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/Quaternijkon/Typst_FLOW}{GitHub}
+\item[Categor y :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-presentation.svg}}
+  \href{https://typst.app/universe/search/?category=presentation}{Presentation}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This template is a project of Quaternijkon . Report issues on
+\href{https://github.com/Quaternijkon/Typst_FLOW}{their repository} .
+You can also try to ask for help with this template on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this template to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+1.0.0 & November 26, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this template and cannot guarantee correct
+functionality of this template or compatibility with any version of the
+Typst compiler or app.
+
+
+\title{typst.app/universe/package/shadowed}
+
+\phantomsection\label{banner}
+\section{shadowed}\label{shadowed}
+
+{ 0.1.2 }
+
+Box shadows for Typst
+
+\phantomsection\label{readme}
+Box shadows for \href{https://typst.app/}{Typst} .
+
+\subsection{Usage}\label{usage}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/shadowed:0.1.2": shadowed}
+
+\NormalTok{\#set par(justify: true)}
+
+\NormalTok{\#shadowed(radius: 4pt, inset: 12pt)[}
+\NormalTok{    \#lorem(50)}
+\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/shadowed/0.1.2/examples/lorem.png}}
+
+\subsection{Reference}\label{reference}
+
+The \texttt{\ shadowed\ } function takes the following arguments:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{blur: Length} - The blur radius of the shadow. Also adds a
+  padding of the same size.
+\item
+  \textbf{radius: Length} - The corner radius of the inner block and
+  shadow.
+\item
+  \textbf{color: Color} - The color of the shadow.
+\item
+  \textbf{inset: Length} - The inset of the inner block.
+\item
+  \textbf{fill: Color} - The color of the inner block.
+\end{itemize}
+
+\subsection{Credits}\label{credits}
+
+This project was inspired by
+\href{https://github.com/typst-community/harbinger}{Harbinger} .
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as \texttt{\ shadowed\ }
+
+\begin{verbatim}
+#import "@preview/shadowed:0.1.2"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+\href{https://github.com/T1mVo}{Tim VoÃŸhenrich}
+\item[License:]
+MIT
+\item[Current version:]
+0.1.2
+\item[Last updated:]
+October 22, 2024
+\item[First released:]
+September 22, 2024
+\item[Minimum Typst version:]
+0.12.0
+\item[Archive size:]
+32.8 kB
+\href{https://packages.typst.org/preview/shadowed-0.1.2.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/T1mVo/shadowed}{GitHub}
+\item[Categor y :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-package.svg}}
+  \href{https://typst.app/universe/search/?category=components}{Components}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of Tim VoÃŸhenrich . Report issues on
+\href{https://github.com/T1mVo/shadowed}{their repository} . You can
+also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.1.2 & October 22, 2024 \\
+\href{https://typst.app/universe/package/shadowed/0.1.1/}{0.1.1} &
+October 21, 2024 \\
+\href{https://typst.app/universe/package/shadowed/0.1.0/}{0.1.0} &
+September 22, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.
+
+
+\title{typst.app/universe/package/ttt-utils}
+
+\phantomsection\label{banner}
+\section{ttt-utils}\label{ttt-utils}
+
+{ 0.1.2 }
+
+A collection of tools to make a teachers life easier.
+
+\phantomsection\label{readme}
+\texttt{\ ttt-utils\ } is the core package of the
+\href{https://github.com/jomaway/typst-teacher-templates}{typst-teacher-tools
+collection} .
+
+\subsection{Modules}\label{modules}
+
+It contains several modules:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ assignments\ } contains functions for creating exams.
+\item
+  \texttt{\ components\ } contains useful visual components such
+  \emph{lines} or \emph{caro pattern} , \emph{tags} , etc â€¦
+\item
+  \texttt{\ grading\ } contains functions for grading exams.
+\item
+  \texttt{\ helpers\ } contains some utility functions.
+\item
+  \texttt{\ layout\ } contains some layout functions such as
+  \emph{side-by-side} , etcâ€¦
+\item
+  \texttt{\ random\ } contains a function to shuffle an array.
+\end{itemize}
+
+\subsection{Usage}\label{usage}
+
+You can import the modules you need with:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/ttt{-}utils:0.1.0": components}
+\end{Highlighting}
+\end{Shaded}
+
+then you can access the modules function with:
+
+\texttt{\ \#components.lines(4)\ } or \texttt{\ \#components.caro(5)\ }
+, â€¦
+
+or import the wanted functions:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/ttt{-}utils:0.1.0": components, assignments}
+
+\NormalTok{\#import assignments: assignment, question, answer}
+\NormalTok{\#import components: caro as grid\_pattern}
+
+\NormalTok{// Add a question.}
+
+\NormalTok{\#assignment[First assignment}
+
+\NormalTok{    \#question[}
+\NormalTok{        \#answer(field: grid\_pattern(5))}
+\NormalTok{    ]}
+\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Similar projects}\label{similar-projects}
+
+\begin{itemize}
+\tightlist
+\item
+  \href{https://github.com/SillyFreak/typst-packages/tree/main/scrutinize}{scrutinize}
+  by \href{https://github.com/SillyFreak}{SillyFreak} : Package to
+  create exams, very similar to the \texttt{\ assignment\ } module, but
+  only questions without assignments, and a bit more low level. I
+  adopted a few of his ideas.
+\end{itemize}
+
+\subsection{CHANGELOG}\label{changelog}
+
+See
+\href{https://github.com/typst/packages/raw/main/packages/preview/ttt-utils/CHANGELOG.md}{CHANGELOG.md}
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as \texttt{\ ttt-utils\ }
+
+\begin{verbatim}
+#import "@preview/ttt-utils:0.1.2"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+\href{https://github.com/jomaway}{Jomaway}
+\item[License:]
+MIT
+\item[Current version:]
+0.1.2
+\item[Last updated:]
+May 22, 2024
+\item[First released:]
+March 26, 2024
+\item[Minimum Typst version:]
+0.11.0
+\item[Archive size:]
+7.60 kB
+\href{https://packages.typst.org/preview/ttt-utils-0.1.2.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/jomaway/typst-teacher-templates}{GitHub}
+\item[Discipline :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \href{https://typst.app/universe/search/?discipline=education}{Education}
+\end{itemize}
+\item[Categor ies :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-package.svg}}
+  \href{https://typst.app/universe/search/?category=components}{Components}
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-hammer.svg}}
+  \href{https://typst.app/universe/search/?category=utility}{Utility}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of Jomaway . Report issues on
+\href{https://github.com/jomaway/typst-teacher-templates}{their
+repository} . You can also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.1.2 & May 22, 2024 \\
+\href{https://typst.app/universe/package/ttt-utils/0.1.0/}{0.1.0} &
+March 26, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.
+
+
+\title{typst.app/universe/package/caidan}
+
+\phantomsection\label{banner}
+\phantomsection\label{template-thumbnail}
+\pandocbounded{\includegraphics[keepaspectratio]{https://packages.typst.org/preview/thumbnails/caidan-0.1.0-small.webp}}
+
+\section{caidan}\label{caidan}
+
+{ 0.1.0 }
+
+A clean and minimal food menu template
+
+\href{/app?template=caidan&version=0.1.0}{Create project in app}
+
+\phantomsection\label{readme}
+Caidan (è?œå?• in Chinese, /cÃ~i dÄ?n/, meaning food menu) is a clean
+and minimal food menu template.
+
+See the
+\href{https://github.com/cu1ch3n/caidan/blob/main/example.pdf}{example.pdf}
+file to see how it looks. Additionally,
+\href{https://github.com/cu1ch3n/menu}{cu1ch3n/menu} serves as a
+practical example project utilizing this template.
+
+\subsection{Usage}\label{usage}
+
+Ensure that
+\href{http://www.galapagosdesign.com/original/webomints.htm}{WebOMints
+GD} , \href{https://github.com/lxgw/LxgwWenKai}{LXGW WenKai} , and
+\href{https://fonts.google.com/specimen/Ysabeau+Infant}{Ysabeau Infant}
+fonts are installed first. The required fonts are provided in
+\href{https://github.com/cu1ch3n/caidan/tree/main/fonts}{fonts} .
+
+To use this template with typst.app, you may upload the required fonts
+manually ( \textbf{Note} :
+\href{https://github.com/lxgw/LxgwWenKai}{LXGW WenKai} may be too large
+to upload onto typst.app).
+
+\subsection{Configuration}\label{configuration}
+
+This template includes the \texttt{\ caidan\ } function, which comes
+with several configurable named arguments:
+
+\begin{longtable}[]{@{}llll@{}}
+\toprule\noalign{}
+Argument & Default Value & Type & Description \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\texttt{\ title\ } & \texttt{\ none\ } &
+\href{https://typst.app/docs/reference/foundations/content/}{content} &
+The title for your menu \\
+\texttt{\ cover\_image\ } & \texttt{\ none\ } &
+\href{https://typst.app/docs/reference/foundations/content/}{content} &
+The image on the menuâ€™s cover page \\
+\texttt{\ update\_date\ } & \texttt{\ none\ } &
+\href{https://typst.app/docs/reference/foundations/datetime/}{datetime}
+& This date will be displayed on the cover page in both Chinese and
+English \\
+\texttt{\ page\_height\ } & \texttt{\ 595.28pt\ } &
+\href{https://typst.app/docs/reference/layout/length/}{length} & Page
+height of your menu \\
+\texttt{\ page\_width\ } & \texttt{\ 841.89pt\ } &
+\href{https://typst.app/docs/reference/layout/length/}{length} & Page
+width of your menu \\
+\texttt{\ num\_columns\ } & \texttt{\ 3\ } &
+\href{https://typst.app/docs/reference/foundations/int/}{int} & The
+number of columns per page \\
+\end{longtable}
+
+The function also accepts a single, positional argument for the body.
+
+\subsection{Example}\label{example}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/caidan:0.1.0": *}
+
+\NormalTok{\#show: caidan.with(}
+\NormalTok{  title: [\#en\_text(22pt, fill: nord0)[Chen\textquotesingle{}s Private Cuisine]],}
+\NormalTok{  cover\_image: image("cover.png"),}
+\NormalTok{  update\_date: datetime.today(),}
+\NormalTok{  num\_columns: 3,}
+\NormalTok{)}
+
+\NormalTok{\#cuisine[é²è][Shandong Cuisine]}
+\NormalTok{{-} \#item[è±ç§æµ·å][Braised Sea Cucumber w/ Scallions]}
+\NormalTok{{-} \#item[è±ççè][Scallion Beef Stir{-}Fry]}
+\NormalTok{{-} \#item[éæºç½è][Napa Cabbage Stir{-}Fry w/ Vinegar]}
+
+\NormalTok{\#cuisine[å·è][Sichuan Cuisine]}
+\NormalTok{{-} \#item[å®«ä¿é¸¡ä¸][Gong Bao Chicken]}
+\NormalTok{{-} \#item[åéè][Twice{-}cooked pork]}
+\NormalTok{{-} \#item[éº»å©è±è][Mapo Tofu]}
+\end{Highlighting}
+\end{Shaded}
+
+\href{/app?template=caidan&version=0.1.0}{Create project in app}
+
+\subsubsection{How to use}\label{how-to-use}
+
+Click the button above to create a new project using this template in
+the Typst app.
+
+You can also use the Typst CLI to start a new project on your computer
+using this command:
+
+\begin{verbatim}
+typst init @preview/caidan:0.1.0
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+\href{https://github.com/cu1ch3n}{Chen Cui}
+\item[License:]
+MIT
+\item[Current version:]
+0.1.0
+\item[Last updated:]
+April 3, 2024
+\item[First released:]
+April 3, 2024
+\item[Minimum Typst version:]
+0.11.0
+\item[Archive size:]
+360 kB
+\href{https://packages.typst.org/preview/caidan-0.1.0.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/cu1ch3n/caidan}{GitHub}
+\item[Categor y :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-map.svg}}
+  \href{https://typst.app/universe/search/?category=flyer}{Flyer}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This template is a project of Chen Cui . Report issues on
+\href{https://github.com/cu1ch3n/caidan}{their repository} . You can
+also try to ask for help with this template on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this template to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.1.0 & April 3, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this template and cannot guarantee correct
+functionality of this template or compatibility with any version of the
+Typst compiler or app.
+
+
+\title{typst.app/universe/package/oasis-align}
+
+\phantomsection\label{banner}
+\section{oasis-align}\label{oasis-align}
+
+{ 0.1.0 }
+
+Cleanly place content side by side with equal heights using automatic
+content sizing.
+
+\phantomsection\label{readme}
+\texttt{\ oasis-align\ } is a package that automatically sizes your
+content so that their heights are equal, allowing you to cleanly place
+content side by side.
+
+To use \texttt{\ oasis-align\ } in your document, start by importing the
+package like this:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/oasis{-}align:0.1.0": *}
+\end{Highlighting}
+\end{Shaded}
+
+This will give you access to the two functions found under
+\href{https://github.com/typst/packages/raw/main/packages/preview/oasis-align/0.1.0/\#configuration}{configurations}
+.
+
+\subsection{Image with Text}\label{image-with-text}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/oasis-align/0.1.0/examples/image-with-text.gif}}
+
+\subsection{Image with Image}\label{image-with-image}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/oasis-align/0.1.0/examples/image-with-image.gif}}
+
+\subsection{Text with Text}\label{text-with-text}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/oasis-align/0.1.0/examples/text-with-text.gif}}
+
+There are two functions associated with this package. The first is
+specifically targeted at
+\href{https://github.com/typst/packages/raw/main/packages/preview/oasis-align/0.1.0/\#oasis-align-images}{aligning
+images} , and the second is targeted at
+\href{https://github.com/typst/packages/raw/main/packages/preview/oasis-align/0.1.0/\#oasis-align-1}{content
+in general} .
+
+\begin{quote}
+{[}!important{]} To change the size of the gutter in both functions, use
+\texttt{\ \#set\ grid(column-gutter:\ length)\ } . This is necessary to
+allow for fixed rules that arenâ€™t possible with user-defined
+functions.
+\end{quote}
+
+\subsection{\texorpdfstring{\texttt{\ oasis-align-images\ }}{ oasis-align-images }}\label{oasis-align-images}
+
+Use this function to align two images.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#oasis{-}align{-}images(}
+\NormalTok{    "path/to/image1",}
+\NormalTok{    "path/to/image2"}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{quote}
+{[}!tip{]} Whenever aligning \textbf{only} images, itâ€™s best to use
+this function instead of the default \texttt{\ oasis-align\ } . \emph{To
+learn more about why, check out
+\href{https://github.com/typst/packages/raw/main/packages/preview/oasis-align/0.1.0/\#how-it-works}{how
+it works} .}
+\end{quote}
+
+\subsection{\texorpdfstring{\texttt{\ oasis-align\ }}{ oasis-align }}\label{oasis-align-1}
+
+Use this function to align content like text with other content like
+images or figures.
+
+\begin{quote}
+{[}!tip{]} The parameters with defined values are the defaults and do
+not need to be included unless desired.
+\end{quote}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#oasis{-}align(}
+\NormalTok{  int{-}frac: 0.5,        // decimal between 0 and 1}
+\NormalTok{  tolerance: 0.001pt,   // length}
+\NormalTok{  max{-}iterations: 50,   // integer greater than 0}
+\NormalTok{  int{-}dir: 1,           // 1 or {-}1}
+\NormalTok{  debug: false          // boolean}
+\NormalTok{  item1,                // content}
+\NormalTok{  item2,                // content}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{\texorpdfstring{\texttt{\ int-frac\ }}{ int-frac }}\label{int-frac}
+
+The starting point of the search process. Changing this value may reduce
+the total number of iterations of the function or find an
+\href{https://github.com/typst/packages/raw/main/packages/preview/oasis-align/0.1.0/\#oasis-align-2}{alternate
+solution} .
+
+\subsubsection{\texorpdfstring{\texttt{\ tolerance\ }}{ tolerance }}\label{tolerance}
+
+The allowable difference in heights between \texttt{\ item1\ } and
+\texttt{\ item2\ } . The function will run until it has reached either
+this \texttt{\ tolerance\ } or \texttt{\ max-iterations\ } . Making
+\texttt{\ tolerance\ } larger may reduce the total number of iterations
+but result in a larger height difference between pieces of content.
+
+\begin{quote}
+{[}!note{]} Two pieces of content may not always be able to achieve the
+desired \texttt{\ tolerance\ } . In that case, the function sizes the
+content to the iteration that had the least difference in height.
+\emph{Check out
+\href{https://github.com/typst/packages/raw/main/packages/preview/oasis-align/0.1.0/\#oasis-align-2}{how
+it works} to understand why the function may not be able achieve the
+desired \texttt{\ tolerance\ } .}
+\end{quote}
+
+\subsubsection{\texorpdfstring{\texttt{\ max-iterations\ }}{ max-iterations }}\label{max-iterations}
+
+The maximum number of iterations the function is allowed to attempt
+before terminating. Increasing this number may allow you to achieve a
+smaller \texttt{\ tolerance\ } .
+
+\subsubsection{\texorpdfstring{\texttt{\ int-dir\ }}{ int-dir }}\label{int-dir}
+
+The initial direction that the dividing fraction is moved. Changing this
+value will change the initial direction.
+
+\begin{quote}
+{[}!note{]} The program is hardcoded to switch directions if a solution
+is not found in the initial direction. This parameter mainly serves to
+let you easily choose between
+\href{https://github.com/typst/packages/raw/main/packages/preview/oasis-align/0.1.0/\#oasis-align-2}{multiple
+solutions} .
+\end{quote}
+
+\subsubsection{\texorpdfstring{\texttt{\ debug\ }}{ debug }}\label{debug}
+
+A toggle that lets you look inside the function to see what is
+happening. This is useful if you would like to understand why certain
+content may be incompatible and which of the parameters above could be
+changed to resolve the issue.
+
+\subsection{\texorpdfstring{\texttt{\ oasis-align-images\ }}{ oasis-align-images }}\label{oasis-align-images-1}
+
+The function begins by determining the width and height of the selected
+images. These values can then be used to solve a set of linear
+equations, the first of which states that the sum of the widths of the
+images (plus the gutter) should be equal to the available horizontal
+space, and the second which states that their heights should be equal.
+
+If \$w\_1\$ and \$h\_1\$ are the width and height of \texttt{\ image1\ }
+and \$w\_2\$ and \$h\_2\$ are the width and height of
+\texttt{\ image2\ } , then the final width \$w\_1â€™\$ of
+\texttt{\ image1\ } and the final width \$w\_2â€™\$ of
+\texttt{\ image2\ } are
+
+\$\$w\_1â€™ = \textbackslash left(\textbackslash frac\{h\_1 w\_2\}\{w\_1
+h\_2\} + 1 \textbackslash right)\^{}\{-1\} \textbackslash qquad w\_2â€™
+= \textbackslash left(\textbackslash frac\{w\_1 h\_2\}\{h\_1 w\_2\} + 1
+\textbackslash right)\^{}\{-1\}\$\$
+
+\subsection{\texorpdfstring{\texttt{\ oasis-align\ }}{ oasis-align }}\label{oasis-align-2}
+
+Originally designed to allow for an image to be placed side-by-side with
+text, this function takes an iterative approach to aligning the content.
+When changing the width of a block of text, the height does not scale
+linearly, but instead behaves as a step function that follows an
+exponential trend (the graph below has a simplified visualization of
+this). This prevents the use of an analytical methodology similar to the
+one used in \texttt{\ oasis-align-images\ } , and thus must be solved
+using an iterative approach.
+
+The function starts by taking the available space and then splitting it
+using the \texttt{\ int-frac\ } . The content is then placed in a block
+with the width as determined using the split from \texttt{\ int-frac\ }
+before measuring its height. Based on the \texttt{\ int-dir\ } , the
+split will be moved left or right using the bisection method until a
+solution within the \texttt{\ tolerance\ } has been found. In the case
+that a solution within the \texttt{\ tolerance\ } is not found with the
+\texttt{\ max-iterations\ } , the program terminates and uses the
+container width fraction that had the smallest difference in height.
+
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/oasis-align/0.1.0/examples/graph-visualization.svg}}
+
+\subsubsection{Multiple Solutions (1st
+Graph)}\label{multiple-solutions-1st-graph}
+
+Depending on the type of content, the function may find multiple
+solutions. The parameters \texttt{\ int-dir\ } and \texttt{\ int-frac\ }
+will allow you to choose between them by changing the direction in which
+it iterates and changing the starting container width fraction
+respectively.
+
+\subsubsection{No Solutions (2nd Graph)}\label{no-solutions-2nd-graph}
+
+There are cases in which the text size is incompatible with an image.
+This can be because there is not enough or too much text, and regardless
+of how the content is resized, their heights do not match.
+
+\subsubsection{Tolerance Not Reached (3rd
+Graph)}\label{tolerance-not-reached-3rd-graph}
+
+In the case of having texts of different sizes (as seen in
+\href{https://github.com/typst/packages/raw/main/packages/preview/oasis-align/0.1.0/\#text-with-text}{the
+examples} ), the spacing between lines prevents the function from
+finding a solution that meets the \texttt{\ tolerance\ } , and thus the
+closest solution is used.
+
+If you end up using this package, please feel free to share how you used
+it under â€œDiscussionsâ€? on the
+\href{https://github.com/jdpieck/oasis-align}{GitHub Repository} or on
+Discord with \texttt{\ @jdpieck\ } .
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as
+\texttt{\ oasis-align\ }
+
+\begin{verbatim}
+#import "@preview/oasis-align:0.1.0"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+@jdpieck
+\item[License:]
+MIT
+\item[Current version:]
+0.1.0
+\item[Last updated:]
+September 2, 2024
+\item[First released:]
+September 2, 2024
+\item[Archive size:]
+4.96 kB
+\href{https://packages.typst.org/preview/oasis-align-0.1.0.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/jdpieck/oasis-align}{GitHub}
+\item[Categor y :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-layout.svg}}
+  \href{https://typst.app/universe/search/?category=layout}{Layout}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of @jdpieck . Report issues on
+\href{https://github.com/jdpieck/oasis-align}{their repository} . You
+can also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.1.0 & September 2, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.
+
+
+\title{typst.app/universe/package/modern-bnu-thesis}
+
+\phantomsection\label{banner}
+\phantomsection\label{template-thumbnail}
+\pandocbounded{\includegraphics[keepaspectratio]{https://packages.typst.org/preview/thumbnails/modern-bnu-thesis-0.0.1-small.webp}}
+
+\section{modern-bnu-thesis}\label{modern-bnu-thesis}
+
+{ 0.0.1 }
+
+åŒ---äº¬å¸ˆèŒƒå¤§å­¦å­¦ä½?è®ºæ--‡æ¨¡æ?¿ã€‚Modern Beijing Normal University
+Thesis.
+
+\href{/app?template=modern-bnu-thesis&version=0.0.1}{Create project in
+app}
+
+\phantomsection\label{readme}
+åŒ---äº¬å¸ˆèŒƒå¤§å­¦æ¯•ä¸šè®ºæ--‡ï¼ˆè®¾è®¡ï¼‰çš„ Typst
+æ¨¡æ?¿ï¼Œèƒ½å¤Ÿç®€æ´?ã€?å¿«é€Ÿã€?æŒ?ç»­ç''Ÿæˆ? PDF
+æ~¼å¼?çš„æ¯•ä¸šè®ºæ--‡ã€‚
+\href{https://typst.app/universe/package/modern-bnu-thesis}{Typst
+Universe}
+
+\begin{quote}
+{[}!tip{]} æœ¬æ¨¡æ?¿æ˜¯åŸºäºŽ
+\href{https://github.com/nju-lug/modern-nju-thesis/tree/main}{å?---äº¬å¤§å­¦çš„typstæ¨¡æ?¿}
+è¿›è¡Œçš„äºŒæ¬¡å¼€å?{}`ï¼Œä»\ldots å¯¹ç\ldots§BNUäººå·¥æ™ºèƒ½å­¦é™¢æŒ‡å®šçš„
+\href{https://www.overleaf.com/latex/templates/thesis-template-of-beijing-normal-university-in-latex/nrjdjsvfxhms}{latexæ¨¡æ?¿}
+å¯¹ç»†èŠ‚è¿›è¡Œé€‚é\ldots?ï¼Œç›¸å\ldots³ä½¿ç''¨æ--¹æ³•å?¯ä»¥å?‚è§?å?---äº¬å¤§å­¦çš„é¡¹ç›®
+\end{quote}
+
+\subsection{è‡´è°¢}\label{uxe8uxe8}
+
+\begin{itemize}
+\tightlist
+\item
+  æ„Ÿè°¢ \href{https://github.com/OrangeX4}{OrangeX4} å¼€å?{}`çš„
+  \href{https://github.com/nju-lug/modern-nju-thesis}{modern-nju-thesis}
+  Typst
+  æ¨¡æ?¿ï¼Œæœ¬æ¨¡æ?¿åŸºæœ¬ä¸Šæ˜¯åœ¨å¤§ä½¬çš„é¡¹ç›®ä¸Šè¿›è¡Œå°?æ''¹åŠ¨ã€‚
+\item
+  æ„Ÿè°¢ BNU AI å­¦é™¢æ??ä¾›çš„ Latex æ¨¡æ?¿
+  \href{https://www.overleaf.com/latex/templates/thesis-template-of-beijing-normal-university-in-latex/nrjdjsvfxhms}{Thesis
+  Template of Beijing Normal University in LaTeX}
+  ï¼Œæœ¬æ¨¡æ?¿æ~¼å¼?å®Œå\ldots¨å?‚è€ƒè¿™ä¸ªlatexæ¨¡æ?¿ã€‚
+\item
+  æ„Ÿè°¢ \href{https://typst-doc-cn.github.io/tutorial/}{å°?è``?ä¹¦ (The
+  Raindrop-Blue Book)} ã€?
+  \href{https://sitandr.github.io/typst-examples-book/book/}{Typst
+  Examples Book} ç­‰Typstå­¦ä¹~èµ„æ--™ã€‚
+\end{itemize}
+
+\subsection{License}\label{license}
+
+This project is licensed under the MIT License.
+
+\href{/app?template=modern-bnu-thesis&version=0.0.1}{Create project in
+app}
+
+\subsubsection{How to use}\label{how-to-use}
+
+Click the button above to create a new project using this template in
+the Typst app.
+
+You can also use the Typst CLI to start a new project on your computer
+using this command:
+
+\begin{verbatim}
+typst init @preview/modern-bnu-thesis:0.0.1
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+MosRat
+\item[License:]
+MIT
+\item[Current version:]
+0.0.1
+\item[Last updated:]
+November 21, 2024
+\item[First released:]
+November 21, 2024
+\item[Archive size:]
+221 kB
+\href{https://packages.typst.org/preview/modern-bnu-thesis-0.0.1.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/mosrat/modern-bnu-thesis}{GitHub}
+\item[Categor y :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-mortarboard.svg}}
+  \href{https://typst.app/universe/search/?category=thesis}{Thesis}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This template is a project of MosRat . Report issues on
+\href{https://github.com/mosrat/modern-bnu-thesis}{their repository} .
+You can also try to ask for help with this template on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this template to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.0.1 & November 21, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this template and cannot guarantee correct
+functionality of this template or compatibility with any version of the
+Typst compiler or app.
+
+
+\title{typst.app/universe/package/examit}
+
+\phantomsection\label{banner}
+\section{examit}\label{examit}
+
+{ 0.1.1 }
+
+An exam template based on the MIT LaTeX exam.cls
+
+\phantomsection\label{readme}
+A Typst exam package based on the MIT LaTeX
+\href{https://ctan.org/pkg/exam}{exam} package
+
+\subsection{Features}\label{features}
+
+\begin{itemize}
+\tightlist
+\item
+  Title block
+\item
+  Read questions from file/question bank
+\item
+  Grading table
+\item
+  Marking boxes
+\item
+  Question types
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Standard answerline
+  \item
+    Multiple choice (including true-false)
+  \item
+    Writing box
+  \item
+    Blank rectangular, polar, numberline graphs
+  \end{itemize}
+\end{itemize}
+
+\subsection{Example}\label{example}
+
+\texttt{\ main.typ\ }
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/examit:0.1.1": *}
+\NormalTok{\#import "questions.typ": questions}
+
+\NormalTok{\#show: examit.with(}
+\NormalTok{  questions: questions, // questions file, see example}
+
+\NormalTok{  title: [examit],}
+\NormalTok{  subtitle: "A Typst Exam Package",}
+\NormalTok{  date: "2023{-}03{-}21",}
+
+\NormalTok{  margin: (}
+\NormalTok{    left: 18mm,}
+\NormalTok{    top: 16mm,}
+\NormalTok{    bottom: 25mm,}
+\NormalTok{    right: 25mm,}
+\NormalTok{  ),}
+\NormalTok{  cols: 2,}
+\NormalTok{  gutter: 18mm,}
+\NormalTok{  lang: "en",}
+\NormalTok{  font: "New Computer Modern",}
+
+\NormalTok{  extrapicturebox: true, // "If you have time..." box at the end}
+\NormalTok{  // dropallboxes: true, // points boxes next to answerlines instead of level with the question}
+\NormalTok{  instructions: [Instructions before exam columns.],}
+\NormalTok{  namebox: "left",}
+\NormalTok{  pointsplacement: "right",}
+\NormalTok{  answerlinelength: 4cm,}
+\NormalTok{  defaultpoints: 1,}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\texttt{\ questions.typ\ }
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/examit:0.1.1": *}
+
+\NormalTok{\#let questions = (}
+\NormalTok{  ( header: [Multiple Choice] ),}
+\NormalTok{  (}
+\NormalTok{    question: [What attributes \#underline("must") a *vector* have?],}
+\NormalTok{    points: 2,}
+\NormalTok{    choices: (}
+\NormalTok{      [position],}
+\NormalTok{      [magnitude],}
+\NormalTok{      [direction],}
+\NormalTok{      [x{-} and y{-}coordinates],}
+\NormalTok{      [height],}
+\NormalTok{      [width],}
+\NormalTok{    ),}
+\NormalTok{    horizontal: false,}
+\NormalTok{    sameline: false,}
+\NormalTok{  ),}
+\NormalTok{  (}
+\NormalTok{    question: [$bold(sin\^{}({-}1))$ returns an angle in which quadrants?],}
+\NormalTok{    choices: ([I],[II],[III],[IV],),}
+\NormalTok{    sameline: false,}
+\NormalTok{    points: 2,}
+\NormalTok{  ),}
+\NormalTok{  (}
+\NormalTok{    question: [A *scalar* is a vector with a\textbackslash{} magnitude of *1*.],}
+\NormalTok{    tf: true,}
+\NormalTok{    points: 2,}
+\NormalTok{  ),}
+\NormalTok{  (}
+\NormalTok{    question: [}
+\NormalTok{      Write this polar equation in rectangular form: $r = frac(5 ,cos theta + sin theta )$}
+\NormalTok{    ],}
+\NormalTok{    points: 4,}
+\NormalTok{    bonus: true,}
+\NormalTok{    answerbox: 3cm,}
+\NormalTok{  ),}
+\NormalTok{  ( pagebreak: true ),}
+\NormalTok{  ( header: [Graphing]),}
+\NormalTok{  (}
+\NormalTok{    question: [}
+\NormalTok{      Simplify and graph the complex number\textbackslash{} $5(cos 15 degree + i sin 15 degree) dot 10(cos 5 degree + i sin 5 degree)$.}
+\NormalTok{    ],}
+\NormalTok{    points: 3,}
+\NormalTok{    spacing: 2.5cm,}
+\NormalTok{    graph: "rect",}
+\NormalTok{    answerline: true,}
+\NormalTok{  ),}
+\NormalTok{  (}
+\NormalTok{    question: [$x\^{}2(x\^{}2+9)\textgreater{}6x\^{}3$],}
+\NormalTok{    points: 2,}
+\NormalTok{    bonus: true,}
+\NormalTok{    numberline: 2.5in,}
+\NormalTok{  ),}
+\NormalTok{  (subheader: [A child is pulling a wagon with a force of 15 lb at an angle of 35Â° to the ground.}
+\NormalTok{  Gravity is pulling down on the wagon with a force of 12 lb.]),}
+\NormalTok{  (}
+\NormalTok{    question: [}
+\NormalTok{      What is the resulting force vector?}
+\NormalTok{    ],}
+\NormalTok{    points: 4,}
+\NormalTok{    spacing: 3cm,}
+\NormalTok{    label: "wagon"}
+\NormalTok{  ),}
+\NormalTok{  (}
+\NormalTok{    question: [}
+\NormalTok{      This question references \textbackslash{}\#@wagon.}
+\NormalTok{    ],}
+\NormalTok{    points: 4,}
+\NormalTok{  ),}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/onomou/typst-examit/assets/131693/78ba6fdc-59c0-460a-89cc-9617c15ac3e0}}
+
+\subsection{To Do}\label{to-do}
+
+\begin{itemize}
+\tightlist
+\item
+  {[} {]} Parts or sub-questions
+\item
+  {[} {]} Customize numbering for questions
+\item
+  {[}X{]} References for other questions
+\item
+  {[} {]} Customize marking box properties: size, positioning, style
+\item
+  {[} {]} Better multiple-choice and matching options: box/bubble style,
+  layout arrangement (horizontal/vertical, alignment)
+\item
+  {[} {]} Question types: fill-in-the-blank
+\item
+  {[} {]} Grading table options: bonus points, positioning
+\item
+  {[} {]} Footer options
+\item
+  {[} {]} Margin adjustments based on points position
+\item
+  {[} {]} Size options for graph response
+\item
+  {[} {]} Customize first page or title block
+\item
+  {[} {]} Configure even/odd headers/footers
+\item
+  {[} {]} Show/hide answers
+\item
+  {[} {]} Page break vs column break?
+\end{itemize}
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as \texttt{\ examit\ }
+
+\begin{verbatim}
+#import "@preview/examit:0.1.1"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+Steven Williams
+\item[License:]
+MIT
+\item[Current version:]
+0.1.1
+\item[Last updated:]
+May 16, 2024
+\item[First released:]
+May 16, 2024
+\item[Archive size:]
+6.80 kB
+\href{https://packages.typst.org/preview/examit-0.1.1.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Discipline :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \href{https://typst.app/universe/search/?discipline=education}{Education}
+\end{itemize}
+\item[Categor ies :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-package.svg}}
+  \href{https://typst.app/universe/search/?category=components}{Components}
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-layout.svg}}
+  \href{https://typst.app/universe/search/?category=layout}{Layout}
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-speak.svg}}
+  \href{https://typst.app/universe/search/?category=report}{Report}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of Steven Williams . You can also try to ask
+for help with this package on the \href{https://forum.typst.app}{Forum}
+.
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.1.1 & May 16, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.
+
+
+\title{typst.app/universe/package/tablex}
+
+\phantomsection\label{banner}
+\section{tablex}\label{tablex}
+
+{ 0.0.9 }
+
+More powerful and customizable tables in Typst.
+
+\phantomsection\label{readme}
+\textbf{More powerful and customizable tables in Typst.}
+
+\subsection{Sponsors â?¤ï¸?}\label{sponsors-uxe2uxef}
+
+If youâ€™d like to appear here,
+\href{https://github.com/sponsors/PgBiel}{consider sponsoring the
+project!}
+
+\href{https://github.com/felipeacsi}{\includegraphics[width=0.52083in,height=\textheight,keepaspectratio]{https://github.com/felipeacsi.png}}
+\href{https://github.com/Fabioni}{\includegraphics[width=0.52083in,height=\textheight,keepaspectratio]{https://github.com/Fabioni.png}}
+
+\subsection{Important notice regarding Tablex
+usage}\label{important-notice-regarding-tablex-usage}
+
+\textbf{Summary: Please use built-in Typst tables instead of tablex.}
+Most of tablexâ€™s features were implemented in Typst 0.11.0, see the
+\href{https://typst.app/docs/reference/model/table/}{docs} .
+
+However, \textbf{keep an eye for future tablex updates} as there might
+be some interesting goodies ahead, including CeTZ support!
+
+\textbf{Details:}
+
+A large amount of tablexâ€™s features have successfully been upstreamed
+by this packageâ€™s author to Typstâ€™s built-in \texttt{\ table\ } and
+\texttt{\ grid\ } elements (see the new Tables Guide, at
+\url{https://typst.app/docs/guides/table-guide/} , and the
+\texttt{\ table\ } elementâ€™s reference, at
+\url{https://typst.app/docs/reference/model/table/} , for more
+information).
+
+This effort was tracked in the following Typst issue:
+\url{https://github.com/typst/typst/issues/3001}
+
+This means that, starting with Typst 0.11.0, \textbf{many advanced table
+features can now be used with Typst grids and tables without tablex!}
+This includes:
+
+\begin{itemize}
+\tightlist
+\item
+  Per-cell customization (through
+  \texttt{\ table.cell(inset:\ ...,\ align:\ ...,\ fill:\ ...){[}body{]}\ }
+  , and \texttt{\ \#show\ table.cell:\ it\ =\textgreater{}\ ...\ }
+  instead of \texttt{\ map-cells\ } );
+\item
+  Merging cells (colspans and rowspans, through
+  \texttt{\ table.cell(colspan:\ 2,\ rowspan:\ 2){[}body{]}\ } );
+\item
+  Line customization (you can control the \texttt{\ stroke\ } parameter
+  of \texttt{\ table.cell\ } to control the lines around it, and you can
+  use \texttt{\ table.hline\ } and \texttt{\ table.vline\ } which work
+  similarly to their tablex counterparts - the equivalent of
+  \texttt{\ map-hlines\ } and \texttt{\ map-vlines\ } is
+  \texttt{\ table(stroke:\ (x,\ y)\ =\textgreater{}\ (left:\ ...,\ right:\ ...,\ top:\ ...,\ bottom:\ ...))\ }
+  );
+\item
+  Repeatable table headers (through
+  \texttt{\ table.header(...\ cells\ ...)\ } );
+\item
+  The features above are available within \texttt{\ grid\ } as well by
+  replacing \texttt{\ table\ } with \texttt{\ grid\ } where applicable
+  (e.g. \texttt{\ grid.cell\ } instead of \texttt{\ table.cell\ } ).
+\end{itemize}
+
+Additionally, built-in Typst tables have support for features which
+werenâ€™t previously available within tablex, such as \textbf{repeatable
+table footers} (through \texttt{\ table.footer\ } and
+\texttt{\ grid.footer\ } ).
+
+Therefore, \textbf{for the vast majority of use cases, you will no
+longer need to use this library.}
+
+There are a few observations:
+
+\begin{enumerate}
+\tightlist
+\item
+  \textbf{Tablex will still receive updates over time} with extra
+  features. In the next version (tablex 0.1.0), there will be
+  \textbf{support for CeTZ integration} , which will allow you to easily
+  \textbf{annotate your tables} using CeTZ (e.g. draw arrows between
+  cells). If youâ€™re interested in such features, then tablex might
+  still be useful for you in the future!
+\item
+  \textbf{Not \emph{all} tablex features are present in built-in tables,
+  at least yet.} Therefore, \textbf{if you happen to use the features
+  listed below, you might still have to use tablex} depending on your
+  use case. It is expected, however, that built-in tables will
+  eventually have support for most of the missing features in future
+  Typst releases. Hereâ€™s a non-exhaustive list of them:
+
+  \begin{enumerate}
+  \tightlist
+  \item
+    Built-in tables do not yet have the ability to expand table lines by
+    some arbitrary length.
+  \item
+    The tablex \texttt{\ fit-spans\ } option, through which colspans and
+    rowspans donâ€™t cause \texttt{\ auto\ } -sized columns and/or rows
+    to expand, is not yet supported in built-in tables.
+  \item
+    Built-in repeatable table headers currently always repeat in all
+    pages, whereas you can define in which pages a tablex header should
+    be repeated.
+  \end{enumerate}
+\item
+  \textbf{Regarding sponsorships:} Any future sponsorships to the tablex
+  author, \href{https://github.com/PgBiel}{@PgBiel} , who was also
+  responsible for upstreaming the various tablex features to built-in
+  tables, will go not only towards extended maintenance of tablex, but
+  also towards other general contributions to the Typst ecosystem and
+  his other open-source contributions! More information here:
+  \url{https://github.com/sponsors/PgBiel/}
+\end{enumerate}
+
+If there any questions, feel free to open a thread in the
+\texttt{\ Discussions\ } page of this repository, or ping the author on
+Discord. Thanks to everyone who supported me throughout tablexâ€™s
+development and the upstreaming process. I hope you enjoy the new
+update, and have fun with tables! ðŸ˜„
+
+And make sure to keep an eye for future tablex updates. ðŸ˜‰
+
+\subsection{Table of Contents}\label{table-of-contents}
+
+\begin{itemize}
+\tightlist
+\item
+  \href{https://github.com/typst/packages/raw/main/packages/preview/tablex/0.0.9/\#usage}{Usage}
+\item
+  \href{https://github.com/typst/packages/raw/main/packages/preview/tablex/0.0.9/\#features}{Features}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \href{https://github.com/typst/packages/raw/main/packages/preview/tablex/0.0.9/\#almost-drop-in-replacement-for-table}{\emph{Almost}
+    drop-in replacement for \texttt{\ \#table\ }}
+  \item
+    \href{https://github.com/typst/packages/raw/main/packages/preview/tablex/0.0.9/\#colspanxrowspanx}{colspanx/rowspanx}
+  \item
+    \href{https://github.com/typst/packages/raw/main/packages/preview/tablex/0.0.9/\#repeat-header-rows}{Repeat
+    header rows}
+  \item
+    \href{https://github.com/typst/packages/raw/main/packages/preview/tablex/0.0.9/\#customize-every-single-line}{Customize
+    every single line}
+  \item
+    \href{https://github.com/typst/packages/raw/main/packages/preview/tablex/0.0.9/\#customize-every-single-cell}{Customize
+    every single cell}
+  \end{itemize}
+\item
+  \href{https://github.com/typst/packages/raw/main/packages/preview/tablex/0.0.9/\#known-issues}{Known
+  Issues}
+\item
+  \href{https://github.com/typst/packages/raw/main/packages/preview/tablex/0.0.9/\#reference}{Reference}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \href{https://github.com/typst/packages/raw/main/packages/preview/tablex/0.0.9/\#basic-types-and-functions}{Basic
+    types and functions}
+  \item
+    \href{https://github.com/typst/packages/raw/main/packages/preview/tablex/0.0.9/\#gridx-and-tablex}{Gridx
+    and Tablex}
+  \end{itemize}
+\item
+  \href{https://github.com/typst/packages/raw/main/packages/preview/tablex/0.0.9/\#changelog}{Changelog}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \href{https://github.com/typst/packages/raw/main/packages/preview/tablex/0.0.9/\#v009}{v0.0.9}
+  \item
+    \href{https://github.com/typst/packages/raw/main/packages/preview/tablex/0.0.9/\#v008}{v0.0.8}
+  \item
+    \href{https://github.com/typst/packages/raw/main/packages/preview/tablex/0.0.9/\#v007}{v0.0.7}
+  \item
+    \href{https://github.com/typst/packages/raw/main/packages/preview/tablex/0.0.9/\#v006}{v0.0.6}
+  \item
+    \href{https://github.com/typst/packages/raw/main/packages/preview/tablex/0.0.9/\#v005}{v0.0.5}
+  \item
+    \href{https://github.com/typst/packages/raw/main/packages/preview/tablex/0.0.9/\#v004}{v0.0.4}
+  \item
+    \href{https://github.com/typst/packages/raw/main/packages/preview/tablex/0.0.9/\#v003}{v0.0.3}
+  \item
+    \href{https://github.com/typst/packages/raw/main/packages/preview/tablex/0.0.9/\#v002}{v0.0.2}
+  \item
+    \href{https://github.com/typst/packages/raw/main/packages/preview/tablex/0.0.9/\#v001}{v0.0.1}
+  \end{itemize}
+\item
+  \href{https://github.com/typst/packages/raw/main/packages/preview/tablex/0.0.9/\#010-roadmap}{0.1.0
+  Roadmap}
+\item
+  \href{https://github.com/typst/packages/raw/main/packages/preview/tablex/0.0.9/\#license}{License}
+\end{itemize}
+
+\subsection{Usage}\label{usage}
+
+\textbf{NOTE: Please use built-in tables instead of this library} (see
+notice above). \textbf{The rest of the README is kept for reference
+purposes only.}
+
+To use this library through the Typst package manager \textbf{(for Typst
+v0.6.0+)} , write for example
+\texttt{\ \#import\ "@preview/tablex:0.0.9":\ tablex,\ cellx\ } at the
+top of your Typst file (you may also add whichever other functions you
+use from the library to that import list!).
+
+For older Typst versions, download the file \texttt{\ tablex.typ\ } from
+the latest release (or directly from the main branch, for the
+â€˜bleeding edgeâ€™) at the tablex repository (
+\url{https://github.com/PgBiel/typst-tablex} ) and place it on the same
+folder as your own Typst file. Then, at the top of your file, write for
+example \texttt{\ \#import\ "tablex.typ":\ tablex,\ cellx\ } (plus
+whichever other functions you use from the library).
+
+This library should be compatible with Typst versions between v0.2.0 and
+v0.12.0 (inclusive). \textbf{Using the latest Typst version is always
+recommended} in order to make use of the latest optimizations and
+features available.
+
+Hereâ€™s an example of what \texttt{\ tablex\ } can do:
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/PgBiel/typst-tablex/assets/9021226/355c527a-7296-4264-bac7-4ec991b15a18}}
+
+Hereâ€™s the code for that table:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/tablex:0.0.9": tablex, rowspanx, colspanx}
+
+\NormalTok{\#tablex(}
+\NormalTok{  columns: 4,}
+\NormalTok{  align: center + horizon,}
+\NormalTok{  auto{-}vlines: false,}
+
+\NormalTok{  // indicate the first two rows are the header}
+\NormalTok{  // (in case we need to eventually}
+\NormalTok{  // enable repeating the header across pages)}
+\NormalTok{  header{-}rows: 2,}
+
+\NormalTok{  // color the last column\textquotesingle{}s cells}
+\NormalTok{  // based on the written number}
+\NormalTok{  map{-}cells: cell =\textgreater{} \{}
+\NormalTok{    if cell.x == 3 and cell.y \textgreater{} 1 \{}
+\NormalTok{      cell.content = \{}
+\NormalTok{        let value = int(cell.content.text)}
+\NormalTok{        let text{-}color = if value \textless{} 10 \{}
+\NormalTok{          red.lighten(30\%)}
+\NormalTok{        \} else if value \textless{} 15 \{}
+\NormalTok{          yellow.darken(13\%)}
+\NormalTok{        \} else \{}
+\NormalTok{          green}
+\NormalTok{        \}}
+\NormalTok{        set text(text{-}color)}
+\NormalTok{        strong(cell.content)}
+\NormalTok{      \}}
+\NormalTok{    \}}
+\NormalTok{    cell}
+\NormalTok{  \},}
+
+\NormalTok{  /* {-}{-}{-} header {-}{-}{-} */}
+\NormalTok{  rowspanx(2)[*Username*], colspanx(2)[*Data*], (), rowspanx(2)[*Score*],}
+\NormalTok{  (),                 [*Location*], [*Height*], (),}
+\NormalTok{  /* {-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-} */}
+
+\NormalTok{  [John], [Second St.], [180 cm], [5],}
+\NormalTok{  [Wally], [Third Av.], [160 cm], [10],}
+\NormalTok{  [Jason], [Some St.], [150 cm], [15],}
+\NormalTok{  [Robert], [123 Av.], [190 cm], [20],}
+\NormalTok{  [Other], [Unknown St.], [170 cm], [25],}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Features}\label{features}
+
+\subsubsection{\texorpdfstring{\emph{Almost} drop-in replacement for
+\texttt{\ \#table\ }}{Almost drop-in replacement for  \#table }}\label{almost-drop-in-replacement-for-table}
+
+( \textbf{Update:} tablexâ€™s syntax was designed to be compatible with
+Typst tables created \textbf{up to Typst v0.10.0} . The new table
+features introduced in Typst v0.11.0 use syntax which isnâ€™t compatible
+with tablex, so it wonâ€™t be a drop-in replacement in that case.
+However, tablex does have its own syntax for those features, as will be
+explained below!)
+
+In most cases, you should be able to replace \texttt{\ \#table\ } with
+\texttt{\ \#tablex\ } and be good to go for a start - it should look
+\emph{very} similar (if not identical). Indeed, the syntax is very
+similar for the basics:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/tablex:0.0.9": tablex}
+
+\NormalTok{\#tablex(}
+\NormalTok{  columns: (auto, 1em, 1fr, 1fr),  // 4 columns}
+\NormalTok{  rows: auto,  // at least 1 row of auto size}
+\NormalTok{  fill: red,}
+\NormalTok{  align: center + horizon,}
+\NormalTok{  stroke: green,}
+\NormalTok{  [a], [b], [c], [d],}
+\NormalTok{  [e], [f], [g], [h],}
+\NormalTok{  [i], [j], [k], [l]}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://user-images.githubusercontent.com/9021226/230818397-2d599324-32a5-4184-973f-2fcfb6b62c84.png}}
+
+There are still a few oddities in the library (see
+\href{https://github.com/typst/packages/raw/main/packages/preview/tablex/0.0.9/\#known-issues}{Known
+Issues} for more info), but, for the vast majority of cases, replacing
+\texttt{\ \#tablex\ } by \texttt{\ \#table\ } should work just fine.
+(Sometimes you can even replace \texttt{\ \#grid\ } by
+\texttt{\ \#gridx\ } - see the line customization section for more -,
+but not always, as the behavior is a bit different.)
+
+This is mostly a word of caution in case anything I havenâ€™t
+anticipated happens, but, based on my tests (and after tons of
+bug-fixing commits), the vast majority of tables (that donâ€™t face one
+of the listed known issues) should work just fine under the library.
+
+\textbf{Note:} If your document is written in a right-to-left (RTL)
+script, you may wish to enable \texttt{\ rtl:\ true\ } for your tables
+so that the order of cells and lines properly follows your text
+direction (when combined with \texttt{\ set\ text(dir:\ rtl)\ } ). This
+is necessary because tablex cannot detect that setting automatically at
+the moment (while the native Typst table can and flips itself
+horizontally automatically). See the tablex option reference for more
+information.
+
+\subsubsection{colspanx/rowspanx}\label{colspanxrowspanx}
+
+Your cells can now span more than one column and/or row at once, with
+\texttt{\ colspanx\ } / \texttt{\ rowspanx\ } :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/tablex:0.0.9": tablex, colspanx, rowspanx}
+
+\NormalTok{\#tablex(}
+\NormalTok{  columns: 3,}
+\NormalTok{  colspanx(2)[a], (),  [b],}
+\NormalTok{  [c], rowspanx(2)[d], [ed],}
+\NormalTok{  [f], (),             [g]}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://user-images.githubusercontent.com/9021226/230810720-fbdfdbe5-8568-42ed-b8a2-5eff332a89d6.png}}
+
+Note that the empty parentheses there are just for organization, and are
+ignored (unless they come before the first cell - more on that later).
+Theyâ€™re useful to help us keep track of which cell positions are being
+used up by the spans, because, if we try to add an actual cell at these
+spots, it will just push the others forward, which might seem
+unexpected.
+
+Use \texttt{\ colspanx(2,\ rowspanx(2){[}d{]})\ } to colspan and rowspan
+at the same time. Be careful not to attempt to overwrite other cellsâ€™
+spans, as you will get a nasty error.
+
+\textbf{Note (since tablex v0.0.8):} By default, colspans and rowspans
+can cause spanned \texttt{\ auto\ } columns and rows to expand to fit
+their contents (only the last spanned track - column or row - can
+expand). If youâ€™d like colspans to not affect column sizes at all (and
+thus â€œfitâ€? within their spanned columns), you may specify
+\texttt{\ fit-spans:\ (x:\ true)\ } to the table. Similarly, you can
+specify \texttt{\ fit-spans:\ (y:\ true)\ } to have rowspans not affect
+row sizes at all. To apply both effects, use either
+\texttt{\ fit-spans:\ true\ } or
+\texttt{\ fit-spans:\ (x:\ true,\ y:\ true)\ } . You can also apply this
+to a single colspan (for example) with
+\texttt{\ colspanx(2,\ fit-spans:\ (x:\ true)){[}a{]}\ } , as this
+option is available not only for the whole table but also for each cell.
+See the reference section for more information.
+
+\subsubsection{Repeat header rows}\label{repeat-header-rows}
+
+You can now ensure the first row (or, rather, the rows covered by the
+first rowspan) in your table repeats across pages. Just use
+\texttt{\ repeat-header:\ true\ } (default is \texttt{\ false\ } ).
+
+Note that you may wish to customize this. Use
+\texttt{\ repeat-header:\ 6\ } to repeat for 6 more pages. Use
+\texttt{\ repeat-header:\ (2,\ 4)\ } to repeat only on the 2nd and the
+4th page (where the 1st page is the one the table starts in).
+Additionally, use \texttt{\ header-rows:\ 5\ } to ensure the first
+(e.g.) 5 rows are part of the header (by default, this is 1 - more rows
+will be repeated where necessary if rowspans are used).
+
+Also, note that, by default, the horizontal lines below the header are
+transported to other pages, which may be an annoyance if you customize
+lines too much (see below). Use
+\texttt{\ header-hlines-have-priority:\ false\ } to ensure that the
+first row in each page will dictate the appearance of the horizontal
+lines above it (and not the header).
+
+\textbf{Note:} Depending on the size of your document, repeatable
+headers might not behave properly due to certain limitations in
+Typstâ€™s introspection system (as observed in
+\url{https://github.com/PgBiel/typst-tablex/issues/43} ).
+
+Example:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/tablex:0.0.9": tablex, hlinex, vlinex, colspanx, rowspanx}
+
+\NormalTok{\#pagebreak()}
+\NormalTok{\#v(80\%)}
+
+\NormalTok{\#tablex(}
+\NormalTok{  columns: 4,}
+\NormalTok{  align: center + horizon,}
+\NormalTok{  auto{-}vlines: false,}
+\NormalTok{  repeat{-}header: true,}
+
+\NormalTok{  /* {-}{-}{-} header {-}{-}{-} */}
+\NormalTok{  rowspanx(2)[*Names*], colspanx(2)[*Properties*], (), rowspanx(2)[*Creators*],}
+\NormalTok{  (),                 [*Type*], [*Size*], (),}
+\NormalTok{  /* {-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-} */}
+
+\NormalTok{  [Machine], [Steel], [5 $"cm"\^{}3$], [John p\& Kate],}
+\NormalTok{  [Frog], [Animal], [6 $"cm"\^{}3$], [Robert],}
+\NormalTok{  [Frog], [Animal], [6 $"cm"\^{}3$], [Robert],}
+\NormalTok{  [Frog], [Animal], [6 $"cm"\^{}3$], [Robert],}
+\NormalTok{  [Frog], [Animal], [6 $"cm"\^{}3$], [Robert],}
+\NormalTok{  [Frog], [Animal], [6 $"cm"\^{}3$], [Robert],}
+\NormalTok{  [Frog], [Animal], [6 $"cm"\^{}3$], [Robert],}
+\NormalTok{  [Frog], [Animal], [6 $"cm"\^{}3$], [Rodbert],}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://user-images.githubusercontent.com/9021226/230810751-776a73c4-9c24-46ba-92cd-76292469ab7d.png}}
+
+\subsubsection{Customize every single
+line}\label{customize-every-single-line}
+
+Every single line in the table is either a \texttt{\ hlinex\ }
+(horizontal) or \texttt{\ vlinex\ } (vertical) instance. By default,
+there is one between every column and between every row - unless you
+specify a custom line for some column or row, in which case the
+automatic line for it will be removed (to allow you to freely customize
+it). To disable this behavior, use \texttt{\ auto-lines:\ false\ } ,
+which will remove \emph{all} automatic lines. You may also remove only
+automatic horizontal lines with \texttt{\ auto-hlines:\ false\ } , and
+only vertical with \texttt{\ auto-vlines:\ false\ } .
+
+\textbf{Note:} \texttt{\ gridx\ } is an alias for \texttt{\ tablex\ }
+with \texttt{\ auto-lines:\ false\ } .
+
+For your custom lines, write \texttt{\ hlinex()\ } at any position and
+it will add a horizontal line below the current cell row (or at the top,
+if before any cell). You can use
+\texttt{\ hlinex(start:\ a,\ end:\ b)\ } to control the cells which that
+line spans ( \texttt{\ a\ } is the first column number and
+\texttt{\ b\ } is the last column number). You can also specify its
+stroke (color/thickness) with \texttt{\ hlinex(stroke:\ red\ +\ 5pt)\ }
+for example. To position it at an arbitrary row, use
+\texttt{\ hlinex(y:\ 6)\ } or similar. (Columns and rows are indexed
+starting from 0.)
+
+Something similar occurs for \texttt{\ vlinex()\ } , which has
+\texttt{\ start\ } , \texttt{\ end\ } (first row and last row it spans),
+and also \texttt{\ stroke\ } . They will, by default, be placed to the
+right of the current cell, and will span the entire table (top to
+bottom). To override the default placement, use
+\texttt{\ vlinex(x:\ 2)\ } or similar.
+
+\textbf{Note:} Only one hline or vline with the same span (same
+start/end) can be placed at once.
+
+\textbf{Note:} You can also place vlines before the first cell, in which
+case \emph{they will be placed consecutively, each after the last
+\texttt{\ vlinex()\ }} . That is, if you place several of them in a row
+( \emph{before the first cell} only), then it will not place all of them
+at one location (which is normally what happens if you try to place
+multiple vlines at once), but rather one after the other. With this
+behavior, you can also specify \texttt{\ ()\ } between each vline to
+\emph{skip} certain positions (again, only before the first cell -
+afterwards, all \texttt{\ ()\ } are ignored). Note that you can also
+just ignore this entirely and use \texttt{\ vlinex(x:\ 0)\ } ,
+\texttt{\ vlinex(x:\ 1)\ } , â€¦, \texttt{\ vlinex(x:\ columns.len())\ }
+for full control.
+
+Hereâ€™s some sample usage:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/tablex:0.0.9": tablex, gridx, hlinex, vlinex, colspanx, rowspanx}
+
+\NormalTok{\#tablex(}
+\NormalTok{  columns: 4,}
+\NormalTok{  auto{-}lines: false,}
+
+\NormalTok{  // skip a column here         vv}
+\NormalTok{  vlinex(), vlinex(), vlinex(), (), vlinex(),}
+\NormalTok{  colspanx(2)[a], (),  [b], [J],}
+\NormalTok{  [c], rowspanx(2)[d], [e], [K],}
+\NormalTok{  [f], (),             [g], [L],}
+\NormalTok{  //   \^{}\^{} \textquotesingle{}()\textquotesingle{} after the first cell are 100\% ignored}
+\NormalTok{)}
+
+\NormalTok{\#tablex(}
+\NormalTok{  columns: 4,}
+\NormalTok{  auto{-}vlines: false,}
+\NormalTok{  colspanx(2)[a], (),  [b], [J],}
+\NormalTok{  [c], rowspanx(2)[d], [e], [K],}
+\NormalTok{  [f], (),             [g], [L],}
+\NormalTok{)}
+
+\NormalTok{\#gridx(}
+\NormalTok{  columns: 4,}
+\NormalTok{  (), (), vlinex(end: 2),}
+\NormalTok{  hlinex(stroke: yellow + 2pt),}
+\NormalTok{  colspanx(2)[a], (),  [b], [J],}
+\NormalTok{  hlinex(start: 0, end: 1, stroke: yellow + 2pt),}
+\NormalTok{  hlinex(start: 1, end: 2, stroke: green + 2pt),}
+\NormalTok{  hlinex(start: 2, end: 3, stroke: red + 2pt),}
+\NormalTok{  hlinex(start: 3, end: 4, stroke: blue.lighten(50\%) + 2pt),}
+\NormalTok{  [c], rowspanx(2)[d], [e], [K],}
+\NormalTok{  hlinex(start: 2),}
+\NormalTok{  [f], (),             [g], [L],}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://user-images.githubusercontent.com/9021226/230817335-8a908d44-77be-45d2-b98f-89e9ccf07dc7.png}}
+
+\paragraph{Bulk line customization}\label{bulk-line-customization}
+
+You can also \emph{bulk-customize lines} by specifying
+\texttt{\ map-hlines:\ h\ =\textgreater{}\ new\_hline\ } and
+\texttt{\ map-vlines:\ v\ =\textgreater{}\ new\_vline\ } . This includes
+any automatically generated lines. For example:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/tablex:0.0.9": tablex, colspanx, rowspanx}
+
+\NormalTok{\#tablex(}
+\NormalTok{  columns: 3,}
+\NormalTok{  map{-}hlines: h =\textgreater{} (..h, stroke: blue),}
+\NormalTok{  map{-}vlines: v =\textgreater{} (..v, stroke: green + 2pt),}
+\NormalTok{  colspanx(2)[a], (),  [b],}
+\NormalTok{  [c], rowspanx(2)[d], [ed],}
+\NormalTok{  [f], (),             [g]}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://user-images.githubusercontent.com/9021226/235371652-48e7e526-1eb0-43c3-a6f4-3ed81840cffc.png}}
+
+\subsubsection{Customize every single
+cell}\label{customize-every-single-cell}
+
+Cells can be customized entirely. Instead of specifying content (e.g.
+\texttt{\ {[}text{]}\ } ) as a table item, you can specify
+\texttt{\ cellx(property:\ a,\ property:\ b,\ ...){[}text{]}\ } , which
+allows you to customize properties, such as:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ colspan:\ 2\ } (same as using
+  \texttt{\ colspanx(2,\ ...){[}...{]}\ } )
+\item
+  \texttt{\ rowspan:\ 3\ } (same as using
+  \texttt{\ rowspanx(3,\ ...){[}...{]}\ } )
+\item
+  \texttt{\ align:\ center\ } (override whole-table alignment for this
+  cell)
+\item
+  \texttt{\ fill:\ blue\ } (fill just this cell with that color)
+\item
+  \texttt{\ inset:\ 0pt\ } (override inset/internal padding for this
+  cell - note that this can look off unless you use auto columns and
+  rows)
+\item
+  \texttt{\ x:\ 5\ } (arbitrarily place the cell at the given column,
+  beginning at 0 - may error if conflicts occur)
+\item
+  \texttt{\ y:\ 6\ } (arbitrarily place the cell at the given row,
+  beginning at 0 - may error if conflicts occur)
+\end{itemize}
+
+Additionally, instead of specifying content to the cell, you can specify
+a function \texttt{\ (column,\ row)\ =\textgreater{}\ content\ } ,
+allowing each cell to be aware of where itâ€™s positioned. (Note that
+positions are recorded in the cellâ€™s \texttt{\ .x\ } and
+\texttt{\ .y\ } attributes, and start as \texttt{\ auto\ } unless you
+specify otherwise.)
+
+For example:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/tablex:0.0.9": tablex, cellx, colspanx, rowspanx}
+
+\NormalTok{\#tablex(}
+\NormalTok{  columns: 3,}
+\NormalTok{  fill: red,}
+\NormalTok{  align: right,}
+\NormalTok{  colspanx(2)[a], (),  [beeee],}
+\NormalTok{  [c], rowspanx(2)[d], cellx(fill: blue, align: left)[e],}
+\NormalTok{  [f], (),             [g],}
+
+\NormalTok{  // place this cell at the first column, seventh row}
+\NormalTok{  cellx(colspan: 3, align: center, x: 0, y: 6)[hi I\textquotesingle{}m down here]}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://user-images.githubusercontent.com/9021226/230818283-b3b636db-dbd0-47b8-bdd5-f61a07d58749.png}}
+
+\paragraph{Bulk customization of
+cells}\label{bulk-customization-of-cells}
+
+To customize multiple cells at once, you have a few options:
+
+\begin{enumerate}
+\item
+  \texttt{\ map-cells:\ cell\ =\textgreater{}\ cell\ } (given a cell,
+  returns a new cell). You can use this to customize the cellâ€™s
+  attributes, but also to change its positions (however, avoid doing
+  that as it can easily generate conflicts). You can access the cellâ€™s
+  position with \texttt{\ cell.x\ } and \texttt{\ cell.y\ } . All other
+  attributes are also accessible and changeable (see the
+  \texttt{\ Reference\ } further below for a list). Return something
+  like \texttt{\ (..cell,\ fill:\ blue)\ } , for example, to ensure the
+  other properties (including the cell type marker) are kept. (Calling
+  \texttt{\ cellx\ } here is not necessary. If overriding the cellâ€™s
+  content, use \texttt{\ content:\ {[}whatever{]}\ } ). This is useful
+  if you want to, for example, customize a cellâ€™s fill color based on
+  its contents, or add some content to every cell, or something similar.
+\item
+  \texttt{\ map-rows:\ (row\_index,\ cells)\ =\textgreater{}\ cells\ }
+  (given a row index and all cells in it, return a new array of cells).
+  Allows customizing entire rows, but note that the cells in the
+  \texttt{\ cells\ } parameter can be \texttt{\ none\ } if theyâ€™re
+  some position occupied by a colspan or rowspan of another cell. Ensure
+  you return the cells in the order you were given, including the
+  \texttt{\ none\ } s, for best results. Also, you cannot move cells
+  here to another row. You can change the cellsâ€™ columns (by changing
+  their \texttt{\ x\ } property), but that will certainly generate
+  conflicts if any col/rowspans are involved (in general, you cannot
+  bulk-change col/rowspans without \texttt{\ map-cells\ } ).
+\item
+  \texttt{\ map-cols:\ (col\_index,\ cells)\ =\textgreater{}\ cells\ }
+  (given a column index and all cells in it, return a new array of
+  cells). Similar to \texttt{\ map-rows\ } , but for customizing
+  columns. You cannot change the column of any cell here. (To do that,
+  \texttt{\ map-cells\ } is required.) You can, however, change its row
+  (with \texttt{\ y\ } , but do that sparingly), and, of course, all
+  other properties.
+\end{enumerate}
+
+\textbf{Note:} Execution order is \texttt{\ map-cells\ } =\textgreater{}
+\texttt{\ map-rows\ } =\textgreater{} \texttt{\ map-cols\ } .
+
+Example:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/tablex:0.0.9": tablex, colspanx, rowspanx}
+
+\NormalTok{\#tablex(}
+\NormalTok{  columns: 4,}
+\NormalTok{  auto{-}vlines: true,}
+
+\NormalTok{  // make all cells italicized}
+\NormalTok{  map{-}cells: cell =\textgreater{} \{}
+\NormalTok{    (..cell, content: emph(cell.content))}
+\NormalTok{  \},}
+
+\NormalTok{  // add some arbitrary content to entire rows}
+\NormalTok{  map{-}rows: (row, cells) =\textgreater{} cells.map(c =\textgreater{}}
+\NormalTok{    if c == none \{}
+\NormalTok{      c  // keeping \textquotesingle{}none\textquotesingle{} is important}
+\NormalTok{    \} else \{}
+\NormalTok{      (..c, content: [\#c.content\textbackslash{} *R\#row*])}
+\NormalTok{    \}}
+\NormalTok{  ),}
+
+\NormalTok{  // color cells based on their columns}
+\NormalTok{  // (using \textquotesingle{}fill: (column, row) =\textgreater{} color\textquotesingle{} also works}
+\NormalTok{  // for this particular purpose)}
+\NormalTok{  map{-}cols: (col, cells) =\textgreater{} cells.map(c =\textgreater{}}
+\NormalTok{    if c == none \{}
+\NormalTok{      c}
+\NormalTok{    \} else \{}
+\NormalTok{      (..c, fill: if col \textless{} 2 \{ blue \} else \{ yellow \})}
+\NormalTok{    \}}
+\NormalTok{  ),}
+
+\NormalTok{  colspanx(2)[a], (),  [b], [J],}
+\NormalTok{  [c], rowspanx(2)[dd], [e], [K],}
+\NormalTok{  [f], (),             [g], [L],}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://user-images.githubusercontent.com/9021226/230818347-30b49154-f444-4744-9415-dd4030b29393.png}}
+
+Another example (summing columns):
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#gridx(}
+\NormalTok{  columns: 3,}
+\NormalTok{  rows: 6,}
+\NormalTok{  fill: (col, row) =\textgreater{} (blue, red, green).at(calc.rem(row + col {-} 1, 3)),}
+\NormalTok{  map{-}cols: (col, cells) =\textgreater{} \{}
+\NormalTok{    let last = cells.last()}
+\NormalTok{    last.content = [}
+\NormalTok{      \#cells.slice(0, cells.len() {-} 1).fold(0, (acc, c) =\textgreater{} if c != none \{ acc + eval(c.content.text) \} else \{ acc \})}
+\NormalTok{    ]}
+\NormalTok{    last.fill = aqua}
+\NormalTok{    cells.last() = last}
+\NormalTok{    cells}
+\NormalTok{  \},}
+\NormalTok{  [0], [5], [10],}
+\NormalTok{  [1], [6], [11],}
+\NormalTok{  [2], [7], [12],}
+\NormalTok{  [3], [8], [13],}
+\NormalTok{  [4], [9], [14],}
+\NormalTok{  [s], [s], [s]}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://user-images.githubusercontent.com/9021226/231343813-bf06872b-59ac-4221-b6ed-940d73e6a9c4.png}}
+
+\subsection{Known Issues}\label{known-issues}
+
+\begin{itemize}
+\item
+  Filled cells will partially overlap with horizontal lines above them
+  (see \url{https://github.com/PgBiel/typst-tablex/issues/4} ).
+
+  \begin{itemize}
+  \tightlist
+  \item
+    To be fixed in a future rework of the table drawing process.
+  \end{itemize}
+\item
+  Table lines donâ€™t play very well with column and row gutter when a
+  colspan or rowspan is used. They may be missing or be cut off by
+  gutters.
+\item
+  Repeatable table headers might not behave properly depending on the
+  size of your document or other factors (
+  \url{https://github.com/PgBiel/typst-tablex/issues/43} ).
+\item
+  Using tablex (especially when using repeatable header rows) may cause
+  a warning, â€œlayout did not converge within 5 attemptsâ€?, to appear
+  on recent Typst versions (
+  \url{https://github.com/PgBiel/typst-tablex/issues/38} ). This warning
+  is due to how tablex works internally \textbf{and is not your fault}
+  (in principle), so donâ€™t worry too much about it (unless youâ€™re
+  sure itâ€™s not tablex that is causing this).
+\item
+  Rows with fractional height (such as \texttt{\ 2fr\ } ) have zero
+  height if the table spans more than one page. This is because
+  fractional row heights are calculated on the available height of the
+  first page of the table, which is something that the default
+  \texttt{\ \#table\ } can circumvent using internal code. This wonâ€™t
+  be fixed for now. (Columns with fractional width work fine, provided
+  all pages the table is in have the same width, \textbf{and the page
+  width isnâ€™t \texttt{\ auto\ }} (which forces fractional columns to
+  be 0pt, even in the default \texttt{\ \#table\ } ).)
+\item
+  Rotation (via Typstâ€™s \texttt{\ \#rotate\ } ) of text only affects
+  the visual appearance of the text on the page, but does not change its
+  dimensions as they factor into the layout. This leads to certain
+  visual issues, such as rotated text potentially overflowing the cell
+  height without being hyphenated or, inversely, being hyphenated even
+  though there is enough space vertically (
+  \url{https://github.com/PgBiel/typst-tablex/issues/59} ). This is a
+  \href{https://github.com/typst/typst/issues/528}{known issue} with
+  Typst (perhaps, in the future, \texttt{\ \#rotate\ }
+  \href{https://github.com/typst/typst/issues/528\#issuecomment-1494123195}{may}
+  get a setting to affect layout). As a workaround for the text
+  hyphenation problem, the content can be boxed (and thus grouped
+  together) with \texttt{\ \#box\ } (e.g.,
+  \texttt{\ rowspanx(7,\ box(rotate(-90deg,\ {[}*donothyphenatethis*{]})))\ }
+  ), or hyphenation can be prevented by setting
+  \texttt{\ \#text(hyphenate:\ false,\ ...)\ } (e.g.,
+  \texttt{\ colspanx(2,\ text(hyphenate:\ false,\ rotate(-90deg,\ {[}*donothyphenatethis*{]})))\ }
+  ), as also discussed in
+  \url{https://github.com/PgBiel/typst-tablex/issues/59} ; another
+  alternative is to use \texttt{\ \#place\ } , e.g. aligning to
+  \texttt{\ center\ +\ horizon\ } :
+  \texttt{\ cellx(place(center\ +\ horizon,\ rotate(-90deg,\ {[}*donothyphenatethis*{]})))\ }
+  , which probably allows the most control over the in-cell layout,
+  since it simply draws the rotated content without having it occupy any
+  space (letting you define that by yourself, e.g. using
+  \texttt{\ box(width:\ 1em,\ height:\ 2em,\ place(...))\ } ).
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Alternatively, you may attempt to use the solution proposed at
+    \url{https://github.com/typst/typst/issues/528\#issuecomment-1494318510}
+    to define a \texttt{\ rotatex\ } function which produces a rotated
+    element with the appropriate sizes, such that tablex may recognize
+    its size accordingly and avoid visual glitches.
+  \end{itemize}
+\item
+  \texttt{\ tablex\ } can potentially be slower and/or take longer to
+  compile than the default \texttt{\ table\ } (especially when the table
+  spans a lot of pages). \textbf{Please use the latest Typst version to
+  reduce this problem} (each version has been bringing further
+  improvements in this sense). Still, we are looking for ways to better
+  optimize the library (see more discussion at
+  \url{https://github.com/PgBiel/typst-tablex/issues/5} - feel free to
+  give some input!). However, re-compilation is usually fine thanks to
+  Typstâ€™s built-in memoization.
+\item
+  The internals of the library still arenâ€™t very well documented; I
+  plan on adding more info about this eventually.
+\item
+  \textbf{Please open a GitHub issue for anything weird you come across}
+  (make sure others havenâ€™t reported it first).
+\end{itemize}
+
+\subsection{Reference}\label{reference}
+
+\subsubsection{Basic types and
+functions}\label{basic-types-and-functions}
+
+\begin{enumerate}
+\item
+  \texttt{\ cellx\ } : Represents a table cell, and is initialized as
+  follows:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let cellx(content,}
+\NormalTok{  x: auto, y: auto,}
+\NormalTok{  rowspan: 1, colspan: 1,}
+\NormalTok{  fill: auto, align: auto,}
+\NormalTok{  inset: auto,}
+\NormalTok{  fit{-}spans: auto}
+\NormalTok{) = (}
+\NormalTok{  tablex{-}dict{-}type: "cell",}
+\NormalTok{  content: content,}
+\NormalTok{  rowspan: rowspan,}
+\NormalTok{  colspan: colspan,}
+\NormalTok{  align: align,}
+\NormalTok{  fill: fill,}
+\NormalTok{  inset: inset,}
+\NormalTok{  fit{-}spans: fit{-}spans,}
+\NormalTok{  x: x,}
+\NormalTok{  y: y,}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+  where:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \texttt{\ tablex-dict-type\ } is the type marker
+  \item
+    \texttt{\ content\ } is the cellâ€™s content (either
+    \texttt{\ content\ } or a function with
+    \texttt{\ (col,\ row)\ =\textgreater{}\ content\ } )
+  \item
+    \texttt{\ rowspan\ } is how many rows this cell spans (default 1)
+  \item
+    \texttt{\ colspan\ } is how many columns this cell spans (default 1)
+  \item
+    \texttt{\ align\ } is this cellâ€™s align override, such as
+    â€œcenterâ€? (default \texttt{\ auto\ } to follow the rest of the
+    table)
+  \item
+    \texttt{\ fill\ } is this cellâ€™s fill override, such as â€œblueâ€?
+    (default \texttt{\ auto\ } to follow the rest of the table)
+  \item
+    \texttt{\ inset\ } is this cellâ€™s inset override, such as
+    \texttt{\ 5pt\ } (default \texttt{\ auto\ } to follow the rest of
+    the table)
+  \item
+    \texttt{\ fit-spans\ } allows overriding the table-wide
+    \texttt{\ fit-spans\ } setting for this specific cell (e.g. if this
+    cell has a \texttt{\ colspan\ } greater than 1,
+    \texttt{\ fit-spans:\ (x:\ true)\ } will cause it to not affect the
+    sizes of \texttt{\ auto\ } columns).
+  \item
+    \texttt{\ x\ } is the cellâ€™s column index (0â€¦len-1) -
+    \texttt{\ auto\ } indicates it wasnâ€™t assigned yet
+  \item
+    \texttt{\ y\ } is the cellâ€™s row index (0â€¦len-1) -
+    \texttt{\ auto\ } indicates it wasnâ€™t assigned yet
+  \end{itemize}
+\item
+  \texttt{\ hlinex\ } : represents a horizontal line:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let hlinex(}
+\NormalTok{  start: 0, end: auto, y: auto,}
+\NormalTok{  stroke: auto,}
+\NormalTok{  stop{-}pre{-}gutter: auto, gutter{-}restrict: none,}
+\NormalTok{  stroke{-}expand: true,}
+\NormalTok{  expand: none}
+\NormalTok{) = (}
+\NormalTok{  tablex{-}dict{-}type: "hline",}
+\NormalTok{  start: start,}
+\NormalTok{  end: end,}
+\NormalTok{  y: y,}
+\NormalTok{  stroke: stroke,}
+\NormalTok{  stop{-}pre{-}gutter: stop{-}pre{-}gutter,}
+\NormalTok{  gutter{-}restrict: gutter{-}restrict,}
+\NormalTok{  stroke{-}expand: stroke{-}expand,}
+\NormalTok{  expand: expand,}
+\NormalTok{  parent: none,}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+  where:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \texttt{\ tablex-dict-type\ } is the type marker
+  \item
+    \texttt{\ start\ } is the column index where the hline starts from
+    (default \texttt{\ 0\ } , a.k.a. the beginning)
+  \item
+    \texttt{\ end\ } is the last column the hline touches (default
+    \texttt{\ auto\ } , a.k.a. all the way to the end)
+
+    \begin{itemize}
+    \tightlist
+    \item
+      Note that hlines will \emph{not} be drawn over cells with
+      \texttt{\ colspan\ } larger than 1, even if their spans (
+      \texttt{\ start\ } - \texttt{\ end\ } ) include that cell.
+    \end{itemize}
+  \item
+    \texttt{\ y\ } is the index of the row at the top of which the hline
+    is drawn. (Defaults to \texttt{\ auto\ } , a.k.a. depends on where
+    you placed the \texttt{\ hline\ } among the table items - itâ€™s
+    always on the top of the row below the current one.)
+  \item
+    \texttt{\ stroke\ } is the hlineâ€™s stroke override (defaults to
+    \texttt{\ auto\ } , a.k.a. follow the rest of the table).
+  \item
+    \texttt{\ stop-pre-gutter\ } : When \texttt{\ true\ } , the hline
+    will not be drawn over gutter (which is the default behavior of
+    tables). Defaults to \texttt{\ auto\ } which is essentially
+    \texttt{\ false\ } (draw over gutter).
+  \item
+    \texttt{\ gutter-restrict\ } : Either \texttt{\ top\ } ,
+    \texttt{\ bottom\ } , or \texttt{\ none\ } . Has no effect if
+    \texttt{\ row-gutter\ } is set to \texttt{\ none\ } . Otherwise,
+    defines if this \texttt{\ hline\ } should be drawn only on the top
+    of the row gutter ( \texttt{\ top\ } ); on the bottom (
+    \texttt{\ bottom\ } ); or on both the top and the bottom (
+    \texttt{\ none\ } , the default). Note that \texttt{\ top\ } and
+    \texttt{\ bottom\ } are alignment values (not strings).
+  \item
+    \texttt{\ stroke-expand\ } : When \texttt{\ true\ } , the hline will
+    be extended as necessary to cover the stroke of the vlines going
+    through either end of the line. Defaults to \texttt{\ true\ } .
+  \item
+    \texttt{\ expand\ } : Optionally extend the hline by an arbitrary
+    length. When \texttt{\ none\ } , it is not expanded. When a length
+    (such as \texttt{\ 5pt\ } ), it is expanded by that length on both
+    ends. When an array of two lengths (such as
+    \texttt{\ (5pt,\ 10pt)\ } ), it is expanded to the left by the first
+    length (in this case, \texttt{\ 5pt\ } ) and to the right by the
+    second (in this case, \texttt{\ 10pt\ } ). Defaults to
+    \texttt{\ none\ } .
+  \item
+    \texttt{\ parent\ } : An internal attribute determined when
+    splitting lines among cells. (It should always be \texttt{\ none\ }
+    on user-facing interfaces.)
+  \end{itemize}
+\item
+  \texttt{\ vlinex\ } : represents a vertical line:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let vlinex(}
+\NormalTok{  start: 0, end: auto, x: auto,}
+\NormalTok{  stroke: auto,}
+\NormalTok{  stop{-}pre{-}gutter: auto, gutter{-}restrict: none,}
+\NormalTok{  stroke{-}expand: true,}
+\NormalTok{  expand: none}
+\NormalTok{) = (}
+\NormalTok{  tablex{-}dict{-}type: "vline",}
+\NormalTok{  start: start,}
+\NormalTok{  end: end,}
+\NormalTok{  x: x,}
+\NormalTok{  stroke: stroke,}
+\NormalTok{  stop{-}pre{-}gutter: stop{-}pre{-}gutter,}
+\NormalTok{  gutter{-}restrict: gutter{-}restrict,}
+\NormalTok{  stroke{-}expand: stroke{-}expand,}
+\NormalTok{  expand: expand,}
+\NormalTok{  parent: none,}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+  where:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \texttt{\ tablex-dict-type\ } is the type marker
+  \item
+    \texttt{\ start\ } is the row index where the vline starts from
+    (default \texttt{\ 0\ } , a.k.a. the top)
+  \item
+    \texttt{\ end\ } is the last row the vline touches (default
+    \texttt{\ auto\ } , a.k.a. all the way to the bottom)
+
+    \begin{itemize}
+    \tightlist
+    \item
+      Note that vlines will \emph{not} be drawn over cells with
+      \texttt{\ rowspan\ } larger than 1, even if their spans (
+      \texttt{\ start\ } - \texttt{\ end\ } ) include that cell.
+    \end{itemize}
+  \item
+    \texttt{\ x\ } is the index of the column to the left of which the
+    vline is drawn. (Defaults to \texttt{\ auto\ } , a.k.a. depends on
+    where you placed the \texttt{\ vline\ } among the table items.)
+
+    \begin{itemize}
+    \tightlist
+    \item
+      For a \texttt{\ vline\ } to be placed after all columns, its
+      \texttt{\ x\ } value will be equal to the amount of columns (which
+      isnâ€™t a valid column index, but itâ€™s what is used here).
+    \end{itemize}
+  \item
+    \texttt{\ stroke\ } is the vlineâ€™s stroke override (defaults to
+    \texttt{\ auto\ } , a.k.a. follow the rest of the table).
+  \item
+    \texttt{\ stop-pre-gutter\ } : When \texttt{\ true\ } , the vline
+    will not be drawn over gutter (which is the default behavior of
+    tables). Defaults to \texttt{\ auto\ } which is essentially
+    \texttt{\ false\ } (draw over gutter).
+  \item
+    \texttt{\ gutter-restrict\ } : Either \texttt{\ left\ } ,
+    \texttt{\ right\ } , or \texttt{\ none\ } . Has no effect if
+    \texttt{\ column-gutter\ } is set to \texttt{\ none\ } . Otherwise,
+    defines if this \texttt{\ vline\ } should be drawn only to the left
+    of the column gutter ( \texttt{\ left\ } ); to the right (
+    \texttt{\ right\ } ); or on both the left and the right (
+    \texttt{\ none\ } , the default). Note that \texttt{\ left\ } and
+    \texttt{\ right\ } are alignment values (not strings).
+  \item
+    \texttt{\ stroke-expand\ } : When \texttt{\ true\ } , the vline will
+    be extended as necessary to cover the stroke of the hlines going
+    through either end of the line. Defaults to \texttt{\ true\ } .
+  \item
+    \texttt{\ expand\ } : Optionally extend the vline by an arbitrary
+    length. When \texttt{\ none\ } , it is not expanded. When a length
+    (such as \texttt{\ 5pt\ } ), it is expanded by that length on both
+    ends. When an array of two lengths (such as
+    \texttt{\ (5pt,\ 10pt)\ } ), it is expanded towards the top by the
+    first length (in this case, \texttt{\ 5pt\ } ) and towards the
+    bottom by the second (in this case, \texttt{\ 10pt\ } ). Defaults to
+    \texttt{\ none\ } .
+  \item
+    \texttt{\ parent\ } : An internal attribute determined when
+    splitting lines among cells. (It should always be \texttt{\ none\ }
+    on user-facing interfaces.)
+  \end{itemize}
+\item
+  The \texttt{\ occupied\ } type is an internal type used to represent
+  cell positions occupied by cells with \texttt{\ colspan\ } or
+  \texttt{\ rowspan\ } greater than 1.
+\item
+  Use \texttt{\ is-tablex-cell\ } , \texttt{\ is-tablex-hline\ } ,
+  \texttt{\ is-tablex-vline\ } and \texttt{\ is-tablex-occupied\ } to
+  check if a particular object has the corresponding type marker.
+\item
+  \texttt{\ colspanx\ } and \texttt{\ rowspanx\ } are shorthands for
+  setting the \texttt{\ colspan\ } and \texttt{\ rowspan\ } attributes
+  of \texttt{\ cellx\ } . They can also be nested (one given as an
+  argument to the other) to combine their properties (e.g.,
+  \texttt{\ colspanx(2)(rowspanx(3){[}a{]})\ } ). They accept all other
+  cell properties with named arguments. For example,
+  \texttt{\ colspanx(2,\ align:\ center){[}b{]}\ } is equivalent to
+  \texttt{\ cellx(colspan:\ 2,\ align:\ center){[}b{]}\ } .
+\end{enumerate}
+
+\subsubsection{Gridx and Tablex}\label{gridx-and-tablex}
+
+\begin{enumerate}
+\item
+  \texttt{\ gridx\ } is equivalent to \texttt{\ tablex\ } with
+  \texttt{\ auto-lines:\ false\ } ; see below.
+\item
+  \texttt{\ tablex:\ } The main function for creating a table with this
+  library:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let tablex(}
+\NormalTok{  columns: auto, rows: auto,}
+\NormalTok{  inset: 5pt,}
+\NormalTok{  align: auto,}
+\NormalTok{  fill: none,}
+\NormalTok{  stroke: auto,}
+\NormalTok{  column{-}gutter: auto, row{-}gutter: auto,}
+\NormalTok{  gutter: none,}
+\NormalTok{  repeat{-}header: false,}
+\NormalTok{  header{-}rows: 1,}
+\NormalTok{  header{-}hlines{-}have{-}priority: true,}
+\NormalTok{  auto{-}lines: true,}
+\NormalTok{  auto{-}hlines: auto,}
+\NormalTok{  auto{-}vlines: auto,}
+\NormalTok{  map{-}cells: none,}
+\NormalTok{  map{-}hlines: none,}
+\NormalTok{  map{-}vlines: none,}
+\NormalTok{  map{-}rows: none,}
+\NormalTok{  map{-}cols: none,}
+\NormalTok{  ..items}
+\NormalTok{) = \{}
+\NormalTok{// ...}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+  \textbf{Parameters:}
+
+  \begin{itemize}
+  \item
+    \texttt{\ columns\ } : The sizes (widths) of each column. They work
+    just like regular \texttt{\ table\ } â€™s columns, and can be:
+
+    \begin{itemize}
+    \tightlist
+    \item
+      an array of lengths ( \texttt{\ 1pt\ } , \texttt{\ 2em\ } ,
+      \texttt{\ 100\%\ } , â€¦), including fractional ( \texttt{\ 2fr\ }
+      ), to specify the width of each column
+
+      \begin{itemize}
+      \tightlist
+      \item
+        For instance, \texttt{\ columns:\ (2pt,\ 3em)\ } will give you
+        two columns: one with a width of \texttt{\ 2pt\ } and another
+        with the width of \texttt{\ 3em\ } (3 times the font size).
+
+        \begin{itemize}
+        \tightlist
+        \item
+          Note that percentages, such as \texttt{\ 49\%\ } , \textbf{are
+          considered fixed widths} as they are \textbf{always multiplied
+          by the full page width} (minus margins) for columns. Thus, a
+          column with a size of \texttt{\ 100\%\ } would span your whole
+          page (even if there are other columns).
+        \end{itemize}
+      \item
+        \texttt{\ auto\ } may be specified to automatically resize the
+        column based on the largest width of its contents, if possible -
+        \textbf{this is the most common column width choice,} as it just
+        delegates the column sizing job to tablex!
+
+        \begin{itemize}
+        \tightlist
+        \item
+          For example, if your \texttt{\ auto\ } -sized column contains
+          two cells with \texttt{\ Hello\ world!\ } and
+          \texttt{\ Bye!\ } as contents, tablex will try to make the
+          column large enough for \texttt{\ Hello\ world!\ } (the cell
+          with largest \emph{potential} width) to fit in a single line.
+        \item
+          However, note that often enough thatâ€™s not possible, as
+          increasing the columnâ€™s size too much would result in the
+          table going over the pageâ€™s margin - perhaps even beyond the
+          documentâ€™s total width. Therefore, \textbf{tablex will
+          automatically reduce the size of your \texttt{\ auto\ }
+          columns} when they would otherwise cause the table to overrun
+          the pageâ€™s normal width (i.e. the width between the pageâ€™s
+          lateral margins).
+
+          \begin{itemize}
+          \tightlist
+          \item
+            Fixed width columns (such as \texttt{\ 2pt\ } ,
+            \texttt{\ 3em\ } or \texttt{\ 49\%\ } ) are not subject to
+            this size reduction; thus, if you specify all columnsâ€™
+            widths with fixed lengths, your table \emph{could} become
+            larger than the pageâ€™s width! (In such a case,
+            \textbf{\texttt{\ auto\ } columns would be reduced to a size
+            of zero,} as there would be no available space anymore!)
+          \end{itemize}
+        \end{itemize}
+      \item
+        when specifying fractional widths ( \texttt{\ 1fr\ } ,
+        \texttt{\ 2fr\ } â€¦) for columns, the available space
+        (remaining page width, after calculating all other columnsâ€™
+        sizes) is divided between them, weighted on the fraction value
+        of each column.
+
+        \begin{itemize}
+        \tightlist
+        \item
+          For example, with \texttt{\ (1fr,\ 2fr)\ } , the available
+          space will be divided by 3 (1 + 2), and the first column will
+          have 1/3 of the space, while the second will have 2/3.
+
+          \begin{itemize}
+          \tightlist
+          \item
+            \texttt{\ (1fr,\ 1fr)\ } would cause both columns to have
+            equal length (1/2 and 1/2 of the available space).
+          \end{itemize}
+        \item
+          This is useful when you want some columns to just occupy all
+          the remaining horizontal space in the page.
+
+          \begin{itemize}
+          \tightlist
+          \item
+            \textbf{Note:} If only one column has a fractional width
+            (e.g. a single column with \texttt{\ 1fr\ } ), it will
+            occupy the entire available space.
+          \end{itemize}
+        \item
+          \textbf{Warning:} fractional columns in tablex (much like in
+          Typstâ€™s default tables) \textbf{will not work properly in
+          pages with \texttt{\ auto\ } width} (the columns will have
+          width zero) - this is because those pages theoretically have
+          infinite width (they can expand indefinitely), so having
+          columns spanning the entire available width is then
+          impossible!
+        \end{itemize}
+      \end{itemize}
+    \item
+      a single length like above, to indicate the width of a single
+      column (equivalent to just placing it inside a unit array)
+
+      \begin{itemize}
+      \tightlist
+      \item
+        For instance, \texttt{\ columns:\ 2pt\ } is equivalent to
+        \texttt{\ columns:\ (2pt,)\ } , which translates to a single
+        column of width \texttt{\ 2pt\ } .
+      \end{itemize}
+    \item
+      an integer (such as \texttt{\ 4\ } ), as a shorthand for
+      \texttt{\ (auto,)\ *\ 4\ } (that many \texttt{\ auto\ } columns)
+
+      \begin{itemize}
+      \tightlist
+      \item
+        Useful if you just want to quickly set the amount of columns
+        without worrying about their sizes ( \texttt{\ columns:\ 4\ }
+        will give you four \texttt{\ auto\ } columns).
+      \end{itemize}
+    \end{itemize}
+  \item
+    \texttt{\ rows\ } : The sizes (heights) of each row. They follow the
+    exact same format as \texttt{\ columns\ } , except that the
+    â€œavailable spaceâ€? is infinite (auto rows can expand as much as
+    is needed, as the table can add rows over multiple pages).
+
+    \begin{itemize}
+    \tightlist
+    \item
+      \textbf{Note:} For rows, percentages (such as \texttt{\ 49\%\ } )
+      are fixed width lengths, like in \texttt{\ columns\ } ; however,
+      here, they are \textbf{multiplied by the pageâ€™s full height}
+      (minus margins), and not width.
+    \item
+      \textbf{Note:} If more rows than specified are added, the height
+      for the \textbf{last row} will be the one assigned to all extra
+      rows. (If the last row is \texttt{\ auto\ } , the extra ones will
+      also be \texttt{\ auto\ } , for example.)
+
+      \begin{itemize}
+      \tightlist
+      \item
+        Your table can have more rows than expected by simply having
+        more cells than \texttt{\ (\#\ columns)\ } multiplied by
+        \texttt{\ (\#\ rows)\ } . In this case, you will have an extra
+        row for each \texttt{\ (\#\ columns)\ } cells after the limit.
+        In other words, \textbf{the amount of columns is always fixed}
+        (determined by the amount of widths in the array given to
+        \texttt{\ columns\ } ), but the amount of rows can vary
+        depending on your input of cells to the table.
+      \item
+        Adding a cell at an arbitrary \texttt{\ y\ } coordinate can also
+        cause your table to have extra rows (enough rows to reach the
+        cell at that coordinate).
+      \end{itemize}
+    \item
+      \textbf{Warning:} support for fractional sizes for rows is still
+      rudimentary - they only work properly on the tableâ€™s first page;
+      on the second page and onwards, they will not behave properly,
+      differently from the default \texttt{\ \#table\ } .
+    \end{itemize}
+  \item
+    \texttt{\ inset\ } : Inset/internal padding to give to each cell.
+    Can be either a length (same inset from the top, bottom, left and
+    right of the cell), or a dictionary (e.g.
+    \texttt{\ (left:\ 5pt,\ right:\ 10pt,\ bottom:\ 2pt,\ top:\ 4pt)\ }
+    , or even \texttt{\ (left:\ 5pt,\ rest:\ 10pt)\ } to apply the same
+    value to the remaining sides). Defaults to \texttt{\ 5pt\ } (the
+    \texttt{\ \#table\ } default).
+  \item
+    \texttt{\ align\ } : How to align text in the cells. Defaults to
+    \texttt{\ auto\ } , which inherits alignment from the outer context.
+    Must be either \texttt{\ auto\ } , an \texttt{\ alignment\ } (such
+    as \texttt{\ left\ } or \texttt{\ top\ } ), a
+    \texttt{\ 2d\ alignment\ } (such as \texttt{\ left\ +\ top\ } ), an
+    \texttt{\ array\ } of alignment/2d alignment (one for each column in
+    the table - if there are more columns than alignment values, they
+    will alternate); or a function
+    \texttt{\ (column,\ row)\ =\textgreater{}\ alignment/2d\ alignment\ }
+    (to customize for each individual cell).
+  \item
+    \texttt{\ fill\ } : Color with which to fill cellsâ€™ backgrounds.
+    Defaults to \texttt{\ none\ } , or no fill. Must be either a
+    \texttt{\ color\ } , such as \texttt{\ blue\ } ; an
+    \texttt{\ array\ } of colors (one for each column in the table - if
+    there are more columns than colors, they will alternate); or a
+    function \texttt{\ (column,\ row)\ =\textgreater{}\ color\ } (to
+    customize for each individual cell).
+  \item
+    \texttt{\ stroke\ } : Indicates how to draw the table lines.
+    Defaults to the current line styles in the document. For example:
+    \texttt{\ 5pt\ +\ red\ } to change the color and the thickness.
+  \item
+    \texttt{\ column-gutter\ } : optional separation (length) between
+    columns (such as \texttt{\ 5pt\ } ). Defaults to \texttt{\ none\ }
+    (disable). At the moment, looks a bit ugly if your table has a
+    \texttt{\ hline\ } attempting to cross a \texttt{\ colspan\ } .
+  \item
+    \texttt{\ row-gutter\ } : optional separation (length) between rows.
+    Defaults to \texttt{\ none\ } (disable). At the moment, looks a bit
+    ugly if your table has a \texttt{\ vline\ } attempting to cross a
+    \texttt{\ rowspan\ } .
+  \item
+    \texttt{\ gutter\ } : Sets a length to both \texttt{\ column-\ } and
+    \texttt{\ row-gutter\ } at the same time (overridable by each).
+  \item
+    \texttt{\ repeat-header\ } : Controls header repetition. If set to
+    \texttt{\ true\ } , the first row (or the amount of rows specified
+    in \texttt{\ header-rows\ } ), including its rowspans, is repeated
+    across all pages this table spans. If set to \texttt{\ false\ }
+    (default), the aforementioned header row is not repeated in any
+    page. If set to an integer (such as \texttt{\ 4\ } ), repeats for
+    that many pages after the first, then stops. If set to an array of
+    integers (such as \texttt{\ (3,\ 4)\ } ), repeats only on those
+    pages \emph{relative to the tableâ€™s first page} (page 1 here is
+    where the table is, so adding \texttt{\ 1\ } to said array has no
+    effect).
+  \item
+    \texttt{\ header-rows\ } : minimum amount of rows for the repeatable
+    header. 1 by default. Automatically increases if one of the cells is
+    a rowspan that would go beyond the given amount of rows. For
+    example, if 3 is given, then at least the first 3 rows will repeat.
+  \item
+    \texttt{\ header-hlines-have-priority\ } : if \texttt{\ true\ } ,
+    the horizontal lines below the header being repeated take priority
+    over the rows they appear atop of on further pages. If
+    \texttt{\ false\ } , they draw their own horizontal lines. Defaults
+    to \texttt{\ true\ } .
+
+    \begin{itemize}
+    \tightlist
+    \item
+      For example, if your header has a blue hline under it, that blue
+      hline will display on all pages it is repeated on if this option
+      is \texttt{\ true\ } . If this option is \texttt{\ false\ } , the
+      header will repeat, but the blue hline will not.
+    \end{itemize}
+  \item
+    \texttt{\ rtl\ } : if true, the table is horizontally flipped. That
+    is, cells and lines are placed in the opposite order (starting from
+    the right), and horizontal lines are flipped. This is meant to
+    simulate the behavior of default Typst tables when
+    \texttt{\ set\ text(dir:\ rtl)\ } is used, and is useful when
+    writing in a language with a RTL (right-to-left) script. Defaults to
+    \texttt{\ false\ } .
+  \item
+    \texttt{\ auto-lines\ } : Shorthand to apply a boolean to both
+    \texttt{\ auto-hlines\ } and \texttt{\ auto-vlines\ } at the same
+    time (overridable by each). Defaults to \texttt{\ true\ } .
+  \item
+    \texttt{\ auto-hlines\ } : If \texttt{\ true\ } , draw a horizontal
+    line on every line where you did not manually draw one; if
+    \texttt{\ false\ } , no hlines other than the ones you specify (via
+    \texttt{\ hlinex\ } ) are drawn. Defaults to \texttt{\ auto\ }
+    (follows \texttt{\ auto-lines\ } , which in turn defaults to
+    \texttt{\ true\ } ).
+  \item
+    \texttt{\ auto-vlines\ } : If \texttt{\ true\ } , draw a vertical
+    line on every line where you did not manually draw one; if
+    \texttt{\ false\ } , no vlines other than the ones you specify (via
+    \texttt{\ vlinex\ } ) are drawn. Defaults to \texttt{\ auto\ }
+    (follows \texttt{\ auto-lines\ } , which in turn defaults to
+    \texttt{\ true\ } ).
+  \item
+    \texttt{\ map-cells\ } : A function which takes a single
+    \texttt{\ cellx\ } and returns another \texttt{\ cellx\ } , or a
+    \texttt{\ content\ } which is converted to \texttt{\ cellx\ } by
+    \texttt{\ cellx{[}\#content{]}\ } . You can customize the cell in
+    pretty much any way using this function; just take care to avoid
+    conflicting with already-placed cells if you move it.
+  \item
+    \texttt{\ map-hlines\ } : A function which takes each horizontal
+    line object ( \texttt{\ hlinex\ } ) and returns another, optionally
+    modifying its properties. You may also change its row position (
+    \texttt{\ y\ } ). Note that this is also applied to lines generated
+    by \texttt{\ auto-hlines\ } .
+  \item
+    \texttt{\ map-vlines\ } : A function which takes each horizontal
+    line object ( \texttt{\ vlinex\ } ) and returns another, optionally
+    modifying its properties. You may also change its column position (
+    \texttt{\ x\ } ). Note that this is also applied to lines generated
+    by \texttt{\ auto-vlines\ } .
+  \item
+    \texttt{\ map-rows\ } : A function mapping each row of cells to new
+    values or modified properties. Takes
+    \texttt{\ (row\_num,\ cell\_array)\ } and returns the modified
+    \texttt{\ cell\_array\ } . Note that, with your function, they
+    cannot be sent to another row. Also, please preserve the order of
+    the cells. This is especially important given that cells may be
+    \texttt{\ none\ } if theyâ€™re actually a position taken by another
+    cell with colspan/rowspan. Make sure the \texttt{\ none\ } values
+    are in the same indexes when the array is returned.
+  \item
+    \texttt{\ map-cols\ } : A function mapping each column of cells to
+    new values or modified properties. Takes
+    \texttt{\ (col\_num,\ cell\_array)\ } and returns the modified
+    \texttt{\ cell\_array\ } . Note that, with your function, they
+    cannot be sent to another column. Also, please preserve the order of
+    the cells. This is especially important given that cells may be
+    \texttt{\ none\ } if theyâ€™re actually a position taken by another
+    cell with colspan/rowspan. Make sure the \texttt{\ none\ } values
+    are in the same indexes when the array is returned.
+  \item
+    \texttt{\ fit-spans\ } : either a dictionary
+    \texttt{\ (x:\ bool,\ y:\ bool)\ } or just \texttt{\ bool\ } (e.g.
+    just \texttt{\ true\ } is converted to
+    \texttt{\ (x:\ true,\ y:\ true)\ } ). When given
+    \texttt{\ (x:\ true)\ } , colspans wonâ€™t affect the sizes of
+    \texttt{\ auto\ } columns. When given \texttt{\ (y:\ true)\ } ,
+    rowspans wonâ€™t affect the sizes of \texttt{\ auto\ } rows. By
+    default, this is equal to \texttt{\ (x:\ false,\ y:\ false)\ }
+    (equivalent to just \texttt{\ false\ } ), which means that colspans
+    will cause the last spanned \texttt{\ auto\ } column to expand
+    (depending on the contents of the cell) and rowspans will cause the
+    last spanned \texttt{\ auto\ } row to expand similarly.
+
+    \begin{itemize}
+    \tightlist
+    \item
+      This is usually used as \texttt{\ (x:\ true)\ } to prevent
+      unexpected expansion of \texttt{\ auto\ } columns after using a
+      colspan, which can happen when a colspan spans both a
+      fractional-size column (e.g. \texttt{\ 1fr\ } ) and an
+      \texttt{\ auto\ } -sized column. Can be applied to rows too
+      through \texttt{\ (y:\ true)\ } or
+      \texttt{\ (x:\ true,\ y:\ true)\ } , if needed, however.
+    \item
+      The point of this option is to have colspans and rowspans not
+      affect the size of the table at all, and just â€œfitâ€? within the
+      columns and rows they span. Therefore, this option does not have
+      any effect upon colspans and rowspans which donâ€™t span columns
+      or rows with automatic size.
+    \end{itemize}
+  \end{itemize}
+\end{enumerate}
+
+\subsection{Changelog}\label{changelog}
+
+\subsubsection{v0.0.9}\label{v0.0.9}
+
+\textbf{NOTE:} Please use Typstâ€™s built-in tables instead of tablex
+(starting with Typst 0.11.0). Most of tablexâ€™s features were
+implemented in Typstâ€™s tables by the author of tablex.
+
+\begin{itemize}
+\tightlist
+\item
+  Added compatibility with Typst v0.12.0 (
+  \url{https://github.com/PgBiel/typst-tablex/issues/135} )
+\item
+  Added library usage notice to README
+\item
+  Tablex is now dual-licensed under MIT/Apache-2.0 (
+  \url{https://github.com/PgBiel/typst-tablex/issues/134} )
+\end{itemize}
+
+\subsubsection{v0.0.8}\label{v0.0.8}
+
+\begin{itemize}
+\tightlist
+\item
+  Added \texttt{\ fit-spans\ } option to \texttt{\ tablex\ } and
+  \texttt{\ cellx\ } (
+  \url{https://github.com/PgBiel/typst-tablex/pull/111} )
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Accepts \texttt{\ (x:\ bool,\ y:\ bool)\ } . When set to
+    \texttt{\ (x:\ true)\ } , colspans wonâ€™t affect the sizes of
+    \texttt{\ auto\ } columns. When set to \texttt{\ (y:\ true)\ } ,
+    rowspans wonâ€™t affect the sizes of \texttt{\ auto\ } rows.
+  \item
+    Defaults to \texttt{\ false\ } , equivalent to
+    \texttt{\ (x:\ false,\ y:\ false)\ } , that is, colspans and
+    rowspans affect the sizes of \texttt{\ auto\ } tracks (columns and
+    rows) by default (expanding the last spanned track if the
+    colspan/rowspan is too large).
+  \item
+    Useful when you want merged cells (or a specific merged cell) to
+    â€œfitâ€? within their spanned columns and rows. May help when
+    adding a colspan or rowspan causes an \texttt{\ auto\ } -sized track
+    to inadvertently expand.
+  \end{itemize}
+\item
+  \texttt{\ auto\ } column sizing received multiple improvements and bug
+  fixes. Tables should now have more natural column widths. (
+  \url{https://github.com/PgBiel/typst-tablex/pull/109} ,
+  \url{https://github.com/PgBiel/typst-tablex/pull/116} )
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Fixes some problems with overflowing cells (
+    \url{https://github.com/PgBiel/typst-tablex/issues/48} ,
+    \url{https://github.com/PgBiel/typst-tablex/issues/75} )
+  \item
+    Fixes \texttt{\ auto\ } columns being needlessly expanded in some
+    cases ( \url{https://github.com/PgBiel/typst-tablex/issues/56} ,
+    \url{https://github.com/PgBiel/typst-tablex/issues/78} )
+
+    \begin{itemize}
+    \tightlist
+    \item
+      For similar problems not fixed by this, please use the new
+      \texttt{\ fit-spans\ } option as needed, or use fixed-size columns
+      instead.
+    \end{itemize}
+  \end{itemize}
+\item
+  Several performance optimizations and other internal code improvements
+  were made ( \url{https://github.com/PgBiel/typst-tablex/pull/113} ,
+  \url{https://github.com/PgBiel/typst-tablex/pull/114} ,
+  \url{https://github.com/PgBiel/typst-tablex/pull/115} ).
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Documents with lots of \texttt{\ tablex\ } tables might now become
+    \textbf{up to 20\% faster} to cold compile. Give it a shot!
+  \end{itemize}
+\item
+  Fixed extra fixed-height rows appearing to have \texttt{\ auto\ }
+  height ( \url{https://github.com/PgBiel/typst-tablex/pull/108} ).
+\item
+  Fixed rows without any visible cells being drawn with zero height (
+  \url{https://github.com/PgBiel/typst-tablex/pull/107} ).
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Fixes some rowspans causing cells to overlap (
+    \url{https://github.com/PgBiel/typst-tablex/issues/82} ,
+    \url{https://github.com/PgBiel/typst-tablex/issues/105} ).
+  \end{itemize}
+\end{itemize}
+
+\subsubsection{v0.0.7}\label{v0.0.7}
+
+I have begun
+\href{https://github.com/PgBiel/typst-improv-tables-planning}{work on
+bringing many tablex improvements to built-in Typst tables} ! In that
+regard, \href{https://github.com/sponsors/PgBiel}{you can now sponsor my
+work on tablex and improving Typst tables via GitHub Sponsors! Consider
+taking a look :)}
+
+\begin{itemize}
+\tightlist
+\item
+  Allow gradients and patterns in fills (
+  \url{https://github.com/PgBiel/typst-tablex/pull/87} )
+\item
+  Fixed a critical bug where \texttt{\ line\ } in tablex cells would
+  misbehave ( \url{https://github.com/PgBiel/typst-tablex/issues/80} )
+
+  \begin{itemize}
+  \tightlist
+  \item
+    CeTZ and drawing in general should now work properly within tablex
+    cells (see \url{https://github.com/johannes-wolf/cetz/issues/345} ).
+  \item
+    Also fixes a problem with nested tables (
+    \url{https://github.com/PgBiel/typst-tablex/issues/34} )
+  \end{itemize}
+\item
+  Fixed negative line expansion within a single cell (
+  \url{https://github.com/PgBiel/typst-tablex/pull/84} )
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Negative line expansion across multiple cells isnâ€™t yet supported.
+  \item
+    Thanks GitHub user @dixslyf for the great work on fixing and testing
+    this!
+  \end{itemize}
+\item
+  Made internal length calculation procedures more robust (
+  \url{https://github.com/PgBiel/typst-tablex/issues/92} ,
+  \url{https://github.com/PgBiel/typst-tablex/issues/94} )
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Fixes a potential incompatibility with (currently unreleased) Typst
+    0.11.0
+  \end{itemize}
+\item
+  Added missing support for boolean types in Typst 0.8.0+ (
+  \url{https://github.com/PgBiel/typst-tablex/issues/73} )
+\item
+  Added some keywords to tablexâ€™s \texttt{\ typst.toml\ } for better
+  discoverability (
+  \url{https://github.com/PgBiel/typst-tablex/issues/91} )
+\end{itemize}
+
+\subsubsection{v0.0.6}\label{v0.0.6}
+
+\begin{itemize}
+\tightlist
+\item
+  Added support for RTL tables with \texttt{\ rtl:\ true\ } (
+  \url{https://github.com/PgBiel/typst-tablex/issues/58} ).
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Default Typst tables are automatically flipped horizontally when
+    using \texttt{\ set\ text(dir:\ rtl)\ } , however we canâ€™t detect
+    that setting from tablex at this moment (it isnâ€™t currently
+    possible to fetch set rules in Typst).
+  \item
+    Therefore, as a way around that, you can now specify
+    \texttt{\ \#tablex(rtl:\ true,\ ...)\ } to flip your table
+    horizontally if youâ€™re writing a document in RTL (right-to-left)
+    script. (You can use e.g. \texttt{\ \#let\ old-tablex\ =\ tablex\ }
+    followed by
+    \texttt{\ \#let\ tablex(..args)\ =\ old-tablex(rtl:\ true,\ ..args)\ }
+    to not have to repeat the \texttt{\ rtl\ } parameter every time.)
+  \end{itemize}
+\item
+  Added support for \texttt{\ box\ } â€™s dictionary inset syntax on
+  tablex ( \url{https://github.com/PgBiel/typst-tablex/issues/54} ).
+
+  \begin{itemize}
+  \tightlist
+  \item
+    For instance, you can now do
+    \texttt{\ \#tablex(inset:\ (left:\ 5pt,\ top:\ 10pt,\ rest:\ 2pt),\ ...)\ }
+    .
+  \end{itemize}
+\item
+  Fixed errors when using floating point strokes or other more complex
+  strokes ( \url{https://github.com/PgBiel/typst-tablex/issues/55} ).
+\item
+  Added full compatibility with the new Typst 0.8.0 type system (
+  \url{https://github.com/PgBiel/typst-tablex/issues/69} ).
+\item
+  Added info about \texttt{\ \#rotate\ } problems to â€œKnown Issuesâ€?
+  in the README ( \url{https://github.com/PgBiel/typst-tablex/pull/60}
+  ).
+\item
+  Improved docs for tablex options \texttt{\ columns\ } and
+  \texttt{\ rows\ } (
+  \url{https://github.com/PgBiel/typst-tablex/issues/53} ).
+\end{itemize}
+
+\subsubsection{v0.0.5}\label{v0.0.5}
+
+\begin{itemize}
+\tightlist
+\item
+  âš~ï¸? \textbf{Minimum Typst version raised to v0.2.0}
+\item
+  Improved calculation of page/container dimensions by using the
+  \texttt{\ layout()\ } function.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Fixes tables with fractional columns not displaying properly in
+    blocks with \texttt{\ auto\ } width (
+    \url{https://github.com/PgBiel/typst-tablex/issues/44} ;
+    \url{https://github.com/PgBiel/typst-tablex/issues/39} )
+  \item
+    Fixes some nested tables overflowing the page width (
+    \url{https://github.com/PgBiel/typst-tablex/issues/41} )
+  \item
+    Fixes bad interaction between tables with fractional columns and
+    nested tables (
+    \url{https://github.com/PgBiel/typst-tablex/issues/28} )
+  \item
+    Fixes table rotation messing up table size calculation (
+    \url{https://github.com/PgBiel/typst-tablex/issues/52} )
+  \item
+    Probably fixes other issues not listed here as well.
+  \end{itemize}
+\item
+  Added some guards for infinite lengths and \texttt{\ auto\ } -sized
+  pages ( \url{https://github.com/PgBiel/typst-tablex/issues/47} ).
+\item
+  Fixed tablex crashes/improper behavior with \texttt{\ em\ } strokes
+  and other types of strokes (
+  \url{https://github.com/PgBiel/typst-tablex/issues/49} ).
+\item
+  Added the tablex version number as a comment in the source file (as
+  requested in \url{https://github.com/PgBiel/typst-tablex/issues/25} ).
+\end{itemize}
+
+\subsubsection{v0.0.4}\label{v0.0.4}
+
+\begin{itemize}
+\tightlist
+\item
+  Added \texttt{\ typst.toml\ } to support Typst v0.6.0â€™s
+  soon-to-be-released package manager (see
+  \url{https://github.com/PgBiel/typst-tablex/issues/22} ).
+\item
+  Fixed a division by zero regression from v0.0.3 (
+  \url{https://github.com/PgBiel/typst-tablex/issues/19} ).
+\item
+  Fixed a bug where cells placed in arbitrary positions could force an
+  extra empty row to appear (
+  \url{https://github.com/PgBiel/typst-tablex/issues/16} ).
+\item
+  Fixed \texttt{\ hlinex(gutter-restrict:\ top)\ } causing the hline to
+  just disappear (
+  \url{https://github.com/PgBiel/typst-tablex/issues/20} ).
+\item
+  Fixed certain \texttt{\ gutter-restrict\ } lines disappearing when
+  thereâ€™s no gutter (
+  \url{https://github.com/PgBiel/typst-tablex/issues/21} ).
+\item
+  Fixed row gutter lines not properly splitting across pages (
+  \url{https://github.com/PgBiel/typst-tablex/issues/23} ).
+\end{itemize}
+
+\subsubsection{v0.0.3}\label{v0.0.3}
+
+\begin{itemize}
+\tightlist
+\item
+  Added support for Typst v0.4.0 and v0.5.0.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    The tablex options \texttt{\ fill:\ } and \texttt{\ align:\ } now
+    accept arrays of values for each column (
+    \url{https://github.com/PgBiel/typst-tablex/issues/13} ).
+
+    \begin{itemize}
+    \tightlist
+    \item
+      For example, \texttt{\ fill:\ (red,\ blue)\ } would fill the first
+      column with red, the second column with blue, and any further
+      columns would alternate between the two fill colors.
+    \end{itemize}
+  \end{itemize}
+\item
+  Fixed the calculation of the size of \texttt{\ auto\ } rows and
+  columns when a rowspan or colspan was used (
+  \url{https://github.com/PgBiel/typst-tablex/issues/11} ).
+\item
+  Fixed the calculation of the size of the last \texttt{\ auto\ } column
+  when it was too long (
+  \url{https://github.com/PgBiel/typst-tablex/issues/6} ).
+\end{itemize}
+
+\subsubsection{v0.0.2}\label{v0.0.2}
+
+\begin{itemize}
+\tightlist
+\item
+  Added support for Typst v0.3.0.
+\item
+  Fixed strokes - now lines will expand to not look weird when strokes
+  are larger.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    You can disable this behavior by setting
+    \texttt{\ stroke-expand:\ false\ } on your lines.
+  \end{itemize}
+\item
+  You can now arbitrarily change your linesâ€™ sizes at either end with
+  the option \texttt{\ expand:\ (length,\ length)\ } ; e.g.
+  \texttt{\ expand:\ (5pt,\ 10pt)\ } will increase your horizontal line
+  5pt to the left and 10pt to the right (or, for a vertical line, 5pt to
+  the top and 10pt to the bottom).
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Support for negative expand lengths is limited (so far, only reduces
+    length in the first cell the line spans).
+  \end{itemize}
+\item
+  Added some gutter fixes (not all gutter issues were fixed yet).
+\end{itemize}
+
+\subsubsection{v0.0.1}\label{v0.0.1}
+
+Initial release.
+
+\begin{itemize}
+\tightlist
+\item
+  Added types \texttt{\ tablex\ } , \texttt{\ cellx\ } ,
+  \texttt{\ hlinex\ } , \texttt{\ vlinex\ }
+\item
+  Added type aliases \texttt{\ gridx\ } , \texttt{\ rowspanx\ } ,
+  \texttt{\ colspanx\ }
+\end{itemize}
+
+\subsection{0.1.0 Roadmap}\label{roadmap}
+
+\begin{itemize}
+\tightlist
+\item
+  {[} {]} General
+
+  \begin{itemize}
+  \tightlist
+  \item
+    {[}X{]} More docs
+  \item
+    {[} {]} Code cleanup
+  \item
+    {[} {]} Table drawing rework
+  \end{itemize}
+\item
+  {[} {]} \texttt{\ \#table\ } parity
+
+  \begin{itemize}
+  \tightlist
+  \item
+    {[}X{]} \texttt{\ columns:\ } , \texttt{\ rows:\ }
+
+    \begin{itemize}
+    \tightlist
+    \item
+      {[}X{]} Basic support
+    \item
+      {[}X{]} Accept a single size to mean a single column
+    \item
+      {[}X{]} Adjust \texttt{\ auto\ } columns and rows
+    \item
+      {[}X{]} Accept integers to mean multiple \texttt{\ auto\ }
+    \item
+      {[}X{]} Basic unit conversion (em -\textgreater{} pt, etc.)
+    \item
+      {[}X{]} Ratio unit conversion (100\% -\textgreater{} page
+      widthâ€¦)
+    \item
+      {[}X{]} Fractional unit conversion based on available space (1fr,
+      2fr -\textgreater{} 1/3, 2/3)
+    \item
+      {[}X{]} Shrink \texttt{\ auto\ } columns based on available space
+    \end{itemize}
+  \item
+    {[}X{]} \texttt{\ fill\ }
+
+    \begin{itemize}
+    \tightlist
+    \item
+      {[}X{]} Basic support ( \texttt{\ color\ } for general fill)
+    \item
+      {[}X{]} Accept a function (
+      \texttt{\ (column,\ row)\ =\textgreater{}\ color\ } )
+    \item
+      {[}X{]} Accept an array of colors (one for each column)
+    \end{itemize}
+  \item
+    {[}X{]} \texttt{\ align\ }
+
+    \begin{itemize}
+    \tightlist
+    \item
+      {[}X{]} Basic support ( \texttt{\ alignment\ } and
+      \texttt{\ 2d\ alignment\ } apply to all cells)
+    \item
+      {[}X{]} Accept a function (
+      \texttt{\ (column,\ row)\ =\textgreater{}\ alignment/2d\ alignment\ }
+      )
+    \item
+      {[}X{]} Accept an array of alignment values (one for each column)
+    \end{itemize}
+  \item
+    {[}X{]} \texttt{\ inset\ }
+  \item
+    {[} {]} \texttt{\ gutter\ }
+
+    \begin{itemize}
+    \tightlist
+    \item
+      {[}X{]} Basic support
+
+      \begin{itemize}
+      \tightlist
+      \item
+        {[}X{]} \texttt{\ column-gutter\ }
+      \item
+        {[}X{]} \texttt{\ row-gutter\ }
+      \end{itemize}
+    \item
+      {[} {]} Hline, vline adaptations
+
+      \begin{itemize}
+      \tightlist
+      \item
+        {[}X{]} \texttt{\ stop-pre-gutter\ } : Makes the hline/vline not
+        transpose gutter boundaries
+      \item
+        {[}X{]} \texttt{\ gutter-restrict\ } : Makes the hline/vline not
+        draw on both sides of a gutter boundary, and instead pick one
+        (top/bottom; left/right)
+      \item
+        {[} {]} Properly work with gutters after colspanxs/rowspanxs
+      \end{itemize}
+    \end{itemize}
+  \item
+    {[}X{]} \texttt{\ stroke\ }
+
+    \begin{itemize}
+    \tightlist
+    \item
+      {[}X{]} Basic support (change all lines, vline or hline, without
+      override)
+    \item
+      {[}X{]} \texttt{\ none\ } for no stroke
+    \end{itemize}
+  \item
+    {[}X{]} Default to lines on every row and column
+  \end{itemize}
+\item
+  {[} {]} New features for \texttt{\ \#tablex\ }
+
+  \begin{itemize}
+  \tightlist
+  \item
+    {[}X{]} Basic types ( \texttt{\ cellx\ } , \texttt{\ hlinex\ } ,
+    \texttt{\ vlinex\ } )
+  \item
+    {[}X{]} \texttt{\ hlinex\ } , \texttt{\ vlinex\ }
+
+    \begin{itemize}
+    \tightlist
+    \item
+      {[}X{]} Auto-positioning when placed among cells
+    \item
+      {[}X{]} Arbitrary positioning
+    \item
+      {[}X{]} Allow customizing \texttt{\ stroke\ }
+    \end{itemize}
+  \item
+    {[}X{]} \texttt{\ colspanx\ } , \texttt{\ rowspanx\ }
+
+    \begin{itemize}
+    \tightlist
+    \item
+      {[}X{]} Interrupt \texttt{\ hlinex\ } and \texttt{\ vlinex\ } with
+      \texttt{\ end:\ auto\ }
+    \item
+      {[}X{]} Support simultaneous col/rowspan with
+      \texttt{\ cellx(colspanx:,\ rowspanx:)\ }
+    \item
+      {[}X{]} Support nesting colspan/rowspan (
+      \texttt{\ colspanx(rowspanx())\ } )
+    \item
+      {[}X{]} Support cell attributes (e.g.
+      \texttt{\ colspanx(2,\ align:\ left){[}a{]}\ } )
+    \item
+      {[}X{]} Reliably detect conflicts
+    \end{itemize}
+  \item
+    {[} {]} Repeating headers
+
+    \begin{itemize}
+    \tightlist
+    \item
+      {[}X{]} Basic support (first row group repeats on every page)
+    \item
+      {[} {]} Work with different page sizes
+    \item
+      {[}X{]} \texttt{\ repeat-header\ } : Control header repetition
+
+      \begin{itemize}
+      \tightlist
+      \item
+        {[}X{]} \texttt{\ true\ } : Repeat on all pages
+      \item
+        {[}X{]} integer: Repeat for the next â€˜nâ€™ pages
+      \item
+        {[}X{]} array of integers: Repeat on those (relative) pages
+      \item
+        {[}X{]} \texttt{\ false\ } (default): Do not repeat
+      \end{itemize}
+    \item
+      {[}X{]} \texttt{\ header-rows\ } : Indicate what to consider as a
+      â€œheaderâ€?
+
+      \begin{itemize}
+      \tightlist
+      \item
+        {[}X{]} integer: At least first â€˜nâ€™ rows are a header (plus
+        whatever rowspanxs show up there)
+
+        \begin{itemize}
+        \tightlist
+        \item
+          {[}X{]} Defaults to 1
+        \end{itemize}
+      \item
+        {[}X{]} \texttt{\ none\ } or \texttt{\ 0\ } : no header
+        (disables header repetition regardless of
+        \texttt{\ repeat-header\ } )
+      \end{itemize}
+    \end{itemize}
+  \item
+    {[}X{]} \texttt{\ cellx\ }
+
+    \begin{itemize}
+    \tightlist
+    \item
+      {[}X{]} Auto-positioning based on order and columns
+    \item
+      {[}X{]} Place empty cells when there are too many
+    \item
+      {[}X{]} Allow arbitrary positioning with
+      \texttt{\ cellx(x:,\ y:)\ }
+    \item
+      {[}X{]} Allow \texttt{\ align\ } override
+    \item
+      {[}X{]} Allow \texttt{\ fill\ } override
+    \item
+      {[}X{]} Allow \texttt{\ inset\ } override
+
+      \begin{itemize}
+      \tightlist
+      \item
+        {[}X{]} Works properly only with \texttt{\ auto\ } cols/rows
+      \end{itemize}
+    \item
+      {[}X{]} Dynamic content (maybe shortcut for \texttt{\ map-cells\ }
+      on a single cell)
+    \end{itemize}
+  \item
+    {[}X{]} Auto-lines
+
+    \begin{itemize}
+    \tightlist
+    \item
+      {[}X{]} \texttt{\ auto-hlines\ } - \texttt{\ true\ } to place on
+      all lines without hlines, \texttt{\ false\ } otherwise
+    \item
+      {[}X{]} \texttt{\ auto-vlines\ } - similar
+    \item
+      {[}X{]} \texttt{\ auto-lines\ } - controls both simultaneously
+      (defaults to \texttt{\ true\ } )
+    \end{itemize}
+  \item
+    {[}X{]} Iteration attributes
+
+    \begin{itemize}
+    \tightlist
+    \item
+      {[}X{]} \texttt{\ map-cells\ } - Customize every single cell
+    \item
+      {[}X{]} \texttt{\ map-hlines\ } - Customize each horizontal line
+    \item
+      {[}X{]} \texttt{\ map-vlines\ } - Customize each vertical line
+    \item
+      {[}X{]} \texttt{\ map-rows\ } - Customize entire rows of cells
+    \item
+      {[}X{]} \texttt{\ map-cols\ } - Customize entire columns of cells
+    \end{itemize}
+  \end{itemize}
+\end{itemize}
+
+\subsection{License}\label{license}
+
+Tablex is licensed under MIT or Apache-2.0, at your option (see the
+files \texttt{\ LICENSE-MIT\ } and \texttt{\ LICENSE-APACHE\ } ).
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as \texttt{\ tablex\ }
+
+\begin{verbatim}
+#import "@preview/tablex:0.0.9"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+\href{https://github.com/PgBiel}{PgBiel}
+\item[License:]
+MIT OR Apache-2.0
+\item[Current version:]
+0.0.9
+\item[Last updated:]
+October 25, 2024
+\item[First released:]
+June 29, 2023
+\item[Archive size:]
+48.1 kB
+\href{https://packages.typst.org/preview/tablex-0.0.9.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/PgBiel/typst-tablex}{GitHub}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of PgBiel . Report issues on
+\href{https://github.com/PgBiel/typst-tablex}{their repository} . You
+can also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.0.9 & October 25, 2024 \\
+\href{https://typst.app/universe/package/tablex/0.0.8/}{0.0.8} & January
+12, 2024 \\
+\href{https://typst.app/universe/package/tablex/0.0.7/}{0.0.7} &
+December 19, 2023 \\
+\href{https://typst.app/universe/package/tablex/0.0.6/}{0.0.6} & October
+21, 2023 \\
+\href{https://typst.app/universe/package/tablex/0.0.5/}{0.0.5} & August
+19, 2023 \\
+\href{https://typst.app/universe/package/tablex/0.0.4/}{0.0.4} & June
+29, 2023 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.
+
+

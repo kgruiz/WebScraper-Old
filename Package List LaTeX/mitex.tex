@@ -1,0 +1,376 @@
+\title{typst.app/universe/package/mitex}
+
+\phantomsection\label{banner}
+\section{mitex}\label{mitex}
+
+{ 0.2.4 }
+
+LaTeX support for Typst, powered by Rust and WASM.
+
+\phantomsection\label{readme}
+\textbf{\href{https://www.latex-project.org/}{LaTeX} support for
+\href{https://typst.app/}{Typst} , powered by
+\href{https://www.rust-lang.org/}{Rust} and
+\href{https://webassembly.org/}{WASM} .}
+
+\href{https://github.com/mitex-rs/mitex}{MiTeX} processes LaTeX code
+into an abstract syntax tree (AST). Then it transforms the AST into
+Typst code and evaluates code into Typst content by \texttt{\ eval\ }
+function.
+
+MiTeX has been proved to be practical on a large project. It has already
+correctly converted 32.5k equations from
+\href{https://github.com/OI-wiki/OI-wiki}{OI Wiki} . Compared to
+\href{https://github.com/jgm/texmath}{texmath} , MiTeX has a better
+display effect and performance in that wiki project. It is also more
+easy to use, since importing MiTeX to Typst is just one line of code,
+while texmath is an external program.
+
+In addition, MiTeX is not only \textbf{SMALL} but also \textbf{FAST} !
+MiTeX has a size of just about 185 KB, comparing that texmath has a size
+of 17 MB. A not strict but intuitive comparison is shown below. To
+convert 32.5k equations from OI Wiki, texmath takes about 109s, while
+MiTeX WASM takes only 2.28s and MiTeX x86 takes merely 0.085s.
+
+Thanks to \href{https://github.com/Myriad-Dreamin}{@Myriad-Dreamin} , he
+completed the most complex development work: developing the parser for
+generating AST.
+
+\subsection{MiTeX as a Typst Package}\label{mitex-as-a-typst-package}
+
+\begin{itemize}
+\tightlist
+\item
+  Use \texttt{\ mitex-convert\ } to convert LaTeX code into Typst code
+  in string.
+\item
+  Use \texttt{\ mi\ } to render an inline LaTeX equation in Typst.
+\item
+  Use \texttt{\ mitex(numbering:\ none,\ supplement:\ auto,\ ..)\ } or
+  \texttt{\ mimath\ } to render a block LaTeX equation in Typst.
+\item
+  Use \texttt{\ mitext\ } to render a LaTeX text in Typst.
+\end{itemize}
+
+PS: \texttt{\ \#set\ math.equation(numbering:\ "(1)")\ } is also valid
+for MiTeX.
+
+Following is
+\href{https://github.com/mitex-rs/mitex/blob/main/packages/mitex/examples/example.typ}{a
+simple example} of using MiTeX in Typst:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/mitex:0.2.4": *}
+
+\NormalTok{\#assert.eq(mitex{-}convert("\textbackslash{}alpha x"), "alpha  x ")}
+
+\NormalTok{Write inline equations like \#mi("x") or \#mi[y].}
+
+\NormalTok{Also block equations (this case is from \#text(blue.lighten(20\%), link("https://katex.org/")[katex.org])):}
+
+\NormalTok{\#mitex(\textasciigrave{}}
+\NormalTok{  \textbackslash{}newcommand\{\textbackslash{}f\}[2]\{\#1f(\#2)\}}
+\NormalTok{  \textbackslash{}f\textbackslash{}relax\{x\} = \textbackslash{}int\_\{{-}\textbackslash{}infty\}\^{}\textbackslash{}infty}
+\NormalTok{    \textbackslash{}f\textbackslash{}hat\textbackslash{}xi\textbackslash{},e\^{}\{2 \textbackslash{}pi i \textbackslash{}xi x\}}
+\NormalTok{    \textbackslash{},d\textbackslash{}xi}
+\NormalTok{\textasciigrave{})}
+
+\NormalTok{We also support text mode (in development):}
+
+\NormalTok{\#mitext(\textasciigrave{}}
+\NormalTok{  \textbackslash{}iftypst}
+\NormalTok{    \#set math.equation(numbering: "(1)", supplement: "equation")}
+\NormalTok{  \textbackslash{}fi}
+
+\NormalTok{  \textbackslash{}section\{Title\}}
+
+\NormalTok{  A \textbackslash{}textbf\{strong\} text, a \textbackslash{}emph\{emph\} text and inline equation $x + y$.}
+
+\NormalTok{  Also block \textbackslash{}eqref\{eq:pythagoras\}.}
+
+\NormalTok{  \textbackslash{}begin\{equation\}}
+\NormalTok{    a\^{}2 + b\^{}2 = c\^{}2 \textbackslash{}label\{eq:pythagoras\}}
+\NormalTok{  \textbackslash{}end\{equation\}}
+\NormalTok{\textasciigrave{})}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/mitex/0.2.4/examples/example.png}}
+
+\subsection{MiTeX as a CLI Tool}\label{mitex-as-a-cli-tool}
+
+\subsubsection{Installation}\label{installation}
+
+Install latest nightly version by
+\texttt{\ cargo\ install\ -\/-git\ https://github.com/mitex-rs/mitex\ mitex-cli\ }
+.
+
+\subsubsection{Usage}\label{usage}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{mitex}\NormalTok{ compile main.tex}
+\CommentTok{\# or (same as above)}
+\ExtensionTok{mitex}\NormalTok{ compile main.tex mitex.typ}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{MiTeX as a Web App}\label{mitex-as-a-web-app}
+
+\subsubsection{MiTeX Online Math
+Converter}\label{mitex-online-math-converter}
+
+We can convert LaTeX equations to Typst equations in web by wasm.
+\url{https://mitex-rs.github.io/mitex/}
+
+\subsubsection{Underleaf}\label{underleaf}
+
+We made a proof of concept online tex editor to show our conversion
+speed in text mode. The PoC loads files from a git repository and then
+runs typst compile in browser. As you see, each keystroking get response
+in preview quickly.
+
+\url{https://mitex-rs.github.io/mitex/tools/underleaf.html}
+
+\url{https://github.com/mitex-rs/mitex/assets/34951714/0ce77a2c-0a7d-445f-b26d-e139f3038f83}
+
+\subsection{Implemented Features}\label{implemented-features}
+
+\begin{itemize}
+\tightlist
+\item
+  {[}x{]} User-defined TeX (macro) commands, such as
+  \texttt{\ \textbackslash{}newcommand\{\textbackslash{}mysym\}\{\textbackslash{}alpha\}\ }
+  .
+\item
+  {[}x{]} LaTeX equations support.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    {[}x{]} Coloring commands (
+    \texttt{\ \textbackslash{}color\{red\}\ text\ } ,
+    \texttt{\ \textbackslash{}textcolor\{red\}\{text\}\ } ).
+  \item
+    {[}x{]} Support for various environments, such as aligned, matrix,
+    cases.
+  \end{itemize}
+\item
+  {[}x{]} Basic text mode support, you can use it to write LaTeX drafts.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    {[}x{]} \texttt{\ \textbackslash{}section\ } ,
+    \texttt{\ \textbackslash{}textbf\ } ,
+    \texttt{\ \textbackslash{}emph\ } .
+  \item
+    {[}x{]} Inline and block math equations.
+  \item
+    {[}x{]} \texttt{\ \textbackslash{}ref\ } ,
+    \texttt{\ \textbackslash{}eqref\ } and
+    \texttt{\ \textbackslash{}label\ } .
+  \item
+    {[}x{]} \texttt{\ itemize\ } and \texttt{\ enumerate\ }
+    environments.
+  \end{itemize}
+\end{itemize}
+
+\subsection{Features to Implement}\label{features-to-implement}
+
+\begin{itemize}
+\tightlist
+\item
+  {[} {]} Pass command specification to MiTeX plugin dynamically. With
+  that you can define a typst function
+  \texttt{\ let\ myop(it)\ =\ op(upright(it))\ } and then use it by
+  \texttt{\ \textbackslash{}myop\{it\}\ } .
+\item
+  {[} {]} Package support, which means that you can change set of
+  commands by telling MiTeX to use a list of packages.
+\item
+  {[} {]} Better text mode support, such as figure, algorithm and
+  description environments.
+\end{itemize}
+
+To achieve the latter two goals, we need a well-structured architecture
+for the text mode, along with intricate work. Currently, we donâ€™t have
+very clear ideas yet. If you are willing to contribute by discussing in
+the issues or even submitting pull requests, your contribution is highly
+welcome.
+
+\subsection{Differences between MiTeX and other
+solutions}\label{differences-between-mitex-and-other-solutions}
+
+MiTeX has different objectives compared to
+\href{https://github.com/jgm/texmath}{texmath} (a.k.a.
+\href{https://pandoc.org/}{pandoc} ):
+
+\begin{itemize}
+\tightlist
+\item
+  MiTeX focuses on rendering LaTeX content correctly within Typst,
+  leveraging the powerful programming capabilities of WASM and typst to
+  achieve results that are essentially consistent with LaTeX display.
+\item
+  texmath aims to be general-purpose converters and generate strings
+  that are more human-readable.
+\end{itemize}
+
+For example, MiTeX transforms
+\texttt{\ \textbackslash{}frac\{1\}\{2\}\_3\ } into
+\texttt{\ frac(1,\ 2)\_3\ } , while texmath converts it into
+\texttt{\ 1\ /\ 2\_3\ } . The latterâ€™s display is not entirely
+correct, whereas the former ensures consistency in display.
+
+Another example is that MiTeX transforms
+\texttt{\ (\textbackslash{}frac\{1\}\{2\})\ } into
+\texttt{\ \textbackslash{}(frac(1,\ 2)\textbackslash{})\ } instead of
+\texttt{\ (frac(1,\ 2))\ } , avoiding the use of automatic Left/Right to
+achieve consistency with LaTeX rendering.
+
+\textbf{Certainly, the greatest advantage is that you can directly write
+LaTeX content in Typst without the need for manual conversion!}
+
+\subsection{Submitting Issues}\label{submitting-issues}
+
+If you find missing commands or bugs of MiTeX, please feel free to
+submit an issue \href{https://github.com/mitex-rs/mitex/issues}{here} .
+
+\subsection{Contributing to MiTeX}\label{contributing-to-mitex}
+
+Currently, MiTeX maintains following three parts of code:
+
+\begin{itemize}
+\tightlist
+\item
+  A TeX parser library written in \textbf{Rust} , see
+  \href{https://github.com/mitex-rs/mitex/tree/main/crates/mitex-lexer}{mitex-lexer}
+  and
+  \href{https://github.com/mitex-rs/mitex/tree/main/crates/mitex-parser}{mitex-parser}
+  .
+\item
+  A TeX to Typst converter library written in \textbf{Rust} , see
+  \href{https://github.com/mitex-rs/mitex/tree/main/crates/mitex}{mitex}
+  .
+\item
+  A list of TeX packages and comamnds written in \textbf{Typst} , which
+  then used by the typst package, see
+  \href{https://github.com/mitex-rs/mitex/tree/main/packages/mitex/specs}{MiTeX
+  Command Specification} .
+\end{itemize}
+
+For a translation process, for example, we have:
+
+\begin{verbatim}
+\frac{1}{2}
+
+===[parser]===> AST ===[converter]===>
+
+#eval("$frac(1, 2)$", scope: (frac: (num, den) => $(num)/(den)$))
+\end{verbatim}
+
+You can use the \texttt{\ \#mitex-convert()\ } function to get the Typst
+Code generated from LaTeX Code.
+
+\subsubsection{Add missing TeX commands}\label{add-missing-tex-commands}
+
+Even if you donâ€™t know Rust at all, you can still add missing TeX
+commands to MiTeX by modifying
+\href{https://github.com/mitex-rs/mitex/tree/main/packages/mitex/specs}{specification
+files} , since they are written in typst! You can open an issue to
+acquire the commands you want to add, or you can edit the files and
+submit a pull request.
+
+In the future, we will provide the ability to customize TeX commands,
+which will make it easier for you to use the commands you create for
+yourself.
+
+\subsubsection{Develop the parser and the
+converter}\label{develop-the-parser-and-the-converter}
+
+See
+\href{https://github.com/mitex-rs/mitex/blob/main/CONTRIBUTING.md}{CONTRIBUTING.md}
+.
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as \texttt{\ mitex\ }
+
+\begin{verbatim}
+#import "@preview/mitex:0.2.4"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author s :]
+Myriad-Dreamin , OrangeX4 , \& Enter-tainer
+\item[License:]
+Apache-2.0
+\item[Current version:]
+0.2.4
+\item[Last updated:]
+May 13, 2024
+\item[First released:]
+December 23, 2023
+\item[Archive size:]
+109 kB
+\href{https://packages.typst.org/preview/mitex-0.2.4.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/mitex-rs/mitex}{GitHub}
+\item[Categor y :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-hammer.svg}}
+  \href{https://typst.app/universe/search/?category=utility}{Utility}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of Myriad-Dreamin, OrangeX4, and Enter-tainer
+. Report issues on \href{https://github.com/mitex-rs/mitex}{their
+repository} . You can also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.2.4 & May 13, 2024 \\
+\href{https://typst.app/universe/package/mitex/0.2.3/}{0.2.3} & April 1,
+2024 \\
+\href{https://typst.app/universe/package/mitex/0.2.2/}{0.2.2} & March
+10, 2024 \\
+\href{https://typst.app/universe/package/mitex/0.2.1/}{0.2.1} & January
+15, 2024 \\
+\href{https://typst.app/universe/package/mitex/0.2.0/}{0.2.0} & January
+1, 2024 \\
+\href{https://typst.app/universe/package/mitex/0.1.0/}{0.1.0} & December
+23, 2023 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.

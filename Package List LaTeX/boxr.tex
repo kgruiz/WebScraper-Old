@@ -1,0 +1,229 @@
+\title{typst.app/universe/package/boxr}
+
+\phantomsection\label{banner}
+\section{boxr}\label{boxr}
+
+{ 0.1.0 }
+
+A modular, and easy to use, package for creating cardboard cutouts in
+Typst.
+
+\phantomsection\label{readme}
+Boxr is a modular, and easy to use, package for creating cardboard
+cutouts in Typst.
+
+\subsection{Usage}\label{usage}
+
+Create a boxr structure in your project with the following code:
+
+\begin{verbatim}
+#import "@preview/boxr:0.1.0": *
+
+#render-structure(
+  "box",
+  width: 100pt,
+  height: 100pt,
+  depth: 100pt,
+  tab-size: 20pt,
+  [
+    Hello from boxr!
+  ]
+)
+\end{verbatim}
+
+The \texttt{\ render-structure\ } function is the main function for
+boxr. It either takes a path to one of the default structures provided
+by boxr (e.g.: \texttt{\ "box"\ } ) or an unpacked json file with your
+own custom structure (e.g.: \texttt{\ json(my-structure.json)\ } ).
+These describe the structure of the cutout.\\
+The other named arguments depend on the structure you are rendering. All
+unnamed arguments are passed to the structure as content and will be
+rendered on each box face (not triangles or tabs).
+
+\subsection{Creating your own
+structures}\label{creating-your-own-structures}
+
+Structures are defined in \texttt{\ .json\ } files. An example structure
+that just shows a box with a tab on one face is shown below:
+
+\begin{verbatim}
+{
+  "variables": ["height", "width", "tab-size"],
+  "width": "width",
+  "height": "height + tab-size",
+  "offset-x": "",
+  "offset-y": "tab-size",
+  "root": {
+    "type": "box",
+    "id": 0,
+    "width": "width",
+    "height": "height",
+    "children": {
+      "top": "tab(tab-size, tab-size)"
+    }
+  }
+}
+\end{verbatim}
+
+The \texttt{\ variables\ } key is a list of variable names that can be
+passed to the structure. These will be required to be passed to the
+\texttt{\ render-structure\ } function.\\
+The \texttt{\ width\ } and \texttt{\ height\ } keys are evaluated to
+calculate the width and height of the structure.\\
+The \texttt{\ offset-x\ } and \texttt{\ offset-y\ } keys are evaluated
+to place the structure in the middle of its bounds. It is relative to
+the root node. In this case for example, the top tab adds a
+\texttt{\ tab-size\ } on top of the box as opposed to the bottom, where
+there is no tab. So this \texttt{\ tab-size\ } is added to the
+\texttt{\ offset-y\ } .\\
+\texttt{\ root\ } denotes the first node in the structure.\\
+A node can be of the following types:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ box\ } :
+
+  \begin{itemize}
+  \tightlist
+  \item
+    The root node has a \texttt{\ width\ } and a \texttt{\ height\ } .
+    All following nodes have a \texttt{\ size\ } . Child nodes use
+    \texttt{\ size\ } and the parent nodeâ€™s \texttt{\ width\ } and
+    \texttt{\ height\ } to calculate their own width and height.
+  \item
+    Can have \texttt{\ children\ } nodes.
+  \item
+    Can have an \texttt{\ id\ } key that is used to place content on the
+    face of the box. The id-th unnamed argument is placed on the face.
+    Multiple faces can have the same id.
+  \item
+    Can have a \texttt{\ no-fold\ } key. If this exists, no fold stroke
+    will be drawn between this box and its parent.
+  \end{itemize}
+\item
+  \texttt{\ triangle-\textless{}left\textbar{}right\textgreater{}\ } :
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Has a \texttt{\ width\ } and \texttt{\ height\ } .
+  \item
+    \texttt{\ left\ } and \texttt{\ right\ } denote the direction the
+    other right angled line is facing relative to the base.
+  \item
+    Can have \texttt{\ children\ } nodes.
+  \item
+    Can have a \texttt{\ no-fold\ } key. If this exists, no fold stroke
+    will be drawn between this triangle and its parent.
+  \end{itemize}
+\item
+  \texttt{\ tab\ } :
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Is not a json object, but a string that denotes a tab. The tab is
+    placed on the parent node.
+  \item
+    Has a tab-size and a cutin-size inside the \texttt{\ ()\ } separted
+    by a \texttt{\ ,\ } .
+  \end{itemize}
+\item
+  \texttt{\ none\ } :
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Is not a json object, but a string that denotes no node. This is
+    useful for deleting a cut-stroke between two nodes.
+  \end{itemize}
+\end{itemize}
+
+Every string value in the json file (
+\texttt{\ width:\ "\_\_",\ height:\ "\_\_",\ ...\ offset-x/y:\ "\_\_"\ }
+and the values between the \texttt{\ \textbar{}\ } for tabs) is
+evaluated as regular typst code. This means that you can use all named
+variables passed to the structure. All inputs are converted to points
+and the result of the evaluation will be converted back to a length.
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as \texttt{\ boxr\ }
+
+\begin{verbatim}
+#import "@preview/boxr:0.1.0"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+\href{https://github.com/Lypsilonx}{Lypsilonx}
+\item[License:]
+MIT
+\item[Current version:]
+0.1.0
+\item[Last updated:]
+May 23, 2024
+\item[First released:]
+May 23, 2024
+\item[Archive size:]
+6.23 kB
+\href{https://packages.typst.org/preview/boxr-0.1.0.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/Lypsilonx/boxr}{GitHub}
+\item[Discipline :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \href{https://typst.app/universe/search/?discipline=design}{Design}
+\end{itemize}
+\item[Categor ies :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-chart.svg}}
+  \href{https://typst.app/universe/search/?category=visualization}{Visualization}
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-layout.svg}}
+  \href{https://typst.app/universe/search/?category=layout}{Layout}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of Lypsilonx . Report issues on
+\href{https://github.com/Lypsilonx/boxr}{their repository} . You can
+also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.1.0 & May 23, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.

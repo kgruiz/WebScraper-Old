@@ -1,0 +1,333 @@
+\title{typst.app/universe/package/showman}
+
+\phantomsection\label{banner}
+\section{showman}\label{showman}
+
+{ 0.1.2 }
+
+Eval \& show typst code outputs inline with their source
+
+\phantomsection\label{readme}
+\pandocbounded{\includegraphics[keepaspectratio]{https://www.github.com/ntjess/showman/raw/v0.1.0/showman.jpg}}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+Automagic tools to smooth the package documentation \& development
+process.
+
+\begin{itemize}
+\item
+  Package your files for local typst installation or PR submission in
+  one command
+\item
+  Provide your readme in typst format with code block examples, and let
+  \texttt{\ showman\ } do the rest! In one command, it will the readme
+  to markdown and render code block outputs as included images.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Bonus points â€`` let \texttt{\ showman\ } know your repository path
+    and it will ensure images will properly appear in your readme even
+    after your package has been distributed through typstâ€™s registry.
+  \end{itemize}
+\item
+  Execute non-typst code blocks and render their outputs
+\end{itemize}
+
+\textbf{Prerequisites} : Make sure you have \texttt{\ typst\ } and
+\texttt{\ pandoc\ } available from the command line. Then, in a python
+virtual environment, run:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{pip}\NormalTok{ install showman}
+\end{Highlighting}
+\end{Shaded}
+
+Create a typst file with
+\texttt{\ \textasciigrave{}\textasciigrave{}\textasciigrave{}example\ }
+code blocks that show the output you want to include in your readme. For
+instance:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/cetz:0.1.2"}
+\NormalTok{// Just to avoid showing this heading in the readme itself}
+\NormalTok{\#set heading(outlined: false)}
+
+\NormalTok{= Hello, world!}
+\NormalTok{Let\textquotesingle{}s do something complicated:}
+
+\NormalTok{\#cetz.canvas(\{}
+\NormalTok{  import cetz.plot}
+\NormalTok{  import cetz.palette}
+\NormalTok{  cetz.draw.set{-}style(axes: (tick: (length: {-}.05)))}
+\NormalTok{  // Plot something}
+\NormalTok{  plot.plot(size: (3,3), x{-}tick{-}step: 1, axis{-}style: "left", \{}
+\NormalTok{      for i in range(0, 3) \{}
+\NormalTok{      plot.add(domain: ({-}4, 2),}
+\NormalTok{      x =\textgreater{} calc.exp({-}(calc.pow(x + i, 2))),}
+\NormalTok{      fill: true, style: palette.tango)}
+\NormalTok{    \}}
+\NormalTok{  \})}
+\NormalTok{\})}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://www.github.com/ntjess/showman/raw/v0.1.0/assets/example-1.png}}
+
+Then, run the following command:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{showman}\NormalTok{ md }
+\end{Highlighting}
+\end{Shaded}
+
+Congrats, you now have a readme with inline images ðŸŽ‰
+
+You can optionally specify your workspace root, output file name, image
+folder, etc. These options are visible under
+\texttt{\ showman\ md\ -\/-help\ } .
+
+\textbf{Note} : You can customize the appearance of these images by
+providing \texttt{\ showman\ } the template to use when creating them.
+In your file to be rendered, create a variable called
+\texttt{\ showman-config\ } at the outermost scope:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{// Render images with a black background and red text}
+\NormalTok{\#let showman{-}config = (}
+\NormalTok{  template: it =\textgreater{} \{}
+\NormalTok{    set text(fill: red)}
+\NormalTok{    rect(fill: black, it)}
+\NormalTok{  \}}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+Behind the scenes, showman imports your file as a module and looks for
+this variable. If it is found, your template and a few other options are
+injected into the example rendering process.
+
+\textbf{Note} : If every example has the same setup (package imports,
+etc.), and you donâ€™t want the text to be included in your examples,
+you can pass \texttt{\ eval-kwargs\ } in this config as well to specify
+a string that gets prefixed to every example. Alternatively, pass
+variables in a scope directly:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{// Setup either through providing scope or import prefixes}
+\NormalTok{\#let my{-}variable = 5}
+\NormalTok{\#let showman{-}config = (}
+\NormalTok{  eval{-}kwargs: (}
+\NormalTok{    prefix: "\#import \textbackslash{}"@preview/cetz:0.1.2\textbackslash{}"}
+\NormalTok{  ),}
+\NormalTok{  // Now you can use \textasciigrave{}my{-}var\textasciigrave{} in your examples}
+\NormalTok{  scope: (my{-}var: my{-}variable)}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Caveats}\label{caveats}
+
+\begin{itemize}
+\item
+  \texttt{\ showman\ } uses the beautiful \texttt{\ pandoc\ } to do most
+  of the markdown conversion heavy lifting. So, if your document canâ€™t
+  be processed by pandoc, you may need to adjust your syntax until
+  pandoc is happy making a markdown document.
+\item
+  Typst doesnâ€™t allow page styling inside containers. Since
+  \texttt{\ showman\ } must use containers to extract each rendered
+  example, you canâ€™t use \texttt{\ \#set\ page(...)\ } or
+  \texttt{\ \#pagebreak()\ } inside your examples.
+\end{itemize}
+
+If you donâ€™t care about converting your readme to markdown, itâ€™s
+even easier to have example rendered alongside their code. Simply add
+the following preamble to your file:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/showman:0.1.1"}
+\NormalTok{\#show: showman.formatter.template}
+
+\NormalTok{The code below will be rendered side by side with its output:}
+
+\NormalTok{\textasciigrave{}\textasciigrave{}\textasciigrave{} typst}
+\NormalTok{= Hello world!}
+\NormalTok{\textasciigrave{}\textasciigrave{}\textasciigrave{}}
+\NormalTok{![Example 2](https://www.github.com/ntjess/showman/raw/v0.1.0/assets/example{-}2.png)}
+
+\NormalTok{Several keywords can be privded to customize appearance and more. See \textasciigrave{}showman.formatter.template\textasciigrave{} for more details.}
+\end{Highlighting}
+\end{Shaded}
+
+Youâ€™ve done the hard work of creating a beautiful, well-documented
+manual. Now itâ€™s time to share it with the world. \texttt{\ showman\ }
+can help you package your files for distribution in one command, after
+some minimal setup.
+
+\begin{enumerate}
+\item
+  Make sure you have a \texttt{\ typst.toml\ } file that follows typst
+  \href{https://github.com/typst/packages}{packaging guidelines}
+\item
+  Add a new block to your toml file as follows:
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{[tool.packager]}
+\DataTypeTok{paths} \OperatorTok{=} \OperatorTok{[}\ErrorTok{...}\OperatorTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+Where \texttt{\ paths\ } is a list of files and directories you want to
+include in your package.
+
+\begin{enumerate}
+\setcounter{enumi}{2}
+\tightlist
+\item
+  Run the following command from the root of your repository:
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{showman}\NormalTok{ package }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{enumerate}
+\setcounter{enumi}{3}
+\item
+  Without any other arguments, youâ€™ve just installed your package in
+  your systemâ€™s local typst packages folder. Now you can import it
+  with
+  \texttt{\ typst\ \#import\ "@local/mypackage:\textless{}version\textgreater{}"\ }
+  .
+
+  \begin{itemize}
+  \tightlist
+  \item
+    You can alternatively specify the path to your fork of
+    \texttt{\ typst/packages\ } to prep your files for a PR, or specify
+    a \texttt{\ -\/-namespace\ } other than \texttt{\ local\ } .
+  \end{itemize}
+\end{enumerate}
+
+\textbf{Note} : You can see the full list of command options with
+\texttt{\ showman\ package\ -\/-help\ } .
+
+This package also executes non-typst code (currently bash on
+non-windows, python, and c++). You can use
+\texttt{\ showman\ execute\ ./path/to/file.typ\ } to execute code blocks
+in these languages, and the output will be captured in a
+\texttt{\ .coderunner.json\ } file in the root directory you specified.
+To enable this feature, you need to add the following preamble to your
+file:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/showman:0.1.1": runner}
+
+\NormalTok{\#let cache = json("/.coderunner.json").at("path/to/file.typ", default: (:))}
+\NormalTok{\#let show{-}rule = runner.external{-}code.with(result{-}cache: cache)}
+
+\NormalTok{// Now, apply the show rule to languages that have a \textasciigrave{}showman execute\textasciigrave{} result:}
+\NormalTok{\#show raw.where(lang: "python"): show{-}rule}
+\end{Highlighting}
+\end{Shaded}
+
+You can optionally style
+\texttt{\ \textless{}example-input\textgreater{}\ } and
+\texttt{\ \textless{}example-output\textgreater{}\ } labels to customize
+how input and output blocks appear. For even deeper customization, you
+can specify the \texttt{\ container\ } that displays the input and
+output blocks that accepts a keyword \texttt{\ direction\ } and
+positional \texttt{\ input\ } and \texttt{\ output\ } .
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as \texttt{\ showman\ }
+
+\begin{verbatim}
+#import "@preview/showman:0.1.2"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+Nathan Jessurun
+\item[License:]
+Unlicense
+\item[Current version:]
+0.1.2
+\item[Last updated:]
+November 28, 2024
+\item[First released:]
+January 15, 2024
+\item[Minimum Typst version:]
+0.12.0
+\item[Archive size:]
+6.00 kB
+\href{https://packages.typst.org/preview/showman-0.1.2.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/ntjess/showman}{GitHub}
+\item[Categor ies :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-code.svg}}
+  \href{https://typst.app/universe/search/?category=scripting}{Scripting}
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-hammer.svg}}
+  \href{https://typst.app/universe/search/?category=utility}{Utility}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of Nathan Jessurun . Report issues on
+\href{https://github.com/ntjess/showman}{their repository} . You can
+also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.1.2 & November 28, 2024 \\
+\href{https://typst.app/universe/package/showman/0.1.1/}{0.1.1} & March
+16, 2024 \\
+\href{https://typst.app/universe/package/showman/0.1.0/}{0.1.0} &
+January 15, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.

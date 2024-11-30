@@ -1,0 +1,180 @@
+\title{typst.app/universe/package/prooftrees}
+
+\phantomsection\label{banner}
+\section{prooftrees}\label{prooftrees}
+
+{ 0.1.0 }
+
+Proof trees for natural deduction and type theories
+
+\phantomsection\label{readme}
+This package is for constructing proof trees in the style of natural
+deduction or the sequent calculus, for \texttt{\ typst\ }
+\texttt{\ 0.7.0\ } . Please do open issues for bugs etc :)
+
+Features:
+
+\begin{itemize}
+\tightlist
+\item
+  Inferences can have arbitrarily many premises.
+\item
+  Inference lines can have left and/or right labelsÂ¹
+\item
+  ConfigurableÂ² per tree and per line: premise spacing, the line
+  stroke, etcâ€¦ .
+\item
+  Theyâ€™re proof trees.
+\end{itemize}
+
+Â¹ The placement of labels is currently very primitive, and requires
+much user intervention.
+
+Â² Options are quite limited.
+
+\subsection{Usage}\label{usage}
+
+The user interface is inspired by
+\href{https://ctan.org/pkg/bussproofs}{bussproof} â€™s; a tree is
+constructed by a sequence of â€˜linesâ€™ that state their number of
+premises.
+\href{https://github.com/typst/packages/raw/main/packages/preview/prooftrees/0.1.0/src/prooftrees.typ}{\texttt{\ src/prooftrees.typ\ }}
+contains the documentation and the main functions needed.
+
+The code for some example trees can be seen in
+\texttt{\ examples/prooftree\_test.typ\ } .
+
+\subsubsection{Examples}\label{examples}
+
+A single inference would be:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/prooftrees:0.1.0"}
+
+\NormalTok{\#prooftree.tree(}
+\NormalTok{    prooftree.axi[$A =\textgreater{} A$],}
+\NormalTok{    prooftree.uni[$A =\textgreater{} A, B$]}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics[width=0.3\linewidth,height=\textheight,keepaspectratio]{https://raw.githubusercontent.com/david-davies/typst-prooftree/main/examples/Example1.png}
+
+A more interesting example:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/prooftrees:0.1.0"}
+
+\NormalTok{\#prooftree.tree(}
+\NormalTok{    prooftree.axi[$B =\textgreater{} B$],}
+\NormalTok{    prooftree.uni[$B =\textgreater{} B, A$],}
+\NormalTok{    prooftree.uni[$B =\textgreater{} A, B$],}
+\NormalTok{        prooftree.axi[$A =\textgreater{} A$],}
+\NormalTok{        prooftree.uni[$A =\textgreater{} A, B$],}
+\NormalTok{    prooftree.bin[$B =\textgreater{} A, B$]}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics[width=0.4\linewidth,height=\textheight,keepaspectratio]{https://raw.githubusercontent.com/david-davies/typst-prooftree/main/examples/Example2.png}
+
+An n-ary inference can be made:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/prooftrees:0.1.0"}
+
+\NormalTok{\#prooftrees.tree(}
+\NormalTok{    prooftrees.axi(pad(bottom: 2pt, [$P\_1$])),}
+\NormalTok{    prooftrees.axi(pad(bottom: 2pt, [$P\_2$])),}
+\NormalTok{    prooftrees.axi(pad(bottom: 2pt, [$P\_3$])),}
+\NormalTok{    prooftrees.axi(pad(bottom: 2pt, [$P\_4$])),}
+\NormalTok{    prooftrees.axi(pad(bottom: 2pt, [$P\_5$])),}
+\NormalTok{    prooftrees.axi(pad(bottom: 2pt, [$P\_6$])),}
+\NormalTok{    prooftrees.nary(6)[$C$],}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics[width=0.3\linewidth,height=\textheight,keepaspectratio]{https://raw.githubusercontent.com/david-davies/typst-prooftree/main/examples/Example3.png}
+
+\subsection{Known Issues:}\label{known-issues}
+
+\subsubsection{Superscripts and subscripts clip with the
+line}\label{superscripts-and-subscripts-clip-with-the-line}
+
+The boundaries of blocks containing math do not expand enough for
+sub/pscripts; I think this is a typst issue. Short-term fix: add manual
+vspace or padding in the cell.
+
+\subsection{Implementation}\label{implementation}
+
+The placement of the line and conclusion is calculated using
+\texttt{\ measure\ } on the premises and labels, and doing geometric
+arithmetic with these values.
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as
+\texttt{\ prooftrees\ }
+
+\begin{verbatim}
+#import "@preview/prooftrees:0.1.0"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+\href{https://github.com/david-davies}{david-davies}
+\item[License:]
+MIT
+\item[Current version:]
+0.1.0
+\item[Last updated:]
+September 3, 2023
+\item[First released:]
+September 3, 2023
+\item[Archive size:]
+8.43 kB
+\href{https://packages.typst.org/preview/prooftrees-0.1.0.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/david-davies/typst-prooftree}{GitHub}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of david-davies . Report issues on
+\href{https://github.com/david-davies/typst-prooftree}{their repository}
+. You can also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.1.0 & September 3, 2023 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.

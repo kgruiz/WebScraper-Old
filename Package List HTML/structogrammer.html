@@ -1,0 +1,700 @@
+<main>
+    <div id="banner" style="--banner-accent:#000000;--banner-primary:#000000;--banner-secondary:#000000;--banner-tertiary:#565565;--banner-background:#eff0f3">
+     <div class="package-icon" role="img">
+     </div>
+     <div>
+      <div class="title">
+       <h1 class="name">
+        structogrammer
+       </h1>
+       <span class="version">
+        0.1.1
+       </span>
+      </div>
+      <p class="description">
+       Draw Nassi-Shneiderman diagrams (or structograms)
+      </p>
+     </div>
+    </div>
+    <div class="inner-grid">
+     <section id="readme">
+      <p>
+       Draw Nassi-Shneiderman diagrams, also called structograms, in Typst.
+      </p>
+      <h2>
+       Basic Usage
+      </h2>
+      <p>
+       Import with:
+      </p>
+      <pre><code class="language-typ"><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/structogrammer:0.1.0"</span><span class="typ-punct">:</span> structogram
+</code></code></pre>
+      <p>
+       You can then draw structograms, like so:
+      </p>
+      <pre><code class="language-typ"><code><span class="typ-func">#</span><span class="typ-func">structogram</span><span class="typ-punct">(</span>
+  width<span class="typ-punct">:</span> <span class="typ-num">30em</span><span class="typ-punct">,</span>
+  title<span class="typ-punct">:</span> <span class="typ-str">"merge_sort(list)"</span><span class="typ-punct">,</span>
+  <span class="typ-punct">(</span>
+    <span class="typ-punct">(</span>If<span class="typ-punct">:</span> <span class="typ-str">"list empty"</span><span class="typ-punct">,</span> Then<span class="typ-punct">:</span> <span class="typ-punct">(</span>Break<span class="typ-punct">:</span> <span class="typ-str">"exit (return list)"</span><span class="typ-punct">)</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+    <span class="typ-str">"left = []"</span><span class="typ-punct">,</span>
+    <span class="typ-str">"right = []"</span><span class="typ-punct">,</span>
+    <span class="typ-punct">(</span>For<span class="typ-punct">:</span> <span class="typ-str">"element with index i"</span><span class="typ-punct">,</span> In<span class="typ-punct">:</span> <span class="typ-str">"list"</span><span class="typ-punct">,</span> Do<span class="typ-punct">:</span> <span class="typ-punct">(</span>
+      <span class="typ-punct">(</span>If<span class="typ-punct">:</span> <span class="typ-str">"i &lt; list.length / 2"</span><span class="typ-punct">,</span> Then<span class="typ-punct">:</span> <span class="typ-punct">(</span>
+        <span class="typ-str">"left.add(element)"</span>
+      <span class="typ-punct">)</span><span class="typ-punct">,</span> Else<span class="typ-punct">:</span> <span class="typ-punct">(</span>
+        <span class="typ-str">"right.add(element)"</span>
+      <span class="typ-punct">)</span><span class="typ-punct">)</span>
+    <span class="typ-punct">)</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+    <span class="typ-str">"left = merge_sort(left)"</span><span class="typ-punct">,</span>
+    <span class="typ-str">"right = merge_sort(right)"</span><span class="typ-punct">,</span>
+    <span class="typ-punct">(</span>Break<span class="typ-punct">:</span> <span class="typ-str">"return with merge(left, right)"</span><span class="typ-punct">)</span>
+  <span class="typ-punct">)</span>
+<span class="typ-punct">)</span>
+</code></code></pre>
+      <p>
+       which yields:
+       <br/>
+       <img alt="The structogram specified by the code above" src="https://raw.githubusercontent.com/genericusername3/structogrammer/master/examples/merge-sort.svg"/>
+      </p>
+      <p>
+       If
+       <code>
+        text.lang
+       </code>
+       is set to another language, this package will try to match inserted text to it. Currently, only
+       <code>
+        "en"
+       </code>
+       and
+       <code>
+        "de"
+       </code>
+       are supported
+      </p>
+      <h2>
+       Advanced usage
+      </h2>
+      <p>
+       <code>
+        structogram()
+       </code>
+       takes the following named arguments:
+      </p>
+      <ul>
+       <li>
+        <code>
+         columns
+        </code>
+        : If you already allocated wide and narrow columns,
+        <code>
+         to-elements
+        </code>
+        can use them. Useful for sub-specs, as youâd usually generate allocations first and then do another recursive pass to fill them.
+        <br/>
+        The default,
+        <code>
+         auto
+        </code>
+        does exactly this on the highest recursion level.
+       </li>
+       <li>
+        <code>
+         stroke
+        </code>
+        : The stroke to use between cells, or for control blocks. Note: to avoid duplicate strokes, every cell only adds strokes to its top and left side. Put the resulting cells in a container with bottom and right strokes for a finished diagram. See
+        <code>
+         structogram()
+        </code>
+        .
+        <br/>
+        Default:
+        <code>
+         0.5pt + black
+        </code>
+       </li>
+       <li>
+        <code>
+         inset
+        </code>
+        : How much to pad each cell.
+        <br/>
+        Default:
+        <code>
+         0.5em
+        </code>
+       </li>
+       <li>
+        <code>
+         segment-height
+        </code>
+        : How high each row should be.
+        <br/>
+        Default:
+        <code>
+         2em
+        </code>
+       </li>
+       <li>
+        <code>
+         narrow-width
+        </code>
+        : The width that narrow columns will be. Needed for diagonals in conditional blocks.
+        <br/>
+        Default: 1em
+       </li>
+      </ul>
+      <p>
+       A
+       <code>
+        spec
+       </code>
+       (the positional argument to
+       <code>
+        structogram()
+       </code>
+       ) can be one of the following:
+      </p>
+      <ul>
+       <li>
+        <code>
+         none
+        </code>
+        or an emtpy
+        <a href="https://typst.app/docs/reference/foundations/array/">
+         <code>
+          array
+         </code>
+        </a>
+        <code>
+         ()
+        </code>
+        : An empty cell, taking up at least a narrow column
+       </li>
+       <li>
+        a
+        <a href="https://typst.app/docs/reference/foundations/str/">
+         <code>
+          string
+         </code>
+        </a>
+        or
+        <a href="https://typst.app/docs/reference/foundations/content/">
+         <code>
+          content
+         </code>
+        </a>
+        : A cell containing that string or content, taking up at least a wide column
+       </li>
+       <li>
+        A
+        <a href="https://typst.app/docs/reference/foundations/dictionary/">
+         <code>
+          dictionary
+         </code>
+        </a>
+        : Control block (
+        <a href="https://github.com/typst/packages/raw/main/packages/preview/structogrammer/0.1.1/#control-blocks" rel="nofollow ugc" target="_blank">
+         see below
+        </a>
+        )
+       </li>
+       <li>
+        An
+        <a href="https://typst.app/docs/reference/foundations/array/">
+         <code>
+          array
+         </code>
+        </a>
+        of specs: The cells that each element produced, stacked on top of each other. Wide columns are aligned to wide columns of other element specs and narrow columns consumed as needed.
+       </li>
+      </ul>
+      <h3>
+       Control blocks
+      </h3>
+      <p>
+       Specs can contain the following control blocks, as dictionaries:
+      </p>
+      <h4>
+       1.
+       <code>
+        If
+       </code>
+       /
+       <code>
+        Then
+       </code>
+       /
+       <code>
+        Else
+       </code>
+       :
+      </h4>
+      <p>
+       A conditional with the following keys:
+      </p>
+      <ul>
+       <li>
+        <code>
+         If
+        </code>
+        : The condition on which to branch
+       </li>
+       <li>
+        <code>
+         Then
+        </code>
+        : A diagram spec for the âyesâ-branch
+       </li>
+       <li>
+        <code>
+         Else
+        </code>
+        : A diagram spec for the ânoâ-branch
+       </li>
+      </ul>
+      <p>
+       <code>
+        Then
+       </code>
+       and
+       <code>
+        Else
+       </code>
+       are both optional, but at least one must be present
+      </p>
+      <p>
+       Examples:
+      </p>
+      <ul>
+       <p>
+       </p>
+       <li>
+        <details>
+         <summary>
+          <code>
+           (If: "debug mode", Then: ("print debug message"))
+          </code>
+         </summary>
+         <img alt="Structogram with an if-branch that prints a debug message if the condition debug mode is met" src="https://raw.githubusercontent.com/genericusername3/structogrammer/master/examples/if-then.svg"/>
+        </details>
+       </li>
+       <li>
+        <details>
+         <summary>
+          <code>
+           (If: "x &gt; 5", Then: ("x = x - 1", "print x"), Else: "print x")
+          </code>
+         </summary>
+         <img alt="Structogram with an if-branch that decrements and prints x if x is smaller than 5 or else just prints x" src="https://raw.githubusercontent.com/genericusername3/structogrammer/master/examples/if-then-else.svg"/>
+        </details>
+       </li>
+      </ul>
+      <p>
+       Columns: Takes up columns according to its contents next to one another, inserting narrow columns for empty branches
+      </p>
+      <h4>
+       2.
+       <code>
+        For
+       </code>
+       /
+       <code>
+        Do
+       </code>
+       ,
+       <code>
+        For
+       </code>
+       /
+       <code>
+        To
+       </code>
+       /
+       <code>
+        Do
+       </code>
+       ,
+       <code>
+        For
+       </code>
+       /
+       <code>
+        In
+       </code>
+       /
+       <code>
+        Do
+       </code>
+       ,
+       <code>
+        While
+       </code>
+       /
+       <code>
+        Do
+       </code>
+       ,
+       <code>
+        Do
+       </code>
+       /
+       <code>
+        While
+       </code>
+       :
+      </h4>
+      <p>
+       A loop, with the loop control either at the top or bottom.
+      </p>
+      <ul>
+       <li>
+        <code>
+         For
+        </code>
+        /
+        <code>
+         Do
+        </code>
+        formats the control as âFor $Forâ,
+       </li>
+       <li>
+        <code>
+         For
+        </code>
+        /
+        <code>
+         To
+        </code>
+        /
+        <code>
+         Do
+        </code>
+        as âFor $For to $Toâ,
+       </li>
+       <li>
+        <code>
+         For
+        </code>
+        /
+        <code>
+         In
+        </code>
+        /
+        <code>
+         Do
+        </code>
+        as âFor each $For in $Inâ,
+       </li>
+       <li>
+        <code>
+         While
+        </code>
+        /
+        <code>
+         Do
+        </code>
+        and
+        <code>
+         Do
+        </code>
+        /
+        <code>
+         While
+        </code>
+        as âWhile $Whileâ.
+       </li>
+      </ul>
+      <p>
+       Order of specified keys matters.
+      </p>
+      <p>
+       Examples:
+      </p>
+      <ul>
+       <p>
+       </p>
+       <li>
+        <details>
+         <summary>
+          <code>
+           (While: "true", Do: "print \"endless loop\"")
+          </code>
+         </summary>
+         <img alt='Structogram that prints "endless loop" forever (while condition true). This is an entry-controlled loop' src="https://raw.githubusercontent.com/genericusername3/structogrammer/master/examples/while-do.svg"/>
+        </details>
+       </li>
+       <li>
+        <details>
+         <summary>
+          <code>
+           (Do: "print \"endless loop\"", While: "true")
+          </code>
+         </summary>
+         <img alt="Structogram that does the same but with an exit-controlled loop" src="https://raw.githubusercontent.com/genericusername3/structogrammer/master/examples/do-while.svg"/>
+        </details>
+       </li>
+       <li>
+        <details>
+         <summary>
+          <code>
+           (For: "item", In: "Container", Do: "print item.name")
+          </code>
+         </summary>
+         <img alt="Structogram that iterates over each item in a container and prints the item name" src="https://raw.githubusercontent.com/genericusername3/structogrammer/master/examples/for-in.svg"/>
+        </details>
+       </li>
+      </ul>
+      <p>
+       Columns: Inserts a narrow column left to its content.
+      </p>
+      <h4>
+       3. Method call (
+       <code>
+        Call
+       </code>
+       )
+      </h4>
+      <p>
+       A block indicating that a subroutine is executed here. Only accepts the key
+       <code>
+        Call
+       </code>
+       , which is the string name
+      </p>
+      <p>
+       Example:
+      </p>
+      <ul>
+       <p>
+       </p>
+       <li>
+        <details>
+         <summary>
+          <code>
+           (Call: "func()")
+          </code>
+         </summary>
+         <img alt='Structogram that calls the "func" function' src="https://raw.githubusercontent.com/genericusername3/structogrammer/master/examples/call.svg"/>
+        </details>
+       </li>
+      </ul>
+      <p>
+       Columns: One wide column
+      </p>
+      <h4>
+       4. Break/Return (
+       <code>
+        Break
+       </code>
+       )
+      </h4>
+      <p>
+       A block indicating that a subroutine is executed here. Only accepts the key
+       <code>
+        Break
+       </code>
+       , which is the target to break to
+      </p>
+      <p>
+       Examples:
+      </p>
+      <ul>
+       <p>
+       </p>
+       <li>
+        <details>
+         <summary>
+          <code>
+           (Break: "")
+          </code>
+         </summary>
+         <img alt="Structogram that indicates interrupting the control flow" src="https://raw.githubusercontent.com/genericusername3/structogrammer/master/examples/break.svg"/>
+        </details>
+       </li>
+       <li>
+        <details>
+         <summary>
+          <code>
+           (Break: "to enclosing loop")
+          </code>
+         </summary>
+         <img alt="Structogram that indicates interrupting the control flow, returning to the enclosing loop" src="https://raw.githubusercontent.com/genericusername3/structogrammer/master/examples/break-to.svg"/>
+        </details>
+       </li>
+      </ul>
+      <p>
+       Columns: One wide column
+      </p>
+     </section>
+     <aside>
+      <section>
+       <h3>
+        How to add
+       </h3>
+       <p>
+        Copy this into your project and use the import as
+        <!-- -->
+        <code>
+         structogrammer
+        </code>
+       </p>
+       <div class="import-snippet">
+        <pre><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/structogrammer:0.1.1"</span></code></pre>
+        <button class="copy" title="Copy to clipboard">
+         <img alt="Copy" height="16" src="/assets/icons/16-copy.svg" width="16"/>
+        </button>
+       </div>
+       <p class="muted">
+        Check the docs for
+        <!-- -->
+        <a href="https://typst.app/docs/reference/scripting/#packages">
+         more information on how to import packages
+        </a>
+        .
+       </p>
+      </section>
+      <section id="about">
+       <h3>
+        About
+       </h3>
+       <dl>
+        <dt>
+         Author
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         <a href="https://cza.li" rel="noopener noreferrer" target="_blank">
+          Charlotte
+         </a>
+        </dd>
+        <dt>
+         License:
+        </dt>
+        <dd>
+         MIT
+        </dd>
+        <dt>
+         Current version:
+        </dt>
+        <dd>
+         0.1.1
+        </dd>
+        <dt>
+         Last updated:
+        </dt>
+        <dd>
+         May 14, 2024
+        </dd>
+        <dt>
+         First released:
+        </dt>
+        <dd>
+         May 13, 2024
+        </dd>
+        <dt>
+         Archive size:
+        </dt>
+        <dd class="archive-size-value">
+         8.68 kB
+         <a href="https://packages.typst.org/preview/structogrammer-0.1.1.tar.gz">
+          <img alt="Size icon" src="/assets/icons/16-download.svg"/>
+         </a>
+        </dd>
+       </dl>
+      </section>
+      <section>
+       <h3>
+        Where to report issues?
+       </h3>
+       <p>
+        This
+        <!-- -->
+        package
+        <!-- -->
+        is a project of
+        <!-- -->
+        <!-- -->
+        Charlotte
+        <!-- -->
+        .
+        <!-- -->
+        <!-- -->
+        <!-- -->
+        You can also try to ask for help with this
+        <!-- -->
+        package
+        <!-- -->
+        on the
+        <!-- -->
+        <a href="https://forum.typst.app" rel="noopener" target="_blank">
+         Forum
+        </a>
+        .
+       </p>
+       <p>
+        Please report this
+        <!-- -->
+        package
+        <!-- -->
+        to the Typst team using the
+        <!-- -->
+        <a href="https://typst.app/contact" rel="noreferrer" target="_blank">
+         contact form
+        </a>
+        <!-- -->
+        if you believe it is a safety hazard or infringes upon your rights.
+       </p>
+      </section>
+      <section id="versions">
+       <h3>
+        Version history
+       </h3>
+       <table>
+        <thead>
+         <tr>
+          <th align="left">
+           Version
+          </th>
+          <th align="left">
+           Release Date
+          </th>
+         </tr>
+        </thead>
+        <tbody>
+         <tr>
+          <td align="left">
+           0.1.1
+          </td>
+          <td align="left">
+           May 14, 2024
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/structogrammer/0.1.0/">
+            0.1.0
+           </a>
+          </td>
+          <td align="left">
+           May 13, 2024
+          </td>
+         </tr>
+        </tbody>
+       </table>
+      </section>
+      <p class="bottom-notice muted">
+       Typst GmbH did not create this
+       <!-- -->
+       package
+       <!-- -->
+       and cannot guarantee correct functionality of this
+       <!-- -->
+       package
+       <!-- -->
+       or compatibility with any version of the Typst compiler or app.
+      </p>
+     </aside>
+    </div>
+   </main>

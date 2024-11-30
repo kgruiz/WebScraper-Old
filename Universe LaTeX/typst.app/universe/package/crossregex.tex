@@ -1,0 +1,206 @@
+\title{typst.app/universe/package/crossregex}
+
+\phantomsection\label{banner}
+\section{crossregex}\label{crossregex}
+
+{ 0.2.0 }
+
+A crossword-like regex game written in Typst.
+
+\phantomsection\label{readme}
+A crossword-like game written in Typst. You should fill in letters to
+satisfy regular expression constraints. Currently, \emph{squares} and
+\emph{regular hexagons} are supported.
+
+\begin{quote}
+{[}!note{]} This is not a puzzle solver, but a puzzle layout builder.
+\end{quote}
+
+It takes inspiration from a web image, which derives our standard
+example.
+
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/crossregex/0.2.0/examples/standard.svg}}
+
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/crossregex/0.2.0/examples/sudoku-main.svg}}
+
+More examples and source code:
+\url{https://github.com/QuadnucYard/crossregex-typ}
+
+\subsection{Basic Usage}\label{basic-usage}
+
+We use \texttt{\ crossregex-square\ } and \texttt{\ crossregex-hex\ } to
+build square and hex layouts respectively. They have the same argument
+formats. A \texttt{\ crossregex\ } dispatcher function can be used for
+dynamic grid kind, which is compatible with version 0.1.0.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/crossregex:0.2.0": crossregex}
+\NormalTok{// or import and use \textasciigrave{}crossregex{-}hex\textasciigrave{}}
+
+\NormalTok{\#crossregex(}
+\NormalTok{  3,}
+\NormalTok{  constraints: (}
+\NormalTok{    \textasciigrave{}A.*\textasciigrave{}, \textasciigrave{}B.*\textasciigrave{}, \textasciigrave{}C.*\textasciigrave{}, \textasciigrave{}D.*\textasciigrave{}, \textasciigrave{}E.*\textasciigrave{},}
+\NormalTok{    \textasciigrave{}F.*\textasciigrave{}, \textasciigrave{}G.*\textasciigrave{}, \textasciigrave{}H.*\textasciigrave{}, \textasciigrave{}I.*\textasciigrave{}, \textasciigrave{}J.*\textasciigrave{},}
+\NormalTok{    \textasciigrave{}K.*\textasciigrave{}, \textasciigrave{}L.*\textasciigrave{}, \textasciigrave{}M.*\textasciigrave{}, \textasciigrave{}N.*\textasciigrave{}, \textasciigrave{}O.*\textasciigrave{},}
+\NormalTok{  ),}
+\NormalTok{  answer: (}
+\NormalTok{    "ABC",}
+\NormalTok{    "DEFG",}
+\NormalTok{    "HIJKL",}
+\NormalTok{    "MNOP",}
+\NormalTok{    "QRS",}
+\NormalTok{  ),}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/crossregex:0.2.0": crossregex{-}square}
+
+\NormalTok{\#crossregex{-}square(}
+\NormalTok{  9,}
+\NormalTok{  alphabet: regex("[0{-}9]"),}
+\NormalTok{  constraints: (}
+\NormalTok{    \textasciigrave{}.*\textasciigrave{},}
+\NormalTok{    \textasciigrave{}.*\textasciigrave{},}
+\NormalTok{    \textasciigrave{}.*\textasciigrave{},}
+\NormalTok{    \textasciigrave{}.*\textasciigrave{},}
+\NormalTok{    \textasciigrave{}.*[12]\{2\}8\textasciigrave{},}
+\NormalTok{    \textasciigrave{}[1{-}9]9.*\textasciigrave{},}
+\NormalTok{    \textasciigrave{}.*\textasciigrave{},}
+\NormalTok{    \textasciigrave{}.*\textasciigrave{},}
+\NormalTok{    \textasciigrave{}.*\textasciigrave{},}
+\NormalTok{    \textasciigrave{}[1{-}9]7[29]\{2\}8.6.*\textasciigrave{},}
+\NormalTok{    \textasciigrave{}.*2[\^{}3]\{2\}1.\textasciigrave{},}
+\NormalTok{    \textasciigrave{}.9.315[\^{}6]+\textasciigrave{},}
+\NormalTok{    \textasciigrave{}.+4[15]\{2\}79.\textasciigrave{},}
+\NormalTok{    \textasciigrave{}[75]\{2\}18.63[1{-}9]+\textasciigrave{},}
+\NormalTok{    \textasciigrave{}8.*[\^{}2][\^{}3][\^{}1]+56[\^{}6]\textasciigrave{},}
+\NormalTok{    \textasciigrave{}[\^{}5{-}6][0{-}9][56]\{2\}.*9\textasciigrave{},}
+\NormalTok{    \textasciigrave{}.*\textasciigrave{},}
+\NormalTok{    \textasciigrave{}[98]\{2\}5.*[27]\{2\}6\textasciigrave{},}
+\NormalTok{  ),}
+\NormalTok{  answer: (}
+\NormalTok{    "934872651",}
+\NormalTok{    "812456937",}
+\NormalTok{    "576913482",}
+\NormalTok{    "125784369",}
+\NormalTok{    "467395128",}
+\NormalTok{    "398261574",}
+\NormalTok{    "241537896",}
+\NormalTok{    "783649215",}
+\NormalTok{    "659128743",}
+\NormalTok{  ),}
+\NormalTok{  cell: rect(width: 1.4em, height: 1.4em, radius: 0.1em, stroke: 1pt + orange, fill: orange.transparentize(80\%)),}
+\NormalTok{  cell{-}config: (size: 1.6em, text{-}style: (size: 1.4em)),}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Document}\label{document}
+
+Details are shown in the doc comments above the \texttt{\ crossregex\ }
+function in \texttt{\ lib.typ\ } . You can choose to turn off some
+views.
+
+Feel free to open issues if any problems.
+
+\subsection{Changelog}\label{changelog}
+
+\subsubsection{0.2.0}\label{section}
+
+\begin{itemize}
+\tightlist
+\item
+  Feature: Supports square shapes.
+\item
+  Feature: Supports customization the appearance of everything, even the
+  cells.
+\item
+  Feature: Supports custom alphabets.
+\item
+  Fix: An mistake related to import in the README example.
+\end{itemize}
+
+\subsubsection{0.1.0}\label{section-1}
+
+First release with basic hex features.
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as
+\texttt{\ crossregex\ }
+
+\begin{verbatim}
+#import "@preview/crossregex:0.2.0"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+QuadnucYard
+\item[License:]
+MIT
+\item[Current version:]
+0.2.0
+\item[Last updated:]
+September 22, 2024
+\item[First released:]
+September 3, 2024
+\item[Minimum Typst version:]
+0.11.0
+\item[Archive size:]
+197 kB
+\href{https://packages.typst.org/preview/crossregex-0.2.0.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/QuadnucYard/crossregex-typ}{GitHub}
+\item[Categor y :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-smile.svg}}
+  \href{https://typst.app/universe/search/?category=fun}{Fun}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of QuadnucYard . Report issues on
+\href{https://github.com/QuadnucYard/crossregex-typ}{their repository} .
+You can also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.2.0 & September 22, 2024 \\
+\href{https://typst.app/universe/package/crossregex/0.1.0/}{0.1.0} &
+September 3, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.

@@ -1,0 +1,521 @@
+\title{typst.app/universe/package/minideck}
+
+\phantomsection\label{banner}
+\section{minideck}\label{minideck}
+
+{ 0.2.1 }
+
+Simple dynamic slides.
+
+\phantomsection\label{readme}
+A small package for dynamic slides in typst.
+
+minideck provides basic functionality for dynamic slides (
+\texttt{\ pause\ } , \texttt{\ uncover\ } , â€¦), integration with
+\href{https://typst.app/universe/package/fletcher}{fletcher} and
+\href{https://typst.app/universe/package/cetz/}{CetZ} , and some minimal
+infrastructure for theming.
+
+\subsection{Usage}\label{usage}
+
+Call \texttt{\ minideck.config\ } to get the functions you want to use:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/minideck:0.2.1"}
+
+\NormalTok{\#let (template, slide, title{-}slide, pause, uncover, only) = minideck.config()}
+\NormalTok{\#show: template}
+
+\NormalTok{\#title{-}slide[}
+\NormalTok{  = Slides with \textasciigrave{}minideck\textasciigrave{}}
+\NormalTok{  == Some examples}
+\NormalTok{  John Doe}
+
+\NormalTok{  \#datetime.today().display()}
+\NormalTok{]}
+
+\NormalTok{\#slide[}
+\NormalTok{  = Some title}
+
+\NormalTok{  Some content}
+
+\NormalTok{  \#show: pause}
+
+\NormalTok{  More content}
+
+\NormalTok{  1. One}
+\NormalTok{  2. Two}
+\NormalTok{  \#show: pause}
+\NormalTok{  3. Three}
+\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+This will show three subslides with progressively more content. (Note
+that the default theme uses the font Libertinus Sans from the
+\href{https://github.com/alerque/libertinus}{Libertinus} family, so you
+may want to install it.)
+
+Instead of \texttt{\ \#show:\ pause\ } , you can use
+\texttt{\ \#uncover(2,3){[}...{]}\ } to make content visible only on
+subslides 2 and 3, or \texttt{\ \#uncover(from:\ 2){[}...{]}\ } to have
+it visible on subslide 2 and following.
+
+The \texttt{\ only\ } function is similar to \texttt{\ uncover\ } , but
+instead of hiding the content (without affecting the layout), it removes
+it.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#slide[}
+\NormalTok{  = \textasciigrave{}uncover\textasciigrave{} and \textasciigrave{}only\textasciigrave{}}
+  
+\NormalTok{  \#uncover(1, from:3)[}
+\NormalTok{    Content visible on subslides 1 and 3+}
+\NormalTok{    (space reserved on 2).}
+\NormalTok{  ]}
+
+\NormalTok{  \#only(2,3)[}
+\NormalTok{    Content included on subslides 2 and 3}
+\NormalTok{    (no space reserved on 1).}
+\NormalTok{  ]}
+
+\NormalTok{  Content always visible.}
+\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+Contrary to \texttt{\ pause\ } , the \texttt{\ uncover\ } and
+\texttt{\ only\ } functions also work in math mode:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#slide[}
+\NormalTok{  = Dynamic equation}
+
+\NormalTok{  $}
+\NormalTok{    f(x) \&= x\^{}2 + 2x + 1  \textbackslash{}}
+\NormalTok{         \#uncover(2, $\&= (x + 1)\^{}2$)}
+\NormalTok{  $}
+\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+When mixing \texttt{\ pause\ } with \texttt{\ uncover\ } /
+\texttt{\ only\ } , the sequence of pauses should be taken as reference
+for the meaning of subslide indices. For example content after the first
+pause always appears on the second subslide, even if itâ€™s preceded by
+a call to \texttt{\ \#uncover(from:\ 3){[}...{]}\ } .
+
+The package also works well with
+\href{https://typst.app/universe/package/pinit}{pinit} :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/pinit:0.1.4": *}
+
+\NormalTok{\#slide[}
+\NormalTok{  = Works well with \textasciigrave{}pinit\textasciigrave{}}
+
+\NormalTok{  Pythagorean theorem:}
+
+\NormalTok{  $ \#pin(1)a\^{}2\#pin(2) + \#pin(3)b\^{}2\#pin(4) = \#pin(5)c\^{}2\#pin(6) $}
+
+\NormalTok{  \#show: pause}
+
+\NormalTok{  $a\^{}2$ and $b\^{}2$ : squares of triangle legs}
+
+\NormalTok{  \#only(2, \{}
+\NormalTok{    pinit{-}highlight(1,2)}
+\NormalTok{    pinit{-}highlight(3,4)}
+\NormalTok{  \})}
+
+\NormalTok{  \#show: pause}
+
+\NormalTok{  $c\^{}2$ : square of hypotenuse}
+
+\NormalTok{  \#pinit{-}highlight(5,6, fill: green.transparentize(80\%))}
+\NormalTok{  \#pinit{-}point{-}from(6)[larger than $a\^{}2$ and $b\^{}2$]}
+\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{Handout mode}\label{handout-mode}
+
+minideck can make a handout version of the document, in which dynamic
+behavior is disabled: the content of all subslides is shown together in
+a single slide.
+
+To compile a handout version, pass \texttt{\ -\/-input\ handout=true\ }
+in the command line:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{typst}\NormalTok{ compile }\AttributeTok{{-}{-}input}\NormalTok{ handout=true myfile.typ}
+\end{Highlighting}
+\end{Shaded}
+
+It is also possible to enable handout mode from within the document, as
+shown in the next section.
+
+\subsubsection{Configuration}\label{configuration}
+
+The behavior of the minideck functions depends on the settings passed to
+\texttt{\ minideck.config\ } . For example, handout mode can also be
+enabled like this:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/minideck:0.2.1"}
+
+\NormalTok{\#let (template, slide, pause) = minideck.config(handout: true)}
+\NormalTok{\#show: template}
+
+\NormalTok{\#slide[}
+\NormalTok{  = Slide title}
+  
+\NormalTok{  Some text}
+
+\NormalTok{  \#show: pause}
+
+\NormalTok{  More text}
+\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+(The default value of \texttt{\ handout\ } is \texttt{\ auto\ } , in
+which case minideck checks for a command line setting as in the previous
+section.)
+
+\texttt{\ minideck.config\ } accepts the following named arguments:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ paper\ } : a string for one of the paper size names
+  recognized by
+  \href{https://typst.app/docs/reference/layout/page/\#parameters-paper}{\texttt{\ page.paper\ }}
+  , or one of the shorthands \texttt{\ "16:9"\ } or \texttt{\ "4:3"\ } .
+  Default: \texttt{\ "4:3"\ } .
+\item
+  \texttt{\ landscape\ } : use the paper size in landscape orientation.
+  Default: \texttt{\ true\ } .
+\item
+  \texttt{\ width\ } : page width as an absolute length. Takes
+  precedence over \texttt{\ paper\ } and \texttt{\ landscape\ } .
+\item
+  \texttt{\ height\ } : page height as an absolute length. Takes
+  precedence over \texttt{\ paper\ } and \texttt{\ landscape\ } .
+\item
+  \texttt{\ handout\ } : whether to make a document for handout, with
+  content of all subslides shown together in a single slide.
+\item
+  \texttt{\ theme\ } : the theme (see below).
+\item
+  \texttt{\ cetz\ } : the CeTZ module (see below).
+\item
+  \texttt{\ fletcher\ } : the fletcher module (see below).
+\end{itemize}
+
+For example to make slides with 16:9 aspect ratio, use
+\texttt{\ minideck.config(paper:\ "16:9")\ } .
+
+\subsubsection{Themes}\label{themes}
+
+Use \texttt{\ minideck.config(theme:\ ...)\ } to select a theme.
+Currently there is only one built-in:
+\texttt{\ minideck.themes.simple\ } . However you can also pass a theme
+implemented by yourself or from a third-party package. See the
+\href{https://github.com/typst/packages/raw/main/packages/preview/minideck/0.2.1/themes/README.md}{theme
+documentation} for how that works.
+
+Themes are functions and can be configured using the standard
+\href{https://typst.app/docs/reference/foundations/function/\#definitions-with}{\texttt{\ with\ }
+method} :
+
+\begin{itemize}
+\tightlist
+\item
+  The \texttt{\ simple\ } theme has a \texttt{\ variant\ } setting with
+  values â€œlightâ€? (default) and â€œdarkâ€?.
+\end{itemize}
+
+Hereâ€™s an example:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/minideck:0.2.1"}
+
+\NormalTok{\#let (template, slide) = minideck.config(}
+\NormalTok{  theme: minideck.themes.simple.with(variant: "dark"),}
+\NormalTok{)}
+\NormalTok{\#show: template}
+
+\NormalTok{\#slide[}
+\NormalTok{  = Slide with dark theme}
+  
+\NormalTok{  Some text}
+\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+Note that you can override part of a theme with show and set rules:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/minideck:0.2.1"}
+
+\NormalTok{\#let (template, slide) = minideck.config(}
+\NormalTok{  theme: minideck.themes.simple.with(variant: "dark"),}
+\NormalTok{)}
+\NormalTok{\#show: template}
+
+\NormalTok{\#set page(footer: none) // get rid of the page number}
+\NormalTok{\#show heading: it =\textgreater{} text(style: "italic", it)}
+\NormalTok{\#set text(red)}
+
+\NormalTok{\#slide[}
+\NormalTok{  = Slide with dark theme and red text}
+  
+\NormalTok{  Some text}
+\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{Integration with CeTZ}\label{integration-with-cetz}
+
+You can use \texttt{\ uncover\ } and \texttt{\ only\ } (but not
+\texttt{\ pause\ } ) in CeTZ figures, with the following extra steps:
+
+\begin{itemize}
+\item
+  Get CeTZ-specific functions \texttt{\ cetz-uncover\ } and
+  \texttt{\ cetz-only\ } by passing the CeTZ module to
+  \texttt{\ minideck.config\ } (see example below).
+
+  This ensures that minideck uses CeTZ functions from the correct
+  version of CeTZ.
+\item
+  Add a \texttt{\ context\ } keyword outside the \texttt{\ canvas\ }
+  call.
+
+  This is required to access the minideck subslide state from within the
+  canvas without making the content opaque (CeTZ needs to inspect the
+  canvas content to make the drawing).
+\end{itemize}
+
+Example:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/cetz:0.2.2" as cetz: *}
+\NormalTok{\#import "@preview/minideck:0.2.1"}
+
+\NormalTok{\#let (template, slide, only, cetz{-}uncover, cetz{-}only) = minideck.config(cetz: cetz)}
+\NormalTok{\#show: template}
+
+\NormalTok{\#slide[}
+\NormalTok{  = In a CeTZ figure}
+
+\NormalTok{  Above canvas}
+\NormalTok{  \#context canvas(\{}
+\NormalTok{    import draw: *}
+\NormalTok{    cetz{-}only(3, rect((0,{-}2), (14,4), stroke: 3pt))}
+\NormalTok{    cetz{-}uncover(from: 2, rect((0,{-}2), (16,2), stroke: blue+3pt))}
+\NormalTok{    content((8,0), box(stroke: red+3pt, inset: 1em)[}
+\NormalTok{      A typst box \#only(2)[on 2nd subslide]}
+\NormalTok{    ])}
+\NormalTok{  \})}
+\NormalTok{  Below canvas}
+\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{Integration with
+fletcher}\label{integration-with-fletcher}
+
+The same steps are required as for CeTZ integration (passing the
+fletcher module to get fletcher-specific functions), plus an additional
+step:
+
+\begin{itemize}
+\item
+  Give explicitly the number of subslides to the \texttt{\ slide\ }
+  function.
+
+  This is required because I could not find a reliable way to update a
+  typst state from within a fletcher diagram, so I cannot rely on the
+  state to keep track of the number of subslides.
+\end{itemize}
+
+Example:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/fletcher:0.5.0" as fletcher: diagram, node, edge}
+\NormalTok{\#import "@preview/minideck:0.2.1"}
+\NormalTok{\#let (template, slide, fletcher{-}uncover) = minideck.config(fletcher: fletcher)}
+\NormalTok{\#show: template}
+
+\NormalTok{\#slide(steps: 2)[}
+\NormalTok{  = In a fletcher diagram}
+
+\NormalTok{  \#set align(center)}
+
+\NormalTok{  Above diagram}
+
+\NormalTok{  \#context diagram(}
+\NormalTok{    node{-}stroke: 1pt,}
+\NormalTok{    node((0,0), [Start], corner{-}radius: 2pt, extrude: (0, 3)),}
+\NormalTok{    edge("{-}|\textgreater{}"),}
+\NormalTok{    node((1,0), align(center)[A]),}
+\NormalTok{    fletcher{-}uncover(from: 2, edge("d,r,u,l", "{-}|\textgreater{}", [x], label{-}pos: 0.1))}
+\NormalTok{  )}
+  
+\NormalTok{  Below diagram}
+\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Comparison with other slides
+packages}\label{comparison-with-other-slides-packages}
+
+Performance: minideck is currently faster than
+\href{https://typst.app/universe/package/polylux/}{Polylux} when using
+\texttt{\ pause\ } , especially for incremental compilation, but a bit
+slower than \href{https://typst.app/universe/package/touying}{Touying} ,
+according to my tests.
+
+Features: Polylux and Touying have more themes and more features, for
+example support for \href{https://pdfpc.github.io/}{pdfpc} which
+provides speaker notes and more. Minideck allows using
+\texttt{\ uncover\ } and \texttt{\ only\ } in CeTZ figures and fletcher
+diagrams, which Polylux currently doesnâ€™t support.
+
+Syntax: package configuration is simpler in minideck than Touying but a
+bit more involved than in Polylux. The minideck \texttt{\ pause\ } is
+more cumbersome to use: one must write \texttt{\ \#show:\ pause\ }
+instead of \texttt{\ \#pause\ } . On the other hand minideckâ€™s
+\texttt{\ uncover\ } and \texttt{\ only\ } can be used directly in
+equations without requiring a special math environment as in Touying (I
+think).
+
+Other: minideck sometimes has better error messages than Touying due to
+implementation differences: the minideck stack trace points back to the
+userâ€™s code while Touying errors sometimes point only to an output
+page number.
+
+\subsection{Limitations}\label{limitations}
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ pause\ } , \texttt{\ uncover\ } and \texttt{\ only\ } work
+  in enumerations but they require explicit enum indices (
+  \texttt{\ 1.\ ...\ } rather than \texttt{\ +\ ...\ } ) as they cause a
+  reset of the list index.
+\item
+  Usage in a CeTZ canvas or fletcher diagram requires a
+  \texttt{\ context\ } keyword in front of the \texttt{\ canvas\ } /
+  \texttt{\ diagram\ } call (see above).
+\item
+  fletcher diagrams also require to specify the number of subslides
+  explicitly (see above).
+\item
+  \texttt{\ pause\ } doesnâ€™t work in CeTZ figures, fletcher diagrams
+  and math mode.
+\item
+  \texttt{\ pause\ } requires writing \texttt{\ \#show:\ pause\ } and
+  its effect is lost after the \texttt{\ \#show\ } call goes out of
+  scope. For example this means that one can use \texttt{\ pause\ }
+  inside of a grid, but further \texttt{\ pause\ } calls after the grid
+  (in the same slide) wonâ€™t work as intended.
+\end{itemize}
+
+\subsection{Internals}\label{internals}
+
+The package uses states with the following keys:
+
+\texttt{\ \_\_minideck-subslide-count\ } : an array of two integers for
+counting pauses and keeping track of the subslide number automatically.
+The first value is the number of subslides so far referenced in current
+slide. The second value is the number of pauses seen so far in the
+current slide. Both values are kept in one state so that an update
+function can update the number of subslides based on the number of
+pauses, without requiring a context. This avoids problems with layout
+convergence.
+
+\texttt{\ \_\_minideck-subslide-step\ } : the current subslide being
+generated while processing a slide.
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as \texttt{\ minideck\ }
+
+\begin{verbatim}
+#import "@preview/minideck:0.2.1"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+\href{https://github.com/knuesel}{Jeremie Knuesel}
+\item[License:]
+MIT
+\item[Current version:]
+0.2.1
+\item[Last updated:]
+July 1, 2024
+\item[First released:]
+July 1, 2024
+\item[Archive size:]
+10.3 kB
+\href{https://packages.typst.org/preview/minideck-0.2.1.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/knuesel/typst-minideck}{GitHub}
+\item[Categor y :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-presentation.svg}}
+  \href{https://typst.app/universe/search/?category=presentation}{Presentation}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of Jeremie Knuesel . Report issues on
+\href{https://github.com/knuesel/typst-minideck}{their repository} . You
+can also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.2.1 & July 1, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.

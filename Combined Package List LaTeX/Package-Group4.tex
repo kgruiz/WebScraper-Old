@@ -1,0 +1,4838 @@
+\title{typst.app/universe/package/physica}
+
+\phantomsection\label{banner}
+\section{physica}\label{physica}
+
+{ 0.9.3 }
+
+Math constructs for science and engineering: derivative, differential,
+vector field, matrix, tensor, Dirac braket, hbar, transpose, conjugate,
+many operators, and more.
+
+{ } Featured Package
+
+\phantomsection\label{readme}
+:green\_book: The
+\href{https://github.com/Leedehai/typst-physics/blob/v0.9.3/physica-manual.pdf}{manual}
+.
+
+\includegraphics[width=5.67708in,height=\textheight,keepaspectratio]{https://github.com/Leedehai/typst-physics/assets/18319900/ed86198a-8ddb-4473-aed3-8111d5ecde60}
+
+\href{https://github.com/Leedehai/typst-physics/actions/workflows/ci.yml}{\pandocbounded{\includesvg[keepaspectratio]{https://github.com/Leedehai/typst-physics/actions/workflows/ci.yml/badge.svg}}}
+\href{https://github.com/Leedehai/typst-physics/releases/latest}{\pandocbounded{\includegraphics[keepaspectratio]{https://img.shields.io/github/v/release/Leedehai/typst-physics.svg?color=gold}}}
+
+Available in the collection of
+\href{https://typst.app/docs/packages/}{Typst packages} :
+\texttt{\ \#import\ "@preview/physica:0.9.3":\ *\ }
+
+\begin{quote}
+physica \emph{noun} .
+
+\begin{itemize}
+\tightlist
+\item
+  Latin, study of nature
+\end{itemize}
+\end{quote}
+
+This \href{https://typst.app/}{Typst} package provides handy typesetting
+utilities for natural sciences, including:
+
+\begin{itemize}
+\tightlist
+\item
+  Braces,
+\item
+  Vectors and vector fields,
+\item
+  Matrices, including Jacobian and Hessian,
+\item
+  Smartly render \texttt{\ ..\^{}T\ } as transpose and
+  \texttt{\ ..\^{}+\ } as dagger (conjugate transpose),
+\item
+  Dirac braket notations,
+\item
+  Common math functions,
+\item
+  Differentials and derivatives, including partial derivatives of mixed
+  orders with automatic order summation,
+\item
+  Familiar â€œh-barâ€?, tensor abstract index notations, isotopes,
+  Taylor series term,
+\item
+  Signal sequences i.e. digital timing diagrams.
+\end{itemize}
+
+\subsection{A quick look}\label{a-quick-look}
+
+See the
+\href{https://github.com/Leedehai/typst-physics/blob/v0.9.3/physica-manual.pdf}{manual}
+for more details and examples.
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/Leedehai/typst-physics/assets/18319900/4a9f40df-f753-4324-8114-c682d270e9c7}}
+
+A larger
+\href{https://github.com/Leedehai/typst-physics/blob/master/demo.typ}{demo.typ}
+:
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/Leedehai/typst-physics/assets/18319900/75b94ef8-cc98-434f-be5f-bfac1ef6aef9}}
+
+\subsection{Using physica in your Typst
+document}\label{using-physica-in-your-typst-document}
+
+\subsubsection{\texorpdfstring{With \texttt{\ typst\ } package
+management
+(recommended)}{With  typst  package management (recommended)}}\label{with-typst-package-management-recommended}
+
+See \url{https://github.com/typst/packages} . If you are using the
+Typstâ€™s web app, packages listed there are readily available; if you
+are using the Typst compiler locally, it downloads packages on-demand
+and caches them on-disk, see
+\href{https://github.com/typst/packages\#downloads}{here} for details.
+
+\includegraphics[width=1.80208in,height=\textheight,keepaspectratio]{https://github.com/Leedehai/typst-physics/assets/18319900/f2a3a2bd-3ef7-4383-ab92-9a71affb4e12}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{// Style 1}
+\NormalTok{\#import "@preview/physica:0.9.3": *}
+
+\NormalTok{$ curl (grad f), tensor(T, {-}mu, +nu), pdv(f,x,y,[1,2]) $}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{// Style 2}
+\NormalTok{\#import "@preview/physica:0.9.3": curl, grad, tensor, pdv}
+
+\NormalTok{$ curl (grad f), tensor(T, {-}mu, +nu), pdv(f,x,y,[1,2]) $}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{// Style 3}
+\NormalTok{\#import "@preview/physica:0.9.3"}
+
+\NormalTok{$ physica.curl (physica.grad f), physica.tensor(T, {-}mu, +nu), physica.pdv(f,x,y,[1,2]) $}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{\texorpdfstring{Without \texttt{\ typst\ } package
+management}{Without  typst  package management}}\label{without-typst-package-management}
+
+Similar to examples above, but import with the undecorated file path
+like \texttt{\ "physica.typ"\ } .
+
+\subsection{Typst version}\label{typst-version}
+
+The version requirement for the compiler is in
+\href{https://github.com/typst/packages/raw/main/packages/preview/physica/0.9.3/typst.toml}{typst.toml}
+â€™s \texttt{\ compiler\ } field. If you are using an unsupported Typst
+version, the compiler will throw an error. You may want to update your
+compiler with \texttt{\ typst\ update\ } , or choose an earlier version
+of the \texttt{\ physica\ } package.
+
+Developed with compiler version:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{$}\NormalTok{ typst }\AttributeTok{{-}{-}version}
+\ExtensionTok{typst}\NormalTok{ 0.10.0 }\ErrorTok{(}\ExtensionTok{70ca0d25}\KeywordTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Manual}\label{manual}
+
+See the
+\href{https://github.com/Leedehai/typst-physics/blob/v0.9.3/physica-manual.pdf}{manual}
+for a more comprehensive coverage, a PDF file generated directly with
+the \href{https://typst.app/}{Typst} binary.
+
+To regenerate the manual, use command
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{typst}\NormalTok{ watch physica{-}manual.typ}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Contribution}\label{contribution}
+
+\begin{itemize}
+\item
+  Bug fixes are welcome!
+\item
+  New features: welcome as well. If it is small, feel free to create a
+  pull request. If it is large, the best first step is creating an issue
+  and let us explore the design together. Some features might warrant a
+  package on its own.
+\item
+  Testing: currently testing is done by closely inspecting the generated
+  \href{https://github.com/Leedehai/typst-physics/blob/v0.9.3/physica-manual.pdf}{manual}
+  . This does not scale well. I plan to add programmatic testing by
+  comparing rendered pictures with golden images.
+\end{itemize}
+
+\subsection{Change log}\label{change-log}
+
+\href{https://github.com/Leedehai/typst-physics/blob/v0.9.3/changelog.md}{changelog.md}
+.
+
+\subsection{License}\label{license}
+
+\begin{itemize}
+\tightlist
+\item
+  Code: the
+  \href{https://github.com/typst/packages/raw/main/packages/preview/physica/0.9.3/LICENSE.txt}{MIT
+  License} .
+\item
+  Docs: the
+  \href{https://creativecommons.org/licenses/by-nd/4.0/}{Creative
+  Commons BY-ND 4.0 license} .
+\end{itemize}
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as \texttt{\ physica\ }
+
+\begin{verbatim}
+#import "@preview/physica:0.9.3"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+Leedehai
+\item[License:]
+MIT
+\item[Current version:]
+0.9.3
+\item[Last updated:]
+April 2, 2024
+\item[First released:]
+September 8, 2023
+\item[Minimum Typst version:]
+0.10.0
+\item[Archive size:]
+11.1 kB
+\href{https://packages.typst.org/preview/physica-0.9.3.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/Leedehai/typst-physics}{GitHub}
+\item[Discipline s :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \href{https://typst.app/universe/search/?discipline=chemistry}{Chemistry}
+\item
+  \href{https://typst.app/universe/search/?discipline=communication}{Communication}
+\item
+  \href{https://typst.app/universe/search/?discipline=economics}{Economics}
+\item
+  \href{https://typst.app/universe/search/?discipline=education}{Education}
+\item
+  \href{https://typst.app/universe/search/?discipline=engineering}{Engineering}
+\item
+  \href{https://typst.app/universe/search/?discipline=geology}{Geology}
+\item
+  \href{https://typst.app/universe/search/?discipline=mathematics}{Mathematics}
+\item
+  \href{https://typst.app/universe/search/?discipline=physics}{Physics}
+\end{itemize}
+\item[Categor ies :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-package.svg}}
+  \href{https://typst.app/universe/search/?category=components}{Components}
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-hammer.svg}}
+  \href{https://typst.app/universe/search/?category=utility}{Utility}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of Leedehai . Report issues on
+\href{https://github.com/Leedehai/typst-physics}{their repository} . You
+can also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.9.3 & April 2, 2024 \\
+\href{https://typst.app/universe/package/physica/0.9.2/}{0.9.2} &
+January 15, 2024 \\
+\href{https://typst.app/universe/package/physica/0.9.1/}{0.9.1} &
+December 23, 2023 \\
+\href{https://typst.app/universe/package/physica/0.9.0/}{0.9.0} &
+December 7, 2023 \\
+\href{https://typst.app/universe/package/physica/0.8.1/}{0.8.1} &
+November 1, 2023 \\
+\href{https://typst.app/universe/package/physica/0.8.0/}{0.8.0} &
+September 13, 2023 \\
+\href{https://typst.app/universe/package/physica/0.7.5/}{0.7.5} &
+September 8, 2023 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.
+
+
+\title{typst.app/universe/package/thesist}
+
+\phantomsection\label{banner}
+\phantomsection\label{template-thumbnail}
+\pandocbounded{\includegraphics[keepaspectratio]{https://packages.typst.org/preview/thumbnails/thesist-0.2.0-small.webp}}
+
+\section{thesist}\label{thesist}
+
+{ 0.2.0 }
+
+A Master\textquotesingle s thesis template for Instituto Superior
+TÃ©cnico (IST)
+
+\href{/app?template=thesist&version=0.2.0}{Create project in app}
+
+\phantomsection\label{readme}
+ThesIST (pronounced â€œdesistâ€?) is an unofficial Masterâ€™s thesis
+template for Instituto Superior TÃ©cnico written in Typst.
+
+This template fully meets the official formatting requirements as
+outlined
+\href{https://tecnico.ulisboa.pt/files/2021/09/guia-disserta-o-mestrado.pdf}{here}
+, and also attempts to follow most unwritten conventions. Regardless,
+you can be on the lookout for things you may want to see added.
+
+PIC2 reports are also supported. However, some conventions for these may
+vary with the supervisors, so please check with them if anything needs
+to be changed.
+
+\subsection{Changelogs}\label{changelogs}
+
+The changelogs of new versions are available on
+\href{https://github.com/tfachada/thesist/releases}{the Releases page} .
+Make sure to check the latest one(s) whenever you update the imported
+\texttt{\ thesist\ } version.
+
+\subsection{Usage}\label{usage}
+
+If you are in the Typst web app, simply click on â€œStart from
+templateâ€? and pick this template.
+
+If you want to develop locally:
+
+\begin{enumerate}
+\tightlist
+\item
+  Make sure you have the \textbf{TeX Gyre Heros} font family installed.
+\item
+  Install the package with \texttt{\ typst\ init\ @preview/thesist\ } .
+\end{enumerate}
+
+\subsection{Overview}\label{overview}
+
+\textbf{Please read the â€œQuick guideâ€? chapter included in this
+template to get set up. You can keep it as a reference if you want.}
+
+This templateâ€™s source files, hidden from the user view, are the
+following:
+
+\begin{itemize}
+\item
+  \texttt{\ layout.typ\ } : The main configuration file, which
+  initializes the thesis and contains its general formatting rules.
+\item
+  \texttt{\ figure-numbering.typ\ } : This file contains a function to
+  set a chapter-relative numbering for the various types of figures. The
+  function is called once or twice depending on whether the user decides
+  to include appendices.
+\item
+  \texttt{\ utils.typ\ } : General functions that you may want to import
+  and use for QoL improvements.
+\end{itemize}
+
+\subsubsection{A sidenote about
+subfigures}\label{a-sidenote-about-subfigures}
+
+Since subfigures are not yet native to Typst, the current
+implementation, present in \texttt{\ utils.typ\ } , needs the user to
+manually input whether each called subfigure figure (aka subfigure grid)
+is in an appendix or not. This is because the numbering is different in
+appendices, and because the functionality of
+\texttt{\ figure-numbering.typ\ } canâ€™t be applied to subfigure grids,
+since they are imported with their default numbering once in every
+chapter. \texttt{\ context\ } expressions also donâ€™t work across
+imports, so location within the document couldnâ€™t be used as a
+parameter (unless the user called \texttt{\ context\ } themselves, which
+would be unintuitive). \textbf{Regardless, the workaround that was
+found, which is explained in the quick guide, doesnâ€™t need much
+thinking from the user, so you can see this as a more technical note
+that shouldnâ€™t matter when youâ€™re writing the thesis.}
+
+\subsection{Final remarks}\label{final-remarks}
+
+This template is not necessarily (or hopefully) a finished product. Feel
+free to open issues or pull requests!
+
+Also thanks to the Typst community members for the help in some of the
+functionalities, and for the extensions used here.
+
+\href{/app?template=thesist&version=0.2.0}{Create project in app}
+
+\subsubsection{How to use}\label{how-to-use}
+
+Click the button above to create a new project using this template in
+the Typst app.
+
+You can also use the Typst CLI to start a new project on your computer
+using this command:
+
+\begin{verbatim}
+typst init @preview/thesist:0.2.0
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+\href{https://github.com/tfachada}{TomÃ¡s Fachada}
+\item[License:]
+MIT
+\item[Current version:]
+0.2.0
+\item[Last updated:]
+October 21, 2024
+\item[First released:]
+August 28, 2024
+\item[Minimum Typst version:]
+0.12.0
+\item[Archive size:]
+373 kB
+\href{https://packages.typst.org/preview/thesist-0.2.0.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/tfachada/thesist}{GitHub}
+\item[Categor y :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-mortarboard.svg}}
+  \href{https://typst.app/universe/search/?category=thesis}{Thesis}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This template is a project of TomÃ¡s Fachada . Report issues on
+\href{https://github.com/tfachada/thesist}{their repository} . You can
+also try to ask for help with this template on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this template to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.2.0 & October 21, 2024 \\
+\href{https://typst.app/universe/package/thesist/0.1.0/}{0.1.0} & August
+28, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this template and cannot guarantee correct
+functionality of this template or compatibility with any version of the
+Typst compiler or app.
+
+
+\title{typst.app/universe/package/grayness}
+
+\phantomsection\label{banner}
+\section{grayness}\label{grayness}
+
+{ 0.2.0 }
+
+Simple image editing capabilities like converting to grayscale and
+cropping via a WASM plugin.
+
+\phantomsection\label{readme}
+A package providing simple image editing capabilities via a WASM plugin.
+
+Available functionality includes converting images to grayscale,
+cropping and flipping the images. Furthermore, this package supports
+adding transparency and bluring (very slow) as well as handling
+additional raster image formats.
+
+The package name is inspired by the blurry, gray images of Nessie, the
+\href{https://en.wikipedia.org/wiki/Loch_Ness_Monster}{Loch Ness
+Monster}
+
+\subsection{Usage}\label{usage}
+
+Due to the way typst currently interprets given paths, you have to read
+the images yourself in the calling typst file. This raw imagedata can
+then be passed to the grayness-package functions, like grayscale-image.
+These functions also optionally accept all additional parameters of the
+original typst image function like \texttt{\ width\ } or
+\texttt{\ height\ } :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/grayness:0.2.0": grayscale{-}image}
+
+\NormalTok{\#let data = read("Art.webp", encoding: none)}
+\NormalTok{\#grayscale{-}image(data, width: 50\%)}
+\end{Highlighting}
+\end{Shaded}
+
+A detailed descriptions of all available functions is provided in the
+\href{https://github.com/typst/packages/raw/main/packages/preview/grayness/0.2.0/manual.pdf}{manual}
+.
+
+You can also use the built-in help functions provided by tidy:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/grayness:0.2.0": *}
+\NormalTok{\#help("flip{-}image{-}vertical")}
+\end{Highlighting}
+\end{Shaded}
+
+The \texttt{\ grayscale-image\ } function also works with SVG images. To
+do so you must specify the format as \texttt{\ "svg"\ } :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let data = read("example.svg", encoding: none)}
+\NormalTok{\#grayscale{-}image(data, format: "svg")}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Examples}\label{examples}
+
+Here are several functions applied to a WEBP image of
+\href{https://commons.wikimedia.org/wiki/File:Arturo_Nieto-Dorantes.webp}{Arturo
+Nieto Dorantes} (CC-By-SA 4.0):
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/grayness/0.2.0/example.png}}
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as \texttt{\ grayness\ }
+
+\begin{verbatim}
+#import "@preview/grayness:0.2.0"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+Nikolai Neff-Sarnow
+\item[License:]
+Apache-2.0
+\item[Current version:]
+0.2.0
+\item[Last updated:]
+October 10, 2024
+\item[First released:]
+April 13, 2024
+\item[Minimum Typst version:]
+0.11.0
+\item[Archive size:]
+682 kB
+\href{https://packages.typst.org/preview/grayness-0.2.0.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/nineff/grayness}{GitHub}
+\item[Categor ies :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-chart.svg}}
+  \href{https://typst.app/universe/search/?category=visualization}{Visualization}
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-integration.svg}}
+  \href{https://typst.app/universe/search/?category=integration}{Integration}
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-hammer.svg}}
+  \href{https://typst.app/universe/search/?category=utility}{Utility}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of Nikolai Neff-Sarnow . Report issues on
+\href{https://github.com/nineff/grayness}{their repository} . You can
+also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.2.0 & October 10, 2024 \\
+\href{https://typst.app/universe/package/grayness/0.1.0/}{0.1.0} & April
+13, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.
+
+
+\title{typst.app/universe/package/modern-sjtu-thesis}
+
+\phantomsection\label{banner}
+\phantomsection\label{template-thumbnail}
+\pandocbounded{\includegraphics[keepaspectratio]{https://packages.typst.org/preview/thumbnails/modern-sjtu-thesis-0.1.0-small.webp}}
+
+\section{modern-sjtu-thesis}\label{modern-sjtu-thesis}
+
+{ 0.1.0 }
+
+ä¸Šæµ·äº¤é€šå¤§å­¦ç¡•å£«å­¦ä½?è®ºæ--‡ Typst æ¨¡æ?¿ã€‚Shanghai Jiao Tong
+University Master Thesis Typst Template.
+
+\href{/app?template=modern-sjtu-thesis&version=0.1.0}{Create project in
+app}
+
+\phantomsection\label{readme}
+è¿™æ˜¯ä¸Šæµ·äº¤é€šå¤§å­¦ç¡•å£«å­¦ä½?è®ºæ--‡çš„ Typst
+æ¨¡æ?¿ï¼Œå®ƒèƒ½å¤Ÿç®€æ´?ã€?å¿«é€Ÿã€?æŒ?ç»­ç''Ÿæˆ? PDF
+æ~¼å¼?çš„æ¯•ä¸šè®ºæ--‡ï¼Œå®ƒåŸºäºŽç~''ç©¶ç''Ÿé™¢å®˜æ--¹æ??ä¾›çš„æ¨¡æ?¿è¿›è¡Œå¼€å?{}`ã€‚åŸºäºŽç~''ç©¶ç''Ÿé™¢æ??ä¾›çš„
+\href{https://www.gs.sjtu.edu.cn/post/detail/Z3M2MjU=}{word æ¨¡æ?¿}
+è¿›è¡Œå¼€å?{}`ã€‚
+
+\subsection{ä½¿ç''¨}\label{uxe4uxbduxe7}
+
+å¿«é€Ÿæµ?è§ˆæ•ˆæžœ: æŸ¥çœ‹
+\href{https://github.com/tzhTaylor/typst-sjtu-thesis-master/releases/download/v0.1.0/thesis.pdf}{thesis.pdf}
+ï¼Œæ~·ä¾‹è®ºæ--‡æº?ç~?ï¼šæŸ¥çœ‹
+\href{https://github.com/tzhTaylor/typst-sjtu-thesis-master/blob/main/template/thesis.typ}{thesis.typ}
+
+\subsubsection{VS Code
+æœ¬åœ°ç¼--è¾`ï¼ˆæŽ¨è??ï¼‰}\label{vs-code-uxe6ux153uxe5ux153uxe7uxbcuxe8uxbeuxefuxbcux2c6uxe6ux17euxe8uxefuxbc}
+
+\begin{enumerate}
+\item
+  åœ¨ VS Code ä¸­å®‰è£
+  \href{https://marketplace.visualstudio.com/items?itemName=myriad-dreamin.tinymist}{Tinymist
+  Typst} æ?'ä»¶ï¼Œè´Ÿè´£è¯­æ³•é«˜äº®, é''™è¯¯æ£€æŸ¥å'Œ PDF é¢„è§ˆã€‚
+\item
+  æŒ‰ä¸‹ \texttt{\ Ctrl\ +\ Shift\ +\ P\ }
+  æ‰``å¼€å`½ä»¤ç•Œé?¢ï¼Œè¾``å\ldots¥
+  \texttt{\ Typst:\ Show\ available\ Typst\ templates\ (gallery)\ for\ picking\ up\ a\ template\ }
+  æ‰``å¼€ Tinymist æ??ä¾›çš„ Template Galleryï¼Œç„¶å?Žä»Žé‡Œé?¢æ‰¾åˆ°
+  \texttt{\ modern-sjtu-thesis\ } ï¼Œç‚¹å‡» \texttt{\ â?¤\ }
+  æŒ‰é'®è¿›è¡Œæ''¶è---?ï¼Œä»¥å?Šç‚¹å‡» \texttt{\ +\ }
+  å?·ï¼Œå°±å?¯ä»¥åˆ›å»ºå¯¹åº''çš„è®ºæ--‡æ¨¡æ?¿äº†ã€‚
+\item
+  æœ€å?Žç''¨ VS Code æ‰``å¼€ç''Ÿæˆ?çš„ç›®å½•ï¼Œæ‰``å¼€
+  \texttt{\ thesis.typ\ } æ--‡ä»¶ï¼ŒæŒ‰ä¸‹ \texttt{\ Ctrl\ +\ K\ V\ }
+  (Windows) / \texttt{\ Command\ +\ K\ V\ } (MacOS)
+  æˆ--è€\ldots æ˜¯ç‚¹å‡»å?³ä¸Šè§'çš„æŒ‰é'®è¿›è¡Œå®žæ---¶ç¼--è¾`å'Œé¢„è§ˆã€‚
+\end{enumerate}
+
+\subsection{è‡´è°¢}\label{uxe8uxe8}
+
+\begin{itemize}
+\item
+  æ„Ÿè°¢ \href{https://github.com/OrangeX4}{@OrangeX4} å¼€å?{}`çš„
+  \href{https://github.com/nju-lug/modern-nju-thesis}{modern-nju-thesis}
+  æ¨¡æ?¿ï¼Œæœ¬æ¨¡æ?¿å¤§ä½``ç»``æž„éƒ½æ˜¯å?‚è€ƒå\ldots¶å¼€å?{}`çš„ã€‚
+\item
+  æ„Ÿè°¢ \href{https://typst-doc-cn.github.io/guide/FAQ.html}{Typst
+  ä¸­æ--‡ç¤¾åŒºå¯¼èˆª FAQ} ï¼Œå¸®å¿™è§£å†³äº†å?„ç§?ç--`éš¾æ?‚ç---‡ã€‚
+\end{itemize}
+
+\subsection{License}\label{license}
+
+This project is licensed under the MIT License.
+
+\href{/app?template=modern-sjtu-thesis&version=0.1.0}{Create project in
+app}
+
+\subsubsection{How to use}\label{how-to-use}
+
+Click the button above to create a new project using this template in
+the Typst app.
+
+You can also use the Typst CLI to start a new project on your computer
+using this command:
+
+\begin{verbatim}
+typst init @preview/modern-sjtu-thesis:0.1.0
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+tzhTaylor
+\item[License:]
+MIT
+\item[Current version:]
+0.1.0
+\item[Last updated:]
+November 19, 2024
+\item[First released:]
+November 19, 2024
+\item[Archive size:]
+84.9 kB
+\href{https://packages.typst.org/preview/modern-sjtu-thesis-0.1.0.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/tzhTaylor/typst-sjtu-thesis-master}{GitHub}
+\item[Categor y :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-mortarboard.svg}}
+  \href{https://typst.app/universe/search/?category=thesis}{Thesis}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This template is a project of tzhTaylor . Report issues on
+\href{https://github.com/tzhTaylor/typst-sjtu-thesis-master}{their
+repository} . You can also try to ask for help with this template on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this template to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.1.0 & November 19, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this template and cannot guarantee correct
+functionality of this template or compatibility with any version of the
+Typst compiler or app.
+
+
+\title{typst.app/universe/package/babble-bubbles}
+
+\phantomsection\label{banner}
+\section{babble-bubbles}\label{babble-bubbles}
+
+{ 0.1.0 }
+
+A package to create callouts.
+
+\phantomsection\label{readme}
+A package to create callouts in typst, inspired by the
+\href{https://obsidian.md/}{Obsidan} callouts.
+
+Use preset callouts, or create your own!
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/babble-bubbles/0.1.0/examples/callouts.png}}
+
+\subsection{Usage}\label{usage}
+
+Import the package
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/babble{-}bubbles:0.1.0": *}
+\end{Highlighting}
+\end{Shaded}
+
+Or grab it locally and use:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@local/babble{-}bubbles:0.1.0": *}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Presets}\label{presets}
+
+Here you can find a list of presets and an example usage of each. You
+can customise them with the same parameters as the \texttt{\ callout\ }
+function. See the \texttt{\ Custom\ callouts\ } for more details.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#info[This is information]}
+
+\NormalTok{\#success[I\textquotesingle{}m making a note here: huge success]}
+
+\NormalTok{\#check[This is checked!]}
+
+\NormalTok{\#warning[First warning...]}
+
+\NormalTok{\#note[My incredibly useful note]}
+
+\NormalTok{\#question[Question?]}
+
+\NormalTok{\#example[An example make things interesting]}
+
+\NormalTok{\#quote[To be or not to be]}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Custom callouts}\label{custom-callouts}
+
+\subsubsection{\texorpdfstring{\texttt{\ callout\ }}{ callout }}\label{callout}
+
+Create a default callout. Tweak the parameters to create your own!
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{callout(}
+\NormalTok{  body,}
+\NormalTok{  title: "Callout",}
+\NormalTok{  fill: blue,}
+\NormalTok{  title{-}color: white,}
+\NormalTok{  body{-}color: black,}
+\NormalTok{  icon: none)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{Tips}\label{tips}
+
+You can create aliases to more easily handle your newly create callouts
+or customise presets by using
+\href{https://typst.app/docs/reference/types/function/\#methods-with}{with}
+.
+
+\begin{verbatim}
+#let mycallout = callout.with(title: "My callout")
+
+#mycallout[Hey this is my custom callout!]
+\end{verbatim}
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as
+\texttt{\ babble-bubbles\ }
+
+\begin{verbatim}
+#import "@preview/babble-bubbles:0.1.0"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+Dimitri Belopopsky
+\item[License:]
+MIT
+\item[Current version:]
+0.1.0
+\item[Last updated:]
+September 11, 2023
+\item[First released:]
+September 11, 2023
+\item[Archive size:]
+2.15 kB
+\href{https://packages.typst.org/preview/babble-bubbles-0.1.0.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/ShadowMitia/typst-babble-bubbles}{GitHub}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of Dimitri Belopopsky . Report issues on
+\href{https://github.com/ShadowMitia/typst-babble-bubbles}{their
+repository} . You can also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.1.0 & September 11, 2023 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.
+
+
+\title{typst.app/universe/package/problemst}
+
+\phantomsection\label{banner}
+\phantomsection\label{template-thumbnail}
+\pandocbounded{\includegraphics[keepaspectratio]{https://packages.typst.org/preview/thumbnails/problemst-0.1.0-small.webp}}
+
+\section{problemst}\label{problemst}
+
+{ 0.1.0 }
+
+Simple and easy-to-use template for problem sets/homeworks/assignments.
+
+\href{/app?template=problemst&version=0.1.0}{Create project in app}
+
+\phantomsection\label{readme}
+Simple and easy-to-use template for problem sets/homeworks/assignments.
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/problemst/0.1.0/template/thumbnail.png}}
+
+\subsection{Usage}\label{usage}
+
+Click â€œStart from templateâ€? in the Typst web app and search for
+\texttt{\ problemst\ } .
+
+Alternatively, run the following command to create a directory
+initialized with all necessary files:
+
+\begin{verbatim}
+typst init @preview/problemst:0.1.0
+\end{verbatim}
+
+\subsection{Configuration}\label{configuration}
+
+The \texttt{\ pset\ } function takes the following named arguments:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ class\ } (string): Class the assignment is for.
+\item
+  \texttt{\ student\ } (string): Student completing the assignment.
+\item
+  \texttt{\ title\ } (string): Title of the assignment.
+\item
+  \texttt{\ date\ } (datetime): Date to be displayed on the assignment.
+\item
+  \texttt{\ collaborators\ } (array of strings): Collaborators that
+  worked on the assignment with the student. Can be \texttt{\ ()\ } .
+\item
+  \texttt{\ subproblems\ } (string): Numbering scheme for the
+  subproblems.
+\end{itemize}
+
+\href{/app?template=problemst&version=0.1.0}{Create project in app}
+
+\subsubsection{How to use}\label{how-to-use}
+
+Click the button above to create a new project using this template in
+the Typst app.
+
+You can also use the Typst CLI to start a new project on your computer
+using this command:
+
+\begin{verbatim}
+typst init @preview/problemst:0.1.0
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+\href{https://github.com/carreter}{Willow Carretero Chavez}
+\item[License:]
+MIT
+\item[Current version:]
+0.1.0
+\item[Last updated:]
+April 17, 2024
+\item[First released:]
+April 17, 2024
+\item[Minimum Typst version:]
+0.11.0
+\item[Archive size:]
+2.63 kB
+\href{https://packages.typst.org/preview/problemst-0.1.0.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Categor y :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-speak.svg}}
+  \href{https://typst.app/universe/search/?category=report}{Report}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This template is a project of Willow Carretero Chavez . You can also try
+to ask for help with this template on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this template to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.1.0 & April 17, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this template and cannot guarantee correct
+functionality of this template or compatibility with any version of the
+Typst compiler or app.
+
+
+\title{typst.app/universe/package/cheq}
+
+\phantomsection\label{banner}
+\section{cheq}\label{cheq}
+
+{ 0.2.2 }
+
+Write markdown-like checklist easily.
+
+\phantomsection\label{readme}
+Write markdown-like checklist easily.
+
+\subsection{Usage}\label{usage}
+
+Checklists are incredibly useful for keeping track of important items.
+We can use the cheq package to achieve checklist syntax similar to
+\href{https://github.github.com/gfm/\#task-list-items-extension-}{GitHub
+Flavored Markdown} and \href{https://minimal.guide/checklists}{Minimal}
+.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/cheq:0.2.2": checklist}
+
+\NormalTok{\#show: checklist}
+
+\NormalTok{= Solar System Exploration, 1950s â 1960s}
+
+\NormalTok{{-} [ ] Mercury}
+\NormalTok{{-} [x] Venus}
+\NormalTok{{-} [x] Earth (Orbit/Moon)}
+\NormalTok{{-} [x] Mars}
+\NormalTok{{-} [{-}] Jupiter}
+\NormalTok{{-} [/] Saturn}
+\NormalTok{{-} [ ] Uranus}
+\NormalTok{{-} [ ] Neptune}
+\NormalTok{{-} [ ] Comet Haley}
+
+\NormalTok{= Extras}
+
+\NormalTok{{-} [\textgreater{}] Forwarded}
+\NormalTok{{-} [\textless{}] Scheduling}
+\NormalTok{{-} [?] question}
+\NormalTok{{-} [!] important}
+\NormalTok{{-} [\textbackslash{}*] star}
+\NormalTok{{-} ["] quote}
+\NormalTok{{-} [l] location}
+\NormalTok{{-} [b] bookmark}
+\NormalTok{{-} [i] information}
+\NormalTok{{-} [S] savings}
+\NormalTok{{-} [I] idea}
+\NormalTok{{-} [p] pros}
+\NormalTok{{-} [c] cons}
+\NormalTok{{-} [f] fire}
+\NormalTok{{-} [k] key}
+\NormalTok{{-} [w] win}
+\NormalTok{{-} [u] up}
+\NormalTok{{-} [d] down}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/cheq/0.2.2/examples/example.png}}
+
+\subsection{Custom Styles}\label{custom-styles}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/cheq:0.2.2": checklist}
+
+\NormalTok{\#show: checklist.with(fill: luma(95\%), stroke: blue, radius: .2em)}
+
+\NormalTok{= Solar System Exploration, 1950s â 1960s}
+
+\NormalTok{{-} [ ] Mercury}
+\NormalTok{{-} [x] Venus}
+\NormalTok{{-} [x] Earth (Orbit/Moon)}
+\NormalTok{{-} [x] Mars}
+\NormalTok{{-} [{-}] Jupiter}
+\NormalTok{{-} [/] Saturn}
+\NormalTok{{-} [ ] Uranus}
+\NormalTok{{-} [ ] Neptune}
+\NormalTok{{-} [ ] Comet Haley}
+
+\NormalTok{\#show: checklist.with(marker{-}map: (" ": sym.ballot, "x": sym.ballot.x, "{-}": sym.bar.h, "/": sym.slash.double))}
+
+\NormalTok{= Solar System Exploration, 1950s â 1960s}
+
+\NormalTok{{-} [ ] Mercury}
+\NormalTok{{-} [x] Venus}
+\NormalTok{{-} [x] Earth (Orbit/Moon)}
+\NormalTok{{-} [x] Mars}
+\NormalTok{{-} [{-}] Jupiter}
+\NormalTok{{-} [/] Saturn}
+\NormalTok{{-} [ ] Uranus}
+\NormalTok{{-} [ ] Neptune}
+\NormalTok{{-} [ ] Comet Haley}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/cheq/0.2.2/examples/custom-styles.png}}
+
+\subsection{\texorpdfstring{\texttt{\ checklist\ }
+function}{ checklist  function}}\label{checklist-function}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let checklist(}
+\NormalTok{  fill: white,}
+\NormalTok{  stroke: rgb("\#616161"),}
+\NormalTok{  radius: .1em,}
+\NormalTok{  marker{-}map: (:),}
+\NormalTok{  body,}
+\NormalTok{) = \{ .. \}}
+\end{Highlighting}
+\end{Shaded}
+
+\textbf{Arguments:}
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ fill\ } : {[} \texttt{\ string\ } {]} â€'' The fill color
+  for the checklist marker.
+\item
+  \texttt{\ stroke\ } : {[} \texttt{\ string\ } {]} â€'' The stroke
+  color for the checklist marker.
+\item
+  \texttt{\ radius\ } : {[} \texttt{\ string\ } {]} â€'' The radius of
+  the checklist marker.
+\item
+  \texttt{\ marker-map\ } : {[} \texttt{\ map\ } {]} â€'' The map of the
+  checklist marker. It should be a map of character to symbol function,
+  such as
+  \texttt{\ ("\ ":\ sym.ballot,\ "x":\ sym.ballot.x,\ "-":\ sym.bar.h,\ "/":\ sym.slash.double)\ }
+  .
+\item
+  \texttt{\ show-list-set-block\ } : {[} \texttt{\ dictionary\ } {]} -
+  The configuration of the block in list. It should be a dictionary of
+  \texttt{\ above\ } and \texttt{\ below\ } keys, such as
+  \texttt{\ (above:\ .5em)\ } .
+\item
+  \texttt{\ body\ } : {[} \texttt{\ content\ } {]} â€'' The main body
+  from \texttt{\ \#show:\ checklist\ } rule.
+\end{itemize}
+
+The default map is:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let default{-}map = (}
+\NormalTok{  "x": checked{-}sym(fill: fill, stroke: stroke, radius: radius),}
+\NormalTok{  " ": unchecked{-}sym(fill: fill, stroke: stroke, radius: radius),}
+\NormalTok{  "/": incomplete{-}sym(fill: fill, stroke: stroke, radius: radius),}
+\NormalTok{  "{-}": canceled{-}sym(fill: fill, stroke: stroke, radius: radius),}
+\NormalTok{  "\textgreater{}": "â¡",}
+\NormalTok{  "\textless{}": "ð",}
+\NormalTok{  "?": "â",}
+\NormalTok{  "!": "â",}
+\NormalTok{  "*": "â­",}
+\NormalTok{  "\textbackslash{}"": "â",}
+\NormalTok{  "l": "ð",}
+\NormalTok{  "b": "ð",}
+\NormalTok{  "i": "â¹ï¸",}
+\NormalTok{  "S": "ð°",}
+\NormalTok{  "I": "ð¡",}
+\NormalTok{  "p": "ð",}
+\NormalTok{  "c": "ð",}
+\NormalTok{  "f": "ð¥",}
+\NormalTok{  "k": "ð",}
+\NormalTok{  "w": "ð",}
+\NormalTok{  "u": "ð¼",}
+\NormalTok{  "d": "ð½",}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{\texorpdfstring{\texttt{\ unchecked-sym\ }
+function}{ unchecked-sym  function}}\label{unchecked-sym-function}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let unchecked{-}sym(fill: white, stroke: rgb("\#616161"), radius: .1em) = \{ .. \}}
+\end{Highlighting}
+\end{Shaded}
+
+\textbf{Arguments:}
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ fill\ } : {[} \texttt{\ string\ } {]} â€'' The fill color
+  for the unchecked symbol.
+\item
+  \texttt{\ stroke\ } : {[} \texttt{\ string\ } {]} â€'' The stroke
+  color for the unchecked symbol.
+\item
+  \texttt{\ radius\ } : {[} \texttt{\ string\ } {]} â€'' The radius of
+  the unchecked symbol.
+\end{itemize}
+
+\subsection{\texorpdfstring{\texttt{\ checked-sym\ }
+function}{ checked-sym  function}}\label{checked-sym-function}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let checked{-}sym(fill: white, stroke: rgb("\#616161"), radius: .1em) = \{ .. \}}
+\end{Highlighting}
+\end{Shaded}
+
+\textbf{Arguments:}
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ fill\ } : {[} \texttt{\ string\ } {]} â€'' The fill color
+  for the checked symbol.
+\item
+  \texttt{\ stroke\ } : {[} \texttt{\ string\ } {]} â€'' The stroke
+  color for the checked symbol.
+\item
+  \texttt{\ radius\ } : {[} \texttt{\ string\ } {]} â€'' The radius of
+  the checked symbol.
+\end{itemize}
+
+\subsection{\texorpdfstring{\texttt{\ incomplete-sym\ }
+function}{ incomplete-sym  function}}\label{incomplete-sym-function}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let incomplete{-}sym(fill: white, stroke: rgb("\#616161"), radius: .1em) = \{ .. \}}
+\end{Highlighting}
+\end{Shaded}
+
+\textbf{Arguments:}
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ fill\ } : {[} \texttt{\ string\ } {]} â€'' The fill color
+  for the incomplete symbol.
+\item
+  \texttt{\ stroke\ } : {[} \texttt{\ string\ } {]} â€'' The stroke
+  color for the incomplete symbol.
+\item
+  \texttt{\ radius\ } : {[} \texttt{\ string\ } {]} â€'' The radius of
+  the incomplete symbol.
+\end{itemize}
+
+\subsection{\texorpdfstring{\texttt{\ canceled-sym\ }
+function}{ canceled-sym  function}}\label{canceled-sym-function}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let canceled{-}sym(fill: white, stroke: rgb("\#616161"), radius: .1em) = \{ .. \}}
+\end{Highlighting}
+\end{Shaded}
+
+\textbf{Arguments:}
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ fill\ } : {[} \texttt{\ string\ } {]} â€'' The fill color
+  for the canceled symbol.
+\item
+  \texttt{\ stroke\ } : {[} \texttt{\ string\ } {]} â€'' The stroke
+  color for the canceled symbol.
+\item
+  \texttt{\ radius\ } : {[} \texttt{\ string\ } {]} â€'' The radius of
+  the canceled symbol.
+\end{itemize}
+
+\subsection{License}\label{license}
+
+This project is licensed under the MIT License.
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as \texttt{\ cheq\ }
+
+\begin{verbatim}
+#import "@preview/cheq:0.2.2"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author s :]
+OrangeX4 , Myriad-Dreamin , \& duskmoon314
+\item[License:]
+MIT
+\item[Current version:]
+0.2.2
+\item[Last updated:]
+October 17, 2024
+\item[First released:]
+April 12, 2024
+\item[Archive size:]
+3.33 kB
+\href{https://packages.typst.org/preview/cheq-0.2.2.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/OrangeX4/typst-cheq}{GitHub}
+\item[Categor ies :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-package.svg}}
+  \href{https://typst.app/universe/search/?category=components}{Components}
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-hammer.svg}}
+  \href{https://typst.app/universe/search/?category=utility}{Utility}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of OrangeX4, Myriad-Dreamin, and duskmoon314 .
+Report issues on \href{https://github.com/OrangeX4/typst-cheq}{their
+repository} . You can also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.2.2 & October 17, 2024 \\
+\href{https://typst.app/universe/package/cheq/0.2.1/}{0.2.1} & October
+14, 2024 \\
+\href{https://typst.app/universe/package/cheq/0.2.0/}{0.2.0} & September
+8, 2024 \\
+\href{https://typst.app/universe/package/cheq/0.1.0/}{0.1.0} & April 12,
+2024 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.
+
+
+\title{typst.app/universe/package/ascii-ipa}
+
+\phantomsection\label{banner}
+\section{ascii-ipa}\label{ascii-ipa}
+
+{ 2.0.0 }
+
+Converter for ASCII representations of the International Phonetic
+Alphabet (IPA)
+
+\phantomsection\label{readme}
+ðŸ''„ ASCII / IPA conversion for Typst
+
+This package allows you to easily convert different ASCII
+representations of the International Phonetic Alphabet (IPA) to and from
+the IPA. It also offers some minor utilities to make phonetic
+transcriptions easier to use overall. The package is being maintained
+\href{https://github.com/imatpot/typst-ascii-ipa}{here} .
+
+Note: This is an extended port of the
+\href{https://github.com/tirimid/ipa-translate}{\texttt{\ ipa-translate\ }}
+Rust crate by \href{https://github.com/tirimid}{tirimid} â€™s conversion
+features into native Typst. Most conversions are implemented according
+to
+\href{https://en.wikipedia.org/wiki/Comparison_of_ASCII_encodings_of_the_International_Phonetic_Alphabet}{this
+Wikipedia article} which in turn relies of the official specifications
+of the respective ASCII representations.
+
+\subsection{Conversion}\label{conversion}
+
+The package supports multiple ASCII representations for the IPA with one
+function each:
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Notation & Function name \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Branner & \texttt{\ \#branner(...)\ } \\
+Praat & \texttt{\ \#praat(...)\ } \\
+SIL & \texttt{\ \#sil(...)\ } \\
+X-SAMPA & \texttt{\ \#xsampa(...)\ } \\
+\end{longtable}
+
+They all return the converted value as a
+\href{https://typst.app/docs/reference/foundations/str/}{\texttt{\ string\ }}
+and accept the set of same parameters:
+
+\begin{longtable}[]{@{}lllll@{}}
+\toprule\noalign{}
+Parameter & Type & Positional / Named & Default & Description \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\texttt{\ value\ } &
+\href{https://typst.app/docs/reference/foundations/str/}{\texttt{\ string\ }}
+& positional & & Main input to the function. Usually the transcription
+in the corresponsing ASCII-based notation. \\
+\texttt{\ reverse\ } &
+\href{https://typst.app/docs/reference/foundations/bool/}{\texttt{\ bool\ }}
+& named & \texttt{\ false\ } & Reverses the conversion. Pass Unicode IPA
+into \texttt{\ value\ } to get the corresponsing ASCII-based notation
+back. \\
+\end{longtable}
+
+\subsubsection{Examples}\label{examples}
+
+All examples use the Swiss German word
+\href{https://als.wikipedia.org/wiki/Chuchich\%C3\%A4schtli}{âŸ¨ChuchichÃ¤schtliâŸ©
+{[}ËˆÏ‡ÊŠÏ‡Ë?iËŒÏ‡Ã¦ÊƒË?tlÉª{]}} for the conversion.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/ascii{-}ipa:2.0.0": *}
+
+\NormalTok{// returns "ËÏÊÏËiËÏÃ¦ÊËtlÉª"}
+\NormalTok{\#branner("\textquotesingle{}XUX:i,Xae)S:tlI")}
+
+\NormalTok{// returns "\textquotesingle{}XUX:i,Xae)S:tlI"}
+\NormalTok{\#branner("ËÏÊÏËiËÏÃ¦ÊËtlÉª", reverse: true)}
+
+\NormalTok{// returns "ËÏÊÏËiËÏÃ¦ÊËtlÉª"}
+\NormalTok{\#praat("\textbackslash{}\textbackslash{}\textquotesingle{}1\textbackslash{}\textbackslash{}cf\textbackslash{}\textbackslash{}hs\textbackslash{}\textbackslash{}cf\textbackslash{}\textbackslash{}:f\textbackslash{}\textbackslash{}\textquotesingle{}2\textbackslash{}\textbackslash{}ae\textbackslash{}\textbackslash{}sh\textbackslash{}\textbackslash{}:ftl\textbackslash{}\textbackslash{}ic")}
+
+\NormalTok{// returns "\textbackslash{}\textbackslash{}\textquotesingle{}1\textbackslash{}\textbackslash{}cf\textbackslash{}\textbackslash{}hs\textbackslash{}\textbackslash{}cf\textbackslash{}\textbackslash{}:f\textbackslash{}\textbackslash{}\textquotesingle{}2\textbackslash{}\textbackslash{}ae\textbackslash{}\textbackslash{}sh\textbackslash{}\textbackslash{}:ftl\textbackslash{}\textbackslash{}ic"}
+\NormalTok{\#praat("ËÏÊÏËiËÏÃ¦ÊËtlÉª", reverse: true)}
+
+\NormalTok{// returns "ËÏÊÏËiËÏÃ¦ÊËtlÉª"}
+\NormalTok{\#sil("\}x=u\textless{}x=:i\}\}x=a\textless{}s=:tli=")}
+
+\NormalTok{// returns "\}x=u\textless{}x=:i\}\}x=a\textless{}s=:tli="}
+\NormalTok{\#sil("ËÏÊÏËiËÏÃ¦ÊËtlÉª", reverse: true)}
+
+\NormalTok{// returns "ËÏÊÏËiËÏÃ¦ÊËtlÉª"}
+\NormalTok{\#xsampa("\textbackslash{}"XUX:i\%X\{S:tlI")}
+
+\NormalTok{// returns "\textbackslash{}"XUX:i\%X\{S:tlI"}
+\NormalTok{\#xsampa("ËÏÊÏËiËÏÃ¦ÊËtlÉª", reverse: true)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{\texorpdfstring{With
+\texttt{\ raw\ }}{With  raw }}\label{with-raw}
+
+You can also use
+\href{https://typst.app/docs/reference/text/raw/}{\texttt{\ raw\ }} for
+the conversion. This is useful if the notation uses a lot of
+backslashes.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/ascii{-}ipa:2.0.0": praat}
+
+\NormalTok{// regular string}
+\NormalTok{\#praat("\textbackslash{}\textbackslash{}\textquotesingle{}1\textbackslash{}\textbackslash{}cf\textbackslash{}\textbackslash{}hs\textbackslash{}\textbackslash{}cf\textbackslash{}\textbackslash{}:f\textbackslash{}\textbackslash{}\textquotesingle{}2\textbackslash{}\textbackslash{}ae\textbackslash{}\textbackslash{}sh\textbackslash{}\textbackslash{}:ftl\textbackslash{}\textbackslash{}ic")}
+
+\NormalTok{// raw}
+\NormalTok{\#praat(\textasciigrave{}\textbackslash{}\textquotesingle{}1\textbackslash{}cf\textbackslash{}hs\textbackslash{}cf\textbackslash{}:f\textbackslash{}\textquotesingle{}2\textbackslash{}ae\textbackslash{}sh\textbackslash{}:ftl\textbackslash{}ic\textasciigrave{})}
+\end{Highlighting}
+\end{Shaded}
+
+Note: \texttt{\ raw\ } will not play nicely with notations that use
+\texttt{\ \textasciigrave{}\ } a lot.
+
+\subsection{Brackets \& Braces}\label{brackets-braces}
+
+You can easily mark your notation text as different types of brackets or
+braces.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/ascii{-}ipa:2.0.0": *}
+
+\NormalTok{\#phonetic("prÊ²ÉªËvÊ²et") // [prÊ²ÉªËvÊ²et]}
+\NormalTok{\#phnt("prÊ²ÉªËvÊ²et")     // [prÊ²ÉªËvÊ²et]}
+
+\NormalTok{\#precise("prÊ²ÉªËvÊ²et") // â¦prÊ²ÉªËvÊ²etâ§}
+\NormalTok{\#prec("prÊ²ÉªËvÊ²et")    // â¦prÊ²ÉªËvÊ²etâ§}
+
+\NormalTok{\#phonemic("prÉªvet") // /prÉªvet/}
+\NormalTok{\#phnm("prÉªvet")     // /prÉªvet/}
+
+\NormalTok{\#morphophonemic("prÉªvet") // â«½prÉªvetâ«½}
+\NormalTok{\#mphnm("prÉªvet")          // â«½prÉªvetâ«½}
+
+\NormalTok{\#indistinguishable("prÊ²ÉªËvÊ²et") // (prÊ²ÉªËvÊ²et)}
+\NormalTok{\#idst("prÊ²ÉªËvÊ²et")              // (prÊ²ÉªËvÊ²et)}
+
+\NormalTok{\#obscured("prÊ²ÉªËvÊ²et") // â¸¨prÊ²ÉªËvÊ²etâ¸©}
+\NormalTok{\#obsc("prÊ²ÉªËvÊ²et")     // â¸¨prÊ²ÉªËvÊ²etâ¸©}
+
+\NormalTok{\#orthographic("Ð¿ÑÐ¸Ð²ÐµÑ") // â¨Ð¿ÑÐ¸Ð²ÐµÑâ©}
+\NormalTok{\#orth("Ð¿ÑÐ¸Ð²ÐµÑ")         // â¨Ð¿ÑÐ¸Ð²ÐµÑâ©}
+
+\NormalTok{\#transliterated("privyet") // âªprivyetâ«}
+\NormalTok{\#trlt("privyet")           // âªprivyetâ«}
+
+\NormalTok{\#prosodic("prÊ²ÉªËvÊ²et") // \{prÊ²ÉªËvÊ²et\}}
+\NormalTok{\#prsd("prÊ²ÉªËvÊ²et")     // \{prÊ²ÉªËvÊ²et\}}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as \texttt{\ ascii-ipa\ }
+
+\begin{verbatim}
+#import "@preview/ascii-ipa:2.0.0"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+imatpot
+\item[License:]
+MIT
+\item[Current version:]
+2.0.0
+\item[Last updated:]
+May 14, 2024
+\item[First released:]
+March 26, 2024
+\item[Minimum Typst version:]
+0.10.0
+\item[Archive size:]
+9.84 kB
+\href{https://packages.typst.org/preview/ascii-ipa-2.0.0.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/imatpot/typst-ascii-ipa}{GitHub}
+\item[Discipline :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \href{https://typst.app/universe/search/?discipline=linguistics}{Linguistics}
+\end{itemize}
+\item[Categor y :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-text.svg}}
+  \href{https://typst.app/universe/search/?category=text}{Text}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of imatpot . Report issues on
+\href{https://github.com/imatpot/typst-ascii-ipa}{their repository} .
+You can also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+2.0.0 & May 14, 2024 \\
+\href{https://typst.app/universe/package/ascii-ipa/1.1.1/}{1.1.1} &
+March 26, 2024 \\
+\href{https://typst.app/universe/package/ascii-ipa/1.1.0/}{1.1.0} &
+March 26, 2024 \\
+\href{https://typst.app/universe/package/ascii-ipa/1.0.0/}{1.0.0} &
+March 26, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.
+
+
+\title{typst.app/universe/package/tidy}
+
+\phantomsection\label{banner}
+\section{tidy}\label{tidy}
+
+{ 0.3.0 }
+
+Documentation generator for Typst code in Typst.
+
+{ } Featured Package
+
+\phantomsection\label{readme}
+\emph{Keep it tidy.}
+
+\href{https://typst.app/universe/package/tidy}{\pandocbounded{\includegraphics[keepaspectratio]{https://img.shields.io/badge/dynamic/toml?url=https\%3A\%2F\%2Fraw.githubusercontent.com\%2FMc-Zen\%2Ftidy\%2Fmain\%2Ftypst.toml&query=\%24.package.version&prefix=v&logo=typst&label=package&color=239DAD}}}
+\href{https://github.com/Mc-Zen/tidy/blob/main/LICENSE}{\pandocbounded{\includegraphics[keepaspectratio]{https://img.shields.io/badge/license-MIT-blue}}}
+\href{https://github.com/Mc-Zen/tidy/releases/download/v0.3.0/tidy-guide.pdf}{\pandocbounded{\includegraphics[keepaspectratio]{https://img.shields.io/badge/manual-.pdf-purple}}}
+
+\textbf{tidy} is a package that generates documentation directly in
+\href{https://typst.app/}{Typst} for your Typst modules. It parses
+docstring comments similar to javadoc and co. and can be used to easily
+build a beautiful reference section for the parsed module. Within the
+docstring you may use (almost) any Typst syntax âˆ' so markup, equations
+and even figures are no problem!
+
+Features:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Customizable} output styles.
+\item
+  Automatically
+  \href{https://github.com/typst/packages/raw/main/packages/preview/tidy/0.3.0/\#example}{\textbf{render
+  code examples}} .
+\item
+  \textbf{Annotate types} of parameters and return values.
+\item
+  Automatically read off default values for named parameters.
+\item
+  \href{https://github.com/typst/packages/raw/main/packages/preview/tidy/0.3.0/\#generate-a-help-command-for-you-package}{\textbf{Help}
+  feature} for your package.
+\item
+  \href{https://github.com/typst/packages/raw/main/packages/preview/tidy/0.3.0/\#docstring-tests}{Docstring
+  tests} .
+\end{itemize}
+
+The
+\href{https://github.com/Mc-Zen/tidy/releases/download/v0.3.0/tidy-guide.pdf}{guide}
+fully describes the usage of this module and defines the format for the
+docstrings.
+
+\subsection{Usage}\label{usage}
+
+Using \texttt{\ tidy\ } is as simple as writing some docstrings and
+calling:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/tidy:0.3.0"}
+
+\NormalTok{\#let docs = tidy.parse{-}module(read("my{-}module.typ"))}
+\NormalTok{\#tidy.show{-}module(docs, style: tidy.styles.default)}
+\end{Highlighting}
+\end{Shaded}
+
+The available predefined styles are currenty
+\texttt{\ tidy.styles.default\ } and \texttt{\ tidy.styles.minimal\ } .
+Custom styles can be added by hand (take a look at the
+\href{https://github.com/Mc-Zen/tidy/releases/download/v0.3.0/tidy-guide.pdf}{guide}
+).
+
+\subsection{Example}\label{example}
+
+A full example on how to use this module for your own package (maybe
+even consisting of multiple files) can be found at
+\href{https://github.com/Mc-Zen/tidy/tree/main/examples}{examples} .
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{/// This function computes the cardinal sine, $sinc(x)=sin(x)/x$. }
+\NormalTok{///}
+\NormalTok{/// \#example(\textasciigrave{}\#sinc(0)\textasciigrave{}, mode: "markup")}
+\NormalTok{///}
+\NormalTok{/// {-} x (int, float): The argument for the cardinal sine function. }
+\NormalTok{/// {-}\textgreater{} float}
+\NormalTok{\#let sinc(x) = if x == 0 \{1\} else \{calc.sin(x) / x\}}
+\end{Highlighting}
+\end{Shaded}
+
+\textbf{tidy} turns this into:
+
+\subsubsection{\texorpdfstring{\protect\pandocbounded{\includesvg[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/tidy/0.3.0/docs/images/sincx-docs.svg}}}{Tidy example output}}\label{tidy-example-output}
+
+\subsection{Access user-defined functions and
+images}\label{access-user-defined-functions-and-images}
+
+The code in the docstrings is evaluated via \texttt{\ eval()\ } . In
+order to access user-defined functions and images, you can make use of
+the \texttt{\ scope\ } argument of \texttt{\ tidy.parse-module()\ } :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#\{}
+\NormalTok{    import "my{-}module.typ"}
+\NormalTok{    let module = tidy.parse{-}module(read("my{-}module.typ"))}
+\NormalTok{    let an{-}image = image("img.png")}
+\NormalTok{    tidy.show{-}module(}
+\NormalTok{        module,}
+\NormalTok{        style: tidy.styles.default,}
+\NormalTok{        scope: (my{-}module: my{-}module, img: an{-}image)}
+\NormalTok{    )}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+The docstrings in \texttt{\ my-module.typ\ } may now access the image
+with \texttt{\ \#img\ } and can call any function or variable from
+\texttt{\ my-module\ } in the style of
+\texttt{\ \#my-module.my-function()\ } . This makes rendering examples
+right in the docstrings as easy as a breeze!
+
+\subsection{Generate a help command for you
+package}\label{generate-a-help-command-for-you-package}
+
+With \textbf{tidy} , you can add a help command to you package that
+allows users to obtain the documentation of a specific definition or
+parameter right in the document. This is similar to CLI-style help
+commands. If you have already written docstrings for your package, it is
+quite low-effort to add this feature. Once set up, the end-user can use
+it like this:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{// happily coding, but how do I use this one complex function again?}
+
+\NormalTok{\#mypackage.help("func")}
+\NormalTok{\#mypackage.help("func(param1)") // print only parameter description of param1}
+\end{Highlighting}
+\end{Shaded}
+
+This will print the documentation of \texttt{\ func\ } directly into the
+document â€'' no need to look it up in a manual. Read up in the
+\href{https://github.com/Mc-Zen/tidy/releases/download/v0.3.0/tidy-guide.pdf}{guide}
+for setup instructions.
+
+\subsection{Docstring tests}\label{docstring-tests}
+
+It is possible to add simple docstring tests â€'' assertions that will
+be run when the documentation is generated. This is useful if you want
+to keep small tests and documentation in one place.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{/// \#test(}
+\NormalTok{///   \textasciigrave{}num.my{-}square(2) == 4\textasciigrave{},}
+\NormalTok{///   \textasciigrave{}num.my{-}square(4) == 16\textasciigrave{},}
+\NormalTok{/// )}
+\NormalTok{\#let my{-}square(n) = n * n}
+\end{Highlighting}
+\end{Shaded}
+
+With the short-hand syntax, a unfulfilled assertion will even print the
+line number of the failed test:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{/// \textgreater{}\textgreater{}\textgreater{} my{-}square(2) == 4}
+\NormalTok{/// \textgreater{}\textgreater{}\textgreater{} my{-}square(4) == 16}
+\NormalTok{\#let my{-}square(n) = n * n}
+\end{Highlighting}
+\end{Shaded}
+
+A few test assertion functions are available to improve readability,
+simplicity, and error messages. Currently, these are
+\texttt{\ eq(a,\ b)\ } for equality tests, \texttt{\ ne(a,\ b)\ } for
+inequality tests and \texttt{\ approx(a,\ b,\ eps:\ 1e-10)\ } for
+floating point comparisons. These assertion helper functions are always
+available within docstring tests (with both \texttt{\ test()\ } and
+\texttt{\ \textgreater{}\textgreater{}\textgreater{}\ } syntax).
+
+\subsection{Changelog}\label{changelog}
+
+\subsubsection{v0.3.0}\label{v0.3.0}
+
+\begin{itemize}
+\tightlist
+\item
+  New features:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Help feature.
+  \item
+    \texttt{\ preamble\ } option for examples (e.g., to add
+    \texttt{\ import\ } statements).
+  \item
+    more options for \texttt{\ show-module\ } :
+    \texttt{\ omit-private-definitions\ } ,
+    \texttt{\ omit-private-parameters\ } ,
+    \texttt{\ enable-cross-references\ } , \texttt{\ local-names\ } (for
+    configuring language-specific strings).
+  \end{itemize}
+\item
+  Improvements:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Allow using \texttt{\ show-example()\ } as standalone.
+  \item
+    Updated type names that changed with Typst 0.8.0, e.g., integer
+    -\textgreater{} int.
+  \end{itemize}
+\item
+  Fixes:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    allow examples with ratio widths if \texttt{\ scale-preview\ } is
+    not \texttt{\ auto\ } .
+  \item
+    \texttt{\ show-outline\ }
+  \item
+    explicitly use \texttt{\ raw(lang:\ none)\ } for types and function
+    names.
+  \end{itemize}
+\end{itemize}
+
+\subsubsection{v0.2.0}\label{v0.2.0}
+
+\begin{itemize}
+\tightlist
+\item
+  New features:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Add executable examples to docstrings.
+  \item
+    Documentation for variables (as well as functions).
+  \item
+    Docstring tests.
+  \item
+    Rainbow-colored types \texttt{\ color\ } and \texttt{\ gradient\ } .
+  \end{itemize}
+\item
+  Improvements:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Allow customization of cross-references through
+    \texttt{\ show-reference()\ } .
+  \item
+    Allow customization of spacing between functions through styles.
+  \item
+    Allow color customization (especially for the \texttt{\ default\ }
+    theme).
+  \end{itemize}
+\item
+  Fixes:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Empty parameter descriptions are omitted (if the corresponding
+    option is set).
+  \item
+    Trim newline characters from parameter descriptions.
+  \end{itemize}
+\item
+  âš~ï¸? Breaking changes:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Before, cross-references for functions using the \texttt{\ @@\ }
+    syntax could omit the function parentheses. Now this is not possible
+    anymore, since such references refer to variables now.
+  \item
+    (only concerning custom styles) The style functions
+    \texttt{\ show-outline()\ } , \texttt{\ show-parameter-list\ } , and
+    \texttt{\ show-type()\ } now take \texttt{\ style-args\ } arguments
+    as well.
+  \end{itemize}
+\end{itemize}
+
+\subsubsection{v0.1.0}\label{v0.1.0}
+
+Initial Release.
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as \texttt{\ tidy\ }
+
+\begin{verbatim}
+#import "@preview/tidy:0.3.0"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+\href{https://github.com/Mc-Zen}{Mc-Zen}
+\item[License:]
+MIT
+\item[Current version:]
+0.3.0
+\item[Last updated:]
+May 14, 2024
+\item[First released:]
+August 8, 2023
+\item[Minimum Typst version:]
+0.6.0
+\item[Archive size:]
+17.6 kB
+\href{https://packages.typst.org/preview/tidy-0.3.0.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/Mc-Zen/tidy}{GitHub}
+\item[Categor ies :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-hammer.svg}}
+  \href{https://typst.app/universe/search/?category=utility}{Utility}
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-code.svg}}
+  \href{https://typst.app/universe/search/?category=scripting}{Scripting}
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-list-unordered.svg}}
+  \href{https://typst.app/universe/search/?category=model}{Model}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of Mc-Zen . Report issues on
+\href{https://github.com/Mc-Zen/tidy}{their repository} . You can also
+try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.3.0 & May 14, 2024 \\
+\href{https://typst.app/universe/package/tidy/0.2.0/}{0.2.0} & January
+3, 2024 \\
+\href{https://typst.app/universe/package/tidy/0.1.0/}{0.1.0} & August 8,
+2023 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.
+
+
+\title{typst.app/universe/package/charged-ieee}
+
+\phantomsection\label{banner}
+\phantomsection\label{template-thumbnail}
+\pandocbounded{\includegraphics[keepaspectratio]{https://packages.typst.org/preview/thumbnails/charged-ieee-0.1.3-small.webp}}
+
+\section{charged-ieee}\label{charged-ieee}
+
+{ 0.1.3 }
+
+An IEEE-style paper template to publish at conferences and journals for
+Electrical Engineering, Computer Science, and Computer Engineering
+
+{ } Featured Template
+
+\href{/app?template=charged-ieee&version=0.1.3}{Create project in app}
+
+\phantomsection\label{readme}
+This is a Typst template for a two-column paper from the proceedings of
+the Institute of Electrical and Electronics Engineers. The paper is
+tightly spaced, fits a lot of content and comes preconfigured for
+numeric citations from BibLaTeX or Hayagriva files.
+
+\subsection{Usage}\label{usage}
+
+You can use this template in the Typst web app by clicking â€œStart from
+templateâ€? on the dashboard and searching for \texttt{\ charged-ieee\ }
+.
+
+Alternatively, you can use the CLI to kick this project off using the
+command
+
+\begin{verbatim}
+typst init @preview/charged-ieee
+\end{verbatim}
+
+Typst will create a new directory with all the files needed to get you
+started.
+
+\subsection{Configuration}\label{configuration}
+
+This template exports the \texttt{\ ieee\ } function with the following
+named arguments:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ title\ } : The paperâ€™s title as content.
+\item
+  \texttt{\ authors\ } : An array of author dictionaries. Each of the
+  author dictionaries must have a \texttt{\ name\ } key and can have the
+  keys \texttt{\ department\ } , \texttt{\ organization\ } ,
+  \texttt{\ location\ } , and \texttt{\ email\ } . All keys accept
+  content.
+\item
+  \texttt{\ abstract\ } : The content of a brief summary of the paper or
+  \texttt{\ none\ } . Appears at the top of the first column in
+  boldface.
+\item
+  \texttt{\ index-terms\ } : Array of index terms to display after the
+  abstract. Shall be \texttt{\ content\ } .
+\item
+  \texttt{\ paper-size\ } : Defaults to \texttt{\ us-letter\ } . Specify
+  a
+  \href{https://typst.app/docs/reference/layout/page/\#parameters-paper}{paper
+  size string} to change the page format.
+\item
+  \texttt{\ bibliography\ } : The result of a call to the
+  \texttt{\ bibliography\ } function or \texttt{\ none\ } . Specifying
+  this will configure numeric, IEEE-style citations.
+\end{itemize}
+
+The function also accepts a single, positional argument for the body of
+the paper.
+
+The template will initialize your package with a sample call to the
+\texttt{\ ieee\ } function in a show rule. If you want to change an
+existing project to use this template, you can add a show rule like this
+at the top of your file:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/charged{-}ieee:0.1.3": ieee}
+
+\NormalTok{\#show: ieee.with(}
+\NormalTok{  title: [A typesetting system to untangle the scientific writing process],}
+\NormalTok{  abstract: [}
+\NormalTok{    The process of scientific writing is often tangled up with the intricacies of typesetting, leading to frustration and wasted time for researchers. In this paper, we introduce Typst, a new typesetting system designed specifically for scientific writing. Typst untangles the typesetting process, allowing researchers to compose papers faster. In a series of experiments we demonstrate that Typst offers several advantages, including faster document creation, simplified syntax, and increased ease{-}of{-}use.}
+\NormalTok{  ],}
+\NormalTok{  authors: (}
+\NormalTok{    (}
+\NormalTok{      name: "Martin Haug",}
+\NormalTok{      department: [Co{-}Founder],}
+\NormalTok{      organization: [Typst GmbH],}
+\NormalTok{      location: [Berlin, Germany],}
+\NormalTok{      email: "haug@typst.app"}
+\NormalTok{    ),}
+\NormalTok{    (}
+\NormalTok{      name: "Laurenz MÃ¤dje",}
+\NormalTok{      department: [Co{-}Founder],}
+\NormalTok{      organization: [Typst GmbH],}
+\NormalTok{      location: [Berlin, Germany],}
+\NormalTok{      email: "maedje@typst.app"}
+\NormalTok{    ),}
+\NormalTok{  ),}
+\NormalTok{  index{-}terms: ("Scientific writing", "Typesetting", "Document creation", "Syntax"),}
+\NormalTok{  bibliography: bibliography("refs.bib"),}
+\NormalTok{)}
+
+\NormalTok{// Your content goes below.}
+\end{Highlighting}
+\end{Shaded}
+
+\href{/app?template=charged-ieee&version=0.1.3}{Create project in app}
+
+\subsubsection{How to use}\label{how-to-use}
+
+Click the button above to create a new project using this template in
+the Typst app.
+
+You can also use the Typst CLI to start a new project on your computer
+using this command:
+
+\begin{verbatim}
+typst init @preview/charged-ieee:0.1.3
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+\href{https://typst.app}{Typst GmbH}
+\item[License:]
+MIT-0
+\item[Current version:]
+0.1.3
+\item[Last updated:]
+October 29, 2024
+\item[First released:]
+March 6, 2024
+\item[Minimum Typst version:]
+0.12.0
+\item[Archive size:]
+6.39 kB
+\href{https://packages.typst.org/preview/charged-ieee-0.1.3.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/typst/templates}{GitHub}
+\item[Discipline s :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \href{https://typst.app/universe/search/?discipline=computer-science}{Computer
+  Science}
+\item
+  \href{https://typst.app/universe/search/?discipline=engineering}{Engineering}
+\end{itemize}
+\item[Categor y :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-atom.svg}}
+  \href{https://typst.app/universe/search/?category=paper}{Paper}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This template is a project of Typst GmbH . Report issues on
+\href{https://github.com/typst/templates}{their repository} . You can
+also try to ask for help with this template on the
+\href{https://forum.typst.app}{Forum} .
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.1.3 & October 29, 2024 \\
+\href{https://typst.app/universe/package/charged-ieee/0.1.2/}{0.1.2} &
+August 15, 2024 \\
+\href{https://typst.app/universe/package/charged-ieee/0.1.1/}{0.1.1} &
+August 8, 2024 \\
+\href{https://typst.app/universe/package/charged-ieee/0.1.0/}{0.1.0} &
+March 6, 2024 \\
+\end{longtable}
+
+
+\title{typst.app/universe/package/algo}
+
+\phantomsection\label{banner}
+\section{algo}\label{algo}
+
+{ 0.3.4 }
+
+Beautifully typeset algorithms.
+
+\phantomsection\label{readme}
+A Typst library for writing algorithms. On Typst v0.6.0+ you can import
+the \texttt{\ algo\ } package:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/algo:0.3.4": algo, i, d, comment, code}
+\end{Highlighting}
+\end{Shaded}
+
+Otherwise, add the \texttt{\ algo.typ\ } file to your project and import
+it as normal:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "algo.typ": algo, i, d, comment, code}
+\end{Highlighting}
+\end{Shaded}
+
+Use the \texttt{\ algo\ } function for writing pseudocode and the
+\texttt{\ code\ } function for writing code blocks with line numbers.
+Check out the
+\href{https://github.com/typst/packages/raw/main/packages/preview/algo/0.3.4/\#examples}{examples}
+below for a quick overview. See the
+\href{https://github.com/typst/packages/raw/main/packages/preview/algo/0.3.4/\#usage}{usage}
+section to read about all the options each function has.
+
+\subsection{Examples}\label{examples}
+
+Hereâ€™s a basic use of \texttt{\ algo\ } :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#algo(}
+\NormalTok{  title: "Fib",}
+\NormalTok{  parameters: ("n",)}
+\NormalTok{)[}
+\NormalTok{  if $n \textless{} 0$:\#i\textbackslash{}        // use \#i to indent the following lines}
+\NormalTok{    return null\#d\textbackslash{}      // use \#d to dedent the following lines}
+\NormalTok{  if $n = 0$ or $n = 1$:\#i \#comment[you can also]\textbackslash{}}
+\NormalTok{    return $n$\#d \#comment[add comments!]\textbackslash{}}
+\NormalTok{  return \#smallcaps("Fib")$(n{-}1) +$ \#smallcaps("Fib")$(n{-}2)$}
+\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics[width=4.16667in,height=\textheight,keepaspectratio]{https://user-images.githubusercontent.com/40146328/235323240-e59ed7e2-ebb6-4b80-8742-eb171dd3721e.png}\\
+
+Hereâ€™s a use of \texttt{\ algo\ } without a title, parameters, line
+numbers, or syntax highlighting:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#algo(}
+\NormalTok{  line{-}numbers: false,}
+\NormalTok{  strong{-}keywords: false}
+\NormalTok{)[}
+\NormalTok{  if $n \textless{} 0$:\#i\textbackslash{}}
+\NormalTok{    return null\#d\textbackslash{}}
+\NormalTok{  if $n = 0$ or $n = 1$:\#i\textbackslash{}}
+\NormalTok{    return $n$\#d\textbackslash{}}
+\NormalTok{  \textbackslash{}}
+\NormalTok{  let $x \textless{}{-} 0$\textbackslash{}}
+\NormalTok{  let $y \textless{}{-} 1$\textbackslash{}}
+\NormalTok{  for $i \textless{}{-} 2$ to $n{-}1$:\#i \#comment[so dynamic!]\textbackslash{}}
+\NormalTok{    let $z \textless{}{-} x+y$\textbackslash{}}
+\NormalTok{    $x \textless{}{-} y$\textbackslash{}}
+\NormalTok{    $y \textless{}{-} z$\#d\textbackslash{}}
+\NormalTok{    \textbackslash{}}
+\NormalTok{  return $x+y$}
+\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics[width=3.125in,height=\textheight,keepaspectratio]{https://user-images.githubusercontent.com/40146328/235323261-d6e7a42c-ffb7-4c3a-bd2a-4c8fc2df5f36.png}\\
+
+And hereâ€™s \texttt{\ algo\ } with more styling options:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#algo(}
+\NormalTok{  title: [                    // note that title and parameters}
+\NormalTok{    \#set text(size: 15pt)     // can be content}
+\NormalTok{    \#emph(smallcaps("Fib"))}
+\NormalTok{  ],}
+\NormalTok{  parameters: ([\#math.italic("n")],),}
+\NormalTok{  comment{-}prefix: [\#sym.triangle.stroked.r ],}
+\NormalTok{  comment{-}styles: (fill: rgb(100\%, 0\%, 0\%)),}
+\NormalTok{  indent{-}size: 15pt,}
+\NormalTok{  indent{-}guides: 1pt + gray,}
+\NormalTok{  row{-}gutter: 5pt,}
+\NormalTok{  column{-}gutter: 5pt,}
+\NormalTok{  inset: 5pt,}
+\NormalTok{  stroke: 2pt + black,}
+\NormalTok{  fill: none,}
+\NormalTok{)[}
+\NormalTok{  if $n \textless{} 0$:\#i\textbackslash{}}
+\NormalTok{    return null\#d\textbackslash{}}
+\NormalTok{  if $n = 0$ or $n = 1$:\#i\textbackslash{}}
+\NormalTok{    return $n$\#d\textbackslash{}}
+\NormalTok{  \textbackslash{}}
+\NormalTok{  let $x \textless{}{-} 0$\textbackslash{}}
+\NormalTok{  let $y \textless{}{-} 1$\textbackslash{}}
+\NormalTok{  for $i \textless{}{-} 2$ to $n{-}1$:\#i \#comment[so dynamic!]\textbackslash{}}
+\NormalTok{    let $z \textless{}{-} x+y$\textbackslash{}}
+\NormalTok{    $x \textless{}{-} y$\textbackslash{}}
+\NormalTok{    $y \textless{}{-} z$\#d\textbackslash{}}
+\NormalTok{    \textbackslash{}}
+\NormalTok{  return $x+y$}
+\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics[width=3.125in,height=\textheight,keepaspectratio]{https://github.com/platformer/typst-algorithms/assets/40146328/89f80b5d-bdb2-420a-935d-24f43ca597d8}
+
+Hereâ€™s a basic use of \texttt{\ code\ } :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#code()[}
+\NormalTok{  \textasciigrave{}\textasciigrave{}\textasciigrave{}py}
+\NormalTok{  def fib(n):}
+\NormalTok{    if n \textless{} 0:}
+\NormalTok{      return None}
+\NormalTok{    if n == 0 or n == 1:        \# this comment is}
+\NormalTok{      return n                  \# normal raw text}
+\NormalTok{    return fib(n{-}1) + fib(n{-}2)}
+\NormalTok{  \textasciigrave{}\textasciigrave{}\textasciigrave{}}
+\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics[width=4.16667in,height=\textheight,keepaspectratio]{https://user-images.githubusercontent.com/40146328/235324088-a3596e0b-af90-4da3-b326-2de11158baac.png}\\
+
+And hereâ€™s \texttt{\ code\ } with some styling options:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#code(}
+\NormalTok{  indent{-}guides: 1pt + gray,}
+\NormalTok{  row{-}gutter: 5pt,}
+\NormalTok{  column{-}gutter: 5pt,}
+\NormalTok{  inset: 5pt,}
+\NormalTok{  stroke: 2pt + black,}
+\NormalTok{  fill: none,}
+\NormalTok{)[}
+\NormalTok{  \textasciigrave{}\textasciigrave{}\textasciigrave{}py}
+\NormalTok{  def fib(n):}
+\NormalTok{      if n \textless{} 0:}
+\NormalTok{          return None}
+\NormalTok{      if n == 0 or n == 1:        \# this comment is}
+\NormalTok{          return n                \# normal raw text}
+\NormalTok{      return fib(n{-}1) + fib(n{-}2)}
+\NormalTok{  \textasciigrave{}\textasciigrave{}\textasciigrave{}}
+\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics[width=4.16667in,height=\textheight,keepaspectratio]{https://github.com/platformer/typst-algorithms/assets/40146328/c091ac43-6861-40bc-8046-03ea285712c3}
+
+\subsection{Usage}\label{usage}
+
+\subsubsection{\texorpdfstring{\texttt{\ algo\ }}{ algo }}\label{algo-1}
+
+Makes a pseudocode element.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{algo(}
+\NormalTok{  body,}
+\NormalTok{  header: none,}
+\NormalTok{  title: none,}
+\NormalTok{  parameters: (),}
+\NormalTok{  line{-}numbers: true,}
+\NormalTok{  strong{-}keywords: true,}
+\NormalTok{  keywords: \_algo{-}default{-}keywords, // see below}
+\NormalTok{  comment{-}prefix: "// ",}
+\NormalTok{  indent{-}size: 20pt,}
+\NormalTok{  indent{-}guides: none,}
+\NormalTok{  indent{-}guides{-}offset: 0pt,}
+\NormalTok{  row{-}gutter: 10pt,}
+\NormalTok{  column{-}gutter: 10pt,}
+\NormalTok{  inset: 10pt,}
+\NormalTok{  fill: rgb(98\%, 98\%, 98\%),}
+\NormalTok{  stroke: 1pt + rgb(50\%, 50\%, 50\%),}
+\NormalTok{  radius: 0pt,}
+\NormalTok{  breakable: false,}
+\NormalTok{  block{-}align: center,}
+\NormalTok{  main{-}text{-}styles: (:),}
+\NormalTok{  comment{-}styles: (fill: rgb(45\%, 45\%, 45\%)),}
+\NormalTok{  line{-}number{-}styles: (:)}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\textbf{Parameters:}
+
+\begin{itemize}
+\item
+  \texttt{\ body\ } : \texttt{\ content\ } â€'' Main algorithm content.
+\item
+  \texttt{\ header\ } : \texttt{\ content\ } â€'' Algorithm header. If
+  specified, \texttt{\ title\ } and \texttt{\ parameters\ } are ignored.
+\item
+  \texttt{\ title\ } : \texttt{\ string\ } or \texttt{\ content\ } â€''
+  Algorithm title. Ignored if \texttt{\ header\ } is specified.
+\item
+  \texttt{\ Parameters\ } : \texttt{\ array\ } â€'' List of algorithm
+  parameters. Elements can be \texttt{\ string\ } or
+  \texttt{\ content\ } values. \texttt{\ string\ } values will
+  automatically be displayed in math mode. Ignored if
+  \texttt{\ header\ } is specified.
+\item
+  \texttt{\ line-numbers\ } : \texttt{\ boolean\ } â€'' Whether to
+  display line numbers.
+\item
+  \texttt{\ strong-keywords\ } : \texttt{\ boolean\ } â€'' Whether to
+  strongly emphasize keywords.
+\item
+  \texttt{\ keywords\ } : \texttt{\ array\ } â€'' List of terms to
+  receive strong emphasis. Elements must be \texttt{\ string\ } values.
+  Ignored if \texttt{\ strong-keywords\ } is \texttt{\ false\ } .
+
+  The default list of keywords is stored in
+  \texttt{\ \_algo-default-keywords\ } . This list contains the
+  following terms:
+
+\begin{verbatim}
+("if", "else", "then", "while", "for",
+"repeat", "do", "until", ":", "end",
+"and", "or", "not", "in", "to",
+"down", "let", "return", "goto")
+\end{verbatim}
+
+  Note that for each of the above terms,
+  \texttt{\ \_algo-default-keywords\ } also contains the uppercase form
+  of the term (e.g. â€œforâ€? and â€œForâ€?).
+\item
+  \texttt{\ comment-prefix\ } : \texttt{\ content\ } â€'' What to
+  prepend comments with.
+\item
+  \texttt{\ indent-size\ } : \texttt{\ length\ } â€'' Size of line
+  indentations.
+\item
+  \texttt{\ indent-guides\ } : \texttt{\ stroke\ } â€'' Stroke for
+  indent guides.
+\item
+  \texttt{\ indent-guides-offset\ } : \texttt{\ length\ } â€''
+  Horizontal offset of indent guides.
+\item
+  \texttt{\ row-gutter\ } : \texttt{\ length\ } â€'' Space between
+  lines.
+\item
+  \texttt{\ column-gutter\ } : \texttt{\ length\ } â€'' Space between
+  line numbers, text, and comments.
+\item
+  \texttt{\ inset\ } : \texttt{\ length\ } â€'' Size of inner padding.
+\item
+  \texttt{\ fill\ } : \texttt{\ color\ } â€'' Fill color.
+\item
+  \texttt{\ stroke\ } : \texttt{\ stroke\ } â€'' Stroke for the
+  elementâ€™s border.
+\item
+  \texttt{\ radius\ } : \texttt{\ length\ } â€'' Corner radius.
+\item
+  \texttt{\ breakable\ } : \texttt{\ boolean\ } â€'' Whether the element
+  can break across pages. WARNING: indent guides may look off when
+  broken across pages.
+\item
+  \texttt{\ block-align\ } : \texttt{\ none\ } or \texttt{\ alignment\ }
+  or \texttt{\ 2d\ alignment\ } â€'' Alignment of the \texttt{\ algo\ }
+  on the page. Using \texttt{\ none\ } will cause the internal
+  \texttt{\ block\ } element to be returned as-is.
+\item
+  \texttt{\ main-text-styles\ } : \texttt{\ dictionary\ } â€'' Styling
+  options for the main algorithm text. Supports all parameters in
+  Typstâ€™s native \texttt{\ text\ } function.
+\item
+  \texttt{\ comment-styles\ } : \texttt{\ dictionary\ } â€'' Styling
+  options for comment text. Supports all parameters in Typstâ€™s native
+  \texttt{\ text\ } function.
+\item
+  \texttt{\ line-number-styles\ } : \texttt{\ dictionary\ } â€'' Styling
+  options for line numbers. Supports all parameters in Typstâ€™s native
+  \texttt{\ text\ } function.
+\end{itemize}
+
+\subsubsection{\texorpdfstring{\texttt{\ i\ } and
+\texttt{\ d\ }}{ i  and  d }}\label{i-and-d}
+
+For use in an \texttt{\ algo\ } body. \texttt{\ \#i\ } indents all
+following lines and \texttt{\ \#d\ } dedents all following lines.
+
+\subsubsection{\texorpdfstring{\texttt{\ comment\ }}{ comment }}\label{comment}
+
+For use in an \texttt{\ algo\ } body. Adds a comment to the line in
+which itâ€™s placed.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{comment(}
+\NormalTok{  body,}
+\NormalTok{  inline: false}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\textbf{Parameters:}
+
+\begin{itemize}
+\item
+  \texttt{\ body\ } : \texttt{\ content\ } â€'' Comment content.
+\item
+  \texttt{\ inline\ } : \texttt{\ boolean\ } â€'' If true, the comment
+  is displayed in place rather than on the right side.
+
+  NOTE: inline comments will respect both \texttt{\ main-text-styles\ }
+  and \texttt{\ comment-styles\ } , preferring
+  \texttt{\ comment-styles\ } when the two conflict.
+
+  NOTE: to make inline comments insensitive to
+  \texttt{\ strong-keywords\ } , strong emphasis is disabled within
+  them. This can be circumvented via the \texttt{\ text\ } function:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#comment(inline: true)[\#text(weight: 700)[...]]}
+\end{Highlighting}
+\end{Shaded}
+\end{itemize}
+
+\subsubsection{\texorpdfstring{\texttt{\ no-emph\ }}{ no-emph }}\label{no-emph}
+
+For use in an \texttt{\ algo\ } body. Prevents the passed content from
+being strongly emphasized. If a word appears in your algorithm both as a
+keyword and as normal text, you may escape the non-keyword usages via
+this function.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{no{-}emph(}
+\NormalTok{  body}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\textbf{Parameters:}
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ body\ } : \texttt{\ content\ } â€'' Content to display
+  without emphasis.
+\end{itemize}
+
+\subsubsection{\texorpdfstring{\texttt{\ code\ }}{ code }}\label{code}
+
+Makes a code block element.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{code(}
+\NormalTok{  body,}
+\NormalTok{  line{-}numbers: true,}
+\NormalTok{  indent{-}guides: none,}
+\NormalTok{  indent{-}guides{-}offset: 0pt,}
+\NormalTok{  tab{-}size: auto,}
+\NormalTok{  row{-}gutter: 10pt,}
+\NormalTok{  column{-}gutter: 10pt,}
+\NormalTok{  inset: 10pt,}
+\NormalTok{  fill: rgb(98\%, 98\%, 98\%),}
+\NormalTok{  stroke: 1pt + rgb(50\%, 50\%, 50\%),}
+\NormalTok{  radius: 0pt,}
+\NormalTok{  breakable: false,}
+\NormalTok{  block{-}align: center,}
+\NormalTok{  main{-}text{-}styles: (:),}
+\NormalTok{  line{-}number{-}styles: (:)}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\textbf{Parameters:}
+
+\begin{itemize}
+\item
+  \texttt{\ body\ } : \texttt{\ content\ } â€'' Main content. Expects
+  \texttt{\ raw\ } text.
+\item
+  \texttt{\ line-numbers\ } : \texttt{\ boolean\ } â€'' Whether to
+  display line numbers.
+\item
+  \texttt{\ indent-guides\ } : \texttt{\ stroke\ } â€'' Stroke for
+  indent guides.
+\item
+  \texttt{\ indent-guides-offset\ } : \texttt{\ length\ } â€''
+  Horizontal offset of indent guides.
+\item
+  \texttt{\ tab-size\ } : \texttt{\ integer\ } â€'' Amount of spaces
+  that should be considered an indent. If unspecified, the tab size is
+  determined automatically from the first instance of starting
+  whitespace.
+\item
+  \texttt{\ row-gutter\ } : \texttt{\ length\ } â€'' Space between
+  lines.
+\item
+  \texttt{\ column-gutter\ } : \texttt{\ length\ } â€'' Space between
+  line numbers and text.
+\item
+  \texttt{\ inset\ } : \texttt{\ length\ } â€'' Size of inner padding.
+\item
+  \texttt{\ fill\ } : \texttt{\ color\ } â€'' Fill color.
+\item
+  \texttt{\ stroke\ } : \texttt{\ stroke\ } â€'' Stroke for the
+  elementâ€™s border.
+\item
+  \texttt{\ radius\ } : \texttt{\ length\ } â€'' Corner radius.
+\item
+  \texttt{\ breakable\ } : \texttt{\ boolean\ } â€'' Whether the element
+  can break across pages. WARNING: indent guides may look off when
+  broken across pages.
+\item
+  \texttt{\ block-align\ } : \texttt{\ none\ } or \texttt{\ alignment\ }
+  or \texttt{\ 2d\ alignment\ } â€'' Alignment of the \texttt{\ code\ }
+  on the page. Using \texttt{\ none\ } will cause the internal
+  \texttt{\ block\ } element to be returned as-is.
+\item
+  \texttt{\ main-text-styles\ } : \texttt{\ dictionary\ } â€'' Styling
+  options for the main raw text. Supports all parameters in Typstâ€™s
+  native \texttt{\ text\ } function.
+\item
+  \texttt{\ line-number-styles\ } : \texttt{\ dictionary\ } â€'' Styling
+  options for line numbers. Supports all parameters in Typstâ€™s native
+  \texttt{\ text\ } function.
+\end{itemize}
+
+\subsection{Contributing}\label{contributing}
+
+PRs are welcome! And if you encounter any bugs or have any
+requests/ideas, feel free to open an issue.
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as \texttt{\ algo\ }
+
+\begin{verbatim}
+#import "@preview/algo:0.3.4"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+\href{https://github.com/platformer}{platformer}
+\item[License:]
+MIT
+\item[Current version:]
+0.3.4
+\item[Last updated:]
+November 12, 2024
+\item[First released:]
+August 8, 2023
+\item[Archive size:]
+10.5 kB
+\href{https://packages.typst.org/preview/algo-0.3.4.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/platformer/typst-algorithms}{GitHub}
+\item[Discipline :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \href{https://typst.app/universe/search/?discipline=computer-science}{Computer
+  Science}
+\end{itemize}
+\item[Categor y :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-package.svg}}
+  \href{https://typst.app/universe/search/?category=components}{Components}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of platformer . Report issues on
+\href{https://github.com/platformer/typst-algorithms}{their repository}
+. You can also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.3.4 & November 12, 2024 \\
+\href{https://typst.app/universe/package/algo/0.3.3/}{0.3.3} & September
+21, 2023 \\
+\href{https://typst.app/universe/package/algo/0.3.2/}{0.3.2} & September
+3, 2023 \\
+\href{https://typst.app/universe/package/algo/0.3.1/}{0.3.1} & August
+19, 2023 \\
+\href{https://typst.app/universe/package/algo/0.3.0/}{0.3.0} & August 8,
+2023 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.
+
+
+\title{typst.app/universe/package/showybox}
+
+\phantomsection\label{banner}
+\section{showybox}\label{showybox}
+
+{ 2.0.3 }
+
+Colorful and customizable boxes for Typst
+
+{ } Featured Package
+
+\phantomsection\label{readme}
+\textbf{Showybox} is a Typst package for creating colorful and
+customizable boxes.
+
+\subsection{Usage}\label{usage}
+
+To use this library through the Typst package manager (for Typst 0.6.0
+or greater), write
+\texttt{\ \#import\ "@preview/showybox:2.0.2":\ showybox\ } at the
+beginning of your Typst file.
+
+Once imported, you can create an empty showybox by using the function
+\texttt{\ showybox()\ } and giving a default body content inside the
+parenthesis or outside them using squared brackets \texttt{\ {[}{]}\ } .
+
+By default a \texttt{\ showybox\ } with these properties will be
+created:
+
+\begin{itemize}
+\tightlist
+\item
+  No title
+\item
+  No shadow
+\item
+  Not breakable
+\item
+  Black borders
+\item
+  White background
+\item
+  \texttt{\ 5pt\ } of border radius
+\item
+  \texttt{\ 1pt\ } of border thickness
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/showybox:2.0.3": showybox}
+
+\NormalTok{\#showybox(}
+\NormalTok{  [Hello world!]}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{\texorpdfstring{\protect\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/showybox/2.0.3/assets/hello-world.png}}}{Hello world! example}}\label{hello-world-example}
+
+Looks quite simple, but the â€œmagicâ€? starts when adding a title,
+color and shadows. The following code creates two â€œuniqueâ€? boxes
+with defined colors and custom borders:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{// First showybox}
+\NormalTok{\#showybox(}
+\NormalTok{  frame: (}
+\NormalTok{    border{-}color: red.darken(50\%),}
+\NormalTok{    title{-}color: red.lighten(60\%),}
+\NormalTok{    body{-}color: red.lighten(80\%)}
+\NormalTok{  ),}
+\NormalTok{  title{-}style: (}
+\NormalTok{    color: black,}
+\NormalTok{    weight: "regular",}
+\NormalTok{    align: center}
+\NormalTok{  ),}
+\NormalTok{  shadow: (}
+\NormalTok{    offset: 3pt,}
+\NormalTok{  ),}
+\NormalTok{  title: "Red{-}ish showybox with separated sections!",}
+\NormalTok{  lorem(20),}
+\NormalTok{  lorem(12)}
+\NormalTok{)}
+
+\NormalTok{// Second showybox}
+\NormalTok{\#showybox(}
+\NormalTok{  frame: (}
+\NormalTok{    dash: "dashed",}
+\NormalTok{    border{-}color: red.darken(40\%)}
+\NormalTok{  ),}
+\NormalTok{  body{-}style: (}
+\NormalTok{    align: center}
+\NormalTok{  ),}
+\NormalTok{  sep: (}
+\NormalTok{    dash: "dashed"}
+\NormalTok{  ),}
+\NormalTok{  shadow: (}
+\NormalTok{      offset: (x: 2pt, y: 3pt),}
+\NormalTok{    color: yellow.lighten(70\%)}
+\NormalTok{  ),}
+\NormalTok{  [This is an important message!],}
+\NormalTok{  [Be careful outside. There are dangerous bananas!]}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{\texorpdfstring{\protect\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/showybox/2.0.3/assets/two-easy-examples.png}}}{Further examples}}\label{further-examples}
+
+\subsection{Reference}\label{reference}
+
+The \texttt{\ showybox()\ } function can receive the following
+parameters:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ title\ } : A string used as the title of the showybox
+\item
+  \texttt{\ footer\ } : A string used as the footer of the showybox
+\item
+  \texttt{\ frame\ } : A dictionary containing the frameâ€™s properties
+\item
+  \texttt{\ title-style\ } : A dictionary containing the titleâ€™s
+  styles
+\item
+  \texttt{\ body-style\ } : A dictionary containing the bodyâ€™s styles
+\item
+  \texttt{\ footer-style\ } : A dictionary containing the footerâ€™s
+  styles
+\item
+  \texttt{\ sep\ } : A dictionary containing the separatorâ€™s
+  properties
+\item
+  \texttt{\ shadow\ } : A dictionary containing the shadowâ€™s
+  properties
+\item
+  \texttt{\ width\ } : A relative length indicating the showyboxâ€™s
+  width
+\item
+  \texttt{\ align\ } : An unidimensional alignement for the showybox in
+  the page
+\item
+  \texttt{\ breakable\ } : A boolean indicating whether a showybox can
+  break if it reached an end of page
+\item
+  \texttt{\ spacing\ } : Space above and below the showybox
+\item
+  \texttt{\ above\ } : Space above the showybox
+\item
+  \texttt{\ below\ } : Space below the showybox
+\item
+  \texttt{\ body\ } : The content of the showybox
+\end{itemize}
+
+\subsubsection{Frame properties}\label{frame-properties}
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ title-color\ } : Color used as background color where the
+  title goes (default is \texttt{\ black\ } )
+\item
+  \texttt{\ body-color\ } : Color used as background color where the
+  body goes (default is \texttt{\ white\ } )
+\item
+  \texttt{\ footer-color\ } : Color used as background color where the
+  footer goes (default is \texttt{\ luma(85)\ } )
+\item
+  \texttt{\ border-color\ } : Color used for the showyboxâ€™s border
+  (default is \texttt{\ black\ } )
+\item
+  \texttt{\ inset\ } : Inset used for title, body and footer elements
+  (default is \texttt{\ (x:\ 1em,\ y:\ 0.65em)\ } ) if none of the
+  followings are given:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \texttt{\ title-inset\ } : Inset used for the title
+  \item
+    \texttt{\ body-inset\ } : Inset used for the body
+  \item
+    \texttt{\ footer-inset\ } : Inset used for the body
+  \end{itemize}
+\item
+  \texttt{\ radius\ } : Showyboxâ€™s radius (default is \texttt{\ 5pt\ }
+  )
+\item
+  \texttt{\ thickness\ } : Border thickness of the showybox (default is
+  \texttt{\ 1pt\ } )
+\item
+  \texttt{\ dash\ } : Showyboxâ€™s border style (default is
+  \texttt{\ solid\ } )
+\end{itemize}
+
+\subsubsection{Title styles}\label{title-styles}
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ color\ } : Text color (default is \texttt{\ white\ } )
+\item
+  \texttt{\ weight\ } : Text weight (default is \texttt{\ bold\ } )
+\item
+  \texttt{\ align\ } : Text align (default is \texttt{\ left\ } )
+\item
+  \texttt{\ sep-thickness\ } : Thickness of the separator between title
+  and body (default is \texttt{\ 1pt\ } )
+\item
+  \texttt{\ boxed-style\ } : If itâ€™s a dictionary of properties,
+  indicates that the title must appear like a â€œfloating boxâ€? above
+  the showybox. If itâ€™s \texttt{\ none\ } , the title appears normally
+  (default is \texttt{\ none\ } )
+\end{itemize}
+
+\paragraph{Boxed styles}\label{boxed-styles}
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ anchor\ } : Anchor of the boxed title
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \texttt{\ y\ } : Vertical anchor ( \texttt{\ top\ } ,
+    \texttt{\ horizon\ } or \texttt{\ bottom\ } â€`` default is
+    \texttt{\ horizon\ } )
+  \item
+    \texttt{\ x\ } : Horizontal anchor ( \texttt{\ left\ } ,
+    \texttt{\ start\ } , \texttt{\ center\ } , \texttt{\ right\ } ,
+    \texttt{\ end\ } â€`` default is \texttt{\ left\ } )
+  \end{itemize}
+\item
+  \texttt{\ offset\ } : How much to offset the boxed title in x and y
+  direction as a dictionary with keys \texttt{\ x\ } and \texttt{\ y\ }
+  (default is \texttt{\ 0pt\ } )
+\item
+  \texttt{\ radius\ } : Boxed title radius as a dictionary or relative
+  length (default is \texttt{\ 5pt\ } )
+\end{itemize}
+
+\subsubsection{Body styles}\label{body-styles}
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ color\ } : Text color (default is \texttt{\ black\ } )
+\item
+  \texttt{\ align\ } : Text align (default is \texttt{\ left\ } )
+\end{itemize}
+
+\subsubsection{Footer styles}\label{footer-styles}
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ color\ } : Text color (default is \texttt{\ luma(85)\ } )
+\item
+  \texttt{\ weight\ } : Text weight (default is \texttt{\ regular\ } )
+\item
+  \texttt{\ align\ } : Text align (default is \texttt{\ left\ } )
+\item
+  \texttt{\ sep-thickness\ } : Thickness of the separator between body
+  and footer (default is \texttt{\ 1pt\ } )
+\end{itemize}
+
+\subsubsection{Separator properties}\label{separator-properties}
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ thickness\ } : Separatorâ€™s thickness (default is
+  \texttt{\ 1pt\ } )
+\item
+  \texttt{\ dash\ } : Separatorâ€™s style (as a \texttt{\ line\ } dash
+  style, default is \texttt{\ "solid"\ } )
+\item
+  \texttt{\ gutter\ } : Separatorâ€™s space above and below (defalut is
+  \texttt{\ 0.65em\ } )
+\end{itemize}
+
+\subsubsection{Shadow properties}\label{shadow-properties}
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ color\ } : Shadow color (default is \texttt{\ black\ } )
+\item
+  \texttt{\ offset\ } : How much to offset the shadow in x and y
+  direction either as a length or a dictionary with keys \texttt{\ x\ }
+  and \texttt{\ y\ } (default is \texttt{\ 4pt\ } )
+\end{itemize}
+
+\subsection{Gallery}\label{gallery}
+
+\subsubsection{Colors for title, body and footer example (Stokesâ€™
+theorem)}\label{colors-for-title-body-and-footer-example-stokesuxe2-theorem}
+
+\subsubsection{\texorpdfstring{\protect\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/showybox/2.0.3/assets/stokes-example.png}}}{Encapsulation}}\label{encapsulation}
+
+\subsubsection{Boxed-title example (Clairautâ€™s
+theorem)}\label{boxed-title-example-clairautuxe2s-theorem}
+
+\subsubsection{\texorpdfstring{\protect\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/showybox/2.0.3/assets/clairaut-example.png}}}{Encapsulation}}\label{encapsulation-1}
+
+\subsubsection{Encapsulation example}\label{encapsulation-example}
+
+\subsubsection{\texorpdfstring{\protect\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/showybox/2.0.3/assets/encapsulation-example.png}}}{Encapsulation}}\label{encapsulation-2}
+
+\subsubsection{Breakable showybox example (Newtonâ€™s second
+law)}\label{breakable-showybox-example-newtonuxe2s-second-law}
+
+\subsubsection{\texorpdfstring{\protect\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/showybox/2.0.3/assets/newton-example.png}}}{Enabling breakable}}\label{enabling-breakable}
+
+\subsubsection{Custom radius and titleâ€™s separator thickness example
+(Carnotâ€™s cycle
+efficency)}\label{custom-radius-and-titleuxe2s-separator-thickness-example-carnotuxe2s-cycle-efficency}
+
+\subsubsection{\texorpdfstring{\protect\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/showybox/2.0.3/assets/carnot-example.png}}}{Custom radius}}\label{custom-radius}
+
+\subsubsection{Custom border dash and inset example (Gaussâ€™s
+law)}\label{custom-border-dash-and-inset-example-gaussuxe2s-law}
+
+\subsubsection{\texorpdfstring{\protect\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/showybox/2.0.3/assets/gauss-example.png}}}{Custom radius}}\label{custom-radius-1}
+
+\subsubsection{Custom footerâ€™s separator thickness example
+(Divergenceâ€™s
+theorem)}\label{custom-footeruxe2s-separator-thickness-example-divergenceuxe2s-theorem}
+
+\subsubsection{\texorpdfstring{\protect\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/showybox/2.0.3/assets/divergence-example.png}}}{Custom radius}}\label{custom-radius-2}
+
+\subsubsection{Colorful shadow example (Coulombâ€™s
+law)}\label{colorful-shadow-example-coulombuxe2s-law}
+
+\subsubsection{\texorpdfstring{\protect\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/showybox/2.0.3/assets/coulomb-example.png}}}{Custom radius}}\label{custom-radius-3}
+
+\subsection{Changelog}\label{changelog}
+
+\subsubsection{Version 2.0.3}\label{version-2.0.3}
+
+\begin{itemize}
+\tightlist
+\item
+  Revert fix breakable box empty before new page. Layout didnâ€™t
+  converge
+\end{itemize}
+
+\subsubsection{Version 2.0.2}\label{version-2.0.2}
+
+\begin{itemize}
+\tightlist
+\item
+  Remove deprecated functions in Typst 0.12.0
+\item
+  Fix breakable box empty before new page
+\end{itemize}
+
+\subsubsection{Version 2.0.1}\label{version-2.0.1}
+
+\begin{itemize}
+\tightlist
+\item
+  Fix bad behaviours of boxed-titles \texttt{\ anchor\ } inside a
+  \texttt{\ figure\ }
+\item
+  Fix wrong \texttt{\ breakable\ } behaviour of showyboxes inside a
+  \texttt{\ figure\ }
+\item
+  Fix Manual and READMEâ€™s Stokes theorem example
+\end{itemize}
+
+\subsubsection{Version 2.0.0}\label{version-2.0.0}
+
+\emph{Special thanks to Andrew Voynov (
+\url{https://github.com/Andrew15-5} ) for the feedback while creating
+the new behaviours for boxed-titles}
+
+\begin{itemize}
+\tightlist
+\item
+  Update \texttt{\ type()\ } conditionals to Typst 0.8.0 standards
+\item
+  Add \texttt{\ boxed-style\ } property, with \texttt{\ anchor\ } ,
+  \texttt{\ offset\ } and \texttt{\ radius\ } properties.
+\item
+  Refactor \texttt{\ showy-inset()\ } for being general-purpose. Now
+  itâ€™s called \texttt{\ showy-value-in-direction()\ } and has a
+  default value for handling properties defaults
+\item
+  Now sharp corners can be set by giving a dictionary to frame
+  \texttt{\ radius\ } (e.g.
+  \texttt{\ radius:\ (top:\ 5pt,\ bottom:\ 0pt)\ } ). Before this only
+  was possible for untitled showyboxes.
+\item
+  Refactor shadow functions to be in a separated file.
+\item
+  Fix bug of bad behaviour while writing too long titles.
+\item
+  Fix bug while rendering separators with custom thickness. Now the
+  thickness is gotten properly.
+\item
+  Fix bad shadow drawing in showyboxes with a boxed-title that has a
+  â€œextremeâ€? \texttt{\ offset\ } value.
+\item
+  Fix bad sizing while creating showyboxes with a \texttt{\ width\ } of
+  less than \texttt{\ 100\%\ } , and a shadow.
+\end{itemize}
+
+\subsubsection{Version 1.1.0}\label{version-1.1.0}
+
+\begin{itemize}
+\tightlist
+\item
+  Added \texttt{\ boxed\ } option in title styles
+\item
+  Added \texttt{\ boxed-align\ } in title styles
+\item
+  Added \texttt{\ sep-thickness\ } for title and footer
+\item
+  Refactored repositoryâ€™s files layout
+\end{itemize}
+
+\subsubsection{Version 1.0.0}\label{version-1.0.0}
+
+\begin{itemize}
+\tightlist
+\item
+  Fixed shadow displacement
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \textbf{Details:} Instead of displacing the showyboxâ€™s body from
+    the shadow, now the shadow is displaced from the body.
+  \end{itemize}
+\end{itemize}
+
+\emph{Changes below were performed by Jonas Neugebauer (
+\url{https://github.com/jneug} )}
+
+\begin{itemize}
+\tightlist
+\item
+  Added \texttt{\ title-inset\ } , \texttt{\ body-inset\ } ,
+  \texttt{\ footer-inset\ } and \texttt{\ inset\ } options
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \textbf{Details:} \texttt{\ title-inset\ } , \texttt{\ body-inset\ }
+    and \texttt{\ footer-inset\ } will set the inset of the title, body
+    and footer area respectively. \texttt{\ inset\ } is a fallback for
+    those areas.
+  \end{itemize}
+\item
+  Added a \texttt{\ sep.gutter\ } option to set the spacing around
+  separator lines
+\item
+  Added option \texttt{\ width\ } to set the width of a showybox
+\item
+  Added option \texttt{\ align\ } to move a showybox with
+  \texttt{\ width\ } \textless{} 100\% along the x-axis
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \textbf{Details:} A showybox is now wrapped in another block to
+    allow alignment. This also makes it possible to pass the spacing
+    options \texttt{\ spacing\ } , \texttt{\ above\ } and
+    \texttt{\ below\ } to \texttt{\ \#showybox()\ } .
+  \end{itemize}
+\item
+  Added \texttt{\ footer\ } and \texttt{\ footer-style\ } options
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \textbf{Details:} The optional footer is added at the bottom of the
+    box.
+  \end{itemize}
+\end{itemize}
+
+\subsubsection{Version 0.2.1}\label{version-0.2.1}
+
+\emph{All changes listed here were performed by Jonas Neugebauer (
+\url{https://github.com/jneug} )}
+
+\begin{itemize}
+\tightlist
+\item
+  Added the \texttt{\ shadow\ } option
+\item
+  Enabled auto-break ( \texttt{\ breakable\ } ) functionality for titled
+  showyboxes
+\item
+  Removed a thin line that appears in showyboxes with no borders or
+  dashed borders
+\end{itemize}
+
+\subsubsection{Version 0.2.0}\label{version-0.2.0}
+
+\begin{itemize}
+\tightlist
+\item
+  Improved code documentation
+\item
+  Enabled an auto-break functionality for non-titled showyboxes
+\item
+  Created a separator functionality to separate content inside a
+  showybox with a horizontal line
+\end{itemize}
+
+\subsubsection{Version 0.1.1}\label{version-0.1.1}
+
+\begin{itemize}
+\tightlist
+\item
+  Changed package name from colorbox to showybox
+\item
+  Fixed a spacing bug in encapsulated showyboxes
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \textbf{Details:} When a showybox was encapsulated inside another,
+    the spacing after that showybox was \texttt{\ 0pt\ } , probably due
+    to some â€œfixesâ€? improved to manage default spacing between
+    \texttt{\ rect\ } elements. The issue was solved by avoiding
+    \texttt{\ \#set\ } statements and adding a \texttt{\ \#v(-1.1em)\ }
+    to correct extra spacing between the title \texttt{\ rect\ } and the
+    body \texttt{\ rect\ } .
+  \end{itemize}
+\end{itemize}
+
+\subsubsection{Version 0.1.0}\label{version-0.1.0}
+
+\begin{itemize}
+\tightlist
+\item
+  Initial release
+\end{itemize}
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as \texttt{\ showybox\ }
+
+\begin{verbatim}
+#import "@preview/showybox:2.0.3"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author s :]
+Pablo GonzÃ¡lez CalderÃ³n \& Showybox Contributors
+\item[License:]
+MIT
+\item[Current version:]
+2.0.3
+\item[Last updated:]
+October 24, 2024
+\item[First released:]
+July 3, 2023
+\item[Minimum Typst version:]
+0.12.0
+\item[Archive size:]
+9.41 kB
+\href{https://packages.typst.org/preview/showybox-2.0.3.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/Pablo-Gonzalez-Calderon/showybox-package}{GitHub}
+\item[Categor y :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-package.svg}}
+  \href{https://typst.app/universe/search/?category=components}{Components}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of Pablo GonzÃ¡lez CalderÃ³n and Showybox
+Contributors . Report issues on
+\href{https://github.com/Pablo-Gonzalez-Calderon/showybox-package}{their
+repository} . You can also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+2.0.3 & October 24, 2024 \\
+\href{https://typst.app/universe/package/showybox/2.0.2/}{2.0.2} &
+October 21, 2024 \\
+\href{https://typst.app/universe/package/showybox/2.0.1/}{2.0.1} &
+October 4, 2023 \\
+\href{https://typst.app/universe/package/showybox/2.0.0/}{2.0.0} &
+October 1, 2023 \\
+\href{https://typst.app/universe/package/showybox/1.1.0/}{1.1.0} &
+August 3, 2023 \\
+\href{https://typst.app/universe/package/showybox/1.0.0/}{1.0.0} & July
+31, 2023 \\
+\href{https://typst.app/universe/package/showybox/0.2.1/}{0.2.1} & July
+31, 2023 \\
+\href{https://typst.app/universe/package/showybox/0.2.0/}{0.2.0} & July
+10, 2023 \\
+\href{https://typst.app/universe/package/showybox/0.1.1/}{0.1.1} & July
+3, 2023 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.
+
+
+\title{typst.app/universe/package/universal-cau-thesis}
+
+\phantomsection\label{banner}
+\phantomsection\label{template-thumbnail}
+\pandocbounded{\includegraphics[keepaspectratio]{https://packages.typst.org/preview/thumbnails/universal-cau-thesis-0.1.0-small.webp}}
+
+\section{universal-cau-thesis}\label{universal-cau-thesis}
+
+{ 0.1.0 }
+
+ä¸­å›½å†œä¸šå¤§å­¦æ¯•ä¸šè®ºæ--‡çš„Typstæ¨¡æ?¿
+
+\href{/app?template=universal-cau-thesis&version=0.1.0}{Create project
+in app}
+
+\phantomsection\label{readme}
+\subsubsection{ä¸ºä»€ä¹ˆä½¿ç''¨Typst}\label{uxe4uxbauxe4uxe4uxb9ux2c6uxe4uxbduxe7typst}
+
+å›~ä¸ºè¯­æ³•è¶³å¤Ÿç®€å?•ï¼ˆç®€å?•æ˜``å­¦ï¼‰ã€?ç¼--è¯`å™¨ä½``ç§¯å°?ï¼ˆéš?å?--éš?ç''¨ï¼‰ã€?ä¸''é€Ÿåº¦è¶³å¤Ÿå¿«ï¼ˆå®žæ---¶é¢„è§ˆï¼‰ï¼?
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/universal-cau-thesis/0.1.0/images/PixPin_2024-03-13_17-19-53.png}}
+
+\subsubsection{å\ldots³äºŽæœ¬è®ºæ--‡æ¨¡æ?¿}\label{uxe5uxb3uxe4uxbaux17euxe6ux153uxe8uxbauxe6uxe6uxe6}
+
+æœ¬æ¨¡æ?¿å?‚è€ƒ
+\href{https://jwc.cau.edu.cn/art/2020/2/25/art_14181_663910.html}{ä¸­å›½å†œä¸šå¤§å­¦æ¯•ä¸šè®ºæ--‡æ¨¡æ?¿è¦?æ±‚}
+ç¼--å†™ï¼Œç¬¦å?ˆå­¦æ~¡è¦?æ±‚ã€‚å¯¹äºŽå\ldots¶ä¸­ä¸€äº›å?¯ä»¥ç?µæ´»ä¿®æ''¹çš„æ~¼å¼?ï¼Œæœ¬æ¨¡æ?¿ä¹Ÿæ??ä¾›äº†é\ldots?ç½®é¡¹ï¼Œå\ldots·ä½``è¯¦è§?æ¨¡æ?¿ä½¿ç''¨æ--¹æ³•ã€‚æ¨¡æ?¿çš„æ•ˆæžœè§?
+\texttt{\ sample.pdf\ } æ--‡ä»¶ï¼š
+\href{https://github.com/JWangL5/CAU-ThesisTemplate-Typst/blob/master/sample.pdf}{ç‚¹å‡»ç›´è¾¾}
+
+âš~ï¸?
+ä½†æ˜¯ï¼Œæœ¬æ¨¡æ?¿ä¸ºä¸ªäººç¼--å†™ä½¿ç''¨ï¼Œæ²¡æœ‰å®Œå\ldots¨é€‚é\ldots?è‡ªåŠ¨åŒ--é€»è¾`å'Œæ¨¡å?---åŒ--ä»£ç~?ï¼Œå?¯èƒ½ä»?æ---§å­˜åœ¨éƒ¨åˆ†æƒ\ldots å†µæŽ'ç‰ˆä¸?å?ˆç?†ã€‚å¦‚æžœæ‚¨åœ¨ä½¿ç''¨è¿‡ç¨‹ä¸­é?‡åˆ°é---®é¢˜ï¼Œå?¯ä»¥æ??äº¤issueè¯´æ˜Žï¼Œä¹Ÿæ¬¢è¿Žpull
+requestè´¡çŒ®ã€‚
+
+å¦‚æžœè¯¥æ¨¡æ?¿å¯¹æ‚¨æœ‰å¸®åŠ©å¹¶æ„¿æ„?æ''¯æŒ?æˆ`çš„å·¥ä½œï¼Œå?¯ä»¥åœ¨è¿™é‡Œ
+\href{https://www.buymeacoffee.com/jwangl5}{buy me a coffee}
+ï¼Œå??åˆ†æ„Ÿè°¢ðŸ˜Šï¼?
+
+\subsubsection{ä½¿ç''¨æ--¹æ³•}\label{uxe4uxbduxe7uxe6uxb9uxe6uxb3}
+
+\begin{enumerate}
+\item
+  Typstå?¯ä»¥ä½¿ç''¨ \href{https://typst.app/}{çº¿ä¸ŠWebApp}
+  æˆ--æœ¬åœ°ä¸‹è½½ç¼--è¯`å™¨å?Žè¿›è¡Œç¼--å†™ï¼Œæœ¬åœ°ç¼--å†™éœ€è¦?
+  \href{https://github.com/typst/typst/releases}{ä¸‹è½½å®‰è£\ldots ç¼--è¯`å™¨}
+  åˆ°æœ¬åœ°ï¼Œå¹¶å°† \texttt{\ exe\ }
+  æ~¼å¼?çš„ç¼--è¯`å™¨æ·»åŠ~åˆ°çŽ¯å¢ƒå?˜é‡?ï¼Œä»¥æ--¹ä¾¿è°ƒç''¨
+\item
+  ä¸‹è½½è¯¥ä»``åº``åˆ°æœ¬åœ°ç›®å½•æˆ--WebAppçš„å·¥ä½œç›®å½•ä¸­ï¼Œå?¯ä»¥ä½¿ç''¨gitå`½ä»¤æˆ--è¯¥é¡µé?¢ä¸Šæ--¹çš„CodeæŒ‰é'®ç›´æŽ¥ä¸‹è½½
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{git clone https://github.com/JWangL5/CAU{-}ThesisTemplate{-}Typst.git}
+\end{Highlighting}
+\end{Shaded}
+\item
+  å®‰è£\ldots æœ¬æ¨¡æ?¿æ‰€ä½¿ç''¨çš„ç›¸å\ldots³å­---ä½``ï¼ˆ
+  \texttt{\ /fonts\ } æ--‡ä»¶å¤¹å†\ldots å­---ä½``ï¼‰
+
+  PSï¼šå?---é™?äºŽä¸­æ--‡å­---ä½``çš„è¡¬çº¿é---®é¢˜ï¼Œç›®å‰?ç‰ˆæœ¬çš„Typstæš‚ä¸?æ''¯æŒ?å¤šæ•°ä¸­æ--‡å­---ä½``çš„åŠ~ç²---ï¼Œè¿™é‡Œä½¿ç''¨äº†å\ldots¶ä»--åŠ~ç²---å­---ä½``ä½œä¸ºæ›¿ä»£ï¼Œå?¯ä»¥ç›´æŽ¥å?Œå‡»å­---ä½``æ--‡ä»¶æ‰``å¼€å?Žå®‰è£
+\item
+  æœ¬åœ°ç¼--å†™æ---¶ï¼Œå»ºè®®ä½¿ç''¨
+  \href{https://code.visualstudio.com/}{vscode}
+  å?ŠTypsté\ldots?å¥---æ?'ä»¶ï¼ˆTypst-LSPã€?Typst Previewï¼‰
+\item
+  é€šè¿‡ç¼--å†™ \texttt{\ main.typ\ }
+  æ--‡ä»¶å®Œæˆ?è®ºæ--‡çš„æ'°å†™ï¼Œåœ¨è¯¥æ--‡ä»¶ä¸­ï¼Œä½¿ç''¨
+  \texttt{\ import\ } å`½ä»¤å¼•å\ldots¥æ¨¡æ?¿ï¼Œå¹¶ä¿®æ''¹é\ldots?ç½®é¡¹
+
+  \begin{itemize}
+  \tightlist
+  \item
+    kindï¼šå¡«å†™ \texttt{\ "æœ¬ç§‘"\ } ï¼Œ \texttt{\ "ç¡•å£«"\ } ï¼Œ
+    \texttt{\ "å?šå£«"\ }
+    ï¼Œå\ldots¶ä¼šå¯¹åº''ä¿®æ''¹å°?é?¢å'Œé¡µçœ‰å¤„çš„ä¿¡æ?¯
+  \item
+    titleï¼šè®ºæ--‡æ~‡é¢˜ï¼Œå¡«å†™åœ¨æ‹¬å?· \texttt{\ {[}text{]}\ }
+    å†\ldots ï¼Œä½¿ç''¨ \texttt{\ \textbackslash{}\ } æ?¢è¡Œ
+  \item
+    abstractï¼šè®ºæ--‡æ`˜è¦?ï¼Œéœ€è¦?æ‰‹åŠ¨å†™å\ldots³é''®è¯?
+  \item
+    authorsï¼šè®ºæ--‡ä½œè€\ldots å§``å??ï¼Œå?¯ä»¥
+    \texttt{\ {[}text{]}\ } ï¼Œä¹Ÿå?¯ä»¥ \texttt{\ "text"\ }
+  \item
+    teacherï¼šæŒ‡å¯¼æ•™å¸ˆçš„å§``å??
+  \item
+    degreeï¼šç''³è¯·å­¦ä½?é---¨ç±»çº§åˆ«ï¼Œæ¯''å¦‚
+    \texttt{\ {[}ç?†å­¦ç¡•å£«{]}\ }
+  \item
+    college, major,
+    fieldï¼šå°?é?¢ä¸Šçš„å†\ldots å®¹ï¼Œå­¦é™¢ã€?ä¸``ä¸šå'Œç~''ç©¶æ--¹å?{}`
+  \item
+    signatureï¼šä½~çš„ç''µå­?ç­¾å??æ--‡ä»¶è·¯å¾„ï¼Œæ˜¯è®ºæ--‡ç‹¬åˆ›æ€§å£°æ˜Žå¤„çš„ç­¾å­---
+  \item
+    classification \& securityï¼šè®ºæ--‡åœ¨å›¾ä¹¦é¦†æ''¶å½•æ---¶çš„
+    \href{https://www.clcindex.com/}{ä¸­å›¾æ³•åˆ†ç±»} å'Œä¿?å¯†çº§åˆ«
+  \item
+    student\_IDï¼šå­¦å?·
+  \item
+    year, month, dayï¼šè®ºæ--‡å°?é?¢å'Œè¯šä¿¡å£°æ˜Žé¡µä¸Šçš„æ---¥æœŸ
+  \item
+    draftï¼šå¡«å†™ \texttt{\ true\ }
+    æ---¶æ·»åŠ~è?‰ç¨¿æ°´å?°ï¼Œç''¨ä»¥åŒºåˆ†æ˜¯å?¦ä¸ºæœ€ç»ˆç‰ˆæœ¬ï¼Œå¡«å†™
+    \texttt{\ false\ } æ---¶åŽ»é™¤æ°´å?°å¹¶æ·»åŠ~è®ºæ--‡ç«
+  \item
+    blindReviewï¼šå¡«å†™ä¸º \texttt{\ true\ }
+    æ---¶éš?è---?å°?é?¢ä¸Šçš„ç›¸å\ldots³ä¿¡æ?¯ï¼Œä»¥å?Šè‡´è°¢å'Œä½œè€\ldots ä»‹ç»?
+  \end{itemize}
+\item
+  ä½¿ç''¨ \texttt{\ typst\ }
+  å`½ä»¤ç''Ÿæˆ?pdfæ~¼å¼?æ--‡ä»¶ï¼Œæˆ--ç›´æŽ¥ä½¿ç''¨vscodeçš„å®žæ---¶é¢„è§ˆæ?'ä»¶ï¼ˆé»˜è®¤å¿«æ?·é''®
+  \texttt{\ ctrl+k\ v\ } ï¼‰
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{typst compile .}\AttributeTok{/sample}\NormalTok{.typ}
+\end{Highlighting}
+\end{Shaded}
+\end{enumerate}
+
+\subsubsection{Typstç¼--å†™ç®€æ˜``æŒ‡å?---}\label{typstuxe7uxbcuxe5uxe7uxe6uxe6ux153uxe5}
+
+\begin{quote}
+å¦‚æžœåœ¨ä½¿ç''¨Typstæ---¶é?‡åˆ°ä»»ä½•é---®é¢˜ï¼Œéƒ½å?¯ä»¥å?‚è€ƒ
+\href{https://typst.app/docs/}{å®˜æ--¹å¸®åŠ©æ--‡æ¡£}
+ï¼Œä¸‹é?¢æ˜¯ç®€è¦?çš„ä½¿ç''¨æ--¹æ³•å?Šä¸Žæœ¬æ¨¡æ?¿ç›¸å\ldots³çš„é\ldots?å¥---è®¾ç½®ï¼Œå?¯ä»¥å?‚è€ƒçš„ç¤ºä¾‹æ--‡æ¡£
+\texttt{\ sample.typ\ }
+\end{quote}
+
+\begin{itemize}
+\item
+  å\ldots³äºŽæ~‡é¢˜ï¼šTypstä½¿ç''¨ \texttt{\ =\ }
+  ä½œä¸ºæ~‡é¢˜çš„æŒ‡ç¤ºç¬¦ã€‚æœ¬æ¨¡æ?¿ä¸­ï¼Œä¸€çº§æ~‡é¢˜éœ€è¦?æ‰‹åŠ¨ç¼--å?·ï¼ŒäºŒã€?ä¸‰çº§æ~‡é¢˜åˆ™ä¸?éœ€è¦?
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{= ç¬¬ä¸ç«  ä¸çº§æ é¢}
+\NormalTok{== äºçº§æ é¢}
+\NormalTok{=== ä¸çº§æ é¢}
+\end{Highlighting}
+\end{Shaded}
+\item
+  æ®µè?½çš„ç¼--å†™ï¼šç›´æŽ¥è¾``å\ldots¥æ--‡æœ¬å?³å?¯ç¼--å†™å†\ldots å®¹ï¼Œä½¿ç''¨ä¸¤ä¸ªå›žè½¦å?¦èµ·ä¸€æ®µ
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{è¿æ¯åå®¹çç¬¬ä¸æ®µï¼}
+\NormalTok{è¿ä»æ§æ¯ç¬¬ä¸æ®µçåå®¹}
+
+\NormalTok{å¤ä¸ä¸ªæ¢è¡ç¬¦å·åå¦èµ·ä¸ºç¬¬äºæ®µ}
+\end{Highlighting}
+\end{Shaded}
+\item
+  æ--‡å­---å†\ldots å®¹çš„åŸºç¡€æ~¼å¼?ï¼šä½¿ç''¨ \texttt{\ *text*\ }
+  åŒ\ldots æ‹¬ä½?çš„æ--‡å­---å?¯ä»¥åŠ~ç²---ï¼Œä½¿ç''¨
+  \texttt{\ \_text\_\ }
+  åŒ\ldots æ‹¬ä½?çš„æ--‡å­---å?¯ä»¥æ--œä½``æ--‡å­---ï¼Œä½¿ç''¨
+  \texttt{\ \#u{[}text{]}\ }
+  åŒ\ldots æ‹¬ä½?çš„æ--‡å­---å?¯ä»¥å®žçŽ°ä¸‹åˆ'çº¿ï¼Œä½¿ç''¨
+  \texttt{\ \#sub{[}text{]}\ }
+  åŒ\ldots æ‹¬ä½?çš„æ--‡å­---ä¿®æ''¹ä¸ºä¸‹æ~‡ï¼Œä½¿ç''¨
+  \texttt{\ \#super{[}text{]}\ }
+  åŒ\ldots æ‹¬ä½?çš„æ--‡å­---ä¿®æ''¹ä¸ºä¸Šæ~‡
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{è¿éæ¯*å ç²æå­*åå®¹ï¼}
+\NormalTok{è¿éæ¯\_æä½æå­\_åå®¹ï¼}
+\NormalTok{è¿éæ¯\#u[ä¸åçº¿æå­]åå®¹ï¼}
+\NormalTok{è¿éæ¯\#sub[ä¸æ æå­]åå®¹ï¼}
+\NormalTok{è¿éæ¯\#super[ä¸æ æå­]åå®¹}
+\end{Highlighting}
+\end{Shaded}
+\item
+  ä½¿ç''¨ \texttt{\ \#highlight(fill:\ red){[}text{]}\ }
+  é«˜äº®æ--‡å­---æ~‡è®°ï¼Œä½¿ç''¨ \texttt{\ fill\ }
+  å?‚æ•°ä¿®æ''¹é«˜äº®é¢œè‰²
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{è¿ä¸æ®µæå­\#highlight[è¿éè¦ä¿®æ¹]}
+\end{Highlighting}
+\end{Shaded}
+\item
+  ä½¿ç''¨ \texttt{\ \#link("your\ link\ here"){[}text{]}\ }
+  æ~‡è®°è¶\ldots é``¾æŽ¥
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{è¿éæ¯\#link("https://typst.app/home")[Typstå®æ¹ç½ç«]}
+\end{Highlighting}
+\end{Shaded}
+\item
+  ä½¿ç''¨ \texttt{\ -\ } æˆ-- \texttt{\ +\ }
+  ä½¿ç''¨æ---~åº?åˆ---è¡¨æˆ--æœ‰åº?åˆ---è¡¨ï¼Œä½¿ç''¨ \texttt{\ Tab\ }
+  ç¼©è¿›ä¸ºäºŒçº§åˆ---è¡¨
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{{-} æ åºåè¡¨1}
+\NormalTok{    + æåºåè¡¨1}
+\NormalTok{    + æåºåè¡¨2}
+\NormalTok{{-} æ åºåè¡¨2}
+\end{Highlighting}
+\end{Shaded}
+\item
+  ä½¿ç''¨ \texttt{\ \#h(2em)\ } æˆ-- \texttt{\ \#v(1em)\ }
+  æ?¥æ·»åŠ~æ°´å¹³æˆ--åž‚ç›´çš„ç©ºç™½ç¼©è¿›ï¼Œæ‹¬å?·ä¸­çš„å?‚æ•°ä¸ºéœ€è¦?ç©ºå‡ºçš„è·?ç¦»ï¼Œå\ldots¶å?•ä½?å?¯ä»¥ä½¿ç''¨
+  \texttt{\ \%\ } ï¼ˆé¡µé?¢ç™¾åˆ†æ¯''ï¼‰ï¼Œ \texttt{\ pt\ }
+  ï¼ˆç‚¹ï¼Œå?°åˆ·è¡Œä¸šçš„ç»?å¯¹é•¿åº¦å?•ä½?ï¼Œç›¸å½``äºŽ1/72è‹±å¯¸ï¼‰ï¼Œ
+  \texttt{\ em\ } ï¼ˆå­---ç¬¦é•¿åº¦ï¼Œç›¸å¯¹äºŽå½``å‰?å­---ç¬¦å¤§å°?ï¼‰ç­‰
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#h(2em)é»è®¤æ ¼å¼ä¼é¦è¡ç¼©è¿ä¸¤å­ç¬¦ï¼é¢å¤æ·»å ä¼åæ¬¡ç¼©è¿}
+\end{Highlighting}
+\end{Shaded}
+\item
+  æ¨¡æ?¿æ''¯æŒ?è‡ªåŠ¨æ±‡æ€»å›¾è¡¨ç›®å½•ï¼Œå?¯ä»¥ä½¿ç''¨
+  \texttt{\ \#figure(image())\ } å`½ä»¤æ?¥æ·»åŠ~å›¾ç‰‡æˆ--ä½¿ç''¨
+  \texttt{\ \#booktab()\ }
+  æ·»åŠ~è¡¨æ~¼ï¼Œåœ¨å¡«å†™æ---¢å®šçš„é\ldots?ç½®é¡¹å?Žå?¯æˆ?åŠŸæ¸²æŸ``å¹¶è‡ªåŠ¨æ±‡æ€»ç›®å½•é¡µï¼Œå?¯ä»¥ä½¿ç''¨
+  \texttt{\ @\ } å¼•ç''¨å›¾è¡¨
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#figure(}
+\NormalTok{    image(\textquotesingle{}./image/path.jpg\textquotesingle{}, width: 90\%),}
+\NormalTok{    kind: image, }
+\NormalTok{    supplement: [å¾],}
+\NormalTok{    caption: [å¾ççæ é¢],}
+\NormalTok{)\textless{}img1\textgreater{}}
+
+\NormalTok{\#booktab(}
+\NormalTok{    width:60\%,}
+\NormalTok{    columns: (20\%, 1fr, 2fr, 3fr),}
+\NormalTok{    caption: [è¿éå¡«åè¡¨æ ¼åç§°],}
+\NormalTok{    kind: table, }
+\NormalTok{    [1], [2], [3], [4],}
+\NormalTok{    [a], [b], [c], [d],}
+\NormalTok{    [e], [f], [g], [h],}
+\NormalTok{    [i], [j], [k], [l]}
+\NormalTok{)\textless{}tab1\textgreater{}}
+\end{Highlighting}
+\end{Shaded}
+\item
+  ä½¿ç''¨ \texttt{\ \$\ } ç¼--å†™æ•°å­¦å\ldots¬å¼?ï¼Œ \texttt{\ \$\ }
+  ç¬¦ç´§è·Ÿå†\ldots å®¹æ---¶ä¸ºè¡Œå†\ldots å\ldots¬å¼?ï¼Œæ·»åŠ~ç©ºæ~¼å?Žä¸ºè¡Œé---´å\ldots¬å¼?ï¼Œå\ldots¬å¼?çš„å\ldots·ä½``è§„åˆ™å'Œ
+  \href{https://typst.app/docs/reference/symbols/sym/}{ç¬¦å?·} å?¯ä»¥æŸ¥
+  \href{https://typst.app/docs/reference/math/}{å¸®åŠ©æ--‡æ¡£}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{æ³°åå±å¼å¼ï¼è¡åï¼ï¼}
+\NormalTok{$f(x)= sum\_(n=0)\^{}(infinity) (f\^{}(n)(x\_0))/(n!) (x{-}x\_0)\^{}n$}
+
+\NormalTok{æ¬§æå¬å¼ï¼è¡é´ï¼ï¼}
+\NormalTok{$ e\^{}(i theta) = cos theta + i sin theta \textbackslash{} e\^{}i pi + 1 = 0 $}
+\end{Highlighting}
+\end{Shaded}
+\item
+  ä½¿ç''¨
+  \texttt{\ \textasciigrave{}\textasciigrave{}\textasciigrave{}code\textasciigrave{}\textasciigrave{}\textasciigrave{}\ }
+  æ~‡è¯†ç¬¦è¾``å\ldots¥ä»£ç~?ï¼ŒTypstå?¯ä»¥æ¸²æŸ``ã€?æ˜¾ç¤ºä»£ç~?æ¡†ï¼Œå¦‚æžœæŒ‡å®šäº†è¯­è¨€ç±»åž‹ï¼Œå?¯ä»¥æ~¹æ?®å\ldots¶è¯­æ³•æ~¼å¼?è¿›è¡Œé£Žæ~¼æ¸²æŸ``ï¼›ä½¿ç''¨å?•ä¸ªç¬¦å?·ä½¿ç''¨è¡Œå†\ldots ä»£ç~?
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{  \textasciigrave{}\textasciigrave{}\textasciigrave{}python}
+\NormalTok{    print("hello world");}
+\NormalTok{  \textasciigrave{}\textasciigrave{}\textasciigrave{}}
+\NormalTok{åæ ·æ¯æè¡åä»£ç \textasciigrave{}hello world\textasciigrave{}}
+\end{Highlighting}
+\end{Shaded}
+\item
+  ä¿®æ''¹ \texttt{\ ref\textbackslash{}acronyms.json\ }
+  æ--‡ä»¶æ·»åŠ~ç¼©ç•¥è¯?è¡¨ï¼Œå¹¶ä½¿ç''¨ \texttt{\ \#acro("keyword1")\ }
+  å`½ä»¤åœ¨æ--‡ä¸­å¼•å\ldots¥ç¼©ç•¥è¯?å\ldots¨ç§°ï¼Œåœ¨å¼•å\ldots¥å?Žä¼šè‡ªåŠ¨æ~¹æ?®jsonæ--‡ä»¶ä¸­ä¿¡æ?¯ï¼ŒæŽ'åº?å?Žæ·»åŠ~åˆ°ç¼©ç•¥è¯?è¡¨ä¸­
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{\{}
+    \DataTypeTok{"keyword1"}\FunctionTok{:}\OtherTok{[}\StringTok{"è±æç¼©å1"}\OtherTok{,} \StringTok{"è±æå¨ç§°1"}\OtherTok{,} \StringTok{"ä¸­æç¿»è¯1"}\OtherTok{]}\FunctionTok{,}
+    \DataTypeTok{"keyword2"}\FunctionTok{:}\OtherTok{[}\StringTok{"è±æç¼©å2"}\OtherTok{,} \StringTok{"è±æå¨ç§°2"}\OtherTok{,} \StringTok{"ä¸­æç¿»è¯2"}\OtherTok{]}
+\FunctionTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{å¨æ­£æä¸­å¯ä»¥ä½¿ç¨\textasciigrave{}\#acro\textasciigrave{}å½ä»¤å¼å¥ç¼©ç¥è¯ï¼\#acro("ac")ï¼ã}
+\end{Highlighting}
+\end{Shaded}
+\item
+  ä½¿ç''¨ \texttt{\ \#{[}bibliography{]}()\ }
+  æ·»åŠ~å?‚è€ƒæ--‡çŒ®ï¼Œæ‹¬å?·ä¸­éœ€è¦?å¡«å†™ \texttt{\ .bib\ }
+  æ~¼å¼?çš„å?‚è€ƒæ--‡çŒ®åˆ---è¡¨ï¼Œåœ¨æ--‡ä¸­ä½¿ç''¨
+  \texttt{\ @citationKey\ } å¼•ç''¨ï¼Œå\ldots·ä½``çš„ä¿¡æ?¯è§?
+  \href{https://typst.app/docs/reference/model/bibliography/}{å¸®åŠ©æ--‡æ¡£}
+
+  PSï¼šå?¯ä»¥ä½¿ç''¨ \texttt{\ zotero+Better\ BibTex\ }
+  è‡ªåŠ¨å¯¼å‡º/æ›´æ--° \texttt{\ .bib\ } æ~¼å¼?çš„å?‚è€ƒæ--‡çŒ®åˆ---è¡¨
+
+  PSï¼šåœ¨æ·»åŠ~bibçš„ä»£ç~?å?Žé?¢ï¼Œéš?è---?äº†ä¸€ä¸ªheadingï¼Œè¯·ä¸?è¦?åˆ~é™¤è¿™ä¸€è¡Œï¼Œå?¦åˆ™å?‚è€ƒæ--‡çŒ®çš„é¡µçœ‰ä¼šå‡ºé''™
+
+  PSï¼šæ~¹æ?®å­¦é™¢è¦?æ±‚é»˜è®¤ä½¿ç''¨EmboJçš„æ~¼å¼?ï¼Œå¦‚æžœéœ€è¦?å\ldots¶ä»--æ~¼å¼?ï¼Œå?ªè¦?ä¸‹è½½åˆ°æ~¼å¼?è¯´æ˜Ž
+  \texttt{\ .csl\ } æ--‡ä»¶ä¿®æ''¹å?‚æ•°å?³å?¯
+\item
+  å½``æ--‡æœ¬å†\ldots å®¹ä»\ldots æœ‰1é¡µæ---¶ï¼Œæœ‰æ---¶é¡µçœ‰æ~‡é¢˜ä¼šå‡ºé''™ï¼Œå?¯ä»¥æ·»åŠ~ä¸€ä¸ªç©ºç™½æ~‡é¢˜è¿›è¡Œä¿®æ­£
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#heading(level: 6, numbering: none, outlined: false)[]}
+\end{Highlighting}
+\end{Shaded}
+\end{itemize}
+
+\subsubsection{è‡´è°¢}\label{uxe8uxe8}
+
+æœ¬æ¨¡æ?¿åœ¨ç¼--å†™è¿‡ç¨‹ä¸­å?‚è€ƒå¹¶å­¦ä¹~äº†Typstæ¨¡æ?¿çš„éƒ¨åˆ†ä»£ç~?ï¼Œåœ¨è¿™é‡Œç»Ÿä¸€è‡´è°¢ã€‚
+
+\href{/app?template=universal-cau-thesis&version=0.1.0}{Create project
+in app}
+
+\subsubsection{How to use}\label{how-to-use}
+
+Click the button above to create a new project using this template in
+the Typst app.
+
+You can also use the Typst CLI to start a new project on your computer
+using this command:
+
+\begin{verbatim}
+typst init @preview/universal-cau-thesis:0.1.0
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+JWangL5
+\item[License:]
+MIT
+\item[Current version:]
+0.1.0
+\item[Last updated:]
+May 27, 2024
+\item[First released:]
+May 27, 2024
+\item[Archive size:]
+107 kB
+\href{https://packages.typst.org/preview/universal-cau-thesis-0.1.0.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/JWangL5/CAU-ThesisTemplate-Typst}{GitHub}
+\item[Categor y :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-mortarboard.svg}}
+  \href{https://typst.app/universe/search/?category=thesis}{Thesis}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This template is a project of JWangL5 . Report issues on
+\href{https://github.com/JWangL5/CAU-ThesisTemplate-Typst}{their
+repository} . You can also try to ask for help with this template on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this template to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.1.0 & May 27, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this template and cannot guarantee correct
+functionality of this template or compatibility with any version of the
+Typst compiler or app.
+
+
+\title{typst.app/universe/package/octique}
+
+\phantomsection\label{banner}
+\section{octique}\label{octique}
+
+{ 0.1.0 }
+
+GitHub Octicons for Typst.
+
+\phantomsection\label{readme}
+GitHub \href{https://primer.style/foundations/icons/}{Octicons} for
+Typst.
+
+\subsection{Installation}\label{installation}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/octique:0.1.0": *}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Usage}\label{usage}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{// Returns an image for the given name.}
+\NormalTok{octique(name, color: rgb("\#000000"), width: 1em, height: 1em)}
+
+\NormalTok{// Returns a boxed image for the given name.}
+\NormalTok{octique{-}inline(name, color: rgb("\#000000"), width: 1em, height: 1em, baseline: 25\%)}
+
+\NormalTok{// Returns an SVG text for the given name.}
+\NormalTok{octique{-}svg(name)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{List of Available Icons}\label{list-of-available-icons}
+
+See also
+\href{https://github.com/typst/packages/raw/main/packages/preview/octique/0.1.0/sample/sample.pdf}{\texttt{\ sample/sample.pdf\ }}
+.
+
+\begin{longtable}[]{@{}lc@{}}
+\toprule\noalign{}
+Code & Icon \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\texttt{\ \#octique("accessibility-inset")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/accessibility-inset.svg}} \\
+\texttt{\ \#octique("accessibility")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/accessibility.svg}} \\
+\texttt{\ \#octique("alert-fill")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/alert-fill.svg}} \\
+\texttt{\ \#octique("alert")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/alert.svg}} \\
+\texttt{\ \#octique("apps")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/apps.svg}} \\
+\texttt{\ \#octique("archive")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/archive.svg}} \\
+\texttt{\ \#octique("arrow-both")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/arrow-both.svg}} \\
+\texttt{\ \#octique("arrow-down-left")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/arrow-down-left.svg}} \\
+\texttt{\ \#octique("arrow-down-right")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/arrow-down-right.svg}} \\
+\texttt{\ \#octique("arrow-down")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/arrow-down.svg}} \\
+\texttt{\ \#octique("arrow-left")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/arrow-left.svg}} \\
+\texttt{\ \#octique("arrow-right")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/arrow-right.svg}} \\
+\texttt{\ \#octique("arrow-switch")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/arrow-switch.svg}} \\
+\texttt{\ \#octique("arrow-up-left")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/arrow-up-left.svg}} \\
+\texttt{\ \#octique("arrow-up-right")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/arrow-up-right.svg}} \\
+\texttt{\ \#octique("arrow-up")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/arrow-up.svg}} \\
+\texttt{\ \#octique("beaker")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/beaker.svg}} \\
+\texttt{\ \#octique("bell-fill")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/bell-fill.svg}} \\
+\texttt{\ \#octique("bell-slash")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/bell-slash.svg}} \\
+\texttt{\ \#octique("bell")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/bell.svg}} \\
+\texttt{\ \#octique("blocked")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/blocked.svg}} \\
+\texttt{\ \#octique("bold")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/bold.svg}} \\
+\texttt{\ \#octique("book")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/book.svg}} \\
+\texttt{\ \#octique("bookmark-slash")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/bookmark-slash.svg}} \\
+\texttt{\ \#octique("bookmark")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/bookmark.svg}} \\
+\texttt{\ \#octique("briefcase")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/briefcase.svg}} \\
+\texttt{\ \#octique("broadcast")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/broadcast.svg}} \\
+\texttt{\ \#octique("browser")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/browser.svg}} \\
+\texttt{\ \#octique("bug")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/bug.svg}} \\
+\texttt{\ \#octique("cache")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/cache.svg}} \\
+\texttt{\ \#octique("calendar")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/calendar.svg}} \\
+\texttt{\ \#octique("check-circle-fill")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/check-circle-fill.svg}} \\
+\texttt{\ \#octique("check-circle")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/check-circle.svg}} \\
+\texttt{\ \#octique("check")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/check.svg}} \\
+\texttt{\ \#octique("checkbox")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/checkbox.svg}} \\
+\texttt{\ \#octique("checklist")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/checklist.svg}} \\
+\texttt{\ \#octique("chevron-down")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/chevron-down.svg}} \\
+\texttt{\ \#octique("chevron-left")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/chevron-left.svg}} \\
+\texttt{\ \#octique("chevron-right")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/chevron-right.svg}} \\
+\texttt{\ \#octique("chevron-up")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/chevron-up.svg}} \\
+\texttt{\ \#octique("circle-slash")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/circle-slash.svg}} \\
+\texttt{\ \#octique("circle")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/circle.svg}} \\
+\texttt{\ \#octique("clock-fill")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/clock-fill.svg}} \\
+\texttt{\ \#octique("clock")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/clock.svg}} \\
+\texttt{\ \#octique("cloud-offline")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/cloud-offline.svg}} \\
+\texttt{\ \#octique("cloud")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/cloud.svg}} \\
+\texttt{\ \#octique("code-of-conduct")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/code-of-conduct.svg}} \\
+\texttt{\ \#octique("code-review")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/code-review.svg}} \\
+\texttt{\ \#octique("code")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/code.svg}} \\
+\texttt{\ \#octique("code-square")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/code-square.svg}} \\
+\texttt{\ \#octique("codescan-checkmark")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/codescan-checkmark.svg}} \\
+\texttt{\ \#octique("codescan")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/codescan.svg}} \\
+\texttt{\ \#octique("codespaces")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/codespaces.svg}} \\
+\texttt{\ \#octique("columns")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/columns.svg}} \\
+\texttt{\ \#octique("command-palette")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/command-palette.svg}} \\
+\texttt{\ \#octique("comment-discussion")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/comment-discussion.svg}} \\
+\texttt{\ \#octique("comment")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/comment.svg}} \\
+\texttt{\ \#octique("container")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/container.svg}} \\
+\texttt{\ \#octique("copilot-error")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/copilot-error.svg}} \\
+\texttt{\ \#octique("copilot")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/copilot.svg}} \\
+\texttt{\ \#octique("copilot-warning")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/copilot-warning.svg}} \\
+\texttt{\ \#octique("copy")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/copy.svg}} \\
+\texttt{\ \#octique("cpu")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/cpu.svg}} \\
+\texttt{\ \#octique("credit-card")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/credit-card.svg}} \\
+\texttt{\ \#octique("cross-reference")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/cross-reference.svg}} \\
+\texttt{\ \#octique("dash")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/dash.svg}} \\
+\texttt{\ \#octique("database")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/database.svg}} \\
+\texttt{\ \#octique("dependabot")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/dependabot.svg}} \\
+\texttt{\ \#octique("desktop-download")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/desktop-download.svg}} \\
+\texttt{\ \#octique("device-camera")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/device-camera.svg}} \\
+\texttt{\ \#octique("device-camera-video")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/device-camera-video.svg}} \\
+\texttt{\ \#octique("device-desktop")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/device-desktop.svg}} \\
+\texttt{\ \#octique("device-mobile")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/device-mobile.svg}} \\
+\texttt{\ \#octique("devices")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/devices.svg}} \\
+\texttt{\ \#octique("diamond")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/diamond.svg}} \\
+\texttt{\ \#octique("diff-added")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/diff-added.svg}} \\
+\texttt{\ \#octique("diff-ignored")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/diff-ignored.svg}} \\
+\texttt{\ \#octique("diff-modified")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/diff-modified.svg}} \\
+\texttt{\ \#octique("diff-removed")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/diff-removed.svg}} \\
+\texttt{\ \#octique("diff-renamed")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/diff-renamed.svg}} \\
+\texttt{\ \#octique("diff")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/diff.svg}} \\
+\texttt{\ \#octique("discussion-closed")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/discussion-closed.svg}} \\
+\texttt{\ \#octique("discussion-duplicate")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/discussion-duplicate.svg}} \\
+\texttt{\ \#octique("discussion-outdated")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/discussion-outdated.svg}} \\
+\texttt{\ \#octique("dot-fill")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/dot-fill.svg}} \\
+\texttt{\ \#octique("dot")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/dot.svg}} \\
+\texttt{\ \#octique("download")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/download.svg}} \\
+\texttt{\ \#octique("duplicate")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/duplicate.svg}} \\
+\texttt{\ \#octique("ellipsis")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/ellipsis.svg}} \\
+\texttt{\ \#octique("eye-closed")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/eye-closed.svg}} \\
+\texttt{\ \#octique("eye")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/eye.svg}} \\
+\texttt{\ \#octique("feed-discussion")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/feed-discussion.svg}} \\
+\texttt{\ \#octique("feed-forked")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/feed-forked.svg}} \\
+\texttt{\ \#octique("feed-heart")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/feed-heart.svg}} \\
+\texttt{\ \#octique("feed-issue-closed")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/feed-issue-closed.svg}} \\
+\texttt{\ \#octique("feed-issue-draft")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/feed-issue-draft.svg}} \\
+\texttt{\ \#octique("feed-issue-open")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/feed-issue-open.svg}} \\
+\texttt{\ \#octique("feed-issue-reopen")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/feed-issue-reopen.svg}} \\
+\texttt{\ \#octique("feed-merged")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/feed-merged.svg}} \\
+\texttt{\ \#octique("feed-person")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/feed-person.svg}} \\
+\texttt{\ \#octique("feed-plus")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/feed-plus.svg}} \\
+\texttt{\ \#octique("feed-public")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/feed-public.svg}} \\
+\texttt{\ \#octique("feed-pull-request-closed")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/feed-pull-request-closed.svg}} \\
+\texttt{\ \#octique("feed-pull-request-draft")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/feed-pull-request-draft.svg}} \\
+\texttt{\ \#octique("feed-pull-request-open")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/feed-pull-request-open.svg}} \\
+\texttt{\ \#octique("feed-repo")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/feed-repo.svg}} \\
+\texttt{\ \#octique("feed-rocket")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/feed-rocket.svg}} \\
+\texttt{\ \#octique("feed-star")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/feed-star.svg}} \\
+\texttt{\ \#octique("feed-tag")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/feed-tag.svg}} \\
+\texttt{\ \#octique("feed-trophy")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/feed-trophy.svg}} \\
+\texttt{\ \#octique("file-added")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/file-added.svg}} \\
+\texttt{\ \#octique("file-badge")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/file-badge.svg}} \\
+\texttt{\ \#octique("file-binary")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/file-binary.svg}} \\
+\texttt{\ \#octique("file-code")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/file-code.svg}} \\
+\texttt{\ \#octique("file-diff")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/file-diff.svg}} \\
+\texttt{\ \#octique("file-directory-fill")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/file-directory-fill.svg}} \\
+\texttt{\ \#octique("file-directory-open-fill")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/file-directory-open-fill.svg}} \\
+\texttt{\ \#octique("file-directory")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/file-directory.svg}} \\
+\texttt{\ \#octique("file-directory-symlink")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/file-directory-symlink.svg}} \\
+\texttt{\ \#octique("file-moved")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/file-moved.svg}} \\
+\texttt{\ \#octique("file-removed")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/file-removed.svg}} \\
+\texttt{\ \#octique("file")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/file.svg}} \\
+\texttt{\ \#octique("file-submodule")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/file-submodule.svg}} \\
+\texttt{\ \#octique("file-symlink-file")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/file-symlink-file.svg}} \\
+\texttt{\ \#octique("file-zip")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/file-zip.svg}} \\
+\texttt{\ \#octique("filter")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/filter.svg}} \\
+\texttt{\ \#octique("fiscal-host")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/fiscal-host.svg}} \\
+\texttt{\ \#octique("flame")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/flame.svg}} \\
+\texttt{\ \#octique("fold-down")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/fold-down.svg}} \\
+\texttt{\ \#octique("fold")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/fold.svg}} \\
+\texttt{\ \#octique("fold-up")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/fold-up.svg}} \\
+\texttt{\ \#octique("gear")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/gear.svg}} \\
+\texttt{\ \#octique("gift")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/gift.svg}} \\
+\texttt{\ \#octique("git-branch")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/git-branch.svg}} \\
+\texttt{\ \#octique("git-commit")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/git-commit.svg}} \\
+\texttt{\ \#octique("git-compare")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/git-compare.svg}} \\
+\texttt{\ \#octique("git-merge-queue")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/git-merge-queue.svg}} \\
+\texttt{\ \#octique("git-merge")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/git-merge.svg}} \\
+\texttt{\ \#octique("git-pull-request-closed")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/git-pull-request-closed.svg}} \\
+\texttt{\ \#octique("git-pull-request-draft")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/git-pull-request-draft.svg}} \\
+\texttt{\ \#octique("git-pull-request")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/git-pull-request.svg}} \\
+\texttt{\ \#octique("globe")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/globe.svg}} \\
+\texttt{\ \#octique("goal")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/goal.svg}} \\
+\texttt{\ \#octique("grabber")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/grabber.svg}} \\
+\texttt{\ \#octique("graph")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/graph.svg}} \\
+\texttt{\ \#octique("hash")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/hash.svg}} \\
+\texttt{\ \#octique("heading")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/heading.svg}} \\
+\texttt{\ \#octique("heart-fill")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/heart-fill.svg}} \\
+\texttt{\ \#octique("heart")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/heart.svg}} \\
+\texttt{\ \#octique("history")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/history.svg}} \\
+\texttt{\ \#octique("home")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/home.svg}} \\
+\texttt{\ \#octique("horizontal-rule")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/horizontal-rule.svg}} \\
+\texttt{\ \#octique("hourglass")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/hourglass.svg}} \\
+\texttt{\ \#octique("hubot")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/hubot.svg}} \\
+\texttt{\ \#octique("id-badge")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/id-badge.svg}} \\
+\texttt{\ \#octique("image")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/image.svg}} \\
+\texttt{\ \#octique("inbox")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/inbox.svg}} \\
+\texttt{\ \#octique("infinity")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/infinity.svg}} \\
+\texttt{\ \#octique("info")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/info.svg}} \\
+\texttt{\ \#octique("issue-closed")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/issue-closed.svg}} \\
+\texttt{\ \#octique("issue-draft")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/issue-draft.svg}} \\
+\texttt{\ \#octique("issue-opened")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/issue-opened.svg}} \\
+\texttt{\ \#octique("issue-reopened")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/issue-reopened.svg}} \\
+\texttt{\ \#octique("issue-tracked-by")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/issue-tracked-by.svg}} \\
+\texttt{\ \#octique("issue-tracks")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/issue-tracks.svg}} \\
+\texttt{\ \#octique("italic")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/italic.svg}} \\
+\texttt{\ \#octique("iterations")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/iterations.svg}} \\
+\texttt{\ \#octique("kebab-horizontal")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/kebab-horizontal.svg}} \\
+\texttt{\ \#octique("key-asterisk")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/key-asterisk.svg}} \\
+\texttt{\ \#octique("key")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/key.svg}} \\
+\texttt{\ \#octique("law")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/law.svg}} \\
+\texttt{\ \#octique("light-bulb")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/light-bulb.svg}} \\
+\texttt{\ \#octique("link-external")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/link-external.svg}} \\
+\texttt{\ \#octique("link")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/link.svg}} \\
+\texttt{\ \#octique("list-ordered")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/list-ordered.svg}} \\
+\texttt{\ \#octique("list-unordered")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/list-unordered.svg}} \\
+\texttt{\ \#octique("location")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/location.svg}} \\
+\texttt{\ \#octique("lock")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/lock.svg}} \\
+\texttt{\ \#octique("log")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/log.svg}} \\
+\texttt{\ \#octique("logo-gist")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/logo-gist.svg}} \\
+\texttt{\ \#octique("logo-github")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/logo-github.svg}} \\
+\texttt{\ \#octique("mail")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/mail.svg}} \\
+\texttt{\ \#octique("mark-github")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/mark-github.svg}} \\
+\texttt{\ \#octique("markdown")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/markdown.svg}} \\
+\texttt{\ \#octique("megaphone")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/megaphone.svg}} \\
+\texttt{\ \#octique("mention")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/mention.svg}} \\
+\texttt{\ \#octique("meter")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/meter.svg}} \\
+\texttt{\ \#octique("milestone")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/milestone.svg}} \\
+\texttt{\ \#octique("mirror")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/mirror.svg}} \\
+\texttt{\ \#octique("moon")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/moon.svg}} \\
+\texttt{\ \#octique("mortar-board")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/mortar-board.svg}} \\
+\texttt{\ \#octique("move-to-bottom")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/move-to-bottom.svg}} \\
+\texttt{\ \#octique("move-to-end")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/move-to-end.svg}} \\
+\texttt{\ \#octique("move-to-start")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/move-to-start.svg}} \\
+\texttt{\ \#octique("move-to-top")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/move-to-top.svg}} \\
+\texttt{\ \#octique("multi-select")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/multi-select.svg}} \\
+\texttt{\ \#octique("mute")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/mute.svg}} \\
+\texttt{\ \#octique("no-entry")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/no-entry.svg}} \\
+\texttt{\ \#octique("north-star")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/north-star.svg}} \\
+\texttt{\ \#octique("note")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/note.svg}} \\
+\texttt{\ \#octique("number")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/number.svg}} \\
+\texttt{\ \#octique("organization")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/organization.svg}} \\
+\texttt{\ \#octique("package-dependencies")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/package-dependencies.svg}} \\
+\texttt{\ \#octique("package-dependents")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/package-dependents.svg}} \\
+\texttt{\ \#octique("package")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/package.svg}} \\
+\texttt{\ \#octique("paintbrush")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/paintbrush.svg}} \\
+\texttt{\ \#octique("paper-airplane")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/paper-airplane.svg}} \\
+\texttt{\ \#octique("paperclip")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/paperclip.svg}} \\
+\texttt{\ \#octique("passkey-fill")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/passkey-fill.svg}} \\
+\texttt{\ \#octique("paste")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/paste.svg}} \\
+\texttt{\ \#octique("pencil")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/pencil.svg}} \\
+\texttt{\ \#octique("people")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/people.svg}} \\
+\texttt{\ \#octique("person-add")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/person-add.svg}} \\
+\texttt{\ \#octique("person-fill")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/person-fill.svg}} \\
+\texttt{\ \#octique("person")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/person.svg}} \\
+\texttt{\ \#octique("pin-slash")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/pin-slash.svg}} \\
+\texttt{\ \#octique("pin")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/pin.svg}} \\
+\texttt{\ \#octique("pivot-column")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/pivot-column.svg}} \\
+\texttt{\ \#octique("play")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/play.svg}} \\
+\texttt{\ \#octique("plug")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/plug.svg}} \\
+\texttt{\ \#octique("plus-circle")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/plus-circle.svg}} \\
+\texttt{\ \#octique("plus")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/plus.svg}} \\
+\texttt{\ \#octique("project-roadmap")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/project-roadmap.svg}} \\
+\texttt{\ \#octique("project")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/project.svg}} \\
+\texttt{\ \#octique("project-symlink")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/project-symlink.svg}} \\
+\texttt{\ \#octique("project-template")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/project-template.svg}} \\
+\texttt{\ \#octique("pulse")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/pulse.svg}} \\
+\texttt{\ \#octique("question")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/question.svg}} \\
+\texttt{\ \#octique("quote")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/quote.svg}} \\
+\texttt{\ \#octique("read")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/read.svg}} \\
+\texttt{\ \#octique("redo")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/redo.svg}} \\
+\texttt{\ \#octique("rel-file-path")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/rel-file-path.svg}} \\
+\texttt{\ \#octique("reply")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/reply.svg}} \\
+\texttt{\ \#octique("repo-clone")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/repo-clone.svg}} \\
+\texttt{\ \#octique("repo-deleted")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/repo-deleted.svg}} \\
+\texttt{\ \#octique("repo-forked")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/repo-forked.svg}} \\
+\texttt{\ \#octique("repo-locked")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/repo-locked.svg}} \\
+\texttt{\ \#octique("repo-pull")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/repo-pull.svg}} \\
+\texttt{\ \#octique("repo-push")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/repo-push.svg}} \\
+\texttt{\ \#octique("repo")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/repo.svg}} \\
+\texttt{\ \#octique("repo-template")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/repo-template.svg}} \\
+\texttt{\ \#octique("report")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/report.svg}} \\
+\texttt{\ \#octique("rocket")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/rocket.svg}} \\
+\texttt{\ \#octique("rows")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/rows.svg}} \\
+\texttt{\ \#octique("rss")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/rss.svg}} \\
+\texttt{\ \#octique("ruby")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/ruby.svg}} \\
+\texttt{\ \#octique("screen-full")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/screen-full.svg}} \\
+\texttt{\ \#octique("screen-normal")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/screen-normal.svg}} \\
+\texttt{\ \#octique("search")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/search.svg}} \\
+\texttt{\ \#octique("server")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/server.svg}} \\
+\texttt{\ \#octique("share-android")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/share-android.svg}} \\
+\texttt{\ \#octique("share")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/share.svg}} \\
+\texttt{\ \#octique("shield-check")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/shield-check.svg}} \\
+\texttt{\ \#octique("shield-lock")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/shield-lock.svg}} \\
+\texttt{\ \#octique("shield-slash")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/shield-slash.svg}} \\
+\texttt{\ \#octique("shield")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/shield.svg}} \\
+\texttt{\ \#octique("shield-x")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/shield-x.svg}} \\
+\texttt{\ \#octique("sidebar-collapse")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/sidebar-collapse.svg}} \\
+\texttt{\ \#octique("sidebar-expand")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/sidebar-expand.svg}} \\
+\texttt{\ \#octique("sign-in")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/sign-in.svg}} \\
+\texttt{\ \#octique("sign-out")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/sign-out.svg}} \\
+\texttt{\ \#octique("single-select")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/single-select.svg}} \\
+\texttt{\ \#octique("skip-fill")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/skip-fill.svg}} \\
+\texttt{\ \#octique("skip")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/skip.svg}} \\
+\texttt{\ \#octique("sliders")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/sliders.svg}} \\
+\texttt{\ \#octique("smiley")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/smiley.svg}} \\
+\texttt{\ \#octique("sort-asc")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/sort-asc.svg}} \\
+\texttt{\ \#octique("sort-desc")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/sort-desc.svg}} \\
+\texttt{\ \#octique("sparkle-fill")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/sparkle-fill.svg}} \\
+\texttt{\ \#octique("sponsor-tiers")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/sponsor-tiers.svg}} \\
+\texttt{\ \#octique("square-fill")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/square-fill.svg}} \\
+\texttt{\ \#octique("square")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/square.svg}} \\
+\texttt{\ \#octique("squirrel")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/squirrel.svg}} \\
+\texttt{\ \#octique("stack")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/stack.svg}} \\
+\texttt{\ \#octique("star-fill")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/star-fill.svg}} \\
+\texttt{\ \#octique("star")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/star.svg}} \\
+\texttt{\ \#octique("stop")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/stop.svg}} \\
+\texttt{\ \#octique("stopwatch")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/stopwatch.svg}} \\
+\texttt{\ \#octique("strikethrough")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/strikethrough.svg}} \\
+\texttt{\ \#octique("sun")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/sun.svg}} \\
+\texttt{\ \#octique("sync")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/sync.svg}} \\
+\texttt{\ \#octique("tab-external")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/tab-external.svg}} \\
+\texttt{\ \#octique("table")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/table.svg}} \\
+\texttt{\ \#octique("tag")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/tag.svg}} \\
+\texttt{\ \#octique("tasklist")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/tasklist.svg}} \\
+\texttt{\ \#octique("telescope-fill")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/telescope-fill.svg}} \\
+\texttt{\ \#octique("telescope")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/telescope.svg}} \\
+\texttt{\ \#octique("terminal")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/terminal.svg}} \\
+\texttt{\ \#octique("three-bars")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/three-bars.svg}} \\
+\texttt{\ \#octique("thumbsdown")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/thumbsdown.svg}} \\
+\texttt{\ \#octique("thumbsup")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/thumbsup.svg}} \\
+\texttt{\ \#octique("tools")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/tools.svg}} \\
+\texttt{\ \#octique("tracked-by-closed-completed")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/tracked-by-closed-completed.svg}} \\
+\texttt{\ \#octique("tracked-by-closed-not-planned")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/tracked-by-closed-not-planned.svg}} \\
+\texttt{\ \#octique("trash")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/trash.svg}} \\
+\texttt{\ \#octique("triangle-down")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/triangle-down.svg}} \\
+\texttt{\ \#octique("triangle-left")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/triangle-left.svg}} \\
+\texttt{\ \#octique("triangle-right")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/triangle-right.svg}} \\
+\texttt{\ \#octique("triangle-up")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/triangle-up.svg}} \\
+\texttt{\ \#octique("trophy")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/trophy.svg}} \\
+\texttt{\ \#octique("typography")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/typography.svg}} \\
+\texttt{\ \#octique("undo")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/undo.svg}} \\
+\texttt{\ \#octique("unfold")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/unfold.svg}} \\
+\texttt{\ \#octique("unlink")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/unlink.svg}} \\
+\texttt{\ \#octique("unlock")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/unlock.svg}} \\
+\texttt{\ \#octique("unmute")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/unmute.svg}} \\
+\texttt{\ \#octique("unread")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/unread.svg}} \\
+\texttt{\ \#octique("unverified")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/unverified.svg}} \\
+\texttt{\ \#octique("upload")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/upload.svg}} \\
+\texttt{\ \#octique("verified")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/verified.svg}} \\
+\texttt{\ \#octique("versions")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/versions.svg}} \\
+\texttt{\ \#octique("video")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/video.svg}} \\
+\texttt{\ \#octique("webhook")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/webhook.svg}} \\
+\texttt{\ \#octique("workflow")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/workflow.svg}} \\
+\texttt{\ \#octique("x-circle-fill")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/x-circle-fill.svg}} \\
+\texttt{\ \#octique("x-circle")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/x-circle.svg}} \\
+\texttt{\ \#octique("x")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/x.svg}} \\
+\texttt{\ \#octique("zap")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/zap.svg}} \\
+\texttt{\ \#octique("zoom-in")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/zoom-in.svg}} \\
+\texttt{\ \#octique("zoom-out")\ } &
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/0x6b/typst-octique/wiki/assets/zoom-out.svg}} \\
+\end{longtable}
+
+\subsection{License}\label{license}
+
+MIT. See
+\href{https://github.com/typst/packages/raw/main/packages/preview/octique/0.1.0/LICENSE}{LICENSE}
+for detail.
+
+Octicons are Â© GitHub, Inc. When using the GitHub logos, you should
+follow the \href{https://github.com/logos}{GitHub logo guidelines} .
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as \texttt{\ octique\ }
+
+\begin{verbatim}
+#import "@preview/octique:0.1.0"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+0x6b
+\item[License:]
+MIT
+\item[Current version:]
+0.1.0
+\item[Last updated:]
+November 18, 2023
+\item[First released:]
+November 18, 2023
+\item[Archive size:]
+51.1 kB
+\href{https://packages.typst.org/preview/octique-0.1.0.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/0x6b/typst-octique}{GitHub}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of 0x6b . Report issues on
+\href{https://github.com/0x6b/typst-octique}{their repository} . You can
+also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.1.0 & November 18, 2023 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.
+
+
+\title{typst.app/universe/package/ssrn-scribe}
+
+\phantomsection\label{banner}
+\phantomsection\label{template-thumbnail}
+\pandocbounded{\includegraphics[keepaspectratio]{https://packages.typst.org/preview/thumbnails/ssrn-scribe-0.6.0-small.webp}}
+
+\section{ssrn-scribe}\label{ssrn-scribe}
+
+{ 0.6.0 }
+
+Personal working paper template for general doc and SSRN paper.
+
+\href{/app?template=ssrn-scribe&version=0.6.0}{Create project in app}
+
+\phantomsection\label{readme}
+Following the official tutorial, I create a single-column paper template
+for general use. You can use it for papers published on SSRN etc.
+
+\subsection{How to use}\label{how-to-use}
+
+\subsubsection{Use as a template
+package}\label{use-as-a-template-package}
+
+Typst integrated the template with their official package manager. You
+can use it as the other third-party packages.
+
+You only need to enter the following command in the terminal to
+initialize the template.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{typst}\NormalTok{ init @preview/ssrn{-}scribe}
+\end{Highlighting}
+\end{Shaded}
+
+If will generate a subfolder \texttt{\ ssrn-scribe\ } including the
+\texttt{\ main.typ\ } file in the current directory with the latest
+version of the template.
+
+\subsubsection{Mannully use}\label{mannully-use}
+
+\begin{enumerate}
+\tightlist
+\item
+  Download the template or clone the repository.
+\item
+  generate your bibliography file using \texttt{\ .biblatex\ } and store
+  the file in the same directory of the template.
+\item
+  modify the \texttt{\ main.typ\ } file in the subfolder
+  \texttt{\ /template\ } and compile it. \textbf{\emph{Note:} You should
+  have \texttt{\ paper\_template.typ\ } and \texttt{\ main.typ\ } in the
+  same directory.}
+\end{enumerate}
+
+In the template, you can modify the following parameters:
+
+\texttt{\ maketitle\ } is a boolean ( \textbf{compulsory} ). If
+\texttt{\ maketitle=true\ } , the template will generate a new page for
+the title. Otherwise, the title will be shown on the first page.
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ maketitle=true\ } :
+\end{itemize}
+
+\begin{longtable}[]{@{}llll@{}}
+\toprule\noalign{}
+Parameter & Default & Optional & Description \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\texttt{\ font\ } & â€œPT Serifâ€? & Yes & The font of the paper. You
+can choose â€œTimes New Romanâ€? or â€œPalatinoâ€? \\
+\texttt{\ fontsize\ } & 11pt & Yes & The font size of the paper. You can
+choose 10pt or 12pt \\
+\texttt{\ title\ } & â€œTitleâ€? & No & The title of the paper \\
+\texttt{\ subtitle\ } & none & Yes & The subtitle of the paper, use
+â€œâ€? or {[}{]} \\
+\texttt{\ authors\ } & none & No & The authors of the paper \\
+\texttt{\ date\ } & none & Yes & The date of the paper \\
+\texttt{\ abstract\ } & none & Yes & The abstract of the paper \\
+\texttt{\ keywords\ } & none & Yes & The keywords of the paper \\
+\texttt{\ JEL\ } & none & Yes & The JEL codes of the paper \\
+\texttt{\ acknowledgments\ } & none & Yes & The acknowledgment of the
+paper \\
+\texttt{\ bibliography\ } & none & Yes & The bibliography of the paper
+\texttt{\ bibliography:\ bibliography("bib.bib",\ title:\ "References",\ style:\ "apa")\ } \\
+\end{longtable}
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ maketitle=false\ } :
+\end{itemize}
+
+\begin{longtable}[]{@{}llll@{}}
+\toprule\noalign{}
+Parameter & Default & Optional & Description \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\texttt{\ font\ } & â€œPT Serifâ€? & Yes & The font of the paper. You
+can choose â€œTimes New Romanâ€? or â€œPalatinoâ€? \\
+\texttt{\ fontsize\ } & 11pt & Yes & The font size of the paper. You can
+choose 10pt or 12pt \\
+\texttt{\ title\ } & â€œTitleâ€? & No & The title of the paper \\
+\texttt{\ subtitle\ } & none & Yes & The subtitle of the paper, use
+â€œâ€? or {[}{]} \\
+\texttt{\ authors\ } & none & No & The authors of the paper \\
+\texttt{\ date\ } & none & Yes & The date of the paper \\
+\texttt{\ bibliography\ } & none & Yes & The bibliography of the paper
+\texttt{\ bibliography:\ bibliography("bib.bib",\ title:\ "References",\ style:\ "apa")\ } \\
+\end{longtable}
+
+\textbf{Note: You need to keep the comma at the end of the first bracket
+of the authorâ€™s list, even if you have only one author.}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{    (}
+\NormalTok{    name: "",}
+\NormalTok{    affiliation: "", // optional}
+\NormalTok{    email: "", // optional}
+\NormalTok{    note: "", // optional}
+\NormalTok{    ),}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/ssrn{-}scribe:0.6.0": *}
+
+\NormalTok{\#show: paper.with(}
+\NormalTok{  font: "PT Serif", // "Times New Roman"}
+\NormalTok{  fontsize: 12pt, // 12pt}
+\NormalTok{  maketitle: true, // whether to add new page for title}
+\NormalTok{  title: [\#lorem(5)], // title }
+\NormalTok{  subtitle: "A work in progress", // subtitle}
+\NormalTok{  authors: (}
+\NormalTok{    (}
+\NormalTok{      name: "Theresa Tungsten",}
+\NormalTok{      affiliation: "Artos Institute",}
+\NormalTok{      email: "tung@artos.edu",}
+\NormalTok{      note: "123",}
+\NormalTok{    ),}
+\NormalTok{  ),}
+\NormalTok{  date: "July 2023",}
+\NormalTok{  abstract: lorem(80), // replace lorem(80) with [ Your abstract here. ]}
+\NormalTok{  keywords: [}
+\NormalTok{    Imputation,}
+\NormalTok{    Multiple Imputation,}
+\NormalTok{    Bayesian,],}
+\NormalTok{  JEL: [G11, G12],}
+\NormalTok{  acknowledgments: "This paper is a work in progress. Please do not cite without permission.", }
+\NormalTok{  // bibliography: bibliography("bib.bib", title: "References", style: "apa"),}
+\NormalTok{)}
+\NormalTok{= Introduction}
+\NormalTok{\#lorem(50)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Preview}\label{preview}
+
+\subsubsection{Example}\label{example}
+
+Here is a screenshot of the template:
+\pandocbounded{\includegraphics[keepaspectratio]{https://minioapi.pjx.ac.cn/img1/2024/03/63ce084e2a43bc2e7e31bd79315a0fb5.png}}
+
+\subsubsection{\texorpdfstring{Example-brief with
+\texttt{\ maketitle=true\ }}{Example-brief with  maketitle=true }}\label{example-brief-with-maketitletrue}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://minioapi.pjx.ac.cn/img1/2024/06/8d203bd7f2fbf20b39b33334f0ee4a36.png}}
+
+\subsubsection{\texorpdfstring{Example-brief with
+\texttt{\ maketitle=false\ }}{Example-brief with  maketitle=false }}\label{example-brief-with-maketitlefalse}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://minioapi.pjx.ac.cn/img1/2024/06/83dd5821409031ce0a2c2a15e014cc60.png}}
+
+\href{/app?template=ssrn-scribe&version=0.6.0}{Create project in app}
+
+\subsubsection{How to use}\label{how-to-use-1}
+
+Click the button above to create a new project using this template in
+the Typst app.
+
+You can also use the Typst CLI to start a new project on your computer
+using this command:
+
+\begin{verbatim}
+typst init @preview/ssrn-scribe:0.6.0
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+jxpeng98
+\item[License:]
+MIT
+\item[Current version:]
+0.6.0
+\item[Last updated:]
+June 11, 2024
+\item[First released:]
+March 20, 2024
+\item[Archive size:]
+4.07 kB
+\href{https://packages.typst.org/preview/ssrn-scribe-0.6.0.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/jxpeng98/Typst-Paper-Template}{GitHub}
+\item[Categor y :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-atom.svg}}
+  \href{https://typst.app/universe/search/?category=paper}{Paper}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This template is a project of jxpeng98 . Report issues on
+\href{https://github.com/jxpeng98/Typst-Paper-Template}{their
+repository} . You can also try to ask for help with this template on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this template to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.6.0 & June 11, 2024 \\
+\href{https://typst.app/universe/package/ssrn-scribe/0.5.0/}{0.5.0} &
+April 5, 2024 \\
+\href{https://typst.app/universe/package/ssrn-scribe/0.4.9/}{0.4.9} &
+March 20, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this template and cannot guarantee correct
+functionality of this template or compatibility with any version of the
+Typst compiler or app.
+
+

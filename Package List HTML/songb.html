@@ -1,0 +1,363 @@
+<main>
+    <div id="banner" style="--banner-accent:#000000;--banner-primary:#000000;--banner-secondary:#000000;--banner-tertiary:#565565;--banner-background:#eff0f3">
+     <div class="package-icon" role="img">
+     </div>
+     <div>
+      <div class="title">
+       <h1 class="name">
+        songb
+       </h1>
+       <span class="version">
+        0.1.0
+       </span>
+      </div>
+      <p class="description">
+       A songbook package, to display chords above the lyrics and show a number-based index (similar to patacrep)
+      </p>
+     </div>
+    </div>
+    <div class="inner-grid">
+     <section id="readme">
+      <p>
+       Attempt at creating a songbook package to replace
+       <a href="https://github.com/patacrep/patacrep" rel="nofollow ugc" target="_blank">
+        patacrep
+       </a>
+       (which is based on LaTeX +
+       <a href="https://songs.sourceforge.net/" rel="nofollow ugc" target="_blank">
+        Songs
+       </a>
+       ).
+      </p>
+      <h2>
+       Quickstart
+      </h2>
+      <p>
+       First, create a
+       <code>
+        main.typ
+       </code>
+       file, like the following:
+      </p>
+      <pre><code class="language-typ"><code><span class="typ-key">#</span><span class="typ-key">set</span> <span class="typ-func">page</span><span class="typ-punct">(</span>paper<span class="typ-punct">:</span> <span class="typ-str">"a6"</span><span class="typ-punct">,</span>margin<span class="typ-punct">:</span> <span class="typ-punct">(</span>inside<span class="typ-punct">:</span> <span class="typ-num">14mm</span><span class="typ-punct">,</span> outside<span class="typ-punct">:</span> <span class="typ-num">6mm</span><span class="typ-punct">,</span> y<span class="typ-punct">:</span> <span class="typ-num">10mm</span><span class="typ-punct">)</span><span class="typ-punct">)</span>
+
+<span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/songb:0.1.0"</span><span class="typ-punct">:</span> autobreak<span class="typ-punct">,</span> index-by-letter
+
+<span class="typ-comment">// helper function, to include you own songs (feel free to customize)</span>
+<span class="typ-key">#</span><span class="typ-key">let</span> <span class="typ-func">song</span><span class="typ-punct">(</span>path<span class="typ-punct">)</span> <span class="typ-op">=</span> <span class="typ-punct">{</span>
+    <span class="typ-comment">// WARNING: autobreak is currently broken (does not converge)</span>
+    <span class="typ-comment">// see https://github.com/typst/typst/discussions/4530</span>
+    <span class="typ-func">autobreak</span><span class="typ-punct">(</span><span class="typ-key">include</span> path<span class="typ-punct">)</span>
+    <span class="typ-func">v</span><span class="typ-punct">(</span><span class="typ-op">-</span><span class="typ-num">1.19em</span><span class="typ-punct">)</span>
+<span class="typ-punct">}</span>
+
+<span class="typ-comment">// indexes (put them wherever you want, or comment them out)</span>
+<span class="typ-heading">= Song Index</span>
+<span class="typ-func">#</span><span class="typ-func">index-by-letter</span><span class="typ-punct">(</span><span class="typ-label">&lt;song&gt;</span><span class="typ-punct">)</span>
+
+<span class="typ-heading">= Singer Index</span>
+<span class="typ-func">#</span><span class="typ-func">index-by-letter</span><span class="typ-punct">(</span><span class="typ-label">&lt;singer&gt;</span><span class="typ-punct">)</span>
+
+<span class="typ-func">#</span><span class="typ-func">pagebreak</span><span class="typ-punct">(</span><span class="typ-punct">)</span>
+
+<span class="typ-comment">// include all you songs, in the right order</span>
+<span class="typ-func">#</span><span class="typ-func">song</span><span class="typ-punct">(</span><span class="typ-str">"./songs/first_song.typ"</span><span class="typ-punct">)</span>
+
+<span class="typ-func">#</span><span class="typ-func">song</span><span class="typ-punct">(</span><span class="typ-str">"./songs/other_song.typ"</span><span class="typ-punct">)</span>
+
+<span class="typ-comment">// ...</span>
+</code></code></pre>
+      <p>
+       Then, create your song files, like
+       <code>
+        songs/first_song.typ
+       </code>
+       :
+      </p>
+      <pre><code class="language-typ"><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/songb:0.1.0"</span><span class="typ-punct">:</span> song<span class="typ-punct">,</span> chorus<span class="typ-punct">,</span> verse<span class="typ-punct">,</span> chord
+
+<span class="typ-key">#</span><span class="typ-key">show</span><span class="typ-punct">:</span> doc <span class="typ-op">=&gt;</span> <span class="typ-func">song</span><span class="typ-punct">(</span>
+  title<span class="typ-punct">:</span> <span class="typ-str">"First Song"</span><span class="typ-punct">,</span>
+  singer<span class="typ-punct">:</span> <span class="typ-str">"Sing"</span><span class="typ-punct">,</span>
+  doc<span class="typ-punct">,</span>
+<span class="typ-punct">)</span>
+
+<span class="typ-func">#</span><span class="typ-func">chorus</span><span class="typ-punct">[</span>
+  <span class="typ-func">#</span><span class="typ-func">chord</span><span class="typ-punct">[</span>Am<span class="typ-punct">]</span>First line,<span class="typ-func">#</span><span class="typ-func">chord</span><span class="typ-punct">[</span>G<span class="typ-punct">]</span><span class="typ-punct">[</span> <span class="typ-punct">]</span>of the chorus<span class="typ-escape">\</span>
+  <span class="typ-func">#</span><span class="typ-func">chord</span><span class="typ-punct">[</span>Am<span class="typ-punct">]</span>Second line,<span class="typ-func">#</span><span class="typ-func">chord</span><span class="typ-punct">[</span>G<span class="typ-punct">]</span><span class="typ-punct">[</span> <span class="typ-punct">]</span>of the chorus.
+<span class="typ-punct">]</span>
+
+
+<span class="typ-func">#</span><span class="typ-func">verse</span><span class="typ-punct">[</span>
+  <span class="typ-func">#</span><span class="typ-func">chord</span><span class="typ-punct">[</span>Em<span class="typ-punct">]</span>First verse<span class="typ-escape">\</span>
+  With multiple<span class="typ-escape">\</span>
+  <span class="typ-func">#</span><span class="typ-func">chord</span><span class="typ-punct">[</span>C<span class="typ-punct">]</span>Lines
+<span class="typ-punct">]</span>
+
+If there is <span class="typ-func">#</span><span class="typ-func">chord</span><span class="typ-punct">[</span>D<span class="typ-punct">]</span><span class="typ-punct">[</span>a<span class="typ-punct">]</span> bridge<span class="typ-escape">\</span>
+you can write it directly
+</code></code></pre>
+      <h2>
+       Writing a song
+      </h2>
+      <h3>
+       song
+      </h3>
+      <pre><code class="language-typ"><code><span class="typ-key">#</span><span class="typ-key">let</span> <span class="typ-func">song</span><span class="typ-punct">(</span>
+  title<span class="typ-punct">:</span> <span class="typ-key">none</span><span class="typ-punct">,</span>
+  title-index<span class="typ-punct">:</span> <span class="typ-key">none</span><span class="typ-punct">,</span>
+  singer<span class="typ-punct">:</span> <span class="typ-key">none</span><span class="typ-punct">,</span>
+  singer-index<span class="typ-punct">:</span> <span class="typ-key">none</span><span class="typ-punct">,</span>
+  references<span class="typ-punct">:</span> <span class="typ-punct">(</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+  line-color<span class="typ-punct">:</span> <span class="typ-func">rgb</span><span class="typ-punct">(</span><span class="typ-num">0xd0</span><span class="typ-punct">,</span> <span class="typ-num">0xd0</span><span class="typ-punct">,</span> <span class="typ-num">0xd0</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+  header-display<span class="typ-punct">:</span> <span class="typ-punct">(</span>number<span class="typ-punct">,</span> title<span class="typ-punct">,</span> singer<span class="typ-punct">)</span> <span class="typ-op">=&gt;</span> <span class="typ-punct">(</span><span class="typ-op">..</span><span class="typ-punct">.</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+  doc
+<span class="typ-punct">)</span>
+</code></code></pre>
+      <h3>
+       chord
+      </h3>
+      <pre><code class="language-typ"><code><span class="typ-comment">// first argument: chord name</span>
+<span class="typ-comment">// optional second argument: text below the chord (useful for whitespace for instance)</span>
+<span class="typ-key">#</span><span class="typ-key">let</span> <span class="typ-func">chord</span><span class="typ-punct">(</span><span class="typ-op">..</span>content<span class="typ-punct">)</span>
+</code></code></pre>
+      <h3>
+       verse
+      </h3>
+      <pre><code class="language-typ"><code><span class="typ-key">#</span><span class="typ-key">let</span> <span class="typ-func">verse</span><span class="typ-punct">(</span>body<span class="typ-punct">)</span>
+</code></code></pre>
+      <h3>
+       chorus
+      </h3>
+      <pre><code class="language-typ"><code><span class="typ-key">#</span><span class="typ-key">let</span> <span class="typ-func">chorus</span><span class="typ-punct">(</span>body<span class="typ-punct">)</span>
+</code></code></pre>
+      <h2>
+       Organizing songs
+      </h2>
+      <h3>
+       autobreak
+      </h3>
+      <blockquote>
+       <p>
+        [!WARNING] Currently broken (lack of convergence for bigger documents) See
+        <a href="https://github.com/typst/typst/discussions/4530" rel="nofollow ugc" target="_blank">
+         https://github.com/typst/typst/discussions/4530
+        </a>
+       </p>
+      </blockquote>
+      <p>
+       This function aims at putting the content on a single page (or on facing pages), by introducing pagebreaks when needed.
+      </p>
+      <pre><code class="language-typ"><code><span class="typ-key">#</span><span class="typ-key">let</span> <span class="typ-func">autobreak</span><span class="typ-punct">(</span>content<span class="typ-punct">)</span>
+</code></code></pre>
+      <h3>
+       index-by-letter
+      </h3>
+      <pre><code class="language-typ"><code><span class="typ-key">#</span><span class="typ-key">let</span> <span class="typ-func">index-by-letter</span><span class="typ-punct">(</span>label<span class="typ-punct">,</span> letter-highlight<span class="typ-punct">:</span> <span class="typ-punct">(</span>letter<span class="typ-punct">)</span> <span class="typ-op">=&gt;</span> <span class="typ-punct">(</span><span class="typ-op">..</span><span class="typ-punct">.</span><span class="typ-punct">)</span><span class="typ-punct">)</span>
+</code></code></pre>
+      <p>
+       label:
+       <code>
+        &lt;song&gt;
+       </code>
+       or
+       <code>
+        &lt;singer&gt;
+       </code>
+       are provided by the
+       <code>
+        song
+       </code>
+       function.
+      </p>
+     </section>
+     <aside>
+      <section>
+       <h3>
+        How to add
+       </h3>
+       <p>
+        Copy this into your project and use the import as
+        <!-- -->
+        <code>
+         songb
+        </code>
+       </p>
+       <div class="import-snippet">
+        <pre><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/songb:0.1.0"</span></code></pre>
+        <button class="copy" title="Copy to clipboard">
+         <img alt="Copy" height="16" src="/assets/icons/16-copy.svg" width="16"/>
+        </button>
+       </div>
+       <p class="muted">
+        Check the docs for
+        <!-- -->
+        <a href="https://typst.app/docs/reference/scripting/#packages">
+         more information on how to import packages
+        </a>
+        .
+       </p>
+      </section>
+      <section id="about">
+       <h3>
+        About
+       </h3>
+       <dl>
+        <dt>
+         Author
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         <a href="mailto:git@olivier.pfad.fr">
+          Oliverpool
+         </a>
+        </dd>
+        <dt>
+         License:
+        </dt>
+        <dd>
+         EUPL-1.2+
+        </dd>
+        <dt>
+         Current version:
+        </dt>
+        <dd>
+         0.1.0
+        </dd>
+        <dt>
+         Last updated:
+        </dt>
+        <dd>
+         July 25, 2024
+        </dd>
+        <dt>
+         First released:
+        </dt>
+        <dd>
+         July 25, 2024
+        </dd>
+        <dt>
+         Archive size:
+        </dt>
+        <dd class="archive-size-value">
+         12.7 kB
+         <a href="https://packages.typst.org/preview/songb-0.1.0.tar.gz">
+          <img alt="Size icon" src="/assets/icons/16-download.svg"/>
+         </a>
+        </dd>
+        <dt>
+         Repository:
+        </dt>
+        <dd>
+         <a href="https://codeberg.org/pfad.fr/typst-songbook" rel="noopener noreferrer" target="_blank">
+          Codeberg
+         </a>
+        </dd>
+        <dt>
+         Discipline
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         <ul class="list-without-icons">
+          <li>
+           <a href="https://typst.app/universe/search/?discipline=music">
+            Music
+           </a>
+          </li>
+         </ul>
+        </dd>
+       </dl>
+      </section>
+      <section>
+       <h3>
+        Where to report issues?
+       </h3>
+       <p>
+        This
+        <!-- -->
+        package
+        <!-- -->
+        is a project of
+        <!-- -->
+        <!-- -->
+        Oliverpool
+        <!-- -->
+        .
+        <!-- -->
+        <!-- -->
+        Report issues on
+        <!-- -->
+        <a href="https://codeberg.org/pfad.fr/typst-songbook" rel="noopener noreferrer" target="_blank">
+         their repository
+        </a>
+        .
+        <!-- -->
+        <!-- -->
+        You can also try to ask for help with this
+        <!-- -->
+        package
+        <!-- -->
+        on the
+        <!-- -->
+        <a href="https://forum.typst.app" rel="noopener" target="_blank">
+         Forum
+        </a>
+        .
+       </p>
+       <p>
+        Please report this
+        <!-- -->
+        package
+        <!-- -->
+        to the Typst team using the
+        <!-- -->
+        <a href="https://typst.app/contact" rel="noreferrer" target="_blank">
+         contact form
+        </a>
+        <!-- -->
+        if you believe it is a safety hazard or infringes upon your rights.
+       </p>
+      </section>
+      <section id="versions">
+       <h3>
+        Version history
+       </h3>
+       <table>
+        <thead>
+         <tr>
+          <th align="left">
+           Version
+          </th>
+          <th align="left">
+           Release Date
+          </th>
+         </tr>
+        </thead>
+        <tbody>
+         <tr>
+          <td align="left">
+           0.1.0
+          </td>
+          <td align="left">
+           July 25, 2024
+          </td>
+         </tr>
+        </tbody>
+       </table>
+      </section>
+      <p class="bottom-notice muted">
+       Typst GmbH did not create this
+       <!-- -->
+       package
+       <!-- -->
+       and cannot guarantee correct functionality of this
+       <!-- -->
+       package
+       <!-- -->
+       or compatibility with any version of the Typst compiler or app.
+      </p>
+     </aside>
+    </div>
+   </main>

@@ -1,0 +1,290 @@
+\title{typst.app/universe/package/postercise}
+
+\phantomsection\label{banner}
+\section{postercise}\label{postercise}
+
+{ 0.1.0 }
+
+Postercise allows users to easily create academic research posters with
+different themes using Typst.
+
+\phantomsection\label{readme}
+\emph{Postercise} allows users to easily create academic research
+posters with different themes using \href{https://typst.app/}{Typst} .
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://img.shields.io/github/license/dangh3014/postercise}}
+\pandocbounded{\includegraphics[keepaspectratio]{https://img.shields.io/github/v/release/dangh3014/postercise}}
+\pandocbounded{\includegraphics[keepaspectratio]{https://img.shields.io/github/stars/dangh3014/postercise}}
+
+\subsection{Getting started}\label{getting-started}
+
+You can get \textbf{Postercise} from the official package repository by
+entering the following.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/postercise:0.1.0": *}
+\end{Highlighting}
+\end{Shaded}
+
+Another option is to use \textbf{Postercise} as a local module by
+downloading the package files into your project folder.
+
+Next you will need to import a theme, set up the page and font, and call
+the \texttt{\ show\ } command.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import themes.basic: *}
+
+\NormalTok{\#set page(width: 24in, height: 18in)}
+\NormalTok{\#set text(size: 24pt)}
+
+\NormalTok{\#show: theme}
+\end{Highlighting}
+\end{Shaded}
+
+To add content to the poster, use the \texttt{\ poster-content\ }
+command.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#poster{-}content()[}
+\NormalTok{  // Content goes here}
+\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+There are a few options for types of content that should be added inside
+the \texttt{\ poster-content\ } . The body of the poster can be typed as
+normal, or two box styles are provided to headings and/or highlight
+content in special ways.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#normal{-}box[]}
+\NormalTok{\#focus{-}box[]}
+\end{Highlighting}
+\end{Shaded}
+
+Basic information like title and authors is placed as options using the
+\texttt{\ poster-header\ } script.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#poster{-}header(}
+\NormalTok{  title: [Title],}
+\NormalTok{  authors: [Author],}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+Finally, additional content can be added to the footer with the
+\texttt{\ poster-footer\ } script.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#poster{-}footer[]}
+\end{Highlighting}
+\end{Shaded}
+
+Again, as a reminder, all of these scripts should be called from inside
+of the \texttt{\ poster-content\ } block.
+
+Using these commands, it is easy to produce posters like the following:
+\pandocbounded{\includegraphics[keepaspectratio]{https://raw.githubusercontent.com/dangh3014/postercise/main/examples/postercise-examples.png}}
+
+\subsection{More details}\label{more-details}
+
+\subsubsection{\texorpdfstring{\texttt{\ themes\ }}{ themes }}\label{themes}
+
+Currently, 3 themes are available. Use one of these \texttt{\ import\ }
+commands to load that theme.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import themes.basic: *}
+\NormalTok{\#import themes.better: *}
+\NormalTok{\#import themes.boxes: *}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{\texorpdfstring{\texttt{\ show:\ theme.with()\ }}{ show: theme.with() }}\label{show-theme.with}
+
+Theme options allow you to adjust the color scheme, as well as the color
+and size of the content in the header. The defaults are shown below.
+(The â€˜better.typâ€™ theme defaults to different titletext color and
+size.)
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#show: theme.with(}
+\NormalTok{  primary{-}color: rgb(28,55,103), // Dark blue}
+\NormalTok{  background{-}color: white,}
+\NormalTok{  accent{-}color: rgb(243,163,30), // Yellow}
+\NormalTok{  titletext{-}color: white,}
+\NormalTok{  titletext{-}size: 2em,}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{\texorpdfstring{\texttt{\ poster-content(){[}{]}\ }}{ poster-content(){[}{]} }}\label{poster-content}
+
+The only option for the main content is the number of columns. This
+defaults to 3 for most themes. For the â€œbetter.typâ€? theme, there is
+1 column and content is placed in the leftmost column below
+\texttt{\ poster-header\ } .
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#poster{-}content(col: 3)[}
+\NormalTok{  // Content goes here}
+\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{\texorpdfstring{\texttt{\ normal-box(){[}{]}\ } and
+\texttt{\ focus-box(){[}{]}\ }}{ normal-box(){[}{]}  and  focus-box(){[}{]} }}\label{normal-box-and-focus-box}
+
+By default, these boxes use the no fill and the accent-color fill,
+respectively. However, they do accept color as an option, and will add a
+primary-color stroke around the box if a color is given. For the
+â€œbetter.typâ€? theme, use \texttt{\ focus-box\ } to place content in
+the center column.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#normal{-}box(color: none)[}
+\NormalTok{  // Content}
+\NormalTok{]}
+
+\NormalTok{\#focus{-}box(color: none)[}
+\NormalTok{  // Content}
+\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{\texorpdfstring{\texttt{\ poster-header()\ }}{ poster-header() }}\label{poster-header}
+
+Available options for the poster header for most themes are shown below.
+Note that logos should be explicitly labeled as images. Logos are not
+currently displayed in the header in the â€œbetter.typâ€? theme.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#poster{-}header(}
+\NormalTok{  title: [Title],}
+\NormalTok{  subtitle: [Subtitle],}
+\NormalTok{  author: [Author],}
+\NormalTok{  affiliation: [Affiliation],}
+\NormalTok{  logo{-}1: image("placeholder.png")}
+\NormalTok{  logo{-}2: image("placeholder.png") }
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{\texorpdfstring{\texttt{\ poster-footer{[}{]}\ }}{ poster-footer{[}{]} }}\label{poster-footer}
+
+This command does not currently have any extra options. The content is
+typically placed at the bottom of the poster, but it is placed in the
+rightmost column for the â€œbetter.typâ€? theme.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#poster{-}footer[}
+\NormalTok{  // Content}
+\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Known Issues}\label{known-issues}
+
+\begin{itemize}
+\tightlist
+\item
+  The bibliography does not work properly and must be done manually
+\item
+  Figure captions do not number correctly and must be done manually
+\end{itemize}
+
+\subsection{Planned Features/Themes}\label{planned-featuresthemes}
+
+\begin{itemize}
+\tightlist
+\item
+  Themes that use color gradients and background images
+\item
+  Add QR code generation
+\end{itemize}
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as
+\texttt{\ postercise\ }
+
+\begin{verbatim}
+#import "@preview/postercise:0.1.0"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+Daniel King
+\item[License:]
+MIT
+\item[Current version:]
+0.1.0
+\item[Last updated:]
+May 27, 2024
+\item[First released:]
+May 27, 2024
+\item[Archive size:]
+5.11 kB
+\href{https://packages.typst.org/preview/postercise-0.1.0.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/dangh3014/postercise/}{GitHub}
+\item[Categor y :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-pin.svg}}
+  \href{https://typst.app/universe/search/?category=poster}{Poster}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of Daniel King . Report issues on
+\href{https://github.com/dangh3014/postercise/}{their repository} . You
+can also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.1.0 & May 27, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.

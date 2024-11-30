@@ -1,0 +1,199 @@
+\title{typst.app/universe/package/bytefield}
+
+\phantomsection\label{banner}
+\section{bytefield}\label{bytefield}
+
+{ 0.0.6 }
+
+A package to create network protocol headers, memory map, register
+definitions and more.
+
+\phantomsection\label{readme}
+A simple way to create network protocol headers, memory maps, register
+definitions and more in typst.
+
+âš~ï¸? Warning. As this package is still in an early stage, things might
+break with the next version.
+
+â„¹ï¸? If you find a bug or a feature which is missing, please open an
+issue and/or send an PR.
+
+\subsection{Example}\label{example}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/bytefield/0.0.6/docs/bytefield_example.png}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/bytefield:0.0.6": *}
+
+\NormalTok{\#bytefield(}
+\NormalTok{// Config the header}
+\NormalTok{bitheader(}
+\NormalTok{"bytes",}
+\NormalTok{// adds every multiple of 8 to the header.}
+\NormalTok{0, [start], // number with label}
+\NormalTok{5,}
+\NormalTok{// number without label}
+\NormalTok{12, [\#text(14pt, fill: red, "test")],}
+\NormalTok{23, [end\_test],}
+\NormalTok{24, [start\_break],}
+\NormalTok{36, [Fix], // will not be shown}
+\NormalTok{angle: {-}50deg, // angle (default: {-}60deg)}
+\NormalTok{text{-}size: 8pt, // length (default: global header\_font\_size or 9pt)}
+\NormalTok{),}
+\NormalTok{// Add data fields (bit, bits, byte, bytes) and notes}
+\NormalTok{// A note always aligns on the same row as the start of the next data field.}
+\NormalTok{note(left)[\#text(16pt, fill: blue, font: "Consolas", "Testing")],}
+\NormalTok{bytes(3,fill: red.lighten(30\%))[Test],}
+\NormalTok{note(right)[\#set text(9pt); \#sym.arrow.l This field \textbackslash{} breaks into 2 rows.],}
+\NormalTok{bytes(2)[Break],}
+\NormalTok{note(left)[\#set text(9pt); and continues \textbackslash{} here \#sym.arrow],}
+\NormalTok{bits(24,fill: green.lighten(30\%))[Fill],}
+\NormalTok{group(right,3)[spanning 3 rows],}
+\NormalTok{bytes(12)[\#set text(20pt); *Multi* Row],}
+\NormalTok{note(left, bracket: true)[Flags],}
+\NormalTok{bits(4)[\#text(8pt)[reserved]],}
+\NormalTok{flag[\#text(8pt)[SYN]],}
+\NormalTok{flag(fill: orange.lighten(60\%))[\#text(8pt)[ACK]],}
+\NormalTok{flag[\#text(8pt)[BOB]],}
+\NormalTok{bits(25, fill: purple.lighten(60\%))[Padding],}
+\NormalTok{// padding(fill: purple.lighten(40\%))[Padding],}
+\NormalTok{bytes(2)[Next],}
+\NormalTok{bytes(8, fill: yellow.lighten(60\%))[Multi break],}
+\NormalTok{note(right)[\#emoji.checkmark Finish],}
+\NormalTok{bytes(2)[\_End\_],}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Usage}\label{usage}
+
+To use this library through the Typst package manager import bytefield
+with \texttt{\ \#import\ "@preview/bytefield:0.0.6":\ *\ } at the top of
+your file.
+
+The package contains some of the most common network protocol headers
+which are available under: \texttt{\ common.ipv4\ } ,
+\texttt{\ common.ipv6\ } , \texttt{\ common.icmp\ } ,
+\texttt{\ common.icmpv6\ } , \texttt{\ common.dns\ } ,
+\texttt{\ common.tcp\ } , \texttt{\ common.udp\ } .
+
+\subsection{Features}\label{features}
+
+Here is a unsorted list of features which is possible right now.
+
+\begin{itemize}
+\tightlist
+\item
+  Adding fields with \texttt{\ bit\ } , \texttt{\ bits\ } ,
+  \texttt{\ byte\ } or \texttt{\ bytes\ } function.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Fields can be colored
+  \item
+    Multirow and breaking fields are supported.
+  \end{itemize}
+\item
+  Adding notes to the left or right with \texttt{\ note\ } or
+  \texttt{\ group\ } function.
+\item
+  Config the header with the \texttt{\ bitheader\ } function. !Only one
+  header per bytefield is processed currently.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Show numbers
+  \item
+    Show numbers and labels
+  \item
+    Show only labels
+  \end{itemize}
+\item
+  Change the bit order in the header with \texttt{\ msb:left\ } or
+  \texttt{\ msb:right\ } (default)
+\end{itemize}
+
+See
+\href{https://github.com/typst/packages/raw/main/packages/preview/bytefield/0.0.6/example.typ}{example.typ}
+for more information.
+
+See
+\href{https://github.com/typst/packages/raw/main/packages/preview/bytefield/0.0.6/CHANGELOG.md}{CHANGELOG.md}
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as \texttt{\ bytefield\ }
+
+\begin{verbatim}
+#import "@preview/bytefield:0.0.6"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+\href{https://github.com/jomaway}{Jomaway}
+\item[License:]
+MIT
+\item[Current version:]
+0.0.6
+\item[Last updated:]
+May 24, 2024
+\item[First released:]
+September 3, 2023
+\item[Minimum Typst version:]
+0.10.0
+\item[Archive size:]
+12.0 kB
+\href{https://packages.typst.org/preview/bytefield-0.0.6.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/jomaway/typst-bytefield}{GitHub}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of Jomaway . Report issues on
+\href{https://github.com/jomaway/typst-bytefield}{their repository} .
+You can also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.0.6 & May 24, 2024 \\
+\href{https://typst.app/universe/package/bytefield/0.0.5/}{0.0.5} &
+March 11, 2024 \\
+\href{https://typst.app/universe/package/bytefield/0.0.4/}{0.0.4} &
+February 21, 2024 \\
+\href{https://typst.app/universe/package/bytefield/0.0.3/}{0.0.3} &
+November 20, 2023 \\
+\href{https://typst.app/universe/package/bytefield/0.0.2/}{0.0.2} &
+October 27, 2023 \\
+\href{https://typst.app/universe/package/bytefield/0.0.1/}{0.0.1} &
+September 3, 2023 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.

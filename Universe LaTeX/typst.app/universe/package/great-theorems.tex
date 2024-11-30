@@ -1,0 +1,448 @@
+\title{typst.app/universe/package/great-theorems}
+
+\phantomsection\label{banner}
+\section{great-theorems}\label{great-theorems}
+
+{ 0.1.1 }
+
+Straightforward and functional theorem/proof environments.
+
+\phantomsection\label{readme}
+This package allows you to make \textbf{theorem/proof/remark/â€¦}
+blocks.
+
+Features:
+
+\begin{itemize}
+\tightlist
+\item
+  supports advanced counters through both
+  \href{https://typst.app/universe/package/headcount/}{headcount} and
+  \href{https://typst.app/universe/package/rich-counters/}{rich-counters}
+\item
+  easy adjustment of style:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    change prefix
+  \item
+    change how title is displayed
+  \item
+    change formatting of body
+  \item
+    change suffix
+  \item
+    change numbering style
+  \item
+    configure \emph{all} parameters of the
+    \href{https://typst.app/docs/reference/layout/block/}{\texttt{\ block\ }}
+    , including background color, stroke color, rounded corners, inset,
+    â€¦
+  \end{itemize}
+\item
+  can adjust style also on individual basis (e.g. to highlight main
+  theorem)
+\item
+  works with labels/references
+\item
+  sane and smart defaults
+\end{itemize}
+
+\subsection{Showcase}\label{showcase}
+
+In the following example we use
+\href{https://typst.app/universe/package/rich-counters/}{rich-counters}
+to configure section-based counters. You can also use
+\href{https://typst.app/universe/package/headcount/}{headcount} .
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/great{-}theorems:0.1.1": *}
+\NormalTok{\#import "@preview/rich{-}counters:0.2.1": *}
+
+\NormalTok{\#set heading(numbering: "1.1")}
+\NormalTok{\#show: great{-}theorems{-}init}
+
+\NormalTok{\#show link: text.with(fill: blue)}
+
+\NormalTok{\#let mathcounter = rich{-}counter(}
+\NormalTok{  identifier: "mathblocks",}
+\NormalTok{  inherited\_levels: 1}
+\NormalTok{)}
+
+\NormalTok{\#let theorem = mathblock(}
+\NormalTok{  blocktitle: "Theorem",}
+\NormalTok{  counter: mathcounter,}
+\NormalTok{)}
+
+\NormalTok{\#let lemma = mathblock(}
+\NormalTok{  blocktitle: "Lemma",}
+\NormalTok{  counter: mathcounter,}
+\NormalTok{)}
+
+\NormalTok{\#let remark = mathblock(}
+\NormalTok{  blocktitle: "Remark",}
+\NormalTok{  prefix: [\_Remark.\_],}
+\NormalTok{  inset: 5pt,}
+\NormalTok{  fill: lime,}
+\NormalTok{  radius: 5pt,}
+\NormalTok{)}
+
+\NormalTok{\#let proof = proofblock()}
+
+\NormalTok{= Some Heading}
+
+\NormalTok{\#theorem[}
+\NormalTok{  This is some theorem.}
+\NormalTok{] \textless{}mythm\textgreater{}}
+
+\NormalTok{\#lemma[}
+\NormalTok{  This is a lemma. Maybe it\textquotesingle{}s used to prove @mythm.}
+\NormalTok{]}
+
+\NormalTok{\#proof[}
+\NormalTok{  This is a proof.}
+\NormalTok{]}
+
+\NormalTok{= Another Heading}
+
+\NormalTok{\#theorem(title: "some title")[}
+\NormalTok{  This is a theorem with a title.}
+\NormalTok{] \textless{}thm2\textgreater{}}
+
+\NormalTok{\#proof(of: \textless{}thm2\textgreater{})[}
+\NormalTok{  This is a proof of the theorem which has a title.}
+\NormalTok{]}
+
+\NormalTok{\#remark[}
+\NormalTok{  This is a remark.}
+\NormalTok{  The remark box has some custom styling applied.}
+\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/great-theorems/0.1.1/example.png}}
+
+\subsection{Usage}\label{usage}
+
+\subsubsection{\texorpdfstring{\texttt{\ great-theorems-init\ }}{ great-theorems-init }}\label{great-theorems-init}
+
+First, make sure to apply the following inital \texttt{\ show\ } rule to
+your document:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#show: great{-}theorems{-}init}
+\end{Highlighting}
+\end{Shaded}
+
+This is important to make the blocks have the correct alignment and to
+display references correctly.
+
+\subsubsection{\texorpdfstring{\texttt{\ mathblock\ }}{ mathblock }}\label{mathblock}
+
+The main constructor you will use is \texttt{\ mathblock\ } , which
+allows you to construct a theorem/proof/remark/â€¦ environment in
+exactly the way you like it.
+
+Please see the showcase above for on example on how to use it. We now
+list and explain all possible arguments.
+
+\begin{itemize}
+\item
+  \texttt{\ blocktitle\ } (required)
+
+  Usually something like \texttt{\ "Theorem"\ } or \texttt{\ "Lemma"\ }
+  . Determines how references are displayed, and also determines the
+  default \texttt{\ prefix\ } .
+\item
+  \texttt{\ counter\ } (default: \texttt{\ none\ } )
+
+  If you want your \texttt{\ mathblock\ } to be counted, pass the
+  counter here. Accepts either a Typst-native
+  \href{https://typst.app/docs/reference/introspection/counter/}{\texttt{\ counter\ }}
+  (which can be made to depend on the section with the
+  \href{https://typst.app/universe/package/headcount/}{headcount}
+  package) or a \texttt{\ rich-counter\ } from the
+  \href{https://typst.app/universe/package/rich-counters/}{rich-counters}
+  package. If you want multiple \texttt{\ mathblock\ } environments to
+  share the same counter, just pass the same counter to all of them.
+\item
+  \texttt{\ numbering\ } (default: \texttt{\ "1.1"\ } )
+
+  The numbering style that should be used to display the counters.
+
+  \textbf{Note:} If you use the
+  \href{https://typst.app/universe/package/headcount/}{headcount}
+  package for your counters, you have to pass the
+  \texttt{\ dependent-numbering\ } here.
+\item
+  \texttt{\ prefix\ } (default: contructed from \texttt{\ blocktitle\ }
+  , bold style)
+
+  What should be displayed before the body. If you didnâ€™t pass a
+  counter, it should just be a piece of content like
+  \texttt{\ {[}*Theorem.*{]}\ } . \emph{If you passed a counter} , it
+  should a function/closure, which takes the current counter value as an
+  argument and returns the corresponding prefix; for example
+  \texttt{\ (count)\ =\textgreater{}\ {[}*Theorem\ \#count.*{]}\ }
+\item
+  \texttt{\ titlix\ } (default:
+  \texttt{\ title\ =\textgreater{}\ {[}(\#title){]}\ } )
+
+  How a title should be displayed. Will be placed after the prefix if a
+  title is present. Must be function which takes the title and returns
+  the corresponding content that should be displayed.
+\item
+  \texttt{\ suffix\ } (default: \texttt{\ none\ } )
+
+  A suffix that will be displayed after the body.
+\item
+  \texttt{\ bodyfmt\ } (default:
+  \texttt{\ body\ =\textgreater{}\ body\ } i.e. no special formatting)
+
+  A function that will style/transform the body. For example, if you
+  want your theorem contents to be displayed in oblique style, you could
+  pass \texttt{\ text.with(style:\ "oblique")\ } .
+\item
+  arguments for the surrounding
+  \href{https://typst.app/docs/reference/layout/block/}{\texttt{\ block\ }}
+
+  The \texttt{\ mathblock\ } , as the name suggests, is surrounded by a
+  \href{https://typst.app/docs/reference/layout/block/}{\texttt{\ block\ }}
+  , which can be styled to have a background color, stroke color,
+  rounded corners, etc. . You can just pass all arguments that you could
+  pass to a \texttt{\ block\ } also to \texttt{\ mathblock\ } , and it
+  will be â€œpassed throughâ€? the surrounding \texttt{\ block\ } . For
+  example, you could write
+  \texttt{\ \#let\ theorem\ =\ mathblock(...,\ fill:\ yellow,\ inset:\ 5pt)\ }
+  .
+\end{itemize}
+
+So far we have discussed how you \emph{setup} your environment with
+\texttt{\ \#let\ theorem\ =\ mathblock(...)\ } . Now letâ€™s discuss how
+to use the resulting \texttt{\ theorem\ } command. Again, please see the
+showcase above for some examples on how to use it. We now list and
+explain all possible arguments (apart from the body).
+
+\begin{itemize}
+\item
+  \texttt{\ title\ } (default: \texttt{\ none\ } )
+
+  This allows you to set a title for your theorem/lemma/â€¦, which will
+  be displayed according to \texttt{\ titlix\ } .
+\item
+  all the arguments from \texttt{\ mathblock\ } , except
+  \texttt{\ blocktitle\ } and \texttt{\ counter\ }
+
+  You can change all the parameters of your \texttt{\ mathblock\ } also
+  on an individual basis, i.e. for each occurrence separately, by just
+  passing the respective arguments, including \texttt{\ numbering\ } ,
+  \texttt{\ prefix\ } , \texttt{\ titlix\ } , \texttt{\ suffix\ } ,
+  \texttt{\ bodyfmt\ } , and arguments for \texttt{\ block\ } . These
+  will take precedence over the global configuration.
+\end{itemize}
+
+\subsubsection{\texorpdfstring{\texttt{\ proofblock\ }}{ proofblock }}\label{proofblock}
+
+Also a proof environment can be constructed with \texttt{\ mathblock\ }
+, for example:
+
+\begin{verbatim}
+#let proof = mathblock(
+  blocktitle: "Proof",
+  prefix: [_Proof._],
+  suffix: [#h(1fr) $square$],
+)
+\end{verbatim}
+
+However, for convenience, we have made another \texttt{\ proofblock\ }
+constructor. It works exactly the same as \texttt{\ mathblock\ } , the
+only differences being:
+
+\begin{itemize}
+\tightlist
+\item
+  it has different default values for \texttt{\ blocktitle\ } ,
+  \texttt{\ prefix\ } , and \texttt{\ suffix\ }
+\item
+  it has no \texttt{\ counter\ } and \texttt{\ numbering\ } argument
+\item
+  the \texttt{\ titlix\ } argument is replaced with a
+  \texttt{\ prefix\_with\_of\ } argument (also consisting of a
+  function), which will be used as a prefix when the constructed
+  environment is used with \texttt{\ of\ } parameter
+\end{itemize}
+
+The constructed environment will have the following changes compared to
+an environment constructed with \texttt{\ mathblock\ }
+
+\begin{itemize}
+\item
+  the \texttt{\ title\ } argument is replaced with an \texttt{\ of\ }
+  argument, which is used to denote to which theorem/lemma/â€¦ the proof
+  belongs
+
+  This can be either just content, or a label, in which case a reference
+  to the label is displayed.
+\end{itemize}
+
+\subsection{FAQ}\label{faq}
+
+\begin{itemize}
+\item
+  \emph{What is the difference to the ctheorems package?}
+
+  You can achieve pretty much the same results with both packages. One
+  goal of \texttt{\ great-theorems\ } was to have a cleaner
+  implementation, for example by separating the counter functionality
+  from the theorem block functionality. \texttt{\ ctheorems\ } also uses
+  deprecated Typst functionality that will soon be removed. In the end,
+  however, in comes down to personal preference, and
+  \texttt{\ ctheorems\ } was certainly a big inspiration for this
+  package!
+\item
+  \emph{How to set up the counters the way I want?}
+
+  Please consult the documentation of
+  \href{https://typst.app/universe/package/headcount/}{headcount} and
+  \href{https://typst.app/universe/package/rich-counters/}{rich-counters}
+  respectively, we support both packages as well as native
+  \href{https://typst.app/docs/reference/introspection/counter/}{\texttt{\ counter\ }}
+  s.
+\item
+  \emph{My theorems are all center aligned?!}
+
+  You forgot to put the initial show rule at the start of your document:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#show: great{-}theorems{-}init}
+\end{Highlighting}
+\end{Shaded}
+\item
+  \emph{My theorems break across pages, how do I stop that behavior?}
+
+  You can pass \texttt{\ breakable:\ false\ } to \texttt{\ mathblock\ }
+  to construct a non-breakable environment.
+\item
+  \emph{I have a default style for all my theorems/lemmas/remarks/â€¦,
+  and Iâ€™m writing boilerplate when I construct theorem/lemma/remark
+  environments.}
+
+  You can essentially define your own defaults like this:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let my\_mathblock = mathblock.with(fill: yellow, radius: 5pt, inset: 5pt)}
+
+\NormalTok{\#let theorem = my\_mathblock(...)}
+\NormalTok{\#let lemma = my\_mathblock(...)}
+\NormalTok{\#let remark = my\_mathblock(...)}
+\NormalTok{...}
+\end{Highlighting}
+\end{Shaded}
+\item
+  \emph{The documentation is too short or unclearâ€¦ how do I do X?}
+
+  Please just open an
+  \href{https://github.com/jbirnick/typst-great-theorems/issues}{issue
+  on GitHub} , and I will happily answer your question and extend the
+  documentation!
+\end{itemize}
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as
+\texttt{\ great-theorems\ }
+
+\begin{verbatim}
+#import "@preview/great-theorems:0.1.1"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+\href{https://jbirnick.net}{Johann Birnick}
+\item[License:]
+MIT
+\item[Current version:]
+0.1.1
+\item[Last updated:]
+October 22, 2024
+\item[First released:]
+October 16, 2024
+\item[Archive size:]
+5.32 kB
+\href{https://packages.typst.org/preview/great-theorems-0.1.1.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/jbirnick/typst-great-theorems}{GitHub}
+\item[Discipline s :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \href{https://typst.app/universe/search/?discipline=mathematics}{Mathematics}
+\item
+  \href{https://typst.app/universe/search/?discipline=computer-science}{Computer
+  Science}
+\item
+  \href{https://typst.app/universe/search/?discipline=physics}{Physics}
+\item
+  \href{https://typst.app/universe/search/?discipline=engineering}{Engineering}
+\item
+  \href{https://typst.app/universe/search/?discipline=philosophy}{Philosophy}
+\item
+  \href{https://typst.app/universe/search/?discipline=education}{Education}
+\end{itemize}
+\item[Categor ies :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-package.svg}}
+  \href{https://typst.app/universe/search/?category=components}{Components}
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-list-unordered.svg}}
+  \href{https://typst.app/universe/search/?category=model}{Model}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of Johann Birnick . Report issues on
+\href{https://github.com/jbirnick/typst-great-theorems}{their
+repository} . You can also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.1.1 & October 22, 2024 \\
+\href{https://typst.app/universe/package/great-theorems/0.1.0/}{0.1.0} &
+October 16, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.

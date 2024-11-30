@@ -1,0 +1,310 @@
+<main>
+    <div id="banner" style="--banner-accent:#004DC6;--banner-primary:#000533;--banner-secondary:#2F5B70;--banner-tertiary:#6789A2;--banner-background:linear-gradient(90deg, #B8ECFC 0%, #D2F3F3 64%, #E8FFFB 100%)">
+     <div class="package-icon" role="img">
+     </div>
+     <div>
+      <div class="title">
+       <h1 class="name">
+        quick-maths
+       </h1>
+       <span class="version">
+        0.2.0
+       </span>
+      </div>
+      <p class="description">
+       Custom shorthands for math equations.
+      </p>
+     </div>
+     <p class="featured-label">
+      <span class="icon" role="img">
+      </span>
+      Featured
+      <!-- -->
+      Package
+     </p>
+    </div>
+    <div class="inner-grid">
+     <section id="readme">
+      <p>
+       A package for creating custom shorthands for math equations.
+      </p>
+      <h2>
+       Usage
+      </h2>
+      <p>
+       The package comes with a single template function
+       <code>
+        shorthands
+       </code>
+       that takes one or more tuples of the form
+       <code>
+        (shorthand, replacement)
+       </code>
+       , where
+       <code>
+        shorthand
+       </code>
+       can be a string or content.
+      </p>
+      <p>
+       There are some small quality of life features for interaction of shorthands with fractions and attachments:
+      </p>
+      <ul>
+       <li>
+        If the right-most symbol of a shorthand has any attachments, they are moved to the shorthandâs replacement.
+       </li>
+       <li>
+        If a shorthand ends in the numerator of a fraction, the whole replacement is placed in the numerator.
+       </li>
+       <li>
+        If a shorthand starts in the denominator of a fraction, the whole replacement is placed in the denominator.
+       </li>
+      </ul>
+      <p>
+       As the implementation of these features is quite hacky, you may encounter some edge cases, where the use of explicit parentheses hopefully saves you.
+      </p>
+      <h2>
+       Notes
+      </h2>
+      <ul>
+       <li>
+        <p>
+         Shorthands are parsed in the order they are given, so if you have a shorthand that is a prefix of another shorthand, you should put the longer shorthand first.
+        </p>
+       </li>
+       <li>
+        <p>
+         The content of an equation is traversed from left to right, so the left-most matching shorthand will be replaced first.
+        </p>
+       </li>
+       <li>
+        <p>
+         Shorthands consisting of only a single character or element may be applied using show rules, so that they can affect non-sequence elements. This may lead to different behavior than multi-character shorthands.
+        </p>
+       </li>
+       <li>
+        <p>
+         If the replacement of a shorthand contains a shorthand itself, there are no protections against infinite recursion or overflows.
+        </p>
+       </li>
+      </ul>
+      <h2>
+       Example
+      </h2>
+      <pre><code class="language-typ"><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/quick-maths:0.2.0"</span><span class="typ-punct">:</span> shorthands
+
+<span class="typ-key">#</span><span class="typ-key">show</span><span class="typ-punct">:</span> shorthands<span class="typ-punct">.</span><span class="typ-func">with</span><span class="typ-punct">(</span>
+  <span class="typ-punct">(</span><span class="typ-math-delim">$</span>+<span class="typ-escape">-</span><span class="typ-math-delim">$</span><span class="typ-punct">,</span> <span class="typ-math-delim">$</span><span class="typ-pol">plus</span><span class="typ-punct">.</span><span class="typ-pol">minus</span><span class="typ-math-delim">$</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+  <span class="typ-punct">(</span><span class="typ-math-delim">$</span>|<span class="typ-escape">-</span><span class="typ-math-delim">$</span><span class="typ-punct">,</span> math<span class="typ-punct">.</span>tack<span class="typ-punct">)</span><span class="typ-punct">,</span>
+  <span class="typ-punct">(</span><span class="typ-math-delim">$</span><span class="typ-escape">&lt;=</span><span class="typ-math-delim">$</span><span class="typ-punct">,</span> math<span class="typ-punct">.</span>arrow<span class="typ-punct">.</span>l<span class="typ-punct">.</span>double<span class="typ-punct">)</span> <span class="typ-comment">// Replaces 'â¤'</span>
+<span class="typ-punct">)</span>
+
+<span class="typ-math-delim">$</span> x<span class="typ-math-op">^</span>2 = 9 <span class="typ-pol">quad</span> <span class="typ-escape">&lt;==&gt;</span> <span class="typ-pol">quad</span> x = +<span class="typ-escape">-</span>3 <span class="typ-math-delim">$</span>
+<span class="typ-math-delim">$</span> A <span class="typ-pol">or</span> B |<span class="typ-escape">-</span> A <span class="typ-math-delim">$</span>
+<span class="typ-math-delim">$</span> x <span class="typ-escape">&lt;=</span> y <span class="typ-math-delim">$</span>
+</code></code></pre>
+      <p>
+       <img alt="Result of example code." src="https://github.com/typst/packages/raw/main/packages/preview/quick-maths/0.2.0/assets/example.svg"/>
+      </p>
+     </section>
+     <aside>
+      <section>
+       <h3>
+        How to add
+       </h3>
+       <p>
+        Copy this into your project and use the import as
+        <!-- -->
+        <code>
+         quick-maths
+        </code>
+       </p>
+       <div class="import-snippet">
+        <pre><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/quick-maths:0.2.0"</span></code></pre>
+        <button class="copy" title="Copy to clipboard">
+         <img alt="Copy" height="16" src="/assets/icons/16-copy.svg" width="16"/>
+        </button>
+       </div>
+       <p class="muted">
+        Check the docs for
+        <!-- -->
+        <a href="https://typst.app/docs/reference/scripting/#packages">
+         more information on how to import packages
+        </a>
+        .
+       </p>
+      </section>
+      <section id="about">
+       <h3>
+        About
+       </h3>
+       <dl>
+        <dt>
+         Author
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         Eric Biedert
+        </dd>
+        <dt>
+         License:
+        </dt>
+        <dd>
+         MIT
+        </dd>
+        <dt>
+         Current version:
+        </dt>
+        <dd>
+         0.2.0
+        </dd>
+        <dt>
+         Last updated:
+        </dt>
+        <dd>
+         November 18, 2024
+        </dd>
+        <dt>
+         First released:
+        </dt>
+        <dd>
+         July 5, 2024
+        </dd>
+        <dt>
+         Archive size:
+        </dt>
+        <dd class="archive-size-value">
+         3.58 kB
+         <a href="https://packages.typst.org/preview/quick-maths-0.2.0.tar.gz">
+          <img alt="Size icon" src="/assets/icons/16-download.svg"/>
+         </a>
+        </dd>
+        <dt>
+         Repository:
+        </dt>
+        <dd>
+         <a href="https://github.com/EpicEricEE/typst-quick-maths" rel="noopener noreferrer" target="_blank">
+          GitHub
+         </a>
+        </dd>
+        <dt>
+         Categor
+         <!-- -->
+         y
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         <ul class="list-with-icons">
+          <li>
+           <img alt="Utility icon" src="/assets/icons/16-hammer.svg"/>
+           <a href="https://typst.app/universe/search/?category=utility">
+            Utility
+           </a>
+          </li>
+         </ul>
+        </dd>
+       </dl>
+      </section>
+      <section>
+       <h3>
+        Where to report issues?
+       </h3>
+       <p>
+        This
+        <!-- -->
+        package
+        <!-- -->
+        is a project of
+        <!-- -->
+        <!-- -->
+        Eric Biedert
+        <!-- -->
+        .
+        <!-- -->
+        <!-- -->
+        Report issues on
+        <!-- -->
+        <a href="https://github.com/EpicEricEE/typst-quick-maths" rel="noopener noreferrer" target="_blank">
+         their repository
+        </a>
+        .
+        <!-- -->
+        <!-- -->
+        You can also try to ask for help with this
+        <!-- -->
+        package
+        <!-- -->
+        on the
+        <!-- -->
+        <a href="https://forum.typst.app" rel="noopener" target="_blank">
+         Forum
+        </a>
+        .
+       </p>
+       <p>
+        Please report this
+        <!-- -->
+        package
+        <!-- -->
+        to the Typst team using the
+        <!-- -->
+        <a href="https://typst.app/contact" rel="noreferrer" target="_blank">
+         contact form
+        </a>
+        <!-- -->
+        if you believe it is a safety hazard or infringes upon your rights.
+       </p>
+      </section>
+      <section id="versions">
+       <h3>
+        Version history
+       </h3>
+       <table>
+        <thead>
+         <tr>
+          <th align="left">
+           Version
+          </th>
+          <th align="left">
+           Release Date
+          </th>
+         </tr>
+        </thead>
+        <tbody>
+         <tr>
+          <td align="left">
+           0.2.0
+          </td>
+          <td align="left">
+           November 18, 2024
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/quick-maths/0.1.0/">
+            0.1.0
+           </a>
+          </td>
+          <td align="left">
+           July 5, 2024
+          </td>
+         </tr>
+        </tbody>
+       </table>
+      </section>
+      <p class="bottom-notice muted">
+       Typst GmbH did not create this
+       <!-- -->
+       package
+       <!-- -->
+       and cannot guarantee correct functionality of this
+       <!-- -->
+       package
+       <!-- -->
+       or compatibility with any version of the Typst compiler or app.
+      </p>
+     </aside>
+    </div>
+   </main>

@@ -1,0 +1,248 @@
+\title{typst.app/universe/package/polylux}
+
+\phantomsection\label{banner}
+\section{polylux}\label{polylux}
+
+{ 0.3.1 }
+
+Presentation slides creation with Typst
+
+{ } Featured Package
+
+\phantomsection\label{readme}
+This is a package for creating presentation slides in
+\href{https://typst.app/}{Typst} . Read the
+\href{https://andreaskroepelin.github.io/polylux/book}{book} to learn
+all about it and click
+\href{https://andreaskroepelin.github.io/polylux/book/changelog.html}{here}
+to see whatâ€™s new!
+
+If you like it, consider
+\href{https://github.com/andreasKroepelin/polylux}{giving a star on
+GitHub} !
+
+\href{https://andreaskroepelin.github.io/polylux/book}{\pandocbounded{\includegraphics[keepaspectratio]{https://img.shields.io/badge/docs-book-green}}}
+\pandocbounded{\includegraphics[keepaspectratio]{https://img.shields.io/github/license/andreasKroepelin/polylux}}
+\pandocbounded{\includegraphics[keepaspectratio]{https://img.shields.io/github/v/release/andreasKroepelin/polylux}}
+\pandocbounded{\includegraphics[keepaspectratio]{https://img.shields.io/github/stars/andreasKroepelin/polylux}}
+\href{https://github.com/andreasKroepelin/polylux/releases/latest/download/demo.pdf}{\pandocbounded{\includegraphics[keepaspectratio]{https://img.shields.io/badge/demo-pdf-blue}}}
+\pandocbounded{\includegraphics[keepaspectratio]{https://img.shields.io/badge/themes-5-aqua}}
+
+\subsection{Quickstart}\label{quickstart}
+
+For the bare-bones, do-it-yourself experience, all you need is:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{// Get Polylux from the official package repository}
+\NormalTok{\#import "@preview/polylux:0.3.1": *}
+
+\NormalTok{// Make the paper dimensions fit for a presentation and the text larger}
+\NormalTok{\#set page(paper: "presentation{-}16{-}9")}
+\NormalTok{\#set text(size: 25pt)}
+
+\NormalTok{// Use \#polylux{-}slide to create a slide and style it using your favourite Typst functions}
+\NormalTok{\#polylux{-}slide[}
+\NormalTok{  \#align(horizon + center)[}
+\NormalTok{    = Very minimalist slides}
+
+\NormalTok{    A lazy author}
+
+\NormalTok{    July 23, 2023}
+\NormalTok{  ]}
+\NormalTok{]}
+
+\NormalTok{\#polylux{-}slide[}
+\NormalTok{  == First slide}
+
+\NormalTok{  Some static text on this slide.}
+\NormalTok{]}
+
+\NormalTok{\#polylux{-}slide[}
+\NormalTok{  == This slide changes!}
+
+\NormalTok{  You can always see this.}
+\NormalTok{  // Make use of features like \#uncover, \#only, and others to create dynamic content}
+\NormalTok{  \#uncover(2)[But this appears later!]}
+\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+This code produces these PDF pages:
+\pandocbounded{\includegraphics[keepaspectratio]{https://andreaskroepelin.github.io/polylux/book/minimal.png}}
+
+From there, you can either start creatively adapting the looks to your
+likings or you can use one of the provided themes. The simplest one of
+them is called \texttt{\ simple\ } (what a coincidence!). It is still
+very unintrusive but gives you some sensible defaults:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/polylux:0.3.1": *}
+
+\NormalTok{\#import themes.simple: *}
+
+\NormalTok{\#set text(font: "Inria Sans")}
+
+\NormalTok{\#show: simple{-}theme.with(}
+\NormalTok{  footer: [Simple slides],}
+\NormalTok{)}
+
+\NormalTok{\#title{-}slide[}
+\NormalTok{  = Keep it simple!}
+\NormalTok{  \#v(2em)}
+
+\NormalTok{  Alpha \#footnote[Uni Augsburg] \#h(1em)}
+\NormalTok{  Bravo \#footnote[Uni Bayreuth] \#h(1em)}
+\NormalTok{  Charlie \#footnote[Uni Chemnitz] \#h(1em)}
+
+\NormalTok{  July 23}
+\NormalTok{]}
+
+\NormalTok{\#slide[}
+\NormalTok{  == First slide}
+
+\NormalTok{  \#lorem(20)}
+\NormalTok{]}
+
+\NormalTok{\#focus{-}slide[}
+\NormalTok{  \_Focus!\_}
+
+\NormalTok{  This is very important.}
+\NormalTok{]}
+
+\NormalTok{\#centered{-}slide[}
+\NormalTok{  = Let\textquotesingle{}s start a new section!}
+\NormalTok{]}
+
+\NormalTok{\#slide[}
+\NormalTok{  == Dynamic slide}
+\NormalTok{  Did you know that...}
+
+\NormalTok{  \#pause}
+\NormalTok{  ...you can see the current section at the top of the slide?}
+\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+This time, we obtain these PDF pages:
+\pandocbounded{\includegraphics[keepaspectratio]{https://andreaskroepelin.github.io/polylux/book/themes/gallery/simple.png}}
+
+As you can see, a theme can introduce its own types of slides (here:
+\texttt{\ title-slide\ } , \texttt{\ slide\ } , \texttt{\ focus-slide\ }
+, \texttt{\ centered-slide\ } ) to let you quickly switch between
+different layouts. The book
+\href{https://andreaskroepelin.github.io/polylux/book/themes/themes.html}{has
+more infos} on how to use (and create your own) themes.
+
+For dynamic content, Polylux also provides
+\href{https://andreaskroepelin.github.io/polylux/book/dynamic/dynamic.html}{a
+convenient API for complex overlays} .
+
+If you use \href{https://pdfpc.github.io/}{pdfpc} to display your
+slides, you can rely on
+\href{https://andreaskroepelin.github.io/polylux/book/external/pdfpc.html}{Polyluxâ€™
+support for it} and create speaker notes, hide slides, configure the
+timer and more!
+
+Visit the \href{https://andreaskroepelin.github.io/polylux/book}{book}
+for more details or take a look at the
+\href{https://github.com/andreasKroepelin/polylux/releases/latest/download/demo.pdf}{demo
+PDF} where you can see the features of this template in action.
+
+\textbf{âš~ This package is under active development and there are no
+backwards compatibility guarantees!}
+
+\subsection{Acknowledgements}\label{acknowledgements}
+
+Thank you toâ€¦
+
+\begin{itemize}
+\tightlist
+\item
+  \href{https://github.com/drupol}{@drupol} for the
+  \texttt{\ university\ } theme
+\item
+  \href{https://github.com/Enivex}{@Enivex} for the
+  \texttt{\ metropolis\ } theme
+\item
+  \href{https://github.com/MarkBlyth}{@MarkBlyth} for contributing to
+  the \texttt{\ clean\ } theme
+\item
+  \href{https://github.com/ntjess}{@ntjess} for contributing to the
+  height fitting feature
+\item
+  \href{https://github.com/JuliusFreudenberger}{@JuliusFreudenberger}
+  for maintaining the \texttt{\ polylux2pdfpc\ } AUR package
+\item
+  \href{https://github.com/fncnt}{@fncnt} for coming up with the name
+  â€œPolyluxâ€?
+\item
+  the Typst authors and contributors for this refreshing piece of
+  software
+\end{itemize}
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as \texttt{\ polylux\ }
+
+\begin{verbatim}
+#import "@preview/polylux:0.3.1"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author s :]
+Andreas KrÃ¶pelin \& contributors
+\item[License:]
+MIT
+\item[Current version:]
+0.3.1
+\item[Last updated:]
+September 3, 2023
+\item[First released:]
+July 26, 2023
+\item[Archive size:]
+9.62 kB
+\href{https://packages.typst.org/preview/polylux-0.3.1.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/andreasKroepelin/polylux}{GitHub}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of Andreas KrÃ¶pelin and contributors . Report
+issues on \href{https://github.com/andreasKroepelin/polylux}{their
+repository} . You can also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.3.1 & September 3, 2023 \\
+\href{https://typst.app/universe/package/polylux/0.2.0/}{0.2.0} & July
+26, 2023 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.

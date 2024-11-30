@@ -1,0 +1,299 @@
+\title{typst.app/universe/package/codelst}
+
+\phantomsection\label{banner}
+\section{codelst}\label{codelst}
+
+{ 2.0.2 }
+
+A typst package to render sourcecode.
+
+\phantomsection\label{readme}
+\textbf{codelst} is a \href{https://github.com/typst/typst}{Typst}
+package for rendering sourcecode with line numbers and some other
+additions.
+
+\subsection{Usage}\label{usage}
+
+Import the package from the typst preview repository:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import }\StringTok{"@preview/codelst:2.0.2"}\OperatorTok{:}\NormalTok{ sourcecode}
+\end{Highlighting}
+\end{Shaded}
+
+After importing the package, simply wrap any fenced code block in a call
+to \texttt{\ \#sourcecode()\ } :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import }\StringTok{"@preview/codelst:2.0.2"}\OperatorTok{:}\NormalTok{ sourcecode}
+
+\NormalTok{\#sourcecode[}\VerbatimStringTok{\textasciigrave{}\textasciigrave{}\textasciigrave{}typ}
+\VerbatimStringTok{\#show "ArtosFlow": name =\textgreater{} box[}
+\VerbatimStringTok{  \#box(image(}
+\VerbatimStringTok{    "logo.svg",}
+\VerbatimStringTok{    height: 0.7em,}
+\VerbatimStringTok{  ))}
+\VerbatimStringTok{  \#name}
+\VerbatimStringTok{]}
+
+\VerbatimStringTok{This report is embedded in the}
+\VerbatimStringTok{ArtosFlow project. ArtosFlow is a}
+\VerbatimStringTok{project of the Artos Institute.}
+\VerbatimStringTok{\textasciigrave{}\textasciigrave{}\textasciigrave{}}\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Further documentation}\label{further-documentation}
+
+See \texttt{\ manual.pdf\ } for a comprehensive manual of the package.
+
+See \texttt{\ example.typ\ } for some quick usage examples.
+
+\subsection{Development}\label{development}
+
+The documentation is created using
+\href{https://github.com/jneug/typst-mantys}{Mantys} , a Typst template
+for creating package documentation.
+
+To compile the manual, Mantys needs to be available as a local package.
+Refer to Mantysâ€™ manual for instructions on how to do so.
+
+\subsection{Changelog}\label{changelog}
+
+\subsubsection{v2.0.1}\label{v2.0.1}
+
+This version makes \texttt{\ codelst\ } compatible to Typst 0.11.0.
+Version 2.0.1 now requires Typst 0.11.0, since there are some breaking
+changes to the way counters work.
+
+Thanks to @kilpkonn for theses changes.
+
+\subsubsection{v2.0.0}\label{v2.0.0}
+
+Version 2 requires Typst 0.9.0 or newer. Rendering is now done using the
+new \texttt{\ raw.line\ } elements get consistent line numbers and
+syntax highlighting (even if \texttt{\ showrange\ } is used). Rendering
+is now done in a \texttt{\ \#table\ } .
+
+\begin{itemize}
+\tightlist
+\item
+  Added \texttt{\ theme\ } and \texttt{\ syntaxes\ } options to
+  overwrite passed in \texttt{\ \#raw\ } values.
+\item
+  Breaking: Renamed \texttt{\ tab-indend\ } to \texttt{\ tab-size\ } ,
+  to conform with the Typst option.
+\item
+  Breaking: Removed \texttt{\ continue-numbering\ } option for now. (The
+  feature failed in combination with label parsing and line highlights.)
+\item
+  Breaking: Removed styling of line numbers via a \texttt{\ show\ }
+  -rule.
+\end{itemize}
+
+\subsubsection{v1.0.0}\label{v1.0.0}
+
+\begin{itemize}
+\tightlist
+\item
+  Complete rewrite of code rendering.
+\item
+  New options for \texttt{\ \#sourcecode()\ } :
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \texttt{\ lang\ } : Overwrite code language setting.
+  \item
+    \texttt{\ numbers-first\ } : First line number to show.
+  \item
+    \texttt{\ numbers-step\ } : Only show every n-th number.
+  \item
+    \texttt{\ frame\ } : Set a frame (replaces
+    \texttt{\ \textless{}codelst\textgreater{}\ } label.)
+  \item
+    Merged \texttt{\ line-numbers\ } and \texttt{\ numbering\ } options.
+  \end{itemize}
+\item
+  Removed \texttt{\ \#numbers-style()\ } function.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \texttt{\ numbers-style\ } option now gets passed
+    \texttt{\ counter.display()\ } .
+  \end{itemize}
+\item
+  Removed \texttt{\ \textless{}codelst\textgreater{}\ } label.
+\item
+  \texttt{\ codelst-style\ } only sets \texttt{\ breakable\ } for
+  figures.
+\item
+  New \texttt{\ codelst\ } function to setup a catchall show rules for
+  \texttt{\ raw\ } text.
+\item
+  \texttt{\ label-regex:\ none\ } disables labels parsing.
+\item
+  Code improvements and refactorings.
+\end{itemize}
+
+\subsubsection{v0.0.5}\label{v0.0.5}
+
+\begin{itemize}
+\tightlist
+\item
+  Fixed insets for line highlights.
+\item
+  Added \texttt{\ numbers-width\ } option to manually set width of line
+  numbers column.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    This allows line numbers on margins by setting
+    \texttt{\ numbers-width\ } to \texttt{\ 0pt\ } or a negative number
+    like \texttt{\ -1em\ } .
+  \end{itemize}
+\end{itemize}
+
+\subsubsection{v0.0.4}\label{v0.0.4}
+
+\begin{itemize}
+\tightlist
+\item
+  Fixed issue with context unaware syntax highlighting.
+\end{itemize}
+
+\subsubsection{v0.0.3}\label{v0.0.3}
+
+\begin{itemize}
+\tightlist
+\item
+  Removed call to \texttt{\ \#read()\ } from \texttt{\ \#sourcefile()\ }
+  .
+\item
+  Added \texttt{\ continue-numbering\ } argument to
+  \texttt{\ \#sourcecode()\ } .
+\item
+  Fixed problem with \texttt{\ showrange\ } having out of range line
+  numbers.
+\end{itemize}
+
+\subsubsection{v0.0.2}\label{v0.0.2}
+
+\begin{itemize}
+\tightlist
+\item
+  Added a comprehensive manual.
+\item
+  Fixed crash for missing \texttt{\ lang\ } attribute in
+  \texttt{\ raw\ } element.
+\end{itemize}
+
+\subsubsection{v0.0.1}\label{v0.0.1}
+
+\begin{itemize}
+\tightlist
+\item
+  Initial version submitted to typst/packages.
+\end{itemize}
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as \texttt{\ codelst\ }
+
+\begin{verbatim}
+#import "@preview/codelst:2.0.2"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+Jonas Neugebauer
+\item[License:]
+MIT
+\item[Current version:]
+2.0.2
+\item[Last updated:]
+October 23, 2024
+\item[First released:]
+July 24, 2023
+\item[Minimum Typst version:]
+0.12.0
+\item[Archive size:]
+5.41 kB
+\href{https://packages.typst.org/preview/codelst-2.0.2.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/jneug/typst-codelst}{GitHub}
+\item[Discipline s :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \href{https://typst.app/universe/search/?discipline=computer-science}{Computer
+  Science}
+\item
+  \href{https://typst.app/universe/search/?discipline=mathematics}{Mathematics}
+\item
+  \href{https://typst.app/universe/search/?discipline=education}{Education}
+\item
+  \href{https://typst.app/universe/search/?discipline=linguistics}{Linguistics}
+\end{itemize}
+\item[Categor ies :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-package.svg}}
+  \href{https://typst.app/universe/search/?category=components}{Components}
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-layout.svg}}
+  \href{https://typst.app/universe/search/?category=layout}{Layout}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of Jonas Neugebauer . Report issues on
+\href{https://github.com/jneug/typst-codelst}{their repository} . You
+can also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+2.0.2 & October 23, 2024 \\
+\href{https://typst.app/universe/package/codelst/2.0.1/}{2.0.1} & March
+19, 2024 \\
+\href{https://typst.app/universe/package/codelst/2.0.0/}{2.0.0} &
+November 16, 2023 \\
+\href{https://typst.app/universe/package/codelst/1.0.0/}{1.0.0} & July
+29, 2023 \\
+\href{https://typst.app/universe/package/codelst/0.0.3/}{0.0.3} & July
+24, 2023 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.

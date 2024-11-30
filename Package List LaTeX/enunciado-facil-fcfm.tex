@@ -1,0 +1,247 @@
+\title{typst.app/universe/package/enunciado-facil-fcfm}
+
+\phantomsection\label{banner}
+\phantomsection\label{template-thumbnail}
+\pandocbounded{\includegraphics[keepaspectratio]{https://packages.typst.org/preview/thumbnails/enunciado-facil-fcfm-0.1.0-small.webp}}
+
+\section{enunciado-facil-fcfm}\label{enunciado-facil-fcfm}
+
+{ 0.1.0 }
+
+Documentos de ejercicios (controles, auxiliares, tareas, pautas) para la
+FCFM, UChile
+
+\href{/app?template=enunciado-facil-fcfm&version=0.1.0}{Create project
+in app}
+
+\phantomsection\label{readme}
+Template de Typst para documentos de la FCFM (auxiliares, controles,
+pautas)
+
+\subsection{Ejemplo de uso}\label{ejemplo-de-uso}
+
+\subsubsection{\texorpdfstring{En
+\href{https://typst.app/}{typst.app}}{En typst.app}}\label{en-typst.app}
+
+Si utilizas la aplicaciÃ³n web oficial, puedes presionar â€œStart from
+templateâ€? y buscar â€œenunciado-facil-fcfmâ€? para crear un proyecto
+ya inicializado con el template.
+
+\subsubsection{En CLI}\label{en-cli}
+
+Si usas Typst de manera local, puedes ejecutar:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{typst}\NormalTok{ init @preview/enunciado{-}facil{-}fcfm:0.1.0}
+\end{Highlighting}
+\end{Shaded}
+
+lo cual inicializarÃ¡ un proyecto usando el template en el directorio
+actual.
+
+\subsubsection{Manualmente}\label{manualmente}
+
+Basta crear un archivo con el siguiente contenido para usar el template:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/enunciado{-}facil{-}fcfm:0.1.0" as template}
+
+\NormalTok{\#show: template.conf.with(}
+\NormalTok{  titulo: "Auxiliar 1",}
+\NormalTok{  subtitulo: "Typst",}
+\NormalTok{  titulo{-}extra: (}
+\NormalTok{    [*Profesora*: Ada Lovelace],}
+\NormalTok{    [*Auxiliares*: Grace Hopper y Alan Turing],}
+\NormalTok{  ),}
+\NormalTok{  departamento: template.departamentos.dcc,}
+\NormalTok{  curso: "CC4034 {-} ComposiciÃ³n de documentos",}
+\NormalTok{)}
+
+\NormalTok{...el resto del documento comienza acÃ¡}
+\end{Highlighting}
+\end{Shaded}
+
+Puedes ver un ejemplo mÃ¡s completo en
+\href{https://github.com/typst/packages/raw/main/packages/preview/enunciado-facil-fcfm/0.1.0/template/main.typ}{main.typ}
+. Para aprender la sintÃ¡xis de Typst existe la
+\href{https://typst.app/docs}{documentaciÃ³n oficial} . Si vienes desde
+LaTeX, te recomiendo la
+\href{https://typst.app/docs/guides/guide-for-latex-users/}{guÃ­a para
+usuarios de LaTeX} .
+
+\subsection{ConfiguraciÃ³n}\label{configuraciuxe3uxb3n}
+
+La funciÃ³n \texttt{\ conf\ } importada desde el template recibe los
+siguientes parÃ¡metros:
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+ParÃ¡metro & DescripciÃ³n \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\texttt{\ titulo\ } & TÃ­tulo del documento \\
+\texttt{\ subtitulo\ } & SubtÃ­tulo del documento \\
+\texttt{\ titulo-extra\ } & Arreglo con bloques de contenido adicionales
+a agregar despuÃ©s del tÃ­tulo. Ãštil para mostrar los nombres del equipo
+docente. \\
+\texttt{\ departamento\ } & Diccionario que contiene el nombre (
+\texttt{\ string\ } ) y el logo del departamento ( \texttt{\ content\ }
+). El template viene con uno ya creado para cada departamento bajo
+\texttt{\ template.departamentos\ } . Valor por defecto:
+\texttt{\ template.departamentos.dcc\ } \\
+\texttt{\ curso\ } & CÃ³digo y/o nombre del curso. \\
+\texttt{\ page-conf\ } & Diccionario con parÃ¡metros adicionales
+(tamaÃ±o de pÃ¡gina, mÃ¡rgenes, etc) para pasarle a la funciÃ³n
+\href{https://typst.app/docs/reference/layout/page/}{page} . \\
+\end{longtable}
+
+\subsection{FAQ}\label{faq}
+
+\subsubsection{CÃ³mo cambiar el logo del
+departamento}\label{cuxe3uxb3mo-cambiar-el-logo-del-departamento}
+
+El parÃ¡metro \texttt{\ departamento\ } solamente es un diccionario de
+Typst con las llaves \texttt{\ nombre\ } y \texttt{\ logo\ } . Puedes
+crear un diccionario con un logo personalizado y pasÃ¡rselo al template:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/enunciado{-}facil{-}fcfm:0.1.0" as template}
+
+\NormalTok{\#let mi{-}departamento = (}
+\NormalTok{  nombre: "Mi sÃºper departamento personalizado",}
+\NormalTok{  logo: image("mi{-}super{-}logo.png"),}
+\NormalTok{)}
+
+\NormalTok{\#show: template.conf.with(}
+\NormalTok{  titulo: "Documento con logo personalizado",}
+\NormalTok{  departamento: mi{-}departamento,}
+\NormalTok{  curso: "CC4034 {-} ComposiciÃ³n de documentos",}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{CÃ³mo cambiar mÃ¡rgenes, tamaÃ±o de pÃ¡gina,
+etcÃ©tera}\label{cuxe3uxb3mo-cambiar-muxe3rgenes-tamauxe3o-de-puxe3gina-etcuxe3tera}
+
+Para cambiar la configuraciÃ³n de la pÃ¡gina hay que interceptar la
+\href{https://typst.app/docs/reference/styling/\#set-rules}{set rule}
+que se hace sobre \texttt{\ page\ } . Para ello, el template expone el
+parÃ¡metro \texttt{\ page-conf\ } que permit sobreescribir la
+configuraciÃ³n de pÃ¡gina del template. Por ejemplo, para cambiar el
+tamaÃ±o del papel a A4:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/enunciado{-}facil{-}fcfm:0.1.0" as template}
+
+\NormalTok{\#show: template.conf.with(}
+\NormalTok{  titulo: "Documento con tamaÃ±o A4",}
+\NormalTok{  departamento: template.departamentos.dcc,}
+\NormalTok{  curso: "CC4034 {-} ComposiciÃ³n de documentos",}
+\NormalTok{  page{-}conf: (paper: "a4")}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{CÃ³mo cambiar la fuente, headings,
+etc}\label{cuxe3uxb3mo-cambiar-la-fuente-headings-etc}
+
+Usando \href{https://typst.app/docs/reference/styling/}{show y set
+rules} puedes personalizar mucho mÃ¡s el template. Por ejemplo, para
+cambiar la fuente:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/enunciado{-}facil{-}fcfm:0.1.0" as template}
+
+\NormalTok{// En este caso hay que cambiar la fuente}
+\NormalTok{// antes de que se configure el template}
+\NormalTok{// para que se aplique en el tÃ­tulo y encabezado}
+\NormalTok{\#set text(font: "New Computer Modern")}
+
+\NormalTok{\#show: template.conf.with(}
+\NormalTok{  titulo: "Documento con la fuente de LaTeX",}
+\NormalTok{  departamento: template.departamentos.dcc,}
+\NormalTok{  curso: "CC4034 {-} ComposiciÃ³n de documentos",}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\href{/app?template=enunciado-facil-fcfm&version=0.1.0}{Create project
+in app}
+
+\subsubsection{How to use}\label{how-to-use}
+
+Click the button above to create a new project using this template in
+the Typst app.
+
+You can also use the Typst CLI to start a new project on your computer
+using this command:
+
+\begin{verbatim}
+typst init @preview/enunciado-facil-fcfm:0.1.0
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+\href{https://github.com/bkorecic}{Blaz Korecic}
+\item[License:]
+MIT
+\item[Current version:]
+0.1.0
+\item[Last updated:]
+October 9, 2024
+\item[First released:]
+October 9, 2024
+\item[Archive size:]
+264 kB
+\href{https://packages.typst.org/preview/enunciado-facil-fcfm-0.1.0.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/bkorecic/enunciado-facil-fcfm}{GitHub}
+\item[Categor y :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-speak.svg}}
+  \href{https://typst.app/universe/search/?category=report}{Report}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This template is a project of Blaz Korecic . Report issues on
+\href{https://github.com/bkorecic/enunciado-facil-fcfm}{their
+repository} . You can also try to ask for help with this template on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this template to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.1.0 & October 9, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this template and cannot guarantee correct
+functionality of this template or compatibility with any version of the
+Typst compiler or app.

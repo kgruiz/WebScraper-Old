@@ -1,0 +1,479 @@
+\title{typst.app/universe/package/fletcher}
+
+\phantomsection\label{banner}
+\section{fletcher}\label{fletcher}
+
+{ 0.5.2 }
+
+Draw diagrams with nodes and arrows.
+
+{ } Featured Package
+
+\phantomsection\label{readme}
+\href{https://github.com/typst/packages/raw/main/packages/preview/fletcher/0.5.2/docs/manual.pdf?raw=true}{\pandocbounded{\includegraphics[keepaspectratio]{https://img.shields.io/badge/docs-manual.pdf-green}}}
+\pandocbounded{\includegraphics[keepaspectratio]{https://img.shields.io/badge/version-0.5.2-green}}
+\href{https://github.com/Jollywatt/typst-fletcher/tree/dev}{\pandocbounded{\includegraphics[keepaspectratio]{https://img.shields.io/badge/dynamic/toml?url=https\%3A\%2F\%2Fgithub.com\%2FJollywatt\%2Ftypst-fletcher\%2Fraw\%2Fdev\%2Ftypst.toml&query=package.version&label=dev&color=blue}}}
+\href{https://github.com/Jollywatt/typst-fletcher}{\pandocbounded{\includegraphics[keepaspectratio]{https://img.shields.io/badge/GitHub-repo-blue}}}
+
+\emph{\textbf{fletcher} (noun) a maker of arrows}
+
+A \href{https://typst.app/}{Typst} package for drawing diagrams with
+arrows, built on top of
+\href{https://github.com/johannes-wolf/cetz}{CeTZ} . See the
+\href{https://github.com/typst/packages/raw/main/packages/preview/fletcher/0.5.2/docs/manual.pdf?raw=true}{manual}
+for documentation.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/fletcher:0.5.2" as fletcher: diagram, node, edge}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/fletcher/0.5.2/docs/readme-examples/first-isomorphism-theorem-light.svg}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#diagram(cell{-}size: 15mm, $}
+\NormalTok{  G edge(f, {-}\textgreater{}) edge("d", pi, {-}\textgreater{}\textgreater{}) \& im(f) \textbackslash{}}
+\NormalTok{  G slash ker(f) edge("ur", tilde(f), "hook{-}{-}\textgreater{}")}
+\NormalTok{$)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/fletcher/0.5.2/docs/readme-examples/flowchart-trap-light.svg}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{// https://xkcd.com/1195/}
+\NormalTok{\#import fletcher.shapes: diamond}
+\NormalTok{\#set text(font: "Comic Neue", weight: 600)}
+
+\NormalTok{\#diagram(}
+\NormalTok{  node{-}stroke: 1pt,}
+\NormalTok{  edge{-}stroke: 1pt,}
+\NormalTok{  node((0,0), [Start], corner{-}radius: 2pt, extrude: (0, 3)),}
+\NormalTok{  edge("{-}|\textgreater{}"),}
+\NormalTok{  node((0,1), align(center)[}
+\NormalTok{    Hey, wait,\textbackslash{} this flowchart\textbackslash{} is a trap!}
+\NormalTok{  ], shape: diamond),}
+\NormalTok{  edge("d,r,u,l", "{-}|\textgreater{}", [Yes], label{-}pos: 0.1)}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/fletcher/0.5.2/docs/readme-examples/state-machine-light.svg}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#set text(10pt)}
+\NormalTok{\#diagram(}
+\NormalTok{  node{-}stroke: .1em,}
+\NormalTok{  node{-}fill: gradient.radial(blue.lighten(80\%), blue, center: (30\%, 20\%), radius: 80\%),}
+\NormalTok{  spacing: 4em,}
+\NormalTok{  edge(({-}1,0), "r", "{-}|\textgreater{}", \textasciigrave{}open(path)\textasciigrave{}, label{-}pos: 0, label{-}side: center),}
+\NormalTok{  node((0,0), \textasciigrave{}reading\textasciigrave{}, radius: 2em),}
+\NormalTok{  edge(\textasciigrave{}read()\textasciigrave{}, "{-}|\textgreater{}"),}
+\NormalTok{  node((1,0), \textasciigrave{}eof\textasciigrave{}, radius: 2em),}
+\NormalTok{  edge(\textasciigrave{}close()\textasciigrave{}, "{-}|\textgreater{}"),}
+\NormalTok{  node((2,0), \textasciigrave{}closed\textasciigrave{}, radius: 2em, extrude: ({-}2.5, 0)),}
+\NormalTok{  edge((0,0), (0,0), \textasciigrave{}read()\textasciigrave{}, "{-}{-}|\textgreater{}", bend: 130deg),}
+\NormalTok{  edge((0,0), (2,0), \textasciigrave{}close()\textasciigrave{}, "{-}|\textgreater{}", bend: {-}40deg),}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/fletcher/0.5.2/docs/readme-examples/feynman-diagram-light.svg}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#diagram($}
+\NormalTok{  e\^{}{-} edge("rd", "{-}\textless{}|{-}") \& \& \& edge("ld", "{-}|\textgreater{}{-}") e\^{}+ \textbackslash{}}
+\NormalTok{  \& edge(gamma, "wave") \textbackslash{}}
+\NormalTok{  e\^{}+ edge("ru", "{-}|\textgreater{}{-}") \& \& \& edge("lu", "{-}\textless{}|{-}") e\^{}{-} \textbackslash{}}
+\NormalTok{$)}
+\end{Highlighting}
+\end{Shaded}
+
+Pull requests are most welcome!
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.5000}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.5000}}@{}}
+\toprule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\href{https://github.com/typst/packages/raw/main/packages/preview/fletcher/0.5.2/docs/gallery/commutative.typ}{}
+
+\includesvg[width=1\linewidth,height=\textheight,keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/fletcher/0.5.2/docs/gallery/commutative.svg}
+&
+\href{https://github.com/typst/packages/raw/main/packages/preview/fletcher/0.5.2/docs/gallery/algebra-cube.typ}{}
+
+\includesvg[width=1\linewidth,height=\textheight,keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/fletcher/0.5.2/docs/gallery/algebra-cube.svg} \\
+\href{https://github.com/typst/packages/raw/main/packages/preview/fletcher/0.5.2/docs/gallery/ml-architecture.typ}{}
+
+\includesvg[width=1\linewidth,height=\textheight,keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/fletcher/0.5.2/docs/gallery/ml-architecture.svg}
+&
+\href{https://github.com/typst/packages/raw/main/packages/preview/fletcher/0.5.2/docs/gallery/io-flowchart.typ}{}
+
+\includesvg[width=1\linewidth,height=\textheight,keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/fletcher/0.5.2/docs/gallery/io-flowchart.svg} \\
+\href{https://github.com/typst/packages/raw/main/packages/preview/fletcher/0.5.2/docs/gallery/digraph.typ}{}
+
+\includesvg[width=1\linewidth,height=\textheight,keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/fletcher/0.5.2/docs/gallery/digraph.svg}
+&
+\href{https://github.com/typst/packages/raw/main/packages/preview/fletcher/0.5.2/docs/gallery/node-groups.typ}{}
+
+\includesvg[width=1\linewidth,height=\textheight,keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/fletcher/0.5.2/docs/gallery/node-groups.svg} \\
+\href{https://github.com/typst/packages/raw/main/packages/preview/fletcher/0.5.2/docs/gallery/uml-diagram.typ}{}
+
+\includesvg[width=1\linewidth,height=\textheight,keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/fletcher/0.5.2/docs/gallery/uml-diagram.svg}
+& \\
+\end{longtable}
+
+\subsection{Change log}\label{change-log}
+
+\subsubsection{0.5.2}\label{section}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Require \texttt{\ typst\ } version
+  \texttt{\ \textgreater{}=0.12.0\ } .}
+\item
+  Update \texttt{\ cetz\ } dependency to \texttt{\ 0.3.1\ } .
+  \textbf{Note:} This may slightly change edge label positions.
+\item
+  Add \texttt{\ loop-angle\ } option to \texttt{\ edge()\ } (\#36).
+\end{itemize}
+
+\subsubsection{0.5.1}\label{section-1}
+
+\begin{itemize}
+\tightlist
+\item
+  Fix nodes which \texttt{\ enclose\ } absolute coordinates.
+\item
+  Allow CeTZ-style coordinate expressions in node \texttt{\ enclose\ }
+  option.
+\item
+  Fix crash with polar coordinates.
+\item
+  Fix edges which bend at 0deg or 180deg (e.g., \texttt{\ edge("r,r")\ }
+  or \texttt{\ edge("r,l")\ } ) and enhance the way the corner radius
+  adapts to the bend angle. \textbf{Note:} This may change diagram
+  layout from previous versions.
+\item
+  Improve error messages.
+\item
+  Add marks for crowâ€™s foot notation: \texttt{\ n\ } (many),
+  \texttt{\ n?\ } (zero or more), \texttt{\ n!\ } (one or more),
+  \texttt{\ 1\ } (one), \texttt{\ 1?\ } (zero or one), \texttt{\ 1!\ }
+  (exactly one).
+\item
+  Add \texttt{\ node-shape\ } option to \texttt{\ diagram()\ } .
+\end{itemize}
+
+\subsubsection{0.5.0}\label{section-2}
+
+\begin{itemize}
+\tightlist
+\item
+  Greatly enhance coordinate system.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Support CeTZ-style coordinate expressions (relative, polar,
+    interpolating, named coordinates, etc).
+  \item
+    Absolute coordinates (physical lengths) can be used alongside
+    â€œelasticâ€? coordinates (row/column positions).
+  \end{itemize}
+\item
+  Add \texttt{\ label-angle\ } option to \texttt{\ edge()\ } .
+\item
+  Add \texttt{\ label-wrapper\ } option to allow changing the label
+  inset, outline stroke, and so on (\#26).
+\item
+  Add \texttt{\ label-size\ } option to control default edge label text
+  size (\#35)
+\item
+  Add \texttt{\ trapezium\ } node shape.
+\item
+  Disallow string labels to be passed as positional arguments to
+  \texttt{\ edge()\ } (to eliminate ambiguity). Used named argument or
+  pass content instead.
+\end{itemize}
+
+\subsubsection{0.4.5}\label{section-3}
+
+\begin{itemize}
+\tightlist
+\item
+  Add isosceles triangle node shape (\#31).
+\item
+  Add \texttt{\ fit\ } and \texttt{\ dir\ } options to various node
+  shapes to adjust sizing and orientation.
+\item
+  Allow more than one consecutive edge to have an implicit end vertex.
+\item
+  Allow \texttt{\ snap-to\ } to be \texttt{\ none\ } to disable edge
+  snapping (\#32).
+\end{itemize}
+
+\subsubsection{0.4.4}\label{section-4}
+
+\begin{itemize}
+\tightlist
+\item
+  Support fully customisable marks/arrowheads!
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Added new mark styles and tweaked some existing defaults.
+    \textbf{Note.} This may change the micro-typography of diagrams from
+    previous versions.
+  \end{itemize}
+\item
+  Add node groups via the \texttt{\ enclose\ } option of
+  \texttt{\ node()\ } .
+\item
+  Node labels can be aligned inside the node with \texttt{\ align()\ } .
+\item
+  Node labels wrap naturally when label text is wider than the node.
+  \textbf{Note:} This may change diagram layout from previous versions.
+\item
+  Add a \texttt{\ layer\ } option to nodes and edges to control drawing
+  order.
+\item
+  Add node shapes: \texttt{\ ellipse\ } , \texttt{\ octagon\ } .
+\end{itemize}
+
+\subsubsection{0.4.3}\label{section-5}
+
+\begin{itemize}
+\tightlist
+\item
+  Fixed edge crossing backgrounds being drawn above nodes (\#14).
+\item
+  Add \texttt{\ fletcher.hide()\ } to hide elements with/without
+  affecting layout, useful for incremental diagrams in slides (\#15).
+\item
+  Support \texttt{\ shift\ } ing edges by coordinate deltas as well as
+  absolute lengths (\#13).
+\item
+  Support node names (\#8).
+\end{itemize}
+
+\subsubsection{0.4.2}\label{section-6}
+
+\begin{itemize}
+\tightlist
+\item
+  Improve edge-to-node snapping. Edges can terminate anywhere near a
+  node (not just at its center) and will automatically snap to the node
+  outline. Added \texttt{\ snap-to\ } option to \texttt{\ edge()\ } .
+\item
+  Fix node \texttt{\ inset\ } being half the amount specified. If
+  upgrading from previous version, you will need to divide node
+  \texttt{\ inset\ } values by two to preserve diagram layout.
+\item
+  Add \texttt{\ decorations\ } option to \texttt{\ edge()\ } for CeTZ
+  path decorations ( \texttt{\ "wave"\ } , \texttt{\ "zigzag"\ } , and
+  \texttt{\ "coil"\ } , also accepted as positional string arguments).
+\end{itemize}
+
+\subsubsection{0.4.1}\label{section-7}
+
+\begin{itemize}
+\tightlist
+\item
+  Support custom node shapes! Edges connect to node outlines
+  automatically.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    New \texttt{\ shapes\ } submodule, containing \texttt{\ diamond\ } ,
+    \texttt{\ pill\ } , \texttt{\ parallelogram\ } ,
+    \texttt{\ hexagon\ } , and other node shapes.
+  \end{itemize}
+\item
+  Allow edges to have multiple segments.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Add \texttt{\ vertices\ } an \texttt{\ corner-radius\ } options to
+    \texttt{\ edge()\ } .
+  \item
+    Relative coordinate shorthands may be comma separated to signify
+    multiple segments, e.g., \texttt{\ "r,u,ll"\ } .
+  \end{itemize}
+\item
+  Add \texttt{\ dodge\ } option to \texttt{\ edge()\ } to adjust end
+  points.
+\item
+  Support \texttt{\ cetz:0.2.0\ } .
+\end{itemize}
+
+\subsubsection{0.4.0}\label{section-8}
+
+\begin{itemize}
+\tightlist
+\item
+  Add ability to specify diagrams in math-mode, using \texttt{\ \&\ } to
+  separate nodes.
+\item
+  Allow implicit and relative edge coordinates, e.g.,
+  \texttt{\ edge("d")\ } becomes \texttt{\ edge(prev-node,\ (0,\ 1))\ }
+  .
+\item
+  Add ability to place marks anywhere along an edge. Shorthands now
+  accept an optional middle mark, for example
+  \texttt{\ \textbar{}-\textgreater{}-\textbar{}\ } and
+  \texttt{\ hook-/-\textgreater{}\textgreater{}\ } .
+\item
+  Add â€œhanging tailâ€? correction to marks on curved edges. Marks now
+  rotate a bit to fit more comfortably along tightly curving arcs.
+\item
+  Add more arrowheads for the sake of it: \texttt{\ \}\textgreater{}\ }
+  , \texttt{\ \textless{}\{\ } , \texttt{\ /\ } ,
+  \texttt{\ \textbackslash{}\ } , \texttt{\ x\ } , \texttt{\ X\ } ,
+  \texttt{\ *\ } (solid dot), \texttt{\ @\ } (solid circle).
+\item
+  Add \texttt{\ axes\ } option to \texttt{\ diagram()\ } to control the
+  direction of each axis in the diagramâ€™s coordinate system.
+\item
+  Add \texttt{\ width\ } , \texttt{\ height\ } and \texttt{\ radius\ }
+  options to \texttt{\ node()\ } for explicit control over size.
+\item
+  Add \texttt{\ corner-radius\ } option to \texttt{\ node()\ } .
+\item
+  Add \texttt{\ stroke\ } option to \texttt{\ edge()\ } replacing
+  \texttt{\ thickness\ } and \texttt{\ paint\ } options.
+\item
+  Add \texttt{\ edge-stroke\ } option to \texttt{\ diagram()\ }
+  replacing \texttt{\ edge-thickness\ } .
+\end{itemize}
+
+\subsubsection{0.3.0}\label{section-9}
+
+\begin{itemize}
+\tightlist
+\item
+  Make round-style arrow heads better approximate the default math font.
+\item
+  Add solid arrow heads with shorthand
+  \texttt{\ \textless{}\textbar{}-\ } ,
+  \texttt{\ -\textbar{}\textgreater{}\ } and double-bar
+  \texttt{\ \textbar{}\textbar{}-\ } ,
+  \texttt{\ -\textbar{}\textbar{}\ } .
+\item
+  Add an \texttt{\ extrude\ } option to \texttt{\ node()\ } which
+  duplicates and extrudes the nodeâ€™s stroke, enabling double stroke
+  effects.
+\end{itemize}
+
+\subsubsection{0.2.0}\label{section-10}
+
+\begin{itemize}
+\tightlist
+\item
+  Experimental support for customising arrowheads.
+\item
+  Add right-angled edges with
+  \texttt{\ edge(...,\ corner:\ left/right)\ } .
+\end{itemize}
+
+\subsection{Star History}\label{star-history}
+
+\href{https://star-history.com/\#jollywatt/typst-fletcher&Date}{\pandocbounded{\includegraphics[keepaspectratio]{https://api.star-history.com/svg?repos=jollywatt/typst-fletcher&type=Date}}}
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as \texttt{\ fletcher\ }
+
+\begin{verbatim}
+#import "@preview/fletcher:0.5.2"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+Joseph Wilson (Jollywatt)
+\item[License:]
+MIT
+\item[Current version:]
+0.5.2
+\item[Last updated:]
+October 25, 2024
+\item[First released:]
+November 23, 2023
+\item[Minimum Typst version:]
+0.12.0
+\item[Archive size:]
+51.1 kB
+\href{https://packages.typst.org/preview/fletcher-0.5.2.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/Jollywatt/typst-fletcher}{GitHub}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of Joseph Wilson (Jollywatt) . Report issues
+on \href{https://github.com/Jollywatt/typst-fletcher}{their repository}
+. You can also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.5.2 & October 25, 2024 \\
+\href{https://typst.app/universe/package/fletcher/0.5.1/}{0.5.1} & July
+10, 2024 \\
+\href{https://typst.app/universe/package/fletcher/0.5.0/}{0.5.0} & June
+11, 2024 \\
+\href{https://typst.app/universe/package/fletcher/0.4.5/}{0.4.5} & May
+17, 2024 \\
+\href{https://typst.app/universe/package/fletcher/0.4.4/}{0.4.4} & May
+3, 2024 \\
+\href{https://typst.app/universe/package/fletcher/0.4.3/}{0.4.3} & April
+2, 2024 \\
+\href{https://typst.app/universe/package/fletcher/0.4.2/}{0.4.2} &
+February 23, 2024 \\
+\href{https://typst.app/universe/package/fletcher/0.4.1/}{0.4.1} &
+February 8, 2024 \\
+\href{https://typst.app/universe/package/fletcher/0.4.0/}{0.4.0} &
+January 30, 2024 \\
+\href{https://typst.app/universe/package/fletcher/0.3.0/}{0.3.0} &
+January 1, 2024 \\
+\href{https://typst.app/universe/package/fletcher/0.2.0/}{0.2.0} &
+November 29, 2023 \\
+\href{https://typst.app/universe/package/fletcher/0.1.1/}{0.1.1} &
+November 23, 2023 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.

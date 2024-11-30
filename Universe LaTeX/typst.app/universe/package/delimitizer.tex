@@ -1,0 +1,145 @@
+\title{typst.app/universe/package/delimitizer}
+
+\phantomsection\label{banner}
+\section{delimitizer}\label{delimitizer}
+
+{ 0.1.0 }
+
+Customize the size of delimiters. Like \textbackslash big,
+\textbackslash Big, \textbackslash bigg, \textbackslash Bigg in LaTeX.
+
+\phantomsection\label{readme}
+This package lets you customize the size of delimiters in your math
+equations. It is useful when you want to make your equations more
+readable by increasing the size of certain delimiters. Just like
+\texttt{\ \textbackslash{}big\ } , \texttt{\ \textbackslash{}Big\ } ,
+\texttt{\ \textbackslash{}bigg\ } , and
+\texttt{\ \textbackslash{}Bigg\ } in LaTeX, \texttt{\ delimitizer\ }
+provides you with the same functionality in Typst.
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ big(delimiter)\ } : Makes the delimiters bigger than the
+  default size.
+\item
+  \texttt{\ Big(delimiter)\ } : Makes the delimiters bigger than
+  \texttt{\ big()\ } .
+\item
+  \texttt{\ bigg(delimiter)\ } : Makes the delimiters bigger than
+  \texttt{\ Big()\ } .
+\item
+  \texttt{\ Bigg(delimiter)\ } : Makes the delimiters bigger than
+  \texttt{\ bigg()\ } .
+\item
+  \texttt{\ scaled-delimiter(delimiter,\ size)\ } : Scales the
+  delimiters by a factor of your choice.
+\item
+  \texttt{\ paired-delimiter(left,\ right)\ } : Make a short hand for
+  paired delimiters. This function returns a closure
+  \texttt{\ f(size\ =\ auto:\ auto\ \textbar{}\ none\ \textbar{}\ big\ \textbar{}\ Big\ \textbar{}\ bigg\ \textbar{}\ Bigg\ \textbar{}\ relative,\ content:\ content)\ }
+  . The keyed argument \texttt{\ size\ } is optional and defaults to
+  \texttt{\ auto\ } . The positional argument \texttt{\ content\ } is
+  required.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    when \texttt{\ size\ } is \texttt{\ auto\ } , the size of the
+    delimiters is automatically determined.
+  \item
+    when \texttt{\ size\ } is \texttt{\ none\ } , the size of the
+    delimiters is \texttt{\ 1em\ } .
+  \item
+    when \texttt{\ size\ } is \texttt{\ big\ } / \texttt{\ Big\ } /
+    \texttt{\ bigg\ } / \texttt{\ Bigg\ } , the size of the delimiters
+    is set to \texttt{\ big\ } / \texttt{\ Big\ } / \texttt{\ bigg\ } /
+    \texttt{\ Bigg\ } respectively.
+  \item
+    when \texttt{\ size\ } is \texttt{\ relative\ } length like
+    \texttt{\ 3em\ } or \texttt{\ 150\%\ } , the size of the delimiters
+    is scaled by the factor you provide.
+  \end{itemize}
+\end{itemize}
+
+Example:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let parn = paired{-}delimiter("(", ")")}
+
+\NormalTok{$}
+\NormalTok{parn(size: bigg,}
+\NormalTok{  parn(size: big, (a+b)times (a{-}b))}
+\NormalTok{div}
+\NormalTok{  parn(size: big, (c+d)times (c{-}d))}
+\NormalTok{) + d \textbackslash{} = (a\^{}2{-}b\^{}2) / (c\^{}2{-}d\^{}2)+d}
+\NormalTok{$}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/delimitizer/0.1.0/demo.svg}}
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as
+\texttt{\ delimitizer\ }
+
+\begin{verbatim}
+#import "@preview/delimitizer:0.1.0"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+Wenzhuo Liu
+\item[License:]
+MIT
+\item[Current version:]
+0.1.0
+\item[Last updated:]
+May 1, 2024
+\item[First released:]
+May 1, 2024
+\item[Archive size:]
+2.10 kB
+\href{https://packages.typst.org/preview/delimitizer-0.1.0.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/Enter-tainer/delimitizer}{GitHub}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of Wenzhuo Liu . Report issues on
+\href{https://github.com/Enter-tainer/delimitizer}{their repository} .
+You can also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.1.0 & May 1, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.

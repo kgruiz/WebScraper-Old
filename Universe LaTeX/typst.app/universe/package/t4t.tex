@@ -1,0 +1,873 @@
+\title{typst.app/universe/package/t4t}
+
+\phantomsection\label{banner}
+\section{t4t}\label{t4t}
+
+{ 0.3.2 }
+
+A utility package for typst package authors
+
+\phantomsection\label{readme}
+\begin{quote}
+A utility package for typst package authors.
+\end{quote}
+
+\textbf{Tools for Typst} ( \texttt{\ t4t\ } in short) is a utility
+package for
+\href{https://github.com/typst/packages/raw/main/packages/preview/t4t/0.3.2/typst/typst}{Typst}
+package and template authors. It provides solutions to some recurring
+tasks in package development.
+
+The package can be imported or any useful parts of it copied into a
+project. It is perfectly fine to treat \texttt{\ t4t\ } as a snippet
+collection and to pick and choose only some useful functions. For this
+reason, most functions are implemented without further dependencies.
+
+Hopefully, this collection will grow over time with \emph{Typst} to
+provide solutions for common problems.
+
+\subsection{Usage}\label{usage}
+
+Either import the package from the Typst preview repository:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import }\StringTok{"@preview/t4t:0.3.2"}\OperatorTok{:} \OperatorTok{*}
+\end{Highlighting}
+\end{Shaded}
+
+If only a few functions from \texttt{\ t4t\ } are needed, simply copy
+the necessary code to the beginning of the document.
+
+\subsection{Reference}\label{reference}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\textbf{Note:} This reference might be out of date. Please refer to the
+manual for a complete overview of all functions.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+The functions are categorized into different submodules that can be
+imported separately.
+
+The modules are:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ is\ }
+\item
+  \texttt{\ def\ }
+\item
+  \texttt{\ assert\ }
+\item
+  \texttt{\ alias\ }
+\item
+  \texttt{\ math\ }
+\item
+  \texttt{\ get\ }
+\end{itemize}
+
+Any or all modules can be imported the usual way:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{// Import as "t4t"}
+\NormalTok{\#import }\StringTok{"@preview/t4t:0.3.2"}
+\CommentTok{// Import all modules}
+\NormalTok{\#import }\StringTok{"@preview/t4t:0.3.2"}\OperatorTok{:} \OperatorTok{*}
+\CommentTok{// Import specific modules}
+\NormalTok{\#import }\StringTok{"@preview/t4t:0.3.2"}\OperatorTok{:}\NormalTok{ is}\OperatorTok{,}\NormalTok{ def}
+\end{Highlighting}
+\end{Shaded}
+
+In general, the main value is passed last to the utility functions.
+\texttt{\ \#def.if-none()\ } , for example, takes the default value
+first and the value to test second. This is somewhat counterintuitive at
+first, but allows the use of \texttt{\ .with()\ } to generate derivative
+functions:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let is}\OperatorTok{{-}}\NormalTok{foo }\OperatorTok{=}\NormalTok{ eq}\OperatorTok{.}\FunctionTok{with}\NormalTok{(}\StringTok{"foo"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{Test functions}\label{test-functions}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import }\StringTok{"@preview/t4t:0.3.2"}\OperatorTok{:}\NormalTok{ is}
+\end{Highlighting}
+\end{Shaded}
+
+These functions provide shortcuts to common tests like
+\texttt{\ \#is.eq()\ } . Some of these are not shorter as writing pure
+Typst code (e.g. \texttt{\ a\ ==\ b\ } ), but can easily be used in
+\texttt{\ .any()\ } or \texttt{\ .find()\ } calls:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{// check all values for none}
+\ControlFlowTok{if}\NormalTok{ some}\OperatorTok{{-}}\NormalTok{array}\OperatorTok{.}\FunctionTok{any}\NormalTok{(is}\OperatorTok{{-}}\NormalTok{none) \{}
+    \OperatorTok{...}
+\NormalTok{\}}
+
+\CommentTok{// find first not none value}
+\KeywordTok{let}\NormalTok{ x }\OperatorTok{=}\NormalTok{ (none}\OperatorTok{,}\NormalTok{ none}\OperatorTok{,} \DecValTok{5}\OperatorTok{,}\NormalTok{ none)}\OperatorTok{.}\FunctionTok{find}\NormalTok{(is}\OperatorTok{.}\AttributeTok{not}\OperatorTok{{-}}\NormalTok{none)}
+
+\CommentTok{// find position of a value}
+\KeywordTok{let}\NormalTok{ pos}\OperatorTok{{-}}\NormalTok{bar }\OperatorTok{=}\NormalTok{ args}\OperatorTok{.}\FunctionTok{pos}\NormalTok{()}\OperatorTok{.}\FunctionTok{position}\NormalTok{(is}\OperatorTok{.}\AttributeTok{eq}\OperatorTok{.}\FunctionTok{with}\NormalTok{(}\StringTok{"|"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+There are two exceptions: \texttt{\ is-none\ } and \texttt{\ is-auto\ }
+. Since keywords canâ€™t be used as function names, the \texttt{\ is\ }
+module canâ€™t define a function to do \texttt{\ is.none()\ } .
+Therefore the methods \texttt{\ is-none\ } and \texttt{\ is-auto\ } are
+provided in the base module of \texttt{\ t4t\ } :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import }\StringTok{"@preview/t4t:0.3.2"}\OperatorTok{:}\NormalTok{ is}\OperatorTok{{-}}\NormalTok{none}\OperatorTok{,}\NormalTok{ is}\OperatorTok{{-}}\NormalTok{auto}
+\end{Highlighting}
+\end{Shaded}
+
+The \texttt{\ is\ } submodule still has these tests, but under different
+names ( \texttt{\ is.n\ } and \texttt{\ is.non\ } for \texttt{\ none\ }
+and \texttt{\ is.a\ } and \texttt{\ is.aut\ } for \texttt{\ auto\ } ).
+
+\begin{itemize}
+\item
+  \texttt{\ \#is.neq(\ test\ )\ } : Creates a new test function that is
+  \texttt{\ true\ } when \texttt{\ test\ } is \texttt{\ false\ } . Can
+  be used to create negations of tests like
+  \texttt{\ \#let\ not-raw\ =\ is.neg(is.raw)\ } .
+\item
+  \texttt{\ \#is.eq(\ a,\ b\ )\ } : Tests if values \texttt{\ a\ } and
+  \texttt{\ b\ } are equal.
+\item
+  \texttt{\ \#is.neq(\ a,\ b\ )\ } : Tests if values \texttt{\ a\ } and
+  \texttt{\ b\ } are not equal.
+\item
+  \texttt{\ \#is.n(\ ..values\ )\ } : Tests if any of the passed
+  \texttt{\ values\ } is \texttt{\ none\ } .
+\item
+  \texttt{\ \#is.non(\ ..values\ )\ } : Alias for \texttt{\ is.n\ } .
+\item
+  \texttt{\ \#is.not-none(\ ..values\ )\ } : Tests if all of the passed
+  \texttt{\ values\ } are not \texttt{\ none\ } .
+\item
+  \texttt{\ \#is.not-n(\ ..values\ )\ } : Alias for
+  \texttt{\ is.not-none\ } .
+\item
+  \texttt{\ \#is.a(\ ..values\ )\ } : Tests if any of the passed
+  \texttt{\ values\ } is \texttt{\ auto\ } .
+\item
+  \texttt{\ \#is.aut(\ ..values\ )\ } : Alias for \texttt{\ is-a\ } .
+\item
+  \texttt{\ \#is.not-auto(\ ..values\ )\ } : Tests if all of the passed
+  \texttt{\ values\ } are not \texttt{\ auto\ } .
+\item
+  \texttt{\ \#is.not-a(\ ..values\ )\ } : Alias for
+  \texttt{\ is.not-auto\ } .
+\item
+  \texttt{\ \#is.empty(\ value\ )\ } : Tests if \texttt{\ value\ } is
+  \emph{empty} . A value is considered \emph{empty} if it is an empty
+  array, dictionary or string or \texttt{\ none\ } otherwise.
+\item
+  \texttt{\ \#is.not-empty(\ value\ )\ } : Tests if \texttt{\ value\ }
+  is not empty.
+\item
+  \texttt{\ \#is.any(\ ..compare,\ value\ )\ } : Tests if
+  \texttt{\ value\ } is equal to any one of the other passed-in values.
+\item
+  \texttt{\ \#is.not-any(\ ..compare,\ value)\ } : Tests if
+  \texttt{\ value\ } is not equal to any one of the other passed-in
+  values.
+\item
+  \texttt{\ \#is.has(\ ..keys,\ value\ )\ } : Tests if
+  \texttt{\ value\ } contains all the passed \texttt{\ keys\ } . Either
+  as keys in a dictionary or elements in an array. If \texttt{\ value\ }
+  is neither of those types, \texttt{\ false\ } is returned.
+\item
+  \texttt{\ \#is.type(\ t,\ value\ )\ } : Tests if \texttt{\ value\ } is
+  of type \texttt{\ t\ } .
+\item
+  \texttt{\ \#is.dict(\ value\ )\ } : Tests if \texttt{\ value\ } is a
+  dictionary.
+\item
+  \texttt{\ \#is.arr(\ value\ )\ } : Tests if \texttt{\ value\ } is an
+  array.
+\item
+  \texttt{\ \#is.content(\ value\ )\ } : Tests if \texttt{\ value\ } is
+  of type content.
+\item
+  \texttt{\ \#is.color(\ value\ )\ } : Tests if \texttt{\ value\ } is a
+  color.
+\item
+  \texttt{\ \#is.stroke(\ value\ )\ } : Tests if \texttt{\ value\ } is a
+  stroke.
+\item
+  \texttt{\ \#is.loc(\ value\ )\ } : Tests if \texttt{\ value\ } is a
+  location.
+\item
+  \texttt{\ \#is.bool(\ value\ )\ } : Tests if \texttt{\ value\ } is a
+  boolean.
+\item
+  \texttt{\ \#is.str(\ value\ )\ } : Tests if \texttt{\ value\ } is a
+  string.
+\item
+  \texttt{\ \#is.int(\ value\ )\ } : Tests if \texttt{\ value\ } is an
+  integer.
+\item
+  \texttt{\ \#is.float(\ value\ )\ } : Tests if \texttt{\ value\ } is a
+  float.
+\item
+  \texttt{\ \#is.num(\ value\ )\ } : Tests if \texttt{\ value\ } is a
+  numeric value ( \texttt{\ integer\ } or \texttt{\ float\ } ).
+\item
+  \texttt{\ \#is.frac(\ value\ )\ } : Tests if \texttt{\ value\ } is a
+  fraction.
+\item
+  \texttt{\ \#is.length(\ value\ )\ } : Tests if \texttt{\ value\ } is a
+  length.
+\item
+  \texttt{\ \#is.rlength(\ value\ )\ } : Tests if \texttt{\ value\ } is
+  a relative length.
+\item
+  \texttt{\ \#is.ratio(\ value\ )\ } : Tests if \texttt{\ value\ } is a
+  ratio.
+\item
+  \texttt{\ \#is.align(\ value\ )\ } : Tests if \texttt{\ value\ } is an
+  alignment.
+\item
+  \texttt{\ \#is.align2d(\ value\ )\ } : Tests if \texttt{\ value\ } is
+  a 2d alignment.
+\item
+  \texttt{\ \#is.func(\ value\ )\ } : Tests if \texttt{\ value\ } is a
+  function.
+\item
+  \texttt{\ \#is.any-type(\ ..types,\ value\ )\ } : Tests if
+  \texttt{\ value\ } has any of the passed-in types.
+\item
+  \texttt{\ \#is.same-type(\ ..values\ )\ } : Tests if all passed-in
+  values have the same type.
+\item
+  \texttt{\ \#is.all-of-type(\ t,\ ..values\ )\ } : Tests if all of the
+  passed-in values have the type \texttt{\ t\ } .
+\item
+  \texttt{\ \#is.none-of-type(\ t,\ ..values\ )\ } : Tests if none of
+  the passed-in values has the type \texttt{\ t\ } .
+\item
+  \texttt{\ \#is.one-not-none(\ ..values\ )\ } : Checks, if at least one
+  value in \texttt{\ values\ } is not equal to \texttt{\ none\ } .
+  Useful for checking multiple optional arguments for a valid value:
+  \texttt{\ \#if\ is.one-not-none(..args.pos())\ {[}\ \#args.pos().find(is.not-none)\ {]}\ }
+\item
+  \texttt{\ \#is.elem(\ func,\ value\ )\ } : Tests if \texttt{\ value\ }
+  is a content element with \texttt{\ value.func()\ ==\ func\ } . If
+  \texttt{\ func\ } is a string, \texttt{\ value\ } will be compared to
+  \texttt{\ repr(value.func())\ } instead.
+
+  Both of these effectively do the same:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#is}\OperatorTok{.}\FunctionTok{elem}\NormalTok{(raw}\OperatorTok{,}\NormalTok{ some\_content)}
+\NormalTok{\#is}\OperatorTok{.}\FunctionTok{elem}\NormalTok{(}\StringTok{"raw"}\OperatorTok{,}\NormalTok{ some\_content)}
+\end{Highlighting}
+\end{Shaded}
+\item
+  \texttt{\ \#is.sequence(\ value\ )\ } : Tests if \texttt{\ value\ } is
+  a sequence of content.
+\item
+  \texttt{\ \#is.raw(\ value\ )\ } : Tests if \texttt{\ value\ } is a
+  raw element.
+\item
+  \texttt{\ \#is.table(\ value\ )\ } : Tests if \texttt{\ value\ } is a
+  table element.
+\item
+  \texttt{\ \#is.list(\ value\ )\ } : Tests if \texttt{\ value\ } is a
+  list element.
+\item
+  \texttt{\ \#is.enum(\ value\ )\ } : Tests if \texttt{\ value\ } is an
+  enum element.
+\item
+  \texttt{\ \#is.terms(\ value\ )\ } : Tests if \texttt{\ value\ } is a
+  terms element.
+\item
+  \texttt{\ \#is.cols(\ value\ )\ } : Tests if \texttt{\ value\ } is a
+  columns element.
+\item
+  \texttt{\ \#is.grid(\ value\ )\ } : Tests if \texttt{\ value\ } is a
+  grid element.
+\item
+  \texttt{\ \#is.stack(\ value\ )\ } : Tests if \texttt{\ value\ } is a
+  stack element.
+\item
+  \texttt{\ \#is.label(\ value\ )\ } : Tests if \texttt{\ value\ } is of
+  type \texttt{\ label\ } .
+\end{itemize}
+
+\subsubsection{Default values}\label{default-values}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import }\StringTok{"@preview/t4t:0.3.2"}\OperatorTok{:}\NormalTok{ def}
+\end{Highlighting}
+\end{Shaded}
+
+These functions perform a test to decide if a given \texttt{\ value\ }
+is \emph{invalid} . If the test \emph{passes} , the \texttt{\ default\ }
+is returned, the \texttt{\ value\ } otherwise.
+
+Almost all functions support an optional \texttt{\ do\ } argument, to be
+set to a function of one argument, that will be applied to the value if
+the test fails. For example:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{// Sets date to a datetime from an optional}
+\CommentTok{// string argument in the format "YYYY{-}MM{-}DD"}
+\NormalTok{\#let date }\OperatorTok{=}\NormalTok{ def}\OperatorTok{.}\AttributeTok{if}\OperatorTok{{-}}\FunctionTok{none}\NormalTok{(}
+\NormalTok{    datetime}\OperatorTok{.}\FunctionTok{today}\NormalTok{()}\OperatorTok{,}   \CommentTok{// default}
+\NormalTok{    passed\_date}\OperatorTok{,}        \CommentTok{// passed{-}in argument}
+    \ControlFlowTok{do}\OperatorTok{:}\NormalTok{ (d) }\OperatorTok{\textgreater{}=}\NormalTok{ \{     }\CommentTok{// post{-}processor}
+\NormalTok{        d }\OperatorTok{=}\NormalTok{ d}\OperatorTok{.}\FunctionTok{split}\NormalTok{(}\StringTok{"{-}"}\NormalTok{)}
+        \FunctionTok{datetime}\NormalTok{(year}\OperatorTok{=}\NormalTok{d[}\DecValTok{0}\NormalTok{]}\OperatorTok{,}\NormalTok{ month}\OperatorTok{=}\NormalTok{d[}\DecValTok{1}\NormalTok{]}\OperatorTok{,}\NormalTok{ day}\OperatorTok{=}\NormalTok{d[}\DecValTok{2}\NormalTok{])}
+\NormalTok{    \}}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ \#def.if-true(\ test,\ default,\ do:none,\ value\ )\ } :
+  Returns \texttt{\ default\ } if \texttt{\ test\ } is \texttt{\ true\ }
+  , \texttt{\ value\ } otherwise.
+\item
+  \texttt{\ \#def.if-false(\ test,\ default,\ do:none,\ value\ )\ } :
+  Returns \texttt{\ default\ } if \texttt{\ test\ } is
+  \texttt{\ false\ } , \texttt{\ value\ } otherwise.
+\item
+  \texttt{\ \#def.if-none(\ default,\ do:none,\ value\ )\ } : Returns
+  \texttt{\ default\ } if \texttt{\ value\ } is \texttt{\ none\ } ,
+  \texttt{\ value\ } otherwise.
+\item
+  \texttt{\ \#def.if-auto(\ default,\ do:none,\ value\ )\ } : Returns
+  \texttt{\ default\ } if \texttt{\ value\ } is \texttt{\ auto\ } ,
+  \texttt{\ value\ } otherwise.
+\item
+  \texttt{\ \#def.if-any(\ ..compare,\ default,\ do:none,\ value\ )\ } :
+  Returns \texttt{\ default\ } if \texttt{\ value\ } is equal to any of
+  the passed-in values, \texttt{\ value\ } otherwise. (
+  \texttt{\ \#def.if-any(none,\ auto,\ 1pt,\ width)\ } )
+\item
+  \texttt{\ \#def.if-not-any(\ ..compare,\ default,\ do:none,\ value\ )\ }
+  : Returns \texttt{\ default\ } if \texttt{\ value\ } is not equal to
+  any of the passed-in values, \texttt{\ value\ } otherwise. (
+  \texttt{\ \#def.if-not-any(left,\ right,\ top,\ bottom,\ position)\ }
+  )
+\item
+  \texttt{\ \#def.if-empty(\ default,\ do:none,\ value\ )\ } : Returns
+  \texttt{\ default\ } if \texttt{\ value\ } is \emph{empty} ,
+  \texttt{\ value\ } otherwise.
+\item
+  \texttt{\ \#def.as-arr(\ ..values\ )\ } : Always returns an array
+  containing all \texttt{\ values\ } . Any arrays in \texttt{\ values\ }
+  will be flattened into the result. This is useful for arguments, that
+  can have one element or an array of elements:
+  \texttt{\ \#def.as-arr(author).join(",\ ")\ } .
+\end{itemize}
+
+\subsubsection{Assertions}\label{assertions}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import }\StringTok{"@preview/t4t:0.3.2"}\OperatorTok{:}\NormalTok{ assert}
+\end{Highlighting}
+\end{Shaded}
+
+This submodule overloads the default \texttt{\ assert\ } function and
+provides more asserts to quickly check if given values are valid. All
+functions use \texttt{\ assert\ } in the background.
+
+Since a module in Typst is not callable, the \texttt{\ assert\ }
+function is now available as \texttt{\ assert.that()\ } .
+\texttt{\ assert.eq\ } and \texttt{\ assert.ne\ } work as expected.
+
+All assert functions take an optional argument \texttt{\ message\ } to
+set the error message shown if the assert fails.
+
+\begin{itemize}
+\item
+  \texttt{\ \#assert.that(\ test\ )\ } : Asserts that the passed
+  \texttt{\ test\ } is \texttt{\ true\ } .
+\item
+  \texttt{\ \#assert.that-not(\ test\ )\ } : Asserts that the passed
+  \texttt{\ test\ } is \texttt{\ false\ } .
+\item
+  \texttt{\ \#assert.eq(\ a,\ b\ )\ } : Asserts that \texttt{\ a\ } is
+  equal to \texttt{\ b\ } .
+\item
+  \texttt{\ \#assert.ne(\ a,\ b\ )\ } : Asserts that \texttt{\ a\ } is
+  not equal to \texttt{\ b\ } .
+\item
+  \texttt{\ \#assert.neq(\ a,\ b\ )\ } : Alias for
+  \texttt{\ assert.ne\ } .
+\item
+  \texttt{\ \#assert.not-none(\ value\ )\ } : Asserts that
+  \texttt{\ value\ } is not equal to \texttt{\ none\ } .
+\item
+  \texttt{\ \#assert.any(\ ..values,\ value\ )\ } : Asserts that
+  \texttt{\ value\ } is one of the passed \texttt{\ values\ } .
+\item
+  \texttt{\ \#assert.not-any(\ ..values,\ value\ )\ } : Asserts that
+  \texttt{\ value\ } is not one of the passed \texttt{\ values\ } .
+\item
+  \texttt{\ \#assert.any-type(\ ..types,\ value\ )\ } : Asserts that the
+  type of \texttt{\ value\ } is one of the passed \texttt{\ types\ } .
+\item
+  \texttt{\ \#assert.not-any-type(\ ..types,\ value\ )\ } : Asserts that
+  the type of \texttt{\ value\ } is not one of the passed
+  \texttt{\ types\ } .
+\item
+  \texttt{\ \#assert.all-of-type(\ t,\ ..values\ )\ } : Asserts that the
+  type of all passed \texttt{\ values\ } is equal to \texttt{\ t\ } .
+\item
+  \texttt{\ \#assert.none-of-type(\ t,\ ..values\ )\ } : Asserts that
+  the type of all passed \texttt{\ values\ } is not equal to
+  \texttt{\ t\ } .
+\item
+  \texttt{\ \#assert.not-empty(\ value\ )\ } : Asserts that
+  \texttt{\ value\ } is not \emph{empty} .
+\item
+  \texttt{\ \#assert.new(\ test\ )\ } : Creates a new assert function
+  that uses the passed \texttt{\ test\ } . \texttt{\ test\ } is a
+  function with signature \texttt{\ (any)\ =\textgreater{}\ boolean\ } .
+  This is a quick way to create an assertion from any of the
+  \texttt{\ is\ } functions:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let assert}\OperatorTok{{-}}\NormalTok{foo }\OperatorTok{=}\NormalTok{ assert}\OperatorTok{.}\FunctionTok{new}\NormalTok{(is}\OperatorTok{.}\AttributeTok{eq}\OperatorTok{.}\FunctionTok{with}\NormalTok{(}\StringTok{"foo"}\NormalTok{))}
+
+\NormalTok{\#let assert}\OperatorTok{{-}}\NormalTok{length }\OperatorTok{=}\NormalTok{ assert}\OperatorTok{.}\FunctionTok{new}\NormalTok{(is}\OperatorTok{.}\AttributeTok{length}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+\end{itemize}
+
+\subsection{Element helpers}\label{element-helpers}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import }\StringTok{"@preview/t4t:0.3.2"}\OperatorTok{:} \KeywordTok{get}
+\end{Highlighting}
+\end{Shaded}
+
+This submodule is a collection of functions, that mostly deal with
+content elements and \emph{get} some information from them. Though some
+handle other types like dictionaries.
+
+\begin{itemize}
+\item
+  \texttt{\ \#get.dict(\ ..values\ )\ } : Create a new dictionary from
+  the passed \texttt{\ values\ } . All named arguments are stored in the
+  new dictionary as is. All positional arguments are grouped in
+  key-value pairs and inserted into the dictionary:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#get}\OperatorTok{.}\FunctionTok{dict}\NormalTok{(}\StringTok{"a"}\OperatorTok{,} \DecValTok{1}\OperatorTok{,} \StringTok{"b"}\OperatorTok{,} \DecValTok{2}\OperatorTok{,} \StringTok{"c"}\OperatorTok{,}\NormalTok{ d}\OperatorTok{:}\DecValTok{4}\OperatorTok{,}\NormalTok{ e}\OperatorTok{:}\DecValTok{5}\NormalTok{)}
+
+\CommentTok{// (a:1, b:2, c:none, d:4, e:5)}
+\end{Highlighting}
+\end{Shaded}
+\item
+  \texttt{\ \#get.dict-merge(\ ..dicts\ )\ } : Recursively merges the
+  passed-in dictionaries:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#get}\OperatorTok{.}\AttributeTok{dict}\OperatorTok{{-}}\FunctionTok{merge}\NormalTok{(}
+\NormalTok{    (a}\OperatorTok{:} \DecValTok{1}\NormalTok{)}\OperatorTok{,}
+\NormalTok{    (a}\OperatorTok{:}\NormalTok{ (one}\OperatorTok{:} \DecValTok{1}\OperatorTok{,}\NormalTok{ two}\OperatorTok{:}\DecValTok{2}\NormalTok{))}\OperatorTok{,}
+\NormalTok{    (a}\OperatorTok{:}\NormalTok{ (two}\OperatorTok{:} \DecValTok{4}\OperatorTok{,}\NormalTok{ three}\OperatorTok{:}\DecValTok{3}\NormalTok{))}
+\NormalTok{)}
+
+\CommentTok{// (a:(one:1, two:4, three:3))}
+\end{Highlighting}
+\end{Shaded}
+\item
+  \texttt{\ \#get.args(\ args,\ prefix:\ ""\ )\ } : Creates a function
+  to extract values from an argument sink \texttt{\ args\ } .
+
+  The resulting function takes any number of positional and named
+  arguments and creates a dictionary with values from
+  \texttt{\ args.named()\ } . Positional arguments are present in the
+  result if they are present in \texttt{\ args.named()\ } . Named
+  arguments are always present, either with their value from
+  \texttt{\ args.named()\ } or with the provided value.
+
+  A \texttt{\ prefix\ } can be specified, to extract only specific
+  arguments. The resulting dictionary will have all keys with the prefix
+  removed, though.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let my}\OperatorTok{{-}}\FunctionTok{func}\NormalTok{( }\OperatorTok{..}\AttributeTok{options}\OperatorTok{,}\NormalTok{ title ) }\OperatorTok{=} \FunctionTok{block}\NormalTok{(}
+    \OperatorTok{..}\AttributeTok{get}\OperatorTok{.}\FunctionTok{args}\NormalTok{(options)(}
+        \StringTok{"spacing"}\OperatorTok{,} \StringTok{"above"}\OperatorTok{,} \StringTok{"below"}\OperatorTok{,}
+\NormalTok{        width}\OperatorTok{:}\DecValTok{100}\OperatorTok{\%}
+\NormalTok{    )}
+\NormalTok{)[}
+\NormalTok{    \#}\FunctionTok{text}\NormalTok{(}\OperatorTok{..}\AttributeTok{get}\OperatorTok{.}\FunctionTok{args}\NormalTok{(options}\OperatorTok{,}\NormalTok{ prefix}\OperatorTok{:}\StringTok{"text{-}"}\NormalTok{)(}
+\NormalTok{        fill}\OperatorTok{:}\NormalTok{black}\OperatorTok{,}\NormalTok{ size}\OperatorTok{:}\FloatTok{0.8}\NormalTok{em}
+\NormalTok{    )}\OperatorTok{,}\NormalTok{ title)}
+\NormalTok{]}
+
+\NormalTok{\#my}\OperatorTok{{-}}\FunctionTok{func}\NormalTok{(}
+\NormalTok{    width}\OperatorTok{:} \DecValTok{50}\OperatorTok{\%,}
+\NormalTok{    text}\OperatorTok{{-}}\NormalTok{fill}\OperatorTok{:}\NormalTok{ red}\OperatorTok{,}\NormalTok{ text}\OperatorTok{{-}}\NormalTok{size}\OperatorTok{:} \FloatTok{1.2}\NormalTok{em}
+\NormalTok{)[\#}\FunctionTok{lorem}\NormalTok{(}\DecValTok{5}\NormalTok{)]}
+\end{Highlighting}
+\end{Shaded}
+\item
+  \texttt{\ \#get.text(\ element,\ sep:\ ""\ )\ } : Recursively extracts
+  the text content of a content element. If present, all child elements
+  are converted to text and joined with \texttt{\ sep\ } .
+\item
+  \texttt{\ \#get.stroke-paint(\ stroke,\ default:\ black\ )\ } :
+  Returns the color of \texttt{\ stroke\ } . If no color information is
+  available, \texttt{\ default\ } is used. (Deprecated, use
+  \texttt{\ stroke.paint\ } instead.)
+\item
+  \texttt{\ \#get.stroke-thickness(\ stroke,\ default:\ 1pt\ )\ } :
+  Returns the thickness of \texttt{\ stroke\ } . If no thickness
+  information is available, \texttt{\ default\ } is used. (Deprecated,
+  use \texttt{\ stroke.thickness\ } instead.)
+\item
+  \texttt{\ \#get.stroke-dict(\ stroke,\ ..overrides\ )\ } : Creates a
+  dictionary with the keys necessary for a stroke. The returned
+  dictionary is guaranteed to have the keys \texttt{\ paint\ } ,
+  \texttt{\ thickness\ } , \texttt{\ dash\ } , \texttt{\ cap\ } and
+  \texttt{\ join\ } .
+
+  If \texttt{\ stroke\ } is a dictionary itself, all key-value pairs are
+  copied to the resulting stroke. Any named arguments in
+  \texttt{\ overrides\ } will override the previous value.
+\item
+  \texttt{\ \#get.inset-at(\ direction,\ inset,\ default:\ 0pt\ )\ } :
+  Returns the inset (or outset) in a given \texttt{\ direction\ } ,
+  ascertained from \texttt{\ inset\ } .
+\item
+  \texttt{\ \#get.inset-dict(\ inset,\ ..overrides\ )\ } : Creates a
+  dictionary usable as an inset (or outset) argument.
+
+  The resulting dictionary is guaranteed to have the keys
+  \texttt{\ top\ } , \texttt{\ left\ } , \texttt{\ bottom\ } and
+  \texttt{\ right\ } .
+
+  If \texttt{\ inset\ } is a dictionary itself, all key-value pairs are
+  copied to the resulting stroke. Any named arguments in
+  \texttt{\ overrides\ } will override the previous value.
+\item
+  \texttt{\ \#get.x-align(\ align,\ default:left\ )\ } : Returns the
+  alignment along the x-axis from the passed-in \texttt{\ align\ }
+  value. If none is present, \texttt{\ default\ } is returned.
+  (Deprecated, use \texttt{\ align.x\ } instead.)
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#get}\OperatorTok{.}\AttributeTok{x}\OperatorTok{{-}}\FunctionTok{align}\NormalTok{(top }\OperatorTok{+}\NormalTok{ center) }\CommentTok{// center}
+\end{Highlighting}
+\end{Shaded}
+\item
+  \texttt{\ \#get.y-align(\ align,\ default:top\ )\ } : Returns the
+  alignment along the y-axis from the passed-in \texttt{\ align\ }
+  value. If none is present, \texttt{\ default\ } is returned.
+  (Deprecated, use \texttt{\ align.y\ } instead.)
+\end{itemize}
+
+\subsection{Math functions}\label{math-functions}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import }\StringTok{"@preview/t4t:0.3.2"}\OperatorTok{:}\NormalTok{ math}
+\end{Highlighting}
+\end{Shaded}
+
+Some functions to complement the native \texttt{\ calc\ } module.
+
+\begin{itemize}
+\item
+  \texttt{\ \#math.minmax(\ a,\ b\ )\ } : Returns an array with the
+  minimum of \texttt{\ a\ } and \texttt{\ b\ } as the first element and
+  the maximum as the second:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#}\FunctionTok{let}\NormalTok{ (min}\OperatorTok{,}\NormalTok{ max) }\OperatorTok{=}\NormalTok{ math}\OperatorTok{.}\FunctionTok{minmax}\NormalTok{(a}\OperatorTok{,}\NormalTok{ b)}
+\end{Highlighting}
+\end{Shaded}
+\item
+  \texttt{\ \#math.clamp(\ min,\ max,\ value\ )\ } : Clamps a value
+  between \texttt{\ min\ } and \texttt{\ max\ } . In contrast to
+  \texttt{\ calc.clamp()\ } this function works for other values than
+  numbers, as long as they are comparable.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{text}\OperatorTok{{-}}\NormalTok{size }\OperatorTok{=}\NormalTok{ math}\OperatorTok{.}\FunctionTok{clamp}\NormalTok{(}\FloatTok{0.8}\NormalTok{em}\OperatorTok{,} \FloatTok{1.2}\NormalTok{em}\OperatorTok{,}\NormalTok{ text}\OperatorTok{{-}}\NormalTok{size)}
+\end{Highlighting}
+\end{Shaded}
+\item
+  \texttt{\ \#lerp(\ min,\ max,\ t\ )\ } : Calculates the linear
+  interpolation of \texttt{\ t\ } between \texttt{\ min\ } and
+  \texttt{\ max\ } .
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let width }\OperatorTok{=}\NormalTok{ math}\OperatorTok{.}\FunctionTok{lerp}\NormalTok{(}\DecValTok{0}\OperatorTok{\%,} \DecValTok{100}\OperatorTok{\%,}\NormalTok{ x)}
+\end{Highlighting}
+\end{Shaded}
+
+  \texttt{\ t\ } should be a value between 0 and 1, but the
+  interpolation works with other values, too. To constrain the result
+  into the given interval, use \texttt{\ math.clamp\ } :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let width }\OperatorTok{=}\NormalTok{ math}\OperatorTok{.}\FunctionTok{lerp}\NormalTok{(}\DecValTok{0}\OperatorTok{\%,} \DecValTok{100}\OperatorTok{\%,}\NormalTok{ math}\OperatorTok{.}\FunctionTok{clamp}\NormalTok{(}\DecValTok{0}\OperatorTok{,} \DecValTok{1}\OperatorTok{,}\NormalTok{ x))}
+\end{Highlighting}
+\end{Shaded}
+\item
+  \texttt{\ \#map(\ min,\ max,\ range-min,\ range-max,\ value\ )\ } :
+  Maps a \texttt{\ value\ } from the interval
+  \texttt{\ {[}min,\ max{]}\ } into the interval
+  \texttt{\ {[}range-min,\ range-max{]}\ } :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let text}\OperatorTok{{-}}\NormalTok{weight }\OperatorTok{=} \FunctionTok{int}\NormalTok{(math}\OperatorTok{.}\FunctionTok{map}\NormalTok{(}\DecValTok{8}\ErrorTok{pt}\OperatorTok{,} \DecValTok{16}\ErrorTok{pt}\OperatorTok{,} \DecValTok{400}\OperatorTok{,} \DecValTok{800}\OperatorTok{,}\NormalTok{ text}\OperatorTok{{-}}\NormalTok{size))}
+\end{Highlighting}
+\end{Shaded}
+\end{itemize}
+
+\subsection{Alias functions}\label{alias-functions}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import }\StringTok{"@preview/t4t:0.3.2"}\OperatorTok{:}\NormalTok{ alias}
+\end{Highlighting}
+\end{Shaded}
+
+Some of the native Typst function as aliases, to prevent collisions with
+some common argument names.
+
+For example using \texttt{\ numbering\ } as an argument is not possible
+if the value is supposed to be passed to the \texttt{\ numbering()\ }
+function. To still allow argument names that are in line with the common
+Typst names (like \texttt{\ numbering\ } , \texttt{\ align\ } â€¦),
+these alias functions can be used:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let }\FunctionTok{excercise}\NormalTok{( no}\OperatorTok{,}\NormalTok{ numbering}\OperatorTok{:} \StringTok{"1)"}\NormalTok{ ) }\OperatorTok{=}\NormalTok{ [}
+\NormalTok{    Exercise \#alias}\OperatorTok{.}\FunctionTok{numbering}\NormalTok{(numbering}\OperatorTok{,}\NormalTok{ no)}
+\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+The following functions have aliases right now:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ numbering\ }
+\item
+  \texttt{\ align\ }
+\item
+  \texttt{\ type\ }
+\item
+  \texttt{\ label\ }
+\item
+  \texttt{\ text\ }
+\item
+  \texttt{\ raw\ }
+\item
+  \texttt{\ table\ }
+\item
+  \texttt{\ list\ }
+\item
+  \texttt{\ enum\ }
+\item
+  \texttt{\ terms\ }
+\item
+  \texttt{\ grid\ }
+\item
+  \texttt{\ stack\ }
+\item
+  \texttt{\ columns\ }
+\end{itemize}
+
+\subsection{Changelog}\label{changelog}
+
+\subsubsection{Version 0.3.2}\label{version-0.3.2}
+
+\begin{itemize}
+\tightlist
+\item
+  Fixed issue with the new \texttt{\ \#type\ } function in Typst 0.8.0.
+\end{itemize}
+
+\subsubsection{Version 0.3.1}\label{version-0.3.1}
+
+\begin{itemize}
+\tightlist
+\item
+  Some fixes for message evaluation in \texttt{\ assert\ } module.
+\end{itemize}
+
+\subsubsection{Version 0.3.0}\label{version-0.3.0}
+
+\begin{itemize}
+\tightlist
+\item
+  Added a manual (build with \href{https://github.com/Mc-Zen/tidy}{tidy}
+  and \href{https://github.com/jneug/typst-mantys}{Mantys} ).
+\item
+  Added simple tests for all functions.
+\item
+  Fixed bug in \texttt{\ is.elem\ } (see \#2).
+\item
+  Added \texttt{\ assert.has-pos\ } , \texttt{\ assert.no-pos\ } ,
+  \texttt{\ assert.has-named\ } and \texttt{\ assert.no-named\ } .
+\item
+  Added meaningful messages to asserts.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Asserts now support functions as message arguments that can
+    dynamically build an error message from the arguments.
+  \end{itemize}
+\item
+  Improved spelling. (Thanks to @cherryblossom000 for proofreading.)
+\end{itemize}
+
+\subsubsection{Version 0.2.0}\label{version-0.2.0}
+
+\begin{itemize}
+\tightlist
+\item
+  Added \texttt{\ is.neg\ } function to negate a test function.
+\item
+  Added \texttt{\ alias.label\ } .
+\item
+  Added \texttt{\ is.label\ } test.
+\item
+  Added \texttt{\ def.as-arr\ } to create an array of the supplied
+  values. Useful if an argument can be both a single value or an array.
+\item
+  Added \texttt{\ assert.that-not\ } for negated assertions.
+\item
+  Added \texttt{\ is.one-not-none\ } test to check multiple values, if
+  at least one is not none.
+\item
+  Added \texttt{\ do\ } argument to all functions in \texttt{\ def\ } .
+\item
+  Allowed strings in \texttt{\ is.elem\ } (see \#1).
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Added \texttt{\ is.sequence\ } test.
+  \end{itemize}
+\item
+  Deprecated \texttt{\ get.stroke-paint\ } ,
+  \texttt{\ get.stroke-thickness\ } , \texttt{\ get.x-align\ } and
+  \texttt{\ get.y-align\ } in favor of new Typst 0.7.0 features.
+\end{itemize}
+
+\subsubsection{Version 0.1.0}\label{version-0.1.0}
+
+\begin{itemize}
+\tightlist
+\item
+  Initial release
+\end{itemize}
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as \texttt{\ t4t\ }
+
+\begin{verbatim}
+#import "@preview/t4t:0.3.2"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+Jonas Neugebauer
+\item[License:]
+MIT
+\item[Current version:]
+0.3.2
+\item[Last updated:]
+September 15, 2023
+\item[First released:]
+July 31, 2023
+\item[Archive size:]
+15.5 kB
+\href{https://packages.typst.org/preview/t4t-0.3.2.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/jneug/typst-tools4typst}{GitHub}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of Jonas Neugebauer . Report issues on
+\href{https://github.com/jneug/typst-tools4typst}{their repository} .
+You can also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.3.2 & September 15, 2023 \\
+\href{https://typst.app/universe/package/t4t/0.3.1/}{0.3.1} & September
+7, 2023 \\
+\href{https://typst.app/universe/package/t4t/0.3.0/}{0.3.0} & August 24,
+2023 \\
+\href{https://typst.app/universe/package/t4t/0.2.0/}{0.2.0} & August 8,
+2023 \\
+\href{https://typst.app/universe/package/t4t/0.1.0/}{0.1.0} & July 31,
+2023 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.

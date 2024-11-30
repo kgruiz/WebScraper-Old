@@ -1,0 +1,449 @@
+\title{typst.app/universe/package/starter-journal-article}
+
+\phantomsection\label{banner}
+\phantomsection\label{template-thumbnail}
+\pandocbounded{\includegraphics[keepaspectratio]{https://packages.typst.org/preview/thumbnails/starter-journal-article-0.3.1-small.webp}}
+
+\section{starter-journal-article}\label{starter-journal-article}
+
+{ 0.3.1 }
+
+A starter template for journal articles.
+
+\href{/app?template=starter-journal-article&version=0.3.1}{Create
+project in app}
+
+\phantomsection\label{readme}
+This package provides a template for writing journal articles to
+organise authors, institutions, and information of corresponding
+authors.
+
+\subsection{Usage}\label{usage}
+
+Run the following command to use this template
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{typst init @preview/starter{-}journal{-}article}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Documentation}\label{documentation}
+
+\subsubsection{\texorpdfstring{\texttt{\ article\ }}{ article }}\label{article}
+
+The template for creating journal articles. It needs the following
+arguments.
+
+Arguments:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ title\ } : The title of this article. Default:
+  \texttt{\ "Article\ Title"\ } .
+\item
+  \texttt{\ authors\ } : A dictionary of authors. Dictionary keys are
+  authorsâ€™ names. Dictionary values are meta data of every author,
+  including label(s) of affiliation(s), email, contact address, or a
+  self-defined name (to avoid name conflicts). The label(s) of
+  affiliation(s) must be those claimed in the argument
+  \texttt{\ affiliations\ } . Once the email or address exists, the
+  author(s) will be labelled as the corresponding author(s), and their
+  address will show in footnotes. Function \texttt{\ author-meta()\ } is
+  useful in creating information for each author. Default:
+  \texttt{\ ("Author\ Name":\ author-meta("affiliation-label"))\ } .
+\item
+  \texttt{\ affiliations\ } : A dictionary of affiliation. Dictionary
+  keys are affiliationsâ€™ labels. These labels show be constent with
+  those used in authorsâ€™ meta data. Dictionary values are addresses of
+  every affiliation. Default:
+  \texttt{\ ("affiliation-label":\ "Affiliation\ address")\ } .
+\item
+  \texttt{\ abstract\ } : The paperâ€™s abstract. Default:
+  \texttt{\ {[}{]}\ } .
+\item
+  \texttt{\ keywords\ } : The paperâ€™s keywords. Default:
+  \texttt{\ {[}{]}\ } .
+\item
+  \texttt{\ bib\ } : The bibliography. Accept value from the built-in
+  \texttt{\ bibliography\ } function. Default: \texttt{\ none\ } .
+\item
+  \texttt{\ template\ } : Templates for the following parts. Please see
+  below for more informations
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \texttt{\ title:\ (title)\ =\textgreater{}\ \{\}\ } : how to show
+    the title of this article.
+  \item
+    \texttt{\ author-info:\ (authors,\ affiliations)\ =\textgreater{}\ \{\}\ }
+    : how to show each authorâ€™s information.
+  \item
+    \texttt{\ abstract:\ (abstract,\ keywords)\ =\textgreater{}\ \{\}\ }
+    : how to show the abstract and keywords.
+  \item
+    \texttt{\ bibliography:\ (bib)\ =\textgreater{}\ \{\}\ } : how to
+    show the bibliography.
+  \item
+    \texttt{\ body:\ (body)\ =\textgreater{}\ \{\}\ } : how to show main
+    text.
+  \end{itemize}
+\end{itemize}
+
+\subsubsection{\texorpdfstring{\texttt{\ author-meta\ }}{ author-meta }}\label{author-meta}
+
+A helper to create meta information for an author.
+
+Arguments:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ ..affiliation\ } : Capture the positioned arguments as
+  label(s) of affiliation(s). Mandatory.
+\item
+  \texttt{\ email\ } : The email address of the author. Default:
+  \texttt{\ none\ } .
+\item
+  \texttt{\ alias\ } : The display name of the author. Default:
+  \texttt{\ none\ } .
+\item
+  \texttt{\ address\ } : The address of the author. Default:
+  \texttt{\ none\ } .
+\item
+  \texttt{\ cofirst\ } : Whether the author is the co-first author.
+  Default: \texttt{\ false\ } .
+\end{itemize}
+
+\subsection{Default templates}\label{default-templates}
+
+The following code shows how the default templates are defined. You can
+override any of the by setting the \texttt{\ template\ } argument in the
+\texttt{\ article()\ } function to customise the template.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let default{-}title(title) = \{}
+\NormalTok{  show: block.with(width: 100\%)}
+\NormalTok{  set align(center)}
+\NormalTok{  set text(size: 1.75em, weight: "bold")}
+\NormalTok{  title}
+\NormalTok{\}}
+
+\NormalTok{\#let default{-}author(author) = \{}
+\NormalTok{  text(author.name)}
+\NormalTok{  super(author.insts.map(it =\textgreater{} str(it)).join(","))}
+\NormalTok{  if author.corresponding \{}
+\NormalTok{    footnote[}
+\NormalTok{      Corresponding author. Address: \#author.address.}
+\NormalTok{      \#if author.email != none \{}
+\NormalTok{        [Email: \#underline(author.email).]}
+\NormalTok{      \}}
+\NormalTok{    ]}
+\NormalTok{  \}}
+\NormalTok{  if author.cofirst == "thefirst" \{}
+\NormalTok{    footnote("cofirst{-}author{-}mark")}
+\NormalTok{  \} else if author.cofirst == "cofirst" \{}
+\NormalTok{    locate(loc =\textgreater{} query(footnote.where(body: [cofirst{-}author{-}mark]), loc).last())}
+\NormalTok{  \}}
+\NormalTok{\}}
+
+\NormalTok{\#let default{-}affiliation(id, address) = \{}
+\NormalTok{  set text(size: 0.8em)}
+\NormalTok{  super([\#(id+1)])}
+\NormalTok{  address}
+\NormalTok{\}}
+
+\NormalTok{\#let default{-}author{-}info(authors, affiliations) = \{}
+\NormalTok{  \{}
+\NormalTok{    show: block.with(width: 100\%)}
+\NormalTok{    authors.map(it =\textgreater{} default{-}author(it)).join(", ")}
+\NormalTok{  \}}
+\NormalTok{  \{}
+\NormalTok{    show: block.with(width: 100\%)}
+\NormalTok{    set par(leading: 0.4em)}
+\NormalTok{    affiliations.keys().enumerate().map(((ik, key)) =\textgreater{} \{}
+\NormalTok{      default{-}affiliation(ik, affiliations.at(key))}
+\NormalTok{    \}).join(linebreak())}
+\NormalTok{  \}}
+\NormalTok{\}}
+
+\NormalTok{\#let default{-}abstract(abstract, keywords) = \{}
+\NormalTok{  // Abstract and keyword block}
+\NormalTok{  if abstract != [] \{}
+\NormalTok{    stack(}
+\NormalTok{      dir: ttb,}
+\NormalTok{      spacing: 1em,}
+\NormalTok{      ..([}
+\NormalTok{        \#heading([Abstract])}
+\NormalTok{        \#abstract}
+\NormalTok{      ], if keywords.len() \textgreater{} 0 \{}
+\NormalTok{        text(weight: "bold", [Key words: ])}
+\NormalTok{        text([\#keywords.join([; ]).])}
+\NormalTok{      \} else \{none\} )}
+\NormalTok{    )}
+\NormalTok{  \}}
+\NormalTok{\}}
+
+\NormalTok{\#let default{-}bibliography(bib) = \{}
+\NormalTok{  show bibliography: set text(1em)}
+\NormalTok{  show bibliography: set par(first{-}line{-}indent: 0em)}
+\NormalTok{  set bibliography(title: [References], style: "apa")}
+\NormalTok{  bib}
+\NormalTok{\}}
+
+\NormalTok{\#let default{-}body(body) = \{}
+\NormalTok{  show heading.where(level: 1): it =\textgreater{} block(above: 1.5em, below: 1.5em)[}
+\NormalTok{    \#set pad(bottom: 2em, top: 1em)}
+\NormalTok{    \#it.body}
+\NormalTok{  ]}
+\NormalTok{  set par(first{-}line{-}indent: 2em)}
+\NormalTok{  set footnote(numbering: "1")}
+\NormalTok{  body}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Example}\label{example}
+
+See
+\href{https://github.com/typst/packages/raw/main/packages/preview/starter-journal-article/0.3.1/template/main.typ}{the
+template} for full example.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#show: article.with(}
+\NormalTok{  title: "Artile Title",}
+\NormalTok{  authors: (}
+\NormalTok{    "Author One": author{-}meta(}
+\NormalTok{      "UCL", "TSU",}
+\NormalTok{      email: "author.one@inst.ac.uk",}
+\NormalTok{    ),}
+\NormalTok{    "Author Two": author{-}meta(}
+\NormalTok{      "TSU",}
+\NormalTok{      cofirst: true}
+\NormalTok{    ),}
+\NormalTok{    "Author Three": author{-}meta(}
+\NormalTok{      "TSU"}
+\NormalTok{    )}
+\NormalTok{  ),}
+\NormalTok{  affiliations: (}
+\NormalTok{    "UCL": "UCL Centre for Advanced Spatial Analysis, First Floor, 90 Tottenham Court Road, London W1T 4TJ, United Kingdom",}
+\NormalTok{    "TSU": "Haidian  District, Beijing, 100084, P. R. China"}
+\NormalTok{  ),}
+\NormalTok{  abstract: [\#lorem(100)],}
+\NormalTok{  keywords: ("Typst", "Template", "Journal Article"),}
+\NormalTok{  bib: bibliography("./ref.bib")}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/starter-journal-article/0.3.1/assets/basic.png}}
+
+\subsubsection{Custom title}\label{custom-title}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#show: article.with(}
+\NormalTok{  title: "Artile Title",}
+\NormalTok{  authors: (}
+\NormalTok{    "Author One": author{-}meta(}
+\NormalTok{      "UCL", "TSU",}
+\NormalTok{      email: "author.one@inst.ac.uk",}
+\NormalTok{    ),}
+\NormalTok{    "Author Two": author{-}meta(}
+\NormalTok{      "TSU",}
+\NormalTok{      cofirst: true}
+\NormalTok{    ),}
+\NormalTok{    "Author Three": author{-}meta(}
+\NormalTok{      "TSU"}
+\NormalTok{    )}
+\NormalTok{  ),}
+\NormalTok{  affiliations: (}
+\NormalTok{    "UCL": "UCL Centre for Advanced Spatial Analysis, First Floor, 90 Tottenham Court Road, London W1T 4TJ, United Kingdom",}
+\NormalTok{    "TSU": "Haidian  District, Beijing, 100084, P. R. China"}
+\NormalTok{  ),}
+\NormalTok{  abstract: [\#lorem(100)],}
+\NormalTok{  keywords: ("Typst", "Template", "Journal Article"),}
+\NormalTok{  bib: bibliography("./ref.bib"),}
+\NormalTok{  template: (}
+\NormalTok{    title: (title) =\textgreater{} \{}
+\NormalTok{      set align(left)}
+\NormalTok{      set text(size: 1.5em, weight: "bold", style: "italic")}
+\NormalTok{      title}
+\NormalTok{    \}}
+\NormalTok{  )}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/starter-journal-article/0.3.1/assets/custom-title.png}}
+
+\subsubsection{Custom author infomation}\label{custom-author-infomation}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#show: article.with(}
+\NormalTok{  title: "Artile Title",}
+\NormalTok{  authors: (}
+\NormalTok{    "Author One": author{-}meta("UCL", email: "author.one@inst.ac.uk"),}
+\NormalTok{    "Author Two": author{-}meta("TSU")}
+\NormalTok{  ),}
+\NormalTok{  affiliations: (}
+\NormalTok{    "UCL": "UCL Centre for Advanced Spatial Analysis, First Floor, 90 Tottenham Court Road, London W1T 4TJ, United Kingdom",}
+\NormalTok{    "TSU": "Haidian  District, Beijing, 100084, P. R. China"}
+\NormalTok{  ),}
+\NormalTok{  abstract: [\#lorem(20)],}
+\NormalTok{  keywords: ("Typst", "Template", "Journal Article"),}
+\NormalTok{  template: (}
+\NormalTok{    author{-}info: (authors, affiliations) =\textgreater{} \{}
+\NormalTok{      set align(center)}
+\NormalTok{      show: block.with(width: 100\%, above: 2em, below: 2em)}
+\NormalTok{      let first\_insts = authors.map(it =\textgreater{} it.insts.at(0)).dedup()}
+\NormalTok{      stack(}
+\NormalTok{        dir: ttb,}
+\NormalTok{        spacing: 1em,}
+\NormalTok{        ..first\_insts.map(inst\_id =\textgreater{} \{}
+\NormalTok{          let inst\_authors = authors.filter(it =\textgreater{} it.insts.at(0) == inst\_id)}
+\NormalTok{          stack(}
+\NormalTok{            dir: ttb,}
+\NormalTok{            spacing: 1em,}
+\NormalTok{            \{}
+\NormalTok{              inst\_authors.map(it =\textgreater{} it.name).join(", ")}
+\NormalTok{            \},}
+\NormalTok{            \{}
+\NormalTok{              set text(0.8em, style: "italic")}
+\NormalTok{              affiliations.values().at(inst\_id)}
+\NormalTok{            \}}
+\NormalTok{          )}
+\NormalTok{        \})}
+\NormalTok{      )}
+\NormalTok{    \}}
+\NormalTok{  )}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/starter-journal-article/0.3.1/assets/custom-author-info.png}}
+
+\subsubsection{Custom abstract}\label{custom-abstract}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#show: article.with(}
+\NormalTok{  title: "Artile Title",}
+\NormalTok{  authors: (}
+\NormalTok{    "Author One": author{-}meta("UCL", email: "author.one@inst.ac.uk"),}
+\NormalTok{    "Author Two": author{-}meta("TSU")}
+\NormalTok{  ),}
+\NormalTok{  affiliations: (}
+\NormalTok{    "UCL": "UCL Centre for Advanced Spatial Analysis, First Floor, 90 Tottenham Court Road, London W1T 4TJ, United Kingdom",}
+\NormalTok{    "TSU": "Haidian  District, Beijing, 100084, P. R. China"}
+\NormalTok{  ),}
+\NormalTok{  abstract: [\#lorem(20)],}
+\NormalTok{  keywords: ("Typst", "Template", "Journal Article"),}
+\NormalTok{  template: (}
+\NormalTok{    abstract: (abstract, keywords) =\textgreater{} \{}
+\NormalTok{      show: block.with(}
+\NormalTok{        width: 100\%,}
+\NormalTok{        stroke: (y: 0.5pt + black),}
+\NormalTok{        inset: (y: 1em)}
+\NormalTok{      )}
+\NormalTok{      show heading: set text(size: 12pt)}
+\NormalTok{      heading(numbering: none, outlined: false, bookmarked: false, [Abstract])}
+\NormalTok{      par(abstract)}
+\NormalTok{      stack(}
+\NormalTok{        dir: ltr,}
+\NormalTok{        spacing: 4pt,}
+\NormalTok{        strong([Keywords]),}
+\NormalTok{        keywords.join(", ")}
+\NormalTok{      )}
+\NormalTok{    \}}
+\NormalTok{  )}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/starter-journal-article/0.3.1/assets/custom-abstract.png}}
+
+\href{/app?template=starter-journal-article&version=0.3.1}{Create
+project in app}
+
+\subsubsection{How to use}\label{how-to-use}
+
+Click the button above to create a new project using this template in
+the Typst app.
+
+You can also use the Typst CLI to start a new project on your computer
+using this command:
+
+\begin{verbatim}
+typst init @preview/starter-journal-article:0.3.1
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+\href{https://github.com/HPDell}{HPDell}
+\item[License:]
+MIT
+\item[Current version:]
+0.3.1
+\item[Last updated:]
+August 19, 2024
+\item[First released:]
+March 26, 2024
+\item[Archive size:]
+5.29 kB
+\href{https://packages.typst.org/preview/starter-journal-article-0.3.1.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/HPDell/typst-starter-journal-article}{GitHub}
+\item[Categor y :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-atom.svg}}
+  \href{https://typst.app/universe/search/?category=paper}{Paper}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This template is a project of HPDell . Report issues on
+\href{https://github.com/HPDell/typst-starter-journal-article}{their
+repository} . You can also try to ask for help with this template on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this template to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.3.1 & August 19, 2024 \\
+\href{https://typst.app/universe/package/starter-journal-article/0.3.0/}{0.3.0}
+& April 8, 2024 \\
+\href{https://typst.app/universe/package/starter-journal-article/0.2.0/}{0.2.0}
+& April 2, 2024 \\
+\href{https://typst.app/universe/package/starter-journal-article/0.1.1/}{0.1.1}
+& March 26, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this template and cannot guarantee correct
+functionality of this template or compatibility with any version of the
+Typst compiler or app.

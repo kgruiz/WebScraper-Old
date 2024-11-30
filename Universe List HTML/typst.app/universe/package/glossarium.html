@@ -1,0 +1,789 @@
+<main>
+    <div id="banner" style="--banner-accent:#58990B;--banner-primary:#191C16;--banner-secondary:#34550B;--banner-tertiary:#8DA76D;--banner-background:linear-gradient(90deg, #F2FA95 0%, #F0FFC4 61.43%, #F3FDE7 100%)">
+     <div class="package-icon" role="img">
+     </div>
+     <div>
+      <div class="title">
+       <h1 class="name">
+        glossarium
+       </h1>
+       <span class="version">
+        0.5.1
+       </span>
+      </div>
+      <p class="description">
+       Glossarium is a simple, easily customizable typst glossary.
+      </p>
+     </div>
+     <p class="featured-label">
+      <span class="icon" role="img">
+      </span>
+      Featured
+      <!-- -->
+      Package
+     </p>
+    </div>
+    <div class="inner-grid">
+     <section id="readme">
+      <blockquote>
+       <p>
+        [!TIP] Glossarium is based in great part of the work of
+        <a href="https://github.com/Dherse" rel="nofollow ugc" target="_blank">
+         SÃ©bastien dâHerbais de Thun
+        </a>
+        from his master thesis available at:
+        <a href="https://github.com/Dherse/masterproef" rel="nofollow ugc" target="_blank">
+         https://github.com/Dherse/masterproef
+        </a>
+        . His glossary is available under the MIT license
+        <a href="https://github.com/Dherse/masterproef/blob/main/elems/acronyms.typ" rel="nofollow ugc" target="_blank">
+         here
+        </a>
+        .
+       </p>
+      </blockquote>
+      <p>
+       Glossarium is a simple, easily customizable typst glossary inspired by
+       <a href="https://www.ctan.org/pkg/glossaries" rel="nofollow ugc" target="_blank">
+        LaTeX glossaries package
+       </a>
+       . You can see various examples showcasing the different features in the
+       <code>
+        examples
+       </code>
+       folder.
+      </p>
+      <p>
+       <img alt="Screenshot" src="https://github.com/typst/packages/raw/main/packages/preview/glossarium/0.5.1/.github/example.png"/>
+      </p>
+      <h2>
+       Manual
+      </h2>
+      <h2>
+       Fast start
+      </h2>
+      <pre><code class="language-typ"><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/glossarium:0.5.1"</span><span class="typ-punct">:</span> make-glossary<span class="typ-punct">,</span> register-glossary<span class="typ-punct">,</span> print-glossary<span class="typ-punct">,</span> gls<span class="typ-punct">,</span> glspl
+<span class="typ-key">#</span><span class="typ-key">show</span><span class="typ-punct">:</span> <span class="typ-func">make-glossary</span>
+<span class="typ-key">#</span><span class="typ-key">let</span> entry-list <span class="typ-op">=</span> <span class="typ-punct">(</span>
+  <span class="typ-punct">(</span>
+    key<span class="typ-punct">:</span> <span class="typ-str">"kuleuven"</span><span class="typ-punct">,</span>
+    short<span class="typ-punct">:</span> <span class="typ-str">"KU Leuven"</span><span class="typ-punct">,</span>
+    long<span class="typ-punct">:</span> <span class="typ-str">"Katholieke Universiteit Leuven"</span><span class="typ-punct">,</span>
+    description<span class="typ-punct">:</span> <span class="typ-str">"A university in Belgium."</span><span class="typ-punct">,</span>
+  <span class="typ-punct">)</span><span class="typ-punct">,</span>
+  <span class="typ-comment">// Add more terms</span>
+<span class="typ-punct">)</span>
+<span class="typ-func">#</span><span class="typ-func">register-glossary</span><span class="typ-punct">(</span>entry-list<span class="typ-punct">)</span>
+<span class="typ-comment">// Your document body</span>
+<span class="typ-func">#</span><span class="typ-func">print-glossary</span><span class="typ-punct">(</span>
+ entry-list
+<span class="typ-punct">)</span>
+</code></code></pre>
+      <h3>
+       Import and setup
+      </h3>
+      <p>
+       This manual assume you have a good enough understanding of typst markup and scripting.
+      </p>
+      <p>
+       For Typst 0.6.0 or later import the package from the typst preview repository:
+      </p>
+      <pre><code class="language-typ"><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/glossarium:0.5.1"</span><span class="typ-punct">:</span> make-glossary<span class="typ-punct">,</span> register-glossary<span class="typ-punct">,</span> print-glossary<span class="typ-punct">,</span> gls<span class="typ-punct">,</span> glspl
+</code></code></pre>
+      <p>
+       For Typst before 0.6.0 or to use
+       <strong>
+        glossarium
+       </strong>
+       as a local module, download the package files into your project folder and import
+       <code>
+        glossarium.typ
+       </code>
+       :
+      </p>
+      <pre><code class="language-typ"><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"glossarium.typ"</span><span class="typ-punct">:</span> make-glossary<span class="typ-punct">,</span> register-glossary<span class="typ-punct">,</span> print-glossary<span class="typ-punct">,</span> gls<span class="typ-punct">,</span> glspl
+</code></code></pre>
+      <p>
+       After importing the package and before making any calls to
+       <code>
+        gls
+       </code>
+       ,
+       <code>
+        print-glossary
+       </code>
+       or
+       <code>
+        glspl
+       </code>
+       , please
+       <em>
+        <strong>
+         MAKE SURE
+        </strong>
+       </em>
+       you add this line
+      </p>
+      <pre><code class="language-typ"><code><span class="typ-key">#</span><span class="typ-key">show</span><span class="typ-punct">:</span> <span class="typ-func">make-glossary</span>
+</code></code></pre>
+      <blockquote>
+       <p>
+        <em>
+         WHY DO WE NEED THAT ?
+        </em>
+        : In order to be able to create references to the terms in your glossary using typst ref syntax
+        <code>
+         @key
+        </code>
+        glossarium needs to setup some
+        <a href="https://typst.app/docs/tutorial/advanced-styling/">
+         show rules
+        </a>
+        before any references exist. This is due to the way typst works, there is no workaround.
+       </p>
+       <p>
+        Therefore I recommend that you always put the
+        <code>
+         #show: ...
+        </code>
+        statement on the line just below the
+        <code>
+         #import
+        </code>
+        statement.
+       </p>
+      </blockquote>
+      <h3>
+       Registering the glossary
+      </h3>
+      <p>
+       First we have to define the terms. A term is a
+       <a href="https://typst.app/docs/reference/types/dictionary/">
+        dictionary
+       </a>
+       as follows:
+      </p>
+      <table>
+       <thead>
+        <tr>
+         <th>
+          Key
+         </th>
+         <th>
+          Type
+         </th>
+         <th>
+          Required/Optional
+         </th>
+         <th>
+          Description
+         </th>
+        </tr>
+       </thead>
+       <tbody>
+        <tr>
+         <td>
+          <code>
+           key
+          </code>
+         </td>
+         <td>
+          string
+         </td>
+         <td>
+          required
+         </td>
+         <td>
+          Case-sensitive, unique identifier used to reference the term.
+         </td>
+        </tr>
+        <tr>
+         <td>
+          <code>
+           short
+          </code>
+         </td>
+         <td>
+          string
+         </td>
+         <td>
+          semi-optional
+         </td>
+         <td>
+          The short form of the term replacing the term citation.
+         </td>
+        </tr>
+        <tr>
+         <td>
+          <code>
+           long
+          </code>
+         </td>
+         <td>
+          string or content
+         </td>
+         <td>
+          semi-optional
+         </td>
+         <td>
+          The long form of the term, displayed in the glossary and on the first citation of the term.
+         </td>
+        </tr>
+        <tr>
+         <td>
+          <code>
+           description
+          </code>
+         </td>
+         <td>
+          string or content
+         </td>
+         <td>
+          optional
+         </td>
+         <td>
+          The description of the term.
+         </td>
+        </tr>
+        <tr>
+         <td>
+          <code>
+           plural
+          </code>
+         </td>
+         <td>
+          string or content
+         </td>
+         <td>
+          optional
+         </td>
+         <td>
+          The pluralized short form of the term.
+         </td>
+        </tr>
+        <tr>
+         <td>
+          <code>
+           longplural
+          </code>
+         </td>
+         <td>
+          string or content
+         </td>
+         <td>
+          optional
+         </td>
+         <td>
+          The pluralized long form of the term.
+         </td>
+        </tr>
+        <tr>
+         <td>
+          <code>
+           group
+          </code>
+         </td>
+         <td>
+          string
+         </td>
+         <td>
+          optional
+         </td>
+         <td>
+          Case-sensitive group the term belongs to. The terms are displayed by groups in the glossary.
+         </td>
+        </tr>
+       </tbody>
+      </table>
+      <pre><code class="language-typ"><code><span class="typ-key">#</span><span class="typ-key">let</span> entry-list <span class="typ-op">=</span> <span class="typ-punct">(</span>
+  <span class="typ-comment">// minimal term</span>
+  <span class="typ-punct">(</span>
+    key<span class="typ-punct">:</span> <span class="typ-str">"kuleuven"</span><span class="typ-punct">,</span>
+    short<span class="typ-punct">:</span> <span class="typ-str">"KU Leuven"</span>
+  <span class="typ-punct">)</span><span class="typ-punct">,</span>
+  <span class="typ-comment">// a term with a long form and a group</span>
+  <span class="typ-punct">(</span>
+    key<span class="typ-punct">:</span> <span class="typ-str">"unamur"</span><span class="typ-punct">,</span>
+    short<span class="typ-punct">:</span> <span class="typ-str">"UNamur"</span><span class="typ-punct">,</span>
+    long<span class="typ-punct">:</span> <span class="typ-str">"Namur University"</span><span class="typ-punct">,</span>
+    group<span class="typ-punct">:</span> <span class="typ-str">"Universities"</span>
+  <span class="typ-punct">)</span><span class="typ-punct">,</span>
+  <span class="typ-comment">// a term with a markup description</span>
+  <span class="typ-punct">(</span>
+    key<span class="typ-punct">:</span> <span class="typ-str">"oidc"</span><span class="typ-punct">,</span>
+    short<span class="typ-punct">:</span> <span class="typ-str">"OIDC"</span><span class="typ-punct">,</span>
+    long<span class="typ-punct">:</span> <span class="typ-str">"OpenID Connect"</span><span class="typ-punct">,</span>
+    description<span class="typ-punct">:</span> <span class="typ-punct">[</span>
+      OpenID is an open standard and decentralized authentication protocol promoted by the non-profit
+      <span class="typ-func">#</span><span class="typ-func">link</span><span class="typ-punct">(</span><span class="typ-str">"https://en.wikipedia.org/wiki/OpenID#OpenID_Foundation"</span><span class="typ-punct">)</span><span class="typ-punct">[</span>OpenID Foundation<span class="typ-punct">]</span>.
+    <span class="typ-punct">]</span><span class="typ-punct">,</span>
+    group<span class="typ-punct">:</span> <span class="typ-str">"Acronyms"</span><span class="typ-punct">,</span>
+  <span class="typ-punct">)</span><span class="typ-punct">,</span>
+  <span class="typ-comment">// a term with a short plural</span>
+  <span class="typ-punct">(</span>
+    key<span class="typ-punct">:</span> <span class="typ-str">"potato"</span><span class="typ-punct">,</span>
+    short<span class="typ-punct">:</span> <span class="typ-str">"potato"</span><span class="typ-punct">,</span>
+    <span class="typ-comment">// "plural" will be used when "short" should be pluralized</span>
+    plural<span class="typ-punct">:</span> <span class="typ-str">"potatoes"</span><span class="typ-punct">,</span>
+    description<span class="typ-punct">:</span> <span class="typ-punct">[</span><span class="typ-func">#</span><span class="typ-func">lorem</span><span class="typ-punct">(</span><span class="typ-num">10</span><span class="typ-punct">)</span><span class="typ-punct">]</span><span class="typ-punct">,</span>
+  <span class="typ-punct">)</span><span class="typ-punct">,</span>
+  <span class="typ-comment">// a term with a long plural</span>
+  <span class="typ-punct">(</span>
+    key<span class="typ-punct">:</span> <span class="typ-str">"dm"</span><span class="typ-punct">,</span>
+    short<span class="typ-punct">:</span> <span class="typ-str">"DM"</span><span class="typ-punct">,</span>
+    long<span class="typ-punct">:</span> <span class="typ-str">"diagonal matrix"</span><span class="typ-punct">,</span>
+    <span class="typ-comment">// "longplural" will be used when "long" should be pluralized</span>
+    longplural<span class="typ-punct">:</span> <span class="typ-str">"diagonal matrices"</span><span class="typ-punct">,</span>
+    description<span class="typ-punct">:</span> <span class="typ-str">"Probably some math stuff idk"</span><span class="typ-punct">,</span>
+  <span class="typ-punct">)</span><span class="typ-punct">,</span>
+<span class="typ-punct">)</span>
+</code></code></pre>
+      <p>
+       Then the terms are passed as a list to
+       <code>
+        register-glossary
+       </code>
+      </p>
+      <pre><code class="language-typ"><code><span class="typ-func">#</span><span class="typ-func">register-glossary</span><span class="typ-punct">(</span>entry-list<span class="typ-punct">)</span>
+</code></code></pre>
+      <h3>
+       Printing the glossary
+      </h3>
+      <p>
+       Now, you can display the glossary using the
+       <code>
+        print-glossary
+       </code>
+       function.
+      </p>
+      <pre><code class="language-typ"><code><span class="typ-func">#</span><span class="typ-func">print-glossary</span><span class="typ-punct">(</span>entry-list<span class="typ-punct">)</span>
+</code></code></pre>
+      <p>
+       By default, the terms that are not referenced in the document are not shown in the glossary, you can force their appearance by setting the
+       <code>
+        show-all
+       </code>
+       argument to true.
+      </p>
+      <p>
+       You can also disable the back-references by setting the parameter
+       <code>
+        disable-back-references
+       </code>
+       to
+       <code>
+        true
+       </code>
+       .
+      </p>
+      <p>
+       By default, group breaks use
+       <code>
+        linebreaks
+       </code>
+       . This behaviour can be changed by setting the
+       <code>
+        user-group-break
+       </code>
+       parameter to
+       <code>
+        pagebreak()
+       </code>
+       , or
+       <code>
+        colbreak()
+       </code>
+       , or any other function that returns the
+       <code>
+        content
+       </code>
+       you want.
+      </p>
+      <p>
+       You can call this function from anywhere in your document.
+      </p>
+      <h3>
+       Referencing terms.
+      </h3>
+      <p>
+       Referencing terms is done using the key of the terms using the
+       <code>
+        gls
+       </code>
+       function or the reference syntax.
+      </p>
+      <pre><code class="language-typ"><code><span class="typ-comment">// referencing the OIDC term using gls</span>
+<span class="typ-func">#</span><span class="typ-func">gls</span><span class="typ-punct">(</span><span class="typ-str">"oidc"</span><span class="typ-punct">)</span>
+<span class="typ-comment">// displaying the long form forcibly</span>
+<span class="typ-func">#</span><span class="typ-func">gls</span><span class="typ-punct">(</span><span class="typ-str">"oidc"</span><span class="typ-punct">,</span> long<span class="typ-punct">:</span> <span class="typ-key">true</span><span class="typ-punct">)</span>
+
+<span class="typ-comment">// referencing the OIDC term using the reference syntax</span>
+<span class="typ-ref">@oidc</span>
+</code></code></pre>
+      <h4>
+       Handling plurals
+      </h4>
+      <p>
+       You can use the
+       <code>
+        glspl
+       </code>
+       function and the references supplements to pluralize terms. The
+       <code>
+        plural
+       </code>
+       key will be used when
+       <code>
+        short
+       </code>
+       should be pluralized and
+       <code>
+        longplural
+       </code>
+       will be used when
+       <code>
+        long
+       </code>
+       should be pluralized. If the
+       <code>
+        plural
+       </code>
+       key is missing then glossarium will add an âsâ at the end of the short form as a fallback.
+      </p>
+      <pre><code class="language-typ"><code><span class="typ-func">#</span><span class="typ-func">glspl</span><span class="typ-punct">(</span><span class="typ-str">"potato"</span><span class="typ-punct">)</span>
+</code></code></pre>
+      <p>
+       Please look at the examples regarding plurals.
+      </p>
+      <h4>
+       Overriding the text shown
+      </h4>
+      <p>
+       You can also override the text displayed by setting the
+       <code>
+        display
+       </code>
+       argument.
+      </p>
+      <pre><code class="language-typ"><code><span class="typ-func">#</span><span class="typ-func">gls</span><span class="typ-punct">(</span><span class="typ-str">"oidc"</span><span class="typ-punct">,</span> display<span class="typ-punct">:</span> <span class="typ-str">"whatever you want"</span><span class="typ-punct">)</span>
+</code></code></pre>
+      <h2>
+       Final tips
+      </h2>
+      <p>
+       I recommend setting a show rule for the links to that your readers understand that they can click on the references to go to the term in the glossary.
+      </p>
+      <pre><code class="language-typ"><code><span class="typ-key">#</span><span class="typ-key">show</span> <span class="typ-func">link</span><span class="typ-punct">:</span> <span class="typ-key">set</span> <span class="typ-func">text</span><span class="typ-punct">(</span>fill<span class="typ-punct">:</span> blue<span class="typ-punct">.</span><span class="typ-func">darken</span><span class="typ-punct">(</span><span class="typ-num">60%</span><span class="typ-punct">)</span><span class="typ-punct">)</span>
+<span class="typ-comment">// links are now blue !</span>
+</code></code></pre>
+     </section>
+     <aside>
+      <section>
+       <h3>
+        How to add
+       </h3>
+       <p>
+        Copy this into your project and use the import as
+        <!-- -->
+        <code>
+         glossarium
+        </code>
+       </p>
+       <div class="import-snippet">
+        <pre><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/glossarium:0.5.1"</span></code></pre>
+        <button class="copy" title="Copy to clipboard">
+         <img alt="Copy" height="16" src="/assets/icons/16-copy.svg" width="16"/>
+        </button>
+       </div>
+       <p class="muted">
+        Check the docs for
+        <!-- -->
+        <a href="https://typst.app/docs/reference/scripting/#packages">
+         more information on how to import packages
+        </a>
+        .
+       </p>
+      </section>
+      <section id="about">
+       <h3>
+        About
+       </h3>
+       <dl>
+        <dt>
+         Author
+         <!-- -->
+         s
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         slashformotion
+         <!-- -->
+         &amp;
+         <!-- -->
+         Dherse
+        </dd>
+        <dt>
+         License:
+        </dt>
+        <dd>
+         MIT
+        </dd>
+        <dt>
+         Current version:
+        </dt>
+        <dd>
+         0.5.1
+        </dd>
+        <dt>
+         Last updated:
+        </dt>
+        <dd>
+         October 28, 2024
+        </dd>
+        <dt>
+         First released:
+        </dt>
+        <dd>
+         July 31, 2023
+        </dd>
+        <dt>
+         Archive size:
+        </dt>
+        <dd class="archive-size-value">
+         10.5 kB
+         <a href="https://packages.typst.org/preview/glossarium-0.5.1.tar.gz">
+          <img alt="Size icon" src="/assets/icons/16-download.svg"/>
+         </a>
+        </dd>
+        <dt>
+         Repository:
+        </dt>
+        <dd>
+         <a href="https://github.com/typst-community/glossarium" rel="noopener noreferrer" target="_blank">
+          GitHub
+         </a>
+        </dd>
+       </dl>
+      </section>
+      <section>
+       <h3>
+        Where to report issues?
+       </h3>
+       <p>
+        This
+        <!-- -->
+        package
+        <!-- -->
+        is a project of
+        <!-- -->
+        <!-- -->
+        slashformotion and Dherse
+        <!-- -->
+        .
+        <!-- -->
+        <!-- -->
+        Report issues on
+        <!-- -->
+        <a href="https://github.com/typst-community/glossarium" rel="noopener noreferrer" target="_blank">
+         their repository
+        </a>
+        .
+        <!-- -->
+        <!-- -->
+        You can also try to ask for help with this
+        <!-- -->
+        package
+        <!-- -->
+        on the
+        <!-- -->
+        <a href="https://forum.typst.app" rel="noopener" target="_blank">
+         Forum
+        </a>
+        .
+       </p>
+       <p>
+        Please report this
+        <!-- -->
+        package
+        <!-- -->
+        to the Typst team using the
+        <!-- -->
+        <a href="https://typst.app/contact" rel="noreferrer" target="_blank">
+         contact form
+        </a>
+        <!-- -->
+        if you believe it is a safety hazard or infringes upon your rights.
+       </p>
+      </section>
+      <section id="versions">
+       <h3>
+        Version history
+       </h3>
+       <table>
+        <thead>
+         <tr>
+          <th align="left">
+           Version
+          </th>
+          <th align="left">
+           Release Date
+          </th>
+         </tr>
+        </thead>
+        <tbody>
+         <tr>
+          <td align="left">
+           0.5.1
+          </td>
+          <td align="left">
+           October 28, 2024
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/glossarium/0.5.0/">
+            0.5.0
+           </a>
+          </td>
+          <td align="left">
+           October 14, 2024
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/glossarium/0.4.2/">
+            0.4.2
+           </a>
+          </td>
+          <td align="left">
+           October 7, 2024
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/glossarium/0.4.1/">
+            0.4.1
+           </a>
+          </td>
+          <td align="left">
+           May 29, 2024
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/glossarium/0.4.0/">
+            0.4.0
+           </a>
+          </td>
+          <td align="left">
+           April 29, 2024
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/glossarium/0.3.0/">
+            0.3.0
+           </a>
+          </td>
+          <td align="left">
+           April 8, 2024
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/glossarium/0.2.6/">
+            0.2.6
+           </a>
+          </td>
+          <td align="left">
+           January 29, 2024
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/glossarium/0.2.5/">
+            0.2.5
+           </a>
+          </td>
+          <td align="left">
+           December 3, 2023
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/glossarium/0.2.4/">
+            0.2.4
+           </a>
+          </td>
+          <td align="left">
+           November 16, 2023
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/glossarium/0.2.3/">
+            0.2.3
+           </a>
+          </td>
+          <td align="left">
+           October 30, 2023
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/glossarium/0.2.2/">
+            0.2.2
+           </a>
+          </td>
+          <td align="left">
+           September 16, 2023
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/glossarium/0.2.1/">
+            0.2.1
+           </a>
+          </td>
+          <td align="left">
+           September 3, 2023
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/glossarium/0.2.0/">
+            0.2.0
+           </a>
+          </td>
+          <td align="left">
+           August 19, 2023
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/glossarium/0.1.0/">
+            0.1.0
+           </a>
+          </td>
+          <td align="left">
+           July 31, 2023
+          </td>
+         </tr>
+        </tbody>
+       </table>
+      </section>
+      <p class="bottom-notice muted">
+       Typst GmbH did not create this
+       <!-- -->
+       package
+       <!-- -->
+       and cannot guarantee correct functionality of this
+       <!-- -->
+       package
+       <!-- -->
+       or compatibility with any version of the Typst compiler or app.
+      </p>
+     </aside>
+    </div>
+   </main>

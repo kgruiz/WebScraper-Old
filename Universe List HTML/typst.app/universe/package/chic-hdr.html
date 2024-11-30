@@ -1,0 +1,990 @@
+<main>
+    <div id="banner" style="--banner-accent:#000000;--banner-primary:#000000;--banner-secondary:#000000;--banner-tertiary:#565565;--banner-background:#eff0f3">
+     <div class="package-icon" role="img">
+     </div>
+     <div>
+      <div class="title">
+       <h1 class="name">
+        chic-hdr
+       </h1>
+       <span class="version">
+        0.4.0
+       </span>
+      </div>
+      <p class="description">
+       Typst package for creating elegant headers and footers
+      </p>
+     </div>
+    </div>
+    <div class="inner-grid">
+     <section id="readme">
+      <p>
+       <strong>
+        Chic-header
+       </strong>
+       (chic-hdr) is a Typst package for creating elegant headers and footers
+      </p>
+      <h2>
+       Usage
+      </h2>
+      <p>
+       To use this library through the Typst package manager (for Typst 0.6.0 or greater), write
+       <code>
+        #import "@preview/chic-hdr:0.4.0": *
+       </code>
+       at the beginning of your Typst file. Once imported, you can start using the package by writing the instruction
+       <code>
+        #show: chic.with()
+       </code>
+       and giving any of the chic functions inside the parenthesis
+       <code>
+        ()
+       </code>
+       .
+      </p>
+      <p>
+       <em>
+        <strong>
+         Important: If you are using a custom template that also needs the
+         <code>
+          #show
+         </code>
+         instruction to be applied, prefer to use
+         <code>
+          #show: chic()
+         </code>
+         after the templateâs
+         <code>
+          #show
+         </code>
+         .
+        </strong>
+       </em>
+      </p>
+      <p>
+       For example, the code belowâ¦
+      </p>
+      <pre><code class="language-typst"><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/chic-hdr:0.4.0"</span><span class="typ-punct">:</span> <span class="typ-op">*</span>
+
+<span class="typ-key">#</span><span class="typ-key">set</span> <span class="typ-func">page</span><span class="typ-punct">(</span>paper<span class="typ-punct">:</span> <span class="typ-str">"a7"</span><span class="typ-punct">)</span>
+
+<span class="typ-key">#</span><span class="typ-key">show</span><span class="typ-punct">:</span> chic<span class="typ-punct">.</span><span class="typ-func">with</span><span class="typ-punct">(</span>
+  <span class="typ-func">chic-footer</span><span class="typ-punct">(</span>
+    left-side<span class="typ-punct">:</span> <span class="typ-func">strong</span><span class="typ-punct">(</span>
+        <span class="typ-func">link</span><span class="typ-punct">(</span><span class="typ-str">"mailto:admin@chic.hdr"</span><span class="typ-punct">,</span> <span class="typ-str">"admin@chic.hdr"</span><span class="typ-punct">)</span>
+    <span class="typ-punct">)</span><span class="typ-punct">,</span>
+    right-side<span class="typ-punct">:</span> <span class="typ-func">chic-page-number</span><span class="typ-punct">(</span><span class="typ-punct">)</span>
+  <span class="typ-punct">)</span><span class="typ-punct">,</span>
+  <span class="typ-func">chic-header</span><span class="typ-punct">(</span>
+    left-side<span class="typ-punct">:</span> <span class="typ-func">emph</span><span class="typ-punct">(</span><span class="typ-func">chic-heading-name</span><span class="typ-punct">(</span>fill<span class="typ-punct">:</span> <span class="typ-key">true</span><span class="typ-punct">)</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+    right-side<span class="typ-punct">:</span> <span class="typ-func">smallcaps</span><span class="typ-punct">(</span><span class="typ-str">"Example"</span><span class="typ-punct">)</span>
+  <span class="typ-punct">)</span><span class="typ-punct">,</span>
+  <span class="typ-func">chic-separator</span><span class="typ-punct">(</span><span class="typ-num">1pt</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+  <span class="typ-func">chic-offset</span><span class="typ-punct">(</span><span class="typ-num">7pt</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+  <span class="typ-func">chic-height</span><span class="typ-punct">(</span><span class="typ-num">1.5cm</span><span class="typ-punct">)</span>
+<span class="typ-punct">)</span>
+
+<span class="typ-heading">= Introduction</span>
+<span class="typ-func">#</span><span class="typ-func">lorem</span><span class="typ-punct">(</span><span class="typ-num">30</span><span class="typ-punct">)</span>
+
+<span class="typ-heading">== Details</span>
+<span class="typ-func">#</span><span class="typ-func">lorem</span><span class="typ-punct">(</span><span class="typ-num">70</span><span class="typ-punct">)</span>
+</code></code></pre>
+      <p>
+       â¦will look like this:
+      </p>
+      <h3 align="center">
+       <img alt="Usage example" src="https://github.com/typst/packages/raw/main/packages/preview/chic-hdr/0.4.0/assets/usage.png"/>
+      </h3>
+      <h2>
+       Reference
+      </h2>
+      <p>
+       <em>
+        Note: For a detailed explanation of the functions and parameters, see Chic-headerâs Manual.pdf.
+       </em>
+      </p>
+      <p>
+       While using
+       <code>
+        #show: chic.with()
+       </code>
+       , you can give the following parameters inside the parenthesis:
+      </p>
+      <ul>
+       <li>
+        <code>
+         width
+        </code>
+        : Indicates the with of headers and footers in all the document (default is
+        <code>
+         100%
+        </code>
+        ).
+       </li>
+       <li>
+        <code>
+         skip
+        </code>
+        : Which pages must be skipped for setting its header and footer. Other properties changed with
+        <code>
+         chic-height()
+        </code>
+        or
+        <code>
+         chic-offset()
+        </code>
+        are preserved. Giving a negative index causes a skip of the last pages using last page as index -1(default is
+        <code>
+         ()
+        </code>
+        ).
+       </li>
+       <li>
+        <code>
+         even
+        </code>
+        : Header and footer for even pages. Here, only
+        <code>
+         chic-header()
+        </code>
+        ,
+        <code>
+         chic-footer()
+        </code>
+        and
+        <code>
+         chic-separator()
+        </code>
+        functions will take effect. Other functions must be given as an argument of
+        <code>
+         chic()
+        </code>
+        .
+       </li>
+       <li>
+        <code>
+         odd
+        </code>
+        : Sets the header and footer for odd pages. Here, only
+        <code>
+         chic-header()
+        </code>
+        ,
+        <code>
+         chic-footer()
+        </code>
+        and
+        <code>
+         chic-separator()
+        </code>
+        functions will take effect. Other functions must be given as an argument of
+        <code>
+         chic()
+        </code>
+        .
+       </li>
+       <li>
+        <code>
+         ..functions()
+        </code>
+        : These are a variable number of arguments that corresponds to Chic-headerâs style functions.
+       </li>
+      </ul>
+      <h3>
+       Functions
+      </h3>
+      <ol>
+       <li>
+        <code>
+         chic-header()
+        </code>
+        - Sets the header content.
+        <ul>
+         <li>
+          <code>
+           v-center
+          </code>
+          : Whether to vertically align the header content, or not (default is
+          <code>
+           false
+          </code>
+          ).
+         </li>
+         <li>
+          <code>
+           side-width
+          </code>
+          : Custom width for the sides. It can be an 3-element-array, length or relative length (default is
+          <code>
+           none
+          </code>
+          and widths are set to
+          <code>
+           1fr
+          </code>
+          if a side is present).
+         </li>
+         <li>
+          <code>
+           left-side
+          </code>
+          : Content displayed in the left side of the header (default is
+          <code>
+           none
+          </code>
+          ).
+         </li>
+         <li>
+          <code>
+           center-side
+          </code>
+          : Content displayed in the center of the header (default is
+          <code>
+           none
+          </code>
+          ).
+         </li>
+         <li>
+          <code>
+           right-side
+          </code>
+          : Content displayed in the right side of the header (default is
+          <code>
+           none
+          </code>
+          ).
+         </li>
+        </ul>
+       </li>
+       <li>
+        <code>
+         chic-footer()
+        </code>
+        - Sets the footer content.
+        <ul>
+         <li>
+          <code>
+           v-center
+          </code>
+          : Whether to vertically align the header content, or not (default is
+          <code>
+           false
+          </code>
+          ).
+         </li>
+         <li>
+          <code>
+           side-width
+          </code>
+          : Custom width for the sides. It can be an 3-element-array, length or relative length (default is
+          <code>
+           none
+          </code>
+          and widths are set to
+          <code>
+           1fr
+          </code>
+          if a side is present).
+         </li>
+         <li>
+          <code>
+           left-side
+          </code>
+          : Content displayed in the left side of the footer (default is
+          <code>
+           none
+          </code>
+          ).
+         </li>
+         <li>
+          <code>
+           center-side
+          </code>
+          : Content displayed in the center of the footer (default is
+          <code>
+           none
+          </code>
+          ).
+         </li>
+         <li>
+          <code>
+           right-side
+          </code>
+          : Content displayed in the right side of the footer (default is
+          <code>
+           none
+          </code>
+          ).
+         </li>
+        </ul>
+       </li>
+       <li>
+        <code>
+         chic-separator()
+        </code>
+        - Sets the separator for either the header, the footer or both.
+        <ul>
+         <li>
+          <code>
+           on
+          </code>
+          : Where to apply the separator. It can be
+          <code>
+           "header"
+          </code>
+          ,
+          <code>
+           "footer"
+          </code>
+          or
+          <code>
+           "both"
+          </code>
+          (default is
+          <code>
+           "both"
+          </code>
+          ).
+         </li>
+         <li>
+          <code>
+           outset
+          </code>
+          : Space around the separator beyond the page margins (default is
+          <code>
+           0pt
+          </code>
+          ).
+         </li>
+         <li>
+          <code>
+           gutter
+          </code>
+          : How much spacing insert around the separator (default is
+          <code>
+           0.65em
+          </code>
+          ).
+         </li>
+         <li>
+          (unnamed): A length for a
+          <code>
+           line()
+          </code>
+          , a stroke for a
+          <code>
+           line()
+          </code>
+          , or a custom content element.
+         </li>
+        </ul>
+       </li>
+       <li>
+        <code>
+         chic-styled-separator()
+        </code>
+        - Returns a pre-made custom separator for using it in
+        <code>
+         chic-separator()
+        </code>
+        <ul>
+         <li>
+          <code>
+           color
+          </code>
+          : Separatorâs color (default is
+          <code>
+           black
+          </code>
+          ).
+         </li>
+         <li>
+          (unnamed): A string indicating the separatorâs style. It can be
+          <code>
+           "double-line"
+          </code>
+          ,
+          <code>
+           "center-dot"
+          </code>
+          ,
+          <code>
+           "bold-center"
+          </code>
+          , or
+          <code>
+           "flower-end"
+          </code>
+          .
+         </li>
+        </ul>
+       </li>
+       <li>
+        <code>
+         chic-height()
+        </code>
+        - Sets the height of either the header, the footer or both.
+        <ul>
+         <li>
+          <code>
+           on
+          </code>
+          : Where to change the height. It can be
+          <code>
+           "header"
+          </code>
+          ,
+          <code>
+           "footer"
+          </code>
+          or
+          <code>
+           "both"
+          </code>
+          (default is
+          <code>
+           "both"
+          </code>
+          ).
+         </li>
+         <li>
+          (unnamed): A relative length (the new height value).
+         </li>
+        </ul>
+       </li>
+       <li>
+        <code>
+         chic-offset()
+        </code>
+        - Sets the offset of either the header, the footer or both (relative to the page content).
+        <ul>
+         <li>
+          <code>
+           on
+          </code>
+          : Where to change the offset It can be
+          <code>
+           "header"
+          </code>
+          ,
+          <code>
+           "footer"
+          </code>
+          or
+          <code>
+           "both"
+          </code>
+          (default is
+          <code>
+           "both
+          </code>
+          ).
+         </li>
+         <li>
+          (unnamed): A relative length (the new offset value).
+         </li>
+        </ul>
+       </li>
+       <li>
+        <code>
+         chic-page-number()
+        </code>
+        - Returns the current page number. Useful for header and footer
+        <code>
+         sides
+        </code>
+        . It doesnât take any parameters.
+       </li>
+       <li>
+        <code>
+         chic-heading-name()
+        </code>
+        - Returns the next heading name in the
+        <code>
+         dir
+        </code>
+        direction. The heading must have a lower or equal level than
+        <code>
+         level
+        </code>
+        . If thereâre no more headings in that direction, and
+        <code>
+         fill
+        </code>
+        is
+        <code>
+         true
+        </code>
+        , then headings are sought in the other direction.
+        <ul>
+         <li>
+          <code>
+           dir
+          </code>
+          : Direction for searching the next heading:
+          <code>
+           "next"
+          </code>
+          (from the current page, get the next heading) or
+          <code>
+           "prev"
+          </code>
+          (from the current page, get the previous heading). Default is
+          <code>
+           "next"
+          </code>
+          .
+         </li>
+         <li>
+          <code>
+           fill
+          </code>
+          : If thereâs no more headings in the
+          <code>
+           dir
+          </code>
+          direction, indicates whether to try to get a heading in the opposite direction (default is
+          <code>
+           false
+          </code>
+          ).
+         </li>
+         <li>
+          <code>
+           level
+          </code>
+          : Up to what level of headings should this function search (default is
+          <code>
+           2
+          </code>
+          ).
+         </li>
+        </ul>
+       </li>
+      </ol>
+      <h2>
+       Gallery
+      </h2>
+      <h3 align="center">
+       <img alt="Example 1" src="https://github.com/typst/packages/raw/main/packages/preview/chic-hdr/0.4.0/assets/example-1.png"/>
+      </h3>
+      <p>
+       <em>
+        Header with
+        <code>
+         chic-heading-name()
+        </code>
+        at left, and
+        <code>
+         chic-page-number()
+        </code>
+        at right. Thereâs a
+        <code>
+         chic-separator()
+        </code>
+        of
+        <code>
+         1pt
+        </code>
+        only for the header.
+       </em>
+      </p>
+      <h3 align="center">
+       <img alt="Example 2" src="https://github.com/typst/packages/raw/main/packages/preview/chic-hdr/0.4.0/assets/example-2.png"/>
+      </h3>
+      <p>
+       <em>
+        Footer with
+        <code>
+         chic-page-number()
+        </code>
+        at right, and a custom
+        <code>
+         chic-separator()
+        </code>
+        showing âend of page (No. page)â between 9
+        <code>
+         ~
+        </code>
+        symbols at each side.
+       </em>
+      </p>
+      <h2>
+       Changelog
+      </h2>
+      <h3>
+       Version 0.1.0
+      </h3>
+      <ul>
+       <li>
+        Initial release
+       </li>
+       <li>
+        Implemented
+        <code>
+         chic-header()
+        </code>
+        ,
+        <code>
+         chic-footer()
+        </code>
+        ,
+        <code>
+         chic-separator()
+        </code>
+        ,
+        <code>
+         chic-height()
+        </code>
+        ,
+        <code>
+         chic-offset()
+        </code>
+        ,
+        <code>
+         chic-page-number()
+        </code>
+        , and
+        <code>
+         chic-heading-name()
+        </code>
+        functions
+       </li>
+      </ul>
+      <h3>
+       Version 0.2.0
+      </h3>
+      <p>
+       <em>
+        Thanks to Slashformotion (
+        <a href="https://github.com/slashformotion" rel="nofollow ugc" target="_blank">
+         https://github.com/slashformotion
+        </a>
+        ) for noticing this version bugs, and suggesting a vertical alignment for headers.
+       </em>
+      </p>
+      <ul>
+       <li>
+        Fix alignment error in
+        <code>
+         chic-header()
+        </code>
+        and
+        <code>
+         chic-footer()
+        </code>
+       </li>
+       <li>
+        Add
+        <code>
+         v-center
+        </code>
+        option for
+        <code>
+         chic-header()
+        </code>
+        and
+        <code>
+         chic-footer()
+        </code>
+       </li>
+       <li>
+        Add
+        <code>
+         outset
+        </code>
+        option for
+        <code>
+         chic-separator()
+        </code>
+       </li>
+       <li>
+        Add
+        <code>
+         chic-styled-separator()
+        </code>
+        function
+       </li>
+      </ul>
+      <h3>
+       Version 0.3.0
+      </h3>
+      <ul>
+       <li>
+        Add
+        <code>
+         side-width
+        </code>
+        option for
+        <code>
+         chic-header()
+        </code>
+        and
+        <code>
+         chic-footer()
+        </code>
+       </li>
+      </ul>
+      <h3>
+       Version 0.4.0
+      </h3>
+      <p>
+       <em>
+        Thanks to David (
+        <a href="https://github.com/davidleejy" rel="nofollow ugc" target="_blank">
+         https://github.com/davidleejy
+        </a>
+        ) for being interested in the package and giving feedback and ideas for new parameters
+       </em>
+      </p>
+      <ul>
+       <li>
+        Update
+        <code>
+         type()
+        </code>
+        conditionals to met Typst 0.8.0 standards
+       </li>
+       <li>
+        Add
+        <code>
+         dir
+        </code>
+        ,
+        <code>
+         fill
+        </code>
+        , and
+        <code>
+         level
+        </code>
+        parameters to
+        <code>
+         chic-heading-name()
+        </code>
+       </li>
+       <li>
+        Allow negative indexes for skipping final pages while using
+        <code>
+         skip
+        </code>
+       </li>
+       <li>
+        Include some panic alerts for types mismatch
+       </li>
+       <li>
+        Upload manual code in the package repository
+       </li>
+      </ul>
+     </section>
+     <aside>
+      <section>
+       <h3>
+        How to add
+       </h3>
+       <p>
+        Copy this into your project and use the import as
+        <!-- -->
+        <code>
+         chic-hdr
+        </code>
+       </p>
+       <div class="import-snippet">
+        <pre><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/chic-hdr:0.4.0"</span></code></pre>
+        <button class="copy" title="Copy to clipboard">
+         <img alt="Copy" height="16" src="/assets/icons/16-copy.svg" width="16"/>
+        </button>
+       </div>
+       <p class="muted">
+        Check the docs for
+        <!-- -->
+        <a href="https://typst.app/docs/reference/scripting/#packages">
+         more information on how to import packages
+        </a>
+        .
+       </p>
+      </section>
+      <section id="about">
+       <h3>
+        About
+       </h3>
+       <dl>
+        <dt>
+         Author
+         <!-- -->
+         s
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         Pablo GonzÃ¡lez CalderÃ³n
+         <!-- -->
+         &amp;
+         <!-- -->
+         Chic-hdr Contributors
+        </dd>
+        <dt>
+         License:
+        </dt>
+        <dd>
+         MIT
+        </dd>
+        <dt>
+         Current version:
+        </dt>
+        <dd>
+         0.4.0
+        </dd>
+        <dt>
+         Last updated:
+        </dt>
+        <dd>
+         December 28, 2023
+        </dd>
+        <dt>
+         First released:
+        </dt>
+        <dd>
+         August 19, 2023
+        </dd>
+        <dt>
+         Archive size:
+        </dt>
+        <dd class="archive-size-value">
+         7.64 kB
+         <a href="https://packages.typst.org/preview/chic-hdr-0.4.0.tar.gz">
+          <img alt="Size icon" src="/assets/icons/16-download.svg"/>
+         </a>
+        </dd>
+        <dt>
+         Repository:
+        </dt>
+        <dd>
+         <a href="https://github.com/Pablo-Gonzalez-Calderon/chic-header-package" rel="noopener noreferrer" target="_blank">
+          GitHub
+         </a>
+        </dd>
+       </dl>
+      </section>
+      <section>
+       <h3>
+        Where to report issues?
+       </h3>
+       <p>
+        This
+        <!-- -->
+        package
+        <!-- -->
+        is a project of
+        <!-- -->
+        <!-- -->
+        Pablo GonzÃ¡lez CalderÃ³n and Chic-hdr Contributors
+        <!-- -->
+        .
+        <!-- -->
+        <!-- -->
+        Report issues on
+        <!-- -->
+        <a href="https://github.com/Pablo-Gonzalez-Calderon/chic-header-package" rel="noopener noreferrer" target="_blank">
+         their repository
+        </a>
+        .
+        <!-- -->
+        <!-- -->
+        You can also try to ask for help with this
+        <!-- -->
+        package
+        <!-- -->
+        on the
+        <!-- -->
+        <a href="https://forum.typst.app" rel="noopener" target="_blank">
+         Forum
+        </a>
+        .
+       </p>
+       <p>
+        Please report this
+        <!-- -->
+        package
+        <!-- -->
+        to the Typst team using the
+        <!-- -->
+        <a href="https://typst.app/contact" rel="noreferrer" target="_blank">
+         contact form
+        </a>
+        <!-- -->
+        if you believe it is a safety hazard or infringes upon your rights.
+       </p>
+      </section>
+      <section id="versions">
+       <h3>
+        Version history
+       </h3>
+       <table>
+        <thead>
+         <tr>
+          <th align="left">
+           Version
+          </th>
+          <th align="left">
+           Release Date
+          </th>
+         </tr>
+        </thead>
+        <tbody>
+         <tr>
+          <td align="left">
+           0.4.0
+          </td>
+          <td align="left">
+           December 28, 2023
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/chic-hdr/0.3.0/">
+            0.3.0
+           </a>
+          </td>
+          <td align="left">
+           September 11, 2023
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/chic-hdr/0.2.0/">
+            0.2.0
+           </a>
+          </td>
+          <td align="left">
+           August 19, 2023
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/chic-hdr/0.1.0/">
+            0.1.0
+           </a>
+          </td>
+          <td align="left">
+           August 19, 2023
+          </td>
+         </tr>
+        </tbody>
+       </table>
+      </section>
+      <p class="bottom-notice muted">
+       Typst GmbH did not create this
+       <!-- -->
+       package
+       <!-- -->
+       and cannot guarantee correct functionality of this
+       <!-- -->
+       package
+       <!-- -->
+       or compatibility with any version of the Typst compiler or app.
+      </p>
+     </aside>
+    </div>
+   </main>

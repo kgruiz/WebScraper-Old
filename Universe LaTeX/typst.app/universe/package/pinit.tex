@@ -1,0 +1,1218 @@
+\title{typst.app/universe/package/pinit}
+
+\phantomsection\label{banner}
+\section{pinit}\label{pinit}
+
+{ 0.2.2 }
+
+Relative positioning by pins, especially useful for making slides in
+typst.
+
+{ } Featured Package
+
+\phantomsection\label{readme}
+Relative positioning by pins, especially useful for making slides in
+typst.
+
+\subsection{Example}\label{example}
+
+\subsubsection{Pin things as you like}\label{pin-things-as-you-like}
+
+Have a look at the source
+\href{https://github.com/typst/packages/raw/main/packages/preview/pinit/0.2.2/examples/example.typ}{here}
+.
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/pinit/0.2.2/examples/example.png}}
+
+\subsubsection{Dynamic Slides}\label{dynamic-slides}
+
+Pinit works with \href{https://github.com/touying-typ/touying}{Touying}
+or \href{https://github.com/andreasKroepelin/polylux}{Polylux}
+animations.
+
+Have a look at the pdf file
+\href{https://github.com/OrangeX4/typst-pinit/blob/main/examples/example.pdf}{here}
+.
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/pinit/0.2.2/examples/example-pages.png}}
+
+\subsection{Usage}\label{usage}
+
+\subsubsection{Examples}\label{examples}
+
+The idea of pinit is pinning pins on the normal flow of the text, and
+then placing the content on the page by \texttt{\ absolute-place\ }
+function.
+
+For example, we can highlight text and add a tip by pins simply:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/pinit:0.2.2": *}
+
+\NormalTok{\#set text(size: 24pt)}
+
+\NormalTok{A simple \#pin(1)highlighted text\#pin(2).}
+
+\NormalTok{\#pinit{-}highlight(1, 2)}
+
+\NormalTok{\#pinit{-}point{-}from(2)[It is simple.]}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/pinit/0.2.2/examples/simple-demo.png}}
+
+If you want to place the content relative to the center of some pins,
+you use a array of pins:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/pinit:0.2.2": *}
+
+\NormalTok{\#set text(size: 12pt)}
+
+\NormalTok{A simple \#pin(1)highlighted text\#pin(2).}
+
+\NormalTok{\#pinit{-}highlight(1, 2)}
+
+\NormalTok{\#pinit{-}point{-}from((1, 2))[It is simple.]}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/pinit/0.2.2/examples/simple-demo2.png}}
+
+A more complex example, Have a look at the source
+\href{https://github.com/typst/packages/raw/main/packages/preview/pinit/0.2.2/examples/equation-desc.typ}{here}
+.
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/pinit/0.2.2/examples/equation-desc.png}}
+
+\subsubsection{Fletcher edge support}\label{fletcher-edge-support}
+
+\href{https://github.com/Jollywatt/typst-fletcher}{Fletcher} is a
+powerful Typst package for drawing diagrams with arrows. We can use
+fletcher to draw more complex arrows.
+
+\href{https://github.com/typst/packages/raw/main/packages/preview/pinit/0.2.2/\#pinit-fletcher-edge}{\texttt{\ pinit-fletcher-edge\ }}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/pinit:0.2.2": *}
+\NormalTok{\#import "@preview/fletcher:0.5.1"}
+
+\NormalTok{Con\#pin(1)\#h(4em)\#pin(2)nect}
+
+\NormalTok{\#pinit{-}fletcher{-}edge(}
+\NormalTok{  fletcher, 1, end: 2, (1, 0), [bend], bend: {-}20deg, "\textless{}{-}\textgreater{}",}
+\NormalTok{  decorations: fletcher.cetz.decorations.wave.with(amplitude: .1),}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/pinit/0.2.2/examples/fletcher.png}}
+
+\subsubsection{Pinit for raw}\label{pinit-for-raw}
+
+In the code block, we need to use a regex trick to get pinit to work,
+for example
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#show raw: it =\textgreater{} \{}
+\NormalTok{  show regex("pin\textbackslash{}d"): it =\textgreater{} pin(eval(it.text.slice(3)))}
+\NormalTok{  it}
+\NormalTok{\}}
+
+\NormalTok{\textasciigrave{}print(pin1"hello, world"pin2)\textasciigrave{}}
+
+\NormalTok{\#pinit{-}highlight(1, 2)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/pinit/0.2.2/examples/pinit-for-raw.png}}
+
+Note that typstâ€™s code highlighting breaks up the text, causing overly
+complex regular expressions such as â€˜\#pin(.*?)â€™ to not work
+properly.
+
+However, you may want to consider putting it in a comment to avoid
+highlighting the text and breaking it up.
+
+\subsection{Notice}\label{notice}
+
+\textbf{Since Typst does not provide a reliable
+\texttt{\ absolute-place\ } function, you may consider taking the
+following steps if a MISALIGNMENT occurs:}
+
+\begin{enumerate}
+\tightlist
+\item
+  \textbf{You could try to add a \texttt{\ \#box()\ } after the
+  \texttt{\ \#pinit-xxx\ } function call, like
+  \texttt{\ \#pinit-xxx()\#box()\ } .}
+\item
+  \textbf{You should add a blank line before the
+  \texttt{\ \#pinit-xxx\ } function call, otherwise it will cause
+  misalignment.}
+\item
+  \textbf{You can try moving \texttt{\ \#pinit-xxx()\ } in front of or
+  behind \texttt{\ \#pin()\ } , or otherwhere, in short, try more.}
+\item
+  \textbf{Try to add a offset to the \texttt{\ dx\ } or \texttt{\ dy\ }
+  argument of \texttt{\ \#pinit-xxx\ } function by yourself.}
+\item
+  \textbf{Open an issue if you have any questions you canâ€™t solve.}
+\end{enumerate}
+
+\subsection{Outline}\label{outline}
+
+\begin{itemize}
+\tightlist
+\item
+  \href{https://github.com/typst/packages/raw/main/packages/preview/pinit/0.2.2/\#pinit}{Pinit}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \href{https://github.com/typst/packages/raw/main/packages/preview/pinit/0.2.2/\#example}{Example}
+
+    \begin{itemize}
+    \tightlist
+    \item
+      \href{https://github.com/typst/packages/raw/main/packages/preview/pinit/0.2.2/\#pin-things-as-you-like}{Pin
+      things as you like}
+    \item
+      \href{https://github.com/typst/packages/raw/main/packages/preview/pinit/0.2.2/\#dynamic-slides}{Dynamic
+      Slides}
+    \end{itemize}
+  \item
+    \href{https://github.com/typst/packages/raw/main/packages/preview/pinit/0.2.2/\#usage}{Usage}
+
+    \begin{itemize}
+    \tightlist
+    \item
+      \href{https://github.com/typst/packages/raw/main/packages/preview/pinit/0.2.2/\#examples}{Examples}
+    \item
+      \href{https://github.com/typst/packages/raw/main/packages/preview/pinit/0.2.2/\#fletcher-edge-support}{Fletcher
+      edge support}
+    \item
+      \href{https://github.com/typst/packages/raw/main/packages/preview/pinit/0.2.2/\#pinit-for-raw}{Pinit
+      for raw}
+    \end{itemize}
+  \item
+    \href{https://github.com/typst/packages/raw/main/packages/preview/pinit/0.2.2/\#notice}{Notice}
+  \item
+    \href{https://github.com/typst/packages/raw/main/packages/preview/pinit/0.2.2/\#outline}{Outline}
+  \item
+    \href{https://github.com/typst/packages/raw/main/packages/preview/pinit/0.2.2/\#reference}{Reference}
+
+    \begin{itemize}
+    \tightlist
+    \item
+      \href{https://github.com/typst/packages/raw/main/packages/preview/pinit/0.2.2/\#pin}{\texttt{\ pin\ }}
+    \item
+      \href{https://github.com/typst/packages/raw/main/packages/preview/pinit/0.2.2/\#pinit-1}{\texttt{\ pinit\ }}
+    \item
+      \href{https://github.com/typst/packages/raw/main/packages/preview/pinit/0.2.2/\#absolute-place}{\texttt{\ absolute-place\ }}
+    \item
+      \href{https://github.com/typst/packages/raw/main/packages/preview/pinit/0.2.2/\#pinit-place}{\texttt{\ pinit-place\ }}
+    \item
+      \href{https://github.com/typst/packages/raw/main/packages/preview/pinit/0.2.2/\#pinit-rect}{\texttt{\ pinit-rect\ }}
+    \item
+      \href{https://github.com/typst/packages/raw/main/packages/preview/pinit/0.2.2/\#pinit-highlight}{\texttt{\ pinit-highlight\ }}
+    \item
+      \href{https://github.com/typst/packages/raw/main/packages/preview/pinit/0.2.2/\#pinit-line}{\texttt{\ pinit-line\ }}
+    \item
+      \href{https://github.com/typst/packages/raw/main/packages/preview/pinit/0.2.2/\#pinit-line-to}{\texttt{\ pinit-line-to\ }}
+    \item
+      \href{https://github.com/typst/packages/raw/main/packages/preview/pinit/0.2.2/\#pinit-arrow}{\texttt{\ pinit-arrow\ }}
+    \item
+      \href{https://github.com/typst/packages/raw/main/packages/preview/pinit/0.2.2/\#pinit-double-arrow}{\texttt{\ pinit-double-arrow\ }}
+    \item
+      \href{https://github.com/typst/packages/raw/main/packages/preview/pinit/0.2.2/\#pinit-point-to}{\texttt{\ pinit-point-to\ }}
+    \item
+      \href{https://github.com/typst/packages/raw/main/packages/preview/pinit/0.2.2/\#pinit-point-from}{\texttt{\ pinit-point-from\ }}
+    \item
+      \href{https://github.com/typst/packages/raw/main/packages/preview/pinit/0.2.2/\#simple-arrow}{\texttt{\ simple-arrow\ }}
+    \item
+      \href{https://github.com/typst/packages/raw/main/packages/preview/pinit/0.2.2/\#double-arrow}{\texttt{\ double-arrow\ }}
+    \item
+      \href{https://github.com/typst/packages/raw/main/packages/preview/pinit/0.2.2/\#pinit-fletcher-edge}{\texttt{\ pinit-fletcher-edge\ }}
+    \end{itemize}
+  \item
+    \href{https://github.com/typst/packages/raw/main/packages/preview/pinit/0.2.2/\#changelog}{Changelog}
+
+    \begin{itemize}
+    \tightlist
+    \item
+      \href{https://github.com/typst/packages/raw/main/packages/preview/pinit/0.2.2/\#022}{0.2.2}
+    \item
+      \href{https://github.com/typst/packages/raw/main/packages/preview/pinit/0.2.2/\#021}{0.2.1}
+    \item
+      \href{https://github.com/typst/packages/raw/main/packages/preview/pinit/0.2.2/\#020}{0.2.0}
+    \item
+      \href{https://github.com/typst/packages/raw/main/packages/preview/pinit/0.2.2/\#014}{0.1.4}
+    \item
+      \href{https://github.com/typst/packages/raw/main/packages/preview/pinit/0.2.2/\#013}{0.1.3}
+    \item
+      \href{https://github.com/typst/packages/raw/main/packages/preview/pinit/0.2.2/\#012}{0.1.2}
+    \item
+      \href{https://github.com/typst/packages/raw/main/packages/preview/pinit/0.2.2/\#011}{0.1.1}
+    \item
+      \href{https://github.com/typst/packages/raw/main/packages/preview/pinit/0.2.2/\#010}{0.1.0}
+    \end{itemize}
+  \item
+    \href{https://github.com/typst/packages/raw/main/packages/preview/pinit/0.2.2/\#acknowledgements}{Acknowledgements}
+  \item
+    \href{https://github.com/typst/packages/raw/main/packages/preview/pinit/0.2.2/\#license}{License}
+  \end{itemize}
+\end{itemize}
+
+\subsection{Reference}\label{reference}
+
+\subsubsection{\texorpdfstring{\texttt{\ pin\ }}{ pin }}\label{pin}
+
+Pinning a pin in text, the pin is supposed to be unique in one page.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let pin(name) = \{ .. \}}
+\end{Highlighting}
+\end{Shaded}
+
+\textbf{Arguments:}
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ name\ } : {[} \texttt{\ int\ } or \texttt{\ str\ } or
+  \texttt{\ any\ } {]} â€'' Name of pin, which can be any types with
+  unique \texttt{\ repr()\ } return value, such as integer and string.
+\end{itemize}
+
+\subsubsection{\texorpdfstring{\texttt{\ pinit\ }}{ pinit }}\label{pinit-1}
+
+Query positions of pins in the same page, then call the callback
+function \texttt{\ callback\ } .
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let pinit(callback: none, ..pins) = \{ .. \}}
+\end{Highlighting}
+\end{Shaded}
+
+\textbf{Arguments:}
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ ..pins\ } : {[} \texttt{\ pin\ } {]} â€'' Names of pins you
+  want to query. It is supposed to be arguments of pin or a group of
+  pins.
+\item
+  \texttt{\ callback\ } : {[}
+  \texttt{\ (..positions)\ =\textgreater{}\ \{\ ..\ \}\ } {]} â€'' A
+  callback function accepting an array of positions (or a single
+  position) as a parameter. Each position is a dictionary like
+  \texttt{\ (page:\ 1,\ x:\ 319.97pt,\ y:\ 86.66pt)\ } . You can use the
+  \texttt{\ absolute-place\ } function in this callback function to
+  display something around the pins.
+\end{itemize}
+
+\subsubsection{\texorpdfstring{\texttt{\ absolute-place\ }}{ absolute-place }}\label{absolute-place}
+
+Place content at a specific location on the page relative to the top
+left corner of the page, regardless of margins, current containers, etc.
+
+\begin{quote}
+This function comes from
+\href{https://github.com/ntjess/typst-drafting}{typst-drafting} .
+\end{quote}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let absolute{-}place(}
+\NormalTok{  dx: 0em,}
+\NormalTok{  dy: 0em,}
+\NormalTok{  body,}
+\NormalTok{) = \{ .. \}}
+\end{Highlighting}
+\end{Shaded}
+
+\textbf{Arguments:}
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ dx\ } : {[} \texttt{\ length\ } {]} â€'' Length in the
+  x-axis relative to the left edge of the page.
+\item
+  \texttt{\ dy\ } : {[} \texttt{\ length\ } {]} â€'' Length in the
+  y-axis relative to the top edge of the page.
+\item
+  \texttt{\ content\ } : {[} \texttt{\ content\ } {]} â€'' The content
+  you want to place.
+\end{itemize}
+
+\subsubsection{\texorpdfstring{\texttt{\ pinit-place\ }}{ pinit-place }}\label{pinit-place}
+
+Place content at a specific location on the page relative to the pin.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let pinit{-}place(}
+\NormalTok{  dx: 0pt,}
+\NormalTok{  dy: 0pt,}
+\NormalTok{  pin{-}name,}
+\NormalTok{  body,}
+\NormalTok{) = \{ .. \}}
+\end{Highlighting}
+\end{Shaded}
+
+\textbf{Arguments:}
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ dx\ } : {[} \texttt{\ length\ } {]} â€'' Offset X relative
+  to the pin.
+\item
+  \texttt{\ dy\ } : {[} \texttt{\ length\ } {]} â€'' Offset Y relative
+  to the pin.
+\item
+  \texttt{\ pin-name\ } : {[} \texttt{\ pin\ } {]} â€'' Name of the pin
+  to which you want to locate.
+\item
+  \texttt{\ body\ } : {[} \texttt{\ content\ } {]} â€'' The content you
+  want to place.
+\end{itemize}
+
+\subsubsection{\texorpdfstring{\texttt{\ pinit-rect\ }}{ pinit-rect }}\label{pinit-rect}
+
+Draw a rectangular shape on the page \textbf{containing all pins} with
+optional extended width and height.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let pinit{-}rect(}
+\NormalTok{  dx: 0em,}
+\NormalTok{  dy: {-}1em,}
+\NormalTok{  extended{-}width: 0em,}
+\NormalTok{  extended{-}height: 1.4em,}
+\NormalTok{  pin1,}
+\NormalTok{  pin2,}
+\NormalTok{  pin3,  // Optional}
+\NormalTok{  ..pinX,}
+\NormalTok{  ..args,}
+\NormalTok{) = \{ .. \}}
+\end{Highlighting}
+\end{Shaded}
+
+\textbf{Arguments:}
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ dx\ } : {[} \texttt{\ length\ } {]} â€'' Offset X relative
+  to the min-left of pins.
+\item
+  \texttt{\ dy\ } : {[} \texttt{\ length\ } {]} â€'' Offset Y relative
+  to the min-top of pins.
+\item
+  \texttt{\ extended-width\ } : {[} \texttt{\ length\ } {]} â€''
+  Optional extended width of the rectangular shape.
+\item
+  \texttt{\ extended-height\ } : {[} \texttt{\ length\ } {]} â€''
+  Optional extended height of the rectangular shape.
+\item
+  \texttt{\ pin1\ } : {[} \texttt{\ pin\ } {]} â€'' One of these pins.
+\item
+  \texttt{\ pin2\ } : {[} \texttt{\ pin\ } {]} â€'' One of these pins.
+\item
+  \texttt{\ pin3\ } : {[} \texttt{\ pin\ } {]} â€'' One of these pins,
+  optionally.
+\item
+  \texttt{\ ...args\ } : Additional named arguments or settings for
+  \href{https://typst.app/docs/reference/visualize/rect/}{\texttt{\ rect\ }}
+  , like \texttt{\ fill\ } , \texttt{\ stroke\ } and \texttt{\ radius\ }
+  .
+\end{itemize}
+
+\subsubsection{\texorpdfstring{\texttt{\ pinit-highlight\ }}{ pinit-highlight }}\label{pinit-highlight}
+
+Highlight a specific area on the page with a filled color and optional
+radius and stroke. It is just a simply styled \texttt{\ pinit-rect\ } .
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let pinit{-}highlight(}
+\NormalTok{  fill: rgb(255, 0, 0, 20),}
+\NormalTok{  radius: 5pt,}
+\NormalTok{  stroke: 0pt,}
+\NormalTok{  dx: 0em,}
+\NormalTok{  dy: {-}1em,}
+\NormalTok{  extended{-}width: 0em,}
+\NormalTok{  extended{-}height: 1.4em,}
+\NormalTok{  pin1,}
+\NormalTok{  pin2,}
+\NormalTok{  pin3,  // Optional}
+\NormalTok{  ..pinX,}
+\NormalTok{  ...args,}
+\NormalTok{) = \{ .. \}}
+\end{Highlighting}
+\end{Shaded}
+
+\textbf{Arguments:}
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ fill\ } : {[} \texttt{\ color\ } {]} â€'' The fill color for
+  the highlighted area.
+\item
+  \texttt{\ radius\ } : {[} \texttt{\ length\ } {]} â€'' Optional radius
+  for the highlight.
+\item
+  \texttt{\ stroke\ } : {[} \texttt{\ stroke\ } {]} â€'' Optional stroke
+  width for the highlight.
+\item
+  \texttt{\ dx\ } : {[} \texttt{\ length\ } {]} â€'' Offset X relative
+  to the min-left of pins.
+\item
+  \texttt{\ dy\ } : {[} \texttt{\ length\ } {]} â€'' Offset Y relative
+  to the min-top of pins.
+\item
+  \texttt{\ extended-width\ } : {[} \texttt{\ length\ } {]} â€''
+  Optional extended width of the rectangular shape.
+\item
+  \texttt{\ extended-height\ } : {[} \texttt{\ length\ } {]} â€''
+  Optional extended height of the rectangular shape.
+\item
+  \texttt{\ pin1\ } : {[} \texttt{\ pin\ } {]} â€'' One of these pins.
+\item
+  \texttt{\ pin2\ } : {[} \texttt{\ pin\ } {]} â€'' One of these pins.
+\item
+  \texttt{\ pin3\ } : {[} \texttt{\ pin\ } {]} â€'' One of these pins,
+  optionally.
+\item
+  \texttt{\ ...args\ } : Additional arguments or settings for
+  \href{https://github.com/typst/packages/raw/main/packages/preview/pinit/0.2.2/\#pinit-rect}{\texttt{\ pinit-rect\ }}
+  .
+\end{itemize}
+
+\subsubsection{\texorpdfstring{\texttt{\ pinit-line\ }}{ pinit-line }}\label{pinit-line}
+
+Draw a line on the page between two specified pins with an optional
+stroke.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let pinit{-}line(}
+\NormalTok{  stroke: 1pt,}
+\NormalTok{  start{-}dx: 0pt,}
+\NormalTok{  start{-}dy: 0pt,}
+\NormalTok{  end{-}dx: 0pt,}
+\NormalTok{  end{-}dy: 0pt,}
+\NormalTok{  start,}
+\NormalTok{  end,}
+\NormalTok{) = \{ ... \}}
+\end{Highlighting}
+\end{Shaded}
+
+\textbf{Arguments:}
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ stroke\ } : {[} \texttt{\ stroke\ } {]} â€'' The stroke for
+  the line.
+\item
+  \texttt{\ start-dx\ } : {[} \texttt{\ length\ } {]} â€'' Offset X
+  relative to the start pin.
+\item
+  \texttt{\ start-dy\ } : {[} \texttt{\ length\ } {]} â€'' Offset Y
+  relative to the start pin.
+\item
+  \texttt{\ end-dx\ } : {[} \texttt{\ length\ } {]} â€'' Offset X
+  relative to the end pin.
+\item
+  \texttt{\ end-dy\ } : {[} \texttt{\ length\ } {]} â€'' Offset Y
+  relative to the end pin.
+\item
+  \texttt{\ start\ } : {[} \texttt{\ pin\ } {]} â€'' The start pin.
+\item
+  \texttt{\ end\ } : {[} \texttt{\ pin\ } {]} â€'' The end pin.
+\end{itemize}
+
+\subsubsection{\texorpdfstring{\texttt{\ pinit-line-to\ }}{ pinit-line-to }}\label{pinit-line-to}
+
+Draw an line from a specified pin to a point on the page with optional
+settings.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let pinit{-}line{-}to(}
+\NormalTok{  stroke: 1pt,}
+\NormalTok{  pin{-}dx: 5pt,}
+\NormalTok{  pin{-}dy: 5pt,}
+\NormalTok{  body{-}dx: 5pt,}
+\NormalTok{  body{-}dy: 5pt,}
+\NormalTok{  offset{-}dx: 35pt,}
+\NormalTok{  offset{-}dy: 35pt,}
+\NormalTok{  pin{-}name,}
+\NormalTok{  body,}
+\NormalTok{) = \{ ... \}}
+\end{Highlighting}
+\end{Shaded}
+
+\textbf{Arguments:}
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ stroke\ } : {[} \texttt{\ stroke\ } {]} â€'' The stroke for
+  the line.
+\item
+  \texttt{\ pin-dx\ } : {[} \texttt{\ length\ } {]} â€'' Offset X of
+  arrow start relative to the pin.
+\item
+  \texttt{\ pin-dy\ } : {[} \texttt{\ length\ } {]} â€'' Offset Y of
+  arrow start relative to the pin.
+\item
+  \texttt{\ body-dx\ } : {[} \texttt{\ length\ } {]} â€'' Offset X of
+  arrow end relative to the body.
+\item
+  \texttt{\ body-dy\ } : {[} \texttt{\ length\ } {]} â€'' Offset Y of
+  arrow end relative to the body.
+\item
+  \texttt{\ offset-dx\ } : {[} \texttt{\ length\ } {]} â€'' Offset X
+  relative to the pin.
+\item
+  \texttt{\ offset-dy\ } : {[} \texttt{\ length\ } {]} â€'' Offset Y
+  relative to the pin.
+\item
+  \texttt{\ pin-name\ } : {[} \texttt{\ pin\ } {]} â€'' The name of the
+  pin to start from.
+\item
+  \texttt{\ body\ } : {[} \texttt{\ content\ } {]} â€'' The content to
+  draw the arrow to.
+\end{itemize}
+
+\subsubsection{\texorpdfstring{\texttt{\ pinit-arrow\ }}{ pinit-arrow }}\label{pinit-arrow}
+
+Draw an arrow between two specified pins with optional settings.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let pinit{-}arrow(}
+\NormalTok{  start{-}dx: 0pt,}
+\NormalTok{  start{-}dy: 0pt,}
+\NormalTok{  end{-}dx: 0pt,}
+\NormalTok{  end{-}dy: 0pt,}
+\NormalTok{  start,}
+\NormalTok{  end,}
+\NormalTok{  ..args,}
+\NormalTok{) = \{ ... \}}
+\end{Highlighting}
+\end{Shaded}
+
+\textbf{Arguments:}
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ start-dx\ } : {[} \texttt{\ length\ } {]} â€'' Offset X
+  relative to the start pin.
+\item
+  \texttt{\ start-dy\ } : {[} \texttt{\ length\ } {]} â€'' Offset Y
+  relative to the start pin.
+\item
+  \texttt{\ end-dx\ } : {[} \texttt{\ length\ } {]} â€'' Offset X
+  relative to the end pin.
+\item
+  \texttt{\ end-dy\ } : {[} \texttt{\ length\ } {]} â€'' Offset Y
+  relative to the end pin.
+\item
+  \texttt{\ start\ } : {[} \texttt{\ pin\ } {]} â€'' The start pin.
+\item
+  \texttt{\ end\ } : {[} \texttt{\ pin\ } {]} â€'' The end pin.
+\item
+  \texttt{\ ...args\ } : Additional arguments or settings for
+  \href{https://github.com/typst/packages/raw/main/packages/preview/pinit/0.2.2/\#simple-arrow}{\texttt{\ simple-arrow\ }}
+  , like \texttt{\ fill\ } , \texttt{\ stroke\ } and
+  \texttt{\ thickness\ } .
+\end{itemize}
+
+\subsubsection{\texorpdfstring{\texttt{\ pinit-double-arrow\ }}{ pinit-double-arrow }}\label{pinit-double-arrow}
+
+Draw an double arrow between two specified pins with optional settings.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let pinit{-}double{-}arrow(}
+\NormalTok{  start{-}dx: 0pt,}
+\NormalTok{  start{-}dy: 0pt,}
+\NormalTok{  end{-}dx: 0pt,}
+\NormalTok{  end{-}dy: 0pt,}
+\NormalTok{  start,}
+\NormalTok{  end,}
+\NormalTok{  ..args,}
+\NormalTok{) = \{ ... \}}
+\end{Highlighting}
+\end{Shaded}
+
+\textbf{Arguments:}
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ start-dx\ } : {[} \texttt{\ length\ } {]} â€'' Offset X
+  relative to the start pin.
+\item
+  \texttt{\ start-dy\ } : {[} \texttt{\ length\ } {]} â€'' Offset Y
+  relative to the start pin.
+\item
+  \texttt{\ end-dx\ } : {[} \texttt{\ length\ } {]} â€'' Offset X
+  relative to the end pin.
+\item
+  \texttt{\ end-dy\ } : {[} \texttt{\ length\ } {]} â€'' Offset Y
+  relative to the end pin.
+\item
+  \texttt{\ start\ } : {[} \texttt{\ pin\ } {]} â€'' The start pin.
+\item
+  \texttt{\ end\ } : {[} \texttt{\ pin\ } {]} â€'' The end pin.
+\item
+  \texttt{\ ...args\ } : Additional arguments or settings for
+  \href{https://github.com/typst/packages/raw/main/packages/preview/pinit/0.2.2/\#double-arrow}{\texttt{\ double-arrow\ }}
+  , like \texttt{\ fill\ } , \texttt{\ stroke\ } and
+  \texttt{\ thickness\ } .
+\end{itemize}
+
+\subsubsection{\texorpdfstring{\texttt{\ pinit-point-to\ }}{ pinit-point-to }}\label{pinit-point-to}
+
+Draw an arrow from a specified pin to a point on the page with optional
+settings.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let pinit{-}point{-}to(}
+\NormalTok{  pin{-}dx: 5pt,}
+\NormalTok{  pin{-}dy: 5pt,}
+\NormalTok{  body{-}dx: 5pt,}
+\NormalTok{  body{-}dy: 5pt,}
+\NormalTok{  offset{-}dx: 35pt,}
+\NormalTok{  offset{-}dy: 35pt,}
+\NormalTok{  double: false,}
+\NormalTok{  pin{-}name,}
+\NormalTok{  body,}
+\NormalTok{  ..args,}
+\NormalTok{) = \{ ... \}}
+\end{Highlighting}
+\end{Shaded}
+
+\textbf{Arguments:}
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ pin-dx\ } : {[} \texttt{\ length\ } {]} â€'' Offset X of
+  arrow start relative to the pin.
+\item
+  \texttt{\ pin-dy\ } : {[} \texttt{\ length\ } {]} â€'' Offset Y of
+  arrow start relative to the pin.
+\item
+  \texttt{\ body-dx\ } : {[} \texttt{\ length\ } {]} â€'' Offset X of
+  arrow end relative to the body.
+\item
+  \texttt{\ body-dy\ } : {[} \texttt{\ length\ } {]} â€'' Offset Y of
+  arrow end relative to the body.
+\item
+  \texttt{\ offset-dx\ } : {[} \texttt{\ length\ } {]} â€'' Offset X
+  relative to the pin.
+\item
+  \texttt{\ offset-dy\ } : {[} \texttt{\ length\ } {]} â€'' Offset Y
+  relative to the pin.
+\item
+  \texttt{\ double\ } : {[} \texttt{\ bool\ } {]} â€'' Draw a double
+  arrow, default is \texttt{\ false\ } .
+\item
+  \texttt{\ pin-name\ } : {[} \texttt{\ pin\ } {]} â€'' The name of the
+  pin to start from.
+\item
+  \texttt{\ body\ } : {[} \texttt{\ content\ } {]} â€'' The content to
+  draw the arrow to.
+\item
+  \texttt{\ ...args\ } : Additional arguments or settings for
+  \href{https://github.com/typst/packages/raw/main/packages/preview/pinit/0.2.2/\#simple-arrow}{\texttt{\ simple-arrow\ }}
+  , like \texttt{\ fill\ } , \texttt{\ stroke\ } and
+  \texttt{\ thickness\ } .
+\end{itemize}
+
+\subsubsection{\texorpdfstring{\texttt{\ pinit-point-from\ }}{ pinit-point-from }}\label{pinit-point-from}
+
+Draw an arrow from a point on the page to a specified pin with optional
+settings.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let pinit{-}point{-}from(}
+\NormalTok{  pin{-}dx: 5pt,}
+\NormalTok{  pin{-}dy: 5pt,}
+\NormalTok{  body{-}dx: 5pt,}
+\NormalTok{  body{-}dy: 5pt,}
+\NormalTok{  offset{-}dx: 35pt,}
+\NormalTok{  offset{-}dy: 35pt,}
+\NormalTok{  double: false,}
+\NormalTok{  pin{-}name,}
+\NormalTok{  body,}
+\NormalTok{  ..args,}
+\NormalTok{) = \{ ... \}}
+\end{Highlighting}
+\end{Shaded}
+
+\textbf{Arguments:}
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ pin-dx\ } : {[} \texttt{\ length\ } {]} â€'' Offset X
+  relative to the pin.
+\item
+  \texttt{\ pin-dy\ } : {[} \texttt{\ length\ } {]} â€'' Offset Y
+  relative to the pin.
+\item
+  \texttt{\ body-dx\ } : {[} \texttt{\ length\ } {]} â€'' Offset X
+  relative to the body.
+\item
+  \texttt{\ body-dy\ } : {[} \texttt{\ length\ } {]} â€'' Offset Y
+  relative to the body.
+\item
+  \texttt{\ offset-dx\ } : {[} \texttt{\ length\ } {]} â€'' Offset X
+  relative to the left edge of the page.
+\item
+  \texttt{\ offset-dy\ } : {[} \texttt{\ length\ } {]} â€'' Offset Y
+  relative to the top edge of the page.
+\item
+  \texttt{\ double\ } : {[} \texttt{\ bool\ } {]} â€'' Draw a double
+  arrow, default is \texttt{\ false\ } .
+\item
+  \texttt{\ pin-name\ } : {[} \texttt{\ pin\ } {]} â€'' The name of the
+  pin that the arrow to.
+\item
+  \texttt{\ body\ } : {[} \texttt{\ content\ } {]} â€'' The content to
+  draw the arrow from.
+\item
+  \texttt{\ ...args\ } : Additional arguments or settings for
+  \href{https://github.com/typst/packages/raw/main/packages/preview/pinit/0.2.2/\#simple-arrow}{\texttt{\ simple-arrow\ }}
+  , like \texttt{\ fill\ } , \texttt{\ stroke\ } and
+  \texttt{\ thickness\ } .
+\end{itemize}
+
+\subsubsection{\texorpdfstring{\texttt{\ simple-arrow\ }}{ simple-arrow }}\label{simple-arrow}
+
+Draw a simple arrow on the page with optional settings, implemented by
+\href{https://typst.app/docs/reference/visualize/polygon/}{\texttt{\ polygon\ }}
+.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let simple{-}arrow(}
+\NormalTok{  fill: black,}
+\NormalTok{  stroke: 0pt,}
+\NormalTok{  start: (0pt, 0pt),}
+\NormalTok{  end: (30pt, 0pt),}
+\NormalTok{  thickness: 2pt,}
+\NormalTok{  arrow{-}width: 4,}
+\NormalTok{  arrow{-}height: 4,}
+\NormalTok{  inset: 0.5,}
+\NormalTok{  tail: (),}
+\NormalTok{) = \{ ... \}}
+\end{Highlighting}
+\end{Shaded}
+
+\textbf{Arguments:}
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ fill\ } : {[} \texttt{\ color\ } {]} â€'' The fill color for
+  the arrow.
+\item
+  \texttt{\ stroke\ } : {[} \texttt{\ stroke\ } {]} â€'' The stroke for
+  the arrow.
+\item
+  \texttt{\ start\ } : {[} \texttt{\ point\ } {]} â€'' The starting
+  point of the arrow.
+\item
+  \texttt{\ end\ } : {[} \texttt{\ point\ } {]} â€'' The ending point of
+  the arrow.
+\item
+  \texttt{\ thickness\ } : {[} \texttt{\ length\ } {]} â€'' The
+  thickness of the arrow.
+\item
+  \texttt{\ arrow-width\ } : {[} \texttt{\ int\ } or \texttt{\ float\ }
+  {]} â€'' The width of the arrowhead relative to thickness.
+\item
+  \texttt{\ arrow-height\ } : {[} \texttt{\ int\ } or \texttt{\ float\ }
+  {]} â€'' The height of the arrowhead relative to thickness.
+\item
+  \texttt{\ inset\ } : {[} \texttt{\ int\ } or \texttt{\ float\ } {]}
+  â€'' The inset value for the arrowhead relative to thickness.
+\item
+  \texttt{\ tail\ } : {[} \texttt{\ array\ } {]} â€'' The tail settings
+  for the arrow.
+\end{itemize}
+
+\subsubsection{\texorpdfstring{\texttt{\ double-arrow\ }}{ double-arrow }}\label{double-arrow}
+
+Draw a double arrow on the page with optional settings, implemented by
+\href{https://typst.app/docs/reference/visualize/polygon/}{\texttt{\ polygon\ }}
+.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let double{-}arrow(}
+\NormalTok{  fill: black,}
+\NormalTok{  stroke: 0pt,}
+\NormalTok{  start: (0pt, 0pt),}
+\NormalTok{  end: (30pt, 0pt),}
+\NormalTok{  thickness: 2pt,}
+\NormalTok{  arrow{-}width: 4,}
+\NormalTok{  arrow{-}height: 4,}
+\NormalTok{  inset: 0.5,}
+\NormalTok{  tail: (),}
+\NormalTok{) = \{ ... \}}
+\end{Highlighting}
+\end{Shaded}
+
+\textbf{Arguments:}
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ fill\ } : {[} \texttt{\ color\ } {]} â€'' The fill color for
+  the arrow.
+\item
+  \texttt{\ stroke\ } : {[} \texttt{\ stroke\ } {]} â€'' The stroke for
+  the arrow.
+\item
+  \texttt{\ start\ } : {[} \texttt{\ point\ } {]} â€'' The starting
+  point of the arrow.
+\item
+  \texttt{\ end\ } : {[} \texttt{\ point\ } {]} â€'' The ending point of
+  the arrow.
+\item
+  \texttt{\ thickness\ } : {[} \texttt{\ length\ } {]} â€'' The
+  thickness of the arrow.
+\item
+  \texttt{\ arrow-width\ } : {[} \texttt{\ int\ } or \texttt{\ float\ }
+  {]} â€'' The width of the arrowhead relative to thickness.
+\item
+  \texttt{\ arrow-height\ } : {[} \texttt{\ int\ } or \texttt{\ float\ }
+  {]} â€'' The height of the arrowhead relative to thickness.
+\item
+  \texttt{\ inset\ } : {[} \texttt{\ int\ } or \texttt{\ float\ } {]}
+  â€'' The inset value for the arrowhead relative to thickness.
+\item
+  \texttt{\ tail\ } : {[} \texttt{\ array\ } {]} â€'' The tail settings
+  for the arrow.
+\end{itemize}
+
+\subsubsection{\texorpdfstring{\texttt{\ pinit-fletcher-edge\ }}{ pinit-fletcher-edge }}\label{pinit-fletcher-edge}
+
+Draw a connecting line or arc in an fletcher arrow diagram.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let pinit{-}fletcher{-}edge(}
+\NormalTok{  fletcher,}
+\NormalTok{  start,}
+\NormalTok{  end: none,}
+\NormalTok{  start{-}dx: 0pt,}
+\NormalTok{  start{-}dy: 0pt,}
+\NormalTok{  end{-}dx: 0pt,}
+\NormalTok{  end{-}dy: 0pt,}
+\NormalTok{  width{-}scale: 100\%,}
+\NormalTok{  height{-}scale: 100\%,}
+\NormalTok{  default{-}width: 30pt,}
+\NormalTok{  default{-}height: 30pt,}
+\NormalTok{    ..args,}
+\NormalTok{) = \{ ... \}}
+\end{Highlighting}
+\end{Shaded}
+
+\textbf{Arguments:}
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ fletcher\ } (module): The Fletcher module. You can import it
+  with something like \texttt{\ \#import\ "@preview/fletcher:0.5.1"\ }
+\item
+  \texttt{\ start\ } (pin): The starting pin of the edge. It is assumed
+  that the pin is at the \emph{origin point (0, 0)} of the edge.
+\item
+  \texttt{\ end\ } (pin): The ending pin of the edge. If not provided,
+  the edge will use default values for the width and height.
+\item
+  \texttt{\ start-dx\ } (length): The x-offset of the starting pin. You
+  should use pt units.
+\item
+  \texttt{\ start-dy\ } (length): The y-offset of the starting pin. You
+  should use pt units.
+\item
+  \texttt{\ end-dx\ } (length): The x-offset of the ending pin. You
+  should use pt units.
+\item
+  \texttt{\ end-dy\ } (length): The y-offset of the ending pin. You
+  should use pt units.
+\item
+  \texttt{\ width-scale\ } (percent): The width scale of the edge. The
+  default value is 100\%. If you set the width scale to 50\%, the width
+  of the edge will be half of the default width. Then you can use
+  \texttt{\ "r,r"\ } which is equivalent to single \texttt{\ "r"\ } .
+\item
+  \texttt{\ height-scale\ } (percent): The height scale of the edge. The
+  default value is 100\%.
+\item
+  \texttt{\ default-width\ } (length): The default width of the edge.
+  The default value is 30pt, which will only be used if the end pin is
+  not provided or the width is 0pt or 0em.
+\item
+  \texttt{\ default-height\ } (length): The default height of the edge.
+  The default value is 30pt, which will only be used if the end pin is
+  not provided or the height is 0pt or 0em.
+\item
+  \texttt{\ ..args\ } (any): An edgeâ€™s positional arguments may
+  specify:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    the edgeâ€™s \#param{[}edge{]}{[}vertices{]}, each specified with a
+    CeTZ-style coordinate
+  \item
+    the \#param{[}edge{]}{[}label{]} content
+  \item
+    arrow \#param{[}edge{]}{[}marks{]}, like
+    \texttt{\ "=\textgreater{}"\ } or
+    \texttt{\ "\textless{}\textless{}-\textbar{}-o"\ }
+  \item
+    other style flags, like \texttt{\ "double"\ } or \texttt{\ "wave"\ }
+  \end{itemize}
+\end{itemize}
+
+\subsection{Changelog}\label{changelog}
+
+\subsubsection{0.2.2}\label{section}
+
+\begin{itemize}
+\tightlist
+\item
+  Fix bugs.
+\end{itemize}
+
+\subsubsection{0.2.1}\label{section-1}
+
+\begin{itemize}
+\tightlist
+\item
+  To be compatible with Typst 0.12.
+\end{itemize}
+
+\subsubsection{0.2.0}\label{section-2}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Breaking changes} : \texttt{\ \#pinit(pins,\ func)\ } is
+  replaced by \texttt{\ \#pinit(callback:\ none,\ ..pins)\ } and the
+  callback argument will receive an
+  \texttt{\ (..positions)\ =\textgreater{}\ \{\ ..\ \}\ } function
+  instead of a \texttt{\ (positions)\ =\textgreater{}\ \{\ ..\ \}\ }
+  function.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \textbf{Migration} : you need to use a named argument
+    \texttt{\ callback:\ (..positions)\ =\textgreater{}\ \{\ ..\ \}\ }
+    to specify the callback function.
+  \item
+    \textbf{Migration} : you cannot use a array as a pin name. Now
+    \texttt{\ \#pinit((pin1,\ pin2),\ callback:\ func)\ } means that we
+    use \texttt{\ pin1\ } and \texttt{\ pin2\ } as a group of pins, and
+    the callback function will receive \textbf{a single position} (the
+    center of the bounding box of \texttt{\ pin1\ } and
+    \texttt{\ pin2\ } ).
+  \item
+    \textbf{Benefit} : you can use
+    \texttt{\ \#pinit(pin1,\ pin2,\ callback:\ func)\ } to query the
+    positions of \texttt{\ pin1\ } and \texttt{\ pin2\ } separately, and
+    \texttt{\ \#pinit((pin1,\ pin2),\ callback:\ func)\ } to query the
+    position of the center of the bounding box of \texttt{\ pin1\ } and
+    \texttt{\ pin2\ } .
+  \end{itemize}
+\item
+  Add \texttt{\ pinit-fletcher-edge\ } function to draw a connecting
+  line or arc in an fletcher arrow diagram.
+\item
+  Add \texttt{\ double-arrow\ } function and
+  \texttt{\ pinit-double-arrow\ } function.
+\item
+  Add \texttt{\ double\ } argument for \texttt{\ pinit-point-to\ } and
+  \texttt{\ pinit-point-from\ } functions.
+\item
+  Better comments and documentation.
+\end{itemize}
+
+\subsubsection{0.1.4}\label{section-3}
+
+\begin{itemize}
+\tightlist
+\item
+  Update documentation.
+\end{itemize}
+
+\subsubsection{0.1.3}\label{section-4}
+
+\begin{itemize}
+\tightlist
+\item
+  Add \texttt{\ pinit-line-to\ } function.
+\end{itemize}
+
+\subsubsection{0.1.2}\label{section-5}
+
+\begin{itemize}
+\tightlist
+\item
+  Add em unit support for \texttt{\ simple-arrow\ } .
+\end{itemize}
+
+\subsubsection{0.1.1}\label{section-6}
+
+\begin{itemize}
+\tightlist
+\item
+  Fix some bugs.
+\end{itemize}
+
+\subsubsection{0.1.0}\label{section-7}
+
+\begin{itemize}
+\tightlist
+\item
+  Initial release.
+\end{itemize}
+
+\subsection{Acknowledgements}\label{acknowledgements}
+
+\begin{itemize}
+\tightlist
+\item
+  Some of the inspirations and codes comes from
+  \href{https://github.com/ntjess/typst-drafting}{typst-drafting} .
+\item
+  The concise and aesthetic example slide style come from course
+  \emph{Data Structures and Algorithms} of
+  \href{https://chaodong.me/}{Chaodong ZHENG} .
+\item
+  Thank \href{https://github.com/psads-git}{PaulS} for double arrow
+  feature.
+\item
+  Thank \href{https://github.com/Jollywatt}{Jollywatt} for fletcher
+  package.
+\end{itemize}
+
+\subsection{License}\label{license}
+
+This project is licensed under the MIT License.
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as \texttt{\ pinit\ }
+
+\begin{verbatim}
+#import "@preview/pinit:0.2.2"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+OrangeX4
+\item[License:]
+MIT
+\item[Current version:]
+0.2.2
+\item[Last updated:]
+October 17, 2024
+\item[First released:]
+November 7, 2023
+\item[Archive size:]
+14.0 kB
+\href{https://packages.typst.org/preview/pinit-0.2.2.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/OrangeX4/typst-pinit}{GitHub}
+\item[Categor ies :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-layout.svg}}
+  \href{https://typst.app/universe/search/?category=layout}{Layout}
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-hammer.svg}}
+  \href{https://typst.app/universe/search/?category=utility}{Utility}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of OrangeX4 . Report issues on
+\href{https://github.com/OrangeX4/typst-pinit}{their repository} . You
+can also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.2.2 & October 17, 2024 \\
+\href{https://typst.app/universe/package/pinit/0.2.1/}{0.2.1} & October
+16, 2024 \\
+\href{https://typst.app/universe/package/pinit/0.2.0/}{0.2.0} & August
+26, 2024 \\
+\href{https://typst.app/universe/package/pinit/0.1.4/}{0.1.4} & April
+12, 2024 \\
+\href{https://typst.app/universe/package/pinit/0.1.3/}{0.1.3} & December
+23, 2023 \\
+\href{https://typst.app/universe/package/pinit/0.1.2/}{0.1.2} & November
+29, 2023 \\
+\href{https://typst.app/universe/package/pinit/0.1.1/}{0.1.1} & November
+7, 2023 \\
+\href{https://typst.app/universe/package/pinit/0.1.0/}{0.1.0} & November
+7, 2023 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.

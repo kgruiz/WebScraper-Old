@@ -1,0 +1,542 @@
+<main>
+    <div id="banner" style="--banner-accent:#000000;--banner-primary:#000000;--banner-secondary:#000000;--banner-tertiary:#565565;--banner-background:#eff0f3">
+     <div class="package-icon" role="img">
+     </div>
+     <div>
+      <div class="title">
+       <h1 class="name">
+        oasis-align
+       </h1>
+       <span class="version">
+        0.1.0
+       </span>
+      </div>
+      <p class="description">
+       Cleanly place content side by side with equal heights using automatic content sizing.
+      </p>
+     </div>
+    </div>
+    <div class="inner-grid">
+     <section id="readme">
+      <p>
+       <code>
+        oasis-align
+       </code>
+       is a package that automatically sizes your content so that their heights are equal, allowing you to cleanly place content side by side.
+      </p>
+      <p>
+       To use
+       <code>
+        oasis-align
+       </code>
+       in your document, start by importing the package like this:
+      </p>
+      <pre><code class="language-typst"><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/oasis-align:0.1.0"</span><span class="typ-punct">:</span> <span class="typ-op">*</span>
+</code></code></pre>
+      <p>
+       This will give you access to the two functions found under
+       <a href="https://github.com/typst/packages/raw/main/packages/preview/oasis-align/0.1.0/#configuration" rel="nofollow ugc" target="_blank">
+        configurations
+       </a>
+       .
+      </p>
+      <h2>
+       Image with Text
+      </h2>
+      <p>
+       <img alt="Animation of image being aligned with text" src="https://github.com/typst/packages/raw/main/packages/preview/oasis-align/0.1.0/examples/image-with-text.gif"/>
+      </p>
+      <h2>
+       Image with Image
+      </h2>
+      <p>
+       <img alt="Animation of image being aligned with another image" src="https://github.com/typst/packages/raw/main/packages/preview/oasis-align/0.1.0/examples/image-with-image.gif"/>
+      </p>
+      <h2>
+       Text with Text
+      </h2>
+      <p>
+       <img alt="Animation of text being aligned with differently sized text" src="https://github.com/typst/packages/raw/main/packages/preview/oasis-align/0.1.0/examples/text-with-text.gif"/>
+      </p>
+      <p>
+       There are two functions associated with this package. The first is specifically targeted at
+       <a href="https://github.com/typst/packages/raw/main/packages/preview/oasis-align/0.1.0/#oasis-align-images" rel="nofollow ugc" target="_blank">
+        aligning images
+       </a>
+       , and the second is targeted at
+       <a href="https://github.com/typst/packages/raw/main/packages/preview/oasis-align/0.1.0/#oasis-align-1" rel="nofollow ugc" target="_blank">
+        content in general
+       </a>
+       .
+      </p>
+      <blockquote>
+       <p>
+        [!important] To change the size of the gutter in both functions, use
+        <code>
+         #set grid(column-gutter: length)
+        </code>
+        . This is necessary to allow for fixed rules that arenât possible with user-defined functions.
+       </p>
+      </blockquote>
+      <h2>
+       <code>
+        oasis-align-images
+       </code>
+      </h2>
+      <p>
+       Use this function to align two images.
+      </p>
+      <pre><code class="language-typst"><code><span class="typ-func">#</span><span class="typ-func">oasis-align-images</span><span class="typ-punct">(</span>
+    <span class="typ-str">"path/to/image1"</span><span class="typ-punct">,</span>
+    <span class="typ-str">"path/to/image2"</span>
+<span class="typ-punct">)</span>
+</code></code></pre>
+      <blockquote>
+       <p>
+        [!tip] Whenever aligning
+        <strong>
+         only
+        </strong>
+        images, itâs best to use this function instead of the default
+        <code>
+         oasis-align
+        </code>
+        .
+        <em>
+         To learn more about why, check out
+         <a href="https://github.com/typst/packages/raw/main/packages/preview/oasis-align/0.1.0/#how-it-works" rel="nofollow ugc" target="_blank">
+          how it works
+         </a>
+         .
+        </em>
+       </p>
+      </blockquote>
+      <h2>
+       <code>
+        oasis-align
+       </code>
+      </h2>
+      <p>
+       Use this function to align content like text with other content like images or figures.
+      </p>
+      <blockquote>
+       <p>
+        [!tip] The parameters with defined values are the defaults and do not need to be included unless desired.
+       </p>
+      </blockquote>
+      <pre><code class="language-typst"><code><span class="typ-func">#</span><span class="typ-func">oasis-align</span><span class="typ-punct">(</span>
+  int-frac<span class="typ-punct">:</span> <span class="typ-num">0.5</span><span class="typ-punct">,</span>        <span class="typ-comment">// decimal between 0 and 1</span>
+  tolerance<span class="typ-punct">:</span> <span class="typ-num">0.001pt</span><span class="typ-punct">,</span>   <span class="typ-comment">// length</span>
+  max-iterations<span class="typ-punct">:</span> <span class="typ-num">50</span><span class="typ-punct">,</span>   <span class="typ-comment">// integer greater than 0</span>
+  int-dir<span class="typ-punct">:</span> <span class="typ-num">1</span><span class="typ-punct">,</span>           <span class="typ-comment">// 1 or -1</span>
+  debug<span class="typ-punct">:</span> <span class="typ-key">false</span>          <span class="typ-comment">// boolean</span>
+  item1<span class="typ-punct">,</span>                <span class="typ-comment">// content</span>
+  item2<span class="typ-punct">,</span>                <span class="typ-comment">// content</span>
+<span class="typ-punct">)</span>
+</code></code></pre>
+      <h3>
+       <code>
+        int-frac
+       </code>
+      </h3>
+      <p>
+       The starting point of the search process. Changing this value may reduce the total number of iterations of the function or find an
+       <a href="https://github.com/typst/packages/raw/main/packages/preview/oasis-align/0.1.0/#oasis-align-2" rel="nofollow ugc" target="_blank">
+        alternate solution
+       </a>
+       .
+      </p>
+      <h3>
+       <code>
+        tolerance
+       </code>
+      </h3>
+      <p>
+       The allowable difference in heights between
+       <code>
+        item1
+       </code>
+       and
+       <code>
+        item2
+       </code>
+       . The function will run until it has reached either this
+       <code>
+        tolerance
+       </code>
+       or
+       <code>
+        max-iterations
+       </code>
+       . Making
+       <code>
+        tolerance
+       </code>
+       larger may reduce the total number of iterations but result in a larger height difference between pieces of content.
+      </p>
+      <blockquote>
+       <p>
+        [!note] Two pieces of content may not always be able to achieve the desired
+        <code>
+         tolerance
+        </code>
+        . In that case, the function sizes the content to the iteration that had the least difference in height.
+        <em>
+         Check out
+         <a href="https://github.com/typst/packages/raw/main/packages/preview/oasis-align/0.1.0/#oasis-align-2" rel="nofollow ugc" target="_blank">
+          how it works
+         </a>
+         to understand why the function may not be able achieve the desired
+         <code>
+          tolerance
+         </code>
+         .
+        </em>
+       </p>
+      </blockquote>
+      <h3>
+       <code>
+        max-iterations
+       </code>
+      </h3>
+      <p>
+       The maximum number of iterations the function is allowed to attempt before terminating. Increasing this number may allow you to achieve a smaller
+       <code>
+        tolerance
+       </code>
+       .
+      </p>
+      <h3>
+       <code>
+        int-dir
+       </code>
+      </h3>
+      <p>
+       The initial direction that the dividing fraction is moved. Changing this value will change the initial direction.
+      </p>
+      <blockquote>
+       <p>
+        [!note] The program is hardcoded to switch directions if a solution is not found in the initial direction. This parameter mainly serves to let you easily choose between
+        <a href="https://github.com/typst/packages/raw/main/packages/preview/oasis-align/0.1.0/#oasis-align-2" rel="nofollow ugc" target="_blank">
+         multiple solutions
+        </a>
+        .
+       </p>
+      </blockquote>
+      <h3>
+       <code>
+        debug
+       </code>
+      </h3>
+      <p>
+       A toggle that lets you look inside the function to see what is happening. This is useful if you would like to understand why certain content may be incompatible and which of the parameters above could be changed to resolve the issue.
+      </p>
+      <h2>
+       <code>
+        oasis-align-images
+       </code>
+      </h2>
+      <p>
+       The function begins by determining the width and height of the selected images. These values can then be used to solve a set of linear equations, the first of which states that the sum of the widths of the images (plus the gutter) should be equal to the available horizontal space, and the second which states that their heights should be equal.
+      </p>
+      <p>
+       If $w_1$ and $h_1$ are the width and height of
+       <code>
+        image1
+       </code>
+       and $w_2$ and $h_2$ are the width and height of
+       <code>
+        image2
+       </code>
+       , then the final width $w_1â$ of
+       <code>
+        image1
+       </code>
+       and the final width $w_2â$ of
+       <code>
+        image2
+       </code>
+       are
+      </p>
+      <p>
+       $$w_1â = \left(\frac{h_1 w_2}{w_1 h_2} + 1 \right)^{-1} \qquad w_2â = \left(\frac{w_1 h_2}{h_1 w_2} + 1 \right)^{-1}$$
+      </p>
+      <h2>
+       <code>
+        oasis-align
+       </code>
+      </h2>
+      <p>
+       Originally designed to allow for an image to be placed side-by-side with text, this function takes an iterative approach to aligning the content. When changing the width of a block of text, the height does not scale linearly, but instead behaves as a step function that follows an exponential trend (the graph below has a simplified visualization of this). This prevents the use of an analytical methodology similar to the one used in
+       <code>
+        oasis-align-images
+       </code>
+       , and thus must be solved using an iterative approach.
+      </p>
+      <p>
+       The function starts by taking the available space and then splitting it using the
+       <code>
+        int-frac
+       </code>
+       . The content is then placed in a block with the width as determined using the split from
+       <code>
+        int-frac
+       </code>
+       before measuring its height. Based on the
+       <code>
+        int-dir
+       </code>
+       , the split will be moved left or right using the bisection method until a solution within the
+       <code>
+        tolerance
+       </code>
+       has been found. In the case that a solution within the
+       <code>
+        tolerance
+       </code>
+       is not found with the
+       <code>
+        max-iterations
+       </code>
+       , the program terminates and uses the container width fraction that had the smallest difference in height.
+      </p>
+      <p>
+       <img alt="Series of graphs visualizing the block width versus height of content" src="https://github.com/typst/packages/raw/main/packages/preview/oasis-align/0.1.0/examples/graph-visualization.svg"/>
+      </p>
+      <h3>
+       Multiple Solutions (1st Graph)
+      </h3>
+      <p>
+       Depending on the type of content, the function may find multiple solutions. The parameters
+       <code>
+        int-dir
+       </code>
+       and
+       <code>
+        int-frac
+       </code>
+       will allow you to choose between them by changing the direction in which it iterates and changing the starting container width fraction respectively.
+      </p>
+      <h3>
+       No Solutions (2nd Graph)
+      </h3>
+      <p>
+       There are cases in which the text size is incompatible with an image. This can be because there is not enough or too much text, and regardless of how the content is resized, their heights do not match.
+      </p>
+      <h3>
+       Tolerance Not Reached (3rd Graph)
+      </h3>
+      <p>
+       In the case of having texts of different sizes (as seen in
+       <a href="https://github.com/typst/packages/raw/main/packages/preview/oasis-align/0.1.0/#text-with-text" rel="nofollow ugc" target="_blank">
+        the examples
+       </a>
+       ), the spacing between lines prevents the function from finding a solution that meets the
+       <code>
+        tolerance
+       </code>
+       , and thus the closest solution is used.
+      </p>
+      <p>
+       If you end up using this package, please feel free to share how you used it under âDiscussionsâ on the
+       <a href="https://github.com/jdpieck/oasis-align" rel="nofollow ugc" target="_blank">
+        GitHub Repository
+       </a>
+       or on Discord with
+       <code>
+        @jdpieck
+       </code>
+       .
+      </p>
+     </section>
+     <aside>
+      <section>
+       <h3>
+        How to add
+       </h3>
+       <p>
+        Copy this into your project and use the import as
+        <!-- -->
+        <code>
+         oasis-align
+        </code>
+       </p>
+       <div class="import-snippet">
+        <pre><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/oasis-align:0.1.0"</span></code></pre>
+        <button class="copy" title="Copy to clipboard">
+         <img alt="Copy" height="16" src="/assets/icons/16-copy.svg" width="16"/>
+        </button>
+       </div>
+       <p class="muted">
+        Check the docs for
+        <!-- -->
+        <a href="https://typst.app/docs/reference/scripting/#packages">
+         more information on how to import packages
+        </a>
+        .
+       </p>
+      </section>
+      <section id="about">
+       <h3>
+        About
+       </h3>
+       <dl>
+        <dt>
+         Author
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         @jdpieck
+        </dd>
+        <dt>
+         License:
+        </dt>
+        <dd>
+         MIT
+        </dd>
+        <dt>
+         Current version:
+        </dt>
+        <dd>
+         0.1.0
+        </dd>
+        <dt>
+         Last updated:
+        </dt>
+        <dd>
+         September 2, 2024
+        </dd>
+        <dt>
+         First released:
+        </dt>
+        <dd>
+         September 2, 2024
+        </dd>
+        <dt>
+         Archive size:
+        </dt>
+        <dd class="archive-size-value">
+         4.96 kB
+         <a href="https://packages.typst.org/preview/oasis-align-0.1.0.tar.gz">
+          <img alt="Size icon" src="/assets/icons/16-download.svg"/>
+         </a>
+        </dd>
+        <dt>
+         Repository:
+        </dt>
+        <dd>
+         <a href="https://github.com/jdpieck/oasis-align" rel="noopener noreferrer" target="_blank">
+          GitHub
+         </a>
+        </dd>
+        <dt>
+         Categor
+         <!-- -->
+         y
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         <ul class="list-with-icons">
+          <li>
+           <img alt="Layout icon" src="/assets/icons/16-layout.svg"/>
+           <a href="https://typst.app/universe/search/?category=layout">
+            Layout
+           </a>
+          </li>
+         </ul>
+        </dd>
+       </dl>
+      </section>
+      <section>
+       <h3>
+        Where to report issues?
+       </h3>
+       <p>
+        This
+        <!-- -->
+        package
+        <!-- -->
+        is a project of
+        <!-- -->
+        <!-- -->
+        @jdpieck
+        <!-- -->
+        .
+        <!-- -->
+        <!-- -->
+        Report issues on
+        <!-- -->
+        <a href="https://github.com/jdpieck/oasis-align" rel="noopener noreferrer" target="_blank">
+         their repository
+        </a>
+        .
+        <!-- -->
+        <!-- -->
+        You can also try to ask for help with this
+        <!-- -->
+        package
+        <!-- -->
+        on the
+        <!-- -->
+        <a href="https://forum.typst.app" rel="noopener" target="_blank">
+         Forum
+        </a>
+        .
+       </p>
+       <p>
+        Please report this
+        <!-- -->
+        package
+        <!-- -->
+        to the Typst team using the
+        <!-- -->
+        <a href="https://typst.app/contact" rel="noreferrer" target="_blank">
+         contact form
+        </a>
+        <!-- -->
+        if you believe it is a safety hazard or infringes upon your rights.
+       </p>
+      </section>
+      <section id="versions">
+       <h3>
+        Version history
+       </h3>
+       <table>
+        <thead>
+         <tr>
+          <th align="left">
+           Version
+          </th>
+          <th align="left">
+           Release Date
+          </th>
+         </tr>
+        </thead>
+        <tbody>
+         <tr>
+          <td align="left">
+           0.1.0
+          </td>
+          <td align="left">
+           September 2, 2024
+          </td>
+         </tr>
+        </tbody>
+       </table>
+      </section>
+      <p class="bottom-notice muted">
+       Typst GmbH did not create this
+       <!-- -->
+       package
+       <!-- -->
+       and cannot guarantee correct functionality of this
+       <!-- -->
+       package
+       <!-- -->
+       or compatibility with any version of the Typst compiler or app.
+      </p>
+     </aside>
+    </div>
+   </main>

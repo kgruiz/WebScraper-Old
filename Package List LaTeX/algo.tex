@@ -1,0 +1,535 @@
+\title{typst.app/universe/package/algo}
+
+\phantomsection\label{banner}
+\section{algo}\label{algo}
+
+{ 0.3.4 }
+
+Beautifully typeset algorithms.
+
+\phantomsection\label{readme}
+A Typst library for writing algorithms. On Typst v0.6.0+ you can import
+the \texttt{\ algo\ } package:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/algo:0.3.4": algo, i, d, comment, code}
+\end{Highlighting}
+\end{Shaded}
+
+Otherwise, add the \texttt{\ algo.typ\ } file to your project and import
+it as normal:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "algo.typ": algo, i, d, comment, code}
+\end{Highlighting}
+\end{Shaded}
+
+Use the \texttt{\ algo\ } function for writing pseudocode and the
+\texttt{\ code\ } function for writing code blocks with line numbers.
+Check out the
+\href{https://github.com/typst/packages/raw/main/packages/preview/algo/0.3.4/\#examples}{examples}
+below for a quick overview. See the
+\href{https://github.com/typst/packages/raw/main/packages/preview/algo/0.3.4/\#usage}{usage}
+section to read about all the options each function has.
+
+\subsection{Examples}\label{examples}
+
+Hereâ€™s a basic use of \texttt{\ algo\ } :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#algo(}
+\NormalTok{  title: "Fib",}
+\NormalTok{  parameters: ("n",)}
+\NormalTok{)[}
+\NormalTok{  if $n \textless{} 0$:\#i\textbackslash{}        // use \#i to indent the following lines}
+\NormalTok{    return null\#d\textbackslash{}      // use \#d to dedent the following lines}
+\NormalTok{  if $n = 0$ or $n = 1$:\#i \#comment[you can also]\textbackslash{}}
+\NormalTok{    return $n$\#d \#comment[add comments!]\textbackslash{}}
+\NormalTok{  return \#smallcaps("Fib")$(n{-}1) +$ \#smallcaps("Fib")$(n{-}2)$}
+\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics[width=4.16667in,height=\textheight,keepaspectratio]{https://user-images.githubusercontent.com/40146328/235323240-e59ed7e2-ebb6-4b80-8742-eb171dd3721e.png}\\
+
+Hereâ€™s a use of \texttt{\ algo\ } without a title, parameters, line
+numbers, or syntax highlighting:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#algo(}
+\NormalTok{  line{-}numbers: false,}
+\NormalTok{  strong{-}keywords: false}
+\NormalTok{)[}
+\NormalTok{  if $n \textless{} 0$:\#i\textbackslash{}}
+\NormalTok{    return null\#d\textbackslash{}}
+\NormalTok{  if $n = 0$ or $n = 1$:\#i\textbackslash{}}
+\NormalTok{    return $n$\#d\textbackslash{}}
+\NormalTok{  \textbackslash{}}
+\NormalTok{  let $x \textless{}{-} 0$\textbackslash{}}
+\NormalTok{  let $y \textless{}{-} 1$\textbackslash{}}
+\NormalTok{  for $i \textless{}{-} 2$ to $n{-}1$:\#i \#comment[so dynamic!]\textbackslash{}}
+\NormalTok{    let $z \textless{}{-} x+y$\textbackslash{}}
+\NormalTok{    $x \textless{}{-} y$\textbackslash{}}
+\NormalTok{    $y \textless{}{-} z$\#d\textbackslash{}}
+\NormalTok{    \textbackslash{}}
+\NormalTok{  return $x+y$}
+\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics[width=3.125in,height=\textheight,keepaspectratio]{https://user-images.githubusercontent.com/40146328/235323261-d6e7a42c-ffb7-4c3a-bd2a-4c8fc2df5f36.png}\\
+
+And hereâ€™s \texttt{\ algo\ } with more styling options:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#algo(}
+\NormalTok{  title: [                    // note that title and parameters}
+\NormalTok{    \#set text(size: 15pt)     // can be content}
+\NormalTok{    \#emph(smallcaps("Fib"))}
+\NormalTok{  ],}
+\NormalTok{  parameters: ([\#math.italic("n")],),}
+\NormalTok{  comment{-}prefix: [\#sym.triangle.stroked.r ],}
+\NormalTok{  comment{-}styles: (fill: rgb(100\%, 0\%, 0\%)),}
+\NormalTok{  indent{-}size: 15pt,}
+\NormalTok{  indent{-}guides: 1pt + gray,}
+\NormalTok{  row{-}gutter: 5pt,}
+\NormalTok{  column{-}gutter: 5pt,}
+\NormalTok{  inset: 5pt,}
+\NormalTok{  stroke: 2pt + black,}
+\NormalTok{  fill: none,}
+\NormalTok{)[}
+\NormalTok{  if $n \textless{} 0$:\#i\textbackslash{}}
+\NormalTok{    return null\#d\textbackslash{}}
+\NormalTok{  if $n = 0$ or $n = 1$:\#i\textbackslash{}}
+\NormalTok{    return $n$\#d\textbackslash{}}
+\NormalTok{  \textbackslash{}}
+\NormalTok{  let $x \textless{}{-} 0$\textbackslash{}}
+\NormalTok{  let $y \textless{}{-} 1$\textbackslash{}}
+\NormalTok{  for $i \textless{}{-} 2$ to $n{-}1$:\#i \#comment[so dynamic!]\textbackslash{}}
+\NormalTok{    let $z \textless{}{-} x+y$\textbackslash{}}
+\NormalTok{    $x \textless{}{-} y$\textbackslash{}}
+\NormalTok{    $y \textless{}{-} z$\#d\textbackslash{}}
+\NormalTok{    \textbackslash{}}
+\NormalTok{  return $x+y$}
+\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics[width=3.125in,height=\textheight,keepaspectratio]{https://github.com/platformer/typst-algorithms/assets/40146328/89f80b5d-bdb2-420a-935d-24f43ca597d8}
+
+Hereâ€™s a basic use of \texttt{\ code\ } :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#code()[}
+\NormalTok{  \textasciigrave{}\textasciigrave{}\textasciigrave{}py}
+\NormalTok{  def fib(n):}
+\NormalTok{    if n \textless{} 0:}
+\NormalTok{      return None}
+\NormalTok{    if n == 0 or n == 1:        \# this comment is}
+\NormalTok{      return n                  \# normal raw text}
+\NormalTok{    return fib(n{-}1) + fib(n{-}2)}
+\NormalTok{  \textasciigrave{}\textasciigrave{}\textasciigrave{}}
+\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics[width=4.16667in,height=\textheight,keepaspectratio]{https://user-images.githubusercontent.com/40146328/235324088-a3596e0b-af90-4da3-b326-2de11158baac.png}\\
+
+And hereâ€™s \texttt{\ code\ } with some styling options:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#code(}
+\NormalTok{  indent{-}guides: 1pt + gray,}
+\NormalTok{  row{-}gutter: 5pt,}
+\NormalTok{  column{-}gutter: 5pt,}
+\NormalTok{  inset: 5pt,}
+\NormalTok{  stroke: 2pt + black,}
+\NormalTok{  fill: none,}
+\NormalTok{)[}
+\NormalTok{  \textasciigrave{}\textasciigrave{}\textasciigrave{}py}
+\NormalTok{  def fib(n):}
+\NormalTok{      if n \textless{} 0:}
+\NormalTok{          return None}
+\NormalTok{      if n == 0 or n == 1:        \# this comment is}
+\NormalTok{          return n                \# normal raw text}
+\NormalTok{      return fib(n{-}1) + fib(n{-}2)}
+\NormalTok{  \textasciigrave{}\textasciigrave{}\textasciigrave{}}
+\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics[width=4.16667in,height=\textheight,keepaspectratio]{https://github.com/platformer/typst-algorithms/assets/40146328/c091ac43-6861-40bc-8046-03ea285712c3}
+
+\subsection{Usage}\label{usage}
+
+\subsubsection{\texorpdfstring{\texttt{\ algo\ }}{ algo }}\label{algo-1}
+
+Makes a pseudocode element.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{algo(}
+\NormalTok{  body,}
+\NormalTok{  header: none,}
+\NormalTok{  title: none,}
+\NormalTok{  parameters: (),}
+\NormalTok{  line{-}numbers: true,}
+\NormalTok{  strong{-}keywords: true,}
+\NormalTok{  keywords: \_algo{-}default{-}keywords, // see below}
+\NormalTok{  comment{-}prefix: "// ",}
+\NormalTok{  indent{-}size: 20pt,}
+\NormalTok{  indent{-}guides: none,}
+\NormalTok{  indent{-}guides{-}offset: 0pt,}
+\NormalTok{  row{-}gutter: 10pt,}
+\NormalTok{  column{-}gutter: 10pt,}
+\NormalTok{  inset: 10pt,}
+\NormalTok{  fill: rgb(98\%, 98\%, 98\%),}
+\NormalTok{  stroke: 1pt + rgb(50\%, 50\%, 50\%),}
+\NormalTok{  radius: 0pt,}
+\NormalTok{  breakable: false,}
+\NormalTok{  block{-}align: center,}
+\NormalTok{  main{-}text{-}styles: (:),}
+\NormalTok{  comment{-}styles: (fill: rgb(45\%, 45\%, 45\%)),}
+\NormalTok{  line{-}number{-}styles: (:)}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\textbf{Parameters:}
+
+\begin{itemize}
+\item
+  \texttt{\ body\ } : \texttt{\ content\ } â€'' Main algorithm content.
+\item
+  \texttt{\ header\ } : \texttt{\ content\ } â€'' Algorithm header. If
+  specified, \texttt{\ title\ } and \texttt{\ parameters\ } are ignored.
+\item
+  \texttt{\ title\ } : \texttt{\ string\ } or \texttt{\ content\ } â€''
+  Algorithm title. Ignored if \texttt{\ header\ } is specified.
+\item
+  \texttt{\ Parameters\ } : \texttt{\ array\ } â€'' List of algorithm
+  parameters. Elements can be \texttt{\ string\ } or
+  \texttt{\ content\ } values. \texttt{\ string\ } values will
+  automatically be displayed in math mode. Ignored if
+  \texttt{\ header\ } is specified.
+\item
+  \texttt{\ line-numbers\ } : \texttt{\ boolean\ } â€'' Whether to
+  display line numbers.
+\item
+  \texttt{\ strong-keywords\ } : \texttt{\ boolean\ } â€'' Whether to
+  strongly emphasize keywords.
+\item
+  \texttt{\ keywords\ } : \texttt{\ array\ } â€'' List of terms to
+  receive strong emphasis. Elements must be \texttt{\ string\ } values.
+  Ignored if \texttt{\ strong-keywords\ } is \texttt{\ false\ } .
+
+  The default list of keywords is stored in
+  \texttt{\ \_algo-default-keywords\ } . This list contains the
+  following terms:
+
+\begin{verbatim}
+("if", "else", "then", "while", "for",
+"repeat", "do", "until", ":", "end",
+"and", "or", "not", "in", "to",
+"down", "let", "return", "goto")
+\end{verbatim}
+
+  Note that for each of the above terms,
+  \texttt{\ \_algo-default-keywords\ } also contains the uppercase form
+  of the term (e.g. â€œforâ€? and â€œForâ€?).
+\item
+  \texttt{\ comment-prefix\ } : \texttt{\ content\ } â€'' What to
+  prepend comments with.
+\item
+  \texttt{\ indent-size\ } : \texttt{\ length\ } â€'' Size of line
+  indentations.
+\item
+  \texttt{\ indent-guides\ } : \texttt{\ stroke\ } â€'' Stroke for
+  indent guides.
+\item
+  \texttt{\ indent-guides-offset\ } : \texttt{\ length\ } â€''
+  Horizontal offset of indent guides.
+\item
+  \texttt{\ row-gutter\ } : \texttt{\ length\ } â€'' Space between
+  lines.
+\item
+  \texttt{\ column-gutter\ } : \texttt{\ length\ } â€'' Space between
+  line numbers, text, and comments.
+\item
+  \texttt{\ inset\ } : \texttt{\ length\ } â€'' Size of inner padding.
+\item
+  \texttt{\ fill\ } : \texttt{\ color\ } â€'' Fill color.
+\item
+  \texttt{\ stroke\ } : \texttt{\ stroke\ } â€'' Stroke for the
+  elementâ€™s border.
+\item
+  \texttt{\ radius\ } : \texttt{\ length\ } â€'' Corner radius.
+\item
+  \texttt{\ breakable\ } : \texttt{\ boolean\ } â€'' Whether the element
+  can break across pages. WARNING: indent guides may look off when
+  broken across pages.
+\item
+  \texttt{\ block-align\ } : \texttt{\ none\ } or \texttt{\ alignment\ }
+  or \texttt{\ 2d\ alignment\ } â€'' Alignment of the \texttt{\ algo\ }
+  on the page. Using \texttt{\ none\ } will cause the internal
+  \texttt{\ block\ } element to be returned as-is.
+\item
+  \texttt{\ main-text-styles\ } : \texttt{\ dictionary\ } â€'' Styling
+  options for the main algorithm text. Supports all parameters in
+  Typstâ€™s native \texttt{\ text\ } function.
+\item
+  \texttt{\ comment-styles\ } : \texttt{\ dictionary\ } â€'' Styling
+  options for comment text. Supports all parameters in Typstâ€™s native
+  \texttt{\ text\ } function.
+\item
+  \texttt{\ line-number-styles\ } : \texttt{\ dictionary\ } â€'' Styling
+  options for line numbers. Supports all parameters in Typstâ€™s native
+  \texttt{\ text\ } function.
+\end{itemize}
+
+\subsubsection{\texorpdfstring{\texttt{\ i\ } and
+\texttt{\ d\ }}{ i  and  d }}\label{i-and-d}
+
+For use in an \texttt{\ algo\ } body. \texttt{\ \#i\ } indents all
+following lines and \texttt{\ \#d\ } dedents all following lines.
+
+\subsubsection{\texorpdfstring{\texttt{\ comment\ }}{ comment }}\label{comment}
+
+For use in an \texttt{\ algo\ } body. Adds a comment to the line in
+which itâ€™s placed.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{comment(}
+\NormalTok{  body,}
+\NormalTok{  inline: false}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\textbf{Parameters:}
+
+\begin{itemize}
+\item
+  \texttt{\ body\ } : \texttt{\ content\ } â€'' Comment content.
+\item
+  \texttt{\ inline\ } : \texttt{\ boolean\ } â€'' If true, the comment
+  is displayed in place rather than on the right side.
+
+  NOTE: inline comments will respect both \texttt{\ main-text-styles\ }
+  and \texttt{\ comment-styles\ } , preferring
+  \texttt{\ comment-styles\ } when the two conflict.
+
+  NOTE: to make inline comments insensitive to
+  \texttt{\ strong-keywords\ } , strong emphasis is disabled within
+  them. This can be circumvented via the \texttt{\ text\ } function:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#comment(inline: true)[\#text(weight: 700)[...]]}
+\end{Highlighting}
+\end{Shaded}
+\end{itemize}
+
+\subsubsection{\texorpdfstring{\texttt{\ no-emph\ }}{ no-emph }}\label{no-emph}
+
+For use in an \texttt{\ algo\ } body. Prevents the passed content from
+being strongly emphasized. If a word appears in your algorithm both as a
+keyword and as normal text, you may escape the non-keyword usages via
+this function.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{no{-}emph(}
+\NormalTok{  body}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\textbf{Parameters:}
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ body\ } : \texttt{\ content\ } â€'' Content to display
+  without emphasis.
+\end{itemize}
+
+\subsubsection{\texorpdfstring{\texttt{\ code\ }}{ code }}\label{code}
+
+Makes a code block element.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{code(}
+\NormalTok{  body,}
+\NormalTok{  line{-}numbers: true,}
+\NormalTok{  indent{-}guides: none,}
+\NormalTok{  indent{-}guides{-}offset: 0pt,}
+\NormalTok{  tab{-}size: auto,}
+\NormalTok{  row{-}gutter: 10pt,}
+\NormalTok{  column{-}gutter: 10pt,}
+\NormalTok{  inset: 10pt,}
+\NormalTok{  fill: rgb(98\%, 98\%, 98\%),}
+\NormalTok{  stroke: 1pt + rgb(50\%, 50\%, 50\%),}
+\NormalTok{  radius: 0pt,}
+\NormalTok{  breakable: false,}
+\NormalTok{  block{-}align: center,}
+\NormalTok{  main{-}text{-}styles: (:),}
+\NormalTok{  line{-}number{-}styles: (:)}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\textbf{Parameters:}
+
+\begin{itemize}
+\item
+  \texttt{\ body\ } : \texttt{\ content\ } â€'' Main content. Expects
+  \texttt{\ raw\ } text.
+\item
+  \texttt{\ line-numbers\ } : \texttt{\ boolean\ } â€'' Whether to
+  display line numbers.
+\item
+  \texttt{\ indent-guides\ } : \texttt{\ stroke\ } â€'' Stroke for
+  indent guides.
+\item
+  \texttt{\ indent-guides-offset\ } : \texttt{\ length\ } â€''
+  Horizontal offset of indent guides.
+\item
+  \texttt{\ tab-size\ } : \texttt{\ integer\ } â€'' Amount of spaces
+  that should be considered an indent. If unspecified, the tab size is
+  determined automatically from the first instance of starting
+  whitespace.
+\item
+  \texttt{\ row-gutter\ } : \texttt{\ length\ } â€'' Space between
+  lines.
+\item
+  \texttt{\ column-gutter\ } : \texttt{\ length\ } â€'' Space between
+  line numbers and text.
+\item
+  \texttt{\ inset\ } : \texttt{\ length\ } â€'' Size of inner padding.
+\item
+  \texttt{\ fill\ } : \texttt{\ color\ } â€'' Fill color.
+\item
+  \texttt{\ stroke\ } : \texttt{\ stroke\ } â€'' Stroke for the
+  elementâ€™s border.
+\item
+  \texttt{\ radius\ } : \texttt{\ length\ } â€'' Corner radius.
+\item
+  \texttt{\ breakable\ } : \texttt{\ boolean\ } â€'' Whether the element
+  can break across pages. WARNING: indent guides may look off when
+  broken across pages.
+\item
+  \texttt{\ block-align\ } : \texttt{\ none\ } or \texttt{\ alignment\ }
+  or \texttt{\ 2d\ alignment\ } â€'' Alignment of the \texttt{\ code\ }
+  on the page. Using \texttt{\ none\ } will cause the internal
+  \texttt{\ block\ } element to be returned as-is.
+\item
+  \texttt{\ main-text-styles\ } : \texttt{\ dictionary\ } â€'' Styling
+  options for the main raw text. Supports all parameters in Typstâ€™s
+  native \texttt{\ text\ } function.
+\item
+  \texttt{\ line-number-styles\ } : \texttt{\ dictionary\ } â€'' Styling
+  options for line numbers. Supports all parameters in Typstâ€™s native
+  \texttt{\ text\ } function.
+\end{itemize}
+
+\subsection{Contributing}\label{contributing}
+
+PRs are welcome! And if you encounter any bugs or have any
+requests/ideas, feel free to open an issue.
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as \texttt{\ algo\ }
+
+\begin{verbatim}
+#import "@preview/algo:0.3.4"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+\href{https://github.com/platformer}{platformer}
+\item[License:]
+MIT
+\item[Current version:]
+0.3.4
+\item[Last updated:]
+November 12, 2024
+\item[First released:]
+August 8, 2023
+\item[Archive size:]
+10.5 kB
+\href{https://packages.typst.org/preview/algo-0.3.4.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/platformer/typst-algorithms}{GitHub}
+\item[Discipline :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \href{https://typst.app/universe/search/?discipline=computer-science}{Computer
+  Science}
+\end{itemize}
+\item[Categor y :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-package.svg}}
+  \href{https://typst.app/universe/search/?category=components}{Components}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of platformer . Report issues on
+\href{https://github.com/platformer/typst-algorithms}{their repository}
+. You can also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.3.4 & November 12, 2024 \\
+\href{https://typst.app/universe/package/algo/0.3.3/}{0.3.3} & September
+21, 2023 \\
+\href{https://typst.app/universe/package/algo/0.3.2/}{0.3.2} & September
+3, 2023 \\
+\href{https://typst.app/universe/package/algo/0.3.1/}{0.3.1} & August
+19, 2023 \\
+\href{https://typst.app/universe/package/algo/0.3.0/}{0.3.0} & August 8,
+2023 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.

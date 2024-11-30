@@ -1,0 +1,357 @@
+\title{typst.app/universe/package/glossarium}
+
+\phantomsection\label{banner}
+\section{glossarium}\label{glossarium}
+
+{ 0.5.1 }
+
+Glossarium is a simple, easily customizable typst glossary.
+
+{ } Featured Package
+
+\phantomsection\label{readme}
+\begin{quote}
+{[}!TIP{]} Glossarium is based in great part of the work of
+\href{https://github.com/Dherse}{SÃ©bastien dâ€™Herbais de Thun} from
+his master thesis available at:
+\url{https://github.com/Dherse/masterproef} . His glossary is available
+under the MIT license
+\href{https://github.com/Dherse/masterproef/blob/main/elems/acronyms.typ}{here}
+.
+\end{quote}
+
+Glossarium is a simple, easily customizable typst glossary inspired by
+\href{https://www.ctan.org/pkg/glossaries}{LaTeX glossaries package} .
+You can see various examples showcasing the different features in the
+\texttt{\ examples\ } folder.
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/glossarium/0.5.1/.github/example.png}}
+
+\subsection{Manual}\label{manual}
+
+\subsection{Fast start}\label{fast-start}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/glossarium:0.5.1": make{-}glossary, register{-}glossary, print{-}glossary, gls, glspl}
+\NormalTok{\#show: make{-}glossary}
+\NormalTok{\#let entry{-}list = (}
+\NormalTok{  (}
+\NormalTok{    key: "kuleuven",}
+\NormalTok{    short: "KU Leuven",}
+\NormalTok{    long: "Katholieke Universiteit Leuven",}
+\NormalTok{    description: "A university in Belgium.",}
+\NormalTok{  ),}
+\NormalTok{  // Add more terms}
+\NormalTok{)}
+\NormalTok{\#register{-}glossary(entry{-}list)}
+\NormalTok{// Your document body}
+\NormalTok{\#print{-}glossary(}
+\NormalTok{ entry{-}list}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{Import and setup}\label{import-and-setup}
+
+This manual assume you have a good enough understanding of typst markup
+and scripting.
+
+For Typst 0.6.0 or later import the package from the typst preview
+repository:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/glossarium:0.5.1": make{-}glossary, register{-}glossary, print{-}glossary, gls, glspl}
+\end{Highlighting}
+\end{Shaded}
+
+For Typst before 0.6.0 or to use \textbf{glossarium} as a local module,
+download the package files into your project folder and import
+\texttt{\ glossarium.typ\ } :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "glossarium.typ": make{-}glossary, register{-}glossary, print{-}glossary, gls, glspl}
+\end{Highlighting}
+\end{Shaded}
+
+After importing the package and before making any calls to
+\texttt{\ gls\ } , \texttt{\ print-glossary\ } or \texttt{\ glspl\ } ,
+please \emph{\textbf{MAKE SURE}} you add this line
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#show: make{-}glossary}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{quote}
+\emph{WHY DO WE NEED THAT ?} : In order to be able to create references
+to the terms in your glossary using typst ref syntax \texttt{\ @key\ }
+glossarium needs to setup some
+\href{https://typst.app/docs/tutorial/advanced-styling/}{show rules}
+before any references exist. This is due to the way typst works, there
+is no workaround.
+
+Therefore I recommend that you always put the \texttt{\ \#show:\ ...\ }
+statement on the line just below the \texttt{\ \#import\ } statement.
+\end{quote}
+
+\subsubsection{Registering the glossary}\label{registering-the-glossary}
+
+First we have to define the terms. A term is a
+\href{https://typst.app/docs/reference/types/dictionary/}{dictionary} as
+follows:
+
+\begin{longtable}[]{@{}llll@{}}
+\toprule\noalign{}
+Key & Type & Required/Optional & Description \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\texttt{\ key\ } & string & required & Case-sensitive, unique identifier
+used to reference the term. \\
+\texttt{\ short\ } & string & semi-optional & The short form of the term
+replacing the term citation. \\
+\texttt{\ long\ } & string or content & semi-optional & The long form of
+the term, displayed in the glossary and on the first citation of the
+term. \\
+\texttt{\ description\ } & string or content & optional & The
+description of the term. \\
+\texttt{\ plural\ } & string or content & optional & The pluralized
+short form of the term. \\
+\texttt{\ longplural\ } & string or content & optional & The pluralized
+long form of the term. \\
+\texttt{\ group\ } & string & optional & Case-sensitive group the term
+belongs to. The terms are displayed by groups in the glossary. \\
+\end{longtable}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let entry{-}list = (}
+\NormalTok{  // minimal term}
+\NormalTok{  (}
+\NormalTok{    key: "kuleuven",}
+\NormalTok{    short: "KU Leuven"}
+\NormalTok{  ),}
+\NormalTok{  // a term with a long form and a group}
+\NormalTok{  (}
+\NormalTok{    key: "unamur",}
+\NormalTok{    short: "UNamur",}
+\NormalTok{    long: "Namur University",}
+\NormalTok{    group: "Universities"}
+\NormalTok{  ),}
+\NormalTok{  // a term with a markup description}
+\NormalTok{  (}
+\NormalTok{    key: "oidc",}
+\NormalTok{    short: "OIDC",}
+\NormalTok{    long: "OpenID Connect",}
+\NormalTok{    description: [}
+\NormalTok{      OpenID is an open standard and decentralized authentication protocol promoted by the non{-}profit}
+\NormalTok{      \#link("https://en.wikipedia.org/wiki/OpenID\#OpenID\_Foundation")[OpenID Foundation].}
+\NormalTok{    ],}
+\NormalTok{    group: "Acronyms",}
+\NormalTok{  ),}
+\NormalTok{  // a term with a short plural}
+\NormalTok{  (}
+\NormalTok{    key: "potato",}
+\NormalTok{    short: "potato",}
+\NormalTok{    // "plural" will be used when "short" should be pluralized}
+\NormalTok{    plural: "potatoes",}
+\NormalTok{    description: [\#lorem(10)],}
+\NormalTok{  ),}
+\NormalTok{  // a term with a long plural}
+\NormalTok{  (}
+\NormalTok{    key: "dm",}
+\NormalTok{    short: "DM",}
+\NormalTok{    long: "diagonal matrix",}
+\NormalTok{    // "longplural" will be used when "long" should be pluralized}
+\NormalTok{    longplural: "diagonal matrices",}
+\NormalTok{    description: "Probably some math stuff idk",}
+\NormalTok{  ),}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+Then the terms are passed as a list to \texttt{\ register-glossary\ }
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#register{-}glossary(entry{-}list)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{Printing the glossary}\label{printing-the-glossary}
+
+Now, you can display the glossary using the \texttt{\ print-glossary\ }
+function.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#print{-}glossary(entry{-}list)}
+\end{Highlighting}
+\end{Shaded}
+
+By default, the terms that are not referenced in the document are not
+shown in the glossary, you can force their appearance by setting the
+\texttt{\ show-all\ } argument to true.
+
+You can also disable the back-references by setting the parameter
+\texttt{\ disable-back-references\ } to \texttt{\ true\ } .
+
+By default, group breaks use \texttt{\ linebreaks\ } . This behaviour
+can be changed by setting the \texttt{\ user-group-break\ } parameter to
+\texttt{\ pagebreak()\ } , or \texttt{\ colbreak()\ } , or any other
+function that returns the \texttt{\ content\ } you want.
+
+You can call this function from anywhere in your document.
+
+\subsubsection{Referencing terms.}\label{referencing-terms.}
+
+Referencing terms is done using the key of the terms using the
+\texttt{\ gls\ } function or the reference syntax.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{// referencing the OIDC term using gls}
+\NormalTok{\#gls("oidc")}
+\NormalTok{// displaying the long form forcibly}
+\NormalTok{\#gls("oidc", long: true)}
+
+\NormalTok{// referencing the OIDC term using the reference syntax}
+\NormalTok{@oidc}
+\end{Highlighting}
+\end{Shaded}
+
+\paragraph{Handling plurals}\label{handling-plurals}
+
+You can use the \texttt{\ glspl\ } function and the references
+supplements to pluralize terms. The \texttt{\ plural\ } key will be used
+when \texttt{\ short\ } should be pluralized and \texttt{\ longplural\ }
+will be used when \texttt{\ long\ } should be pluralized. If the
+\texttt{\ plural\ } key is missing then glossarium will add an â€˜sâ€™
+at the end of the short form as a fallback.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#glspl("potato")}
+\end{Highlighting}
+\end{Shaded}
+
+Please look at the examples regarding plurals.
+
+\paragraph{Overriding the text shown}\label{overriding-the-text-shown}
+
+You can also override the text displayed by setting the
+\texttt{\ display\ } argument.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#gls("oidc", display: "whatever you want")}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Final tips}\label{final-tips}
+
+I recommend setting a show rule for the links to that your readers
+understand that they can click on the references to go to the term in
+the glossary.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#show link: set text(fill: blue.darken(60\%))}
+\NormalTok{// links are now blue !}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as
+\texttt{\ glossarium\ }
+
+\begin{verbatim}
+#import "@preview/glossarium:0.5.1"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author s :]
+slashformotion \& Dherse
+\item[License:]
+MIT
+\item[Current version:]
+0.5.1
+\item[Last updated:]
+October 28, 2024
+\item[First released:]
+July 31, 2023
+\item[Archive size:]
+10.5 kB
+\href{https://packages.typst.org/preview/glossarium-0.5.1.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/typst-community/glossarium}{GitHub}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of slashformotion and Dherse . Report issues
+on \href{https://github.com/typst-community/glossarium}{their
+repository} . You can also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.5.1 & October 28, 2024 \\
+\href{https://typst.app/universe/package/glossarium/0.5.0/}{0.5.0} &
+October 14, 2024 \\
+\href{https://typst.app/universe/package/glossarium/0.4.2/}{0.4.2} &
+October 7, 2024 \\
+\href{https://typst.app/universe/package/glossarium/0.4.1/}{0.4.1} & May
+29, 2024 \\
+\href{https://typst.app/universe/package/glossarium/0.4.0/}{0.4.0} &
+April 29, 2024 \\
+\href{https://typst.app/universe/package/glossarium/0.3.0/}{0.3.0} &
+April 8, 2024 \\
+\href{https://typst.app/universe/package/glossarium/0.2.6/}{0.2.6} &
+January 29, 2024 \\
+\href{https://typst.app/universe/package/glossarium/0.2.5/}{0.2.5} &
+December 3, 2023 \\
+\href{https://typst.app/universe/package/glossarium/0.2.4/}{0.2.4} &
+November 16, 2023 \\
+\href{https://typst.app/universe/package/glossarium/0.2.3/}{0.2.3} &
+October 30, 2023 \\
+\href{https://typst.app/universe/package/glossarium/0.2.2/}{0.2.2} &
+September 16, 2023 \\
+\href{https://typst.app/universe/package/glossarium/0.2.1/}{0.2.1} &
+September 3, 2023 \\
+\href{https://typst.app/universe/package/glossarium/0.2.0/}{0.2.0} &
+August 19, 2023 \\
+\href{https://typst.app/universe/package/glossarium/0.1.0/}{0.1.0} &
+July 31, 2023 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.

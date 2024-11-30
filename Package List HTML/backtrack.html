@@ -1,0 +1,447 @@
+<main>
+    <div id="banner" style="--banner-accent:#000000;--banner-primary:#000000;--banner-secondary:#000000;--banner-tertiary:#565565;--banner-background:#eff0f3">
+     <div class="package-icon" role="img">
+     </div>
+     <div>
+      <div class="title">
+       <h1 class="name">
+        backtrack
+       </h1>
+       <span class="version">
+        1.0.0
+       </span>
+      </div>
+      <p class="description">
+       A version-agnostic library for checking the compiler version.
+      </p>
+     </div>
+    </div>
+    <div class="inner-grid">
+     <section id="readme">
+      <p>
+       Backtrack is a simple and performant Typst library that determines the current compiler version and provides an API for comparing, displaying, and observing versions.
+      </p>
+      <p>
+       Unlike the built-in
+       <a href="https://github.com/typst/typst/pull/2016" rel="nofollow ugc" target="_blank">
+        version API
+       </a>
+       which is only available on Typst 0.9.0+, Backtrack works on any
+       <a href="https://github.com/typst/packages/raw/main/packages/preview/backtrack/1.0.0/#version-support" rel="nofollow ugc" target="_blank">
+        *
+       </a>
+       Typst version. It uses the built-in API when available so that itâll continue to work on all future Typst versions without modification.
+      </p>
+      <p>
+       Additionally, it:
+      </p>
+      <ul>
+       <li>
+        doesnât noticeably impact compilation time. All version checks are extremely simple, and newer versions are checked first to avoid overhead from supporting old versions.
+       </li>
+       <li>
+        is automatically tested on
+        <em>
+         every
+        </em>
+        supported Typst version to ensure reliability.
+       </li>
+       <li>
+        can be downloaded and installed manually in addition to being available as a package.
+       </li>
+      </ul>
+      <h2>
+       Example
+      </h2>
+      <pre><code class="language-typ"><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/backtrack:1.0.0"</span><span class="typ-punct">:</span> current-version<span class="typ-punct">,</span> versions
+
+You are using Typst <span class="typ-pol">#</span><span class="typ-pol">current-version</span><span class="typ-punct">.</span><span class="typ-pol">displayable</span>!
+<span class="typ-punct">#</span><span class="typ-punct">{</span>
+  <span class="typ-key">if</span> current-version<span class="typ-punct">.</span>cmpable <span class="typ-op">&lt;=</span> versions<span class="typ-punct">.</span>v2023-03-28<span class="typ-punct">.</span>cmpable <span class="typ-punct">[</span>
+    That is ancient.
+  <span class="typ-punct">]</span> <span class="typ-key">else</span> <span class="typ-key">if</span> current-version<span class="typ-punct">.</span>cmpable <span class="typ-op">&lt;</span> versions<span class="typ-punct">.</span>v0-5-0<span class="typ-punct">.</span>cmpable <span class="typ-punct">[</span>
+    That is old.
+  <span class="typ-punct">]</span> <span class="typ-key">else</span> <span class="typ-punct">[</span>
+    That is modern.
+  <span class="typ-punct">]</span>
+<span class="typ-punct">}</span>
+</code></code></pre>
+      <h2>
+       Installation
+      </h2>
+      <p>
+       There are two ways to install the library:
+      </p>
+      <ul>
+       <li>
+        Use the package on Typst 0.6.0+. This is as simple as adding the following line to your document:
+        <pre><code class="language-typ"><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/backtrack:1.0.0"</span>
+</code></code></pre>
+       </li>
+       <li>
+        Download and install the library manually:
+        <ol>
+         <li>
+          Download and extract the latest
+          <a href="https://github.com/TheLukeGuy/backtrack/releases" rel="nofollow ugc" target="_blank">
+           release
+          </a>
+          .
+         </li>
+         <li>
+          Rename
+          <code>
+           src/lib.typ
+          </code>
+          to
+          <code>
+           src/backtrack.typ
+          </code>
+          .
+         </li>
+         <li>
+          Move/copy
+          <code>
+           COPYING
+          </code>
+          into
+          <code>
+           src/
+          </code>
+          .
+         </li>
+         <li>
+          Rename the
+          <code>
+           src/
+          </code>
+          directory to
+          <code>
+           backtrack/
+          </code>
+          .
+         </li>
+         <li>
+          Move/copy the newly-renamed
+          <code>
+           backtrack/
+          </code>
+          directory into your project.
+         </li>
+         <li>
+          Add the following line to your document:
+          <pre><code class="language-typ"><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"[path/to/]backtrack/backtrack.typ"</span>
+</code></code></pre>
+         </li>
+        </ol>
+       </li>
+      </ul>
+      <h2>
+       Documentation
+      </h2>
+      <p>
+       See
+       <a href="https://github.com/typst/packages/raw/main/packages/preview/backtrack/1.0.0/DOCS.md" rel="nofollow ugc" target="_blank">
+        DOCS.md
+       </a>
+       . Itâs quite short. ð
+      </p>
+      <h2>
+       Version Support
+      </h2>
+      <p>
+       Backtrack compiles on and can detect these versions:
+      </p>
+      <table>
+       <thead>
+        <tr>
+         <th>
+          Version
+         </th>
+         <th align="center">
+          Status
+         </th>
+         <th>
+          Notes
+         </th>
+        </tr>
+       </thead>
+       <tbody>
+        <tr>
+         <td>
+          0.6.0+
+         </td>
+         <td align="center">
+          â
+         </td>
+         <td>
+          Also available as a package
+         </td>
+        </tr>
+        <tr>
+         <td>
+          March 28, 2023â0.5.0
+         </td>
+         <td align="center">
+          â
+         </td>
+         <td>
+         </td>
+        </tr>
+        <tr>
+         <td>
+          March 21, 2023
+         </td>
+         <td align="center">
+          â
+         </td>
+         <td>
+          Initial public/standalone Typst release
+         </td>
+        </tr>
+        <tr>
+         <td>
+          February 25, 2023
+         </td>
+         <td align="center">
+          ð¡
+         </td>
+         <td>
+          Detects as February 15, 2023
+         </td>
+        </tr>
+        <tr>
+         <td>
+          February 12â15, 2023
+         </td>
+         <td align="center">
+          â
+         </td>
+         <td>
+         </td>
+        </tr>
+        <tr>
+         <td>
+          February 2, 2023
+         </td>
+         <td align="center">
+          ð¡
+         </td>
+         <td>
+          Detects as January 30, 2023
+         </td>
+        </tr>
+        <tr>
+         <td>
+          January 30, 2023
+         </td>
+         <td align="center">
+          â
+         </td>
+         <td>
+         </td>
+        </tr>
+       </tbody>
+      </table>
+      <p>
+       The partially-supported versions
+       <em>
+        may
+       </em>
+       be possible to detect, but theyâre tricky since most of their changes are content-related. Content values were opaque up until the March 21, 2023 release, making it difficult to automatically check for the presence of these changes.
+      </p>
+      <h2>
+       Copying
+      </h2>
+      <p>
+       Copyright Â© 2023
+       <a href="https://github.com/TheLukeGuy" rel="nofollow ugc" target="_blank">
+        Luke Chambers
+       </a>
+      </p>
+      <p>
+       Backtrack is licensed under the Apache License, Version 2.0. You can find a copy of the license in
+       <a href="https://github.com/typst/packages/raw/main/packages/preview/backtrack/1.0.0/COPYING" rel="nofollow ugc" target="_blank">
+        COPYING
+       </a>
+       or online at
+       <a href="https://www.apache.org/licenses/LICENSE-2.0" rel="nofollow ugc" target="_blank">
+        https://www.apache.org/licenses/LICENSE-2.0
+       </a>
+       .
+      </p>
+     </section>
+     <aside>
+      <section>
+       <h3>
+        How to add
+       </h3>
+       <p>
+        Copy this into your project and use the import as
+        <!-- -->
+        <code>
+         backtrack
+        </code>
+       </p>
+       <div class="import-snippet">
+        <pre><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/backtrack:1.0.0"</span></code></pre>
+        <button class="copy" title="Copy to clipboard">
+         <img alt="Copy" height="16" src="/assets/icons/16-copy.svg" width="16"/>
+        </button>
+       </div>
+       <p class="muted">
+        Check the docs for
+        <!-- -->
+        <a href="https://typst.app/docs/reference/scripting/#packages">
+         more information on how to import packages
+        </a>
+        .
+       </p>
+      </section>
+      <section id="about">
+       <h3>
+        About
+       </h3>
+       <dl>
+        <dt>
+         Author
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         TheLukeGuy
+        </dd>
+        <dt>
+         License:
+        </dt>
+        <dd>
+         Apache-2.0
+        </dd>
+        <dt>
+         Current version:
+        </dt>
+        <dd>
+         1.0.0
+        </dd>
+        <dt>
+         Last updated:
+        </dt>
+        <dd>
+         October 27, 2023
+        </dd>
+        <dt>
+         First released:
+        </dt>
+        <dd>
+         October 27, 2023
+        </dd>
+        <dt>
+         Archive size:
+        </dt>
+        <dd class="archive-size-value">
+         8.64 kB
+         <a href="https://packages.typst.org/preview/backtrack-1.0.0.tar.gz">
+          <img alt="Size icon" src="/assets/icons/16-download.svg"/>
+         </a>
+        </dd>
+        <dt>
+         Repository:
+        </dt>
+        <dd>
+         <a href="https://github.com/TheLukeGuy/backtrack" rel="noopener noreferrer" target="_blank">
+          GitHub
+         </a>
+        </dd>
+       </dl>
+      </section>
+      <section>
+       <h3>
+        Where to report issues?
+       </h3>
+       <p>
+        This
+        <!-- -->
+        package
+        <!-- -->
+        is a project of
+        <!-- -->
+        <!-- -->
+        TheLukeGuy
+        <!-- -->
+        .
+        <!-- -->
+        <!-- -->
+        Report issues on
+        <!-- -->
+        <a href="https://github.com/TheLukeGuy/backtrack" rel="noopener noreferrer" target="_blank">
+         their repository
+        </a>
+        .
+        <!-- -->
+        <!-- -->
+        You can also try to ask for help with this
+        <!-- -->
+        package
+        <!-- -->
+        on the
+        <!-- -->
+        <a href="https://forum.typst.app" rel="noopener" target="_blank">
+         Forum
+        </a>
+        .
+       </p>
+       <p>
+        Please report this
+        <!-- -->
+        package
+        <!-- -->
+        to the Typst team using the
+        <!-- -->
+        <a href="https://typst.app/contact" rel="noreferrer" target="_blank">
+         contact form
+        </a>
+        <!-- -->
+        if you believe it is a safety hazard or infringes upon your rights.
+       </p>
+      </section>
+      <section id="versions">
+       <h3>
+        Version history
+       </h3>
+       <table>
+        <thead>
+         <tr>
+          <th align="left">
+           Version
+          </th>
+          <th align="left">
+           Release Date
+          </th>
+         </tr>
+        </thead>
+        <tbody>
+         <tr>
+          <td align="left">
+           1.0.0
+          </td>
+          <td align="left">
+           October 27, 2023
+          </td>
+         </tr>
+        </tbody>
+       </table>
+      </section>
+      <p class="bottom-notice muted">
+       Typst GmbH did not create this
+       <!-- -->
+       package
+       <!-- -->
+       and cannot guarantee correct functionality of this
+       <!-- -->
+       package
+       <!-- -->
+       or compatibility with any version of the Typst compiler or app.
+      </p>
+     </aside>
+    </div>
+   </main>

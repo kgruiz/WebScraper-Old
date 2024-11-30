@@ -1,0 +1,214 @@
+\title{typst.app/universe/package/minerva-report-fcfm}
+
+\phantomsection\label{banner}
+\phantomsection\label{template-thumbnail}
+\pandocbounded{\includegraphics[keepaspectratio]{https://packages.typst.org/preview/thumbnails/minerva-report-fcfm-0.2.1-small.webp}}
+
+\section{minerva-report-fcfm}\label{minerva-report-fcfm}
+
+{ 0.2.1 }
+
+Template de artÃ­culos, informes y tareas para la Facultad de Ciencias
+FÃ­sicas y MatemÃ¡ticas (FCFM).
+
+\href{/app?template=minerva-report-fcfm&version=0.2.1}{Create project in
+app}
+
+\phantomsection\label{readme}
+Template para hacer tareas, informes y trabajos, para estudiantes y
+acadÃ©micos de la Facultad de Ciencias FÃ­sicas y MatemÃ¡ticas de la
+Universidad de Chile que han usado templates similares para LaTeX.
+
+\subsection{GuÃ­a RÃ¡pida}\label{guuxe3a-ruxe3pida}
+
+\subsubsection{\texorpdfstring{\href{https://typst.app/}{Webapp}}{Webapp}}\label{webapp}
+
+Si utilizas la webapp de Typst puedes presionar â€œStart from
+templateâ€? y buscar â€œminerva-report-fcfmâ€? para crear un nuevo
+proyecto con este template.
+
+\subsubsection{Typst CLI}\label{typst-cli}
+
+Teniendo el CLI con la versiÃ³n 0.11.0 o mayor, puedes realizar:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{typst}\NormalTok{ init @preview/minerva{-}report{-}fcfm:0.2.1}
+\end{Highlighting}
+\end{Shaded}
+
+Esto va a descargar el template en la cache de typst y luego va a
+iniciar el proyecto en la carpeta actual.
+
+\subsection{ConfiguraciÃ³n}\label{configuraciuxe3uxb3n}
+
+La mayorÃ­a de la configuraciÃ³n se realiza a travÃ©s del archivo
+\texttt{\ meta.typ\ } , allÃ­ podrÃ¡s elegir un tÃ­tulo, indicar los
+autores, el equipo docente, entre otras configuraciones.
+
+El campo \texttt{\ autores\ } solo puede ser \texttt{\ string\ } o un
+\texttt{\ array\ } de strings.
+
+La configuraciÃ³n \texttt{\ departamento\ } puede ser personalizada a
+cualquier organizaciÃ³n pasandole un diccionario de esta forma:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let departamento = (}
+\NormalTok{  nombre: (}
+\NormalTok{    "Universidad TÃ©cnica Federico Santa MarÃ­a",}
+\NormalTok{  )}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+Las demÃ¡s configuraciones pueden ser un \texttt{\ content\ }
+arbitrario, o un \texttt{\ string\ } .
+
+\subsubsection{ConfiguraciÃ³n
+Avanzada}\label{configuraciuxe3uxb3n-avanzada}
+
+Algunos aspectos mÃ¡s avanzados pueden ser configurados a travÃ©s de la
+show rule que inicializa el documento
+\texttt{\ \#show:\ minerva.report.with(\ ...\ )\ } , los parÃ¡metros
+opcionales que recibe la funciÃ³n \texttt{\ report\ } son los
+siguientes:
+
+\begin{longtable}[]{@{}lll@{}}
+\toprule\noalign{}
+nombre & tipo & descriciÃ³n \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+portada & (meta) =\textgreater{} content & Una funciÃ³n que recibe el
+diccionario \texttt{\ meta.typ\ } y retorna una pÃ¡gina. \\
+header & (meta) =\textgreater{} content & Header a aplicarse a cada
+pÃ¡gina. \\
+footer & (meta) =\textgreater{} content & Footer a aplicarse a cada
+pÃ¡gina. \\
+showrules & bool & El template aplica ciertas show-rules para que sea
+mÃ¡s fÃ¡cil de utilizar. Si quires mÃ¡s personalizaciÃ³n, es probable
+que necesites desactivarlas y luego solo utilizar las que necesites. \\
+\end{longtable}
+
+\paragraph{Show Rules}\label{show-rules}
+
+El template incluye show rules que pueden ser incluidas opcionalmente.
+Todas estas show rules pueden ser activadas agregando:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#show: minerva.\textless{}nombre{-}funciÃ³n\textgreater{}}
+\end{Highlighting}
+\end{Shaded}
+
+Justo despuÃ©s de la lÃ­nea
+\texttt{\ \#show\ minerva.report.with(\ ...\ )\ } reemplazando
+\texttt{\ \textless{}nombre-funciÃ³n\textgreater{}\ } por el nombre de
+la show rule a aplicar.
+
+\subparagraph{primer-heading-en-nueva-pag (activada por
+defecto)}\label{primer-heading-en-nueva-pag-activada-por-defecto}
+
+Esta show rule hace que el primer heading que tenga
+\texttt{\ outlined:\ true\ } se muestre en una nueva pÃ¡gina (con
+\texttt{\ weak:\ true\ } ). Notar que al ser \texttt{\ weak:\ true\ } si
+la pÃ¡gina ya de por si estaba vacÃ­a, no se crea otra pÃ¡gina adicional,
+pero para que la pÃ¡gina realmente se considere vacÃ­a no debe contener
+absolutamente nada, incluso tener elementos invisibles va a causar que
+se agregue una pÃ¡gina extra.
+
+\subparagraph{operadores-es (activada por
+defecto)}\label{operadores-es-activada-por-defecto}
+
+Cambia los operadores matemÃ¡ticos que define Typst por defecto a sus
+contrapartes en espaÃ±ol, esto es, cambia \texttt{\ lim\ } por
+\texttt{\ lÃ­m\ } , \texttt{\ inf\ } por \texttt{\ Ã­nf\ } y asÃ­ con
+todos.
+
+\subparagraph{formato-numeros-es}\label{formato-numeros-es}
+
+Cambia los nÃºmeros dentro de las ecuaciones para que usen coma decimal
+en vez de punto decimal, como es convenciÃ³n en el espaÃ±ol. Esta show
+rule no viene activa por defecto.
+
+\href{/app?template=minerva-report-fcfm&version=0.2.1}{Create project in
+app}
+
+\subsubsection{How to use}\label{how-to-use}
+
+Click the button above to create a new project using this template in
+the Typst app.
+
+You can also use the Typst CLI to start a new project on your computer
+using this command:
+
+\begin{verbatim}
+typst init @preview/minerva-report-fcfm:0.2.1
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+\href{https://github.com/Dav1com}{David IbÃ¡Ã±ez}
+\item[License:]
+MIT-0
+\item[Current version:]
+0.2.1
+\item[Last updated:]
+October 14, 2024
+\item[First released:]
+April 15, 2024
+\item[Minimum Typst version:]
+0.11.0
+\item[Archive size:]
+246 kB
+\href{https://packages.typst.org/preview/minerva-report-fcfm-0.2.1.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/Dav1com/minerva-report-fcfm}{GitHub}
+\item[Categor y :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-speak.svg}}
+  \href{https://typst.app/universe/search/?category=report}{Report}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This template is a project of David IbÃ¡Ã±ez . Report issues on
+\href{https://github.com/Dav1com/minerva-report-fcfm}{their repository}
+. You can also try to ask for help with this template on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this template to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.2.1 & October 14, 2024 \\
+\href{https://typst.app/universe/package/minerva-report-fcfm/0.2.0/}{0.2.0}
+& April 29, 2024 \\
+\href{https://typst.app/universe/package/minerva-report-fcfm/0.1.0/}{0.1.0}
+& April 15, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this template and cannot guarantee correct
+functionality of this template or compatibility with any version of the
+Typst compiler or app.

@@ -1,0 +1,152 @@
+\title{typst.app/universe/package/sigfig}
+
+\phantomsection\label{banner}
+\section{sigfig}\label{sigfig}
+
+{ 0.1.0 }
+
+Typst library for rounding numbers with significant figures and
+measurement uncertainty.
+
+\phantomsection\label{readme}
+\texttt{\ sigfig\ } is a \href{https://typst.app/}{Typst} package for
+rounding numbers with
+\href{https://en.wikipedia.org/wiki/Significant_figures}{significant
+figures} and
+\href{https://en.wikipedia.org/wiki/Measurement_uncertainty}{measurement
+uncertainty} .
+
+\subsection{Overview}\label{overview}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/sigfig:0.1.0": round, urounds}
+\NormalTok{\#import "@preview/unify:0.5.0": num}
+
+\NormalTok{$ \#num(round(98654, 3)) $}
+\NormalTok{$ \#num(round(2.8977729e{-}3, 4)) $}
+\NormalTok{$ \#num(round({-}.0999, 2)) $}
+\NormalTok{$ \#num(urounds(114514.19, 1.98)) $}
+\NormalTok{$ \#num(urounds(1234.5678, 0.096)) $}
+\end{Highlighting}
+\end{Shaded}
+
+yields
+
+\includegraphics[width=2.5in,height=\textheight,keepaspectratio]{https://github.com/typst/packages/assets/20166026/f3d69c3c-bc67-484f-81f9-80a10913fd11}
+
+\subsection{Documentation}\label{documentation}
+
+\subsubsection{\texorpdfstring{\texttt{\ round\ }}{ round }}\label{round}
+
+\texttt{\ round\ } is similar to JavaScriptâ€™s
+\texttt{\ Number.prototype.toPrecision()\ } (
+\href{https://tc39.es/ecma262/multipage/numbers-and-dates.html\#sec-number.prototype.toprecision}{ES
+spec} ).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#assert(round(114514, 3) == "1.15e5")}
+\NormalTok{\#assert(round(1, 5) == "1.0000")}
+\NormalTok{\#assert(round(12345, 10) == "12345.00000")}
+\NormalTok{\#assert(round(.00000002468, 3) == "2.47e{-}8")}
+\end{Highlighting}
+\end{Shaded}
+
+Note that what is different from the ES spec is that there will be no
+sign (\$+\$) if the exponent after \texttt{\ e\ } is positive.
+
+\subsubsection{\texorpdfstring{\texttt{\ uround\ }}{ uround }}\label{uround}
+
+\texttt{\ uround\ } rounds a number with its uncertainty, and returns a
+string of both.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#assert(uround(114514, 1919) == "1.15e5+{-}2e3")}
+\NormalTok{\#assert(uround(114514.0, 1.9) == "114514+{-}2")}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{\texorpdfstring{\texttt{\ urounds\ }}{ urounds }}\label{urounds}
+
+\texttt{\ uround\ } rounds a number with its uncertainty, and returns a
+string of both with the same exponent, if any.
+
+You can use \texttt{\ num\ } in \texttt{\ unify\ } to display the
+result.
+
+\subsection{License}\label{license}
+
+MIT Â© 2024 OverflowCat (
+\href{https://about.overflow.cat/}{overflow.cat} ).
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as \texttt{\ sigfig\ }
+
+\begin{verbatim}
+#import "@preview/sigfig:0.1.0"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+OverflowCat
+\item[License:]
+MIT
+\item[Current version:]
+0.1.0
+\item[Last updated:]
+June 17, 2024
+\item[First released:]
+June 17, 2024
+\item[Archive size:]
+3.73 kB
+\href{https://packages.typst.org/preview/sigfig-0.1.0.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/OverflowCat/sigfig}{GitHub}
+\item[Discipline :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \href{https://typst.app/universe/search/?discipline=engineering}{Engineering}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of OverflowCat . Report issues on
+\href{https://github.com/OverflowCat/sigfig}{their repository} . You can
+also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.1.0 & June 17, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.

@@ -1,0 +1,1003 @@
+<main>
+    <div id="banner" style="--banner-accent:#5D25C6;--banner-primary:#110733;--banner-secondary:#615296;--banner-tertiary:#80789E;--banner-background:linear-gradient(90deg, #E7D9FF 0%, #DAE0FB 62%, #E8F9FF 100%)">
+     <div class="package-icon" role="img">
+     </div>
+     <div>
+      <div class="title">
+       <h1 class="name">
+        conchord
+       </h1>
+       <span class="version">
+        0.2.0
+       </span>
+      </div>
+      <p class="description">
+       Easily write lyrics with chords, generate chord diagrams and tabs.
+      </p>
+     </div>
+     <p class="featured-label">
+      <span class="icon" role="img">
+      </span>
+      Featured
+      <!-- -->
+      Package
+     </p>
+    </div>
+    <div class="inner-grid">
+     <section id="readme">
+      <blockquote>
+       <p>
+        Notice: Iâm preparing the update, so the documentation there is referring to the new version.
+       </p>
+      </blockquote>
+      <p>
+       <code>
+        conchord
+       </code>
+       (concise chord) is a
+       <a href="https://github.com/typst/typst" rel="nofollow ugc" target="_blank">
+        Typst
+       </a>
+       package to write lyrics with chords and generate colorful fretboard diagram (aka chord diagram). From
+       <code>
+        0.1.1
+       </code>
+       there is also experimental tabs support (though quite simple and unstable yet). It is inspired by
+       <a href="https://github.com/ljgago/typst-chords" rel="nofollow ugc" target="_blank">
+        chordx
+       </a>
+       package and my previous tiny project for generating chord diagrams SVG-s.
+      </p>
+      <p>
+       <code>
+        conchord
+       </code>
+       makes it easy to add new chords, both for diagrams and lyrics. Unlike
+       <a href="https://github.com/ljgago/typst-chords" rel="nofollow ugc" target="_blank">
+        chordx
+       </a>
+       , you donât need to think about layout and pass lots of arrays for drawing barres. Just pass a string with held frets and it will work:
+      </p>
+      <pre><code class="language-typst"><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/conchord:0.2.0"</span><span class="typ-punct">:</span> new-chordgen<span class="typ-punct">,</span> overchord
+
+<span class="typ-key">#</span><span class="typ-key">let</span> chord <span class="typ-op">=</span> <span class="typ-func">new-chordgen</span><span class="typ-punct">(</span><span class="typ-punct">)</span>
+
+<span class="typ-func">#</span><span class="typ-func">box</span><span class="typ-punct">(</span><span class="typ-func">chord</span><span class="typ-punct">(</span><span class="typ-str">"x32010"</span><span class="typ-punct">,</span> name<span class="typ-punct">:</span> <span class="typ-str">"C"</span><span class="typ-punct">)</span><span class="typ-punct">)</span>
+<span class="typ-func">#</span><span class="typ-func">box</span><span class="typ-punct">(</span><span class="typ-func">chord</span><span class="typ-punct">(</span><span class="typ-str">"x33222"</span><span class="typ-punct">,</span> name<span class="typ-punct">:</span> <span class="typ-str">"F#m/C#"</span><span class="typ-punct">)</span><span class="typ-punct">)</span>
+<span class="typ-func">#</span><span class="typ-func">box</span><span class="typ-punct">(</span><span class="typ-func">chord</span><span class="typ-punct">(</span><span class="typ-str">"x,9,7,8,9,9"</span><span class="typ-punct">)</span><span class="typ-punct">)</span>
+</code></code></pre>
+      <p>
+       <img alt="" src="https://github.com/typst/packages/raw/main/packages/preview/conchord/0.2.0/examples/simple.png"/>
+      </p>
+      <blockquote>
+       <p>
+        <code>
+         x
+        </code>
+        means closed string,
+        <code>
+         0
+        </code>
+        is open, other number is a fret. In case of frets larger than
+        <code>
+         9
+        </code>
+        frets should be separated with commas, otherwise you can list them without any separators.
+       </p>
+      </blockquote>
+      <blockquote>
+       <p>
+        Chord diagram works like a usual block, so to put them into one line you need to wrap them into boxes. In real code it is recommended to create a wrapper function to customize box margins etc (see larger example below).
+       </p>
+      </blockquote>
+      <p>
+       It is easy to customize the colors and styles of chords with
+       <code>
+        colors
+       </code>
+       argument and
+       <code>
+        show
+       </code>
+       rules for text. You can also put
+       <code>
+        !
+       </code>
+       and
+       <code>
+        *
+       </code>
+       marks in the end of the string to force diagram generation.
+       <code>
+        !
+       </code>
+       forces barre,
+       <code>
+        *
+       </code>
+       removes it:
+      </p>
+      <pre><code class="language-typst"><code><span class="typ-key">#</span><span class="typ-key">let</span> custom-chord <span class="typ-op">=</span> <span class="typ-func">new-chordgen</span><span class="typ-punct">(</span>string-number<span class="typ-punct">:</span> <span class="typ-num">3</span><span class="typ-punct">,</span>
+    colors<span class="typ-punct">:</span> <span class="typ-punct">(</span>shadow-barre<span class="typ-punct">:</span> orange<span class="typ-punct">,</span>
+        grid<span class="typ-punct">:</span> gray<span class="typ-punct">.</span><span class="typ-func">darken</span><span class="typ-punct">(</span><span class="typ-num">30%</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+        hold<span class="typ-punct">:</span> red<span class="typ-punct">,</span>
+        barre<span class="typ-punct">:</span> purple<span class="typ-punct">)</span>
+<span class="typ-punct">)</span>
+
+<span class="typ-key">#</span><span class="typ-key">set</span> <span class="typ-func">text</span><span class="typ-punct">(</span>fill<span class="typ-punct">:</span> purple<span class="typ-punct">)</span>
+<span class="typ-func">#</span><span class="typ-func">box</span><span class="typ-punct">(</span><span class="typ-func">custom-chord</span><span class="typ-punct">(</span><span class="typ-str">"320"</span><span class="typ-punct">,</span> name<span class="typ-punct">:</span> <span class="typ-str">"C"</span><span class="typ-punct">)</span><span class="typ-punct">)</span>
+<span class="typ-func">#</span><span class="typ-func">box</span><span class="typ-punct">(</span><span class="typ-func">custom-chord</span><span class="typ-punct">(</span><span class="typ-str">"2,4,4,*"</span><span class="typ-punct">,</span> name<span class="typ-punct">:</span> <span class="typ-str">"Bm"</span><span class="typ-punct">)</span><span class="typ-punct">)</span>
+<span class="typ-func">#</span><span class="typ-func">box</span><span class="typ-punct">(</span><span class="typ-func">custom-chord</span><span class="typ-punct">(</span><span class="typ-str">"2,2,2, *"</span><span class="typ-punct">)</span><span class="typ-punct">)</span>
+<span class="typ-func">#</span><span class="typ-func">box</span><span class="typ-punct">(</span><span class="typ-func">custom-chord</span><span class="typ-punct">(</span><span class="typ-str">"x,3,2, !"</span><span class="typ-punct">)</span><span class="typ-punct">)</span>
+</code></code></pre>
+      <p>
+       <img alt="" src="https://github.com/typst/packages/raw/main/packages/preview/conchord/0.2.0/examples/crazy.png"/>
+      </p>
+      <blockquote>
+       <p>
+        NOTE: be careful when using
+        <strong>
+         !
+        </strong>
+        , if barre cannot be used, it will result into nonsense.
+       </p>
+      </blockquote>
+      <p>
+       For lyrics, you donât need to add chord to word and specify the number of char in words (unlike
+       <a href="https://github.com/ljgago/typst-chords" rel="nofollow ugc" target="_blank">
+        chordx
+       </a>
+       ). Simply add
+       <code>
+        #overchord
+       </code>
+       to the place you want a chord. Compose with native Typst stylistic things for non-plain look (you donât need to dig into
+       <a href="https://github.com/ljgago/typst-chords" rel="nofollow ugc" target="_blank">
+        chordx
+       </a>
+       âs custom arguments):
+      </p>
+      <pre><code class="language-typst"><code><span class="typ-key">#</span><span class="typ-key">let</span> <span class="typ-func">och</span><span class="typ-punct">(</span>it<span class="typ-punct">)</span> <span class="typ-op">=</span> <span class="typ-func">overchord</span><span class="typ-punct">(</span><span class="typ-func">strong</span><span class="typ-punct">(</span>it<span class="typ-punct">)</span><span class="typ-punct">)</span>
+
+<span class="typ-heading">=== <span class="typ-func">#</span><span class="typ-func">raw</span><span class="typ-punct">(</span><span class="typ-str">"[Verse 1]"</span><span class="typ-punct">)</span></span>
+
+<span class="typ-func">#</span><span class="typ-func">och</span><span class="typ-punct">[</span>Em<span class="typ-punct">]</span> Another head 
+<span class="typ-func">#</span><span class="typ-func">och</span><span class="typ-punct">[</span>C<span class="typ-punct">]</span> hangs lowly <span class="typ-escape">\</span>
+<span class="typ-func">#</span><span class="typ-func">och</span><span class="typ-punct">[</span>G<span class="typ-punct">]</span> Child is slowly
+<span class="typ-func">#</span><span class="typ-func">och</span><span class="typ-punct">[</span>D<span class="typ-punct">]</span> taken
+
+<span class="typ-escape">...</span>
+</code></code></pre>
+      <blockquote>
+       <p>
+        Complete example of lyrics with chords (see
+        <a href="https://github.com/typst/packages/raw/main/packages/preview/conchord/0.2.0/examples/zombie.typ" rel="nofollow ugc" target="_blank">
+         full source
+        </a>
+        ):
+       </p>
+      </blockquote>
+      <p>
+       <img alt="" src="https://github.com/typst/packages/raw/main/packages/preview/conchord/0.2.0/examples/zombie.png"/>
+      </p>
+      <p>
+       I was quite amazed with general idea of
+       <a href="https://github.com/ljgago/typst-chords" rel="nofollow ugc" target="_blank">
+        chordx
+       </a>
+       , but a bit frustated with implementation, so I decided to quickly rewrite my old js code to Typst. I use
+       <code>
+        cetz
+       </code>
+       there, so code is quite clean.
+      </p>
+      <blockquote>
+       <p>
+        Note: This package doesnât use any piece of
+        <a href="https://github.com/ljgago/typst-chords" rel="nofollow ugc" target="_blank">
+         chordx
+        </a>
+        , only the general idea is taken.
+       </p>
+      </blockquote>
+      <p>
+       Brief comparison may be seen there, some concepts explained below:
+      </p>
+      <p>
+       <img alt="" src="https://github.com/typst/packages/raw/main/packages/preview/conchord/0.2.0/examples/compare.png"/>
+      </p>
+      <h2>
+       Think about frets, not layout
+      </h2>
+      <p>
+       Write frets for chord as you hold it, like a string like â123456â (see examples above). You donât need to think about layouting and subtracting frets,
+       <code>
+        conchord
+       </code>
+       does it for you.
+      </p>
+      <blockquote>
+       <p>
+        NOTE: I canât guarantee that will be the best chord layout. Moreover, the logic is quite simple: e.g., barre canât be multiple and canât be put anywhere except first bar in the image. However, surprisingly, it works well in almost all of the common cases, so the exceptions are really rare.
+       </p>
+      </blockquote>
+      <p>
+       If you need to create something too
+       <em>
+        custom/complex
+       </em>
+       <s>
+        (but not
+        <em>
+         concise
+        </em>
+        )
+       </s>
+       , maybe it is worth to try
+       <a href="https://github.com/ljgago/typst-chords" rel="nofollow ugc" target="_blank">
+        chordx
+       </a>
+       . You can also try using core function
+       <code>
+        render-chord
+       </code>
+       for more manual control, but it is still limited by one barre starting from one (but that barre may be shifted). If you think that feature should be supported, you can create issue there.
+      </p>
+      <h2>
+       Shadow barre
+      </h2>
+      <p>
+       Some chord generators put barre only where it
+       <em>
+        ought to
+       </em>
+       be (any less will not hold some strings). Others put it where it can be (sometimes maximal size, sometimes some other logic). I use simple barre where it
+       <strong>
+        ought to
+       </strong>
+       be, and add
+       <em>
+        shadow barre
+       </em>
+       where it
+       <strong>
+        could
+       </strong>
+       maximally be. You can easily disable it by either setting
+       <code>
+        use-shadow-barre: false
+       </code>
+       on
+       <code>
+        new-chordgen
+       </code>
+       (only necessary part of barre rendered) or by setting color of
+       <code>
+        shadow-barre
+       </code>
+       the same as
+       <code>
+        barre
+       </code>
+       (maximal possible barre).
+      </p>
+      <h2>
+       Name auto-scaling
+      </h2>
+      <p>
+       Chord name font size is
+       <em>
+        reduced
+       </em>
+       for
+       <em>
+        large
+       </em>
+       chord names, so the name fits well into chord diagram (see example above). That makes it much more pretty to stack several chords together. To achieve chordx-like behavior, you can always use
+       <code>
+        #figure(chord("â¦"), caption: â¦)
+       </code>
+       .
+      </p>
+      <h2>
+       Easier chords for lyrics
+      </h2>
+      <p>
+       Just add chord labels above lyrics in arbitrary place, donât think about what letter exactly it should be located. By default it aligns the chord label to the left, so it produces pretty results out-of-box. You can pass other alignments to
+       <code>
+        alignment
+       </code>
+       argument, or use the chords straight inside words.
+      </p>
+      <p>
+       The command is
+       <em>
+        much
+       </em>
+       simpler than chordx (of course, it is a trade-off):
+      </p>
+      <pre><code class="language-typst"><code><span class="typ-key">#</span><span class="typ-key">let</span> <span class="typ-func">overchord</span><span class="typ-punct">(</span>body<span class="typ-punct">,</span> align<span class="typ-punct">:</span> start<span class="typ-punct">,</span> height<span class="typ-punct">:</span> <span class="typ-num">1em</span><span class="typ-punct">,</span> width<span class="typ-punct">:</span> <span class="typ-op">-</span><span class="typ-num">0.25em</span><span class="typ-punct">)</span> <span class="typ-op">=</span> <span class="typ-func">box</span><span class="typ-punct">(</span><span class="typ-func">place</span><span class="typ-punct">(</span>align<span class="typ-punct">,</span> body<span class="typ-punct">)</span><span class="typ-punct">,</span> height<span class="typ-punct">:</span> <span class="typ-num">1em</span> <span class="typ-op">+</span> height<span class="typ-punct">,</span> width<span class="typ-punct">:</span> width<span class="typ-punct">)</span>
+</code></code></pre>
+      <p>
+       Feel free to use it for your purposes outside of the package.
+      </p>
+      <p>
+       It takes on default
+       <code>
+        -0.25em
+       </code>
+       width to remove one adjacent space, so
+      </p>
+      <ul>
+       <li>
+        To make it work on monospace/other special fonts, you will need to adjust
+        <code>
+         width
+        </code>
+        argument. The problem is that I canât
+        <code>
+         measure
+        </code>
+        space, but maybe that will be eventually fixed.
+       </li>
+       <li>
+        To add chord inside word, you have to add
+        <em>
+         one
+        </em>
+        space, like
+        <code>
+         wo #chord[Am]rd
+        </code>
+        .
+       </li>
+      </ul>
+      <h2>
+       Colors
+      </h2>
+      <p>
+       Customize the colors of chord elements.
+       <code>
+        new-chordgen
+       </code>
+       accepts the
+       <code>
+        colors
+       </code>
+       dictionary with following possible fields:
+      </p>
+      <ul>
+       <li>
+        <code>
+         grid
+        </code>
+        : color of grid, default is
+        <code>
+         gray.darken(20%)
+        </code>
+       </li>
+       <li>
+        <code>
+         open
+        </code>
+        : color of circles for open strings, default is
+        <code>
+         black
+        </code>
+       </li>
+       <li>
+        <code>
+         muted
+        </code>
+        : color of crosses for muted strings, default is
+        <code>
+         black
+        </code>
+       </li>
+       <li>
+        <code>
+         hold
+        </code>
+        : color of held positions, default is
+        <code>
+         #5d6eaf
+        </code>
+       </li>
+       <li>
+        <code>
+         barre
+        </code>
+        : color of main barre part, default is
+        <code>
+         #5d6eaf
+        </code>
+       </li>
+       <li>
+        <code>
+         shadow-barre
+        </code>
+        : color of âunnecessaryâ barre part, default is
+        <code>
+         #5d6eaf.lighten(30%)
+        </code>
+       </li>
+      </ul>
+      <h3>
+       Customizing text
+      </h3>
+      <p>
+       <strong>
+        Important
+       </strong>
+       :
+       <em>
+        frets
+       </em>
+       are rendered using
+       <code>
+        raw
+       </code>
+       elements. So if you want to customize their font or color, please use
+       <code>
+        #show raw: set text(fill: ...)
+       </code>
+       or similar things.
+      </p>
+      <p>
+       The chordâs name, on the other hand, uses default font, so to set it, just use
+       <code>
+        #set text(font: ...)
+       </code>
+       in the corresponding scope.
+      </p>
+      <h2>
+       Assertions
+      </h2>
+      <p>
+       Currently
+       <a href="https://github.com/ljgago/typst-chords" rel="nofollow ugc" target="_blank">
+        chordx
+       </a>
+       has almost no checks inside for correctness of passed chords.
+       <code>
+        conchord
+       </code>
+       , on the other side, checks for
+      </p>
+      <ul>
+       <li>
+        Number of passed&amp;parsed frets equal to set string-number
+       </li>
+       <li>
+        Only numbers and
+        <code>
+         x
+        </code>
+        passed as frets
+       </li>
+       <li>
+        All frets fitting in the diagram
+       </li>
+      </ul>
+      <blockquote>
+       <p>
+        Everything there is highly experimental and unstable
+       </p>
+      </blockquote>
+      <p>
+       <img alt="Tabs example" src="https://github.com/typst/packages/raw/main/packages/preview/conchord/0.2.0/examples/tabs.png"/>
+      </p>
+      <pre><code class="language-typst"><code><span class="typ-key">#</span><span class="typ-key">let</span> chord <span class="typ-op">=</span> <span class="typ-func">new-chordgen</span><span class="typ-punct">(</span>scale-length<span class="typ-punct">:</span> <span class="typ-num">0.6pt</span><span class="typ-punct">)</span>
+
+<span class="typ-key">#</span><span class="typ-key">let</span> <span class="typ-func">ending</span><span class="typ-punct">(</span>n<span class="typ-punct">)</span> <span class="typ-op">=</span> <span class="typ-punct">{</span>
+    <span class="typ-func">rect</span><span class="typ-punct">(</span>stroke<span class="typ-punct">:</span> <span class="typ-punct">(</span>left<span class="typ-punct">:</span> black<span class="typ-punct">,</span> top<span class="typ-punct">:</span> black<span class="typ-punct">)</span><span class="typ-punct">,</span> inset<span class="typ-punct">:</span> <span class="typ-num">0.2em</span><span class="typ-punct">,</span> n <span class="typ-op">+</span> <span class="typ-func">h</span><span class="typ-punct">(</span><span class="typ-num">3em</span><span class="typ-punct">)</span><span class="typ-punct">)</span>
+    <span class="typ-func">v</span><span class="typ-punct">(</span><span class="typ-num">0.5em</span><span class="typ-punct">)</span>
+<span class="typ-punct">}</span>
+<span class="typ-strong">*This thing doesn't follow musical notation rules, it is used just for demonstration purposes*</span>:
+
+<span class="typ-pol">#</span><span class="typ-pol">tabs</span><span class="typ-punct">.</span><span class="typ-func">new</span><span class="typ-punct">(</span><span class="typ-raw">```
+2/4 2/4-3 2/4-2 2/4-3 |
+2/4-2 2/4-3 2/4 2/4 2/4 |
+2/4-2 p 0/2-3 3/2-2
+|:
+
+0/1+0/6 0/1 0/1-3 2/1 | 3/1+3/5-2 3/1 3/1-3 5/1 | 2/1+0/4-2 2/1 0/1-3 3/2-3 | \ \
+3/2-2 `5/2-3
+p-2
+##
+  chord("022000", name: "Em")
+##south
+0/2-3 3/2 | | ## [...] ## p-4. | | 7/1-3 0/1-2 p-3 0/1 3/1 
+
+##
+    ending[1.]
+##west
+
+|
+2/1-3
+2/1
+3/1 0/1 2/1-2 p-3 0/2-3 3/2-3
+##
+  ending[2.]
+##west
+|
+2/1-2 2/1 0/1-3 3/2 :| 0/6-2 | ^0/6-2 || \
+1/1 2/1 2/2 2/2 2/3 2/3 4/4 4/4 4/4 4/4 4/4 4/4 2/3 2/3 2/3 2/3  2/3 2/3 2/3 2/3 2/3 2/3 2/3 2/3 2/3
+##
+[notice there is no manual break]
+##east
+| 2/3 2/3 8/3 7/3 6/3 5/3 4/3 2/3  5/3 8/3 9/3  7/3 2/3 | 2/3 2/2 2/3 2/4 |
+10/1-3 10/1-3 10/1-3 10/1-4 10/1-4 10/1-4 10/1-4 10/1-5. 10/1-5. 10/1-5 10/1-5 10/1-2 \
+1/3bfullr+2/5-2 1/2b1/2-1 2/3v-1
+```</span><span class="typ-punct">,</span> eval-scope<span class="typ-punct">:</span> <span class="typ-punct">(</span>chord<span class="typ-punct">:</span> chord<span class="typ-punct">,</span> ending<span class="typ-punct">:</span> ending<span class="typ-punct">)</span>
+ <span class="typ-punct">)</span>
+
+
+Not a lot customization is available yet, but something is already possible:
+
+<span class="typ-key">#</span><span class="typ-key">show</span> <span class="typ-func">raw</span><span class="typ-punct">:</span> <span class="typ-key">set</span> <span class="typ-func">text</span><span class="typ-punct">(</span>red<span class="typ-punct">.</span><span class="typ-func">darken</span><span class="typ-punct">(</span><span class="typ-num">30%</span><span class="typ-punct">)</span><span class="typ-punct">,</span> font<span class="typ-punct">:</span> <span class="typ-str">"Comic Sans MS"</span><span class="typ-punct">)</span>
+
+<span class="typ-pol">#</span><span class="typ-pol">tabs</span><span class="typ-punct">.</span><span class="typ-func">new</span><span class="typ-punct">(</span><span class="typ-str">"0/1+2/5-1 ^0/1+`3/5-2.. 2/3 |: 2/3-1 2/3 2/3 | 3/3 ||"</span><span class="typ-punct">,</span>
+  scale-length<span class="typ-punct">:</span> <span class="typ-num">0.2cm</span><span class="typ-punct">,</span>
+  one-beat-length<span class="typ-punct">:</span> <span class="typ-num">12</span><span class="typ-punct">,</span>
+  s-num<span class="typ-punct">:</span> <span class="typ-num">5</span><span class="typ-punct">,</span>
+  colors<span class="typ-punct">:</span> <span class="typ-punct">(</span>
+    lines<span class="typ-punct">:</span> gradient<span class="typ-punct">.</span><span class="typ-func">linear</span><span class="typ-punct">(</span>yellow<span class="typ-punct">,</span> blue<span class="typ-punct">)</span><span class="typ-punct">,</span>
+    bars<span class="typ-punct">:</span> green<span class="typ-punct">,</span>
+    connects<span class="typ-punct">:</span> red
+  <span class="typ-punct">)</span><span class="typ-punct">,</span>
+  enable-scale<span class="typ-punct">:</span> <span class="typ-key">false</span>
+<span class="typ-punct">)</span>
+</code></code></pre>
+      <p>
+       As you can see from example, you can use raw strings or code blocks to write tabs, there is no real difference.
+      </p>
+      <p>
+       The general idea is very simple: to write a number on some line, write
+       <code>
+        &lt;fret number&gt;/&lt;string&gt;
+       </code>
+       .
+      </p>
+      <p>
+       <strong>
+        Spaces are important!
+       </strong>
+       All notes and special symbols work well only if properly separated.
+      </p>
+      <h3>
+       Duration
+      </h3>
+      <p>
+       By default they will be quarter notes. To change that, you have to specify the duration:
+       <code>
+        &lt;fret&gt;/&lt;string&gt;-&lt;duration&gt;
+       </code>
+       , where duration is $log_2$ from note duration. So a whole note will be
+       <code>
+        -0
+       </code>
+       , a half:
+       <code>
+        -1
+       </code>
+       and so on. You can also use as many dots as you want to multiply duration by 1.5, e.g.
+       <code>
+        -2.
+       </code>
+      </p>
+      <p>
+       Once you change the duration, all the following notes will use it, so you have to specify duration every time it is changed (basically, always, but it really depends on composition). Of course, you can just ignore all that duration staff.
+      </p>
+      <h3>
+       Bars and repetitions
+      </h3>
+      <p>
+       To add simple bar, just add
+       <code>
+        |
+       </code>
+       . To add double bar line, use
+       <code>
+        | |
+       </code>
+       . To add end movement/composition, add
+       <code>
+        ||
+       </code>
+       . To add repetitions, use
+       <code>
+        |:
+       </code>
+       and
+       <code>
+        :|
+       </code>
+       respectively.
+      </p>
+      <h3>
+       Linebreaks
+      </h3>
+      <p>
+       Notes and bars that donât fit in line will be automatically moved to next. However, sometimes it isnât ideal and may be a bit bugged, so it is recommended to do that manually, using
+       <code>
+        \
+       </code>
+       .
+      </p>
+      <p>
+       The line is autoscaled if it is possible and not too ugly. You can change the maximum and minimum scaling size with
+       <code>
+        scale-max
+       </code>
+       and
+       <code>
+        scale-min
+       </code>
+       . It is also possible to completely disable scaling with
+       <code>
+        enable-scale: false
+       </code>
+       .
+      </p>
+      <h3>
+       Ties and slides
+      </h3>
+      <p>
+       You can
+       <em>
+        tie
+       </em>
+       notes or
+       <em>
+        slide
+       </em>
+       between them. To use ties, you have to add
+       <code>
+        ^
+       </code>
+       in front of
+       <em>
+        second
+       </em>
+       tied note, like
+       <code>
+        1/1 ^3/1
+       </code>
+       . To use slides you have to do the same, but with `.
+      </p>
+      <p>
+       <em>
+        Current limitation:
+       </em>
+       tying and sliding works only on the same string and may work really bad if tied/slided through line break.
+      </p>
+      <h2>
+       Bends and vibratos
+      </h2>
+      <p>
+       Add
+       <code>
+        b
+       </code>
+       after note, but before the duration (e.g.
+       <code>
+        2/3b-2
+       </code>
+       ) to add a bend. After
+       <code>
+        b
+       </code>
+       you can write custom text to be written on top (for example,
+       <code>
+        b1/2
+       </code>
+       ). Add
+       <code>
+        r
+       </code>
+       to the end to add a release.
+      </p>
+      <p>
+       Adding vibratos works the same way, via adding
+       <code>
+        v
+       </code>
+       to the note. The length of vibrato will be the same as the length of the note.
+      </p>
+      <p>
+       Unfortunately, they are all supported things for now. But wait, there is still one cool thing left!
+      </p>
+      <h3>
+       Custom content
+      </h3>
+      <p>
+       Add any typst code you want between
+       <code>
+        ## â¦ ##
+       </code>
+       . It will be rendered with
+       <code>
+        cetz
+       </code>
+       on top of the line where you wrote it. That means you can write
+       <em>
+        lyrics, chords, add complex things like endings
+       </em>
+       , even
+       <strong>
+        draw the elements that are still missing
+       </strong>
+       (well, it is still worth to create issue there, I will try to do something).
+      </p>
+      <p>
+       That code is evaluated with
+       <code>
+        eval
+       </code>
+       , so you will need to pass dictionary to
+       <code>
+        eval-scope
+       </code>
+       with all things you want to use.
+      </p>
+      <p>
+       You can set align of these elements by writing cetz anchors after the second (e.g.,
+       <code>
+        west
+       </code>
+       ,
+       <code>
+        south
+       </code>
+       and their combinations, like
+       <code>
+        west-south
+       </code>
+       ).
+      </p>
+      <p>
+       Additionally, if you enjoy drawing missing things, you can also use
+       <code>
+        preamble
+       </code>
+       and
+       <code>
+        extra
+       </code>
+       arguments in
+       <code>
+        tabs.new
+       </code>
+       where you can put any
+       <code>
+        cetz
+       </code>
+       inner things (tabs uses canvas, and that allow you drawing on it) before or after the tabs are drawn.
+      </p>
+      <h3>
+       Plans
+      </h3>
+      <ol>
+       <li>
+        Add
+        <em>
+         (optional)
+        </em>
+        ârhythm sectionâ under tabs
+       </li>
+       <li>
+        Add more signs&amp;lines
+       </li>
+       <li>
+        Add more built-in things to attach above tabs
+       </li>
+      </ol>
+      <p>
+       It is far from what I want to do, so maybe there will be much more! I will be very glad to receive
+       <em>
+        any feedback
+       </em>
+       , both issues and PR-s are very welcome (though I canât promise I will be able to work on it immediately)!
+      </p>
+     </section>
+     <aside>
+      <section>
+       <h3>
+        How to add
+       </h3>
+       <p>
+        Copy this into your project and use the import as
+        <!-- -->
+        <code>
+         conchord
+        </code>
+       </p>
+       <div class="import-snippet">
+        <pre><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/conchord:0.2.0"</span></code></pre>
+        <button class="copy" title="Copy to clipboard">
+         <img alt="Copy" height="16" src="/assets/icons/16-copy.svg" width="16"/>
+        </button>
+       </div>
+       <p class="muted">
+        Check the docs for
+        <!-- -->
+        <a href="https://typst.app/docs/reference/scripting/#packages">
+         more information on how to import packages
+        </a>
+        .
+       </p>
+      </section>
+      <section id="about">
+       <h3>
+        About
+       </h3>
+       <dl>
+        <dt>
+         Author
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         sitandr
+        </dd>
+        <dt>
+         License:
+        </dt>
+        <dd>
+         MIT
+        </dd>
+        <dt>
+         Current version:
+        </dt>
+        <dd>
+         0.2.0
+        </dd>
+        <dt>
+         Last updated:
+        </dt>
+        <dd>
+         February 6, 2024
+        </dd>
+        <dt>
+         First released:
+        </dt>
+        <dd>
+         July 24, 2023
+        </dd>
+        <dt>
+         Minimum Typst version:
+        </dt>
+        <dd>
+         0.8.0
+        </dd>
+        <dt>
+         Archive size:
+        </dt>
+        <dd class="archive-size-value">
+         12.8 kB
+         <a href="https://packages.typst.org/preview/conchord-0.2.0.tar.gz">
+          <img alt="Size icon" src="/assets/icons/16-download.svg"/>
+         </a>
+        </dd>
+        <dt>
+         Repository:
+        </dt>
+        <dd>
+         <a href="https://github.com/sitandr/conchord" rel="noopener noreferrer" target="_blank">
+          GitHub
+         </a>
+        </dd>
+       </dl>
+      </section>
+      <section>
+       <h3>
+        Where to report issues?
+       </h3>
+       <p>
+        This
+        <!-- -->
+        package
+        <!-- -->
+        is a project of
+        <!-- -->
+        <!-- -->
+        sitandr
+        <!-- -->
+        .
+        <!-- -->
+        <!-- -->
+        Report issues on
+        <!-- -->
+        <a href="https://github.com/sitandr/conchord" rel="noopener noreferrer" target="_blank">
+         their repository
+        </a>
+        .
+        <!-- -->
+        <!-- -->
+        You can also try to ask for help with this
+        <!-- -->
+        package
+        <!-- -->
+        on the
+        <!-- -->
+        <a href="https://forum.typst.app" rel="noopener" target="_blank">
+         Forum
+        </a>
+        .
+       </p>
+       <p>
+        Please report this
+        <!-- -->
+        package
+        <!-- -->
+        to the Typst team using the
+        <!-- -->
+        <a href="https://typst.app/contact" rel="noreferrer" target="_blank">
+         contact form
+        </a>
+        <!-- -->
+        if you believe it is a safety hazard or infringes upon your rights.
+       </p>
+      </section>
+      <section id="versions">
+       <h3>
+        Version history
+       </h3>
+       <table>
+        <thead>
+         <tr>
+          <th align="left">
+           Version
+          </th>
+          <th align="left">
+           Release Date
+          </th>
+         </tr>
+        </thead>
+        <tbody>
+         <tr>
+          <td align="left">
+           0.2.0
+          </td>
+          <td align="left">
+           February 6, 2024
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/conchord/0.1.1/">
+            0.1.1
+           </a>
+          </td>
+          <td align="left">
+           September 19, 2023
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/conchord/0.1.0/">
+            0.1.0
+           </a>
+          </td>
+          <td align="left">
+           July 24, 2023
+          </td>
+         </tr>
+        </tbody>
+       </table>
+      </section>
+      <p class="bottom-notice muted">
+       Typst GmbH did not create this
+       <!-- -->
+       package
+       <!-- -->
+       and cannot guarantee correct functionality of this
+       <!-- -->
+       package
+       <!-- -->
+       or compatibility with any version of the Typst compiler or app.
+      </p>
+     </aside>
+    </div>
+   </main>

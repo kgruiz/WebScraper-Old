@@ -1,0 +1,533 @@
+<main>
+    <div id="banner" style="--banner-accent:#000000;--banner-primary:#000000;--banner-secondary:#000000;--banner-tertiary:#565565;--banner-background:#eff0f3">
+     <div class="package-icon" role="img">
+     </div>
+     <div>
+      <div class="title">
+       <h1 class="name">
+        chronos
+       </h1>
+       <span class="version">
+        0.2.0
+       </span>
+      </div>
+      <p class="description">
+       A package to draw sequence diagrams with CeTZ
+      </p>
+     </div>
+    </div>
+    <div class="inner-grid">
+     <section id="readme">
+      <p>
+       A Typst package to draw sequence diagrams with CeTZ
+      </p>
+      <hr/>
+      <p>
+       This package lets you render sequence diagrams directly in Typst. The following boilerplate code creates an empty sequence diagram with two participants:
+      </p>
+      <table>
+       <tbody>
+        <tr>
+         <td>
+          <strong>
+           Typst
+          </strong>
+         </td>
+         <td>
+          <strong>
+           Result
+          </strong>
+         </td>
+        </tr>
+        <tr>
+         <td>
+          <pre><code class="language-typst"><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/chronos:0.2.0"</span>
+<span class="typ-pol">#</span><span class="typ-pol">chronos</span><span class="typ-punct">.</span><span class="typ-func">diagram</span><span class="typ-punct">(</span><span class="typ-punct">{</span>
+  <span class="typ-key">import</span> chronos<span class="typ-punct">:</span> <span class="typ-op">*</span>
+  <span class="typ-func">_par</span><span class="typ-punct">(</span><span class="typ-str">"Alice"</span><span class="typ-punct">)</span>
+  <span class="typ-func">_par</span><span class="typ-punct">(</span><span class="typ-str">"Bob"</span><span class="typ-punct">)</span>
+<span class="typ-punct">}</span><span class="typ-punct">)</span>
+</code></code></pre>
+         </td>
+         <td>
+          <img src="https://github.com/typst/packages/raw/main/packages/preview/chronos/0.2.0/gallery/readme/boilerplate.png"/>
+         </td>
+        </tr>
+       </tbody>
+      </table>
+      <blockquote>
+       <p>
+        <em>
+         Disclaimer
+        </em>
+        <br/>
+        The package cannot parse PlantUML syntax for the moment, and thus requires the use of element functions, as shown in the examples. A PlantUML parser is in the TODO list, just not the top priority
+       </p>
+      </blockquote>
+      <h2>
+       Basic sequences
+      </h2>
+      <p>
+       You can make basic sequences using the
+       <code>
+        _seq
+       </code>
+       function:
+      </p>
+      <table>
+       <tbody>
+        <tr>
+         <td>
+          <strong>
+           Typst
+          </strong>
+         </td>
+         <td>
+          <strong>
+           Result
+          </strong>
+         </td>
+        </tr>
+        <tr>
+         <td>
+          <pre><code class="language-typst"><code><span class="typ-pol">#</span><span class="typ-pol">chronos</span><span class="typ-punct">.</span><span class="typ-func">diagram</span><span class="typ-punct">(</span><span class="typ-punct">{</span>
+  <span class="typ-key">import</span> chronos<span class="typ-punct">:</span> <span class="typ-op">*</span>
+  <span class="typ-func">_par</span><span class="typ-punct">(</span><span class="typ-str">"Alice"</span><span class="typ-punct">)</span>
+  <span class="typ-func">_par</span><span class="typ-punct">(</span><span class="typ-str">"Bob"</span><span class="typ-punct">)</span>
+
+  <span class="typ-func">_seq</span><span class="typ-punct">(</span><span class="typ-str">"Alice"</span><span class="typ-punct">,</span> <span class="typ-str">"Bob"</span><span class="typ-punct">,</span> comment<span class="typ-punct">:</span> <span class="typ-str">"Hello"</span><span class="typ-punct">)</span>
+  <span class="typ-func">_seq</span><span class="typ-punct">(</span><span class="typ-str">"Bob"</span><span class="typ-punct">,</span> <span class="typ-str">"Bob"</span><span class="typ-punct">,</span> comment<span class="typ-punct">:</span> <span class="typ-str">"Think"</span><span class="typ-punct">)</span>
+  <span class="typ-func">_seq</span><span class="typ-punct">(</span><span class="typ-str">"Bob"</span><span class="typ-punct">,</span> <span class="typ-str">"Alice"</span><span class="typ-punct">,</span> comment<span class="typ-punct">:</span> <span class="typ-str">"Hi"</span><span class="typ-punct">)</span>
+<span class="typ-punct">}</span><span class="typ-punct">)</span>
+</code></code></pre>
+         </td>
+         <td>
+          <img src="https://github.com/typst/packages/raw/main/packages/preview/chronos/0.2.0/gallery/readme/simple_sequence.png"/>
+         </td>
+        </tr>
+       </tbody>
+      </table>
+      <p>
+       You can make lifelines using the following parameters of the
+       <code>
+        _seq
+       </code>
+       function:
+      </p>
+      <ul>
+       <li>
+        <code>
+         enable-dst
+        </code>
+        : enables the destination lifeline
+       </li>
+       <li>
+        <code>
+         create-dst
+        </code>
+        : creates the destination lifeline and participant
+       </li>
+       <li>
+        <code>
+         disable-dst
+        </code>
+        : disables the destination lifeline
+       </li>
+       <li>
+        <code>
+         destroy-dst
+        </code>
+        : destroys the destination lifeline and participant
+       </li>
+       <li>
+        <code>
+         disable-src
+        </code>
+        : disables the source lifeline
+       </li>
+       <li>
+        <code>
+         destroy-src
+        </code>
+        : destroy the source lifeline and participant
+       </li>
+      </ul>
+      <table>
+       <tbody>
+        <tr>
+         <td>
+          <strong>
+           Typst
+          </strong>
+         </td>
+         <td>
+          <strong>
+           Result
+          </strong>
+         </td>
+        </tr>
+        <tr>
+         <td>
+          <pre><code class="language-typst"><code><span class="typ-pol">#</span><span class="typ-pol">chronos</span><span class="typ-punct">.</span><span class="typ-func">diagram</span><span class="typ-punct">(</span><span class="typ-punct">{</span>
+  <span class="typ-key">import</span> chronos<span class="typ-punct">:</span> <span class="typ-op">*</span>
+  <span class="typ-func">_par</span><span class="typ-punct">(</span><span class="typ-str">"A"</span><span class="typ-punct">,</span> display-name<span class="typ-punct">:</span> <span class="typ-str">"Alice"</span><span class="typ-punct">)</span>
+  <span class="typ-func">_par</span><span class="typ-punct">(</span><span class="typ-str">"B"</span><span class="typ-punct">,</span> display-name<span class="typ-punct">:</span> <span class="typ-str">"Bob"</span><span class="typ-punct">)</span>
+  <span class="typ-func">_par</span><span class="typ-punct">(</span><span class="typ-str">"C"</span><span class="typ-punct">,</span> display-name<span class="typ-punct">:</span> <span class="typ-str">"Charlie"</span><span class="typ-punct">)</span>
+  <span class="typ-func">_par</span><span class="typ-punct">(</span><span class="typ-str">"D"</span><span class="typ-punct">,</span> display-name<span class="typ-punct">:</span> <span class="typ-str">"Derek"</span><span class="typ-punct">)</span>
+
+  <span class="typ-func">_seq</span><span class="typ-punct">(</span><span class="typ-str">"A"</span><span class="typ-punct">,</span> <span class="typ-str">"B"</span><span class="typ-punct">,</span> comment<span class="typ-punct">:</span> <span class="typ-str">"hello"</span><span class="typ-punct">,</span> enable-dst<span class="typ-punct">:</span> <span class="typ-key">true</span><span class="typ-punct">)</span>
+  <span class="typ-func">_seq</span><span class="typ-punct">(</span><span class="typ-str">"B"</span><span class="typ-punct">,</span> <span class="typ-str">"B"</span><span class="typ-punct">,</span> comment<span class="typ-punct">:</span> <span class="typ-str">"self call"</span><span class="typ-punct">,</span> enable-dst<span class="typ-punct">:</span> <span class="typ-key">true</span><span class="typ-punct">)</span>
+  <span class="typ-func">_seq</span><span class="typ-punct">(</span><span class="typ-str">"C"</span><span class="typ-punct">,</span> <span class="typ-str">"B"</span><span class="typ-punct">,</span> comment<span class="typ-punct">:</span> <span class="typ-str">"hello from thread 2"</span><span class="typ-punct">,</span> enable-dst<span class="typ-punct">:</span> <span class="typ-key">true</span><span class="typ-punct">,</span> lifeline-style<span class="typ-punct">:</span> <span class="typ-punct">(</span>fill<span class="typ-punct">:</span> <span class="typ-func">rgb</span><span class="typ-punct">(</span><span class="typ-str">"#005500"</span><span class="typ-punct">)</span><span class="typ-punct">)</span><span class="typ-punct">)</span>
+  <span class="typ-func">_seq</span><span class="typ-punct">(</span><span class="typ-str">"B"</span><span class="typ-punct">,</span> <span class="typ-str">"D"</span><span class="typ-punct">,</span> comment<span class="typ-punct">:</span> <span class="typ-str">"create"</span><span class="typ-punct">,</span> create-dst<span class="typ-punct">:</span> <span class="typ-key">true</span><span class="typ-punct">)</span>
+  <span class="typ-func">_seq</span><span class="typ-punct">(</span><span class="typ-str">"B"</span><span class="typ-punct">,</span> <span class="typ-str">"C"</span><span class="typ-punct">,</span> comment<span class="typ-punct">:</span> <span class="typ-str">"done in thread 2"</span><span class="typ-punct">,</span> disable-src<span class="typ-punct">:</span> <span class="typ-key">true</span><span class="typ-punct">,</span> dashed<span class="typ-punct">:</span> <span class="typ-key">true</span><span class="typ-punct">)</span>
+  <span class="typ-func">_seq</span><span class="typ-punct">(</span><span class="typ-str">"B"</span><span class="typ-punct">,</span> <span class="typ-str">"B"</span><span class="typ-punct">,</span> comment<span class="typ-punct">:</span> <span class="typ-str">"rc"</span><span class="typ-punct">,</span> disable-src<span class="typ-punct">:</span> <span class="typ-key">true</span><span class="typ-punct">,</span> dashed<span class="typ-punct">:</span> <span class="typ-key">true</span><span class="typ-punct">)</span>
+  <span class="typ-func">_seq</span><span class="typ-punct">(</span><span class="typ-str">"B"</span><span class="typ-punct">,</span> <span class="typ-str">"D"</span><span class="typ-punct">,</span> comment<span class="typ-punct">:</span> <span class="typ-str">"delete"</span><span class="typ-punct">,</span> destroy-dst<span class="typ-punct">:</span> <span class="typ-key">true</span><span class="typ-punct">)</span>
+  <span class="typ-func">_seq</span><span class="typ-punct">(</span><span class="typ-str">"B"</span><span class="typ-punct">,</span> <span class="typ-str">"A"</span><span class="typ-punct">,</span> comment<span class="typ-punct">:</span> <span class="typ-str">"success"</span><span class="typ-punct">,</span> disable-src<span class="typ-punct">:</span> <span class="typ-key">true</span><span class="typ-punct">,</span> dashed<span class="typ-punct">:</span> <span class="typ-key">true</span><span class="typ-punct">)</span>
+<span class="typ-punct">}</span><span class="typ-punct">)</span>
+</code></code></pre>
+         </td>
+         <td>
+          <img src="https://github.com/typst/packages/raw/main/packages/preview/chronos/0.2.0/gallery/readme/lifelines.png"/>
+         </td>
+        </tr>
+       </tbody>
+      </table>
+      <h2>
+       Showcase
+      </h2>
+      <p>
+       Several features have already been implemented in Chronos. Donât hesitate to checkout the examples in the
+       <a href="https://github.com/typst/packages/raw/main/packages/preview/chronos/0.2.0/gallery" rel="nofollow ugc" target="_blank">
+        gallery
+       </a>
+       folder to see what you can do.
+      </p>
+      <h4>
+       Quick example reference:
+      </h4>
+      <table>
+       <tbody>
+        <tr>
+         <td>
+          <strong>
+           Example
+          </strong>
+         </td>
+         <td>
+          <strong>
+           Features
+          </strong>
+         </td>
+        </tr>
+        <tr>
+         <td>
+          <p>
+           <code>
+            example1
+           </code>
+           <br/>
+           (
+           <a href="https://github.com/typst/packages/raw/main/packages/preview/chronos/0.2.0/gallery/example1.pdf" rel="nofollow ugc" target="_blank">
+            PDF
+           </a>
+           |
+           <a href="https://github.com/typst/packages/raw/main/packages/preview/chronos/0.2.0/gallery/example1.typ" rel="nofollow ugc" target="_blank">
+            Typst
+           </a>
+           )
+          </p>
+         </td>
+         <td>
+          Simple cases, color sequences, groups, separators, gaps, self-sequences
+         </td>
+        </tr>
+        <tr>
+         <td>
+          <p>
+           <code>
+            example2
+           </code>
+           <br/>
+           (
+           <a href="https://github.com/typst/packages/raw/main/packages/preview/chronos/0.2.0/gallery/example2.pdf" rel="nofollow ugc" target="_blank">
+            PDF
+           </a>
+           |
+           <a href="https://github.com/typst/packages/raw/main/packages/preview/chronos/0.2.0/gallery/example2.typ" rel="nofollow ugc" target="_blank">
+            Typst
+           </a>
+           )
+          </p>
+         </td>
+         <td>
+          Lifelines, found/lost messages, synchronized sequences, slanted sequences
+         </td>
+        </tr>
+        <tr>
+         <td>
+          <p>
+           <code>
+            example3
+           </code>
+           <br/>
+           (
+           <a href="https://github.com/typst/packages/raw/main/packages/preview/chronos/0.2.0/gallery/example3.pdf" rel="nofollow ugc" target="_blank">
+            PDF
+           </a>
+           |
+           <a href="https://github.com/typst/packages/raw/main/packages/preview/chronos/0.2.0/gallery/example3.typ" rel="nofollow ugc" target="_blank">
+            Typst
+           </a>
+           )
+          </p>
+         </td>
+         <td>
+          Participant shapes, sequence tips, hidden partipicant ends
+         </td>
+        </tr>
+        <tr>
+         <td>
+          <p>
+           <code>
+            notes
+           </code>
+           <br/>
+           (
+           <a href="https://github.com/typst/packages/raw/main/packages/preview/chronos/0.2.0/gallery/notes.pdf" rel="nofollow ugc" target="_blank">
+            PDF
+           </a>
+           |
+           <a href="https://github.com/typst/packages/raw/main/packages/preview/chronos/0.2.0/gallery/notes.typ" rel="nofollow ugc" target="_blank">
+            Typst
+           </a>
+           )
+          </p>
+         </td>
+         <td>
+          Notes (duh), deferred participant creation
+         </td>
+        </tr>
+       </tbody>
+      </table>
+      <blockquote>
+       <p>
+        [!NOTE]
+       </p>
+       <p>
+        Many examples were taken/adapted from the PlantUML
+        <a href="https://plantuml.com/sequence-diagram" rel="nofollow ugc" target="_blank">
+         documentation
+        </a>
+        on sequence diagrams
+       </p>
+      </blockquote>
+     </section>
+     <aside>
+      <section>
+       <h3>
+        How to add
+       </h3>
+       <p>
+        Copy this into your project and use the import as
+        <!-- -->
+        <code>
+         chronos
+        </code>
+       </p>
+       <div class="import-snippet">
+        <pre><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/chronos:0.2.0"</span></code></pre>
+        <button class="copy" title="Copy to clipboard">
+         <img alt="Copy" height="16" src="/assets/icons/16-copy.svg" width="16"/>
+        </button>
+       </div>
+       <p class="muted">
+        Check the docs for
+        <!-- -->
+        <a href="https://typst.app/docs/reference/scripting/#packages">
+         more information on how to import packages
+        </a>
+        .
+       </p>
+      </section>
+      <section id="about">
+       <h3>
+        About
+       </h3>
+       <dl>
+        <dt>
+         Author
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         <a href="https://git.kb28.ch/HEL" rel="noopener noreferrer" target="_blank">
+          Louis Heredero
+         </a>
+        </dd>
+        <dt>
+         License:
+        </dt>
+        <dd>
+         Apache-2.0
+        </dd>
+        <dt>
+         Current version:
+        </dt>
+        <dd>
+         0.2.0
+        </dd>
+        <dt>
+         Last updated:
+        </dt>
+        <dd>
+         November 12, 2024
+        </dd>
+        <dt>
+         First released:
+        </dt>
+        <dd>
+         October 1, 2024
+        </dd>
+        <dt>
+         Minimum Typst version:
+        </dt>
+        <dd>
+         0.12.0
+        </dd>
+        <dt>
+         Archive size:
+        </dt>
+        <dd class="archive-size-value">
+         537 kB
+         <a href="https://packages.typst.org/preview/chronos-0.2.0.tar.gz">
+          <img alt="Size icon" src="/assets/icons/16-download.svg"/>
+         </a>
+        </dd>
+        <dt>
+         Repository:
+        </dt>
+        <dd>
+         <a href="https://git.kb28.ch/HEL/chronos" rel="noopener noreferrer" target="_blank">
+          git.kb28.ch
+         </a>
+        </dd>
+        <dt>
+         Categor
+         <!-- -->
+         y
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         <ul class="list-with-icons">
+          <li>
+           <img alt="Visualization icon" src="/assets/icons/16-chart.svg"/>
+           <a href="https://typst.app/universe/search/?category=visualization">
+            Visualization
+           </a>
+          </li>
+         </ul>
+        </dd>
+       </dl>
+      </section>
+      <section>
+       <h3>
+        Where to report issues?
+       </h3>
+       <p>
+        This
+        <!-- -->
+        package
+        <!-- -->
+        is a project of
+        <!-- -->
+        <!-- -->
+        Louis Heredero
+        <!-- -->
+        .
+        <!-- -->
+        <!-- -->
+        Report issues on
+        <!-- -->
+        <a href="https://git.kb28.ch/HEL/chronos" rel="noopener noreferrer" target="_blank">
+         their repository
+        </a>
+        .
+        <!-- -->
+        <!-- -->
+        You can also try to ask for help with this
+        <!-- -->
+        package
+        <!-- -->
+        on the
+        <!-- -->
+        <a href="https://forum.typst.app" rel="noopener" target="_blank">
+         Forum
+        </a>
+        .
+       </p>
+       <p>
+        Please report this
+        <!-- -->
+        package
+        <!-- -->
+        to the Typst team using the
+        <!-- -->
+        <a href="https://typst.app/contact" rel="noreferrer" target="_blank">
+         contact form
+        </a>
+        <!-- -->
+        if you believe it is a safety hazard or infringes upon your rights.
+       </p>
+      </section>
+      <section id="versions">
+       <h3>
+        Version history
+       </h3>
+       <table>
+        <thead>
+         <tr>
+          <th align="left">
+           Version
+          </th>
+          <th align="left">
+           Release Date
+          </th>
+         </tr>
+        </thead>
+        <tbody>
+         <tr>
+          <td align="left">
+           0.2.0
+          </td>
+          <td align="left">
+           November 12, 2024
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/chronos/0.1.0/">
+            0.1.0
+           </a>
+          </td>
+          <td align="left">
+           October 1, 2024
+          </td>
+         </tr>
+        </tbody>
+       </table>
+      </section>
+      <p class="bottom-notice muted">
+       Typst GmbH did not create this
+       <!-- -->
+       package
+       <!-- -->
+       and cannot guarantee correct functionality of this
+       <!-- -->
+       package
+       <!-- -->
+       or compatibility with any version of the Typst compiler or app.
+      </p>
+     </aside>
+    </div>
+   </main>

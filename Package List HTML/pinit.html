@@ -1,0 +1,2617 @@
+<main>
+    <div id="banner" style="--banner-accent:#5D25C6;--banner-primary:#110733;--banner-secondary:#615296;--banner-tertiary:#80789E;--banner-background:linear-gradient(90deg, #E7D9FF 0%, #DAE0FB 62%, #E8F9FF 100%)">
+     <div class="package-icon" role="img">
+     </div>
+     <div>
+      <div class="title">
+       <h1 class="name">
+        pinit
+       </h1>
+       <span class="version">
+        0.2.2
+       </span>
+      </div>
+      <p class="description">
+       Relative positioning by pins, especially useful for making slides in typst.
+      </p>
+     </div>
+     <p class="featured-label">
+      <span class="icon" role="img">
+      </span>
+      Featured
+      <!-- -->
+      Package
+     </p>
+    </div>
+    <div class="inner-grid">
+     <section id="readme">
+      <p>
+       Relative positioning by pins, especially useful for making slides in typst.
+      </p>
+      <h2>
+       Example
+      </h2>
+      <h3>
+       Pin things as you like
+      </h3>
+      <p>
+       Have a look at the source
+       <a href="https://github.com/typst/packages/raw/main/packages/preview/pinit/0.2.2/examples/example.typ" rel="nofollow ugc" target="_blank">
+        here
+       </a>
+       .
+      </p>
+      <p>
+       <img alt="Example" src="https://github.com/typst/packages/raw/main/packages/preview/pinit/0.2.2/examples/example.png"/>
+      </p>
+      <h3>
+       Dynamic Slides
+      </h3>
+      <p>
+       Pinit works with
+       <a href="https://github.com/touying-typ/touying" rel="nofollow ugc" target="_blank">
+        Touying
+       </a>
+       or
+       <a href="https://github.com/andreasKroepelin/polylux" rel="nofollow ugc" target="_blank">
+        Polylux
+       </a>
+       animations.
+      </p>
+      <p>
+       Have a look at the pdf file
+       <a href="https://github.com/OrangeX4/typst-pinit/blob/main/examples/example.pdf" rel="nofollow ugc" target="_blank">
+        here
+       </a>
+       .
+      </p>
+      <p>
+       <img alt="Example Pages" src="https://github.com/typst/packages/raw/main/packages/preview/pinit/0.2.2/examples/example-pages.png"/>
+      </p>
+      <h2>
+       Usage
+      </h2>
+      <h3>
+       Examples
+      </h3>
+      <p>
+       The idea of pinit is pinning pins on the normal flow of the text, and then placing the content on the page by
+       <code>
+        absolute-place
+       </code>
+       function.
+      </p>
+      <p>
+       For example, we can highlight text and add a tip by pins simply:
+      </p>
+      <pre><code class="language-typ"><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/pinit:0.2.2"</span><span class="typ-punct">:</span> <span class="typ-op">*</span>
+
+<span class="typ-key">#</span><span class="typ-key">set</span> <span class="typ-func">text</span><span class="typ-punct">(</span>size<span class="typ-punct">:</span> <span class="typ-num">24pt</span><span class="typ-punct">)</span>
+
+A simple <span class="typ-func">#</span><span class="typ-func">pin</span><span class="typ-punct">(</span><span class="typ-num">1</span><span class="typ-punct">)</span>highlighted text<span class="typ-func">#</span><span class="typ-func">pin</span><span class="typ-punct">(</span><span class="typ-num">2</span><span class="typ-punct">)</span>.
+
+<span class="typ-func">#</span><span class="typ-func">pinit-highlight</span><span class="typ-punct">(</span><span class="typ-num">1</span><span class="typ-punct">,</span> <span class="typ-num">2</span><span class="typ-punct">)</span>
+
+<span class="typ-func">#</span><span class="typ-func">pinit-point-from</span><span class="typ-punct">(</span><span class="typ-num">2</span><span class="typ-punct">)</span><span class="typ-punct">[</span>It is simple.<span class="typ-punct">]</span>
+</code></code></pre>
+      <p>
+       <img alt="simple-demo" src="https://github.com/typst/packages/raw/main/packages/preview/pinit/0.2.2/examples/simple-demo.png"/>
+      </p>
+      <p>
+       If you want to place the content relative to the center of some pins, you use a array of pins:
+      </p>
+      <pre><code class="language-typ"><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/pinit:0.2.2"</span><span class="typ-punct">:</span> <span class="typ-op">*</span>
+
+<span class="typ-key">#</span><span class="typ-key">set</span> <span class="typ-func">text</span><span class="typ-punct">(</span>size<span class="typ-punct">:</span> <span class="typ-num">12pt</span><span class="typ-punct">)</span>
+
+A simple <span class="typ-func">#</span><span class="typ-func">pin</span><span class="typ-punct">(</span><span class="typ-num">1</span><span class="typ-punct">)</span>highlighted text<span class="typ-func">#</span><span class="typ-func">pin</span><span class="typ-punct">(</span><span class="typ-num">2</span><span class="typ-punct">)</span>.
+
+<span class="typ-func">#</span><span class="typ-func">pinit-highlight</span><span class="typ-punct">(</span><span class="typ-num">1</span><span class="typ-punct">,</span> <span class="typ-num">2</span><span class="typ-punct">)</span>
+
+<span class="typ-func">#</span><span class="typ-func">pinit-point-from</span><span class="typ-punct">(</span><span class="typ-punct">(</span><span class="typ-num">1</span><span class="typ-punct">,</span> <span class="typ-num">2</span><span class="typ-punct">)</span><span class="typ-punct">)</span><span class="typ-punct">[</span>It is simple.<span class="typ-punct">]</span>
+</code></code></pre>
+      <p>
+       <img alt="simple-demo2" src="https://github.com/typst/packages/raw/main/packages/preview/pinit/0.2.2/examples/simple-demo2.png"/>
+      </p>
+      <p>
+       A more complex example, Have a look at the source
+       <a href="https://github.com/typst/packages/raw/main/packages/preview/pinit/0.2.2/examples/equation-desc.typ" rel="nofollow ugc" target="_blank">
+        here
+       </a>
+       .
+      </p>
+      <p>
+       <img alt="equation-desc" src="https://github.com/typst/packages/raw/main/packages/preview/pinit/0.2.2/examples/equation-desc.png"/>
+      </p>
+      <h3>
+       Fletcher edge support
+      </h3>
+      <p>
+       <a href="https://github.com/Jollywatt/typst-fletcher" rel="nofollow ugc" target="_blank">
+        Fletcher
+       </a>
+       is a powerful Typst package for drawing diagrams with arrows. We can use fletcher to draw more complex arrows.
+      </p>
+      <p>
+       <a href="https://github.com/typst/packages/raw/main/packages/preview/pinit/0.2.2/#pinit-fletcher-edge" rel="nofollow ugc" target="_blank">
+        <code>
+         pinit-fletcher-edge
+        </code>
+       </a>
+      </p>
+      <pre><code class="language-typst"><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/pinit:0.2.2"</span><span class="typ-punct">:</span> <span class="typ-op">*</span>
+<span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/fletcher:0.5.1"</span>
+
+Con<span class="typ-func">#</span><span class="typ-func">pin</span><span class="typ-punct">(</span><span class="typ-num">1</span><span class="typ-punct">)</span><span class="typ-func">#</span><span class="typ-func">h</span><span class="typ-punct">(</span><span class="typ-num">4em</span><span class="typ-punct">)</span><span class="typ-func">#</span><span class="typ-func">pin</span><span class="typ-punct">(</span><span class="typ-num">2</span><span class="typ-punct">)</span>nect
+
+<span class="typ-func">#</span><span class="typ-func">pinit-fletcher-edge</span><span class="typ-punct">(</span>
+  fletcher<span class="typ-punct">,</span> <span class="typ-num">1</span><span class="typ-punct">,</span> end<span class="typ-punct">:</span> <span class="typ-num">2</span><span class="typ-punct">,</span> <span class="typ-punct">(</span><span class="typ-num">1</span><span class="typ-punct">,</span> <span class="typ-num">0</span><span class="typ-punct">)</span><span class="typ-punct">,</span> <span class="typ-punct">[</span>bend<span class="typ-punct">]</span><span class="typ-punct">,</span> bend<span class="typ-punct">:</span> <span class="typ-op">-</span><span class="typ-num">20deg</span><span class="typ-punct">,</span> <span class="typ-str">"&lt;-&gt;"</span><span class="typ-punct">,</span>
+  decorations<span class="typ-punct">:</span> fletcher<span class="typ-punct">.</span>cetz<span class="typ-punct">.</span>decorations<span class="typ-punct">.</span>wave<span class="typ-punct">.</span><span class="typ-func">with</span><span class="typ-punct">(</span>amplitude<span class="typ-punct">:</span> <span class="typ-num">.1</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+<span class="typ-punct">)</span>
+</code></code></pre>
+      <p>
+       <img alt="fletcher" src="https://github.com/typst/packages/raw/main/packages/preview/pinit/0.2.2/examples/fletcher.png"/>
+      </p>
+      <h3>
+       Pinit for raw
+      </h3>
+      <p>
+       In the code block, we need to use a regex trick to get pinit to work, for example
+      </p>
+      <pre><code class="language-typst"><code><span class="typ-key">#</span><span class="typ-key">show</span> <span class="typ-func">raw</span><span class="typ-punct">:</span> it <span class="typ-op">=&gt;</span> <span class="typ-punct">{</span>
+  <span class="typ-key">show</span> <span class="typ-func">regex</span><span class="typ-punct">(</span><span class="typ-str">"pin\d"</span><span class="typ-punct">)</span><span class="typ-punct">:</span> it <span class="typ-op">=&gt;</span> <span class="typ-func">pin</span><span class="typ-punct">(</span><span class="typ-func">eval</span><span class="typ-punct">(</span>it<span class="typ-punct">.</span>text<span class="typ-punct">.</span><span class="typ-func">slice</span><span class="typ-punct">(</span><span class="typ-num">3</span><span class="typ-punct">)</span><span class="typ-punct">)</span><span class="typ-punct">)</span>
+  it
+<span class="typ-punct">}</span>
+
+<span class="typ-raw">`print(pin1"hello, world"pin2)`</span>
+
+<span class="typ-func">#</span><span class="typ-func">pinit-highlight</span><span class="typ-punct">(</span><span class="typ-num">1</span><span class="typ-punct">,</span> <span class="typ-num">2</span><span class="typ-punct">)</span>
+</code></code></pre>
+      <p>
+       <img alt="equation-desc" src="https://github.com/typst/packages/raw/main/packages/preview/pinit/0.2.2/examples/pinit-for-raw.png"/>
+      </p>
+      <p>
+       Note that typstâs code highlighting breaks up the text, causing overly complex regular expressions such as â#pin(.*?)â to not work properly.
+      </p>
+      <p>
+       However, you may want to consider putting it in a comment to avoid highlighting the text and breaking it up.
+      </p>
+      <h2>
+       Notice
+      </h2>
+      <p>
+       <strong>
+        Since Typst does not provide a reliable
+        <code>
+         absolute-place
+        </code>
+        function, you may consider taking the following steps if a MISALIGNMENT occurs:
+       </strong>
+      </p>
+      <ol>
+       <li>
+        <strong>
+         You could try to add a
+         <code>
+          #box()
+         </code>
+         after the
+         <code>
+          #pinit-xxx
+         </code>
+         function call, like
+         <code>
+          #pinit-xxx()#box()
+         </code>
+         .
+        </strong>
+       </li>
+       <li>
+        <strong>
+         You should add a blank line before the
+         <code>
+          #pinit-xxx
+         </code>
+         function call, otherwise it will cause misalignment.
+        </strong>
+       </li>
+       <li>
+        <strong>
+         You can try moving
+         <code>
+          #pinit-xxx()
+         </code>
+         in front of or behind
+         <code>
+          #pin()
+         </code>
+         , or otherwhere, in short, try more.
+        </strong>
+       </li>
+       <li>
+        <strong>
+         Try to add a offset to the
+         <code>
+          dx
+         </code>
+         or
+         <code>
+          dy
+         </code>
+         argument of
+         <code>
+          #pinit-xxx
+         </code>
+         function by yourself.
+        </strong>
+       </li>
+       <li>
+        <strong>
+         Open an issue if you have any questions you canât solve.
+        </strong>
+       </li>
+      </ol>
+      <h2>
+       Outline
+      </h2>
+      <ul>
+       <li>
+        <a href="https://github.com/typst/packages/raw/main/packages/preview/pinit/0.2.2/#pinit" rel="nofollow ugc" target="_blank">
+         Pinit
+        </a>
+        <ul>
+         <li>
+          <a href="https://github.com/typst/packages/raw/main/packages/preview/pinit/0.2.2/#example" rel="nofollow ugc" target="_blank">
+           Example
+          </a>
+          <ul>
+           <li>
+            <a href="https://github.com/typst/packages/raw/main/packages/preview/pinit/0.2.2/#pin-things-as-you-like" rel="nofollow ugc" target="_blank">
+             Pin things as you like
+            </a>
+           </li>
+           <li>
+            <a href="https://github.com/typst/packages/raw/main/packages/preview/pinit/0.2.2/#dynamic-slides" rel="nofollow ugc" target="_blank">
+             Dynamic Slides
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li>
+          <a href="https://github.com/typst/packages/raw/main/packages/preview/pinit/0.2.2/#usage" rel="nofollow ugc" target="_blank">
+           Usage
+          </a>
+          <ul>
+           <li>
+            <a href="https://github.com/typst/packages/raw/main/packages/preview/pinit/0.2.2/#examples" rel="nofollow ugc" target="_blank">
+             Examples
+            </a>
+           </li>
+           <li>
+            <a href="https://github.com/typst/packages/raw/main/packages/preview/pinit/0.2.2/#fletcher-edge-support" rel="nofollow ugc" target="_blank">
+             Fletcher edge support
+            </a>
+           </li>
+           <li>
+            <a href="https://github.com/typst/packages/raw/main/packages/preview/pinit/0.2.2/#pinit-for-raw" rel="nofollow ugc" target="_blank">
+             Pinit for raw
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li>
+          <a href="https://github.com/typst/packages/raw/main/packages/preview/pinit/0.2.2/#notice" rel="nofollow ugc" target="_blank">
+           Notice
+          </a>
+         </li>
+         <li>
+          <a href="https://github.com/typst/packages/raw/main/packages/preview/pinit/0.2.2/#outline" rel="nofollow ugc" target="_blank">
+           Outline
+          </a>
+         </li>
+         <li>
+          <a href="https://github.com/typst/packages/raw/main/packages/preview/pinit/0.2.2/#reference" rel="nofollow ugc" target="_blank">
+           Reference
+          </a>
+          <ul>
+           <li>
+            <a href="https://github.com/typst/packages/raw/main/packages/preview/pinit/0.2.2/#pin" rel="nofollow ugc" target="_blank">
+             <code>
+              pin
+             </code>
+            </a>
+           </li>
+           <li>
+            <a href="https://github.com/typst/packages/raw/main/packages/preview/pinit/0.2.2/#pinit-1" rel="nofollow ugc" target="_blank">
+             <code>
+              pinit
+             </code>
+            </a>
+           </li>
+           <li>
+            <a href="https://github.com/typst/packages/raw/main/packages/preview/pinit/0.2.2/#absolute-place" rel="nofollow ugc" target="_blank">
+             <code>
+              absolute-place
+             </code>
+            </a>
+           </li>
+           <li>
+            <a href="https://github.com/typst/packages/raw/main/packages/preview/pinit/0.2.2/#pinit-place" rel="nofollow ugc" target="_blank">
+             <code>
+              pinit-place
+             </code>
+            </a>
+           </li>
+           <li>
+            <a href="https://github.com/typst/packages/raw/main/packages/preview/pinit/0.2.2/#pinit-rect" rel="nofollow ugc" target="_blank">
+             <code>
+              pinit-rect
+             </code>
+            </a>
+           </li>
+           <li>
+            <a href="https://github.com/typst/packages/raw/main/packages/preview/pinit/0.2.2/#pinit-highlight" rel="nofollow ugc" target="_blank">
+             <code>
+              pinit-highlight
+             </code>
+            </a>
+           </li>
+           <li>
+            <a href="https://github.com/typst/packages/raw/main/packages/preview/pinit/0.2.2/#pinit-line" rel="nofollow ugc" target="_blank">
+             <code>
+              pinit-line
+             </code>
+            </a>
+           </li>
+           <li>
+            <a href="https://github.com/typst/packages/raw/main/packages/preview/pinit/0.2.2/#pinit-line-to" rel="nofollow ugc" target="_blank">
+             <code>
+              pinit-line-to
+             </code>
+            </a>
+           </li>
+           <li>
+            <a href="https://github.com/typst/packages/raw/main/packages/preview/pinit/0.2.2/#pinit-arrow" rel="nofollow ugc" target="_blank">
+             <code>
+              pinit-arrow
+             </code>
+            </a>
+           </li>
+           <li>
+            <a href="https://github.com/typst/packages/raw/main/packages/preview/pinit/0.2.2/#pinit-double-arrow" rel="nofollow ugc" target="_blank">
+             <code>
+              pinit-double-arrow
+             </code>
+            </a>
+           </li>
+           <li>
+            <a href="https://github.com/typst/packages/raw/main/packages/preview/pinit/0.2.2/#pinit-point-to" rel="nofollow ugc" target="_blank">
+             <code>
+              pinit-point-to
+             </code>
+            </a>
+           </li>
+           <li>
+            <a href="https://github.com/typst/packages/raw/main/packages/preview/pinit/0.2.2/#pinit-point-from" rel="nofollow ugc" target="_blank">
+             <code>
+              pinit-point-from
+             </code>
+            </a>
+           </li>
+           <li>
+            <a href="https://github.com/typst/packages/raw/main/packages/preview/pinit/0.2.2/#simple-arrow" rel="nofollow ugc" target="_blank">
+             <code>
+              simple-arrow
+             </code>
+            </a>
+           </li>
+           <li>
+            <a href="https://github.com/typst/packages/raw/main/packages/preview/pinit/0.2.2/#double-arrow" rel="nofollow ugc" target="_blank">
+             <code>
+              double-arrow
+             </code>
+            </a>
+           </li>
+           <li>
+            <a href="https://github.com/typst/packages/raw/main/packages/preview/pinit/0.2.2/#pinit-fletcher-edge" rel="nofollow ugc" target="_blank">
+             <code>
+              pinit-fletcher-edge
+             </code>
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li>
+          <a href="https://github.com/typst/packages/raw/main/packages/preview/pinit/0.2.2/#changelog" rel="nofollow ugc" target="_blank">
+           Changelog
+          </a>
+          <ul>
+           <li>
+            <a href="https://github.com/typst/packages/raw/main/packages/preview/pinit/0.2.2/#022" rel="nofollow ugc" target="_blank">
+             0.2.2
+            </a>
+           </li>
+           <li>
+            <a href="https://github.com/typst/packages/raw/main/packages/preview/pinit/0.2.2/#021" rel="nofollow ugc" target="_blank">
+             0.2.1
+            </a>
+           </li>
+           <li>
+            <a href="https://github.com/typst/packages/raw/main/packages/preview/pinit/0.2.2/#020" rel="nofollow ugc" target="_blank">
+             0.2.0
+            </a>
+           </li>
+           <li>
+            <a href="https://github.com/typst/packages/raw/main/packages/preview/pinit/0.2.2/#014" rel="nofollow ugc" target="_blank">
+             0.1.4
+            </a>
+           </li>
+           <li>
+            <a href="https://github.com/typst/packages/raw/main/packages/preview/pinit/0.2.2/#013" rel="nofollow ugc" target="_blank">
+             0.1.3
+            </a>
+           </li>
+           <li>
+            <a href="https://github.com/typst/packages/raw/main/packages/preview/pinit/0.2.2/#012" rel="nofollow ugc" target="_blank">
+             0.1.2
+            </a>
+           </li>
+           <li>
+            <a href="https://github.com/typst/packages/raw/main/packages/preview/pinit/0.2.2/#011" rel="nofollow ugc" target="_blank">
+             0.1.1
+            </a>
+           </li>
+           <li>
+            <a href="https://github.com/typst/packages/raw/main/packages/preview/pinit/0.2.2/#010" rel="nofollow ugc" target="_blank">
+             0.1.0
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li>
+          <a href="https://github.com/typst/packages/raw/main/packages/preview/pinit/0.2.2/#acknowledgements" rel="nofollow ugc" target="_blank">
+           Acknowledgements
+          </a>
+         </li>
+         <li>
+          <a href="https://github.com/typst/packages/raw/main/packages/preview/pinit/0.2.2/#license" rel="nofollow ugc" target="_blank">
+           License
+          </a>
+         </li>
+        </ul>
+       </li>
+      </ul>
+      <h2>
+       Reference
+      </h2>
+      <h3>
+       <code>
+        pin
+       </code>
+      </h3>
+      <p>
+       Pinning a pin in text, the pin is supposed to be unique in one page.
+      </p>
+      <pre><code class="language-typ"><code><span class="typ-key">#</span><span class="typ-key">let</span> <span class="typ-func">pin</span><span class="typ-punct">(</span>name<span class="typ-punct">)</span> <span class="typ-op">=</span> <span class="typ-punct">{</span> .. <span class="typ-punct">}</span>
+</code></code></pre>
+      <p>
+       <strong>
+        Arguments:
+       </strong>
+      </p>
+      <ul>
+       <li>
+        <code>
+         name
+        </code>
+        : [
+        <code>
+         int
+        </code>
+        or
+        <code>
+         str
+        </code>
+        or
+        <code>
+         any
+        </code>
+        ] â Name of pin, which can be any types with unique
+        <code>
+         repr()
+        </code>
+        return value, such as integer and string.
+       </li>
+      </ul>
+      <h3>
+       <code>
+        pinit
+       </code>
+      </h3>
+      <p>
+       Query positions of pins in the same page, then call the callback function
+       <code>
+        callback
+       </code>
+       .
+      </p>
+      <pre><code class="language-typ"><code><span class="typ-key">#</span><span class="typ-key">let</span> <span class="typ-func">pinit</span><span class="typ-punct">(</span>callback<span class="typ-punct">:</span> <span class="typ-key">none</span><span class="typ-punct">,</span> <span class="typ-op">..</span>pins<span class="typ-punct">)</span> <span class="typ-op">=</span> <span class="typ-punct">{</span> .. <span class="typ-punct">}</span>
+</code></code></pre>
+      <p>
+       <strong>
+        Arguments:
+       </strong>
+      </p>
+      <ul>
+       <li>
+        <code>
+         ..pins
+        </code>
+        : [
+        <code>
+         pin
+        </code>
+        ] â Names of pins you want to query. It is supposed to be arguments of pin or a group of pins.
+       </li>
+       <li>
+        <code>
+         callback
+        </code>
+        : [
+        <code>
+         (..positions) =&gt; { .. }
+        </code>
+        ] â A callback function accepting an array of positions (or a single position) as a parameter. Each position is a dictionary like
+        <code>
+         (page: 1, x: 319.97pt, y: 86.66pt)
+        </code>
+        . You can use the
+        <code>
+         absolute-place
+        </code>
+        function in this callback function to display something around the pins.
+       </li>
+      </ul>
+      <h3>
+       <code>
+        absolute-place
+       </code>
+      </h3>
+      <p>
+       Place content at a specific location on the page relative to the top left corner of the page, regardless of margins, current containers, etc.
+      </p>
+      <blockquote>
+       <p>
+        This function comes from
+        <a href="https://github.com/ntjess/typst-drafting" rel="nofollow ugc" target="_blank">
+         typst-drafting
+        </a>
+        .
+       </p>
+      </blockquote>
+      <pre><code class="language-typ"><code><span class="typ-key">#</span><span class="typ-key">let</span> <span class="typ-func">absolute-place</span><span class="typ-punct">(</span>
+  dx<span class="typ-punct">:</span> <span class="typ-num">0em</span><span class="typ-punct">,</span>
+  dy<span class="typ-punct">:</span> <span class="typ-num">0em</span><span class="typ-punct">,</span>
+  body<span class="typ-punct">,</span>
+<span class="typ-punct">)</span> <span class="typ-op">=</span> <span class="typ-punct">{</span> .. <span class="typ-punct">}</span>
+</code></code></pre>
+      <p>
+       <strong>
+        Arguments:
+       </strong>
+      </p>
+      <ul>
+       <li>
+        <code>
+         dx
+        </code>
+        : [
+        <code>
+         length
+        </code>
+        ] â Length in the x-axis relative to the left edge of the page.
+       </li>
+       <li>
+        <code>
+         dy
+        </code>
+        : [
+        <code>
+         length
+        </code>
+        ] â Length in the y-axis relative to the top edge of the page.
+       </li>
+       <li>
+        <code>
+         content
+        </code>
+        : [
+        <code>
+         content
+        </code>
+        ] â The content you want to place.
+       </li>
+      </ul>
+      <h3>
+       <code>
+        pinit-place
+       </code>
+      </h3>
+      <p>
+       Place content at a specific location on the page relative to the pin.
+      </p>
+      <pre><code class="language-typ"><code><span class="typ-key">#</span><span class="typ-key">let</span> <span class="typ-func">pinit-place</span><span class="typ-punct">(</span>
+  dx<span class="typ-punct">:</span> <span class="typ-num">0pt</span><span class="typ-punct">,</span>
+  dy<span class="typ-punct">:</span> <span class="typ-num">0pt</span><span class="typ-punct">,</span>
+  pin-name<span class="typ-punct">,</span>
+  body<span class="typ-punct">,</span>
+<span class="typ-punct">)</span> <span class="typ-op">=</span> <span class="typ-punct">{</span> .. <span class="typ-punct">}</span>
+</code></code></pre>
+      <p>
+       <strong>
+        Arguments:
+       </strong>
+      </p>
+      <ul>
+       <li>
+        <code>
+         dx
+        </code>
+        : [
+        <code>
+         length
+        </code>
+        ] â Offset X relative to the pin.
+       </li>
+       <li>
+        <code>
+         dy
+        </code>
+        : [
+        <code>
+         length
+        </code>
+        ] â Offset Y relative to the pin.
+       </li>
+       <li>
+        <code>
+         pin-name
+        </code>
+        : [
+        <code>
+         pin
+        </code>
+        ] â Name of the pin to which you want to locate.
+       </li>
+       <li>
+        <code>
+         body
+        </code>
+        : [
+        <code>
+         content
+        </code>
+        ] â The content you want to place.
+       </li>
+      </ul>
+      <h3>
+       <code>
+        pinit-rect
+       </code>
+      </h3>
+      <p>
+       Draw a rectangular shape on the page
+       <strong>
+        containing all pins
+       </strong>
+       with optional extended width and height.
+      </p>
+      <pre><code class="language-typ"><code><span class="typ-key">#</span><span class="typ-key">let</span> <span class="typ-func">pinit-rect</span><span class="typ-punct">(</span>
+  dx<span class="typ-punct">:</span> <span class="typ-num">0em</span><span class="typ-punct">,</span>
+  dy<span class="typ-punct">:</span> <span class="typ-op">-</span><span class="typ-num">1em</span><span class="typ-punct">,</span>
+  extended-width<span class="typ-punct">:</span> <span class="typ-num">0em</span><span class="typ-punct">,</span>
+  extended-height<span class="typ-punct">:</span> <span class="typ-num">1.4em</span><span class="typ-punct">,</span>
+  pin1<span class="typ-punct">,</span>
+  pin2<span class="typ-punct">,</span>
+  pin3<span class="typ-punct">,</span>  <span class="typ-comment">// Optional</span>
+  <span class="typ-op">..</span>pinX<span class="typ-punct">,</span>
+  ..args<span class="typ-punct">,</span>
+<span class="typ-punct">)</span> <span class="typ-op">=</span> <span class="typ-punct">{</span> .. <span class="typ-punct">}</span>
+</code></code></pre>
+      <p>
+       <strong>
+        Arguments:
+       </strong>
+      </p>
+      <ul>
+       <li>
+        <code>
+         dx
+        </code>
+        : [
+        <code>
+         length
+        </code>
+        ] â Offset X relative to the min-left of pins.
+       </li>
+       <li>
+        <code>
+         dy
+        </code>
+        : [
+        <code>
+         length
+        </code>
+        ] â Offset Y relative to the min-top of pins.
+       </li>
+       <li>
+        <code>
+         extended-width
+        </code>
+        : [
+        <code>
+         length
+        </code>
+        ] â Optional extended width of the rectangular shape.
+       </li>
+       <li>
+        <code>
+         extended-height
+        </code>
+        : [
+        <code>
+         length
+        </code>
+        ] â Optional extended height of the rectangular shape.
+       </li>
+       <li>
+        <code>
+         pin1
+        </code>
+        : [
+        <code>
+         pin
+        </code>
+        ] â One of these pins.
+       </li>
+       <li>
+        <code>
+         pin2
+        </code>
+        : [
+        <code>
+         pin
+        </code>
+        ] â One of these pins.
+       </li>
+       <li>
+        <code>
+         pin3
+        </code>
+        : [
+        <code>
+         pin
+        </code>
+        ] â One of these pins, optionally.
+       </li>
+       <li>
+        <code>
+         ...args
+        </code>
+        : Additional named arguments or settings for
+        <a href="https://typst.app/docs/reference/visualize/rect/">
+         <code>
+          rect
+         </code>
+        </a>
+        , like
+        <code>
+         fill
+        </code>
+        ,
+        <code>
+         stroke
+        </code>
+        and
+        <code>
+         radius
+        </code>
+        .
+       </li>
+      </ul>
+      <h3>
+       <code>
+        pinit-highlight
+       </code>
+      </h3>
+      <p>
+       Highlight a specific area on the page with a filled color and optional radius and stroke. It is just a simply styled
+       <code>
+        pinit-rect
+       </code>
+       .
+      </p>
+      <pre><code class="language-typ"><code><span class="typ-key">#</span><span class="typ-key">let</span> <span class="typ-func">pinit-highlight</span><span class="typ-punct">(</span>
+  fill<span class="typ-punct">:</span> <span class="typ-func">rgb</span><span class="typ-punct">(</span><span class="typ-num">255</span><span class="typ-punct">,</span> <span class="typ-num">0</span><span class="typ-punct">,</span> <span class="typ-num">0</span><span class="typ-punct">,</span> <span class="typ-num">20</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+  radius<span class="typ-punct">:</span> <span class="typ-num">5pt</span><span class="typ-punct">,</span>
+  stroke<span class="typ-punct">:</span> <span class="typ-num">0pt</span><span class="typ-punct">,</span>
+  dx<span class="typ-punct">:</span> <span class="typ-num">0em</span><span class="typ-punct">,</span>
+  dy<span class="typ-punct">:</span> <span class="typ-op">-</span><span class="typ-num">1em</span><span class="typ-punct">,</span>
+  extended-width<span class="typ-punct">:</span> <span class="typ-num">0em</span><span class="typ-punct">,</span>
+  extended-height<span class="typ-punct">:</span> <span class="typ-num">1.4em</span><span class="typ-punct">,</span>
+  pin1<span class="typ-punct">,</span>
+  pin2<span class="typ-punct">,</span>
+  pin3<span class="typ-punct">,</span>  <span class="typ-comment">// Optional</span>
+  <span class="typ-op">..</span>pinX<span class="typ-punct">,</span>
+  ...args<span class="typ-punct">,</span>
+<span class="typ-punct">)</span> <span class="typ-op">=</span> <span class="typ-punct">{</span> .. <span class="typ-punct">}</span>
+</code></code></pre>
+      <p>
+       <strong>
+        Arguments:
+       </strong>
+      </p>
+      <ul>
+       <li>
+        <code>
+         fill
+        </code>
+        : [
+        <code>
+         color
+        </code>
+        ] â The fill color for the highlighted area.
+       </li>
+       <li>
+        <code>
+         radius
+        </code>
+        : [
+        <code>
+         length
+        </code>
+        ] â Optional radius for the highlight.
+       </li>
+       <li>
+        <code>
+         stroke
+        </code>
+        : [
+        <code>
+         stroke
+        </code>
+        ] â Optional stroke width for the highlight.
+       </li>
+       <li>
+        <code>
+         dx
+        </code>
+        : [
+        <code>
+         length
+        </code>
+        ] â Offset X relative to the min-left of pins.
+       </li>
+       <li>
+        <code>
+         dy
+        </code>
+        : [
+        <code>
+         length
+        </code>
+        ] â Offset Y relative to the min-top of pins.
+       </li>
+       <li>
+        <code>
+         extended-width
+        </code>
+        : [
+        <code>
+         length
+        </code>
+        ] â Optional extended width of the rectangular shape.
+       </li>
+       <li>
+        <code>
+         extended-height
+        </code>
+        : [
+        <code>
+         length
+        </code>
+        ] â Optional extended height of the rectangular shape.
+       </li>
+       <li>
+        <code>
+         pin1
+        </code>
+        : [
+        <code>
+         pin
+        </code>
+        ] â One of these pins.
+       </li>
+       <li>
+        <code>
+         pin2
+        </code>
+        : [
+        <code>
+         pin
+        </code>
+        ] â One of these pins.
+       </li>
+       <li>
+        <code>
+         pin3
+        </code>
+        : [
+        <code>
+         pin
+        </code>
+        ] â One of these pins, optionally.
+       </li>
+       <li>
+        <code>
+         ...args
+        </code>
+        : Additional arguments or settings for
+        <a href="https://github.com/typst/packages/raw/main/packages/preview/pinit/0.2.2/#pinit-rect" rel="nofollow ugc" target="_blank">
+         <code>
+          pinit-rect
+         </code>
+        </a>
+        .
+       </li>
+      </ul>
+      <h3>
+       <code>
+        pinit-line
+       </code>
+      </h3>
+      <p>
+       Draw a line on the page between two specified pins with an optional stroke.
+      </p>
+      <pre><code class="language-typ"><code><span class="typ-key">#</span><span class="typ-key">let</span> <span class="typ-func">pinit-line</span><span class="typ-punct">(</span>
+  stroke<span class="typ-punct">:</span> <span class="typ-num">1pt</span><span class="typ-punct">,</span>
+  start-dx<span class="typ-punct">:</span> <span class="typ-num">0pt</span><span class="typ-punct">,</span>
+  start-dy<span class="typ-punct">:</span> <span class="typ-num">0pt</span><span class="typ-punct">,</span>
+  end-dx<span class="typ-punct">:</span> <span class="typ-num">0pt</span><span class="typ-punct">,</span>
+  end-dy<span class="typ-punct">:</span> <span class="typ-num">0pt</span><span class="typ-punct">,</span>
+  start<span class="typ-punct">,</span>
+  end<span class="typ-punct">,</span>
+<span class="typ-punct">)</span> <span class="typ-op">=</span> <span class="typ-punct">{</span> ... <span class="typ-punct">}</span>
+</code></code></pre>
+      <p>
+       <strong>
+        Arguments:
+       </strong>
+      </p>
+      <ul>
+       <li>
+        <code>
+         stroke
+        </code>
+        : [
+        <code>
+         stroke
+        </code>
+        ] â The stroke for the line.
+       </li>
+       <li>
+        <code>
+         start-dx
+        </code>
+        : [
+        <code>
+         length
+        </code>
+        ] â Offset X relative to the start pin.
+       </li>
+       <li>
+        <code>
+         start-dy
+        </code>
+        : [
+        <code>
+         length
+        </code>
+        ] â Offset Y relative to the start pin.
+       </li>
+       <li>
+        <code>
+         end-dx
+        </code>
+        : [
+        <code>
+         length
+        </code>
+        ] â Offset X relative to the end pin.
+       </li>
+       <li>
+        <code>
+         end-dy
+        </code>
+        : [
+        <code>
+         length
+        </code>
+        ] â Offset Y relative to the end pin.
+       </li>
+       <li>
+        <code>
+         start
+        </code>
+        : [
+        <code>
+         pin
+        </code>
+        ] â The start pin.
+       </li>
+       <li>
+        <code>
+         end
+        </code>
+        : [
+        <code>
+         pin
+        </code>
+        ] â The end pin.
+       </li>
+      </ul>
+      <h3>
+       <code>
+        pinit-line-to
+       </code>
+      </h3>
+      <p>
+       Draw an line from a specified pin to a point on the page with optional settings.
+      </p>
+      <pre><code class="language-typ"><code><span class="typ-key">#</span><span class="typ-key">let</span> <span class="typ-func">pinit-line-to</span><span class="typ-punct">(</span>
+  stroke<span class="typ-punct">:</span> <span class="typ-num">1pt</span><span class="typ-punct">,</span>
+  pin-dx<span class="typ-punct">:</span> <span class="typ-num">5pt</span><span class="typ-punct">,</span>
+  pin-dy<span class="typ-punct">:</span> <span class="typ-num">5pt</span><span class="typ-punct">,</span>
+  body-dx<span class="typ-punct">:</span> <span class="typ-num">5pt</span><span class="typ-punct">,</span>
+  body-dy<span class="typ-punct">:</span> <span class="typ-num">5pt</span><span class="typ-punct">,</span>
+  offset-dx<span class="typ-punct">:</span> <span class="typ-num">35pt</span><span class="typ-punct">,</span>
+  offset-dy<span class="typ-punct">:</span> <span class="typ-num">35pt</span><span class="typ-punct">,</span>
+  pin-name<span class="typ-punct">,</span>
+  body<span class="typ-punct">,</span>
+<span class="typ-punct">)</span> <span class="typ-op">=</span> <span class="typ-punct">{</span> ... <span class="typ-punct">}</span>
+</code></code></pre>
+      <p>
+       <strong>
+        Arguments:
+       </strong>
+      </p>
+      <ul>
+       <li>
+        <code>
+         stroke
+        </code>
+        : [
+        <code>
+         stroke
+        </code>
+        ] â The stroke for the line.
+       </li>
+       <li>
+        <code>
+         pin-dx
+        </code>
+        : [
+        <code>
+         length
+        </code>
+        ] â Offset X of arrow start relative to the pin.
+       </li>
+       <li>
+        <code>
+         pin-dy
+        </code>
+        : [
+        <code>
+         length
+        </code>
+        ] â Offset Y of arrow start relative to the pin.
+       </li>
+       <li>
+        <code>
+         body-dx
+        </code>
+        : [
+        <code>
+         length
+        </code>
+        ] â Offset X of arrow end relative to the body.
+       </li>
+       <li>
+        <code>
+         body-dy
+        </code>
+        : [
+        <code>
+         length
+        </code>
+        ] â Offset Y of arrow end relative to the body.
+       </li>
+       <li>
+        <code>
+         offset-dx
+        </code>
+        : [
+        <code>
+         length
+        </code>
+        ] â Offset X relative to the pin.
+       </li>
+       <li>
+        <code>
+         offset-dy
+        </code>
+        : [
+        <code>
+         length
+        </code>
+        ] â Offset Y relative to the pin.
+       </li>
+       <li>
+        <code>
+         pin-name
+        </code>
+        : [
+        <code>
+         pin
+        </code>
+        ] â The name of the pin to start from.
+       </li>
+       <li>
+        <code>
+         body
+        </code>
+        : [
+        <code>
+         content
+        </code>
+        ] â The content to draw the arrow to.
+       </li>
+      </ul>
+      <h3>
+       <code>
+        pinit-arrow
+       </code>
+      </h3>
+      <p>
+       Draw an arrow between two specified pins with optional settings.
+      </p>
+      <pre><code class="language-typ"><code><span class="typ-key">#</span><span class="typ-key">let</span> <span class="typ-func">pinit-arrow</span><span class="typ-punct">(</span>
+  start-dx<span class="typ-punct">:</span> <span class="typ-num">0pt</span><span class="typ-punct">,</span>
+  start-dy<span class="typ-punct">:</span> <span class="typ-num">0pt</span><span class="typ-punct">,</span>
+  end-dx<span class="typ-punct">:</span> <span class="typ-num">0pt</span><span class="typ-punct">,</span>
+  end-dy<span class="typ-punct">:</span> <span class="typ-num">0pt</span><span class="typ-punct">,</span>
+  start<span class="typ-punct">,</span>
+  end<span class="typ-punct">,</span>
+  <span class="typ-op">..</span>args<span class="typ-punct">,</span>
+<span class="typ-punct">)</span> <span class="typ-op">=</span> <span class="typ-punct">{</span> ... <span class="typ-punct">}</span>
+</code></code></pre>
+      <p>
+       <strong>
+        Arguments:
+       </strong>
+      </p>
+      <ul>
+       <li>
+        <code>
+         start-dx
+        </code>
+        : [
+        <code>
+         length
+        </code>
+        ] â Offset X relative to the start pin.
+       </li>
+       <li>
+        <code>
+         start-dy
+        </code>
+        : [
+        <code>
+         length
+        </code>
+        ] â Offset Y relative to the start pin.
+       </li>
+       <li>
+        <code>
+         end-dx
+        </code>
+        : [
+        <code>
+         length
+        </code>
+        ] â Offset X relative to the end pin.
+       </li>
+       <li>
+        <code>
+         end-dy
+        </code>
+        : [
+        <code>
+         length
+        </code>
+        ] â Offset Y relative to the end pin.
+       </li>
+       <li>
+        <code>
+         start
+        </code>
+        : [
+        <code>
+         pin
+        </code>
+        ] â The start pin.
+       </li>
+       <li>
+        <code>
+         end
+        </code>
+        : [
+        <code>
+         pin
+        </code>
+        ] â The end pin.
+       </li>
+       <li>
+        <code>
+         ...args
+        </code>
+        : Additional arguments or settings for
+        <a href="https://github.com/typst/packages/raw/main/packages/preview/pinit/0.2.2/#simple-arrow" rel="nofollow ugc" target="_blank">
+         <code>
+          simple-arrow
+         </code>
+        </a>
+        , like
+        <code>
+         fill
+        </code>
+        ,
+        <code>
+         stroke
+        </code>
+        and
+        <code>
+         thickness
+        </code>
+        .
+       </li>
+      </ul>
+      <h3>
+       <code>
+        pinit-double-arrow
+       </code>
+      </h3>
+      <p>
+       Draw an double arrow between two specified pins with optional settings.
+      </p>
+      <pre><code class="language-typ"><code><span class="typ-key">#</span><span class="typ-key">let</span> <span class="typ-func">pinit-double-arrow</span><span class="typ-punct">(</span>
+  start-dx<span class="typ-punct">:</span> <span class="typ-num">0pt</span><span class="typ-punct">,</span>
+  start-dy<span class="typ-punct">:</span> <span class="typ-num">0pt</span><span class="typ-punct">,</span>
+  end-dx<span class="typ-punct">:</span> <span class="typ-num">0pt</span><span class="typ-punct">,</span>
+  end-dy<span class="typ-punct">:</span> <span class="typ-num">0pt</span><span class="typ-punct">,</span>
+  start<span class="typ-punct">,</span>
+  end<span class="typ-punct">,</span>
+  <span class="typ-op">..</span>args<span class="typ-punct">,</span>
+<span class="typ-punct">)</span> <span class="typ-op">=</span> <span class="typ-punct">{</span> ... <span class="typ-punct">}</span>
+</code></code></pre>
+      <p>
+       <strong>
+        Arguments:
+       </strong>
+      </p>
+      <ul>
+       <li>
+        <code>
+         start-dx
+        </code>
+        : [
+        <code>
+         length
+        </code>
+        ] â Offset X relative to the start pin.
+       </li>
+       <li>
+        <code>
+         start-dy
+        </code>
+        : [
+        <code>
+         length
+        </code>
+        ] â Offset Y relative to the start pin.
+       </li>
+       <li>
+        <code>
+         end-dx
+        </code>
+        : [
+        <code>
+         length
+        </code>
+        ] â Offset X relative to the end pin.
+       </li>
+       <li>
+        <code>
+         end-dy
+        </code>
+        : [
+        <code>
+         length
+        </code>
+        ] â Offset Y relative to the end pin.
+       </li>
+       <li>
+        <code>
+         start
+        </code>
+        : [
+        <code>
+         pin
+        </code>
+        ] â The start pin.
+       </li>
+       <li>
+        <code>
+         end
+        </code>
+        : [
+        <code>
+         pin
+        </code>
+        ] â The end pin.
+       </li>
+       <li>
+        <code>
+         ...args
+        </code>
+        : Additional arguments or settings for
+        <a href="https://github.com/typst/packages/raw/main/packages/preview/pinit/0.2.2/#double-arrow" rel="nofollow ugc" target="_blank">
+         <code>
+          double-arrow
+         </code>
+        </a>
+        , like
+        <code>
+         fill
+        </code>
+        ,
+        <code>
+         stroke
+        </code>
+        and
+        <code>
+         thickness
+        </code>
+        .
+       </li>
+      </ul>
+      <h3>
+       <code>
+        pinit-point-to
+       </code>
+      </h3>
+      <p>
+       Draw an arrow from a specified pin to a point on the page with optional settings.
+      </p>
+      <pre><code class="language-typ"><code><span class="typ-key">#</span><span class="typ-key">let</span> <span class="typ-func">pinit-point-to</span><span class="typ-punct">(</span>
+  pin-dx<span class="typ-punct">:</span> <span class="typ-num">5pt</span><span class="typ-punct">,</span>
+  pin-dy<span class="typ-punct">:</span> <span class="typ-num">5pt</span><span class="typ-punct">,</span>
+  body-dx<span class="typ-punct">:</span> <span class="typ-num">5pt</span><span class="typ-punct">,</span>
+  body-dy<span class="typ-punct">:</span> <span class="typ-num">5pt</span><span class="typ-punct">,</span>
+  offset-dx<span class="typ-punct">:</span> <span class="typ-num">35pt</span><span class="typ-punct">,</span>
+  offset-dy<span class="typ-punct">:</span> <span class="typ-num">35pt</span><span class="typ-punct">,</span>
+  double<span class="typ-punct">:</span> <span class="typ-key">false</span><span class="typ-punct">,</span>
+  pin-name<span class="typ-punct">,</span>
+  body<span class="typ-punct">,</span>
+  <span class="typ-op">..</span>args<span class="typ-punct">,</span>
+<span class="typ-punct">)</span> <span class="typ-op">=</span> <span class="typ-punct">{</span> ... <span class="typ-punct">}</span>
+</code></code></pre>
+      <p>
+       <strong>
+        Arguments:
+       </strong>
+      </p>
+      <ul>
+       <li>
+        <code>
+         pin-dx
+        </code>
+        : [
+        <code>
+         length
+        </code>
+        ] â Offset X of arrow start relative to the pin.
+       </li>
+       <li>
+        <code>
+         pin-dy
+        </code>
+        : [
+        <code>
+         length
+        </code>
+        ] â Offset Y of arrow start relative to the pin.
+       </li>
+       <li>
+        <code>
+         body-dx
+        </code>
+        : [
+        <code>
+         length
+        </code>
+        ] â Offset X of arrow end relative to the body.
+       </li>
+       <li>
+        <code>
+         body-dy
+        </code>
+        : [
+        <code>
+         length
+        </code>
+        ] â Offset Y of arrow end relative to the body.
+       </li>
+       <li>
+        <code>
+         offset-dx
+        </code>
+        : [
+        <code>
+         length
+        </code>
+        ] â Offset X relative to the pin.
+       </li>
+       <li>
+        <code>
+         offset-dy
+        </code>
+        : [
+        <code>
+         length
+        </code>
+        ] â Offset Y relative to the pin.
+       </li>
+       <li>
+        <code>
+         double
+        </code>
+        : [
+        <code>
+         bool
+        </code>
+        ] â Draw a double arrow, default is
+        <code>
+         false
+        </code>
+        .
+       </li>
+       <li>
+        <code>
+         pin-name
+        </code>
+        : [
+        <code>
+         pin
+        </code>
+        ] â The name of the pin to start from.
+       </li>
+       <li>
+        <code>
+         body
+        </code>
+        : [
+        <code>
+         content
+        </code>
+        ] â The content to draw the arrow to.
+       </li>
+       <li>
+        <code>
+         ...args
+        </code>
+        : Additional arguments or settings for
+        <a href="https://github.com/typst/packages/raw/main/packages/preview/pinit/0.2.2/#simple-arrow" rel="nofollow ugc" target="_blank">
+         <code>
+          simple-arrow
+         </code>
+        </a>
+        , like
+        <code>
+         fill
+        </code>
+        ,
+        <code>
+         stroke
+        </code>
+        and
+        <code>
+         thickness
+        </code>
+        .
+       </li>
+      </ul>
+      <h3>
+       <code>
+        pinit-point-from
+       </code>
+      </h3>
+      <p>
+       Draw an arrow from a point on the page to a specified pin with optional settings.
+      </p>
+      <pre><code class="language-typ"><code><span class="typ-key">#</span><span class="typ-key">let</span> <span class="typ-func">pinit-point-from</span><span class="typ-punct">(</span>
+  pin-dx<span class="typ-punct">:</span> <span class="typ-num">5pt</span><span class="typ-punct">,</span>
+  pin-dy<span class="typ-punct">:</span> <span class="typ-num">5pt</span><span class="typ-punct">,</span>
+  body-dx<span class="typ-punct">:</span> <span class="typ-num">5pt</span><span class="typ-punct">,</span>
+  body-dy<span class="typ-punct">:</span> <span class="typ-num">5pt</span><span class="typ-punct">,</span>
+  offset-dx<span class="typ-punct">:</span> <span class="typ-num">35pt</span><span class="typ-punct">,</span>
+  offset-dy<span class="typ-punct">:</span> <span class="typ-num">35pt</span><span class="typ-punct">,</span>
+  double<span class="typ-punct">:</span> <span class="typ-key">false</span><span class="typ-punct">,</span>
+  pin-name<span class="typ-punct">,</span>
+  body<span class="typ-punct">,</span>
+  <span class="typ-op">..</span>args<span class="typ-punct">,</span>
+<span class="typ-punct">)</span> <span class="typ-op">=</span> <span class="typ-punct">{</span> ... <span class="typ-punct">}</span>
+</code></code></pre>
+      <p>
+       <strong>
+        Arguments:
+       </strong>
+      </p>
+      <ul>
+       <li>
+        <code>
+         pin-dx
+        </code>
+        : [
+        <code>
+         length
+        </code>
+        ] â Offset X relative to the pin.
+       </li>
+       <li>
+        <code>
+         pin-dy
+        </code>
+        : [
+        <code>
+         length
+        </code>
+        ] â Offset Y relative to the pin.
+       </li>
+       <li>
+        <code>
+         body-dx
+        </code>
+        : [
+        <code>
+         length
+        </code>
+        ] â Offset X relative to the body.
+       </li>
+       <li>
+        <code>
+         body-dy
+        </code>
+        : [
+        <code>
+         length
+        </code>
+        ] â Offset Y relative to the body.
+       </li>
+       <li>
+        <code>
+         offset-dx
+        </code>
+        : [
+        <code>
+         length
+        </code>
+        ] â Offset X relative to the left edge of the page.
+       </li>
+       <li>
+        <code>
+         offset-dy
+        </code>
+        : [
+        <code>
+         length
+        </code>
+        ] â Offset Y relative to the top edge of the page.
+       </li>
+       <li>
+        <code>
+         double
+        </code>
+        : [
+        <code>
+         bool
+        </code>
+        ] â Draw a double arrow, default is
+        <code>
+         false
+        </code>
+        .
+       </li>
+       <li>
+        <code>
+         pin-name
+        </code>
+        : [
+        <code>
+         pin
+        </code>
+        ] â The name of the pin that the arrow to.
+       </li>
+       <li>
+        <code>
+         body
+        </code>
+        : [
+        <code>
+         content
+        </code>
+        ] â The content to draw the arrow from.
+       </li>
+       <li>
+        <code>
+         ...args
+        </code>
+        : Additional arguments or settings for
+        <a href="https://github.com/typst/packages/raw/main/packages/preview/pinit/0.2.2/#simple-arrow" rel="nofollow ugc" target="_blank">
+         <code>
+          simple-arrow
+         </code>
+        </a>
+        , like
+        <code>
+         fill
+        </code>
+        ,
+        <code>
+         stroke
+        </code>
+        and
+        <code>
+         thickness
+        </code>
+        .
+       </li>
+      </ul>
+      <h3>
+       <code>
+        simple-arrow
+       </code>
+      </h3>
+      <p>
+       Draw a simple arrow on the page with optional settings, implemented by
+       <a href="https://typst.app/docs/reference/visualize/polygon/">
+        <code>
+         polygon
+        </code>
+       </a>
+       .
+      </p>
+      <pre><code class="language-typ"><code><span class="typ-key">#</span><span class="typ-key">let</span> <span class="typ-func">simple-arrow</span><span class="typ-punct">(</span>
+  fill<span class="typ-punct">:</span> black<span class="typ-punct">,</span>
+  stroke<span class="typ-punct">:</span> <span class="typ-num">0pt</span><span class="typ-punct">,</span>
+  start<span class="typ-punct">:</span> <span class="typ-punct">(</span><span class="typ-num">0pt</span><span class="typ-punct">,</span> <span class="typ-num">0pt</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+  end<span class="typ-punct">:</span> <span class="typ-punct">(</span><span class="typ-num">30pt</span><span class="typ-punct">,</span> <span class="typ-num">0pt</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+  thickness<span class="typ-punct">:</span> <span class="typ-num">2pt</span><span class="typ-punct">,</span>
+  arrow-width<span class="typ-punct">:</span> <span class="typ-num">4</span><span class="typ-punct">,</span>
+  arrow-height<span class="typ-punct">:</span> <span class="typ-num">4</span><span class="typ-punct">,</span>
+  inset<span class="typ-punct">:</span> <span class="typ-num">0.5</span><span class="typ-punct">,</span>
+  tail<span class="typ-punct">:</span> <span class="typ-punct">(</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+<span class="typ-punct">)</span> <span class="typ-op">=</span> <span class="typ-punct">{</span> ... <span class="typ-punct">}</span>
+</code></code></pre>
+      <p>
+       <strong>
+        Arguments:
+       </strong>
+      </p>
+      <ul>
+       <li>
+        <code>
+         fill
+        </code>
+        : [
+        <code>
+         color
+        </code>
+        ] â The fill color for the arrow.
+       </li>
+       <li>
+        <code>
+         stroke
+        </code>
+        : [
+        <code>
+         stroke
+        </code>
+        ] â The stroke for the arrow.
+       </li>
+       <li>
+        <code>
+         start
+        </code>
+        : [
+        <code>
+         point
+        </code>
+        ] â The starting point of the arrow.
+       </li>
+       <li>
+        <code>
+         end
+        </code>
+        : [
+        <code>
+         point
+        </code>
+        ] â The ending point of the arrow.
+       </li>
+       <li>
+        <code>
+         thickness
+        </code>
+        : [
+        <code>
+         length
+        </code>
+        ] â The thickness of the arrow.
+       </li>
+       <li>
+        <code>
+         arrow-width
+        </code>
+        : [
+        <code>
+         int
+        </code>
+        or
+        <code>
+         float
+        </code>
+        ] â The width of the arrowhead relative to thickness.
+       </li>
+       <li>
+        <code>
+         arrow-height
+        </code>
+        : [
+        <code>
+         int
+        </code>
+        or
+        <code>
+         float
+        </code>
+        ] â The height of the arrowhead relative to thickness.
+       </li>
+       <li>
+        <code>
+         inset
+        </code>
+        : [
+        <code>
+         int
+        </code>
+        or
+        <code>
+         float
+        </code>
+        ] â The inset value for the arrowhead relative to thickness.
+       </li>
+       <li>
+        <code>
+         tail
+        </code>
+        : [
+        <code>
+         array
+        </code>
+        ] â The tail settings for the arrow.
+       </li>
+      </ul>
+      <h3>
+       <code>
+        double-arrow
+       </code>
+      </h3>
+      <p>
+       Draw a double arrow on the page with optional settings, implemented by
+       <a href="https://typst.app/docs/reference/visualize/polygon/">
+        <code>
+         polygon
+        </code>
+       </a>
+       .
+      </p>
+      <pre><code class="language-typ"><code><span class="typ-key">#</span><span class="typ-key">let</span> <span class="typ-func">double-arrow</span><span class="typ-punct">(</span>
+  fill<span class="typ-punct">:</span> black<span class="typ-punct">,</span>
+  stroke<span class="typ-punct">:</span> <span class="typ-num">0pt</span><span class="typ-punct">,</span>
+  start<span class="typ-punct">:</span> <span class="typ-punct">(</span><span class="typ-num">0pt</span><span class="typ-punct">,</span> <span class="typ-num">0pt</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+  end<span class="typ-punct">:</span> <span class="typ-punct">(</span><span class="typ-num">30pt</span><span class="typ-punct">,</span> <span class="typ-num">0pt</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+  thickness<span class="typ-punct">:</span> <span class="typ-num">2pt</span><span class="typ-punct">,</span>
+  arrow-width<span class="typ-punct">:</span> <span class="typ-num">4</span><span class="typ-punct">,</span>
+  arrow-height<span class="typ-punct">:</span> <span class="typ-num">4</span><span class="typ-punct">,</span>
+  inset<span class="typ-punct">:</span> <span class="typ-num">0.5</span><span class="typ-punct">,</span>
+  tail<span class="typ-punct">:</span> <span class="typ-punct">(</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+<span class="typ-punct">)</span> <span class="typ-op">=</span> <span class="typ-punct">{</span> ... <span class="typ-punct">}</span>
+</code></code></pre>
+      <p>
+       <strong>
+        Arguments:
+       </strong>
+      </p>
+      <ul>
+       <li>
+        <code>
+         fill
+        </code>
+        : [
+        <code>
+         color
+        </code>
+        ] â The fill color for the arrow.
+       </li>
+       <li>
+        <code>
+         stroke
+        </code>
+        : [
+        <code>
+         stroke
+        </code>
+        ] â The stroke for the arrow.
+       </li>
+       <li>
+        <code>
+         start
+        </code>
+        : [
+        <code>
+         point
+        </code>
+        ] â The starting point of the arrow.
+       </li>
+       <li>
+        <code>
+         end
+        </code>
+        : [
+        <code>
+         point
+        </code>
+        ] â The ending point of the arrow.
+       </li>
+       <li>
+        <code>
+         thickness
+        </code>
+        : [
+        <code>
+         length
+        </code>
+        ] â The thickness of the arrow.
+       </li>
+       <li>
+        <code>
+         arrow-width
+        </code>
+        : [
+        <code>
+         int
+        </code>
+        or
+        <code>
+         float
+        </code>
+        ] â The width of the arrowhead relative to thickness.
+       </li>
+       <li>
+        <code>
+         arrow-height
+        </code>
+        : [
+        <code>
+         int
+        </code>
+        or
+        <code>
+         float
+        </code>
+        ] â The height of the arrowhead relative to thickness.
+       </li>
+       <li>
+        <code>
+         inset
+        </code>
+        : [
+        <code>
+         int
+        </code>
+        or
+        <code>
+         float
+        </code>
+        ] â The inset value for the arrowhead relative to thickness.
+       </li>
+       <li>
+        <code>
+         tail
+        </code>
+        : [
+        <code>
+         array
+        </code>
+        ] â The tail settings for the arrow.
+       </li>
+      </ul>
+      <h3>
+       <code>
+        pinit-fletcher-edge
+       </code>
+      </h3>
+      <p>
+       Draw a connecting line or arc in an fletcher arrow diagram.
+      </p>
+      <pre><code class="language-typ"><code><span class="typ-key">#</span><span class="typ-key">let</span> <span class="typ-func">pinit-fletcher-edge</span><span class="typ-punct">(</span>
+  fletcher<span class="typ-punct">,</span>
+  start<span class="typ-punct">,</span>
+  end<span class="typ-punct">:</span> <span class="typ-key">none</span><span class="typ-punct">,</span>
+  start-dx<span class="typ-punct">:</span> <span class="typ-num">0pt</span><span class="typ-punct">,</span>
+  start-dy<span class="typ-punct">:</span> <span class="typ-num">0pt</span><span class="typ-punct">,</span>
+  end-dx<span class="typ-punct">:</span> <span class="typ-num">0pt</span><span class="typ-punct">,</span>
+  end-dy<span class="typ-punct">:</span> <span class="typ-num">0pt</span><span class="typ-punct">,</span>
+  width-scale<span class="typ-punct">:</span> <span class="typ-num">100%</span><span class="typ-punct">,</span>
+  height-scale<span class="typ-punct">:</span> <span class="typ-num">100%</span><span class="typ-punct">,</span>
+  default-width<span class="typ-punct">:</span> <span class="typ-num">30pt</span><span class="typ-punct">,</span>
+  default-height<span class="typ-punct">:</span> <span class="typ-num">30pt</span><span class="typ-punct">,</span>
+	<span class="typ-op">..</span>args<span class="typ-punct">,</span>
+<span class="typ-punct">)</span> <span class="typ-op">=</span> <span class="typ-punct">{</span> ... <span class="typ-punct">}</span>
+</code></code></pre>
+      <p>
+       <strong>
+        Arguments:
+       </strong>
+      </p>
+      <ul>
+       <li>
+        <code>
+         fletcher
+        </code>
+        (module): The Fletcher module. You can import it with something like
+        <code>
+         #import "@preview/fletcher:0.5.1"
+        </code>
+       </li>
+       <li>
+        <code>
+         start
+        </code>
+        (pin): The starting pin of the edge. It is assumed that the pin is at the
+        <em>
+         origin point (0, 0)
+        </em>
+        of the edge.
+       </li>
+       <li>
+        <code>
+         end
+        </code>
+        (pin): The ending pin of the edge. If not provided, the edge will use default values for the width and height.
+       </li>
+       <li>
+        <code>
+         start-dx
+        </code>
+        (length): The x-offset of the starting pin. You should use pt units.
+       </li>
+       <li>
+        <code>
+         start-dy
+        </code>
+        (length): The y-offset of the starting pin. You should use pt units.
+       </li>
+       <li>
+        <code>
+         end-dx
+        </code>
+        (length): The x-offset of the ending pin. You should use pt units.
+       </li>
+       <li>
+        <code>
+         end-dy
+        </code>
+        (length): The y-offset of the ending pin. You should use pt units.
+       </li>
+       <li>
+        <code>
+         width-scale
+        </code>
+        (percent): The width scale of the edge. The default value is 100%. If you set the width scale to 50%, the width of the edge will be half of the default width. Then you can use
+        <code>
+         "r,r"
+        </code>
+        which is equivalent to single
+        <code>
+         "r"
+        </code>
+        .
+       </li>
+       <li>
+        <code>
+         height-scale
+        </code>
+        (percent): The height scale of the edge. The default value is 100%.
+       </li>
+       <li>
+        <code>
+         default-width
+        </code>
+        (length): The default width of the edge. The default value is 30pt, which will only be used if the end pin is not provided or the width is 0pt or 0em.
+       </li>
+       <li>
+        <code>
+         default-height
+        </code>
+        (length): The default height of the edge. The default value is 30pt, which will only be used if the end pin is not provided or the height is 0pt or 0em.
+       </li>
+       <li>
+        <code>
+         ..args
+        </code>
+        (any): An edgeâs positional arguments may specify:
+        <ul>
+         <li>
+          the edgeâs #param[edge][vertices], each specified with a CeTZ-style coordinate
+         </li>
+         <li>
+          the #param[edge][label] content
+         </li>
+         <li>
+          arrow #param[edge][marks], like
+          <code>
+           "=&gt;"
+          </code>
+          or
+          <code>
+           "&lt;&lt;-|-o"
+          </code>
+         </li>
+         <li>
+          other style flags, like
+          <code>
+           "double"
+          </code>
+          or
+          <code>
+           "wave"
+          </code>
+         </li>
+        </ul>
+       </li>
+      </ul>
+      <h2>
+       Changelog
+      </h2>
+      <h3>
+       0.2.2
+      </h3>
+      <ul>
+       <li>
+        Fix bugs.
+       </li>
+      </ul>
+      <h3>
+       0.2.1
+      </h3>
+      <ul>
+       <li>
+        To be compatible with Typst 0.12.
+       </li>
+      </ul>
+      <h3>
+       0.2.0
+      </h3>
+      <ul>
+       <li>
+        <strong>
+         Breaking changes
+        </strong>
+        :
+        <code>
+         #pinit(pins, func)
+        </code>
+        is replaced by
+        <code>
+         #pinit(callback: none, ..pins)
+        </code>
+        and the callback argument will receive an
+        <code>
+         (..positions) =&gt; { .. }
+        </code>
+        function instead of a
+        <code>
+         (positions) =&gt; { .. }
+        </code>
+        function.
+        <ul>
+         <li>
+          <strong>
+           Migration
+          </strong>
+          : you need to use a named argument
+          <code>
+           callback: (..positions) =&gt; { .. }
+          </code>
+          to specify the callback function.
+         </li>
+         <li>
+          <strong>
+           Migration
+          </strong>
+          : you cannot use a array as a pin name. Now
+          <code>
+           #pinit((pin1, pin2), callback: func)
+          </code>
+          means that we use
+          <code>
+           pin1
+          </code>
+          and
+          <code>
+           pin2
+          </code>
+          as a group of pins, and the callback function will receive
+          <strong>
+           a single position
+          </strong>
+          (the center of the bounding box of
+          <code>
+           pin1
+          </code>
+          and
+          <code>
+           pin2
+          </code>
+          ).
+         </li>
+         <li>
+          <strong>
+           Benefit
+          </strong>
+          : you can use
+          <code>
+           #pinit(pin1, pin2, callback: func)
+          </code>
+          to query the positions of
+          <code>
+           pin1
+          </code>
+          and
+          <code>
+           pin2
+          </code>
+          separately, and
+          <code>
+           #pinit((pin1, pin2), callback: func)
+          </code>
+          to query the position of the center of the bounding box of
+          <code>
+           pin1
+          </code>
+          and
+          <code>
+           pin2
+          </code>
+          .
+         </li>
+        </ul>
+       </li>
+       <li>
+        Add
+        <code>
+         pinit-fletcher-edge
+        </code>
+        function to draw a connecting line or arc in an fletcher arrow diagram.
+       </li>
+       <li>
+        Add
+        <code>
+         double-arrow
+        </code>
+        function and
+        <code>
+         pinit-double-arrow
+        </code>
+        function.
+       </li>
+       <li>
+        Add
+        <code>
+         double
+        </code>
+        argument for
+        <code>
+         pinit-point-to
+        </code>
+        and
+        <code>
+         pinit-point-from
+        </code>
+        functions.
+       </li>
+       <li>
+        Better comments and documentation.
+       </li>
+      </ul>
+      <h3>
+       0.1.4
+      </h3>
+      <ul>
+       <li>
+        Update documentation.
+       </li>
+      </ul>
+      <h3>
+       0.1.3
+      </h3>
+      <ul>
+       <li>
+        Add
+        <code>
+         pinit-line-to
+        </code>
+        function.
+       </li>
+      </ul>
+      <h3>
+       0.1.2
+      </h3>
+      <ul>
+       <li>
+        Add em unit support for
+        <code>
+         simple-arrow
+        </code>
+        .
+       </li>
+      </ul>
+      <h3>
+       0.1.1
+      </h3>
+      <ul>
+       <li>
+        Fix some bugs.
+       </li>
+      </ul>
+      <h3>
+       0.1.0
+      </h3>
+      <ul>
+       <li>
+        Initial release.
+       </li>
+      </ul>
+      <h2>
+       Acknowledgements
+      </h2>
+      <ul>
+       <li>
+        Some of the inspirations and codes comes from
+        <a href="https://github.com/ntjess/typst-drafting" rel="nofollow ugc" target="_blank">
+         typst-drafting
+        </a>
+        .
+       </li>
+       <li>
+        The concise and aesthetic example slide style come from course
+        <em>
+         Data Structures and Algorithms
+        </em>
+        of
+        <a href="https://chaodong.me/" rel="nofollow ugc" target="_blank">
+         Chaodong ZHENG
+        </a>
+        .
+       </li>
+       <li>
+        Thank
+        <a href="https://github.com/psads-git" rel="nofollow ugc" target="_blank">
+         PaulS
+        </a>
+        for double arrow feature.
+       </li>
+       <li>
+        Thank
+        <a href="https://github.com/Jollywatt" rel="nofollow ugc" target="_blank">
+         Jollywatt
+        </a>
+        for fletcher package.
+       </li>
+      </ul>
+      <h2>
+       License
+      </h2>
+      <p>
+       This project is licensed under the MIT License.
+      </p>
+     </section>
+     <aside>
+      <section>
+       <h3>
+        How to add
+       </h3>
+       <p>
+        Copy this into your project and use the import as
+        <!-- -->
+        <code>
+         pinit
+        </code>
+       </p>
+       <div class="import-snippet">
+        <pre><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/pinit:0.2.2"</span></code></pre>
+        <button class="copy" title="Copy to clipboard">
+         <img alt="Copy" height="16" src="/assets/icons/16-copy.svg" width="16"/>
+        </button>
+       </div>
+       <p class="muted">
+        Check the docs for
+        <!-- -->
+        <a href="https://typst.app/docs/reference/scripting/#packages">
+         more information on how to import packages
+        </a>
+        .
+       </p>
+      </section>
+      <section id="about">
+       <h3>
+        About
+       </h3>
+       <dl>
+        <dt>
+         Author
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         OrangeX4
+        </dd>
+        <dt>
+         License:
+        </dt>
+        <dd>
+         MIT
+        </dd>
+        <dt>
+         Current version:
+        </dt>
+        <dd>
+         0.2.2
+        </dd>
+        <dt>
+         Last updated:
+        </dt>
+        <dd>
+         October 17, 2024
+        </dd>
+        <dt>
+         First released:
+        </dt>
+        <dd>
+         November 7, 2023
+        </dd>
+        <dt>
+         Archive size:
+        </dt>
+        <dd class="archive-size-value">
+         14.0 kB
+         <a href="https://packages.typst.org/preview/pinit-0.2.2.tar.gz">
+          <img alt="Size icon" src="/assets/icons/16-download.svg"/>
+         </a>
+        </dd>
+        <dt>
+         Repository:
+        </dt>
+        <dd>
+         <a href="https://github.com/OrangeX4/typst-pinit" rel="noopener noreferrer" target="_blank">
+          GitHub
+         </a>
+        </dd>
+        <dt>
+         Categor
+         <!-- -->
+         ies
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         <ul class="list-with-icons">
+          <li>
+           <img alt="Layout icon" src="/assets/icons/16-layout.svg"/>
+           <a href="https://typst.app/universe/search/?category=layout">
+            Layout
+           </a>
+          </li>
+          <li>
+           <img alt="Utility icon" src="/assets/icons/16-hammer.svg"/>
+           <a href="https://typst.app/universe/search/?category=utility">
+            Utility
+           </a>
+          </li>
+         </ul>
+        </dd>
+       </dl>
+      </section>
+      <section>
+       <h3>
+        Where to report issues?
+       </h3>
+       <p>
+        This
+        <!-- -->
+        package
+        <!-- -->
+        is a project of
+        <!-- -->
+        <!-- -->
+        OrangeX4
+        <!-- -->
+        .
+        <!-- -->
+        <!-- -->
+        Report issues on
+        <!-- -->
+        <a href="https://github.com/OrangeX4/typst-pinit" rel="noopener noreferrer" target="_blank">
+         their repository
+        </a>
+        .
+        <!-- -->
+        <!-- -->
+        You can also try to ask for help with this
+        <!-- -->
+        package
+        <!-- -->
+        on the
+        <!-- -->
+        <a href="https://forum.typst.app" rel="noopener" target="_blank">
+         Forum
+        </a>
+        .
+       </p>
+       <p>
+        Please report this
+        <!-- -->
+        package
+        <!-- -->
+        to the Typst team using the
+        <!-- -->
+        <a href="https://typst.app/contact" rel="noreferrer" target="_blank">
+         contact form
+        </a>
+        <!-- -->
+        if you believe it is a safety hazard or infringes upon your rights.
+       </p>
+      </section>
+      <section id="versions">
+       <h3>
+        Version history
+       </h3>
+       <table>
+        <thead>
+         <tr>
+          <th align="left">
+           Version
+          </th>
+          <th align="left">
+           Release Date
+          </th>
+         </tr>
+        </thead>
+        <tbody>
+         <tr>
+          <td align="left">
+           0.2.2
+          </td>
+          <td align="left">
+           October 17, 2024
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/pinit/0.2.1/">
+            0.2.1
+           </a>
+          </td>
+          <td align="left">
+           October 16, 2024
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/pinit/0.2.0/">
+            0.2.0
+           </a>
+          </td>
+          <td align="left">
+           August 26, 2024
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/pinit/0.1.4/">
+            0.1.4
+           </a>
+          </td>
+          <td align="left">
+           April 12, 2024
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/pinit/0.1.3/">
+            0.1.3
+           </a>
+          </td>
+          <td align="left">
+           December 23, 2023
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/pinit/0.1.2/">
+            0.1.2
+           </a>
+          </td>
+          <td align="left">
+           November 29, 2023
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/pinit/0.1.1/">
+            0.1.1
+           </a>
+          </td>
+          <td align="left">
+           November 7, 2023
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/pinit/0.1.0/">
+            0.1.0
+           </a>
+          </td>
+          <td align="left">
+           November 7, 2023
+          </td>
+         </tr>
+        </tbody>
+       </table>
+      </section>
+      <p class="bottom-notice muted">
+       Typst GmbH did not create this
+       <!-- -->
+       package
+       <!-- -->
+       and cannot guarantee correct functionality of this
+       <!-- -->
+       package
+       <!-- -->
+       or compatibility with any version of the Typst compiler or app.
+      </p>
+     </aside>
+    </div>
+   </main>

@@ -1,0 +1,690 @@
+<main>
+    <div id="banner" style="--banner-accent:#000000;--banner-primary:#000000;--banner-secondary:#000000;--banner-tertiary:#565565;--banner-background:#eff0f3">
+     <div id="template-thumbnail">
+      <img alt="A preview of the starter-journal-article Typst template." src="https://packages.typst.org/preview/thumbnails/starter-journal-article-0.3.1-small.webp"/>
+      <div class="icon" role="img">
+      </div>
+     </div>
+     <div>
+      <div class="title">
+       <h1 class="name">
+        starter-journal-article
+       </h1>
+       <span class="version">
+        0.3.1
+       </span>
+      </div>
+      <p class="description">
+       A starter template for journal articles.
+      </p>
+     </div>
+    </div>
+    <div class="inner-grid">
+     <a class="create-project-button mobile" href="/app?template=starter-journal-article&amp;version=0.3.1" rel="noopener noreferrer" target="_blank">
+      Create project in app
+     </a>
+     <section id="readme">
+      <p>
+       This package provides a template for writing journal articles to organise authors, institutions, and information of corresponding authors.
+      </p>
+      <h2>
+       Usage
+      </h2>
+      <p>
+       Run the following command to use this template
+      </p>
+      <pre><code class="language-typst"><code>typst init <span class="typ-ref">@preview</span>/starter-journal-article
+</code></code></pre>
+      <h2>
+       Documentation
+      </h2>
+      <h3>
+       <code>
+        article
+       </code>
+      </h3>
+      <p>
+       The template for creating journal articles. It needs the following arguments.
+      </p>
+      <p>
+       Arguments:
+      </p>
+      <ul>
+       <li>
+        <code>
+         title
+        </code>
+        : The title of this article. Default:
+        <code>
+         "Article Title"
+        </code>
+        .
+       </li>
+       <li>
+        <code>
+         authors
+        </code>
+        : A dictionary of authors. Dictionary keys are authorsâ names. Dictionary values are meta data of every author, including label(s) of affiliation(s), email, contact address, or a self-defined name (to avoid name conflicts). The label(s) of affiliation(s) must be those claimed in the argument
+        <code>
+         affiliations
+        </code>
+        . Once the email or address exists, the author(s) will be labelled as the corresponding author(s), and their address will show in footnotes. Function
+        <code>
+         author-meta()
+        </code>
+        is useful in creating information for each author. Default:
+        <code>
+         ("Author Name": author-meta("affiliation-label"))
+        </code>
+        .
+       </li>
+       <li>
+        <code>
+         affiliations
+        </code>
+        : A dictionary of affiliation. Dictionary keys are affiliationsâ labels. These labels show be constent with those used in authorsâ meta data. Dictionary values are addresses of every affiliation. Default:
+        <code>
+         ("affiliation-label": "Affiliation address")
+        </code>
+        .
+       </li>
+       <li>
+        <code>
+         abstract
+        </code>
+        : The paperâs abstract. Default:
+        <code>
+         []
+        </code>
+        .
+       </li>
+       <li>
+        <code>
+         keywords
+        </code>
+        : The paperâs keywords. Default:
+        <code>
+         []
+        </code>
+        .
+       </li>
+       <li>
+        <code>
+         bib
+        </code>
+        : The bibliography. Accept value from the built-in
+        <code>
+         bibliography
+        </code>
+        function. Default:
+        <code>
+         none
+        </code>
+        .
+       </li>
+       <li>
+        <code>
+         template
+        </code>
+        : Templates for the following parts. Please see below for more informations
+        <ul>
+         <li>
+          <code>
+           title: (title) =&gt; {}
+          </code>
+          : how to show the title of this article.
+         </li>
+         <li>
+          <code>
+           author-info: (authors, affiliations) =&gt; {}
+          </code>
+          : how to show each authorâs information.
+         </li>
+         <li>
+          <code>
+           abstract: (abstract, keywords) =&gt; {}
+          </code>
+          : how to show the abstract and keywords.
+         </li>
+         <li>
+          <code>
+           bibliography: (bib) =&gt; {}
+          </code>
+          : how to show the bibliography.
+         </li>
+         <li>
+          <code>
+           body: (body) =&gt; {}
+          </code>
+          : how to show main text.
+         </li>
+        </ul>
+       </li>
+      </ul>
+      <h3>
+       <code>
+        author-meta
+       </code>
+      </h3>
+      <p>
+       A helper to create meta information for an author.
+      </p>
+      <p>
+       Arguments:
+      </p>
+      <ul>
+       <li>
+        <code>
+         ..affiliation
+        </code>
+        : Capture the positioned arguments as label(s) of affiliation(s). Mandatory.
+       </li>
+       <li>
+        <code>
+         email
+        </code>
+        : The email address of the author. Default:
+        <code>
+         none
+        </code>
+        .
+       </li>
+       <li>
+        <code>
+         alias
+        </code>
+        : The display name of the author. Default:
+        <code>
+         none
+        </code>
+        .
+       </li>
+       <li>
+        <code>
+         address
+        </code>
+        : The address of the author. Default:
+        <code>
+         none
+        </code>
+        .
+       </li>
+       <li>
+        <code>
+         cofirst
+        </code>
+        : Whether the author is the co-first author. Default:
+        <code>
+         false
+        </code>
+        .
+       </li>
+      </ul>
+      <h2>
+       Default templates
+      </h2>
+      <p>
+       The following code shows how the default templates are defined. You can override any of the by setting the
+       <code>
+        template
+       </code>
+       argument in the
+       <code>
+        article()
+       </code>
+       function to customise the template.
+      </p>
+      <pre><code class="language-typst"><code><span class="typ-key">#</span><span class="typ-key">let</span> <span class="typ-func">default-title</span><span class="typ-punct">(</span>title<span class="typ-punct">)</span> <span class="typ-op">=</span> <span class="typ-punct">{</span>
+  <span class="typ-key">show</span><span class="typ-punct">:</span> block<span class="typ-punct">.</span><span class="typ-func">with</span><span class="typ-punct">(</span>width<span class="typ-punct">:</span> <span class="typ-num">100%</span><span class="typ-punct">)</span>
+  <span class="typ-key">set</span> <span class="typ-func">align</span><span class="typ-punct">(</span>center<span class="typ-punct">)</span>
+  <span class="typ-key">set</span> <span class="typ-func">text</span><span class="typ-punct">(</span>size<span class="typ-punct">:</span> <span class="typ-num">1.75em</span><span class="typ-punct">,</span> weight<span class="typ-punct">:</span> <span class="typ-str">"bold"</span><span class="typ-punct">)</span>
+  title
+<span class="typ-punct">}</span>
+
+<span class="typ-key">#</span><span class="typ-key">let</span> <span class="typ-func">default-author</span><span class="typ-punct">(</span>author<span class="typ-punct">)</span> <span class="typ-op">=</span> <span class="typ-punct">{</span>
+  <span class="typ-func">text</span><span class="typ-punct">(</span>author<span class="typ-punct">.</span>name<span class="typ-punct">)</span>
+  <span class="typ-func">super</span><span class="typ-punct">(</span>author<span class="typ-punct">.</span>insts<span class="typ-punct">.</span><span class="typ-func">map</span><span class="typ-punct">(</span>it <span class="typ-op">=&gt;</span> <span class="typ-func">str</span><span class="typ-punct">(</span>it<span class="typ-punct">)</span><span class="typ-punct">)</span><span class="typ-punct">.</span><span class="typ-func">join</span><span class="typ-punct">(</span><span class="typ-str">","</span><span class="typ-punct">)</span><span class="typ-punct">)</span>
+  <span class="typ-key">if</span> author<span class="typ-punct">.</span>corresponding <span class="typ-punct">{</span>
+    <span class="typ-func">footnote</span><span class="typ-punct">[</span>
+      Corresponding author. Address: <span class="typ-pol">#</span><span class="typ-pol">author</span><span class="typ-punct">.</span><span class="typ-pol">address</span>.
+      <span class="typ-key">#</span><span class="typ-key">if</span> author<span class="typ-punct">.</span>email <span class="typ-op">!=</span> <span class="typ-key">none</span> <span class="typ-punct">{</span>
+        <span class="typ-punct">[</span>Email: <span class="typ-func">#</span><span class="typ-func">underline</span><span class="typ-punct">(</span>author<span class="typ-punct">.</span>email<span class="typ-punct">)</span>.<span class="typ-punct">]</span>
+      <span class="typ-punct">}</span>
+    <span class="typ-punct">]</span>
+  <span class="typ-punct">}</span>
+  <span class="typ-key">if</span> author<span class="typ-punct">.</span>cofirst <span class="typ-op">==</span> <span class="typ-str">"thefirst"</span> <span class="typ-punct">{</span>
+    <span class="typ-func">footnote</span><span class="typ-punct">(</span><span class="typ-str">"cofirst-author-mark"</span><span class="typ-punct">)</span>
+  <span class="typ-punct">}</span> <span class="typ-key">else</span> <span class="typ-key">if</span> author<span class="typ-punct">.</span>cofirst <span class="typ-op">==</span> <span class="typ-str">"cofirst"</span> <span class="typ-punct">{</span>
+    <span class="typ-func">locate</span><span class="typ-punct">(</span>loc <span class="typ-op">=&gt;</span> <span class="typ-func">query</span><span class="typ-punct">(</span>footnote<span class="typ-punct">.</span><span class="typ-func">where</span><span class="typ-punct">(</span>body<span class="typ-punct">:</span> <span class="typ-punct">[</span>cofirst-author-mark<span class="typ-punct">]</span><span class="typ-punct">)</span><span class="typ-punct">,</span> loc<span class="typ-punct">)</span><span class="typ-punct">.</span><span class="typ-func">last</span><span class="typ-punct">(</span><span class="typ-punct">)</span><span class="typ-punct">)</span>
+  <span class="typ-punct">}</span>
+<span class="typ-punct">}</span>
+
+<span class="typ-key">#</span><span class="typ-key">let</span> <span class="typ-func">default-affiliation</span><span class="typ-punct">(</span>id<span class="typ-punct">,</span> address<span class="typ-punct">)</span> <span class="typ-op">=</span> <span class="typ-punct">{</span>
+  <span class="typ-key">set</span> <span class="typ-func">text</span><span class="typ-punct">(</span>size<span class="typ-punct">:</span> <span class="typ-num">0.8em</span><span class="typ-punct">)</span>
+  <span class="typ-func">super</span><span class="typ-punct">(</span><span class="typ-punct">[</span><span class="typ-punct">#</span><span class="typ-punct">(</span>id<span class="typ-op">+</span><span class="typ-num">1</span><span class="typ-punct">)</span><span class="typ-punct">]</span><span class="typ-punct">)</span>
+  address
+<span class="typ-punct">}</span>
+
+<span class="typ-key">#</span><span class="typ-key">let</span> <span class="typ-func">default-author-info</span><span class="typ-punct">(</span>authors<span class="typ-punct">,</span> affiliations<span class="typ-punct">)</span> <span class="typ-op">=</span> <span class="typ-punct">{</span>
+  <span class="typ-punct">{</span>
+    <span class="typ-key">show</span><span class="typ-punct">:</span> block<span class="typ-punct">.</span><span class="typ-func">with</span><span class="typ-punct">(</span>width<span class="typ-punct">:</span> <span class="typ-num">100%</span><span class="typ-punct">)</span>
+    authors<span class="typ-punct">.</span><span class="typ-func">map</span><span class="typ-punct">(</span>it <span class="typ-op">=&gt;</span> <span class="typ-func">default-author</span><span class="typ-punct">(</span>it<span class="typ-punct">)</span><span class="typ-punct">)</span><span class="typ-punct">.</span><span class="typ-func">join</span><span class="typ-punct">(</span><span class="typ-str">", "</span><span class="typ-punct">)</span>
+  <span class="typ-punct">}</span>
+  <span class="typ-punct">{</span>
+    <span class="typ-key">show</span><span class="typ-punct">:</span> block<span class="typ-punct">.</span><span class="typ-func">with</span><span class="typ-punct">(</span>width<span class="typ-punct">:</span> <span class="typ-num">100%</span><span class="typ-punct">)</span>
+    <span class="typ-key">set</span> <span class="typ-func">par</span><span class="typ-punct">(</span>leading<span class="typ-punct">:</span> <span class="typ-num">0.4em</span><span class="typ-punct">)</span>
+    affiliations<span class="typ-punct">.</span><span class="typ-func">keys</span><span class="typ-punct">(</span><span class="typ-punct">)</span><span class="typ-punct">.</span><span class="typ-func">enumerate</span><span class="typ-punct">(</span><span class="typ-punct">)</span><span class="typ-punct">.</span><span class="typ-func">map</span><span class="typ-punct">(</span><span class="typ-punct">(</span><span class="typ-punct">(</span>ik<span class="typ-punct">,</span> key<span class="typ-punct">)</span><span class="typ-punct">)</span> <span class="typ-op">=&gt;</span> <span class="typ-punct">{</span>
+      <span class="typ-func">default-affiliation</span><span class="typ-punct">(</span>ik<span class="typ-punct">,</span> affiliations<span class="typ-punct">.</span><span class="typ-func">at</span><span class="typ-punct">(</span>key<span class="typ-punct">)</span><span class="typ-punct">)</span>
+    <span class="typ-punct">}</span><span class="typ-punct">)</span><span class="typ-punct">.</span><span class="typ-func">join</span><span class="typ-punct">(</span><span class="typ-func">linebreak</span><span class="typ-punct">(</span><span class="typ-punct">)</span><span class="typ-punct">)</span>
+  <span class="typ-punct">}</span>
+<span class="typ-punct">}</span>
+
+<span class="typ-key">#</span><span class="typ-key">let</span> <span class="typ-func">default-abstract</span><span class="typ-punct">(</span>abstract<span class="typ-punct">,</span> keywords<span class="typ-punct">)</span> <span class="typ-op">=</span> <span class="typ-punct">{</span>
+  <span class="typ-comment">// Abstract and keyword block</span>
+  <span class="typ-key">if</span> abstract <span class="typ-op">!=</span> <span class="typ-punct">[</span><span class="typ-punct">]</span> <span class="typ-punct">{</span>
+    <span class="typ-func">stack</span><span class="typ-punct">(</span>
+      dir<span class="typ-punct">:</span> ttb<span class="typ-punct">,</span>
+      spacing<span class="typ-punct">:</span> <span class="typ-num">1em</span><span class="typ-punct">,</span>
+      <span class="typ-op">..</span><span class="typ-punct">(</span><span class="typ-punct">[</span>
+        <span class="typ-func">#</span><span class="typ-func">heading</span><span class="typ-punct">(</span><span class="typ-punct">[</span>Abstract<span class="typ-punct">]</span><span class="typ-punct">)</span>
+        <span class="typ-pol">#</span><span class="typ-pol">abstract</span>
+      <span class="typ-punct">]</span><span class="typ-punct">,</span> <span class="typ-key">if</span> keywords<span class="typ-punct">.</span><span class="typ-func">len</span><span class="typ-punct">(</span><span class="typ-punct">)</span> <span class="typ-op">&gt;</span> <span class="typ-num">0</span> <span class="typ-punct">{</span>
+        <span class="typ-func">text</span><span class="typ-punct">(</span>weight<span class="typ-punct">:</span> <span class="typ-str">"bold"</span><span class="typ-punct">,</span> <span class="typ-punct">[</span>Key words: <span class="typ-punct">]</span><span class="typ-punct">)</span>
+        <span class="typ-func">text</span><span class="typ-punct">(</span><span class="typ-punct">[</span><span class="typ-pol">#</span><span class="typ-pol">keywords</span><span class="typ-punct">.</span><span class="typ-func">join</span><span class="typ-punct">(</span><span class="typ-punct">[</span>; <span class="typ-punct">]</span><span class="typ-punct">)</span>.<span class="typ-punct">]</span><span class="typ-punct">)</span>
+      <span class="typ-punct">}</span> <span class="typ-key">else</span> <span class="typ-punct">{</span><span class="typ-key">none</span><span class="typ-punct">}</span> <span class="typ-punct">)</span>
+    <span class="typ-punct">)</span>
+  <span class="typ-punct">}</span>
+<span class="typ-punct">}</span>
+
+<span class="typ-key">#</span><span class="typ-key">let</span> <span class="typ-func">default-bibliography</span><span class="typ-punct">(</span>bib<span class="typ-punct">)</span> <span class="typ-op">=</span> <span class="typ-punct">{</span>
+  <span class="typ-key">show</span> <span class="typ-func">bibliography</span><span class="typ-punct">:</span> <span class="typ-key">set</span> <span class="typ-func">text</span><span class="typ-punct">(</span><span class="typ-num">1em</span><span class="typ-punct">)</span>
+  <span class="typ-key">show</span> <span class="typ-func">bibliography</span><span class="typ-punct">:</span> <span class="typ-key">set</span> <span class="typ-func">par</span><span class="typ-punct">(</span>first-line-indent<span class="typ-punct">:</span> <span class="typ-num">0em</span><span class="typ-punct">)</span>
+  <span class="typ-key">set</span> <span class="typ-func">bibliography</span><span class="typ-punct">(</span>title<span class="typ-punct">:</span> <span class="typ-punct">[</span>References<span class="typ-punct">]</span><span class="typ-punct">,</span> style<span class="typ-punct">:</span> <span class="typ-str">"apa"</span><span class="typ-punct">)</span>
+  bib
+<span class="typ-punct">}</span>
+
+<span class="typ-key">#</span><span class="typ-key">let</span> <span class="typ-func">default-body</span><span class="typ-punct">(</span>body<span class="typ-punct">)</span> <span class="typ-op">=</span> <span class="typ-punct">{</span>
+  <span class="typ-key">show</span> heading<span class="typ-punct">.</span><span class="typ-func">where</span><span class="typ-punct">(</span>level<span class="typ-punct">:</span> <span class="typ-num">1</span><span class="typ-punct">)</span><span class="typ-punct">:</span> it <span class="typ-op">=&gt;</span> <span class="typ-func">block</span><span class="typ-punct">(</span>above<span class="typ-punct">:</span> <span class="typ-num">1.5em</span><span class="typ-punct">,</span> below<span class="typ-punct">:</span> <span class="typ-num">1.5em</span><span class="typ-punct">)</span><span class="typ-punct">[</span>
+    <span class="typ-key">#</span><span class="typ-key">set</span> <span class="typ-func">pad</span><span class="typ-punct">(</span>bottom<span class="typ-punct">:</span> <span class="typ-num">2em</span><span class="typ-punct">,</span> top<span class="typ-punct">:</span> <span class="typ-num">1em</span><span class="typ-punct">)</span>
+    <span class="typ-pol">#</span><span class="typ-pol">it</span><span class="typ-punct">.</span><span class="typ-pol">body</span>
+  <span class="typ-punct">]</span>
+  <span class="typ-key">set</span> <span class="typ-func">par</span><span class="typ-punct">(</span>first-line-indent<span class="typ-punct">:</span> <span class="typ-num">2em</span><span class="typ-punct">)</span>
+  <span class="typ-key">set</span> <span class="typ-func">footnote</span><span class="typ-punct">(</span>numbering<span class="typ-punct">:</span> <span class="typ-str">"1"</span><span class="typ-punct">)</span>
+  body
+<span class="typ-punct">}</span>
+</code></code></pre>
+      <h2>
+       Example
+      </h2>
+      <p>
+       See
+       <a href="https://github.com/typst/packages/raw/main/packages/preview/starter-journal-article/0.3.1/template/main.typ" rel="nofollow ugc" target="_blank">
+        the template
+       </a>
+       for full example.
+      </p>
+      <pre><code class="language-typst"><code><span class="typ-key">#</span><span class="typ-key">show</span><span class="typ-punct">:</span> article<span class="typ-punct">.</span><span class="typ-func">with</span><span class="typ-punct">(</span>
+  title<span class="typ-punct">:</span> <span class="typ-str">"Artile Title"</span><span class="typ-punct">,</span>
+  authors<span class="typ-punct">:</span> <span class="typ-punct">(</span>
+    <span class="typ-str">"Author One"</span><span class="typ-punct">:</span> <span class="typ-func">author-meta</span><span class="typ-punct">(</span>
+      <span class="typ-str">"UCL"</span><span class="typ-punct">,</span> <span class="typ-str">"TSU"</span><span class="typ-punct">,</span>
+      email<span class="typ-punct">:</span> <span class="typ-str">"author.one@inst.ac.uk"</span><span class="typ-punct">,</span>
+    <span class="typ-punct">)</span><span class="typ-punct">,</span>
+    <span class="typ-str">"Author Two"</span><span class="typ-punct">:</span> <span class="typ-func">author-meta</span><span class="typ-punct">(</span>
+      <span class="typ-str">"TSU"</span><span class="typ-punct">,</span>
+      cofirst<span class="typ-punct">:</span> <span class="typ-key">true</span>
+    <span class="typ-punct">)</span><span class="typ-punct">,</span>
+    <span class="typ-str">"Author Three"</span><span class="typ-punct">:</span> <span class="typ-func">author-meta</span><span class="typ-punct">(</span>
+      <span class="typ-str">"TSU"</span>
+    <span class="typ-punct">)</span>
+  <span class="typ-punct">)</span><span class="typ-punct">,</span>
+  affiliations<span class="typ-punct">:</span> <span class="typ-punct">(</span>
+    <span class="typ-str">"UCL"</span><span class="typ-punct">:</span> <span class="typ-str">"UCL Centre for Advanced Spatial Analysis, First Floor, 90 Tottenham Court Road, London W1T 4TJ, United Kingdom"</span><span class="typ-punct">,</span>
+    <span class="typ-str">"TSU"</span><span class="typ-punct">:</span> <span class="typ-str">"Haidian  District, Beijing, 100084, P. R. China"</span>
+  <span class="typ-punct">)</span><span class="typ-punct">,</span>
+  abstract<span class="typ-punct">:</span> <span class="typ-punct">[</span><span class="typ-func">#</span><span class="typ-func">lorem</span><span class="typ-punct">(</span><span class="typ-num">100</span><span class="typ-punct">)</span><span class="typ-punct">]</span><span class="typ-punct">,</span>
+  keywords<span class="typ-punct">:</span> <span class="typ-punct">(</span><span class="typ-str">"Typst"</span><span class="typ-punct">,</span> <span class="typ-str">"Template"</span><span class="typ-punct">,</span> <span class="typ-str">"Journal Article"</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+  bib<span class="typ-punct">:</span> <span class="typ-func">bibliography</span><span class="typ-punct">(</span><span class="typ-str">"./ref.bib"</span><span class="typ-punct">)</span>
+<span class="typ-punct">)</span>
+</code></code></pre>
+      <p>
+       <img alt="" src="https://github.com/typst/packages/raw/main/packages/preview/starter-journal-article/0.3.1/assets/basic.png"/>
+      </p>
+      <h3>
+       Custom title
+      </h3>
+      <pre><code class="language-typst"><code><span class="typ-key">#</span><span class="typ-key">show</span><span class="typ-punct">:</span> article<span class="typ-punct">.</span><span class="typ-func">with</span><span class="typ-punct">(</span>
+  title<span class="typ-punct">:</span> <span class="typ-str">"Artile Title"</span><span class="typ-punct">,</span>
+  authors<span class="typ-punct">:</span> <span class="typ-punct">(</span>
+    <span class="typ-str">"Author One"</span><span class="typ-punct">:</span> <span class="typ-func">author-meta</span><span class="typ-punct">(</span>
+      <span class="typ-str">"UCL"</span><span class="typ-punct">,</span> <span class="typ-str">"TSU"</span><span class="typ-punct">,</span>
+      email<span class="typ-punct">:</span> <span class="typ-str">"author.one@inst.ac.uk"</span><span class="typ-punct">,</span>
+    <span class="typ-punct">)</span><span class="typ-punct">,</span>
+    <span class="typ-str">"Author Two"</span><span class="typ-punct">:</span> <span class="typ-func">author-meta</span><span class="typ-punct">(</span>
+      <span class="typ-str">"TSU"</span><span class="typ-punct">,</span>
+      cofirst<span class="typ-punct">:</span> <span class="typ-key">true</span>
+    <span class="typ-punct">)</span><span class="typ-punct">,</span>
+    <span class="typ-str">"Author Three"</span><span class="typ-punct">:</span> <span class="typ-func">author-meta</span><span class="typ-punct">(</span>
+      <span class="typ-str">"TSU"</span>
+    <span class="typ-punct">)</span>
+  <span class="typ-punct">)</span><span class="typ-punct">,</span>
+  affiliations<span class="typ-punct">:</span> <span class="typ-punct">(</span>
+    <span class="typ-str">"UCL"</span><span class="typ-punct">:</span> <span class="typ-str">"UCL Centre for Advanced Spatial Analysis, First Floor, 90 Tottenham Court Road, London W1T 4TJ, United Kingdom"</span><span class="typ-punct">,</span>
+    <span class="typ-str">"TSU"</span><span class="typ-punct">:</span> <span class="typ-str">"Haidian  District, Beijing, 100084, P. R. China"</span>
+  <span class="typ-punct">)</span><span class="typ-punct">,</span>
+  abstract<span class="typ-punct">:</span> <span class="typ-punct">[</span><span class="typ-func">#</span><span class="typ-func">lorem</span><span class="typ-punct">(</span><span class="typ-num">100</span><span class="typ-punct">)</span><span class="typ-punct">]</span><span class="typ-punct">,</span>
+  keywords<span class="typ-punct">:</span> <span class="typ-punct">(</span><span class="typ-str">"Typst"</span><span class="typ-punct">,</span> <span class="typ-str">"Template"</span><span class="typ-punct">,</span> <span class="typ-str">"Journal Article"</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+  bib<span class="typ-punct">:</span> <span class="typ-func">bibliography</span><span class="typ-punct">(</span><span class="typ-str">"./ref.bib"</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+  template<span class="typ-punct">:</span> <span class="typ-punct">(</span>
+    title<span class="typ-punct">:</span> <span class="typ-punct">(</span>title<span class="typ-punct">)</span> <span class="typ-op">=&gt;</span> <span class="typ-punct">{</span>
+      <span class="typ-key">set</span> <span class="typ-func">align</span><span class="typ-punct">(</span>left<span class="typ-punct">)</span>
+      <span class="typ-key">set</span> <span class="typ-func">text</span><span class="typ-punct">(</span>size<span class="typ-punct">:</span> <span class="typ-num">1.5em</span><span class="typ-punct">,</span> weight<span class="typ-punct">:</span> <span class="typ-str">"bold"</span><span class="typ-punct">,</span> style<span class="typ-punct">:</span> <span class="typ-str">"italic"</span><span class="typ-punct">)</span>
+      title
+    <span class="typ-punct">}</span>
+  <span class="typ-punct">)</span>
+<span class="typ-punct">)</span>
+</code></code></pre>
+      <p>
+       <img alt="" src="https://github.com/typst/packages/raw/main/packages/preview/starter-journal-article/0.3.1/assets/custom-title.png"/>
+      </p>
+      <h3>
+       Custom author infomation
+      </h3>
+      <pre><code class="language-typst"><code><span class="typ-key">#</span><span class="typ-key">show</span><span class="typ-punct">:</span> article<span class="typ-punct">.</span><span class="typ-func">with</span><span class="typ-punct">(</span>
+  title<span class="typ-punct">:</span> <span class="typ-str">"Artile Title"</span><span class="typ-punct">,</span>
+  authors<span class="typ-punct">:</span> <span class="typ-punct">(</span>
+    <span class="typ-str">"Author One"</span><span class="typ-punct">:</span> <span class="typ-func">author-meta</span><span class="typ-punct">(</span><span class="typ-str">"UCL"</span><span class="typ-punct">,</span> email<span class="typ-punct">:</span> <span class="typ-str">"author.one@inst.ac.uk"</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+    <span class="typ-str">"Author Two"</span><span class="typ-punct">:</span> <span class="typ-func">author-meta</span><span class="typ-punct">(</span><span class="typ-str">"TSU"</span><span class="typ-punct">)</span>
+  <span class="typ-punct">)</span><span class="typ-punct">,</span>
+  affiliations<span class="typ-punct">:</span> <span class="typ-punct">(</span>
+    <span class="typ-str">"UCL"</span><span class="typ-punct">:</span> <span class="typ-str">"UCL Centre for Advanced Spatial Analysis, First Floor, 90 Tottenham Court Road, London W1T 4TJ, United Kingdom"</span><span class="typ-punct">,</span>
+    <span class="typ-str">"TSU"</span><span class="typ-punct">:</span> <span class="typ-str">"Haidian  District, Beijing, 100084, P. R. China"</span>
+  <span class="typ-punct">)</span><span class="typ-punct">,</span>
+  abstract<span class="typ-punct">:</span> <span class="typ-punct">[</span><span class="typ-func">#</span><span class="typ-func">lorem</span><span class="typ-punct">(</span><span class="typ-num">20</span><span class="typ-punct">)</span><span class="typ-punct">]</span><span class="typ-punct">,</span>
+  keywords<span class="typ-punct">:</span> <span class="typ-punct">(</span><span class="typ-str">"Typst"</span><span class="typ-punct">,</span> <span class="typ-str">"Template"</span><span class="typ-punct">,</span> <span class="typ-str">"Journal Article"</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+  template<span class="typ-punct">:</span> <span class="typ-punct">(</span>
+    author-info<span class="typ-punct">:</span> <span class="typ-punct">(</span>authors<span class="typ-punct">,</span> affiliations<span class="typ-punct">)</span> <span class="typ-op">=&gt;</span> <span class="typ-punct">{</span>
+      <span class="typ-key">set</span> <span class="typ-func">align</span><span class="typ-punct">(</span>center<span class="typ-punct">)</span>
+      <span class="typ-key">show</span><span class="typ-punct">:</span> block<span class="typ-punct">.</span><span class="typ-func">with</span><span class="typ-punct">(</span>width<span class="typ-punct">:</span> <span class="typ-num">100%</span><span class="typ-punct">,</span> above<span class="typ-punct">:</span> <span class="typ-num">2em</span><span class="typ-punct">,</span> below<span class="typ-punct">:</span> <span class="typ-num">2em</span><span class="typ-punct">)</span>
+      <span class="typ-key">let</span> first_insts <span class="typ-op">=</span> authors<span class="typ-punct">.</span><span class="typ-func">map</span><span class="typ-punct">(</span>it <span class="typ-op">=&gt;</span> it<span class="typ-punct">.</span>insts<span class="typ-punct">.</span><span class="typ-func">at</span><span class="typ-punct">(</span><span class="typ-num">0</span><span class="typ-punct">)</span><span class="typ-punct">)</span><span class="typ-punct">.</span><span class="typ-func">dedup</span><span class="typ-punct">(</span><span class="typ-punct">)</span>
+      <span class="typ-func">stack</span><span class="typ-punct">(</span>
+        dir<span class="typ-punct">:</span> ttb<span class="typ-punct">,</span>
+        spacing<span class="typ-punct">:</span> <span class="typ-num">1em</span><span class="typ-punct">,</span>
+        <span class="typ-op">..</span>first_insts<span class="typ-punct">.</span><span class="typ-func">map</span><span class="typ-punct">(</span>inst_id <span class="typ-op">=&gt;</span> <span class="typ-punct">{</span>
+          <span class="typ-key">let</span> inst_authors <span class="typ-op">=</span> authors<span class="typ-punct">.</span><span class="typ-func">filter</span><span class="typ-punct">(</span>it <span class="typ-op">=&gt;</span> it<span class="typ-punct">.</span>insts<span class="typ-punct">.</span><span class="typ-func">at</span><span class="typ-punct">(</span><span class="typ-num">0</span><span class="typ-punct">)</span> <span class="typ-op">==</span> inst_id<span class="typ-punct">)</span>
+          <span class="typ-func">stack</span><span class="typ-punct">(</span>
+            dir<span class="typ-punct">:</span> ttb<span class="typ-punct">,</span>
+            spacing<span class="typ-punct">:</span> <span class="typ-num">1em</span><span class="typ-punct">,</span>
+            <span class="typ-punct">{</span>
+              inst_authors<span class="typ-punct">.</span><span class="typ-func">map</span><span class="typ-punct">(</span>it <span class="typ-op">=&gt;</span> it<span class="typ-punct">.</span>name<span class="typ-punct">)</span><span class="typ-punct">.</span><span class="typ-func">join</span><span class="typ-punct">(</span><span class="typ-str">", "</span><span class="typ-punct">)</span>
+            <span class="typ-punct">}</span><span class="typ-punct">,</span>
+            <span class="typ-punct">{</span>
+              <span class="typ-key">set</span> <span class="typ-func">text</span><span class="typ-punct">(</span><span class="typ-num">0.8em</span><span class="typ-punct">,</span> style<span class="typ-punct">:</span> <span class="typ-str">"italic"</span><span class="typ-punct">)</span>
+              affiliations<span class="typ-punct">.</span><span class="typ-func">values</span><span class="typ-punct">(</span><span class="typ-punct">)</span><span class="typ-punct">.</span><span class="typ-func">at</span><span class="typ-punct">(</span>inst_id<span class="typ-punct">)</span>
+            <span class="typ-punct">}</span>
+          <span class="typ-punct">)</span>
+        <span class="typ-punct">}</span><span class="typ-punct">)</span>
+      <span class="typ-punct">)</span>
+    <span class="typ-punct">}</span>
+  <span class="typ-punct">)</span>
+<span class="typ-punct">)</span>
+</code></code></pre>
+      <p>
+       <img alt="" src="https://github.com/typst/packages/raw/main/packages/preview/starter-journal-article/0.3.1/assets/custom-author-info.png"/>
+      </p>
+      <h3>
+       Custom abstract
+      </h3>
+      <pre><code class="language-typst"><code><span class="typ-key">#</span><span class="typ-key">show</span><span class="typ-punct">:</span> article<span class="typ-punct">.</span><span class="typ-func">with</span><span class="typ-punct">(</span>
+  title<span class="typ-punct">:</span> <span class="typ-str">"Artile Title"</span><span class="typ-punct">,</span>
+  authors<span class="typ-punct">:</span> <span class="typ-punct">(</span>
+    <span class="typ-str">"Author One"</span><span class="typ-punct">:</span> <span class="typ-func">author-meta</span><span class="typ-punct">(</span><span class="typ-str">"UCL"</span><span class="typ-punct">,</span> email<span class="typ-punct">:</span> <span class="typ-str">"author.one@inst.ac.uk"</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+    <span class="typ-str">"Author Two"</span><span class="typ-punct">:</span> <span class="typ-func">author-meta</span><span class="typ-punct">(</span><span class="typ-str">"TSU"</span><span class="typ-punct">)</span>
+  <span class="typ-punct">)</span><span class="typ-punct">,</span>
+  affiliations<span class="typ-punct">:</span> <span class="typ-punct">(</span>
+    <span class="typ-str">"UCL"</span><span class="typ-punct">:</span> <span class="typ-str">"UCL Centre for Advanced Spatial Analysis, First Floor, 90 Tottenham Court Road, London W1T 4TJ, United Kingdom"</span><span class="typ-punct">,</span>
+    <span class="typ-str">"TSU"</span><span class="typ-punct">:</span> <span class="typ-str">"Haidian  District, Beijing, 100084, P. R. China"</span>
+  <span class="typ-punct">)</span><span class="typ-punct">,</span>
+  abstract<span class="typ-punct">:</span> <span class="typ-punct">[</span><span class="typ-func">#</span><span class="typ-func">lorem</span><span class="typ-punct">(</span><span class="typ-num">20</span><span class="typ-punct">)</span><span class="typ-punct">]</span><span class="typ-punct">,</span>
+  keywords<span class="typ-punct">:</span> <span class="typ-punct">(</span><span class="typ-str">"Typst"</span><span class="typ-punct">,</span> <span class="typ-str">"Template"</span><span class="typ-punct">,</span> <span class="typ-str">"Journal Article"</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+  template<span class="typ-punct">:</span> <span class="typ-punct">(</span>
+    abstract<span class="typ-punct">:</span> <span class="typ-punct">(</span>abstract<span class="typ-punct">,</span> keywords<span class="typ-punct">)</span> <span class="typ-op">=&gt;</span> <span class="typ-punct">{</span>
+      <span class="typ-key">show</span><span class="typ-punct">:</span> block<span class="typ-punct">.</span><span class="typ-func">with</span><span class="typ-punct">(</span>
+        width<span class="typ-punct">:</span> <span class="typ-num">100%</span><span class="typ-punct">,</span>
+        stroke<span class="typ-punct">:</span> <span class="typ-punct">(</span>y<span class="typ-punct">:</span> <span class="typ-num">0.5pt</span> <span class="typ-op">+</span> black<span class="typ-punct">)</span><span class="typ-punct">,</span>
+        inset<span class="typ-punct">:</span> <span class="typ-punct">(</span>y<span class="typ-punct">:</span> <span class="typ-num">1em</span><span class="typ-punct">)</span>
+      <span class="typ-punct">)</span>
+      <span class="typ-key">show</span> <span class="typ-func">heading</span><span class="typ-punct">:</span> <span class="typ-key">set</span> <span class="typ-func">text</span><span class="typ-punct">(</span>size<span class="typ-punct">:</span> <span class="typ-num">12pt</span><span class="typ-punct">)</span>
+      <span class="typ-func">heading</span><span class="typ-punct">(</span>numbering<span class="typ-punct">:</span> <span class="typ-key">none</span><span class="typ-punct">,</span> outlined<span class="typ-punct">:</span> <span class="typ-key">false</span><span class="typ-punct">,</span> bookmarked<span class="typ-punct">:</span> <span class="typ-key">false</span><span class="typ-punct">,</span> <span class="typ-punct">[</span>Abstract<span class="typ-punct">]</span><span class="typ-punct">)</span>
+      <span class="typ-func">par</span><span class="typ-punct">(</span>abstract<span class="typ-punct">)</span>
+      <span class="typ-func">stack</span><span class="typ-punct">(</span>
+        dir<span class="typ-punct">:</span> ltr<span class="typ-punct">,</span>
+        spacing<span class="typ-punct">:</span> <span class="typ-num">4pt</span><span class="typ-punct">,</span>
+        <span class="typ-func">strong</span><span class="typ-punct">(</span><span class="typ-punct">[</span>Keywords<span class="typ-punct">]</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+        keywords<span class="typ-punct">.</span><span class="typ-func">join</span><span class="typ-punct">(</span><span class="typ-str">", "</span><span class="typ-punct">)</span>
+      <span class="typ-punct">)</span>
+    <span class="typ-punct">}</span>
+  <span class="typ-punct">)</span>
+<span class="typ-punct">)</span>
+</code></code></pre>
+      <p>
+       <img alt="" src="https://github.com/typst/packages/raw/main/packages/preview/starter-journal-article/0.3.1/assets/custom-abstract.png"/>
+      </p>
+     </section>
+     <aside>
+      <a class="create-project-button desktop" href="/app?template=starter-journal-article&amp;version=0.3.1" rel="noopener noreferrer" target="_blank">
+       Create project in app
+      </a>
+      <section>
+       <h3>
+        How to use
+       </h3>
+       <p>
+        Click the button above to create a new project using this template in the Typst app.
+       </p>
+       <p>
+        You can also use the Typst CLI to start a new project on your computer using this command:
+       </p>
+       <div class="init-snippet">
+        <pre><code>typst init @preview/<!-- -->starter-journal-article<!-- -->:<!-- -->0.3.1</code></pre>
+        <button class="copy" title="Copy to clipboard">
+         <img alt="Copy" height="16" src="/assets/icons/16-copy.svg" width="16"/>
+        </button>
+       </div>
+      </section>
+      <section id="about">
+       <h3>
+        About
+       </h3>
+       <dl>
+        <dt>
+         Author
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         <a href="https://github.com/HPDell" rel="noopener noreferrer" target="_blank">
+          HPDell
+         </a>
+        </dd>
+        <dt>
+         License:
+        </dt>
+        <dd>
+         MIT
+        </dd>
+        <dt>
+         Current version:
+        </dt>
+        <dd>
+         0.3.1
+        </dd>
+        <dt>
+         Last updated:
+        </dt>
+        <dd>
+         August 19, 2024
+        </dd>
+        <dt>
+         First released:
+        </dt>
+        <dd>
+         March 26, 2024
+        </dd>
+        <dt>
+         Archive size:
+        </dt>
+        <dd class="archive-size-value">
+         5.29 kB
+         <a href="https://packages.typst.org/preview/starter-journal-article-0.3.1.tar.gz">
+          <img alt="Size icon" src="/assets/icons/16-download.svg"/>
+         </a>
+        </dd>
+        <dt>
+         Repository:
+        </dt>
+        <dd>
+         <a href="https://github.com/HPDell/typst-starter-journal-article" rel="noopener noreferrer" target="_blank">
+          GitHub
+         </a>
+        </dd>
+        <dt>
+         Categor
+         <!-- -->
+         y
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         <ul class="list-with-icons">
+          <li>
+           <img alt="Paper icon" src="/assets/icons/16-atom.svg"/>
+           <a href="https://typst.app/universe/search/?category=paper">
+            Paper
+           </a>
+          </li>
+         </ul>
+        </dd>
+       </dl>
+      </section>
+      <section>
+       <h3>
+        Where to report issues?
+       </h3>
+       <p>
+        This
+        <!-- -->
+        template
+        <!-- -->
+        is a project of
+        <!-- -->
+        <!-- -->
+        HPDell
+        <!-- -->
+        .
+        <!-- -->
+        <!-- -->
+        Report issues on
+        <!-- -->
+        <a href="https://github.com/HPDell/typst-starter-journal-article" rel="noopener noreferrer" target="_blank">
+         their repository
+        </a>
+        .
+        <!-- -->
+        <!-- -->
+        You can also try to ask for help with this
+        <!-- -->
+        template
+        <!-- -->
+        on the
+        <!-- -->
+        <a href="https://forum.typst.app" rel="noopener" target="_blank">
+         Forum
+        </a>
+        .
+       </p>
+       <p>
+        Please report this
+        <!-- -->
+        template
+        <!-- -->
+        to the Typst team using the
+        <!-- -->
+        <a href="https://typst.app/contact" rel="noreferrer" target="_blank">
+         contact form
+        </a>
+        <!-- -->
+        if you believe it is a safety hazard or infringes upon your rights.
+       </p>
+      </section>
+      <section id="versions">
+       <h3>
+        Version history
+       </h3>
+       <table>
+        <thead>
+         <tr>
+          <th align="left">
+           Version
+          </th>
+          <th align="left">
+           Release Date
+          </th>
+         </tr>
+        </thead>
+        <tbody>
+         <tr>
+          <td align="left">
+           0.3.1
+          </td>
+          <td align="left">
+           August 19, 2024
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/starter-journal-article/0.3.0/">
+            0.3.0
+           </a>
+          </td>
+          <td align="left">
+           April 8, 2024
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/starter-journal-article/0.2.0/">
+            0.2.0
+           </a>
+          </td>
+          <td align="left">
+           April 2, 2024
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/starter-journal-article/0.1.1/">
+            0.1.1
+           </a>
+          </td>
+          <td align="left">
+           March 26, 2024
+          </td>
+         </tr>
+        </tbody>
+       </table>
+      </section>
+      <p class="bottom-notice muted">
+       Typst GmbH did not create this
+       <!-- -->
+       template
+       <!-- -->
+       and cannot guarantee correct functionality of this
+       <!-- -->
+       template
+       <!-- -->
+       or compatibility with any version of the Typst compiler or app.
+      </p>
+     </aside>
+    </div>
+   </main>

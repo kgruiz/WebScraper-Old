@@ -1,0 +1,387 @@
+<main>
+    <div id="banner" style="--banner-accent:#000000;--banner-primary:#000000;--banner-secondary:#000000;--banner-tertiary:#565565;--banner-background:#eff0f3">
+     <div class="package-icon" role="img">
+     </div>
+     <div>
+      <div class="title">
+       <h1 class="name">
+        delimitizer
+       </h1>
+       <span class="version">
+        0.1.0
+       </span>
+      </div>
+      <p class="description">
+       Customize the size of delimiters. Like \big, \Big, \bigg, \Bigg in LaTeX.
+      </p>
+     </div>
+    </div>
+    <div class="inner-grid">
+     <section id="readme">
+      <p>
+       This package lets you customize the size of delimiters in your math equations. It is useful when you want to make your equations more readable by increasing the size of certain delimiters. Just like
+       <code>
+        \big
+       </code>
+       ,
+       <code>
+        \Big
+       </code>
+       ,
+       <code>
+        \bigg
+       </code>
+       , and
+       <code>
+        \Bigg
+       </code>
+       in LaTeX,
+       <code>
+        delimitizer
+       </code>
+       provides you with the same functionality in Typst.
+      </p>
+      <ul>
+       <li>
+        <code>
+         big(delimiter)
+        </code>
+        : Makes the delimiters bigger than the default size.
+       </li>
+       <li>
+        <code>
+         Big(delimiter)
+        </code>
+        : Makes the delimiters bigger than
+        <code>
+         big()
+        </code>
+        .
+       </li>
+       <li>
+        <code>
+         bigg(delimiter)
+        </code>
+        : Makes the delimiters bigger than
+        <code>
+         Big()
+        </code>
+        .
+       </li>
+       <li>
+        <code>
+         Bigg(delimiter)
+        </code>
+        : Makes the delimiters bigger than
+        <code>
+         bigg()
+        </code>
+        .
+       </li>
+       <li>
+        <code>
+         scaled-delimiter(delimiter, size)
+        </code>
+        : Scales the delimiters by a factor of your choice.
+       </li>
+       <li>
+        <code>
+         paired-delimiter(left, right)
+        </code>
+        : Make a short hand for paired delimiters. This function returns a closure
+        <code>
+         f(size = auto: auto | none | big | Big | bigg | Bigg | relative, content: content)
+        </code>
+        . The keyed argument
+        <code>
+         size
+        </code>
+        is optional and defaults to
+        <code>
+         auto
+        </code>
+        . The positional argument
+        <code>
+         content
+        </code>
+        is required.
+        <ul>
+         <li>
+          when
+          <code>
+           size
+          </code>
+          is
+          <code>
+           auto
+          </code>
+          , the size of the delimiters is automatically determined.
+         </li>
+         <li>
+          when
+          <code>
+           size
+          </code>
+          is
+          <code>
+           none
+          </code>
+          , the size of the delimiters is
+          <code>
+           1em
+          </code>
+          .
+         </li>
+         <li>
+          when
+          <code>
+           size
+          </code>
+          is
+          <code>
+           big
+          </code>
+          /
+          <code>
+           Big
+          </code>
+          /
+          <code>
+           bigg
+          </code>
+          /
+          <code>
+           Bigg
+          </code>
+          , the size of the delimiters is set to
+          <code>
+           big
+          </code>
+          /
+          <code>
+           Big
+          </code>
+          /
+          <code>
+           bigg
+          </code>
+          /
+          <code>
+           Bigg
+          </code>
+          respectively.
+         </li>
+         <li>
+          when
+          <code>
+           size
+          </code>
+          is
+          <code>
+           relative
+          </code>
+          length like
+          <code>
+           3em
+          </code>
+          or
+          <code>
+           150%
+          </code>
+          , the size of the delimiters is scaled by the factor you provide.
+         </li>
+        </ul>
+       </li>
+      </ul>
+      <p>
+       Example:
+      </p>
+      <pre><code class="language-typst"><code><span class="typ-key">#</span><span class="typ-key">let</span> parn <span class="typ-op">=</span> <span class="typ-func">paired-delimiter</span><span class="typ-punct">(</span><span class="typ-str">"("</span><span class="typ-punct">,</span> <span class="typ-str">")"</span><span class="typ-punct">)</span>
+
+<span class="typ-math-delim">$</span>
+<span class="typ-func">parn</span><span class="typ-punct">(</span>size<span class="typ-punct">:</span> <span class="typ-pol">bigg</span><span class="typ-punct">,</span>
+  <span class="typ-func">parn</span><span class="typ-punct">(</span>size<span class="typ-punct">:</span> <span class="typ-pol">big</span><span class="typ-punct">,</span> (a+b)<span class="typ-pol">times</span> (a<span class="typ-escape">-</span>b)<span class="typ-punct">)</span>
+<span class="typ-pol">div</span>
+  <span class="typ-func">parn</span><span class="typ-punct">(</span>size<span class="typ-punct">:</span> <span class="typ-pol">big</span><span class="typ-punct">,</span> (c+d)<span class="typ-pol">times</span> (c<span class="typ-escape">-</span>d)<span class="typ-punct">)</span>
+<span class="typ-punct">)</span> + d <span class="typ-escape">\</span> = <span class="typ-punct">(</span>a<span class="typ-math-op">^</span>2<span class="typ-escape">-</span>b<span class="typ-math-op">^</span>2<span class="typ-punct">)</span> <span class="typ-math-op">/</span> <span class="typ-punct">(</span>c<span class="typ-math-op">^</span>2<span class="typ-escape">-</span>d<span class="typ-math-op">^</span>2<span class="typ-punct">)</span>+d
+<span class="typ-math-delim">$</span>
+
+</code></code></pre>
+      <p>
+       <img alt="demo" src="https://github.com/typst/packages/raw/main/packages/preview/delimitizer/0.1.0/demo.svg"/>
+      </p>
+     </section>
+     <aside>
+      <section>
+       <h3>
+        How to add
+       </h3>
+       <p>
+        Copy this into your project and use the import as
+        <!-- -->
+        <code>
+         delimitizer
+        </code>
+       </p>
+       <div class="import-snippet">
+        <pre><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/delimitizer:0.1.0"</span></code></pre>
+        <button class="copy" title="Copy to clipboard">
+         <img alt="Copy" height="16" src="/assets/icons/16-copy.svg" width="16"/>
+        </button>
+       </div>
+       <p class="muted">
+        Check the docs for
+        <!-- -->
+        <a href="https://typst.app/docs/reference/scripting/#packages">
+         more information on how to import packages
+        </a>
+        .
+       </p>
+      </section>
+      <section id="about">
+       <h3>
+        About
+       </h3>
+       <dl>
+        <dt>
+         Author
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         Wenzhuo Liu
+        </dd>
+        <dt>
+         License:
+        </dt>
+        <dd>
+         MIT
+        </dd>
+        <dt>
+         Current version:
+        </dt>
+        <dd>
+         0.1.0
+        </dd>
+        <dt>
+         Last updated:
+        </dt>
+        <dd>
+         May 1, 2024
+        </dd>
+        <dt>
+         First released:
+        </dt>
+        <dd>
+         May 1, 2024
+        </dd>
+        <dt>
+         Archive size:
+        </dt>
+        <dd class="archive-size-value">
+         2.10 kB
+         <a href="https://packages.typst.org/preview/delimitizer-0.1.0.tar.gz">
+          <img alt="Size icon" src="/assets/icons/16-download.svg"/>
+         </a>
+        </dd>
+        <dt>
+         Repository:
+        </dt>
+        <dd>
+         <a href="https://github.com/Enter-tainer/delimitizer" rel="noopener noreferrer" target="_blank">
+          GitHub
+         </a>
+        </dd>
+       </dl>
+      </section>
+      <section>
+       <h3>
+        Where to report issues?
+       </h3>
+       <p>
+        This
+        <!-- -->
+        package
+        <!-- -->
+        is a project of
+        <!-- -->
+        <!-- -->
+        Wenzhuo Liu
+        <!-- -->
+        .
+        <!-- -->
+        <!-- -->
+        Report issues on
+        <!-- -->
+        <a href="https://github.com/Enter-tainer/delimitizer" rel="noopener noreferrer" target="_blank">
+         their repository
+        </a>
+        .
+        <!-- -->
+        <!-- -->
+        You can also try to ask for help with this
+        <!-- -->
+        package
+        <!-- -->
+        on the
+        <!-- -->
+        <a href="https://forum.typst.app" rel="noopener" target="_blank">
+         Forum
+        </a>
+        .
+       </p>
+       <p>
+        Please report this
+        <!-- -->
+        package
+        <!-- -->
+        to the Typst team using the
+        <!-- -->
+        <a href="https://typst.app/contact" rel="noreferrer" target="_blank">
+         contact form
+        </a>
+        <!-- -->
+        if you believe it is a safety hazard or infringes upon your rights.
+       </p>
+      </section>
+      <section id="versions">
+       <h3>
+        Version history
+       </h3>
+       <table>
+        <thead>
+         <tr>
+          <th align="left">
+           Version
+          </th>
+          <th align="left">
+           Release Date
+          </th>
+         </tr>
+        </thead>
+        <tbody>
+         <tr>
+          <td align="left">
+           0.1.0
+          </td>
+          <td align="left">
+           May 1, 2024
+          </td>
+         </tr>
+        </tbody>
+       </table>
+      </section>
+      <p class="bottom-notice muted">
+       Typst GmbH did not create this
+       <!-- -->
+       package
+       <!-- -->
+       and cannot guarantee correct functionality of this
+       <!-- -->
+       package
+       <!-- -->
+       or compatibility with any version of the Typst compiler or app.
+      </p>
+     </aside>
+    </div>
+   </main>

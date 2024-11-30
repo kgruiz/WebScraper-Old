@@ -1,0 +1,357 @@
+<main>
+    <div id="banner" style="--banner-accent:#000000;--banner-primary:#000000;--banner-secondary:#000000;--banner-tertiary:#565565;--banner-background:#eff0f3">
+     <div class="package-icon" role="img">
+     </div>
+     <div>
+      <div class="title">
+       <h1 class="name">
+        anti-matter
+       </h1>
+       <span class="version">
+        0.1.1
+       </span>
+      </div>
+      <p class="description">
+       Simple page numbering of front and back matter.
+      </p>
+     </div>
+    </div>
+    <div class="inner-grid">
+     <section id="readme">
+      <p>
+       This typst packages allows you to simply mark the end and start of your front matter and back matter to change style and value of your page number without manually setting and keeping track of inner and outer page counters.
+      </p>
+      <h2>
+       Example
+      </h2>
+      <pre><code class="language-typst"><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/anti-matter:0.1.1"</span><span class="typ-punct">:</span> anti-matter<span class="typ-punct">,</span> fence<span class="typ-punct">,</span> set-numbering
+
+<span class="typ-key">#</span><span class="typ-key">set</span> <span class="typ-func">page</span><span class="typ-punct">(</span><span class="typ-str">"a4"</span><span class="typ-punct">,</span> height<span class="typ-punct">:</span> <span class="typ-key">auto</span><span class="typ-punct">)</span>
+<span class="typ-key">#</span><span class="typ-key">show</span> heading<span class="typ-punct">.</span><span class="typ-func">where</span><span class="typ-punct">(</span>level<span class="typ-punct">:</span> <span class="typ-num">1</span><span class="typ-punct">)</span><span class="typ-punct">:</span> it <span class="typ-op">=&gt;</span> <span class="typ-func">pagebreak</span><span class="typ-punct">(</span>weak<span class="typ-punct">:</span> <span class="typ-key">true</span><span class="typ-punct">)</span> <span class="typ-op">+</span> it
+
+<span class="typ-key">#</span><span class="typ-key">show</span><span class="typ-punct">:</span> <span class="typ-func">anti-matter</span>
+
+<span class="typ-func">#</span><span class="typ-func">set-numbering</span><span class="typ-punct">(</span><span class="typ-key">none</span><span class="typ-punct">)</span>
+<span class="typ-func">#</span><span class="typ-func">align</span><span class="typ-punct">(</span>center<span class="typ-punct">)</span><span class="typ-punct">[</span>My Title Page<span class="typ-punct">]</span>
+<span class="typ-func">#</span><span class="typ-func">pagebreak</span><span class="typ-punct">(</span><span class="typ-punct">)</span>
+<span class="typ-func">#</span><span class="typ-func">set-numbering</span><span class="typ-punct">(</span><span class="typ-str">"I"</span><span class="typ-punct">)</span>
+
+<span class="typ-key">#</span><span class="typ-key">include</span> <span class="typ-str">"front-matter.typ"</span>
+<span class="typ-func">#</span><span class="typ-func">fence</span><span class="typ-punct">(</span><span class="typ-punct">)</span>
+
+<span class="typ-key">#</span><span class="typ-key">include</span> <span class="typ-str">"chapters.typ"</span>
+<span class="typ-func">#</span><span class="typ-func">fence</span><span class="typ-punct">(</span><span class="typ-punct">)</span>
+
+<span class="typ-key">#</span><span class="typ-key">include</span> <span class="typ-str">"back-matter.typ"</span>
+</code></code></pre>
+      <p>
+       <img alt="An example outline showing the outer Roman numbering interrupted by temporary inner Arabic
+numbering" src="https://github.com/typst/packages/raw/main/packages/preview/anti-matter/0.1.1/example/example.png"/>
+      </p>
+      <h2>
+       Features
+      </h2>
+      <ul>
+       <li>
+        Marking the start and end of front/back matter.
+       </li>
+       <li>
+        Specifying the numbering styles for each part fo the document
+       </li>
+      </ul>
+      <h2>
+       FAQ
+      </h2>
+      <ol>
+       <li>
+        Why are the pages not correctly counted?
+        <ul>
+         <li>
+          If you are setting your own page header, you must use
+          <code>
+           step
+          </code>
+          , see section II in the
+          <a href="https://github.com/typst/packages/raw/main/packages/preview/anti-matter/0.1.1/docs/manual.pdf" rel="nofollow ugc" target="_blank">
+           manual
+          </a>
+          .
+         </li>
+        </ul>
+       </li>
+       <li>
+        Why is my outline not displaying the correct numbering?
+        <ul>
+         <li>
+          If you configure your own
+          <code>
+           outline.entry
+          </code>
+          , you must use
+          <code>
+           page-number
+          </code>
+          , see section II in the
+          <a href="https://github.com/typst/packages/raw/main/packages/preview/anti-matter/0.1.1/docs/manual.pdf" rel="nofollow ugc" target="_blank">
+           manual
+          </a>
+          .
+         </li>
+        </ul>
+       </li>
+       <li>
+        Why does my front/inner/back matter numbering start on the wrong page?
+        <ul>
+         <li>
+          The fences must be on the last page of their respective part, if you have a
+          <code>
+           pagebreak
+          </code>
+          forcing them on the next page it will also incorrectly label that page.
+         </li>
+         <li>
+          Otherwise please open an issue with a minimal reproducible example.
+         </li>
+        </ul>
+       </li>
+      </ol>
+      <h2>
+       Etymology
+      </h2>
+      <p>
+       The package name
+       <code>
+        anti-matter
+       </code>
+       was choosen as a word play on front/back matter.
+      </p>
+      <h2>
+       Glossary
+      </h2>
+      <ul>
+       <li>
+        <a href="https://en.wikipedia.org/wiki/Book_design#Front_matter" rel="nofollow ugc" target="_blank">
+         front matter
+        </a>
+        - The first part of a thesis or book (intro, outline, etc.)
+       </li>
+       <li>
+        <a href="https://en.wikipedia.org/wiki/Book_design#Back_matter_(end_matter)" rel="nofollow ugc" target="_blank">
+         back matter
+        </a>
+        - The last part of a thesis or book (bibliography, listings, acknowledgements, etc.)
+       </li>
+      </ul>
+     </section>
+     <aside>
+      <section>
+       <h3>
+        How to add
+       </h3>
+       <p>
+        Copy this into your project and use the import as
+        <!-- -->
+        <code>
+         anti-matter
+        </code>
+       </p>
+       <div class="import-snippet">
+        <pre><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/anti-matter:0.1.1"</span></code></pre>
+        <button class="copy" title="Copy to clipboard">
+         <img alt="Copy" height="16" src="/assets/icons/16-copy.svg" width="16"/>
+        </button>
+       </div>
+       <p class="muted">
+        Check the docs for
+        <!-- -->
+        <a href="https://typst.app/docs/reference/scripting/#packages">
+         more information on how to import packages
+        </a>
+        .
+       </p>
+      </section>
+      <section id="about">
+       <h3>
+        About
+       </h3>
+       <dl>
+        <dt>
+         Author
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         <a href="mailto:me@tinger.dev">
+          tinger
+         </a>
+        </dd>
+        <dt>
+         License:
+        </dt>
+        <dd>
+         MIT
+        </dd>
+        <dt>
+         Current version:
+        </dt>
+        <dd>
+         0.1.1
+        </dd>
+        <dt>
+         Last updated:
+        </dt>
+        <dd>
+         December 3, 2023
+        </dd>
+        <dt>
+         First released:
+        </dt>
+        <dd>
+         September 29, 2023
+        </dd>
+        <dt>
+         Minimum Typst version:
+        </dt>
+        <dd>
+         0.8.0
+        </dd>
+        <dt>
+         Archive size:
+        </dt>
+        <dd class="archive-size-value">
+         3.70 kB
+         <a href="https://packages.typst.org/preview/anti-matter-0.1.1.tar.gz">
+          <img alt="Size icon" src="/assets/icons/16-download.svg"/>
+         </a>
+        </dd>
+        <dt>
+         Repository:
+        </dt>
+        <dd>
+         <a href="https://github.com/tingerrr/anti-matter" rel="noopener noreferrer" target="_blank">
+          GitHub
+         </a>
+        </dd>
+       </dl>
+      </section>
+      <section>
+       <h3>
+        Where to report issues?
+       </h3>
+       <p>
+        This
+        <!-- -->
+        package
+        <!-- -->
+        is a project of
+        <!-- -->
+        <!-- -->
+        tinger
+        <!-- -->
+        .
+        <!-- -->
+        <!-- -->
+        Report issues on
+        <!-- -->
+        <a href="https://github.com/tingerrr/anti-matter" rel="noopener noreferrer" target="_blank">
+         their repository
+        </a>
+        .
+        <!-- -->
+        <!-- -->
+        You can also try to ask for help with this
+        <!-- -->
+        package
+        <!-- -->
+        on the
+        <!-- -->
+        <a href="https://forum.typst.app" rel="noopener" target="_blank">
+         Forum
+        </a>
+        .
+       </p>
+       <p>
+        Please report this
+        <!-- -->
+        package
+        <!-- -->
+        to the Typst team using the
+        <!-- -->
+        <a href="https://typst.app/contact" rel="noreferrer" target="_blank">
+         contact form
+        </a>
+        <!-- -->
+        if you believe it is a safety hazard or infringes upon your rights.
+       </p>
+      </section>
+      <section id="versions">
+       <h3>
+        Version history
+       </h3>
+       <table>
+        <thead>
+         <tr>
+          <th align="left">
+           Version
+          </th>
+          <th align="left">
+           Release Date
+          </th>
+         </tr>
+        </thead>
+        <tbody>
+         <tr>
+          <td align="left">
+           0.1.1
+          </td>
+          <td align="left">
+           December 3, 2023
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/anti-matter/0.1.0/">
+            0.1.0
+           </a>
+          </td>
+          <td align="left">
+           November 29, 2023
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/anti-matter/0.0.2/">
+            0.0.2
+           </a>
+          </td>
+          <td align="left">
+           October 2, 2023
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/anti-matter/0.0.1/">
+            0.0.1
+           </a>
+          </td>
+          <td align="left">
+           September 29, 2023
+          </td>
+         </tr>
+        </tbody>
+       </table>
+      </section>
+      <p class="bottom-notice muted">
+       Typst GmbH did not create this
+       <!-- -->
+       package
+       <!-- -->
+       and cannot guarantee correct functionality of this
+       <!-- -->
+       package
+       <!-- -->
+       or compatibility with any version of the Typst compiler or app.
+      </p>
+     </aside>
+    </div>
+   </main>

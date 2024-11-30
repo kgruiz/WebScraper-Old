@@ -1,0 +1,239 @@
+\title{typst.app/universe/package/funarray}
+
+\phantomsection\label{banner}
+\section{funarray}\label{funarray}
+
+{ 0.4.0 }
+
+Package providing convenient functional functions to use on arrays.
+
+\phantomsection\label{readme}
+This package provides some convinient functional functions for
+\href{https://typst.app/}{typst} to use on arrays.
+
+\subsection{Usage}\label{usage}
+
+To use this package simply
+\texttt{\ \#import\ "@preview/funarray:0.3.0"\ } . To import all
+functions use \texttt{\ :\ *\ } and for specific ones, use either the
+module or as described in the
+\href{https://typst.app/docs/reference/scripting\#modules}{typst docs} .
+
+\subsection{Important note}\label{important-note}
+
+Almost all functions are one-liners, which could, instead of being
+loaded via a package import, also be just copied directly into your
+source files.
+
+\subsection{Dokumentation}\label{dokumentation}
+
+A prettier und easier to read version of the documentation exists in the
+example folder, which is done in typst and exported to pdf. Otherwise,
+bellow is the markdown version.
+
+\subsection{Functions}\label{functions}
+
+Let us define
+\texttt{\ a\ =\ (1,\ "not\ prime",\ 2,\ "prime",\ 3,\ "prime",\ 4,\ "not\ prime",\ 5,\ "prime")\ }
+
+\subsubsection{chunks}\label{chunks}
+
+The chunks function translates the array to an array of array. It groups
+the elements to chunks of a given size and collects them in an bigger
+array.
+
+\texttt{\ chunks(a,\ 2)\ =\ (\ (1,\ "not\ prime"),\ (2,\ "prime"),\ (3,\ "prime"),\ (4,\ "not\ prime"),\ (5,\ "prime")\ )\ }
+
+\subsubsection{unzip}\label{unzip}
+
+The unzip function is the inverse of the zip method, it transforms an
+array of pairs to a pair of vectors. You can also give input an array of
+\texttt{\ n\ } -tuples resulting in in \texttt{\ n\ } arrays.
+
+\texttt{\ unzip(b)\ =\ (\ (1,\ 2,\ 3,\ 4,\ 5),\ (\ "not\ prime",\ "prime",\ "prime",\ "not\ prime",\ "prime"\ )\ )\ }
+
+\subsubsection{cycle}\label{cycle}
+
+The cycle function concatenates the array to itself until it has a given
+size.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{let c = cycle(range(5), 8)}
+\NormalTok{c = (0, 1, 2, 3, 4, 0, 1, 2)}
+\end{Highlighting}
+\end{Shaded}
+
+Note that there is also the functionality to concatenate with
+\texttt{\ +\ } and \texttt{\ *\ } in typst.
+
+\subsubsection{windows and
+circular-windows}\label{windows-and-circular-windows}
+
+This function provides a running window
+
+\texttt{\ windows(c,\ 5)\ =\ (\ (0,\ 1,\ 2,\ 3,\ 4),\ (1,\ 2,\ 3,\ 4,\ 0),\ (2,\ 3,\ 4,\ 0,\ 1),\ (3,\ 4,\ 0,\ 1,\ 2)\ )\ }
+
+whereas the circular version wraps over.
+
+\texttt{\ circular-windows(c,\ 5)\ =\ (\ (0,\ 1,\ 2,\ 3,\ 4),\ (1,\ 2,\ 3,\ 4,\ 0),\ (2,\ 3,\ 4,\ 0,\ 1),\ (3,\ 4,\ 0,\ 1,\ 2),\ (4,\ 0,\ 1,\ 2,\ 4),\ (0,\ 1,\ 2,\ 4,\ 0),\ (1,\ 2,\ 4,\ 0,\ 1),\ (2,\ 4,\ 0,\ 1,\ 2)\ )\ }
+
+\subsubsection{partition and
+partition-map}\label{partition-and-partition-map}
+
+The partition function seperates the array in two according to a
+predicate function. The result is an array with all elements, where the
+predicate returned true followed by an array with all elements, where
+the predicate returned false.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{let (primesp, nonprimesp) = partition(b, x =\textgreater{} x.at(1) == "prime")}
+\NormalTok{primesp = ((2, "prime"), (3, "prime"), (5, "prime"))}
+\NormalTok{nonprimesp = ((1, "not prime"), (4, "not prime"))}
+\end{Highlighting}
+\end{Shaded}
+
+There is also a partition-map function, which after partition also
+applies a second function on both collections.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{let (primes, nonprimes) = partition{-}map(b, x =\textgreater{} x.at(1) == "prime", x =\textgreater{} x.at(0))}
+\NormalTok{primes = (2, 3, 5)}
+\NormalTok{nonprimes = (1, 4)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{group-by}\label{group-by}
+
+This functions groups according to a predicate into maximally sized
+chunks, where all elements have the same predicate value.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{let f = (0,0,1,1,1,0,0,1)}
+\NormalTok{let g = group{-}by(f, x =\textgreater{} x == 0)}
+\NormalTok{g = ((0, 0), (1, 1, 1), (0, 0), (1,))}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{flatten}\label{flatten}
+
+Typst has a \texttt{\ flatten\ } method for arrays, however that method
+acts recursively. For instance
+
+\texttt{\ (((1,2,3),\ (2,3)),\ ((1,2,3),\ (1,2))).flatten()\ =\ (1,\ 2,\ 3,\ 2,\ 3,\ 1,\ 2,\ 3,\ 1,\ 2)\ }
+
+Normally, one would only have flattened one level. To do this, we can
+use the typst array concatenation method +, or by folding, the sum
+method for arrays:
+
+\texttt{\ (((1,2,3),\ (2,3)),\ ((1,2,3),\ (1,2))).sum()\ =\ ((1,\ 2,\ 3),\ (2,\ 3),\ (1,\ 2,\ 3),\ (1,\ 2))\ }
+
+To handle further depth, one can use flatten again, so that in our
+example:
+
+\texttt{\ (((1,2,3),\ (2,3)),\ ((1,2,3),\ (1,2))).sum().sum()\ =\ (((1,2,3),\ (2,3)),\ ((1,2,3),\ (1,2))).flatten()\ }
+
+\subsubsection{intersperse}\label{intersperse}
+
+This function has been removed in version 0.3, as typst 0.8 provides
+such functionality by default.
+
+\subsubsection{take-while and
+skip-while}\label{take-while-and-skip-while}
+
+These functions do exactly as they say.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{take{-}while(h, x =\textgreater{} x \textless{} 1) = (0, 0, 0.25, 0.5, 0.75)}
+\NormalTok{skip{-}while(h, x =\textgreater{} x \textless{} 1) = (1, 1, 1, 0.25, 0.5, 0.75, 0, 0, 0.25, 0.5, 0.75, 1)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Unsafe Functions}\label{unsafe-functions}
+
+The core functions are defined in \texttt{\ funarray-unsafe.typ\ } .
+However, assertions (error checking) are not there and it is generally
+not being advised to use these directly. Still, if being cautious, one
+can use the imported \texttt{\ funarray-unsafe\ } module in
+\texttt{\ funarray(.typ)\ } . All function names are the same.
+
+To do this from the package, do as follows:
+
+\begin{verbatim}
+#import @preview/funarray:0.3.0
+
+#funarray.funarray-unsafe.chunks(range(10), 3)
+\end{verbatim}
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as \texttt{\ funarray\ }
+
+\begin{verbatim}
+#import "@preview/funarray:0.4.0"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+Ludwig Austermann
+\item[License:]
+MIT
+\item[Current version:]
+0.4.0
+\item[Last updated:]
+October 24, 2023
+\item[First released:]
+August 1, 2023
+\item[Minimum Typst version:]
+0.8.0
+\item[Archive size:]
+4.19 kB
+\href{https://packages.typst.org/preview/funarray-0.4.0.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/ludwig-austermann/typst-funarray}{GitHub}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of Ludwig Austermann . Report issues on
+\href{https://github.com/ludwig-austermann/typst-funarray}{their
+repository} . You can also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.4.0 & October 24, 2023 \\
+\href{https://typst.app/universe/package/funarray/0.3.0/}{0.3.0} &
+September 25, 2023 \\
+\href{https://typst.app/universe/package/funarray/0.2.0/}{0.2.0} &
+August 1, 2023 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.

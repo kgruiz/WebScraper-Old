@@ -1,0 +1,536 @@
+<main>
+    <div id="banner" style="--banner-accent:#000000;--banner-primary:#000000;--banner-secondary:#000000;--banner-tertiary:#565565;--banner-background:#eff0f3">
+     <div class="package-icon" role="img">
+     </div>
+     <div>
+      <div class="title">
+       <h1 class="name">
+        fractusist
+       </h1>
+       <span class="version">
+        0.1.0
+       </span>
+      </div>
+      <p class="description">
+       Create a variety of wonderful fractals in Typst.
+      </p>
+     </div>
+    </div>
+    <div class="inner-grid">
+     <section id="readme">
+      <p>
+       Create a variety of wonderful fractals in Typst.
+      </p>
+      <h2>
+       Examples
+      </h2>
+      <p>
+       The example below creates a dragon curve of the 12th iteration with the
+       <code>
+        dragon-curve
+       </code>
+       function.
+      </p>
+      <p>
+       <img alt="The rendered dragon curve" src="https://github.com/typst/packages/raw/main/packages/preview/fractusist/0.1.0/examples/dragon-curve-n12.png"/>
+      </p>
+      <details>
+       <summary>
+        Show code
+       </summary>
+       <pre><code class="language-typ"><code><span class="typ-key">#</span><span class="typ-key">set</span> <span class="typ-func">page</span><span class="typ-punct">(</span>width<span class="typ-punct">:</span> <span class="typ-key">auto</span><span class="typ-punct">,</span> height<span class="typ-punct">:</span> <span class="typ-key">auto</span><span class="typ-punct">,</span> margin<span class="typ-punct">:</span> <span class="typ-num">0pt</span><span class="typ-punct">)</span>
+
+<span class="typ-func">#</span><span class="typ-func">dragon-curve</span><span class="typ-punct">(</span>
+  <span class="typ-num">12</span><span class="typ-punct">,</span>
+  step-size<span class="typ-punct">:</span> <span class="typ-num">6</span><span class="typ-punct">,</span>
+  stroke-style<span class="typ-punct">:</span> <span class="typ-func">stroke</span><span class="typ-punct">(</span>
+    paint<span class="typ-punct">:</span> gradient<span class="typ-punct">.</span><span class="typ-func">linear</span><span class="typ-punct">(</span><span class="typ-op">..</span>color<span class="typ-punct">.</span>map<span class="typ-punct">.</span>crest<span class="typ-punct">,</span> angle<span class="typ-punct">:</span> <span class="typ-num">45deg</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+    thickness<span class="typ-punct">:</span> <span class="typ-num">3pt</span><span class="typ-punct">,</span>
+    cap<span class="typ-punct">:</span> <span class="typ-str">"square"</span>
+  <span class="typ-punct">)</span>
+<span class="typ-punct">)</span>
+</code></code></pre>
+      </details>
+      <h2>
+       Features
+      </h2>
+      <ul>
+       <li>
+        Use SVG backend for image rendering.
+       </li>
+       <li>
+        Generate fractals using
+        <a href="https://en.wikipedia.org/wiki/L-system" rel="nofollow ugc" target="_blank">
+         L-system
+        </a>
+        .
+       </li>
+       <li>
+        The number of iterations, step size, fill and stroke styles, etc. of generated fractals could be customized.
+       </li>
+      </ul>
+      <h2>
+       Usage
+      </h2>
+      <p>
+       Import the latest version of this package with:
+      </p>
+      <pre><code class="language-typ"><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/fractusist:0.1.0"</span><span class="typ-punct">:</span> <span class="typ-op">*</span>
+</code></code></pre>
+      <p>
+       Each function generates a specific fractal. The input and output arguments of all functions have a similar style. Typical input arguments are as follows:
+      </p>
+      <ul>
+       <li>
+        <code>
+         n
+        </code>
+        : the number of iterations (
+        <strong>
+         the valid range of values depends on the specific function
+        </strong>
+        ).
+       </li>
+       <li>
+        <em>
+         <code>
+          step-size
+         </code>
+        </em>
+        : step size (in pt).
+       </li>
+       <li>
+        <em>
+         <code>
+          fill-style
+         </code>
+        </em>
+        : fill style, can be
+        <code>
+         none
+        </code>
+        or color or gradient (
+        <strong>
+         exists only when the curve is closed
+        </strong>
+        ).
+       </li>
+       <li>
+        <em>
+         <code>
+          stroke-style
+         </code>
+        </em>
+        : stroke style, can be
+        <code>
+         none
+        </code>
+        or color or gradient or stroke object.
+       </li>
+       <li>
+        <em>
+         <code>
+          width
+         </code>
+        </em>
+        : the width of the image.
+       </li>
+       <li>
+        <em>
+         <code>
+          height
+         </code>
+        </em>
+        : the height of the image.
+       </li>
+       <li>
+        <em>
+         <code>
+          fit
+         </code>
+        </em>
+        : how the image should adjust itself to a given area, âcoverâ / âcontainâ / âstretchâ.
+       </li>
+      </ul>
+      <p>
+       The content returned is the
+       <code>
+        image
+       </code>
+       element.
+      </p>
+      <p>
+       For more codes with these functions see
+       <a href="https://github.com/typst/packages/raw/main/packages/preview/fractusist/0.1.0/tests" rel="nofollow ugc" target="_blank">
+        tests
+       </a>
+       .
+      </p>
+      <h2>
+       Reference
+      </h2>
+      <h3>
+       Dragon
+      </h3>
+      <ul>
+       <li>
+        <code>
+         dragon-curve
+        </code>
+        : Generate dragon curve (n: range
+        <strong>
+         [0, 16]
+        </strong>
+        ).
+       </li>
+      </ul>
+      <pre><code class="language-typ"><code><span class="typ-key">#</span><span class="typ-key">let</span> <span class="typ-func">dragon-curve</span><span class="typ-punct">(</span>n<span class="typ-punct">,</span> step-size<span class="typ-punct">:</span> <span class="typ-num">10</span><span class="typ-punct">,</span> stroke-style<span class="typ-punct">:</span> black <span class="typ-op">+</span> <span class="typ-num">1pt</span><span class="typ-punct">,</span> width<span class="typ-punct">:</span> <span class="typ-key">auto</span><span class="typ-punct">,</span> height<span class="typ-punct">:</span> <span class="typ-key">auto</span><span class="typ-punct">,</span> fit<span class="typ-punct">:</span> <span class="typ-str">"cover"</span><span class="typ-punct">)</span> <span class="typ-op">=</span> <span class="typ-punct">{</span>...<span class="typ-punct">}</span>
+</code></code></pre>
+      <h3>
+       Hilbert
+      </h3>
+      <ul>
+       <li>
+        <code>
+         hilbert-curve
+        </code>
+        : Generate 2D Hilbert curve. (n: range
+        <strong>
+         [1, 8]
+        </strong>
+        ).
+       </li>
+      </ul>
+      <pre><code class="language-typ"><code><span class="typ-key">#</span><span class="typ-key">let</span> <span class="typ-func">hilbert-curve</span><span class="typ-punct">(</span>n<span class="typ-punct">,</span> step-size<span class="typ-punct">:</span> <span class="typ-num">10</span><span class="typ-punct">,</span> stroke-style<span class="typ-punct">:</span> black <span class="typ-op">+</span> <span class="typ-num">1pt</span><span class="typ-punct">,</span> width<span class="typ-punct">:</span> <span class="typ-key">auto</span><span class="typ-punct">,</span> height<span class="typ-punct">:</span> <span class="typ-key">auto</span><span class="typ-punct">,</span> fit<span class="typ-punct">:</span> <span class="typ-str">"cover"</span><span class="typ-punct">)</span> <span class="typ-op">=</span> <span class="typ-punct">{</span>...<span class="typ-punct">}</span>
+</code></code></pre>
+      <ul>
+       <li>
+        <code>
+         peano-curve
+        </code>
+        : Generate 2D Peano curve (n: range
+        <strong>
+         [1, 5]
+        </strong>
+        ).
+       </li>
+      </ul>
+      <pre><code class="language-typ"><code><span class="typ-key">#</span><span class="typ-key">let</span> <span class="typ-func">peano-curve</span><span class="typ-punct">(</span>n<span class="typ-punct">,</span> step-size<span class="typ-punct">:</span> <span class="typ-num">10</span><span class="typ-punct">,</span> stroke-style<span class="typ-punct">:</span> black <span class="typ-op">+</span> <span class="typ-num">1pt</span><span class="typ-punct">,</span> width<span class="typ-punct">:</span> <span class="typ-key">auto</span><span class="typ-punct">,</span> height<span class="typ-punct">:</span> <span class="typ-key">auto</span><span class="typ-punct">,</span> fit<span class="typ-punct">:</span> <span class="typ-str">"cover"</span><span class="typ-punct">)</span> <span class="typ-op">=</span> <span class="typ-punct">{</span>...<span class="typ-punct">}</span>
+</code></code></pre>
+      <h3>
+       Koch
+      </h3>
+      <ul>
+       <li>
+        <code>
+         koch-curve
+        </code>
+        : Generate Koch curve (n: range
+        <strong>
+         [0, 6]
+        </strong>
+        ).
+       </li>
+      </ul>
+      <pre><code class="language-typ"><code><span class="typ-key">#</span><span class="typ-key">let</span> <span class="typ-func">koch-curve</span><span class="typ-punct">(</span>n<span class="typ-punct">,</span> step-size<span class="typ-punct">:</span> <span class="typ-num">10</span><span class="typ-punct">,</span> stroke-style<span class="typ-punct">:</span> black <span class="typ-op">+</span> <span class="typ-num">1pt</span><span class="typ-punct">,</span> width<span class="typ-punct">:</span> <span class="typ-key">auto</span><span class="typ-punct">,</span> height<span class="typ-punct">:</span> <span class="typ-key">auto</span><span class="typ-punct">,</span> fit<span class="typ-punct">:</span> <span class="typ-str">"cover"</span><span class="typ-punct">)</span> <span class="typ-op">=</span> <span class="typ-punct">{</span>...<span class="typ-punct">}</span>
+</code></code></pre>
+      <ul>
+       <li>
+        <code>
+         koch-snowflake
+        </code>
+        : Generate Koch snowflake (n: range
+        <strong>
+         [0, 6]
+        </strong>
+        ).
+       </li>
+      </ul>
+      <pre><code class="language-typ"><code><span class="typ-key">#</span><span class="typ-key">let</span> <span class="typ-func">koch-snowflake</span><span class="typ-punct">(</span>n<span class="typ-punct">,</span> step-size<span class="typ-punct">:</span> <span class="typ-num">10</span><span class="typ-punct">,</span> fill-style<span class="typ-punct">:</span> <span class="typ-key">none</span><span class="typ-punct">,</span> stroke-style<span class="typ-punct">:</span> black <span class="typ-op">+</span> <span class="typ-num">1pt</span><span class="typ-punct">,</span> width<span class="typ-punct">:</span> <span class="typ-key">auto</span><span class="typ-punct">,</span> height<span class="typ-punct">:</span> <span class="typ-key">auto</span><span class="typ-punct">,</span> fit<span class="typ-punct">:</span> <span class="typ-str">"cover"</span><span class="typ-punct">)</span> <span class="typ-op">=</span> <span class="typ-punct">{</span>...<span class="typ-punct">}</span>
+</code></code></pre>
+      <h3>
+       SierpiÅski
+      </h3>
+      <ul>
+       <li>
+        <code>
+         sierpinski-curve
+        </code>
+        : Generate classic SierpiÅski curve (n: range
+        <strong>
+         [0, 7]
+        </strong>
+        ).
+       </li>
+      </ul>
+      <pre><code class="language-typ"><code><span class="typ-key">#</span><span class="typ-key">let</span> <span class="typ-func">sierpinski-curve</span><span class="typ-punct">(</span>n<span class="typ-punct">,</span> step-size<span class="typ-punct">:</span> <span class="typ-num">10</span><span class="typ-punct">,</span> fill-style<span class="typ-punct">:</span> <span class="typ-key">none</span><span class="typ-punct">,</span> stroke-style<span class="typ-punct">:</span> black <span class="typ-op">+</span> <span class="typ-num">1pt</span><span class="typ-punct">,</span> width<span class="typ-punct">:</span> <span class="typ-key">auto</span><span class="typ-punct">,</span> height<span class="typ-punct">:</span> <span class="typ-key">auto</span><span class="typ-punct">,</span> fit<span class="typ-punct">:</span> <span class="typ-str">"cover"</span><span class="typ-punct">)</span> <span class="typ-op">=</span> <span class="typ-punct">{</span>...<span class="typ-punct">}</span>
+</code></code></pre>
+      <ul>
+       <li>
+        <code>
+         sierpinski-square-curve
+        </code>
+        : Generate SierpiÅski square curve (n: range
+        <strong>
+         [0, 7]
+        </strong>
+        ).
+       </li>
+      </ul>
+      <pre><code class="language-typ"><code><span class="typ-key">#</span><span class="typ-key">let</span> <span class="typ-func">sierpinski-square-curve</span><span class="typ-punct">(</span>n<span class="typ-punct">,</span> step-size<span class="typ-punct">:</span> <span class="typ-num">10</span><span class="typ-punct">,</span> fill-style<span class="typ-punct">:</span> <span class="typ-key">none</span><span class="typ-punct">,</span> stroke-style<span class="typ-punct">:</span> black <span class="typ-op">+</span> <span class="typ-num">1pt</span><span class="typ-punct">,</span> width<span class="typ-punct">:</span> <span class="typ-key">auto</span><span class="typ-punct">,</span> height<span class="typ-punct">:</span> <span class="typ-key">auto</span><span class="typ-punct">,</span> fit<span class="typ-punct">:</span> <span class="typ-str">"cover"</span><span class="typ-punct">)</span> <span class="typ-op">=</span> <span class="typ-punct">{</span>...<span class="typ-punct">}</span>
+</code></code></pre>
+      <ul>
+       <li>
+        <code>
+         sierpinski-arrowhead-curve
+        </code>
+        : Generate SierpiÅski arrowhead curve (n: range
+        <strong>
+         [0, 8]
+        </strong>
+        ).
+       </li>
+      </ul>
+      <pre><code class="language-typ"><code><span class="typ-key">#</span><span class="typ-key">let</span> <span class="typ-func">sierpinski-arrowhead-curve</span><span class="typ-punct">(</span>n<span class="typ-punct">,</span> step-size<span class="typ-punct">:</span> <span class="typ-num">10</span><span class="typ-punct">,</span> stroke-style<span class="typ-punct">:</span> black <span class="typ-op">+</span> <span class="typ-num">1pt</span><span class="typ-punct">,</span> width<span class="typ-punct">:</span> <span class="typ-key">auto</span><span class="typ-punct">,</span> height<span class="typ-punct">:</span> <span class="typ-key">auto</span><span class="typ-punct">,</span> fit<span class="typ-punct">:</span> <span class="typ-str">"cover"</span><span class="typ-punct">)</span> <span class="typ-op">=</span> <span class="typ-punct">{</span>...<span class="typ-punct">}</span>
+</code></code></pre>
+      <ul>
+       <li>
+        <code>
+         sierpinski-triangle
+        </code>
+        : Generate 2D SierpiÅski triangle (n: range
+        <strong>
+         [0, 6]
+        </strong>
+        ).
+       </li>
+      </ul>
+      <pre><code class="language-typ"><code><span class="typ-key">#</span><span class="typ-key">let</span> <span class="typ-func">sierpinski-triangle</span><span class="typ-punct">(</span>n<span class="typ-punct">,</span> step-size<span class="typ-punct">:</span> <span class="typ-num">10</span><span class="typ-punct">,</span> fill-style<span class="typ-punct">:</span> <span class="typ-key">none</span><span class="typ-punct">,</span> stroke-style<span class="typ-punct">:</span> black <span class="typ-op">+</span> <span class="typ-num">1pt</span><span class="typ-punct">,</span> width<span class="typ-punct">:</span> <span class="typ-key">auto</span><span class="typ-punct">,</span> height<span class="typ-punct">:</span> <span class="typ-key">auto</span><span class="typ-punct">,</span> fit<span class="typ-punct">:</span> <span class="typ-str">"cover"</span><span class="typ-punct">)</span> <span class="typ-op">=</span> <span class="typ-punct">{</span>...<span class="typ-punct">}</span>
+</code></code></pre>
+     </section>
+     <aside>
+      <section>
+       <h3>
+        How to add
+       </h3>
+       <p>
+        Copy this into your project and use the import as
+        <!-- -->
+        <code>
+         fractusist
+        </code>
+       </p>
+       <div class="import-snippet">
+        <pre><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/fractusist:0.1.0"</span></code></pre>
+        <button class="copy" title="Copy to clipboard">
+         <img alt="Copy" height="16" src="/assets/icons/16-copy.svg" width="16"/>
+        </button>
+       </div>
+       <p class="muted">
+        Check the docs for
+        <!-- -->
+        <a href="https://typst.app/docs/reference/scripting/#packages">
+         more information on how to import packages
+        </a>
+        .
+       </p>
+      </section>
+      <section id="about">
+       <h3>
+        About
+       </h3>
+       <dl>
+        <dt>
+         Author
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         <a href="https://github.com/liuguangxi" rel="noopener noreferrer" target="_blank">
+          Guangxi Liu
+         </a>
+        </dd>
+        <dt>
+         License:
+        </dt>
+        <dd>
+         MIT
+        </dd>
+        <dt>
+         Current version:
+        </dt>
+        <dd>
+         0.1.0
+        </dd>
+        <dt>
+         Last updated:
+        </dt>
+        <dd>
+         May 6, 2024
+        </dd>
+        <dt>
+         First released:
+        </dt>
+        <dd>
+         May 6, 2024
+        </dd>
+        <dt>
+         Minimum Typst version:
+        </dt>
+        <dd>
+         0.11.0
+        </dd>
+        <dt>
+         Archive size:
+        </dt>
+        <dd class="archive-size-value">
+         5.75 kB
+         <a href="https://packages.typst.org/preview/fractusist-0.1.0.tar.gz">
+          <img alt="Size icon" src="/assets/icons/16-download.svg"/>
+         </a>
+        </dd>
+        <dt>
+         Repository:
+        </dt>
+        <dd>
+         <a href="https://github.com/liuguangxi/fractusist" rel="noopener noreferrer" target="_blank">
+          GitHub
+         </a>
+        </dd>
+        <dt>
+         Discipline
+         <!-- -->
+         s
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         <ul class="list-without-icons">
+          <li>
+           <a href="https://typst.app/universe/search/?discipline=computer-science">
+            Computer Science
+           </a>
+          </li>
+          <li>
+           <a href="https://typst.app/universe/search/?discipline=mathematics">
+            Mathematics
+           </a>
+          </li>
+         </ul>
+        </dd>
+        <dt>
+         Categor
+         <!-- -->
+         ies
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         <ul class="list-with-icons">
+          <li>
+           <img alt="Components icon" src="/assets/icons/16-package.svg"/>
+           <a href="https://typst.app/universe/search/?category=components">
+            Components
+           </a>
+          </li>
+          <li>
+           <img alt="Visualization icon" src="/assets/icons/16-chart.svg"/>
+           <a href="https://typst.app/universe/search/?category=visualization">
+            Visualization
+           </a>
+          </li>
+         </ul>
+        </dd>
+       </dl>
+      </section>
+      <section>
+       <h3>
+        Where to report issues?
+       </h3>
+       <p>
+        This
+        <!-- -->
+        package
+        <!-- -->
+        is a project of
+        <!-- -->
+        <!-- -->
+        Guangxi Liu
+        <!-- -->
+        .
+        <!-- -->
+        <!-- -->
+        Report issues on
+        <!-- -->
+        <a href="https://github.com/liuguangxi/fractusist" rel="noopener noreferrer" target="_blank">
+         their repository
+        </a>
+        .
+        <!-- -->
+        <!-- -->
+        You can also try to ask for help with this
+        <!-- -->
+        package
+        <!-- -->
+        on the
+        <!-- -->
+        <a href="https://forum.typst.app" rel="noopener" target="_blank">
+         Forum
+        </a>
+        .
+       </p>
+       <p>
+        Please report this
+        <!-- -->
+        package
+        <!-- -->
+        to the Typst team using the
+        <!-- -->
+        <a href="https://typst.app/contact" rel="noreferrer" target="_blank">
+         contact form
+        </a>
+        <!-- -->
+        if you believe it is a safety hazard or infringes upon your rights.
+       </p>
+      </section>
+      <section id="versions">
+       <h3>
+        Version history
+       </h3>
+       <table>
+        <thead>
+         <tr>
+          <th align="left">
+           Version
+          </th>
+          <th align="left">
+           Release Date
+          </th>
+         </tr>
+        </thead>
+        <tbody>
+         <tr>
+          <td align="left">
+           0.1.0
+          </td>
+          <td align="left">
+           May 6, 2024
+          </td>
+         </tr>
+        </tbody>
+       </table>
+      </section>
+      <p class="bottom-notice muted">
+       Typst GmbH did not create this
+       <!-- -->
+       package
+       <!-- -->
+       and cannot guarantee correct functionality of this
+       <!-- -->
+       package
+       <!-- -->
+       or compatibility with any version of the Typst compiler or app.
+      </p>
+     </aside>
+    </div>
+   </main>

@@ -1,0 +1,431 @@
+<main>
+    <div id="banner" style="--banner-accent:#000000;--banner-primary:#000000;--banner-secondary:#000000;--banner-tertiary:#565565;--banner-background:#eff0f3">
+     <div class="package-icon" role="img">
+     </div>
+     <div>
+      <div class="title">
+       <h1 class="name">
+        nassi
+       </h1>
+       <span class="version">
+        0.1.2
+       </span>
+      </div>
+      <p class="description">
+       Draw Nassi-Shneiderman diagrams (Struktogramme) with Typst.
+      </p>
+     </div>
+    </div>
+    <div class="inner-grid">
+     <section id="readme">
+      <p>
+       <strong>
+        nassi
+       </strong>
+       is a package for
+       <a href="https://typst.app/" rel="nofollow ugc" target="_blank">
+        Typst
+       </a>
+       to draw
+       <a href="https://en.wikipedia.org/wiki/Nassi%E2%80%93Shneiderman_diagram" rel="nofollow ugc" target="_blank">
+        Nassi-Shneiderman diagrams
+       </a>
+       (Struktogramme).
+      </p>
+      <p>
+       <img alt="" src="https://github.com/typst/packages/raw/main/packages/preview/nassi/0.1.2/assets/example-1.png"/>
+      </p>
+      <h2>
+       Usage
+      </h2>
+      <p>
+       Import
+       <strong>
+        nassi
+       </strong>
+       in your document:
+      </p>
+      <pre><code class="language-typst"><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/nassi:0.1.2"</span>
+</code></code></pre>
+      <p>
+       There are several options to draw diagrams. One is to parse all code-blocks with the language ânassiâ. Simply add a show-rule like this:
+      </p>
+      <pre><code class="language-typst"><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/nassi:0.1.2"</span>
+<span class="typ-key">#</span><span class="typ-key">show</span><span class="typ-punct">:</span> nassi<span class="typ-punct">.</span><span class="typ-func">shneiderman</span><span class="typ-punct">(</span><span class="typ-punct">)</span>
+
+<span class="typ-raw">```nassi
+function ggt(a, b)
+  while a &gt; 0 and b &gt; 0
+    if a &gt; b
+      a &lt;- a - b
+    else
+      b &lt;- b - a
+    endif
+  endwhile
+  if b == 0
+    return a
+  else
+    return b
+  endif
+endfunction
+```</span>
+</code></code></pre>
+      <p>
+       In this case, the diagram is created from a simple pseudocode. To have more control over the output, you can add blocks manually using the element functions provided in
+       <code>
+        nassi.elements
+       </code>
+       :
+      </p>
+      <pre><code class="language-typst"><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/nassi:0.1.2"</span>
+
+<span class="typ-pol">#</span><span class="typ-pol">nassi</span><span class="typ-punct">.</span><span class="typ-func">diagram</span><span class="typ-punct">(</span><span class="typ-punct">{</span>
+	<span class="typ-key">import</span> nassi<span class="typ-punct">.</span>elements<span class="typ-punct">:</span> <span class="typ-op">*</span>
+
+	<span class="typ-func">function</span><span class="typ-punct">(</span><span class="typ-str">"ggt(a, b)"</span><span class="typ-punct">,</span> <span class="typ-punct">{</span>
+		<span class="typ-func">loop</span><span class="typ-punct">(</span><span class="typ-str">"a &gt; b and b &gt; 0"</span><span class="typ-punct">,</span> <span class="typ-punct">{</span>
+			<span class="typ-func">branch</span><span class="typ-punct">(</span><span class="typ-str">"a &gt; b"</span><span class="typ-punct">,</span> <span class="typ-punct">{</span>
+				<span class="typ-func">assign</span><span class="typ-punct">(</span><span class="typ-str">"a"</span><span class="typ-punct">,</span> <span class="typ-str">"a - b"</span><span class="typ-punct">)</span>
+			<span class="typ-punct">}</span><span class="typ-punct">,</span> <span class="typ-punct">{</span>
+				<span class="typ-func">assign</span><span class="typ-punct">(</span><span class="typ-str">"b"</span><span class="typ-punct">,</span> <span class="typ-str">"b - a"</span><span class="typ-punct">,</span>
+					fill<span class="typ-punct">:</span> gradient<span class="typ-punct">.</span><span class="typ-func">linear</span><span class="typ-punct">(</span><span class="typ-op">..</span>color<span class="typ-punct">.</span>map<span class="typ-punct">.</span>rainbow<span class="typ-punct">)</span><span class="typ-punct">,</span>
+					stroke<span class="typ-punct">:</span>red <span class="typ-op">+</span> <span class="typ-num">2pt</span>
+				<span class="typ-punct">)</span>
+			<span class="typ-punct">}</span><span class="typ-punct">)</span>
+		<span class="typ-punct">}</span><span class="typ-punct">)</span>
+		<span class="typ-func">branch</span><span class="typ-punct">(</span><span class="typ-str">"b == 0"</span><span class="typ-punct">,</span> <span class="typ-punct">{</span> <span class="typ-func">process</span><span class="typ-punct">(</span><span class="typ-str">"return a"</span><span class="typ-punct">)</span> <span class="typ-punct">}</span><span class="typ-punct">,</span> <span class="typ-punct">{</span> <span class="typ-func">process</span><span class="typ-punct">(</span><span class="typ-str">"return b"</span><span class="typ-punct">)</span> <span class="typ-punct">}</span><span class="typ-punct">)</span>
+	<span class="typ-punct">}</span><span class="typ-punct">)</span>
+<span class="typ-punct">}</span><span class="typ-punct">)</span>
+</code></code></pre>
+      <p>
+       <img alt="" src="https://github.com/typst/packages/raw/main/packages/preview/nassi/0.1.2/assets/example-3.png"/>
+      </p>
+      <p>
+       Since
+       <strong>
+        nassi
+       </strong>
+       uses
+       <strong>
+        cetz
+       </strong>
+       for drawing, you can add diagrams directly to a canvas. Each block gets a name within the diagram group to reference it in the drawing:
+      </p>
+      <pre><code class="language-typst"><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/cetz:0.2.2"</span>
+<span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/nassi:0.1.2"</span>
+
+<span class="typ-pol">#</span><span class="typ-pol">cetz</span><span class="typ-punct">.</span><span class="typ-func">canvas</span><span class="typ-punct">(</span><span class="typ-punct">{</span>
+  <span class="typ-key">import</span> nassi<span class="typ-punct">.</span>draw<span class="typ-punct">:</span> diagram
+  <span class="typ-key">import</span> nassi<span class="typ-punct">.</span>elements<span class="typ-punct">:</span> <span class="typ-op">*</span>
+  <span class="typ-key">import</span> cetz<span class="typ-punct">.</span>draw<span class="typ-punct">:</span> <span class="typ-op">*</span>
+
+  <span class="typ-func">diagram</span><span class="typ-punct">(</span><span class="typ-punct">(</span><span class="typ-num">4</span><span class="typ-punct">,</span><span class="typ-num">4</span><span class="typ-punct">)</span><span class="typ-punct">,</span> <span class="typ-punct">{</span>
+    <span class="typ-func">function</span><span class="typ-punct">(</span><span class="typ-str">"ggt(a, b)"</span><span class="typ-punct">,</span> <span class="typ-punct">{</span>
+      <span class="typ-func">loop</span><span class="typ-punct">(</span><span class="typ-str">"a &gt; b and b &gt; 0"</span><span class="typ-punct">,</span> <span class="typ-punct">{</span>
+        <span class="typ-func">branch</span><span class="typ-punct">(</span><span class="typ-str">"a &gt; b"</span><span class="typ-punct">,</span> <span class="typ-punct">{</span>
+          <span class="typ-func">assign</span><span class="typ-punct">(</span><span class="typ-str">"a"</span><span class="typ-punct">,</span> <span class="typ-str">"a - b"</span><span class="typ-punct">)</span>
+        <span class="typ-punct">}</span><span class="typ-punct">,</span> <span class="typ-punct">{</span>
+          <span class="typ-func">assign</span><span class="typ-punct">(</span><span class="typ-str">"b"</span><span class="typ-punct">,</span> <span class="typ-str">"b - a"</span><span class="typ-punct">)</span>
+        <span class="typ-punct">}</span><span class="typ-punct">)</span>
+      <span class="typ-punct">}</span><span class="typ-punct">)</span>
+      <span class="typ-func">branch</span><span class="typ-punct">(</span><span class="typ-str">"b == 0"</span><span class="typ-punct">,</span> <span class="typ-punct">{</span> <span class="typ-func">process</span><span class="typ-punct">(</span><span class="typ-str">"return a"</span><span class="typ-punct">)</span> <span class="typ-punct">}</span><span class="typ-punct">,</span> <span class="typ-punct">{</span> <span class="typ-func">process</span><span class="typ-punct">(</span><span class="typ-str">"return b"</span><span class="typ-punct">)</span> <span class="typ-punct">}</span><span class="typ-punct">)</span>
+    <span class="typ-punct">}</span><span class="typ-punct">)</span>
+  <span class="typ-punct">}</span><span class="typ-punct">)</span>
+
+  <span class="typ-key">for</span> i <span class="typ-key">in</span> <span class="typ-func">range</span><span class="typ-punct">(</span><span class="typ-num">8</span><span class="typ-punct">)</span> <span class="typ-punct">{</span>
+    <span class="typ-func">content</span><span class="typ-punct">(</span>
+      <span class="typ-str">"nassi.e"</span> <span class="typ-op">+</span> <span class="typ-func">str</span><span class="typ-punct">(</span>i<span class="typ-op">+</span><span class="typ-num">1</span><span class="typ-punct">)</span> <span class="typ-op">+</span> <span class="typ-str">".north-west"</span><span class="typ-punct">,</span>
+      stroke<span class="typ-punct">:</span>red<span class="typ-punct">,</span>
+      fill<span class="typ-punct">:</span>red<span class="typ-punct">.</span><span class="typ-func">transparentize</span><span class="typ-punct">(</span><span class="typ-num">50%</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+      frame<span class="typ-punct">:</span><span class="typ-str">"circle"</span><span class="typ-punct">,</span>
+      padding<span class="typ-punct">:</span><span class="typ-num">.05</span><span class="typ-punct">,</span>
+      anchor<span class="typ-punct">:</span><span class="typ-str">"north-west"</span><span class="typ-punct">,</span>
+      <span class="typ-func">text</span><span class="typ-punct">(</span>white<span class="typ-punct">,</span> weight<span class="typ-punct">:</span><span class="typ-str">"bold"</span><span class="typ-punct">,</span> <span class="typ-str">"e"</span><span class="typ-op">+</span><span class="typ-func">str</span><span class="typ-punct">(</span>i<span class="typ-punct">)</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+    <span class="typ-punct">)</span>
+  <span class="typ-punct">}</span>
+<span class="typ-punct">}</span><span class="typ-punct">)</span>
+</code></code></pre>
+      <p>
+       <img alt="" src="https://github.com/typst/packages/raw/main/packages/preview/nassi/0.1.2/assets/example-cetz-2.png"/>
+      </p>
+      <p>
+       This can be useful to annotate a diagram:
+      </p>
+      <p>
+       <img alt="" src="https://github.com/typst/packages/raw/main/packages/preview/nassi/0.1.2/assets/example-cetz.png"/>
+      </p>
+      <p>
+       See
+       <code>
+        assets/
+       </code>
+       for usage examples.
+      </p>
+      <h2>
+       Changelog
+      </h2>
+      <h3>
+       Version 0.1.2
+      </h3>
+      <ul>
+       <li>
+        Fix for deprecation warnings in Typst 0.12.
+       </li>
+      </ul>
+      <h3>
+       Version 0.1.1
+      </h3>
+      <ul>
+       <li>
+        Fixed labels option not working for branches in other elements.
+       </li>
+       <li>
+        Added
+        <code>
+         switch
+        </code>
+        statements (thanks to @Geronymos).
+       </li>
+      </ul>
+      <h3>
+       Version 0.1.0
+      </h3>
+      <p>
+       Initial release of
+       <strong>
+        nassi
+       </strong>
+       .
+      </p>
+     </section>
+     <aside>
+      <section>
+       <h3>
+        How to add
+       </h3>
+       <p>
+        Copy this into your project and use the import as
+        <!-- -->
+        <code>
+         nassi
+        </code>
+       </p>
+       <div class="import-snippet">
+        <pre><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/nassi:0.1.2"</span></code></pre>
+        <button class="copy" title="Copy to clipboard">
+         <img alt="Copy" height="16" src="/assets/icons/16-copy.svg" width="16"/>
+        </button>
+       </div>
+       <p class="muted">
+        Check the docs for
+        <!-- -->
+        <a href="https://typst.app/docs/reference/scripting/#packages">
+         more information on how to import packages
+        </a>
+        .
+       </p>
+      </section>
+      <section id="about">
+       <h3>
+        About
+       </h3>
+       <dl>
+        <dt>
+         Author
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         Jonas Neugebauer
+        </dd>
+        <dt>
+         License:
+        </dt>
+        <dd>
+         MIT
+        </dd>
+        <dt>
+         Current version:
+        </dt>
+        <dd>
+         0.1.2
+        </dd>
+        <dt>
+         Last updated:
+        </dt>
+        <dd>
+         October 23, 2024
+        </dd>
+        <dt>
+         First released:
+        </dt>
+        <dd>
+         June 3, 2024
+        </dd>
+        <dt>
+         Minimum Typst version:
+        </dt>
+        <dd>
+         0.11.0
+        </dd>
+        <dt>
+         Archive size:
+        </dt>
+        <dd class="archive-size-value">
+         5.93 kB
+         <a href="https://packages.typst.org/preview/nassi-0.1.2.tar.gz">
+          <img alt="Size icon" src="/assets/icons/16-download.svg"/>
+         </a>
+        </dd>
+        <dt>
+         Repository:
+        </dt>
+        <dd>
+         <a href="https://github.com/jneug/typst-nassi" rel="noopener noreferrer" target="_blank">
+          GitHub
+         </a>
+        </dd>
+        <dt>
+         Discipline
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         <ul class="list-without-icons">
+          <li>
+           <a href="https://typst.app/universe/search/?discipline=computer-science">
+            Computer Science
+           </a>
+          </li>
+         </ul>
+        </dd>
+        <dt>
+         Categor
+         <!-- -->
+         y
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         <ul class="list-with-icons">
+          <li>
+           <img alt="Visualization icon" src="/assets/icons/16-chart.svg"/>
+           <a href="https://typst.app/universe/search/?category=visualization">
+            Visualization
+           </a>
+          </li>
+         </ul>
+        </dd>
+       </dl>
+      </section>
+      <section>
+       <h3>
+        Where to report issues?
+       </h3>
+       <p>
+        This
+        <!-- -->
+        package
+        <!-- -->
+        is a project of
+        <!-- -->
+        <!-- -->
+        Jonas Neugebauer
+        <!-- -->
+        .
+        <!-- -->
+        <!-- -->
+        Report issues on
+        <!-- -->
+        <a href="https://github.com/jneug/typst-nassi" rel="noopener noreferrer" target="_blank">
+         their repository
+        </a>
+        .
+        <!-- -->
+        <!-- -->
+        You can also try to ask for help with this
+        <!-- -->
+        package
+        <!-- -->
+        on the
+        <!-- -->
+        <a href="https://forum.typst.app" rel="noopener" target="_blank">
+         Forum
+        </a>
+        .
+       </p>
+       <p>
+        Please report this
+        <!-- -->
+        package
+        <!-- -->
+        to the Typst team using the
+        <!-- -->
+        <a href="https://typst.app/contact" rel="noreferrer" target="_blank">
+         contact form
+        </a>
+        <!-- -->
+        if you believe it is a safety hazard or infringes upon your rights.
+       </p>
+      </section>
+      <section id="versions">
+       <h3>
+        Version history
+       </h3>
+       <table>
+        <thead>
+         <tr>
+          <th align="left">
+           Version
+          </th>
+          <th align="left">
+           Release Date
+          </th>
+         </tr>
+        </thead>
+        <tbody>
+         <tr>
+          <td align="left">
+           0.1.2
+          </td>
+          <td align="left">
+           October 23, 2024
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/nassi/0.1.1/">
+            0.1.1
+           </a>
+          </td>
+          <td align="left">
+           October 2, 2024
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/nassi/0.1.0/">
+            0.1.0
+           </a>
+          </td>
+          <td align="left">
+           June 3, 2024
+          </td>
+         </tr>
+        </tbody>
+       </table>
+      </section>
+      <p class="bottom-notice muted">
+       Typst GmbH did not create this
+       <!-- -->
+       package
+       <!-- -->
+       and cannot guarantee correct functionality of this
+       <!-- -->
+       package
+       <!-- -->
+       or compatibility with any version of the Typst compiler or app.
+      </p>
+     </aside>
+    </div>
+   </main>

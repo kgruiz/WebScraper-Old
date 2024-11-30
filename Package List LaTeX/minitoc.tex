@@ -1,0 +1,163 @@
+\title{typst.app/universe/package/minitoc}
+
+\phantomsection\label{banner}
+\section{minitoc}\label{minitoc}
+
+{ 0.1.0 }
+
+An outline function just for one section and nothing else
+
+\phantomsection\label{readme}
+This package provides the \texttt{\ minitoc\ } command that does the
+same thing as the \texttt{\ outline\ } command but only for headings
+under the heading above it.
+
+This is inspired by minitoc package for LaTeX.
+
+\subsection{Example}\label{example}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/minitoc:0.1.0": *}
+\NormalTok{\#set heading(numbering: "1.1")}
+
+\NormalTok{\#outline()}
+
+\NormalTok{= Heading 1}
+
+\NormalTok{\#minitoc()}
+
+\NormalTok{== Heading 1.1}
+
+\NormalTok{\#lorem(20)}
+
+\NormalTok{=== Heading 1.1.1}
+
+\NormalTok{\#lorem(30)}
+
+\NormalTok{== Heading 1.2}
+
+\NormalTok{\#lorem(10)}
+
+\NormalTok{= Heading 2}
+\end{Highlighting}
+\end{Shaded}
+
+This produces
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://gitlab.com/human_person/typst-local-outline/-/raw/main/example/example.png}}
+
+\subsection{Usage}\label{usage}
+
+The \texttt{\ minitoc\ } function has the following signature:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let minitoc(}
+\NormalTok{  title: none, target: heading.where(outlined: true),}
+\NormalTok{    depth: none, indent: none, fill: repeat([.])}
+\NormalTok{) \{ /* .. */ \}}
+\end{Highlighting}
+\end{Shaded}
+
+This is designed to be as close to the
+\href{https://typst.app/docs/reference/meta/outline/}{\texttt{\ outline\ }}
+funtions as possible. The arguments are:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{title} : The title for the local outline. This is the same as
+  for
+  \href{https://typst.app/docs/reference/meta/outline/\#parameters-title}{\texttt{\ outline.title\ }}
+  .
+\item
+  \textbf{target} : What should be included. This is the same as for
+  \href{https://typst.app/docs/reference/meta/outline/\#parameters-target}{\texttt{\ outline.target\ }}
+\item
+  \textbf{depth} : The maximum depth different to include. For example,
+  if depth was 1 in the example, â€œHeading 1.1.1â€? would not be
+  included
+\item
+  \textbf{indent} : How the entries should be indented. Takes the same
+  types as for
+  \href{https://typst.app/docs/reference/meta/outline/\#parameters-indent}{\texttt{\ outline.indent\ }}
+  and is passed directly to it
+\item
+  \textbf{fill} : Content to put between the numbering and title, and
+  the page number. Same types as for
+  \href{https://typst.app/docs/reference/meta/outline/\#parameters-fill}{\texttt{\ outline.fill\ }}
+\end{itemize}
+
+\subsection{Unintended consequences}\label{unintended-consequences}
+
+Because \texttt{\ minitoc\ } uses \texttt{\ outline\ } , if you apply
+numbering to the title of outline with
+\texttt{\ \#show\ outline:\ set\ heading(numbering:\ "1.")\ } or
+similar, any title in \texttt{\ minitoc\ } will be numbered and be a
+level 1 heading. This cannot be changed with
+\texttt{\ \#show\ outline:\ set\ heading(level:\ 3)\ } or similar
+unfortunately.
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as \texttt{\ minitoc\ }
+
+\begin{verbatim}
+#import "@preview/minitoc:0.1.0"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+\href{https://github.com/RosiePuddles}{nxe}
+\item[License:]
+GPL-3.0-only
+\item[Current version:]
+0.1.0
+\item[Last updated:]
+January 7, 2024
+\item[First released:]
+January 7, 2024
+\item[Archive size:]
+13.6 kB
+\href{https://packages.typst.org/preview/minitoc-0.1.0.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://gitlab.com/human_person/typst-local-outline}{GitLab}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of nxe . Report issues on
+\href{https://gitlab.com/human_person/typst-local-outline}{their
+repository} . You can also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.1.0 & January 7, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.

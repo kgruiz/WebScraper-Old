@@ -1,0 +1,236 @@
+\title{typst.app/universe/package/genealotree}
+
+\phantomsection\label{banner}
+\section{genealotree}\label{genealotree}
+
+{ 0.1.0 }
+
+A package to draw genealogical trees, based on CeTZ
+
+\phantomsection\label{readme}
+Genealotree is a typst package to draw genealogical trees. It is
+developped at \url{https://codeberg.org/drloiseau/genealogy} . This is
+the place you can get the developpement version and send issues and pull
+requests.
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/genealotree/0.1.0/examples/example.jpg}}
+
+This package is based on
+\href{https://github.com/typst/packages/raw/main/packages/preview/genealotree/0.1.0/\%22https://typst.app/universe/package/cetz/\%22}{CeTZ}
+and it provides functions to draw genealogical trees. It is oriented
+towards medical genealogy to study genetic disorders inheritance, but
+you might be able to use it to draw your family tree.
+
+\textbf{Features :}
+
+\begin{itemize}
+\tightlist
+\item
+  Draw an unlimited number of independant genealogical trees
+\item
+  Supports consanguinity and unions between different trees (see
+  limitations)
+\item
+  Auto adjusts position of children to optimize spacing
+\item
+  Customize all lengths
+\item
+  Draw as much phenotypes as needed by coloring individuals
+\item
+  Print genotype and/or phenotype labels under individuals
+\end{itemize}
+
+\textbf{Limitations :}
+
+\begin{itemize}
+\tightlist
+\item
+  Must manually adjust individual position in the tree when drawing
+  consanguinity and unions between trees to prevent overlapping of
+  individuals.
+\item
+  No remarriages (might be added in a future version)
+\item
+  No union between individuals at different generations (might be added
+  in a future version)
+\end{itemize}
+
+\textbf{To be implemented :}
+
+\begin{itemize}
+\tightlist
+\item
+  Allow to pass CeTZ arguments to every elements to cutomize their
+  appearance
+\item
+  Draw optional legends for tree symbols and for phenotypes
+\end{itemize}
+
+See example.typ for a simple usage example, and the manual for precise
+references at
+\href{https://codeberg.org/attachments/cfdad2b7-52ae-4e18-8d7b-453fadc45532}{manual.pdf}
+
+The steps to produce a tree are :
+
+\begin{itemize}
+\tightlist
+\item
+  Import the package and CeTZ
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/genealotree:0.1.0": *}
+\NormalTok{\#import "@preview/cetz:0.2.2": canvas}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{itemize}
+\tightlist
+\item
+  Create a genealogy object
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{let my{-}geneal = genealogy{-}init()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{itemize}
+\tightlist
+\item
+  Add persons to the object : pass a dictionary mapping a persons name
+  with a dictionary describing its characteristics. See the manual for a
+  full reference.
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{let my{-}geneal = add{-}persons(}
+\NormalTok{  my{-}geneal,}
+\NormalTok{  (}
+\NormalTok{    "I1": (sex: "m"),}
+\NormalTok{    "I2": (sex: "f"),}
+\NormalTok{    "II1": (sex: "f"),}
+\NormalTok{  )}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{itemize}
+\tightlist
+\item
+  Set unions between persons : give the parents names as an array of 2
+  strings, and the children names as an array of strings.
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{let my{-}geneal = add{-}unions(}
+\NormalTok{  my{-}geneal,}
+\NormalTok{  (("I1", "I2"), ("II1",))}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{itemize}
+\tightlist
+\item
+  Open up a CeTZ canva and draw the tree
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#canvas(length: 0.4cm, \{}
+\NormalTok{    draw{-}tree(my{-}geneal)}
+\NormalTok{\})}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as
+\texttt{\ genealotree\ }
+
+\begin{verbatim}
+#import "@preview/genealotree:0.1.0"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+DrLoiseau
+\item[License:]
+GPL-3.0-only
+\item[Current version:]
+0.1.0
+\item[Last updated:]
+May 23, 2024
+\item[First released:]
+May 23, 2024
+\item[Minimum Typst version:]
+0.10.0
+\item[Archive size:]
+22.9 kB
+\href{https://packages.typst.org/preview/genealotree-0.1.0.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://codeberg.org/drloiseau/genealogy}{Codeberg}
+\item[Discipline s :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \href{https://typst.app/universe/search/?discipline=anthropology}{Anthropology}
+\item
+  \href{https://typst.app/universe/search/?discipline=biology}{Biology}
+\item
+  \href{https://typst.app/universe/search/?discipline=history}{History}
+\item
+  \href{https://typst.app/universe/search/?discipline=medicine}{Medicine}
+\end{itemize}
+\item[Categor y :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-chart.svg}}
+  \href{https://typst.app/universe/search/?category=visualization}{Visualization}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of DrLoiseau . Report issues on
+\href{https://codeberg.org/drloiseau/genealogy}{their repository} . You
+can also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.1.0 & May 23, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.

@@ -1,0 +1,296 @@
+\title{typst.app/universe/package/slydst}
+
+\phantomsection\label{banner}
+\phantomsection\label{template-thumbnail}
+\pandocbounded{\includegraphics[keepaspectratio]{https://packages.typst.org/preview/thumbnails/slydst-0.1.3-small.webp}}
+
+\section{slydst}\label{slydst}
+
+{ 0.1.3 }
+
+Create simple static slides using standard headings
+
+\href{/app?template=slydst&version=0.1.3}{Create project in app}
+
+\phantomsection\label{readme}
+Create simple static slides with Typst.
+
+Slydst allows the creation of slides using Typst headings. This
+simplicity comes at the expense of dynamic content such as subslide
+animations. For more complete and complex slides functionalities, see
+other tools such as Polylux.
+
+See the
+\href{https://github.com/typst/packages/raw/main/packages/preview/slydst/0.1.3/\#example}{preview}
+below.
+
+\subsection{Usage}\label{usage}
+
+To start, just use the following preamble (only the title is required).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/slydst:0.1.3": *}
+
+\NormalTok{\#show: slides.with(}
+\NormalTok{  title: "Slydst: Slides with Typst",}
+\NormalTok{  subtitle: none,}
+\NormalTok{  date: none,}
+\NormalTok{  authors: ("Gaspard Lambrechts",),}
+\NormalTok{  layout: "medium",}
+\NormalTok{  ratio: 4/3,}
+\NormalTok{  title{-}color: none,}
+\NormalTok{)}
+
+\NormalTok{Insert your content here.}
+\end{Highlighting}
+\end{Shaded}
+
+Then, insert your content.
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Level-one headings} corresponds to new sections.
+\item
+  \textbf{Level-two headings} corresponds to new slides.
+\item
+  Blank space can be filled with \textbf{vertical spaces} like
+  \texttt{\ \#v(1fr)\ } .
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{== Outline}
+
+\NormalTok{\#outline()}
+
+\NormalTok{= First section}
+
+\NormalTok{== First slide}
+
+\NormalTok{\#figure(image("figure.png", width: 60\%), caption: "Caption")}
+
+\NormalTok{\#v(1fr)}
+
+\NormalTok{\#lorem(20)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Title page}\label{title-page}
+
+Alternatively, you can omit the title argument and write your own title
+page. Note that the subtitle, date and authors arguments be ignored in
+that case.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#show: slides.with(}
+\NormalTok{  layout: "medium",}
+\NormalTok{)}
+
+\NormalTok{\#align(center + horizon)[}
+\NormalTok{  \#text(2em, default{-}color)[*Slydst: Slides in Typst*]}
+\NormalTok{]}
+
+\NormalTok{Insert your content here.}
+\end{Highlighting}
+\end{Shaded}
+
+We advise the use of the \texttt{\ title-slide\ } function that ensures
+a proper centering and no page numbering.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#show: slides}
+
+\NormalTok{\#title{-}slide(layout: "medium")[}
+\NormalTok{  \#text(2em, default{-}color)[*Slydst: Slides in Typst*]}
+\NormalTok{]}
+
+\NormalTok{Insert your content here.}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Components}\label{components}
+
+Definitions, theorems, lemmas, corollaries and algorithms boxes are also
+available.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#definition(title: "An interesting definition")[}
+\NormalTok{  \#lorem(20)}
+\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Documentation}\label{documentation}
+
+\subsubsection{\texorpdfstring{\texttt{\ slides\ }}{ slides }}\label{slides}
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ content\ } : \texttt{\ content\ } - content of the
+  presentation
+\item
+  \texttt{\ title\ } : \texttt{\ str\ } - title (required)
+\item
+  \texttt{\ subtitle\ } : \texttt{\ str\ } - subtitle
+\item
+  \texttt{\ date\ } : \texttt{\ str\ } - date
+\item
+  \texttt{\ authors\ } : \texttt{\ array\ } of \texttt{\ content\ } or
+  \texttt{\ content\ } - list of authors or author content
+\item
+  \texttt{\ layout\ } :
+  \texttt{\ str\ in\ ("small",\ "medium",\ "large")\ } - layout
+  selection
+\item
+  \texttt{\ ratio\ } : \texttt{\ float\ } or \texttt{\ ratio\ } or
+  \texttt{\ int\ } - width to height ratio
+\item
+  \texttt{\ title-color\ } : \texttt{\ color\ } or \texttt{\ gradient\ }
+  - color of title and headings
+\end{itemize}
+
+\subsubsection{\texorpdfstring{\texttt{\ title-slide\ }}{ title-slide }}\label{title-slide}
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ content\ } : \texttt{\ content\ } - content of the slide
+\end{itemize}
+
+\subsubsection{\texorpdfstring{\texttt{\ definition\ } ,
+\texttt{\ theorem\ } , \texttt{\ lemma\ } , \texttt{\ corollary\ } ,
+\texttt{\ algorithm\ }}{ definition  ,  theorem  ,  lemma  ,  corollary  ,  algorithm }}\label{definition-theorem-lemma-corollary-algorithm}
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ content\ } : \texttt{\ content\ } - content of the block
+\item
+  \texttt{\ title\ } : \texttt{\ str\ } - title of the block
+\item
+  \texttt{\ fill-header\ } : \texttt{\ color\ } - color of the header
+  (inferred if only \texttt{\ fill-body\ } is specified)
+\item
+  \texttt{\ fill-body\ } : \texttt{\ color\ } - color of the body
+  (inferred if only \texttt{\ fill-header\ } is specified)
+\item
+  \texttt{\ radius\ } : \texttt{\ length\ } - radius of the corners of
+  the block
+\end{itemize}
+
+\subsection{Example}\label{example}
+
+{
+\includesvg[width=3.125in,height=\textheight,keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/slydst/0.1.3/svg/example-01.svg}
+} {
+\includesvg[width=3.125in,height=\textheight,keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/slydst/0.1.3/svg/example-02.svg}
+} {
+\includesvg[width=3.125in,height=\textheight,keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/slydst/0.1.3/svg/example-03.svg}
+} {
+\includesvg[width=3.125in,height=\textheight,keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/slydst/0.1.3/svg/example-04.svg}
+} {
+\includesvg[width=3.125in,height=\textheight,keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/slydst/0.1.3/svg/example-05.svg}
+} {
+\includesvg[width=3.125in,height=\textheight,keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/slydst/0.1.3/svg/example-06.svg}
+} {
+\includesvg[width=3.125in,height=\textheight,keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/slydst/0.1.3/svg/example-07.svg}
+} {
+\includesvg[width=3.125in,height=\textheight,keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/slydst/0.1.3/svg/example-08.svg}
+} {
+\includesvg[width=3.125in,height=\textheight,keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/slydst/0.1.3/svg/example-09.svg}
+} {
+\includesvg[width=3.125in,height=\textheight,keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/slydst/0.1.3/svg/example-10.svg}
+}
+
+\href{/app?template=slydst&version=0.1.3}{Create project in app}
+
+\subsubsection{How to use}\label{how-to-use}
+
+Click the button above to create a new project using this template in
+the Typst app.
+
+You can also use the Typst CLI to start a new project on your computer
+using this command:
+
+\begin{verbatim}
+typst init @preview/slydst:0.1.3
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+\href{https://github.com/glambrechts}{Gaspard Lambrechts}
+\item[License:]
+MIT
+\item[Current version:]
+0.1.3
+\item[Last updated:]
+November 12, 2024
+\item[First released:]
+November 18, 2023
+\item[Minimum Typst version:]
+0.12.0
+\item[Archive size:]
+4.12 kB
+\href{https://packages.typst.org/preview/slydst-0.1.3.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/glambrechts/slydst}{GitHub}
+\item[Categor ies :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-presentation.svg}}
+  \href{https://typst.app/universe/search/?category=presentation}{Presentation}
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-layout.svg}}
+  \href{https://typst.app/universe/search/?category=layout}{Layout}
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-package.svg}}
+  \href{https://typst.app/universe/search/?category=components}{Components}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This template is a project of Gaspard Lambrechts . Report issues on
+\href{https://github.com/glambrechts/slydst}{their repository} . You can
+also try to ask for help with this template on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this template to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.1.3 & November 12, 2024 \\
+\href{https://typst.app/universe/package/slydst/0.1.2/}{0.1.2} &
+November 12, 2024 \\
+\href{https://typst.app/universe/package/slydst/0.1.1/}{0.1.1} & March
+18, 2024 \\
+\href{https://typst.app/universe/package/slydst/0.1.0/}{0.1.0} &
+November 18, 2023 \\
+\end{longtable}
+
+Typst GmbH did not create this template and cannot guarantee correct
+functionality of this template or compatibility with any version of the
+Typst compiler or app.

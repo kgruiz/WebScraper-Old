@@ -1,0 +1,250 @@
+\title{typst.app/universe/package/parcio-thesis}
+
+\phantomsection\label{banner}
+\phantomsection\label{template-thumbnail}
+\pandocbounded{\includegraphics[keepaspectratio]{https://packages.typst.org/preview/thumbnails/parcio-thesis-0.1.0-small.webp}}
+
+\section{parcio-thesis}\label{parcio-thesis}
+
+{ 0.1.0 }
+
+A simple thesis template based on the ParCIO working group at OvGU
+Magdeburg.
+
+\href{/app?template=parcio-thesis&version=0.1.0}{Create project in app}
+
+\phantomsection\label{readme}
+\includegraphics[width=0.32\linewidth,height=\textheight,keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/parcio-thesis/0.1.0/thumbnails/1.png}
+\includegraphics[width=0.32\linewidth,height=\textheight,keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/parcio-thesis/0.1.0/thumbnails/2.png}
+\includegraphics[width=0.32\linewidth,height=\textheight,keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/parcio-thesis/0.1.0/thumbnails/3.png}
+
+A simple thesis template based on the ParCIO working group at
+Otto-von-Guericke University Magdeburg.
+
+\subsection{Getting Started}\label{getting-started}
+
+To use this template, simply import it as shown below (more options
+under \texttt{\ Usage\ } ):
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/parcio{-}thesis:0.1.0": *}
+
+\NormalTok{\#show: parcio.with(}
+\NormalTok{  title: "My great thesis",}
+\NormalTok{  author: (}
+\NormalTok{    name: "Author",}
+\NormalTok{    mail: "author@ovgu.de"}
+\NormalTok{  ),}
+\NormalTok{  abstract: [My abstract begins here.],}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{Local Installation}\label{local-installation}
+
+Following these steps will make the template available locally under the
+\texttt{\ @local\ } namespace. Requires
+\href{https://github.com/casey/just}{â€œJust - A Command Runnerâ€?} .
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{git}\NormalTok{ clone git@github.com:xkevio/parcio{-}typst.git }
+\BuiltInTok{cd}\NormalTok{ parcio{-}typst/parcio{-}thesis/}
+\ExtensionTok{just}\NormalTok{ install}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Usage}\label{usage}
+
+See here for \textbf{all} possible arguments (and their default values)
+and utility functions:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/parcio{-}thesis:0.1.0": *}
+
+\NormalTok{\#show: parcio.with(}
+\NormalTok{  title: "Title",}
+\NormalTok{  author: (name: "Author", mail: "author@ovgu.de"),}
+\NormalTok{  abstract: [],}
+\NormalTok{  thesis{-}type: "Bachelor/Master",}
+\NormalTok{  reviewers: (),}
+\NormalTok{  date: datetime.today(),}
+\NormalTok{  lang: "en",}
+\NormalTok{  header{-}logo: none,}
+\NormalTok{  translations: none,}
+\NormalTok{)}
+
+\NormalTok{// Use these to *enable* or *change* page numbering for your frontmatter and mainmatter respectively.}
+\NormalTok{// (By default, this template hides the page numbering!)}
+\NormalTok{\#show: roman{-}numbering.with(reset: \textless{}true|false\textgreater{})}
+\NormalTok{\#show: arabic{-}numbering.with(alternate: \textless{}true|false\textgreater{}, reset: \textless{}true|false\textgreater{})}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{Utility Functions}\label{utility-functions}
+
+These could be useful while writing your thesis!
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{// A TODO marker. (inline: false {-}\textgreater{} margin note, inline: true {-}\textgreater{} box).}
+\NormalTok{\#let todo(inline: false, body)}
+
+\NormalTok{// Like \textbackslash{}section* in LaTeX. (unnumbered level 2 heading, not in ToC).}
+\NormalTok{\#let section = heading.with(level: 2, outlined: false, numbering: none)}
+
+\NormalTok{// A neat inline{-}section in smallcaps and sans font.}
+\NormalTok{\#let inline{-}section(title) = smallcaps[*\#text(font: "Libertinus Sans", title)*] }
+
+\NormalTok{// Fully empty page, no page numbering.}
+\NormalTok{\#let empty{-}page = page([], footer: [])}
+
+\NormalTok{// Subfigures (see chapters/introduction for syntax).}
+\NormalTok{\#let subfigure(..)}
+
+\NormalTok{// A ParCIO{-}like table with a design taken from the LaTeX template.}
+\NormalTok{\#let parcio{-}table(max{-}rows, ..args)}
+
+\NormalTok{// Nicer handling of (multiple) appendices. Specify \textasciigrave{}reset: true\textasciigrave{} with your first appendix to reset the heading counter!}
+\NormalTok{\#let appendix(reset: false, label: none, body)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{Translations}\label{translations}
+
+If you wish, you can provide custom translations for things like
+â€œSectionâ€?, â€œContentsâ€?, etc. by providing a custom
+\texttt{\ translations.toml\ } (this template already comes with
+translations for English and German) with the following schema:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Top{-}level dict name should follow ISO 639 language codes!}
+\DataTypeTok{default{-}lang} \OperatorTok{=} \StringTok{"en"}
+
+\KeywordTok{[de]}
+\DataTypeTok{contents} \OperatorTok{=} \StringTok{"Inhaltsverzeichnis"}
+\DataTypeTok{chapter} \OperatorTok{=} \StringTok{"Kapitel"}
+\DataTypeTok{section} \OperatorTok{=} \StringTok{"Sektion"}
+\DataTypeTok{thesis} \OperatorTok{=} \OperatorTok{\{ }\DataTypeTok{value}\OperatorTok{ =} \StringTok{"Arbeit"}\OperatorTok{, }\DataTypeTok{compound}\OperatorTok{ =} \ConstantTok{true}\OperatorTok{ \}}
+
+\KeywordTok{[de.title{-}page]}
+\DataTypeTok{first{-}reviewer} \OperatorTok{=} \StringTok{"Erstgutachter"}
+\DataTypeTok{second{-}reviewer} \OperatorTok{=} \StringTok{"Zweitgutachter"}
+\DataTypeTok{supervisor} \OperatorTok{=} \StringTok{"Betreuer"}
+
+\KeywordTok{[de.bibliography]}
+\DataTypeTok{bibliography} \OperatorTok{=} \StringTok{"Quellenverzeichnis"}
+\DataTypeTok{cited{-}on{-}page} \OperatorTok{=} \StringTok{"Zitiert auf Seite"}
+\DataTypeTok{cited{-}on{-}pages} \OperatorTok{=} \StringTok{"Zitiert auf Seiten"}
+\DataTypeTok{join} \OperatorTok{=} \StringTok{"und"}
+
+\KeywordTok{[de.date]}
+\DataTypeTok{date{-}format} \OperatorTok{=} \StringTok{"[day]. [month repr:long] [year]"}
+\DataTypeTok{months} \OperatorTok{=} \OperatorTok{[}\StringTok{"Januar"}\OperatorTok{,} \StringTok{"Februar"}\OperatorTok{,} \StringTok{"MÃ¤rz"}\OperatorTok{,} \StringTok{"April"}\OperatorTok{,} \StringTok{"Mai"}\OperatorTok{,} \StringTok{"Juni"}\OperatorTok{,} \StringTok{"Juli"}\OperatorTok{,} \StringTok{"August"}\OperatorTok{,} \StringTok{"September"}\OperatorTok{,} \StringTok{"Oktober"}\OperatorTok{,} \StringTok{"November"}\OperatorTok{,} \StringTok{"Dezember"}\OperatorTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Fonts and OvGU Corporate
+Design}\label{fonts-and-ovgu-corporate-design}
+
+This template requires these three fonts to be installed on your
+system{[}\^{}1{]}:
+
+\begin{itemize}
+\tightlist
+\item
+  Libertinus Serif ( \url{https://github.com/alerque/libertinus} )
+\item
+  Libertinus Sans ( \url{https://github.com/alerque/libertinus} )
+\item
+  Inconsolata ( \url{https://github.com/googlefonts/Inconsolata} )
+\end{itemize}
+
+We bundle the default â€œFaculty of Computer Scienceâ€? head banner and
+use it as the \texttt{\ header-logo\ } . You can find yours at:
+\href{https://www.cd.ovgu.de/Fakult\%C3\%A4ten.html}{https://www.cd.ovgu.de/FakultÃ¤ten.html}
+.
+
+{[}\^{}1{]}: Typst should already provide the Libertinus font family by
+default as it is their standard font.
+
+\href{/app?template=parcio-thesis&version=0.1.0}{Create project in app}
+
+\subsubsection{How to use}\label{how-to-use}
+
+Click the button above to create a new project using this template in
+the Typst app.
+
+You can also use the Typst CLI to start a new project on your computer
+using this command:
+
+\begin{verbatim}
+typst init @preview/parcio-thesis:0.1.0
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+\href{https://github.com/xkevio}{Kevin Kulot}
+\item[License:]
+0BSD
+\item[Current version:]
+0.1.0
+\item[Last updated:]
+November 19, 2024
+\item[First released:]
+November 19, 2024
+\item[Minimum Typst version:]
+0.12.0
+\item[Archive size:]
+20.3 kB
+\href{https://packages.typst.org/preview/parcio-thesis-0.1.0.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/xkevio/parcio-typst/}{GitHub}
+\item[Categor ies :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-mortarboard.svg}}
+  \href{https://typst.app/universe/search/?category=thesis}{Thesis}
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-speak.svg}}
+  \href{https://typst.app/universe/search/?category=report}{Report}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This template is a project of Kevin Kulot . Report issues on
+\href{https://github.com/xkevio/parcio-typst/}{their repository} . You
+can also try to ask for help with this template on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this template to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.1.0 & November 19, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this template and cannot guarantee correct
+functionality of this template or compatibility with any version of the
+Typst compiler or app.

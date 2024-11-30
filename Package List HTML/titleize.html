@@ -1,0 +1,303 @@
+<main>
+    <div id="banner" style="--banner-accent:#000000;--banner-primary:#000000;--banner-secondary:#000000;--banner-tertiary:#565565;--banner-background:#eff0f3">
+     <div class="package-icon" role="img">
+     </div>
+     <div>
+      <div class="title">
+       <h1 class="name">
+        titleize
+       </h1>
+       <span class="version">
+        0.1.1
+       </span>
+      </div>
+      <p class="description">
+       Turn strings into title case
+      </p>
+     </div>
+    </div>
+    <div class="inner-grid">
+     <section id="readme">
+      <p>
+       Small wrapper around the
+       <a href="https://crates.io/crates/titlecase" rel="nofollow ugc" target="_blank">
+        titlecase
+       </a>
+       library to convert text to title case. It follows the
+       <a href="https://daringfireball.net/2008/05/title_case" rel="nofollow ugc" target="_blank">
+        rules defined by John Gruber
+       </a>
+       . For more details, refer to the library.
+      </p>
+      <p>
+       <code>
+        titlecase
+       </code>
+       applies a show rule, that by default transforms every string of at least four characters. This limit can be changed with the
+       <code>
+        limit
+       </code>
+       parameter. Especially with equations, the results can be a bit unpredictable, so proceed with care.
+      </p>
+      <pre><code class="language-typst"><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/titleize:0.1.1"</span><span class="typ-punct">:</span> titlecase
+
+<span class="typ-key">#</span><span class="typ-key">for</span> s <span class="typ-key">in</span> <span class="typ-punct">(</span>
+  <span class="typ-str">"Being productive on linux"</span><span class="typ-punct">,</span>
+  <span class="typ-str">"Finding an alternative to Mac OS X â part 2"</span><span class="typ-punct">,</span>
+  <span class="typ-punct">[</span>an example with small words and sub-phrases: "the example"<span class="typ-punct">]</span><span class="typ-punct">,</span>
+<span class="typ-punct">)</span> <span class="typ-punct">[</span>
+  <span class="typ-pol">#</span><span class="typ-pol">s</span> =&gt; <span class="typ-func">#</span><span class="typ-func">titlecase</span><span class="typ-punct">(</span>s<span class="typ-punct">)</span> <span class="typ-escape">\</span>
+<span class="typ-punct">]</span>
+
+<span class="typ-key">#</span><span class="typ-key">let</span> <span class="typ-func">debug-print</span><span class="typ-punct">(</span>x<span class="typ-punct">)</span> <span class="typ-op">=</span> <span class="typ-punct">{</span>
+  <span class="typ-key">if</span> <span class="typ-func">type</span><span class="typ-punct">(</span>x<span class="typ-punct">)</span> <span class="typ-op">==</span> content <span class="typ-punct">{</span>
+    <span class="typ-key">let</span> fields <span class="typ-op">=</span> x<span class="typ-punct">.</span><span class="typ-func">fields</span><span class="typ-punct">(</span><span class="typ-punct">)</span>
+    <span class="typ-key">let</span> func <span class="typ-op">=</span> x<span class="typ-punct">.</span><span class="typ-func">func</span><span class="typ-punct">(</span><span class="typ-punct">)</span>
+    <span class="typ-punct">[</span>
+      <span class="typ-func">#</span><span class="typ-func">repr</span><span class="typ-punct">(</span>func<span class="typ-punct">)</span>
+      <span class="typ-key">#</span><span class="typ-key">for</span> <span class="typ-punct">(</span>k<span class="typ-punct">,</span> v<span class="typ-punct">)</span> <span class="typ-key">in</span> fields <span class="typ-punct">[</span>
+        <span class="typ-marker">-</span> <span class="typ-pol">#</span><span class="typ-pol">k</span>: <span class="typ-func">#</span><span class="typ-func">debug-print</span><span class="typ-punct">(</span>v<span class="typ-punct">)</span>
+      <span class="typ-punct">]</span>
+    <span class="typ-punct">]</span>
+  <span class="typ-punct">}</span> <span class="typ-key">else</span> <span class="typ-punct">{</span>
+    <span class="typ-key">if</span> <span class="typ-func">type</span><span class="typ-punct">(</span>x<span class="typ-punct">)</span> <span class="typ-op">==</span> array <span class="typ-punct">[</span>
+      array
+      <span class="typ-key">#</span><span class="typ-key">for</span> y <span class="typ-key">in</span> x <span class="typ-punct">[</span>
+        <span class="typ-marker">-</span> <span class="typ-func">#</span><span class="typ-func">debug-print</span><span class="typ-punct">(</span>y<span class="typ-punct">)</span>
+      <span class="typ-punct">]</span>
+    <span class="typ-punct">]</span> <span class="typ-key">else</span> <span class="typ-punct">[</span>
+      <span class="typ-func">#</span><span class="typ-func">repr</span><span class="typ-punct">(</span><span class="typ-func">type</span><span class="typ-punct">(</span>x<span class="typ-punct">)</span><span class="typ-punct">)</span> (<span class="typ-func">#</span><span class="typ-func">repr</span><span class="typ-punct">(</span>x<span class="typ-punct">)</span>)
+    <span class="typ-punct">]</span>
+  <span class="typ-punct">}</span>
+<span class="typ-punct">}</span>
+
+<span class="typ-key">#</span><span class="typ-key">show</span><span class="typ-punct">:</span> <span class="typ-func">titlecase</span>
+
+<span class="typ-heading">= This is a test, even with math <span class="typ-math-delim">$</span>a = b + c<span class="typ-math-delim">$</span></span>
+
+In math, text can appear in various places:
+
+<span class="typ-math-delim">$</span>
+  a<span class="typ-math-op">_</span><span class="typ-str">"for example in a subscript"</span> <span class="typ-math-op">&amp;</span>= <span class="typ-str">"or in a longer text"</span> <span class="typ-escape">\</span>
+  f(x) <span class="typ-math-op">&amp;</span>= <span class="typ-func">sin</span><span class="typ-punct">(</span>x<span class="typ-punct">)</span>
+<span class="typ-math-delim">$</span>
+</code></code></pre>
+      <p>
+       <img alt="example" src="https://github.com/typst/packages/raw/main/packages/preview/titleize/0.1.1/example.png"/>
+      </p>
+     </section>
+     <aside>
+      <section>
+       <h3>
+        How to add
+       </h3>
+       <p>
+        Copy this into your project and use the import as
+        <!-- -->
+        <code>
+         titleize
+        </code>
+       </p>
+       <div class="import-snippet">
+        <pre><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/titleize:0.1.1"</span></code></pre>
+        <button class="copy" title="Copy to clipboard">
+         <img alt="Copy" height="16" src="/assets/icons/16-copy.svg" width="16"/>
+        </button>
+       </div>
+       <p class="muted">
+        Check the docs for
+        <!-- -->
+        <a href="https://typst.app/docs/reference/scripting/#packages">
+         more information on how to import packages
+        </a>
+        .
+       </p>
+      </section>
+      <section id="about">
+       <h3>
+        About
+       </h3>
+       <dl>
+        <dt>
+         Author
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         <a href="mailto:mail@solidtux.de">
+          Daniel Hauck
+         </a>
+        </dd>
+        <dt>
+         License:
+        </dt>
+        <dd>
+         MIT
+        </dd>
+        <dt>
+         Current version:
+        </dt>
+        <dd>
+         0.1.1
+        </dd>
+        <dt>
+         Last updated:
+        </dt>
+        <dd>
+         October 15, 2024
+        </dd>
+        <dt>
+         First released:
+        </dt>
+        <dd>
+         October 7, 2024
+        </dd>
+        <dt>
+         Archive size:
+        </dt>
+        <dd class="archive-size-value">
+         253 kB
+         <a href="https://packages.typst.org/preview/titleize-0.1.1.tar.gz">
+          <img alt="Size icon" src="/assets/icons/16-download.svg"/>
+         </a>
+        </dd>
+        <dt>
+         Repository:
+        </dt>
+        <dd>
+         <a href="https://gitlab.com/SolidTux/titleize" rel="noopener noreferrer" target="_blank">
+          GitLab
+         </a>
+        </dd>
+        <dt>
+         Categor
+         <!-- -->
+         ies
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         <ul class="list-with-icons">
+          <li>
+           <img alt="Text icon" src="/assets/icons/16-text.svg"/>
+           <a href="https://typst.app/universe/search/?category=text">
+            Text
+           </a>
+          </li>
+          <li>
+           <img alt="Scripting icon" src="/assets/icons/16-code.svg"/>
+           <a href="https://typst.app/universe/search/?category=scripting">
+            Scripting
+           </a>
+          </li>
+          <li>
+           <img alt="Utility icon" src="/assets/icons/16-hammer.svg"/>
+           <a href="https://typst.app/universe/search/?category=utility">
+            Utility
+           </a>
+          </li>
+         </ul>
+        </dd>
+       </dl>
+      </section>
+      <section>
+       <h3>
+        Where to report issues?
+       </h3>
+       <p>
+        This
+        <!-- -->
+        package
+        <!-- -->
+        is a project of
+        <!-- -->
+        <!-- -->
+        Daniel Hauck
+        <!-- -->
+        .
+        <!-- -->
+        <!-- -->
+        Report issues on
+        <!-- -->
+        <a href="https://gitlab.com/SolidTux/titleize" rel="noopener noreferrer" target="_blank">
+         their repository
+        </a>
+        .
+        <!-- -->
+        <!-- -->
+        You can also try to ask for help with this
+        <!-- -->
+        package
+        <!-- -->
+        on the
+        <!-- -->
+        <a href="https://forum.typst.app" rel="noopener" target="_blank">
+         Forum
+        </a>
+        .
+       </p>
+       <p>
+        Please report this
+        <!-- -->
+        package
+        <!-- -->
+        to the Typst team using the
+        <!-- -->
+        <a href="https://typst.app/contact" rel="noreferrer" target="_blank">
+         contact form
+        </a>
+        <!-- -->
+        if you believe it is a safety hazard or infringes upon your rights.
+       </p>
+      </section>
+      <section id="versions">
+       <h3>
+        Version history
+       </h3>
+       <table>
+        <thead>
+         <tr>
+          <th align="left">
+           Version
+          </th>
+          <th align="left">
+           Release Date
+          </th>
+         </tr>
+        </thead>
+        <tbody>
+         <tr>
+          <td align="left">
+           0.1.1
+          </td>
+          <td align="left">
+           October 15, 2024
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/titleize/0.1.0/">
+            0.1.0
+           </a>
+          </td>
+          <td align="left">
+           October 7, 2024
+          </td>
+         </tr>
+        </tbody>
+       </table>
+      </section>
+      <p class="bottom-notice muted">
+       Typst GmbH did not create this
+       <!-- -->
+       package
+       <!-- -->
+       and cannot guarantee correct functionality of this
+       <!-- -->
+       package
+       <!-- -->
+       or compatibility with any version of the Typst compiler or app.
+      </p>
+     </aside>
+    </div>
+   </main>

@@ -1,0 +1,246 @@
+\title{typst.app/universe/package/droplet}
+
+\phantomsection\label{banner}
+\section{droplet}\label{droplet}
+
+{ 0.3.1 }
+
+Customizable dropped capitals.
+
+\phantomsection\label{readme}
+A package for creating dropped capitals.
+
+\subsection{Usage}\label{usage}
+
+This package exports a single \texttt{\ dropcap\ } function that is used
+to create dropped capitals. The function takes one or two positional
+arguments, and several optional keyword arguments for customization:
+
+\begin{longtable}[]{@{}llll@{}}
+\toprule\noalign{}
+Parameter & Type & Description & Default \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\texttt{\ height\ } & \texttt{\ integer\ } , \texttt{\ length\ } ,
+\texttt{\ auto\ } & The height of the dropped capital. &
+\texttt{\ 2\ } \\
+\texttt{\ justify\ } & \texttt{\ boolean\ } , \texttt{\ auto\ } &
+Whether the text should be justified. & \texttt{\ auto\ } \\
+\texttt{\ gap\ } & \texttt{\ length\ } & The space between the dropped
+capital and the text. & \texttt{\ 0pt\ } \\
+\texttt{\ hanging-indent\ } & \texttt{\ length\ } & The indent of lines
+after the first. & \texttt{\ 0pt\ } \\
+\texttt{\ overhang\ } & \texttt{\ length\ } , \texttt{\ relative\ } ,
+\texttt{\ ratio\ } & How much the dropped capital should hang into the
+margin. & \texttt{\ 0pt\ } \\
+\texttt{\ depth\ } & \texttt{\ integer\ } , \texttt{\ length\ } & The
+space below the dropped capital. & \texttt{\ 0pt\ } \\
+\texttt{\ transform\ } & \texttt{\ function\ } , \texttt{\ none\ } & A
+function to be applied to the dropped capital. & \texttt{\ none\ } \\
+\texttt{\ ..text-args\ } & & How to style the \texttt{\ text\ } of the
+dropped capital. & \\
+\end{longtable}
+
+Some parameters allow values of different types for maximum flexibility:
+
+\begin{itemize}
+\tightlist
+\item
+  If \texttt{\ height\ } is given as an integer, it is interpreted as a
+  number of lines. If given as \texttt{\ auto\ } , the dropped capital
+  will not be scaled and remain at its original size.
+\item
+  If \texttt{\ overhang\ } has a relative part, it is resolved relative
+  to the width of the dropped capital.
+\item
+  If \texttt{\ depth\ } is given as an integer, it is interpreted as a
+  number of lines.
+\item
+  The \texttt{\ transform\ } function takes the extracted or passed
+  dropped capital and returns the content to be shown.
+\end{itemize}
+
+If two positional arguments are given, the first is used as the dropped
+capital, and the second as the text. If only one argument is given, the
+dropped capital is automatically extracted from the text.
+
+\subsubsection{Extraction}\label{extraction}
+
+If no explicit dropped capital is passed, it is extracted automatically.
+For this to work, the package looks into the content making up the first
+paragraph and extracts the first letter of the first word. This letter
+is then split off from the rest of the text and used as the dropped
+capital. There are some special cases to consider:
+
+\begin{itemize}
+\tightlist
+\item
+  If the first element of the paragraph is a \texttt{\ box\ } , the
+  whole box is used as the dropped capital.
+\item
+  If the first element is a list or enum item, it is assumed that the
+  literal meaning of the list or enum syntax was intended, and the
+  number or bullet is used as the dropped capital.
+\end{itemize}
+
+Affixes, such as punctuation, super- and subscripts, quotes, and spaces
+will also be detected and stay with the dropped capital.
+
+\subsubsection{Paragraph Splitting}\label{paragraph-splitting}
+
+To wrap the text around the dropped capital, the paragraph is split into
+two parts: the part next to the dropped capital and the part after it.
+As Typst doesnâ€™t natively support wrapping text around an element,
+this package splits the paragraph at word boundaries and tries to fit as
+much in the first part as possible. This approach comes with some
+limitations:
+
+\begin{itemize}
+\tightlist
+\item
+  The paragraph is split at word boundaries, which makes hyphenation
+  across the split impossible.
+\item
+  Some elements cannot be properly split, such as containers, lists, and
+  context expressions.
+\item
+  The approach uses a greedy algorithm, which might not always find the
+  optimal split.
+\item
+  If the split happens at a block element, the spacing between the two
+  parts might be off.
+\end{itemize}
+
+To determine whether an elements fits into the first part, the position
+of top edge of the element is crucial. If the top edge is above the
+baseline of the dropped capital, the element is considered to be part of
+the first part. This means that elements with a large height will be
+part of the first part. This is done to avoid gaps between the two parts
+of the paragraph.
+
+\subsubsection{Styling}\label{styling}
+
+In case you wish to style the dropped capital more than what is possible
+with the arguments of the \texttt{\ text\ } function, you can use a
+\texttt{\ transform\ } function. This function takes the extracted or
+passed dropped capital and returns the content to be shown. The function
+is provided with the context of the dropped capital.
+
+Note that when using \texttt{\ em\ } units, they are resolved relative
+to the font size of the dropped capital. When the dropped capital is
+scaled to fit the given \texttt{\ height\ } parameter, the font size is
+adjusted so that the \emph{bounds} of the transformed content match the
+given height. For that, the \texttt{\ top-edge\ } and
+\texttt{\ bottom-edge\ } parameters of \texttt{\ text-args\ } are set to
+\texttt{\ bounds\ } by default.
+
+\subsection{Example}\label{example}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/droplet:0.3.1": dropcap}
+
+\NormalTok{\#set par(justify: true)}
+
+\NormalTok{\#dropcap(}
+\NormalTok{  height: 3,}
+\NormalTok{  gap: 4pt,}
+\NormalTok{  hanging{-}indent: 1em,}
+\NormalTok{  overhang: 8pt,}
+\NormalTok{  font: "Curlz MT",}
+\NormalTok{)[}
+\NormalTok{  *Typst* is a new markup{-}based typesetting system that is designed to be as}
+\NormalTok{  \_powerful\_ as LaTeX while being \_much easier\_ to learn and use. Typst has:}
+
+\NormalTok{  {-} Built{-}in markup for the most common formatting tasks}
+\NormalTok{  {-} Flexible functions for everything else}
+\NormalTok{  {-} A tightly integrated scripting system}
+\NormalTok{  {-} Math typesetting, bibliography management, and more}
+\NormalTok{  {-} Fast compile times thanks to incremental compilation}
+\NormalTok{  {-} Friendly error messages in case something goes wrong}
+\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/droplet/0.3.1/assets/example.svg}}
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as \texttt{\ droplet\ }
+
+\begin{verbatim}
+#import "@preview/droplet:0.3.1"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+Eric Biedert
+\item[License:]
+MIT
+\item[Current version:]
+0.3.1
+\item[Last updated:]
+November 21, 2024
+\item[First released:]
+July 5, 2024
+\item[Minimum Typst version:]
+0.11.0
+\item[Archive size:]
+7.82 kB
+\href{https://packages.typst.org/preview/droplet-0.3.1.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/EpicEricEE/typst-droplet}{GitHub}
+\item[Categor y :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-text.svg}}
+  \href{https://typst.app/universe/search/?category=text}{Text}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of Eric Biedert . Report issues on
+\href{https://github.com/EpicEricEE/typst-droplet}{their repository} .
+You can also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.3.1 & November 21, 2024 \\
+\href{https://typst.app/universe/package/droplet/0.3.0/}{0.3.0} &
+October 24, 2024 \\
+\href{https://typst.app/universe/package/droplet/0.2.0/}{0.2.0} & July
+5, 2024 \\
+\href{https://typst.app/universe/package/droplet/0.1.0/}{0.1.0} & July
+5, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.

@@ -1,0 +1,389 @@
+<main>
+    <div id="banner" style="--banner-accent:#000000;--banner-primary:#000000;--banner-secondary:#000000;--banner-tertiary:#565565;--banner-background:#eff0f3">
+     <div class="package-icon" role="img">
+     </div>
+     <div>
+      <div class="title">
+       <h1 class="name">
+        ouset
+       </h1>
+       <span class="version">
+        0.2.0
+       </span>
+      </div>
+      <p class="description">
+       Package providing over- and underset functions for math mode.
+      </p>
+     </div>
+    </div>
+    <div class="inner-grid">
+     <section id="readme">
+      <p>
+       <a href="https://github.com/ludwig-austermann/typst-ouset" rel="nofollow ugc" target="_blank">
+        GitHub Repository including Examples and Changelog
+       </a>
+      </p>
+      <p>
+       This is a small package providing over- and underset functions for math mode in
+       <a href="https://typst.app/">
+        typst
+       </a>
+       .
+      </p>
+      <h2>
+       Usage
+      </h2>
+      <p>
+       To use this package simply
+       <code>
+        #import "@preview/ouset:0.2.0"
+       </code>
+       . To import all functions use
+       <code>
+        : *
+       </code>
+       and for specific ones, use either the module or as described in the
+       <a href="https://typst.app/docs/reference/scripting#modules">
+        typst docs
+       </a>
+       .
+      </p>
+      <p>
+       The main function provided in this package is
+       <code>
+        ouset
+       </code>
+       for math environments. This function can take arbitrary many arguments, but with the following rules:
+      </p>
+      <ul>
+       <li>
+        if the first argument is
+        <code>
+         &amp;
+        </code>
+        , a âalignpointâ is inserted immediately before the symbol
+       </li>
+       <li>
+        next follows the symbol, then the content to put on top, and then the content to put at the bottom
+       </li>
+       <li>
+        if the last argument is
+        <code>
+         &amp;
+        </code>
+        , a âalignpointâ is inserted immediately after the symbol
+       </li>
+      </ul>
+      <p>
+       There is a named argument
+       <code>
+        insert-and
+       </code>
+       , which if false, does not insert an âalignpointâ in the above cases, but only clips at these points.
+      </p>
+      <p>
+       This package provides furthermore 3 other functions:
+      </p>
+      <ul>
+       <li>
+        <code>
+         overset(s, t, c: 0, insert-and: true)
+        </code>
+        : output the symbol s with t on top of it
+       </li>
+       <li>
+        <code>
+         underset(s, b, c: 0 insert-and: true)
+        </code>
+        : output the symbol s with b on below of it
+       </li>
+       <li>
+        <code>
+         overunderset(s, t, b, c: 0, insert-and: true)
+        </code>
+        : output the symbol s with t on top of it and b below it
+       </li>
+      </ul>
+      <p>
+       All functions put enough spacing around the operator, such that other content does not interfere with it. However, this spacing can be disabled, by setting
+       <code>
+        c
+       </code>
+       to 1, 2 or 3. This is a flag system with
+      </p>
+      <ul>
+       <li>
+        <code>
+         c=0
+        </code>
+        : normal spacing on the left and right
+       </li>
+       <li>
+        <code>
+         c=1
+        </code>
+        : left spacing is according to the operator / symbol s and right spacing is normal
+       </li>
+       <li>
+        <code>
+         c=2
+        </code>
+        : left spacing is normal and right spacing according to the operator / symbol s
+       </li>
+       <li>
+        <code>
+         c=3
+        </code>
+        : both spacings are according to the operator / symbol s
+       </li>
+      </ul>
+      <p>
+       Hence: clip param
+       <code>
+        c â {0,1,2,3} â {no clip, left clip, right clip, both clip}
+       </code>
+      </p>
+      <h2>
+       Example usage
+      </h2>
+      <p>
+       Try something like:
+      </p>
+      <ul>
+       <li>
+        <code>
+         $ouset(--&gt;,, n-&gt;oo)$
+        </code>
+       </li>
+       <li>
+        <code>
+         $ouset(-,1,2)$
+        </code>
+       </li>
+       <li>
+        <pre><code class="language-typst"><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/ouset:0.2.0"</span><span class="typ-punct">:</span> ouset
+
+<span class="typ-math-delim">$</span> M <span class="typ-math-op">&amp;</span>= <span class="typ-pol">sum</span><span class="typ-math-op">_</span><span class="typ-punct">(</span>k=0<span class="typ-punct">)</span><span class="typ-math-op">^</span><span class="typ-pol">oo</span> q<span class="typ-math-op">^</span>k = 1 + q + q<span class="typ-math-op">^</span>2 + q<span class="typ-math-op">^</span>3 + q<span class="typ-math-op">^</span>4 + <span class="typ-pol">dots</span><span class="typ-escape">\</span>
+    <span class="typ-math-op">&amp;</span>= 1 + q (1 + q + q<span class="typ-math-op">^</span>2 + q<span class="typ-math-op">^</span>3 + <span class="typ-pol">dots</span>)<span class="typ-escape">\</span>
+    <span class="typ-func">ouset</span><span class="typ-punct">(</span><span class="typ-math-op">&amp;</span><span class="typ-punct">,</span> =<span class="typ-punct">,</span> <span class="typ-str">"Def."</span><span class="typ-punct">,</span> <span class="typ-str">"of"</span> M<span class="typ-punct">)</span> 1 + q <span class="typ-pol">dot</span> M <span class="typ-math-delim">$</span>
+</code></code></pre>
+       </li>
+      </ul>
+     </section>
+     <aside>
+      <section>
+       <h3>
+        How to add
+       </h3>
+       <p>
+        Copy this into your project and use the import as
+        <!-- -->
+        <code>
+         ouset
+        </code>
+       </p>
+       <div class="import-snippet">
+        <pre><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/ouset:0.2.0"</span></code></pre>
+        <button class="copy" title="Copy to clipboard">
+         <img alt="Copy" height="16" src="/assets/icons/16-copy.svg" width="16"/>
+        </button>
+       </div>
+       <p class="muted">
+        Check the docs for
+        <!-- -->
+        <a href="https://typst.app/docs/reference/scripting/#packages">
+         more information on how to import packages
+        </a>
+        .
+       </p>
+      </section>
+      <section id="about">
+       <h3>
+        About
+       </h3>
+       <dl>
+        <dt>
+         Author
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         Ludwig Austermann
+        </dd>
+        <dt>
+         License:
+        </dt>
+        <dd>
+         MIT
+        </dd>
+        <dt>
+         Current version:
+        </dt>
+        <dd>
+         0.2.0
+        </dd>
+        <dt>
+         Last updated:
+        </dt>
+        <dd>
+         May 31, 2024
+        </dd>
+        <dt>
+         First released:
+        </dt>
+        <dd>
+         July 6, 2023
+        </dd>
+        <dt>
+         Minimum Typst version:
+        </dt>
+        <dd>
+         0.11.0
+        </dd>
+        <dt>
+         Archive size:
+        </dt>
+        <dd class="archive-size-value">
+         2.61 kB
+         <a href="https://packages.typst.org/preview/ouset-0.2.0.tar.gz">
+          <img alt="Size icon" src="/assets/icons/16-download.svg"/>
+         </a>
+        </dd>
+        <dt>
+         Repository:
+        </dt>
+        <dd>
+         <a href="https://github.com/ludwig-austermann/typst-ouset" rel="noopener noreferrer" target="_blank">
+          GitHub
+         </a>
+        </dd>
+        <dt>
+         Categor
+         <!-- -->
+         y
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         <ul class="list-with-icons">
+          <li>
+           <img alt="Layout icon" src="/assets/icons/16-layout.svg"/>
+           <a href="https://typst.app/universe/search/?category=layout">
+            Layout
+           </a>
+          </li>
+         </ul>
+        </dd>
+       </dl>
+      </section>
+      <section>
+       <h3>
+        Where to report issues?
+       </h3>
+       <p>
+        This
+        <!-- -->
+        package
+        <!-- -->
+        is a project of
+        <!-- -->
+        <!-- -->
+        Ludwig Austermann
+        <!-- -->
+        .
+        <!-- -->
+        <!-- -->
+        Report issues on
+        <!-- -->
+        <a href="https://github.com/ludwig-austermann/typst-ouset" rel="noopener noreferrer" target="_blank">
+         their repository
+        </a>
+        .
+        <!-- -->
+        <!-- -->
+        You can also try to ask for help with this
+        <!-- -->
+        package
+        <!-- -->
+        on the
+        <!-- -->
+        <a href="https://forum.typst.app" rel="noopener" target="_blank">
+         Forum
+        </a>
+        .
+       </p>
+       <p>
+        Please report this
+        <!-- -->
+        package
+        <!-- -->
+        to the Typst team using the
+        <!-- -->
+        <a href="https://typst.app/contact" rel="noreferrer" target="_blank">
+         contact form
+        </a>
+        <!-- -->
+        if you believe it is a safety hazard or infringes upon your rights.
+       </p>
+      </section>
+      <section id="versions">
+       <h3>
+        Version history
+       </h3>
+       <table>
+        <thead>
+         <tr>
+          <th align="left">
+           Version
+          </th>
+          <th align="left">
+           Release Date
+          </th>
+         </tr>
+        </thead>
+        <tbody>
+         <tr>
+          <td align="left">
+           0.2.0
+          </td>
+          <td align="left">
+           May 31, 2024
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/ouset/0.1.1/">
+            0.1.1
+           </a>
+          </td>
+          <td align="left">
+           July 7, 2023
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/ouset/0.1.0/">
+            0.1.0
+           </a>
+          </td>
+          <td align="left">
+           July 6, 2023
+          </td>
+         </tr>
+        </tbody>
+       </table>
+      </section>
+      <p class="bottom-notice muted">
+       Typst GmbH did not create this
+       <!-- -->
+       package
+       <!-- -->
+       and cannot guarantee correct functionality of this
+       <!-- -->
+       package
+       <!-- -->
+       or compatibility with any version of the Typst compiler or app.
+      </p>
+     </aside>
+    </div>
+   </main>

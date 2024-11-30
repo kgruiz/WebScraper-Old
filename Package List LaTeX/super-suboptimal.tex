@@ -1,0 +1,192 @@
+\title{typst.app/universe/package/super-suboptimal}
+
+\phantomsection\label{banner}
+\section{super-suboptimal}\label{super-suboptimal}
+
+{ 0.1.0 }
+
+Unicode super- and subscripts in equations.
+
+\phantomsection\label{readme}
+A Typst package enabling support for Unicode super- and subscript
+characters in equations.
+
+\subsection{Usage}\label{usage}
+
+The package exposes the template-function \texttt{\ super-subscripts\ }
+. It affects all \texttt{\ math.equation\ } s by attaching every
+superscript- and subscript-character to the first non-space-element on
+its left.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/super{-}suboptimal:0.1.0": *}
+\NormalTok{\#show: super{-}subscripts}
+
+\NormalTok{For all $(x,y)ââÂ²$:}
+\NormalTok{$}
+\NormalTok{  q := norm((x,y))â \textless{} 1}
+\NormalTok{  ==\textgreater{} âáµ¢âââ¿ q â± \textless{} â}
+\NormalTok{$}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/super-suboptimal/0.1.0/assets/example0.svg}}
+
+Because code like \texttt{\ \$x+yá¶»\$\ } throws an â€œunknown
+variableâ€? error, the package also exposes the function \texttt{\ eq\ }
+, which inserts spaces before every superscript- and subscript-character
+and passing it on to \texttt{\ math.equation\ } . This comes at the cost
+of missing syntax-highlighting and code-suggestions in your IDE.
+
+\texttt{\ eq\ } accepts a \texttt{\ raw\ } string as a positional
+parameter, and an argument-sink thatâ€™s passed onto
+\texttt{\ math.equation\ } . Unless specified otherwise in the
+argument-sink, the resulting equation is typeset with
+\texttt{\ block:\ true\ } if and only if the \texttt{\ raw\ } also
+satisfied \texttt{\ block:\ true\ } . \texttt{\ eq\ } is automatically
+applied to every \texttt{\ raw\ } with \texttt{\ lang:\ "eq"\ } .
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#eq(\textasciigrave{}0 = aáµ\textasciigrave{})}
+
+\NormalTok{\#eq(\textasciigrave{}\textasciigrave{}\textasciigrave{}}
+\NormalTok{  1 = x+yá¶»}
+\NormalTok{\textasciigrave{}\textasciigrave{}\textasciigrave{})}
+
+\NormalTok{\#eq(\textasciigrave{}2 = aáµ\textasciigrave{}, block: true, numbering: "(1)")}
+
+\NormalTok{\textasciigrave{}\textasciigrave{}\textasciigrave{}eq}
+\NormalTok{  3 = aáµá¶âºáµâââ½á¶ â»áµâ¾âáµ¢}
+\NormalTok{\textasciigrave{}\textasciigrave{}\textasciigrave{}}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/super-suboptimal/0.1.0/assets/example1.svg}}
+
+Sometimes in mathematical writing, variables are decorated with an
+asterisk, e.g. \texttt{\ \$x\^{}*\$\ } . The character \texttt{\ ê™³\ }
+can now be used, as well: \texttt{\ \$xê™³\ =\ x\^{}*\$\ } .
+
+\subsection{Known issues}\label{known-issues}
+
+\begin{itemize}
+\item
+  As mentioned above, \texttt{\ \$aáµ‡\$\ } leads to an â€œunknown
+  variableâ€? error. As a workaround, \texttt{\ \$a\ áµ‡\$\ } produces
+  the same output, or you can use the \texttt{\ eq\ } function described
+  above.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    The first workaround also means I canâ€™t reasonably implement
+    top-left and bottom-left attachments. For example,
+    \texttt{\ \$a\ Â³b\$\ } is rendered like
+    \texttt{\ \$attach(a,\ t:\ 3)\ b\$\ } , rather than
+    \texttt{\ \$a\ attach(b,\ tl:\ 3)\$\ } .
+  \end{itemize}
+\item
+  Multiple attachments are concatenated into one content without another
+  pass of \texttt{\ equation\ } . For example,
+  \texttt{\ \#eq(\textasciigrave{}0Ë¢â?±â?¿â?½áµ?â?¾\textasciigrave{})\ }
+  is equivalent to \texttt{\ \$0\^{}(s\ i\ n\ "("\ k\ ")")\$\ } , rather
+  than \texttt{\ \$0\^{}sin(k)\$\ } . I wonâ€™t fix this, because:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Another pass of \texttt{\ equation\ } would cause performance issues
+    at best, and infinite loops at worst.
+  \item
+    If this were fixed, code such as \texttt{\ \$e\ Ë£\ Ê¸\$\ } would
+    undesirably produce an â€œunknown variable \texttt{\ xy\ } â€?
+    error.
+  \end{itemize}
+\item
+  Letâ€™s call a piece of content â€œsmallâ€? if it consists of only a
+  single non-separated sequence of characters in Typst (internally, this
+  is the distinction between the content-functions \texttt{\ sequence\ }
+  and \texttt{\ text\ } ). For instance, \texttt{\ \$1234\$\ } and
+  \texttt{\ \$a\$\ } constitute â€œsmallâ€? content, but
+  \texttt{\ \$a\ b\$\ } and \texttt{\ \$3a\$\ } and
+  \texttt{\ \$1+2+3+4+5\$\ } do not.
+
+  This package only runs on non-â€œsmallâ€? pieces of content. For
+  example, \texttt{\ \$sqrt(35Â²)\$\ } still renders with the
+  default-Unicode-character and will look different from
+  \texttt{\ \$sqrt(35\^{}2)\$\ } . On the other hand,
+  \texttt{\ \$sqrt(aâ?¶)\$\ } \emph{is} rendered correctly. This is
+  because \texttt{\ 35Â²\ } constitutes â€œsmallâ€? content, but
+  \texttt{\ aâ?¶\ } does not.
+
+  A workaround is implemented for â€œsmallâ€? content immediately within
+  an equation, i.e. not nested within another content-function. For
+  example, \texttt{\ \$7Â²\$\ } renders the same as
+  \texttt{\ \$7\^{}2\$\ } , even though itâ€™s â€œsmallâ€? content.
+\item
+  Equations within other content-elements might trigger multiple
+  show-rule-passes, possibly causing performance-issues.
+\end{itemize}
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as
+\texttt{\ super-suboptimal\ }
+
+\begin{verbatim}
+#import "@preview/super-suboptimal:0.1.0"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author s :]
+Eric Biedert \& Lumi
+\item[License:]
+MIT
+\item[Current version:]
+0.1.0
+\item[Last updated:]
+January 29, 2024
+\item[First released:]
+January 29, 2024
+\item[Archive size:]
+6.15 kB
+\href{https://packages.typst.org/preview/super-suboptimal-0.1.0.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of Eric Biedert and Lumi . You can also try to
+ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.1.0 & January 29, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.

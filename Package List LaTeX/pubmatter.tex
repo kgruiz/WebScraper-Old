@@ -1,0 +1,336 @@
+\title{typst.app/universe/package/pubmatter}
+
+\phantomsection\label{banner}
+\section{pubmatter}\label{pubmatter}
+
+{ 0.1.0 }
+
+Parse, normalize and show publication frontmatter, including authors and
+affiliations
+
+\phantomsection\label{readme}
+\emph{Beautiful scientific documents with structured metadata for
+publishers}
+
+\href{https://github.com/curvenote/pubmatter/blob/main/docs.pdf}{\pandocbounded{\includesvg[keepaspectratio]{https://img.shields.io/badge/typst-docs-orange.svg}}}
+\href{https://github.com/curvenote/pubmatter/blob/main/LICENSE}{\pandocbounded{\includesvg[keepaspectratio]{https://img.shields.io/badge/license-MIT-blue.svg}}}
+
+Pubmatter is a typst library for parsing, normalizing and showing
+scientific publication frontmatter.
+
+Utilities for loading, normalizing and working with authors,
+affiliations, abstracts, keywords and other frontmatter information
+common in scientific publications. Our goal is to introduce standardized
+ways of working with this content to expose metadata to scientific
+publishers who are interested in using typst in a standardized way. The
+specification for this \texttt{\ pubmatter\ } is based on
+\href{https://mystmd.org/}{MyST Markdown} and
+\href{https://quarto.org/}{Quarto} , and can load their YAML files
+directly.
+
+\subsection{Examples}\label{examples}
+
+Pubmatter was used to create these documents, for loading the authors in
+a standardized way and creting the common elements (authors,
+affiliations, ORCIDs, DOIs, Open Access Links, copyright statements,
+etc.)
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://raw.githubusercontent.com/curvenote/pubmatter/main/images/lapreprint.png?raw=true}}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://raw.githubusercontent.com/curvenote/pubmatter/main/images/scipy.png?raw=true}}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://raw.githubusercontent.com/curvenote/pubmatter/main/images/agrogeo.png?raw=true}}
+
+\subsection{Documentation}\label{documentation}
+
+The full documentation can be found in
+\href{https://github.com/curvenote/pubmatter/blob/main/docs.pdf}{docs.pdf}
+. To use \texttt{\ pubmatter\ } import it:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/pubmatter:0.1.0"}
+\end{Highlighting}
+\end{Shaded}
+
+The docs also use \texttt{\ pubmatter\ } , in a simplified way, you can
+see the
+\href{https://github.com/curvenote/pubmatter/blob/main/docs.typ}{docs.typ}
+to see a simple example of using various components to create a new
+document. Here is a preview of the docs:
+
+\href{https://github.com/curvenote/pubmatter/blob/main/docs.pdf}{\pandocbounded{\includegraphics[keepaspectratio]{https://raw.githubusercontent.com/curvenote/pubmatter/main/images/pubmatter.png?raw=true}}}
+
+\subsubsection{Loading Frontmatter}\label{loading-frontmatter}
+
+The frontmatter can contain all information for an article, including
+title, authors, affiliations, abstracts and keywords. These are then
+normalized into a standardized format that can be used with a number of
+\texttt{\ show\ } functions like \texttt{\ show-authors\ } . For
+example, we might have a YAML file that looks like this:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{author}\KeywordTok{:}\AttributeTok{ Rowan Cockett}
+\FunctionTok{date}\KeywordTok{:}\AttributeTok{ 2024/01/26}
+\end{Highlighting}
+\end{Shaded}
+
+You can load that file with \texttt{\ yaml\ } , and pass it to the
+\texttt{\ load\ } function:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let fm = pubmatter.load(yaml("pubmatter.yml"))}
+\end{Highlighting}
+\end{Shaded}
+
+This will give you a normalized data-structure that can be used with the
+\texttt{\ show\ } functions for showing various parts of a document.
+
+You can also use a \texttt{\ dictionary\ } directly:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let fm = pubmatter.load((}
+\NormalTok{  author: (}
+\NormalTok{    (}
+\NormalTok{      name: "Rowan Cockett",}
+\NormalTok{      email: "rowan@curvenote.com",}
+\NormalTok{      orcid: "0000{-}0002{-}7859{-}8394",}
+\NormalTok{      affiliations: "Curvenote Inc.",}
+\NormalTok{    ),}
+\NormalTok{  ),}
+\NormalTok{  date: datetime(year: 2024, month: 01, day: 26),}
+\NormalTok{  doi: "10.1190/tle35080703.1",}
+\NormalTok{))}
+\NormalTok{\#pubmatter.show{-}author{-}block(fm)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://raw.githubusercontent.com/curvenote/pubmatter/main/images/author-block.png?raw=true}}
+
+\subsubsection{Theming}\label{theming}
+
+The theme including color and font choice can be set using the
+\texttt{\ THEME\ } state. For example, this document has the following
+theme set:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let theme = (color: red.darken(20\%), font: "Noto Sans")}
+\NormalTok{\#set page(header: pubmatter.show{-}page{-}header(theme: theme, fm), footer: pubmatter.show{-}page{-}footer(fm))}
+\NormalTok{\#state("THEME").update(theme)}
+\end{Highlighting}
+\end{Shaded}
+
+Note that for the \texttt{\ header\ } the theme must be passed in
+directly. This will hopefully become easier in the future, however,
+there is a current bug that removes the page header/footer if you set
+this above the \texttt{\ set\ page\ } . See
+\href{https://github.com/typst/packages/raw/main/packages/preview/pubmatter/0.1.0/\#2987}{https://github.com/typst/typst/issues/2987}
+.
+
+The \texttt{\ font\ } option only corresponds to the frontmatter content
+(abstracts, title, header/footer etc.) allowing the body of your
+document to have a different font choice.
+
+\subsubsection{Normalized Frontmatter
+Object}\label{normalized-frontmatter-object}
+
+The frontmatter object has the following normalized structure:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{title}\KeywordTok{:}\AttributeTok{ content}
+\FunctionTok{subtitle}\KeywordTok{:}\AttributeTok{ content}
+\FunctionTok{short{-}title}\KeywordTok{:}\AttributeTok{ string}\CommentTok{ \# alias: running{-}title, running{-}head}
+\CommentTok{\# Authors Array}
+\CommentTok{\# simple string provided for author is turned into ((name: string),)}
+\FunctionTok{authors}\KeywordTok{:}\CommentTok{ \# alias: author}
+\AttributeTok{  }\KeywordTok{{-}}\AttributeTok{ }\FunctionTok{name}\KeywordTok{:}\AttributeTok{ string}
+\AttributeTok{    }\FunctionTok{url}\KeywordTok{:}\AttributeTok{ string}\CommentTok{ \# alias: website, homepage}
+\AttributeTok{    }\FunctionTok{email}\KeywordTok{:}\AttributeTok{ string}
+\AttributeTok{    }\FunctionTok{phone}\KeywordTok{:}\AttributeTok{ string}
+\AttributeTok{    }\FunctionTok{fax}\KeywordTok{:}\AttributeTok{ string}
+\AttributeTok{    }\FunctionTok{orcid}\KeywordTok{:}\AttributeTok{ string}\CommentTok{ \# alias: ORCID}
+\AttributeTok{    }\FunctionTok{note}\KeywordTok{:}\AttributeTok{ string}
+\AttributeTok{    }\FunctionTok{corresponding}\KeywordTok{:}\AttributeTok{ boolean}\CommentTok{ \# default: \textasciigrave{}true\textasciigrave{} when email set}
+\AttributeTok{    }\FunctionTok{equal{-}contributor}\KeywordTok{:}\AttributeTok{ boolean}\CommentTok{ \# alias: equalContributor, equal\_contributor}
+\AttributeTok{    }\FunctionTok{deceased}\KeywordTok{:}\AttributeTok{ boolean}
+\AttributeTok{    }\FunctionTok{roles}\KeywordTok{:}\AttributeTok{ string[]}\CommentTok{ \# must be a contributor role}
+\AttributeTok{    }\FunctionTok{affiliations}\KeywordTok{:}\CommentTok{ \# alias: affiliation}
+\AttributeTok{      }\KeywordTok{{-}}\AttributeTok{ }\FunctionTok{id}\KeywordTok{:}\AttributeTok{ string}
+\AttributeTok{        }\FunctionTok{index}\KeywordTok{:}\AttributeTok{ number}
+\CommentTok{\# Affiliations Array}
+\FunctionTok{affiliations}\KeywordTok{:}\CommentTok{ \# alias: affiliation}
+\AttributeTok{  }\KeywordTok{{-}}\AttributeTok{ string}\CommentTok{ \# simple string is turned into (name: string)}
+\AttributeTok{  }\KeywordTok{{-}}\AttributeTok{ }\FunctionTok{id}\KeywordTok{:}\AttributeTok{ string}
+\AttributeTok{    }\FunctionTok{index}\KeywordTok{:}\AttributeTok{ number}
+\AttributeTok{    }\FunctionTok{name}\KeywordTok{:}\AttributeTok{ string}
+\AttributeTok{    }\FunctionTok{institution}\KeywordTok{:}\AttributeTok{ string}\CommentTok{ \# use either name or institution}
+\CommentTok{\# Other publication metadata}
+\FunctionTok{open{-}access}\KeywordTok{:}\AttributeTok{ boolean}
+\FunctionTok{license}\KeywordTok{:}\CommentTok{ \# Can be set with a SPDX ID for creative commons}
+\AttributeTok{  }\FunctionTok{id}\KeywordTok{:}\AttributeTok{ string}
+\AttributeTok{  }\FunctionTok{url}\KeywordTok{:}\AttributeTok{ string}
+\AttributeTok{  }\FunctionTok{name}\KeywordTok{:}\AttributeTok{ string}
+\FunctionTok{doi}\KeywordTok{:}\AttributeTok{ string}\CommentTok{ \# must be only the ID, not the full URL}
+\FunctionTok{date}\KeywordTok{:}\AttributeTok{ datetime}\CommentTok{ \# validates from \textquotesingle{}YYYY{-}MM{-}DD\textquotesingle{} if a string}
+\FunctionTok{citation}\KeywordTok{:}\AttributeTok{ content}
+\CommentTok{\# Abstracts Array}
+\CommentTok{\# content is turned into ((title: "Abstract", content: string),)}
+\FunctionTok{abstracts}\KeywordTok{:}\CommentTok{ \# alias: abstract}
+\AttributeTok{  }\KeywordTok{{-}}\AttributeTok{ }\FunctionTok{title}\KeywordTok{:}\AttributeTok{ content}
+\AttributeTok{    }\FunctionTok{content}\KeywordTok{:}\AttributeTok{ content}
+\end{Highlighting}
+\end{Shaded}
+
+Note that you will usually write the affiliations directly in line, in
+the following example, we can see that the output is a normalized
+affiliation object that is linked by the \texttt{\ id\ } of the
+affiliation (just the name if it is a string!).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let fm = pubmatter.load((}
+\NormalTok{  authors: (}
+\NormalTok{    (}
+\NormalTok{      name: "Rowan Cockett",}
+\NormalTok{      affiliations: "Curvenote Inc.",}
+\NormalTok{    ),}
+\NormalTok{    (}
+\NormalTok{      name: "Steve Purves",}
+\NormalTok{      affiliations: ("Executable Books", "Curvenote Inc."),}
+\NormalTok{    ),}
+\NormalTok{  ),}
+\NormalTok{))}
+\NormalTok{\#raw(lang:"yaml", yaml.encode(fm))}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://raw.githubusercontent.com/curvenote/pubmatter/main/images/normalized.png?raw=true}}
+
+\subsubsection{Full List of Functions}\label{full-list-of-functions}
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ load()\ } - Load a raw frontmatter object
+\item
+  \texttt{\ doi-link()\ } - Create a DOI link
+\item
+  \texttt{\ email-link()\ } - Create a mailto link with an email icon
+\item
+  \texttt{\ github-link()\ } - Create a link to a GitHub profile with
+  the GitHub icon
+\item
+  \texttt{\ open-access-link()\ } - Create a link to Wikipedia with an
+  OpenAccess icon
+\item
+  \texttt{\ orcid-link()\ } - Create a ORCID link with an ORCID logo
+\item
+  \texttt{\ show-abstract-block()\ } - Show abstract-block including all
+  abstracts and keywords
+\item
+  \texttt{\ show-abstracts()\ } - Show all abstracts (e.g. abstract,
+  plain language summary)
+\item
+  \texttt{\ show-affiliations()\ } - Show affiliations
+\item
+  \texttt{\ show-author-block()\ } - Show author block, including
+  author, icon links (e.g. ORCID, email, etc.) and affiliations
+\item
+  \texttt{\ show-authors()\ } - Show authors
+\item
+  \texttt{\ show-citation()\ } - Create a short citation in APA format,
+  e.g. Cockett \emph{et al.} , 2023
+\item
+  \texttt{\ show-copyright()\ } - Show copyright statement based on
+  license
+\item
+  \texttt{\ show-keywords()\ } - Show keywords as a list
+\item
+  \texttt{\ show-license-badge()\ } - Show the license badges
+\item
+  \texttt{\ show-page-footer()\ } - Show the venue, date and page
+  numbers
+\item
+  \texttt{\ show-page-header()\ } - Show an open-access badge and the
+  DOI and then the running-title and citation
+\item
+  \texttt{\ show-spaced-content()\ }
+\item
+  \texttt{\ show-title()\ } - Show title and subtitle
+\item
+  \texttt{\ show-title-block()\ } - Show title, authors and affiliations
+\end{itemize}
+
+\subsection{Contributing}\label{contributing}
+
+To help with standardization of metadata or improve the show-functions
+please contribute to this package:\\
+\url{https://github.com/curvenote/pubmatter}
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as \texttt{\ pubmatter\ }
+
+\begin{verbatim}
+#import "@preview/pubmatter:0.1.0"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+rowanc1
+\item[License:]
+MIT
+\item[Current version:]
+0.1.0
+\item[Last updated:]
+February 10, 2024
+\item[First released:]
+February 10, 2024
+\item[Archive size:]
+9.84 kB
+\href{https://packages.typst.org/preview/pubmatter-0.1.0.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/curvenote/pubmatter}{GitHub}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of rowanc1 . Report issues on
+\href{https://github.com/curvenote/pubmatter}{their repository} . You
+can also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.1.0 & February 10, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.

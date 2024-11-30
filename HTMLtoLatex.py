@@ -1,6 +1,7 @@
 import json
 import os
 import re
+from typing import List
 
 import pypandoc
 from tqdm import tqdm
@@ -271,3 +272,92 @@ def CombineDirs(dirName: str, addFullName: bool = False) -> None:
                         file.write(subFile)
 
                         file.write(f"\n\n")
+
+
+def CombineFiles(
+    dirName: str,
+    addFullName: bool = False,
+    maxLength: int = 3000,
+    addedPrefix: str = None,
+) -> None:
+
+    def WriteGroup(
+        group: List[str], groupNum: int, outDir: str, addedPrefix: str = None
+    ) -> None:
+
+        if addedPrefix is not None:
+
+            outputPath = os.path.join(outDir, f"{addedPrefix}-Group{groupNum}.tex")
+
+        else:
+
+            outputPath = os.path.join(outDir, f"Group{groupNum}.tex")
+
+        with open(outputPath, "w") as file:
+
+            for fileContent in group:
+
+                file.write(f"{fileContent}\n\n")
+
+    if dirName.find(" ") == -1:
+
+        outDir = f"Combined-{dirName}"
+
+    else:
+
+        outDir = f"Combined {dirName}"
+
+    currentPath = os.path.abspath(dirName)
+
+    currentDir = currentPath[: currentPath.rfind("/")]
+
+    outDir = os.path.join(currentDir, outDir)
+
+    os.makedirs(outDir, exist_ok=True)
+
+    directoryFiles = os.listdir(path=dirName)
+
+    totalFiles = len(directoryFiles)
+
+    with tqdm(total=totalFiles, desc=f"Combining Files in  {dirName}") as bar:
+
+        currentFile = []
+        currentLength = 0
+        groupNumber = 1
+
+        for fileName in directoryFiles:
+
+            filePath = os.path.join(dirName, fileName)
+
+            with open(filePath, "r") as file:
+
+                content = file.read()
+
+            contentLength = len(content.splitlines())
+
+            if contentLength >= maxLength:
+
+                WriteGroup(
+                    group=[content],
+                    groupNum=groupNumber,
+                    outDir=outDir,
+                    addedPrefix=addedPrefix,
+                )
+                groupNumber += 1
+
+            if currentLength + contentLength <= maxLength:
+
+                currentFile.append(content)
+                currentLength += contentLength
+
+            else:
+
+                WriteGroup(
+                    group=currentFile,
+                    groupNum=groupNumber,
+                    outDir=outDir,
+                    addedPrefix=addedPrefix,
+                )
+                groupNumber += 1
+                currentLength = 0
+                currentFile = []

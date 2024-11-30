@@ -1,0 +1,424 @@
+<main>
+    <div id="banner" style="--banner-accent:#000000;--banner-primary:#000000;--banner-secondary:#000000;--banner-tertiary:#565565;--banner-background:#eff0f3">
+     <div class="package-icon" role="img">
+     </div>
+     <div>
+      <div class="title">
+       <h1 class="name">
+        jlyfish
+       </h1>
+       <span class="version">
+        0.1.0
+       </span>
+      </div>
+      <p class="description">
+       Julia code evaluation inside your Typst document
+      </p>
+     </div>
+    </div>
+    <div class="inner-grid">
+     <section id="readme">
+      <p>
+       <img alt="logo" src="https://github.com/typst/packages/raw/main/packages/preview/jlyfish/0.1.0/assets/logo.svg"/>
+      </p>
+      <p>
+       Jlyfish is a package for Julia and Typst that allows you to integrate Julia computations in your Typst document.
+      </p>
+      <p>
+       <a href="https://github.com/andreasKroepelin/TypstJlyfish.jl/wiki" rel="nofollow ugc" target="_blank">
+        <img alt="Static Badge" src="https://img.shields.io/badge/docs-wiki-blue"/>
+       </a>
+       <img alt="GitHub License" src="https://img.shields.io/github/license/andreasKroepelin/TypstJlyfish.jl"/>
+       <img alt="GitHub release (latest by date)" src="https://img.shields.io/github/v/release/andreasKroepelin/TypstJlyfish.jl"/>
+       <a href="https://github.com/andreasKroepelin/TypstJlyfish.jl" rel="nofollow ugc" target="_blank">
+        <img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/andreasKroepelin/TypstJlyfish.jl"/>
+       </a>
+      </p>
+      <p>
+       You should use Jlyfish if you want to write a Typst document and have some of the content automatically produced by Julia code but want the source code for that within your document source. It fills a similar role as
+       <a href="https://github.com/gpoore/pythontex" rel="nofollow ugc" target="_blank">
+        PythonTeX
+       </a>
+       does for Python and LaTeX. Note that this is different from tools like
+       <a href="https://quarto.org/" rel="nofollow ugc" target="_blank">
+        Quarto
+       </a>
+       where you write documents in Markdown, also integrate some Julia code, but then might use Typst only as a backend to produce the final document.
+      </p>
+      <p>
+       See below for a quick introduction or read the
+       <a href="https://github.com/andreasKroepelin/TypstJlyfish.jl/wiki" rel="nofollow ugc" target="_blank">
+        wiki
+       </a>
+       for an in depth explanation.
+      </p>
+      <p>
+       Since Jlyfish builds a bridge between Julia and Typst, we also have to get two things running. First, install the Julia package
+       <code>
+        TypstJlyfish
+       </code>
+       from the general registry by executing
+      </p>
+      <pre><code class="language-julia-repl">julia&gt; ]
+
+(@v1.10) pkg&gt; add TypstJlyfish
+</code></pre>
+      <p>
+       You only have to do this once. (It is like installing and using the Pluto notebook system, if you are familiar with that.)
+      </p>
+      <p>
+       When you want to use Jlyfish in a Typst document (say,
+       <code>
+        your-document.typ
+       </code>
+       ), add the following line at the top:
+      </p>
+      <pre><code class="language-typ"><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/jlyfish:0.1.0"</span><span class="typ-punct">:</span> <span class="typ-op">*</span>
+</code></code></pre>
+      <p>
+       Then, open a Julia REPL and run
+      </p>
+      <pre><code class="language-julia-repl">julia&gt; import TypstJlyfish
+
+julia&gt; TypstJlyfish.watch("your-document.typ")
+</code></pre>
+      <p>
+       Jlyfish facilitates the communication between Julia and Typst via a JSON file. By default, Jlyfish uses the name of your document and adds a
+       <code>
+        -jlyfish.json
+       </code>
+       , so
+       <code>
+        your-document.typ
+       </code>
+       would become
+       <code>
+        your-document-jlyfish.json
+       </code>
+       . This can be configured, of course.
+      </p>
+      <p>
+       To let Typst know of the computed data in the JSON file, add the following line to your document:
+      </p>
+      <pre><code class="language-typ"><code><span class="typ-func">#</span><span class="typ-func">read-julia-output</span><span class="typ-punct">(</span><span class="typ-func">json</span><span class="typ-punct">(</span><span class="typ-str">"your-document-jlyfish.json"</span><span class="typ-punct">)</span><span class="typ-punct">)</span>
+</code></code></pre>
+      <p>
+       You can then place some Julia code in your Typst source using the
+       <code>
+        #jl
+       </code>
+       function:
+      </p>
+      <pre><code class="language-typ"><code>What is the sum of the whole numbers from one to a hundred? <span class="typ-func">#</span><span class="typ-func">jl</span><span class="typ-punct">(</span><span class="typ-raw">`sum(1:100)`</span><span class="typ-punct">)</span>
+</code></code></pre>
+      <p>
+       Head over to the
+       <a href="https://github.com/andreasKroepelin/TypstJlyfish.jl/wiki" rel="nofollow ugc" target="_blank">
+        wiki
+       </a>
+       to learn more!
+      </p>
+      <p>
+       Just to show what is possible with Jlyfish:
+      </p>
+      <p>
+       <img alt="demo" src="https://github.com/typst/packages/raw/main/packages/preview/jlyfish/0.1.0/examples/demo.svg"/>
+      </p>
+      <pre><code class="language-typ"><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/jlyfish:0.1.0"</span><span class="typ-punct">:</span> <span class="typ-op">*</span>
+
+<span class="typ-key">#</span><span class="typ-key">set</span> <span class="typ-func">page</span><span class="typ-punct">(</span>width<span class="typ-punct">:</span> <span class="typ-key">auto</span><span class="typ-punct">,</span> height<span class="typ-punct">:</span> <span class="typ-key">auto</span><span class="typ-punct">,</span> margin<span class="typ-punct">:</span> <span class="typ-num">1em</span><span class="typ-punct">)</span>
+<span class="typ-key">#</span><span class="typ-key">set</span> <span class="typ-func">text</span><span class="typ-punct">(</span>font<span class="typ-punct">:</span> <span class="typ-str">"Alegreya Sans"</span><span class="typ-punct">)</span>
+<span class="typ-key">#</span><span class="typ-key">let</span> note <span class="typ-op">=</span> text<span class="typ-punct">.</span><span class="typ-func">with</span><span class="typ-punct">(</span>size<span class="typ-punct">:</span> <span class="typ-num">.7em</span><span class="typ-punct">,</span> fill<span class="typ-punct">:</span> <span class="typ-func">luma</span><span class="typ-punct">(</span><span class="typ-num">100</span><span class="typ-punct">)</span><span class="typ-punct">,</span> style<span class="typ-punct">:</span> <span class="typ-str">"italic"</span><span class="typ-punct">)</span>
+
+<span class="typ-func">#</span><span class="typ-func">read-julia-output</span><span class="typ-punct">(</span><span class="typ-func">json</span><span class="typ-punct">(</span><span class="typ-str">"demo-jlyfish.json"</span><span class="typ-punct">)</span><span class="typ-punct">)</span>
+<span class="typ-func">#</span><span class="typ-func">jl-pkg</span><span class="typ-punct">(</span><span class="typ-str">"Colors"</span><span class="typ-punct">,</span> <span class="typ-str">"Typstry"</span><span class="typ-punct">,</span> <span class="typ-str">"Makie"</span><span class="typ-punct">,</span> <span class="typ-str">"CairoMakie"</span><span class="typ-punct">)</span>
+
+<span class="typ-func">#</span><span class="typ-func">grid</span><span class="typ-punct">(</span>
+  columns<span class="typ-punct">:</span> <span class="typ-num">2</span><span class="typ-punct">,</span>
+  gutter<span class="typ-punct">:</span> <span class="typ-num">1em</span><span class="typ-punct">,</span>
+  align<span class="typ-punct">:</span> top<span class="typ-punct">,</span>
+  <span class="typ-punct">[</span>
+    <span class="typ-func">#</span><span class="typ-func">note</span><span class="typ-punct">[</span>Generate Typst code in Julia:<span class="typ-punct">]</span>
+
+    <span class="typ-key">#</span><span class="typ-key">set</span> <span class="typ-func">text</span><span class="typ-punct">(</span>size<span class="typ-punct">:</span> <span class="typ-num">4em</span><span class="typ-punct">)</span>
+    <span class="typ-func">#</span><span class="typ-func">jl</span><span class="typ-punct">(</span><span class="typ-raw">```julia
+      using Typstry, Colors
+
+      parts = map([:red, :green, :purple], ["Ju", "li", "a"]) do name, text
+        color = hex(Colors.JULIA_LOGO_COLORS[name])
+        "#text(fill: rgb(\"$color\"))[$text]"
+      end
+      TypstText(join(parts))
+    ```</span><span class="typ-punct">)</span>
+  <span class="typ-punct">]</span><span class="typ-punct">,</span>
+  <span class="typ-punct">[</span>
+    <span class="typ-func">#</span><span class="typ-func">note</span><span class="typ-punct">[</span>Produce images in Julia:<span class="typ-punct">]</span>
+
+    <span class="typ-key">#</span><span class="typ-key">set</span> <span class="typ-func">image</span><span class="typ-punct">(</span>width<span class="typ-punct">:</span> <span class="typ-num">10em</span><span class="typ-punct">)</span>
+    <span class="typ-func">#</span><span class="typ-func">jl</span><span class="typ-punct">(</span>recompute<span class="typ-punct">:</span> <span class="typ-key">false</span><span class="typ-punct">,</span> <span class="typ-raw">```
+      using Makie, CairoMakie
+
+      as = -2.2:.01:.7
+      bs = -1.5:.01:1.5
+      C = [a + b * im for a in as, b in bs]
+      function mandelbrot(c)
+        z = c
+        i = 1
+        while i &lt; 100 &amp;&amp; abs2(z) &lt; 4
+          z = z^2 + c
+          i += 1
+        end
+        i
+      end
+
+      contour(as, bs, mandelbrot.(C), axis = (;aspect = DataAspect()))
+    ```</span><span class="typ-punct">)</span>
+  <span class="typ-punct">]</span><span class="typ-punct">,</span>
+  <span class="typ-punct">[</span>
+    <span class="typ-func">#</span><span class="typ-func">note</span><span class="typ-punct">[</span>Hand over raw data from Julia to Typst:<span class="typ-punct">]</span>
+    <span class="typ-key">#</span><span class="typ-key">let</span> <span class="typ-func">barchart</span><span class="typ-punct">(</span>counts<span class="typ-punct">)</span> <span class="typ-op">=</span> <span class="typ-punct">{</span>
+      <span class="typ-key">set</span> <span class="typ-func">align</span><span class="typ-punct">(</span>bottom<span class="typ-punct">)</span>
+      <span class="typ-key">let</span> bars <span class="typ-op">=</span> counts<span class="typ-punct">.</span><span class="typ-func">map</span><span class="typ-punct">(</span>count <span class="typ-op">=&gt;</span> <span class="typ-func">rect</span><span class="typ-punct">(</span>
+        width<span class="typ-punct">:</span> <span class="typ-num">.3em</span><span class="typ-punct">,</span>
+        height<span class="typ-punct">:</span> count <span class="typ-op">*</span> <span class="typ-num">9em</span><span class="typ-punct">,</span>
+        stroke<span class="typ-punct">:</span> white<span class="typ-punct">,</span>
+        fill<span class="typ-punct">:</span> blue<span class="typ-punct">,</span>
+      <span class="typ-punct">)</span><span class="typ-punct">)</span>
+      <span class="typ-func">stack</span><span class="typ-punct">(</span>dir<span class="typ-punct">:</span> ltr<span class="typ-punct">,</span> <span class="typ-op">..</span>bars<span class="typ-punct">)</span>
+    <span class="typ-punct">}</span>
+
+    <span class="typ-func">#</span><span class="typ-func">jl-raw</span><span class="typ-punct">(</span>fn<span class="typ-punct">:</span> it <span class="typ-op">=&gt;</span> <span class="typ-func">barchart</span><span class="typ-punct">(</span>it<span class="typ-punct">.</span>result<span class="typ-punct">.</span>data<span class="typ-punct">)</span><span class="typ-punct">,</span> <span class="typ-raw">```julia
+      p = .5
+      n = 40
+      counts = zeros(n + 1)
+      for _ in 1:10_000
+        count = 0
+        for _ in 1:n
+          if rand() &lt; p
+            count += 1
+          end
+        end
+        counts[count + 1] += 1
+      end
+
+      counts ./= maximum(counts)
+      lo, hi = findfirst(&gt;(1e-3), counts), findlast(&gt;(1e-3), counts)
+      counts[lo:hi]
+    ```</span><span class="typ-punct">)</span>
+  <span class="typ-punct">]</span><span class="typ-punct">,</span>
+  <span class="typ-punct">[</span>
+    <span class="typ-func">#</span><span class="typ-func">note</span><span class="typ-punct">[</span>See errors, stdout, and logs:<span class="typ-punct">]</span>
+
+    <span class="typ-func">#</span><span class="typ-func">jl</span><span class="typ-punct">(</span><span class="typ-raw">```julia
+      println("Hello from stdout!")
+      @info "Something to note" n p
+      @warn "You should read this!"
+      this_does_not_exist
+    ```</span><span class="typ-punct">)</span>
+  <span class="typ-punct">]</span>
+<span class="typ-punct">)</span>
+</code></code></pre>
+     </section>
+     <aside>
+      <section>
+       <h3>
+        How to add
+       </h3>
+       <p>
+        Copy this into your project and use the import as
+        <!-- -->
+        <code>
+         jlyfish
+        </code>
+       </p>
+       <div class="import-snippet">
+        <pre><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/jlyfish:0.1.0"</span></code></pre>
+        <button class="copy" title="Copy to clipboard">
+         <img alt="Copy" height="16" src="/assets/icons/16-copy.svg" width="16"/>
+        </button>
+       </div>
+       <p class="muted">
+        Check the docs for
+        <!-- -->
+        <a href="https://typst.app/docs/reference/scripting/#packages">
+         more information on how to import packages
+        </a>
+        .
+       </p>
+      </section>
+      <section id="about">
+       <h3>
+        About
+       </h3>
+       <dl>
+        <dt>
+         Author
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         Andreas KrÃ¶pelin
+        </dd>
+        <dt>
+         License:
+        </dt>
+        <dd>
+         MIT
+        </dd>
+        <dt>
+         Current version:
+        </dt>
+        <dd>
+         0.1.0
+        </dd>
+        <dt>
+         Last updated:
+        </dt>
+        <dd>
+         July 8, 2024
+        </dd>
+        <dt>
+         First released:
+        </dt>
+        <dd>
+         July 8, 2024
+        </dd>
+        <dt>
+         Archive size:
+        </dt>
+        <dd class="archive-size-value">
+         2.75 kB
+         <a href="https://packages.typst.org/preview/jlyfish-0.1.0.tar.gz">
+          <img alt="Size icon" src="/assets/icons/16-download.svg"/>
+         </a>
+        </dd>
+        <dt>
+         Repository:
+        </dt>
+        <dd>
+         <a href="https://github.com/andreasKroepelin/TypstJlyfish.jl" rel="noopener noreferrer" target="_blank">
+          GitHub
+         </a>
+        </dd>
+        <dt>
+         Categor
+         <!-- -->
+         ies
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         <ul class="list-with-icons">
+          <li>
+           <img alt="Scripting icon" src="/assets/icons/16-code.svg"/>
+           <a href="https://typst.app/universe/search/?category=scripting">
+            Scripting
+           </a>
+          </li>
+          <li>
+           <img alt="Utility icon" src="/assets/icons/16-hammer.svg"/>
+           <a href="https://typst.app/universe/search/?category=utility">
+            Utility
+           </a>
+          </li>
+          <li>
+           <img alt="Integration icon" src="/assets/icons/16-integration.svg"/>
+           <a href="https://typst.app/universe/search/?category=integration">
+            Integration
+           </a>
+          </li>
+         </ul>
+        </dd>
+       </dl>
+      </section>
+      <section>
+       <h3>
+        Where to report issues?
+       </h3>
+       <p>
+        This
+        <!-- -->
+        package
+        <!-- -->
+        is a project of
+        <!-- -->
+        <!-- -->
+        Andreas KrÃ¶pelin
+        <!-- -->
+        .
+        <!-- -->
+        <!-- -->
+        Report issues on
+        <!-- -->
+        <a href="https://github.com/andreasKroepelin/TypstJlyfish.jl" rel="noopener noreferrer" target="_blank">
+         their repository
+        </a>
+        .
+        <!-- -->
+        <!-- -->
+        You can also try to ask for help with this
+        <!-- -->
+        package
+        <!-- -->
+        on the
+        <!-- -->
+        <a href="https://forum.typst.app" rel="noopener" target="_blank">
+         Forum
+        </a>
+        .
+       </p>
+       <p>
+        Please report this
+        <!-- -->
+        package
+        <!-- -->
+        to the Typst team using the
+        <!-- -->
+        <a href="https://typst.app/contact" rel="noreferrer" target="_blank">
+         contact form
+        </a>
+        <!-- -->
+        if you believe it is a safety hazard or infringes upon your rights.
+       </p>
+      </section>
+      <section id="versions">
+       <h3>
+        Version history
+       </h3>
+       <table>
+        <thead>
+         <tr>
+          <th align="left">
+           Version
+          </th>
+          <th align="left">
+           Release Date
+          </th>
+         </tr>
+        </thead>
+        <tbody>
+         <tr>
+          <td align="left">
+           0.1.0
+          </td>
+          <td align="left">
+           July 8, 2024
+          </td>
+         </tr>
+        </tbody>
+       </table>
+      </section>
+      <p class="bottom-notice muted">
+       Typst GmbH did not create this
+       <!-- -->
+       package
+       <!-- -->
+       and cannot guarantee correct functionality of this
+       <!-- -->
+       package
+       <!-- -->
+       or compatibility with any version of the Typst compiler or app.
+      </p>
+     </aside>
+    </div>
+   </main>

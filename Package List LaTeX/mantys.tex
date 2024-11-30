@@ -1,0 +1,353 @@
+\title{typst.app/universe/package/mantys}
+
+\phantomsection\label{banner}
+\phantomsection\label{template-thumbnail}
+\pandocbounded{\includegraphics[keepaspectratio]{https://packages.typst.org/preview/thumbnails/mantys-0.1.4-small.webp}}
+
+\section{mantys}\label{mantys}
+
+{ 0.1.4 }
+
+Helpers to build manuals for Typst packages.
+
+\href{/app?template=mantys&version=0.1.4}{Create project in app}
+
+\phantomsection\label{readme}
+\begin{quote}
+\textbf{MAN} uals for \textbf{TY} p \textbf{S} t
+\end{quote}
+
+Template for documenting \href{https://github.com/typst/typst}{typst}
+packages and templates.
+
+\subsection{Usage}\label{usage}
+
+Just import the package at the beginning of your manual:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/mantys:0.1.4": *}
+\end{Highlighting}
+\end{Shaded}
+
+Mantys supports \textbf{Typst 0.11.0} and newer.
+
+\subsection{Writing basics}\label{writing-basics}
+
+A basic template for a manual could look like this:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@local/mantys:0.1.4": *}
+
+\NormalTok{\#import "your{-}package.typ"}
+
+\NormalTok{\#show: mantys.with(}
+\NormalTok{    name:        "your{-}package{-}name",}
+\NormalTok{    title:       [A title for the manual],}
+\NormalTok{    subtitle:    [A subtitle for the manual],}
+\NormalTok{    info:        [A short descriptive text for the package.],}
+\NormalTok{    authors: "Your Name",}
+\NormalTok{    url:     "https://github.com/repository/url",}
+\NormalTok{    version: "0.0.1",}
+\NormalTok{    date:        "date{-}of{-}release",}
+\NormalTok{    abstract:    [}
+\NormalTok{        A few paragraphs of text to describe the package.}
+\NormalTok{    ],}
+
+\NormalTok{    example{-}imports: (your{-}package: your{-}package)}
+\NormalTok{)}
+
+\NormalTok{// end of preamble}
+
+\NormalTok{\# About}
+\NormalTok{\#lorem(50)}
+
+\NormalTok{\# Usage}
+\NormalTok{\#lorem(50)}
+
+\NormalTok{\# Available commands}
+\NormalTok{\#lorem(50)}
+\end{Highlighting}
+\end{Shaded}
+
+Use \texttt{\ \#command(name,\ ..args){[}description{]}\ } to describe
+commands and \texttt{\ \#argument(name,\ ...){[}description{]}\ } for
+arguments:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#command("headline", arg[color], arg(size:1.8em), sarg[other{-}args], barg[body])[}
+\NormalTok{    Renders a prominent headline using \#doc("meta/heading").}
+
+\NormalTok{    \#argument("color", type:"color")[}
+\NormalTok{    The color of the headline will be used as the background of a \#doc("layout/block") element containing the headline.}
+\NormalTok{  ]}
+\NormalTok{  \#argument("size", default:1.8em)[}
+\NormalTok{    The text size for the headline.}
+\NormalTok{  ]}
+\NormalTok{  \#argument("sarg", is{-}sink:true)[}
+\NormalTok{    Other options will get passed directly to \#doc("meta/heading").}
+\NormalTok{  ]}
+\NormalTok{  \#argument("body", type:"content")[}
+\NormalTok{    The text for the headline.}
+\NormalTok{  ]}
+
+\NormalTok{  The headline is shown as a prominent colored block to highlight important news articles in the newsletter:}
+
+\NormalTok{  \#example[\textasciigrave{}\textasciigrave{}\textasciigrave{}}
+\NormalTok{  \#headline(blue, size: 2em, level: 3)[}
+\NormalTok{    \#lorem(8)}
+\NormalTok{  ]}
+\NormalTok{  \textasciigrave{}\textasciigrave{}\textasciigrave{}]}
+\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+The result might look something like this:
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/mantys/0.1.4/docs/assets/headline-example.png}}
+
+For a full reference of available commands read
+\href{https://github.com/typst/packages/raw/main/packages/preview/mantys/0.1.4/docs/mantys-manual.pdf}{the
+manual} .
+
+\subsection{Changelog}\label{changelog}
+
+\subsubsection{Version 0.1.4}\label{version-0.1.4}
+
+\begin{itemize}
+\tightlist
+\item
+  Fix missing links in outline (@tingerrr).
+\item
+  Fixed problem when evaluating default values with Tidy.
+\end{itemize}
+
+\subsubsection{Version 0.1.3}\label{version-0.1.3}
+
+\begin{itemize}
+\tightlist
+\item
+  Fix for some datatypes not being displayed properly (thanks to
+  @tingerrr).
+\item
+  Fix for imbalanced outline columns (thanks again to @tingerrr).
+\end{itemize}
+
+\subsubsection{Version 0.1.2}\label{version-0.1.2}
+
+\begin{itemize}
+\tightlist
+\item
+  Added \href{https://typst.app/universe/package/hydra}{hydra} for
+  better detection of headings in page headers (thanks to @tingerrr for
+  the suggestion).
+\item
+  Fixed problem with multiple quotes around default string values in
+  tidy docs.
+\item
+  Fixed datatypes linking to wrong documentation urls.
+\end{itemize}
+
+\subsubsection{Version 0.1.1}\label{version-0.1.1}
+
+\begin{itemize}
+\tightlist
+\item
+  Added template files for submission to \emph{Typst Universe} .
+\end{itemize}
+
+\subsubsection{Version 0.1.0}\label{version-0.1.0}
+
+\begin{itemize}
+\tightlist
+\item
+  Refactorings and some style changes
+\item
+  Updated manual.
+\item
+  Restructuring of package repository.
+\end{itemize}
+
+\subsubsection{Version 0.0.4}\label{version-0.0.4}
+
+\begin{itemize}
+\tightlist
+\item
+  Added integration with \href{https://github.com/Mc-Zen/tidy}{tidy} .
+\item
+  Fixed issue with types in argument boxes.
+\item
+  \texttt{\ \#lambda\ } now uses \texttt{\ \#dtype\ }
+\end{itemize}
+
+\paragraph{Breaking changes}\label{breaking-changes}
+
+\begin{itemize}
+\tightlist
+\item
+  Adapted \texttt{\ scope\ } argument for \texttt{\ eval\ } in examples.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \texttt{\ \#example()\ } , \texttt{\ \#side-by-side()\ } and
+    \texttt{\ \#shortex()\ } now support the \texttt{\ scope\ } and
+    \texttt{\ mode\ } argument.
+  \item
+    The option \texttt{\ example-imports\ } was replaced by
+    \texttt{\ examples-scope\ } .
+  \end{itemize}
+\end{itemize}
+
+\subsubsection{Version 0.0.3}\label{version-0.0.3}
+
+\begin{itemize}
+\item
+  It is now possible to load a packagesâ€™ \texttt{\ typst.toml\ } file
+  directly into \texttt{\ \#mantys\ } :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#show: mantys.with( ..toml("typst.toml") )}
+\end{Highlighting}
+\end{Shaded}
+\item
+  Added some dependencies:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \href{https://github.com/jneug/typst-tools4typst}{jneug/typst-tools4typst}
+    for some common utilities,
+  \item
+    \href{https://github.com/jneug/typst-codelst}{jneug/typst-codelst}
+    for rendering examples and source code,
+  \item
+    \href{https://github.com/Pablo-Gonzalez-Calderon/showybox-package}{Pablo-Gonzalez-Calderon/showybox-package}
+    for adding frames to different areas of a manual (like examples).
+  \end{itemize}
+\item
+  Redesign of some elements:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Argument display in command descriptions,
+  \item
+    Alert boxes.
+  \end{itemize}
+\item
+  Added \texttt{\ \#version(since:(),\ until:())\ } command to add
+  version markers to commands.
+\item
+  Styles moved to a separate \texttt{\ theme.typ\ } file to allow easy
+  customization of colors and styles.
+\item
+  Added \texttt{\ \#func()\ } , \texttt{\ \#lambda()\ } and
+  \texttt{\ \#symbol()\ } commands, to handle special cases for values.
+\item
+  Fixes and code improvements.
+\end{itemize}
+
+\subsubsection{Version 0.0.2}\label{version-0.0.2}
+
+\begin{itemize}
+\tightlist
+\item
+  Some major updates to the core commands and styles.
+\end{itemize}
+
+\subsubsection{Version 0.0.1}\label{version-0.0.1}
+
+\begin{itemize}
+\tightlist
+\item
+  Initial release.
+\end{itemize}
+
+\href{/app?template=mantys&version=0.1.4}{Create project in app}
+
+\subsubsection{How to use}\label{how-to-use}
+
+Click the button above to create a new project using this template in
+the Typst app.
+
+You can also use the Typst CLI to start a new project on your computer
+using this command:
+
+\begin{verbatim}
+typst init @preview/mantys:0.1.4
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+Jonas Neugebauer
+\item[License:]
+MIT
+\item[Current version:]
+0.1.4
+\item[Last updated:]
+May 23, 2024
+\item[First released:]
+March 21, 2024
+\item[Minimum Typst version:]
+0.11.0
+\item[Archive size:]
+19.7 kB
+\href{https://packages.typst.org/preview/mantys-0.1.4.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/jneug/typst-mantys}{GitHub}
+\item[Categor ies :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-layout.svg}}
+  \href{https://typst.app/universe/search/?category=layout}{Layout}
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-list-unordered.svg}}
+  \href{https://typst.app/universe/search/?category=model}{Model}
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-hammer.svg}}
+  \href{https://typst.app/universe/search/?category=utility}{Utility}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This template is a project of Jonas Neugebauer . Report issues on
+\href{https://github.com/jneug/typst-mantys}{their repository} . You can
+also try to ask for help with this template on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this template to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.1.4 & May 23, 2024 \\
+\href{https://typst.app/universe/package/mantys/0.1.3/}{0.1.3} & April
+29, 2024 \\
+\href{https://typst.app/universe/package/mantys/0.1.1/}{0.1.1} & March
+21, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this template and cannot guarantee correct
+functionality of this template or compatibility with any version of the
+Typst compiler or app.

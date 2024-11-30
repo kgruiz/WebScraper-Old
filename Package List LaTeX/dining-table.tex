@@ -1,0 +1,219 @@
+\title{typst.app/universe/package/dining-table}
+
+\phantomsection\label{banner}
+\section{dining-table}\label{dining-table}
+
+{ 0.1.0 }
+
+Column-wise table definitions for big data
+
+\phantomsection\label{readme}
+Version 0.1.0
+
+Implements a layer on top of table to allow the user to define a table
+by column rather than by row, to automatically handle headers and
+footers, to implement table footnotes, to handle nested column quirks
+for you, to handle rendering nested data structures.
+
+Basically, if you are tabulating data where each row is an observation,
+and some features (columns) are to be grouped (a common case for
+scientific data) then this package might be worth checking out. Another
+use case is where you have multiple tables with identical layouts, and
+you wish to keep them all consistent with one another.
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/dining-table/0.1.0/examples/ledger.png}}
+
+\subsection{Usage}\label{usage}
+
+See the manual for in-depth usage, but for a quick reference, here is
+the ledger example (which is fully featured)
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/dining{-}table:0.1.0"}
+
+\NormalTok{\#let data = (}
+\NormalTok{  (}
+\NormalTok{    date: datetime.today(),}
+\NormalTok{    particulars: lorem(05),}
+\NormalTok{    ledger: [JRS123] + dining{-}table.note.make[Hello World],}
+\NormalTok{    amount: (unit: $100$, decimal: $00$),}
+\NormalTok{    total: (unit: $99$, decimal: $00$),}
+\NormalTok{  ),}
+\NormalTok{)*7 }
+
+\NormalTok{\#import "@preview/typpuccino:0.1.0"}
+\NormalTok{\#let bg{-}fill{-}1 = typpuccino.latte.base}
+\NormalTok{\#let bg{-}fill{-}2 = typpuccino.latte.mantle}
+
+\NormalTok{\#let example = (}
+\NormalTok{  (}
+\NormalTok{    key: "date",}
+\NormalTok{    header: align(left)[Date],}
+\NormalTok{    display: (it)=\textgreater{}it.display(auto),}
+\NormalTok{    fill: bg{-}fill{-}1,}
+\NormalTok{    align: start,}
+\NormalTok{    gutter: 0.5em,}
+\NormalTok{  ),}
+\NormalTok{  (}
+\NormalTok{    key: "particulars",}
+\NormalTok{    header: text(tracking: 5pt)[Particulars],}
+\NormalTok{    width: 1fr,}
+\NormalTok{    gutter: 0.5em,}
+\NormalTok{  ),}
+\NormalTok{  (}
+\NormalTok{    key: "ledger",}
+\NormalTok{    header: [Ledger],}
+\NormalTok{    fill: bg{-}fill{-}2,}
+\NormalTok{    width: 2cm,}
+\NormalTok{    gutter: 0.5em,}
+\NormalTok{  ),}
+\NormalTok{  (}
+\NormalTok{    header: align(center)[Amount],}
+\NormalTok{    fill: bg{-}fill{-}1,}
+\NormalTok{    gutter: 0.5em,}
+\NormalTok{    hline: arguments(stroke: dining{-}table.lightrule),}
+\NormalTok{    children: (}
+\NormalTok{      (}
+\NormalTok{        key: "amount.unit", }
+\NormalTok{        header: align(left)[Â£], }
+\NormalTok{        width: 5em, }
+\NormalTok{        align: right,}
+\NormalTok{        vline: arguments(stroke: dining{-}table.lightrule),}
+\NormalTok{        gutter: 0em,}
+\NormalTok{      ),}
+\NormalTok{      (}
+\NormalTok{        key: "amount.decimal",}
+\NormalTok{        header: align(right, text(number{-}type: "old{-}style")[.00]), }
+\NormalTok{        align: left}
+\NormalTok{      ),}
+\NormalTok{    )}
+\NormalTok{  ),}
+\NormalTok{  (}
+\NormalTok{    header: align(center)[Total],}
+\NormalTok{    gutter: 0.5em,}
+\NormalTok{    hline: arguments(stroke: dining{-}table.lightrule),}
+\NormalTok{    children: (}
+\NormalTok{      (}
+\NormalTok{        key: "total.unit", }
+\NormalTok{        header: align(left)[Â£], }
+\NormalTok{        width: 5em, }
+\NormalTok{        align: right,}
+\NormalTok{        vline: arguments(stroke: dining{-}table.lightrule),}
+\NormalTok{        gutter: 0em,}
+\NormalTok{      ),}
+\NormalTok{      (}
+\NormalTok{        key: "total.decimal",}
+\NormalTok{        header: align(right, text(number{-}type: "old{-}style")[.00]), }
+\NormalTok{        align: left}
+\NormalTok{      ),}
+\NormalTok{    )}
+\NormalTok{  ),}
+\NormalTok{)}
+
+\NormalTok{\#set text(size: 11pt)}
+\NormalTok{\#set page(height: auto, margin: 1em)}
+\NormalTok{\#dining{-}table.make(columns: example, }
+\NormalTok{  data: data, }
+\NormalTok{  notes: dining{-}table.note.display{-}list}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as
+\texttt{\ dining-table\ }
+
+\begin{verbatim}
+#import "@preview/dining-table:0.1.0"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+James R. Swift
+\item[License:]
+Unlicense
+\item[Current version:]
+0.1.0
+\item[Last updated:]
+July 10, 2024
+\item[First released:]
+July 10, 2024
+\item[Archive size:]
+598 kB
+\href{https://packages.typst.org/preview/dining-table-0.1.0.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/JamesxX/dining-table}{GitHub}
+\item[Discipline s :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \href{https://typst.app/universe/search/?discipline=agriculture}{Agriculture}
+\item
+  \href{https://typst.app/universe/search/?discipline=biology}{Biology}
+\item
+  \href{https://typst.app/universe/search/?discipline=chemistry}{Chemistry}
+\item
+  \href{https://typst.app/universe/search/?discipline=communication}{Communication}
+\item
+  \href{https://typst.app/universe/search/?discipline=computer-science}{Computer
+  Science}
+\item
+  \href{https://typst.app/universe/search/?discipline=economics}{Economics}
+\item
+  \href{https://typst.app/universe/search/?discipline=physics}{Physics}
+\end{itemize}
+\item[Categor ies :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-package.svg}}
+  \href{https://typst.app/universe/search/?category=components}{Components}
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-chart.svg}}
+  \href{https://typst.app/universe/search/?category=visualization}{Visualization}
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-list-unordered.svg}}
+  \href{https://typst.app/universe/search/?category=model}{Model}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of James R. Swift . Report issues on
+\href{https://github.com/JamesxX/dining-table}{their repository} . You
+can also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.1.0 & July 10, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.

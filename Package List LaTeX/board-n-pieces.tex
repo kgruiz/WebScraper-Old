@@ -1,0 +1,466 @@
+\title{typst.app/universe/package/board-n-pieces}
+
+\phantomsection\label{banner}
+\section{board-n-pieces}\label{board-n-pieces}
+
+{ 0.5.0 }
+
+Display chessboards.
+
+\phantomsection\label{readme}
+Display chessboards in Typst.
+
+\subsection{Displaying chessboards}\label{displaying-chessboards}
+
+The main function of this package is \texttt{\ board\ } . It lets you
+display a specific position on a board.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#board(starting{-}position)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/board-n-pieces/0.5.0/examples/example-1.svg}}
+
+\texttt{\ starting-position\ } is a position that is provided by the
+package. It represents the initial position of a chess game.
+
+You can create a different position using the \texttt{\ position\ }
+function. It accepts strings representing each rank. Use upper-case
+letters for white pieces, and lower-case letters for black pieces. Dots
+and spaces correspond to empty squares.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#board(position(}
+\NormalTok{  "....r...",}
+\NormalTok{  "........",}
+\NormalTok{  "..p..PPk",}
+\NormalTok{  ".p.r....",}
+\NormalTok{  "pP..p.R.",}
+\NormalTok{  "P.B.....",}
+\NormalTok{  "..P..K..",}
+\NormalTok{  "........",}
+\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/board-n-pieces/0.5.0/examples/example-2.svg}}
+
+Alternatively, you can use the \texttt{\ fen\ } function to create a
+position using
+\href{https://en.wikipedia.org/wiki/Forsyth\%E2\%80\%93Edwards_Notation}{Forsythâ€``Edwards
+notation} :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#board(fen("r1bk3r/p2pBpNp/n4n2/1p1NP2P/6P1/3P4/P1P1K3/q5b1 b {-} {-} 1 23"))}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/board-n-pieces/0.5.0/examples/example-3.svg}}
+
+Note that you can specify only the first part of the FEN string:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#board(fen("r4rk1/pp2Bpbp/1qp3p1/8/2BP2b1/Q1n2N2/P4PPP/3RK2R"))}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/board-n-pieces/0.5.0/examples/example-4.svg}}
+
+Also note that positions do not need to be on a standard 8Ã---8 board:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#board(position(}
+\NormalTok{  "....Q....",}
+\NormalTok{  "......Q..",}
+\NormalTok{  "........Q",}
+\NormalTok{  "...Q.....",}
+\NormalTok{  ".Q.......",}
+\NormalTok{  ".......Q.",}
+\NormalTok{  ".....Q...",}
+\NormalTok{  "..Q......",}
+\NormalTok{  "Q........",}
+\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/board-n-pieces/0.5.0/examples/example-5.svg}}
+
+\subsection{\texorpdfstring{Using the \texttt{\ game\ }
+function}{Using the  game  function}}\label{using-the-game-function}
+
+The \texttt{\ game\ } function creates an array of positions from a full
+chess game. A game is described by a series of turns written in
+\href{https://en.wikipedia.org/wiki/Algebraic_notation_(chess)}{standard
+algebraic notation} . Those turns can be specified as an array of
+strings, or as a single string containing whitespace-separated moves.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{The scholar\textquotesingle{}s mate:}
+\NormalTok{\#let positions = game("e4 e5 Qh5 Nc6 Bc4 Nf6 Qxf7")}
+\NormalTok{\#grid(}
+\NormalTok{  columns: 4,}
+\NormalTok{  gutter: 0.2cm,}
+\NormalTok{  ..positions.map(board.with(square{-}size: 0.5cm)),}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/board-n-pieces/0.5.0/examples/example-6.svg}}
+
+You can specify an alternative starting position to the
+\texttt{\ game\ } function with the \texttt{\ starting-position\ } named
+argument.
+
+\subsection{\texorpdfstring{Using the \texttt{\ pgn\ } function to
+import PGN
+files}{Using the  pgn  function to import PGN files}}\label{using-the-pgn-function-to-import-pgn-files}
+
+Similarly to the \texttt{\ game\ } function, the \texttt{\ pgn\ }
+function creates an array of positions. It accepts a single argument,
+which is a string containing
+\href{https://en.wikipedia.org/wiki/Portable_Game_Notation}{portable
+game notation} . To read a game from a PGN file, you can use this
+function in combination with Typstâ€™s native
+\href{https://typst.app/docs/reference/data-loading/read/}{\texttt{\ read\ }}
+function.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let positions = pgn(read("game.pgn"))}
+\end{Highlighting}
+\end{Shaded}
+
+Note that the argument to \texttt{\ pgn\ } must describe a single game.
+If you have a PGN file containing multiple games, you will need to split
+them using other means.
+
+\subsection{Using non-standard chess
+pieces}\label{using-non-standard-chess-pieces}
+
+The \texttt{\ board\ } functionâ€™s \texttt{\ pieces\ } argument lets
+you specify how to display each piece by mapping each piece character to
+some content. You can use this feature to display non-standard chess
+pieces:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#board(}
+\NormalTok{  fen("g7/5g2/8/8/8/8/p6g/k1K4G"),}
+\NormalTok{  pieces: (}
+\NormalTok{    // We use symbols for the example.}
+\NormalTok{    // In practice, you should import your own images.}
+\NormalTok{    g: chess{-}sym.queen.black.b,}
+\NormalTok{    p: chess{-}sym.pawn.black,}
+\NormalTok{    k: chess{-}sym.king.black,}
+\NormalTok{    K: chess{-}sym.king.white,}
+\NormalTok{    G: chess{-}sym.queen.white.b,}
+\NormalTok{  ),}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/board-n-pieces/0.5.0/examples/example-7.svg}}
+
+\subsection{Customizing a chessboard}\label{customizing-a-chessboard}
+
+The \texttt{\ board\ } function lets you customize the appearance of the
+board in various ways, as illustrated in the example below.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{// From https://lichess.org/study/Xf1PGrM0.}
+\NormalTok{\#board(}
+\NormalTok{  fen("3k4/7R/8/2PK4/8/8/8/6r1 b {-} {-} 0 1"),}
+
+\NormalTok{  marked{-}squares: "c7 c6 h6",}
+\NormalTok{  arrows: ("d8 c8", "d8 c7", "g1 g6", "h7 h6"),}
+\NormalTok{  display{-}numbers: true,}
+
+\NormalTok{  white{-}square{-}fill: rgb("\#d2eeea"),}
+\NormalTok{  black{-}square{-}fill: rgb("\#567f96"),}
+\NormalTok{  marking{-}color: rgb("\#2bcbC6"),}
+\NormalTok{  arrow{-}stroke: 0.2cm + rgb("\#38f442df"),}
+
+\NormalTok{  stroke: 0.8pt + black,}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/board-n-pieces/0.5.0/examples/example-8.svg}}
+
+Here is a list of all the available arguments:
+
+\begin{itemize}
+\item
+  \texttt{\ marked-squares\ } is a list of squares to mark (e.g.,
+  \texttt{\ ("d3",\ "d2",\ "e3")\ } ). It can also be specified as a
+  single string containing whitespace-separated squares (e.g.,
+  \texttt{\ "d3\ d2\ e3"\ } ).
+\item
+  \texttt{\ arrows\ } is a list of arrows to draw (e.g.,
+  \texttt{\ ("e2\ e4",\ "e7\ e5")\ } ).
+\item
+  \texttt{\ reverse\ } is a boolean indicating whether to reverse the
+  board, displaying it from blackâ€™s point of view. This is
+  \texttt{\ false\ } by default, meaning the board is displayed from
+  whiteâ€™s point of view.
+\item
+  \texttt{\ display-numbers\ } is a boolean indicating whether ranks and
+  files should be numbered. This is \texttt{\ false\ } by default.
+\item
+  \texttt{\ rank-numbering\ } and \texttt{\ file-numbering\ } are
+  functions describing how ranks and files should be numbered. By
+  default they are respectively \texttt{\ numbering.with("1")\ } and
+  \texttt{\ numbering.with("a")\ } .
+\item
+  \texttt{\ square-size\ } is a length describing the size of each
+  square. By default, this is \texttt{\ 1cm\ } .
+\item
+  \texttt{\ white-square-fill\ } and \texttt{\ black-square-fill\ }
+  indicate how squares should be filled. They can be colors, gradient or
+  patterns.
+\item
+  \texttt{\ marking-color\ } is the color to use for markings (marked
+  squares and arrows).
+\item
+  \texttt{\ marked-white-square-background\ } and
+  \texttt{\ marked-black-square-background\ } define the content to
+  display in the background of marked squares. By default, this is a
+  circle using the \texttt{\ marking-color\ } .
+\item
+  \texttt{\ arrow-stroke\ } is the stroke to draw the arrows with. If
+  only a length is given, \texttt{\ marking-color\ } is used.
+  Alternatively, a stroke can be passed to specify a different color.
+\item
+  \texttt{\ pieces\ } is a dictionary containing images representing
+  each piece. If specified, the dictionary must contain an entry for
+  every piece kind in the displayed position. Keys are single upper-case
+  letters for white pieces and single lower-case letters for black
+  pieces. The default images are taken from
+  \href{https://commons.wikimedia.org/wiki/Category:SVG_chess_pieces}{Wikimedia
+  Commons} . Please refer to
+  \href{https://github.com/typst/packages/raw/main/packages/preview/board-n-pieces/0.5.0/\#licensing}{the
+  section on licensing} for information on how you can use them in your
+  documents.
+\item
+  \texttt{\ stroke\ } has the same structure as
+  \href{https://typst.app/docs/reference/visualize/rect/\#parameters-stroke}{\texttt{\ rect\ }
+  â€™s \texttt{\ stroke\ } parameter} and corresponds to the stroke to
+  use around the board. If \texttt{\ display-numbers\ } is
+  \texttt{\ true\ } , the numbers are displayed outside the stroke. The
+  default value is \texttt{\ none\ } .
+\end{itemize}
+
+\subsection{Chess symbols}\label{chess-symbols}
+
+This package also exports chess symbols for all Unicode chess-related
+codepoints under the \texttt{\ chess-sym\ } submodule. Standard chess
+pieces are available as
+\texttt{\ chess-sym.\{pawn,knight,bishop,rook,queen,king\}.\{white,black,neutral\}\ }
+. Alternatively, you can use \texttt{\ stroked\ } and
+\texttt{\ filled\ } instead of, respectively, \texttt{\ white\ } and
+\texttt{\ black\ } . They can be rotated rightward, downward, and
+leftward respectively with with \texttt{\ .r\ } , \texttt{\ .b\ } , and
+\texttt{\ .l\ } . Chinese chess pieces are also available as
+\texttt{\ chess-sym.\{soldier,cannon,chariot,horse,elephant,mandarin,general\}.\{red,black\}\ }
+. Similarly, you can use \texttt{\ stroked\ } and \texttt{\ filled\ } as
+alternatives to, respectively, \texttt{\ red\ } and \texttt{\ black\ } .
+Note that most fonts only support black and white versions of standard
+pieces. To use the other symbols, you may have to use a font such as
+Noto Sans Symbols 2.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{The best move in this position is \#chess{-}sym.knight.white;c6.}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/board-n-pieces/0.5.0/examples/example-9.svg}}
+
+\subsection{Licensing}\label{licensing}
+
+The default images for chess pieces used by the \texttt{\ board\ }
+function come from
+\href{https://commons.wikimedia.org/wiki/Category:SVG_chess_pieces}{Wikimedia
+Commons} . They are all licensed the
+\href{https://www.gnu.org/licenses/old-licenses/gpl-2.0.html}{GNU
+General Public License, version 2} by their original author:
+\href{https://en.wikipedia.org/wiki/User:Cburnett}{Cburnett} .
+
+\subsection{Changelog}\label{changelog}
+
+\subsubsection{Version 0.5.0}\label{version-0.5.0}
+
+\begin{itemize}
+\item
+  Add symbols for all Unicode chess-related codepoints.
+\item
+  Change the signature of the \texttt{\ board\ } function.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Rename argument \texttt{\ highlighted-squares\ } to
+    \texttt{\ marked-squares\ } .
+  \item
+    Remove arguments \texttt{\ highlighted-white-square-fill\ } and
+    \texttt{\ highlighted-black-square-fill\ } .
+  \item
+    Add argument \texttt{\ marking-color\ } , together with
+    \texttt{\ marked-white-square-background\ } and
+    \texttt{\ marked-black-square-background\ } .
+  \item
+    Support passing a length as \texttt{\ arrow-stroke\ } .
+  \end{itemize}
+\item
+  Fix arrows not being displayed properly on reversed boards.
+\end{itemize}
+
+\subsubsection{Version 0.4.0}\label{version-0.4.0}
+
+\begin{itemize}
+\tightlist
+\item
+  Add the ability to draw arrows in \texttt{\ board\ } .
+\end{itemize}
+
+\subsubsection{Version 0.3.0}\label{version-0.3.0}
+
+\begin{itemize}
+\item
+  Detect moves that put the king in check as illegal, improving SAN
+  support.
+\item
+  Add \texttt{\ stroke\ } argument to the \texttt{\ board\ } function.
+\item
+  Rename \texttt{\ \{highlighted-,\}\{white,black\}-square-color\ }
+  arguments to the \texttt{\ board\ } function to
+  \texttt{\ \{highlighted-,\}\{white,black\}-square-fill\ } .
+\end{itemize}
+
+\subsubsection{Version 0.2.0}\label{version-0.2.0}
+
+\begin{itemize}
+\item
+  Allow using dashes for empty squares in \texttt{\ position\ }
+  function.
+\item
+  Allow passing highlighted squares as a single string of
+  whitespace-separated squares.
+\item
+  Describe entire games using algebraic notation with the
+  \texttt{\ game\ } function.
+\item
+  Initial PGN support through the \texttt{\ pgn\ } function.
+\end{itemize}
+
+\subsubsection{Version 0.1.0}\label{version-0.1.0}
+
+\begin{itemize}
+\item
+  Display a chess position on a chessboard with the \texttt{\ board\ }
+  function.
+\item
+  Get the starting position with \texttt{\ starting-position\ } .
+\item
+  Use chess-related symbols with the \texttt{\ chess-sym\ } module.
+\end{itemize}
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as
+\texttt{\ board-n-pieces\ }
+
+\begin{verbatim}
+#import "@preview/board-n-pieces:0.5.0"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+\href{https://github.com/MDLC01}{Malo}
+\item[License:]
+MIT AND GPL-2.0-only
+\item[Current version:]
+0.5.0
+\item[Last updated:]
+July 22, 2024
+\item[First released:]
+March 20, 2024
+\item[Minimum Typst version:]
+0.11.0
+\item[Archive size:]
+52.2 kB
+\href{https://packages.typst.org/preview/board-n-pieces-0.5.0.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/MDLC01/board-n-pieces}{GitHub}
+\item[Discipline s :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \href{https://typst.app/universe/search/?discipline=computer-science}{Computer
+  Science}
+\item
+  \href{https://typst.app/universe/search/?discipline=mathematics}{Mathematics}
+\end{itemize}
+\item[Categor y :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-chart.svg}}
+  \href{https://typst.app/universe/search/?category=visualization}{Visualization}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of Malo . Report issues on
+\href{https://github.com/MDLC01/board-n-pieces}{their repository} . You
+can also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.5.0 & July 22, 2024 \\
+\href{https://typst.app/universe/package/board-n-pieces/0.4.0/}{0.4.0} &
+July 8, 2024 \\
+\href{https://typst.app/universe/package/board-n-pieces/0.3.0/}{0.3.0} &
+May 23, 2024 \\
+\href{https://typst.app/universe/package/board-n-pieces/0.2.0/}{0.2.0} &
+April 29, 2024 \\
+\href{https://typst.app/universe/package/board-n-pieces/0.1.0/}{0.1.0} &
+March 20, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.

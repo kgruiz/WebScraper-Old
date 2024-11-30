@@ -1,0 +1,685 @@
+<main>
+    <div id="banner" style="--banner-accent:#000000;--banner-primary:#000000;--banner-secondary:#000000;--banner-tertiary:#565565;--banner-background:#eff0f3">
+     <div class="package-icon" role="img">
+     </div>
+     <div>
+      <div class="title">
+       <h1 class="name">
+        cineca
+       </h1>
+       <span class="version">
+        0.4.0
+       </span>
+      </div>
+      <p class="description">
+       A package to create calendar with events.
+      </p>
+     </div>
+    </div>
+    <div class="inner-grid">
+     <section id="readme">
+      <p>
+       CINECA Is Not an Electric Calendar App, but a Typst package to create calendars with events.
+      </p>
+      <h2>
+       Usage
+      </h2>
+      <p>
+       The package now support creating events from ICS files (thanks @Geronymos). To do so, read an ICS file and parse with
+       <code>
+        ics-parser()
+       </code>
+       .
+      </p>
+      <pre><code class="language-typst"><code><span class="typ-key">#</span><span class="typ-key">let</span> events2 <span class="typ-op">=</span> <span class="typ-func">ics-parser</span><span class="typ-punct">(</span><span class="typ-func">read</span><span class="typ-punct">(</span><span class="typ-str">"sample.ics"</span><span class="typ-punct">)</span><span class="typ-punct">)</span><span class="typ-punct">.</span><span class="typ-func">map</span><span class="typ-punct">(</span>event <span class="typ-op">=&gt;</span> <span class="typ-punct">(</span>
+  event<span class="typ-punct">.</span>dtstart<span class="typ-punct">,</span> 
+  event<span class="typ-punct">.</span>dtstart<span class="typ-punct">,</span>
+  event<span class="typ-punct">.</span>dtend<span class="typ-punct">,</span>
+  event<span class="typ-punct">.</span>summary
+<span class="typ-punct">)</span><span class="typ-punct">)</span>
+
+<span class="typ-func">#</span><span class="typ-func">calendar</span><span class="typ-punct">(</span>events2<span class="typ-punct">,</span> hour-range<span class="typ-punct">:</span> <span class="typ-punct">(</span><span class="typ-num">10</span><span class="typ-punct">,</span> <span class="typ-num">14</span><span class="typ-punct">)</span><span class="typ-punct">)</span>
+</code></code></pre>
+      <h3>
+       Day view
+      </h3>
+      <p>
+       <code>
+        calendar(events, hour-range, minute-height, template, stroke)
+       </code>
+      </p>
+      <p>
+       Parameters:
+      </p>
+      <ul>
+       <li>
+        <code>
+         events
+        </code>
+        : An array of events. Each item is a 4-element array:
+        <ul>
+         <li>
+          Date. Can be
+          <code>
+           datetime()
+          </code>
+          or valid args of
+          <code>
+           day()
+          </code>
+          .
+         </li>
+         <li>
+          Start time. Can be valid args of
+          <code>
+           time()
+          </code>
+          .
+         </li>
+         <li>
+          End time. Can be valid args of
+          <code>
+           time()
+          </code>
+          .
+         </li>
+         <li>
+          Event body. Can be anything. Passed to the template.body to show more details.
+         </li>
+        </ul>
+       </li>
+       <li>
+        <code>
+         hour-range
+        </code>
+        : Then range of hours, affacting the range of the calendar. Default:
+        <code>
+         (8, 20)
+        </code>
+        .
+       </li>
+       <li>
+        <code>
+         minute-height
+        </code>
+        : Height of per minute. Each minute occupys a row. This number is to control the height of each row. Default:
+        <code>
+         0.8pt
+        </code>
+        .
+       </li>
+       <li>
+        <code>
+         template
+        </code>
+        : Templates for headers, times, or events. It takes a dictionary of the following entries:
+        <code>
+         header
+        </code>
+        ,
+        <code>
+         time
+        </code>
+        , and
+        <code>
+         event
+        </code>
+        . Default:
+        <code>
+         (:)
+        </code>
+        .
+       </li>
+       <li>
+        <code>
+         stroke
+        </code>
+        : A stroke style to control the style of the default stroke, or a function taking two parameters
+        <code>
+         (x, y)
+        </code>
+        to control the stroke. The first row is the dates, and the first column is the times. Default:
+        <code>
+         none
+        </code>
+        .
+       </li>
+      </ul>
+      <blockquote>
+       <p>
+        [!NOTE] See below for more details about the format of start time and end time.
+       </p>
+      </blockquote>
+      <p>
+       Example:
+      </p>
+      <p>
+       <img alt="" src="https://github.com/typst/packages/raw/main/packages/preview/cineca/0.4.0/test/day-view.png"/>
+      </p>
+      <h3>
+       Month view
+      </h3>
+      <p>
+       <code>
+        calendar-month(events, template, sunday-first, ..args)
+       </code>
+      </p>
+      <ul>
+       <li>
+        <code>
+         events
+        </code>
+        : Event list. Each element is a two-element array.
+        <ul>
+         <li>
+          Day. A datetime object.
+         </li>
+         <li>
+          Additional information for showing a day. It actually depends on the template
+          <code>
+           day-body
+          </code>
+          . For the deafult template, it requires a content.
+         </li>
+        </ul>
+       </li>
+       <li>
+        <code>
+         template
+        </code>
+        : Templates for headers, times, or events. It takes a dictionary of the following entries:
+        <code>
+         day-body
+        </code>
+        ,
+        <code>
+         day-head
+        </code>
+        ,
+        <code>
+         month-head
+        </code>
+        , and
+        <code>
+         layout
+        </code>
+        .
+       </li>
+       <li>
+        <code>
+         sunday-first
+        </code>
+        : Whether to put sunday as the first day of a week.
+       </li>
+       <li>
+        <code>
+         ..args
+        </code>
+        : Additional arguments for the calendarâs grid.
+       </li>
+      </ul>
+      <p>
+       Example:
+      </p>
+      <pre><code class="language-typst"><code><span class="typ-key">#</span><span class="typ-key">let</span> events <span class="typ-op">=</span> <span class="typ-punct">(</span>
+  <span class="typ-punct">(</span><span class="typ-func">daytime</span><span class="typ-punct">(</span><span class="typ-str">"2024-2-1"</span><span class="typ-punct">,</span> <span class="typ-str">"9:0:0"</span><span class="typ-punct">)</span><span class="typ-punct">,</span> <span class="typ-punct">[</span>Lecture<span class="typ-punct">]</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+  <span class="typ-punct">(</span><span class="typ-func">daytime</span><span class="typ-punct">(</span><span class="typ-str">"2024-2-1"</span><span class="typ-punct">,</span> <span class="typ-str">"10:0:0"</span><span class="typ-punct">)</span><span class="typ-punct">,</span> <span class="typ-punct">[</span>Tutorial<span class="typ-punct">]</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+  <span class="typ-punct">(</span><span class="typ-func">daytime</span><span class="typ-punct">(</span><span class="typ-str">"2024-2-2"</span><span class="typ-punct">,</span> <span class="typ-str">"10:0:0"</span><span class="typ-punct">)</span><span class="typ-punct">,</span> <span class="typ-punct">[</span>Meeting<span class="typ-punct">]</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+  <span class="typ-punct">(</span><span class="typ-func">daytime</span><span class="typ-punct">(</span><span class="typ-str">"2024-2-10"</span><span class="typ-punct">,</span> <span class="typ-str">"12:0:0"</span><span class="typ-punct">)</span><span class="typ-punct">,</span> <span class="typ-punct">[</span>Lunch<span class="typ-punct">]</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+  <span class="typ-punct">(</span><span class="typ-func">daytime</span><span class="typ-punct">(</span><span class="typ-str">"2024-2-25"</span><span class="typ-punct">,</span> <span class="typ-str">"8:0:0"</span><span class="typ-punct">)</span><span class="typ-punct">,</span> <span class="typ-punct">[</span>Train<span class="typ-punct">]</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+<span class="typ-punct">)</span>
+
+<span class="typ-func">#</span><span class="typ-func">calendar-month</span><span class="typ-punct">(</span>
+  events<span class="typ-punct">,</span>
+  sunday-first<span class="typ-punct">:</span> <span class="typ-key">false</span><span class="typ-punct">,</span>
+  template<span class="typ-punct">:</span> <span class="typ-punct">(</span>
+    month-head<span class="typ-punct">:</span> <span class="typ-punct">(</span>content<span class="typ-punct">)</span> <span class="typ-op">=&gt;</span> <span class="typ-func">strong</span><span class="typ-punct">(</span>content<span class="typ-punct">)</span>
+  <span class="typ-punct">)</span>
+<span class="typ-punct">)</span>
+</code></code></pre>
+      <pre><code class="language-typst"><code><span class="typ-key">#</span><span class="typ-key">let</span> events2 <span class="typ-op">=</span> <span class="typ-punct">(</span>
+  <span class="typ-punct">(</span><span class="typ-func">datetime</span><span class="typ-punct">(</span>year<span class="typ-punct">:</span> <span class="typ-num">2024</span><span class="typ-punct">,</span> month<span class="typ-punct">:</span> <span class="typ-num">5</span><span class="typ-punct">,</span> day<span class="typ-punct">:</span> <span class="typ-num">1</span><span class="typ-punct">,</span> hour<span class="typ-punct">:</span> <span class="typ-num">9</span><span class="typ-punct">,</span> minute<span class="typ-punct">:</span> <span class="typ-num">0</span><span class="typ-punct">,</span> second<span class="typ-punct">:</span> <span class="typ-num">0</span><span class="typ-punct">)</span><span class="typ-punct">,</span> <span class="typ-punct">(</span><span class="typ-punct">[</span>Lecture<span class="typ-punct">]</span><span class="typ-punct">,</span> blue<span class="typ-punct">)</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+  <span class="typ-punct">(</span><span class="typ-func">datetime</span><span class="typ-punct">(</span>year<span class="typ-punct">:</span> <span class="typ-num">2024</span><span class="typ-punct">,</span> month<span class="typ-punct">:</span> <span class="typ-num">5</span><span class="typ-punct">,</span> day<span class="typ-punct">:</span> <span class="typ-num">1</span><span class="typ-punct">,</span> hour<span class="typ-punct">:</span> <span class="typ-num">10</span><span class="typ-punct">,</span> minute<span class="typ-punct">:</span> <span class="typ-num">0</span><span class="typ-punct">,</span> second<span class="typ-punct">:</span> <span class="typ-num">0</span><span class="typ-punct">)</span><span class="typ-punct">,</span> <span class="typ-punct">(</span><span class="typ-punct">[</span>Tutorial<span class="typ-punct">]</span><span class="typ-punct">,</span> red<span class="typ-punct">)</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+  <span class="typ-punct">(</span><span class="typ-func">datetime</span><span class="typ-punct">(</span>year<span class="typ-punct">:</span> <span class="typ-num">2024</span><span class="typ-punct">,</span> month<span class="typ-punct">:</span> <span class="typ-num">5</span><span class="typ-punct">,</span> day<span class="typ-punct">:</span> <span class="typ-num">1</span><span class="typ-punct">,</span> hour<span class="typ-punct">:</span> <span class="typ-num">11</span><span class="typ-punct">,</span> minute<span class="typ-punct">:</span> <span class="typ-num">0</span><span class="typ-punct">,</span> second<span class="typ-punct">:</span> <span class="typ-num">0</span><span class="typ-punct">)</span><span class="typ-punct">,</span> <span class="typ-punct">[</span>Lab<span class="typ-punct">]</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+<span class="typ-punct">)</span>
+
+<span class="typ-func">#</span><span class="typ-func">calendar-month</span><span class="typ-punct">(</span>
+  events2<span class="typ-punct">,</span>
+  sunday-first<span class="typ-punct">:</span> <span class="typ-key">true</span><span class="typ-punct">,</span>
+  rows<span class="typ-punct">:</span> <span class="typ-punct">(</span><span class="typ-num">2em</span><span class="typ-punct">,</span><span class="typ-punct">)</span> <span class="typ-op">*</span> <span class="typ-num">2</span> <span class="typ-op">+</span> <span class="typ-punct">(</span><span class="typ-num">8em</span><span class="typ-punct">,</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+  template<span class="typ-punct">:</span> <span class="typ-punct">(</span>
+    day-body<span class="typ-punct">:</span> <span class="typ-punct">(</span>day<span class="typ-punct">,</span> events<span class="typ-punct">)</span> <span class="typ-op">=&gt;</span> <span class="typ-punct">{</span>
+      <span class="typ-key">show</span><span class="typ-punct">:</span> block<span class="typ-punct">.</span><span class="typ-func">with</span><span class="typ-punct">(</span>width<span class="typ-punct">:</span> <span class="typ-num">100%</span><span class="typ-punct">,</span> height<span class="typ-punct">:</span> <span class="typ-num">100%</span><span class="typ-punct">,</span> inset<span class="typ-punct">:</span> <span class="typ-num">2pt</span><span class="typ-punct">)</span>
+      <span class="typ-key">set</span> <span class="typ-func">align</span><span class="typ-punct">(</span>left <span class="typ-op">+</span> top<span class="typ-punct">)</span>
+      <span class="typ-func">stack</span><span class="typ-punct">(</span>
+        spacing<span class="typ-punct">:</span> <span class="typ-num">2pt</span><span class="typ-punct">,</span>
+        <span class="typ-func">pad</span><span class="typ-punct">(</span>bottom<span class="typ-punct">:</span> <span class="typ-num">4pt</span><span class="typ-punct">,</span> <span class="typ-func">text</span><span class="typ-punct">(</span>weight<span class="typ-punct">:</span> <span class="typ-str">"bold"</span><span class="typ-punct">,</span> day<span class="typ-punct">.</span><span class="typ-func">display</span><span class="typ-punct">(</span><span class="typ-str">"[day]"</span><span class="typ-punct">)</span><span class="typ-punct">)</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+        <span class="typ-op">..</span>events<span class="typ-punct">.</span><span class="typ-func">map</span><span class="typ-punct">(</span><span class="typ-punct">(</span><span class="typ-punct">(</span>d<span class="typ-punct">,</span> e<span class="typ-punct">)</span><span class="typ-punct">)</span> <span class="typ-op">=&gt;</span> <span class="typ-punct">{</span>
+          <span class="typ-key">let</span> col <span class="typ-op">=</span> <span class="typ-key">if</span> <span class="typ-func">type</span><span class="typ-punct">(</span>e<span class="typ-punct">)</span> <span class="typ-op">==</span> array <span class="typ-key">and</span> e<span class="typ-punct">.</span><span class="typ-func">len</span><span class="typ-punct">(</span><span class="typ-punct">)</span> <span class="typ-op">&gt;</span> <span class="typ-num">1</span> <span class="typ-punct">{</span> e<span class="typ-punct">.</span><span class="typ-func">at</span><span class="typ-punct">(</span><span class="typ-num">1</span><span class="typ-punct">)</span> <span class="typ-punct">}</span> <span class="typ-key">else</span> <span class="typ-punct">{</span> yellow <span class="typ-punct">}</span>
+          <span class="typ-key">show</span><span class="typ-punct">:</span> block<span class="typ-punct">.</span><span class="typ-func">with</span><span class="typ-punct">(</span>
+            fill<span class="typ-punct">:</span> col<span class="typ-punct">.</span><span class="typ-func">lighten</span><span class="typ-punct">(</span><span class="typ-num">40%</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+            stroke<span class="typ-punct">:</span> col<span class="typ-punct">,</span>
+            width<span class="typ-punct">:</span> <span class="typ-num">100%</span><span class="typ-punct">,</span>
+            inset<span class="typ-punct">:</span> <span class="typ-num">2pt</span><span class="typ-punct">,</span>
+            radius<span class="typ-punct">:</span> <span class="typ-num">2pt</span>
+          <span class="typ-punct">)</span>
+          d<span class="typ-punct">.</span><span class="typ-func">display</span><span class="typ-punct">(</span><span class="typ-str">"[hour]"</span><span class="typ-punct">)</span>
+          <span class="typ-func">h</span><span class="typ-punct">(</span><span class="typ-num">4pt</span><span class="typ-punct">)</span>
+          <span class="typ-key">if</span> <span class="typ-func">type</span><span class="typ-punct">(</span>e<span class="typ-punct">)</span> <span class="typ-op">==</span> array <span class="typ-punct">{</span> e<span class="typ-punct">.</span><span class="typ-func">at</span><span class="typ-punct">(</span><span class="typ-num">0</span><span class="typ-punct">)</span> <span class="typ-punct">}</span> <span class="typ-key">else</span> <span class="typ-punct">{</span> e <span class="typ-punct">}</span>
+        <span class="typ-punct">}</span><span class="typ-punct">)</span>
+      <span class="typ-punct">)</span>
+    <span class="typ-punct">}</span>
+  <span class="typ-punct">)</span>
+<span class="typ-punct">)</span>
+</code></code></pre>
+      <p>
+       <img alt="" src="https://github.com/typst/packages/raw/main/packages/preview/cineca/0.4.0/test/month-view.png"/>
+      </p>
+      <h3>
+       Month-summary view
+      </h3>
+      <p>
+       <code>
+        calendar-month-summary(events, template, sunday-first, ..args)
+       </code>
+      </p>
+      <ul>
+       <li>
+        <code>
+         events
+        </code>
+        : Event list. Each element is a two-element array.
+        <ul>
+         <li>
+          Day. A datetime object.
+         </li>
+         <li>
+          Additional information for showing a day. It actually depends on the template
+          <code>
+           day-body
+          </code>
+          . For the deafult template, it requires an array of two elements.
+          <ul>
+           <li>
+            Shape. A function specify how to darw the shape, such as
+            <code>
+             circle
+            </code>
+            .
+           </li>
+           <li>
+            Arguments. Further arguments for render a shape.
+           </li>
+          </ul>
+         </li>
+        </ul>
+       </li>
+       <li>
+        <code>
+         template
+        </code>
+        : Templates for headers, times, or events. It takes a dictionary of the following entries:
+        <code>
+         day-body
+        </code>
+        ,
+        <code>
+         day-head
+        </code>
+        ,
+        <code>
+         month-head
+        </code>
+        , and
+        <code>
+         layout
+        </code>
+        .
+       </li>
+       <li>
+        <code>
+         sunday-first
+        </code>
+        : Whether to put sunday as the first day of a week.
+       </li>
+       <li>
+        <code>
+         ..args
+        </code>
+        : Additional arguments for the calendarâs grid.
+       </li>
+      </ul>
+      <p>
+       Example:
+      </p>
+      <pre><code class="language-typst"><code><span class="typ-key">#</span><span class="typ-key">let</span> events <span class="typ-op">=</span> <span class="typ-punct">(</span>
+  <span class="typ-punct">(</span><span class="typ-func">day</span><span class="typ-punct">(</span><span class="typ-str">"2024-02-21"</span><span class="typ-punct">)</span><span class="typ-punct">,</span> <span class="typ-punct">(</span>circle<span class="typ-punct">,</span> <span class="typ-punct">(</span>stroke<span class="typ-punct">:</span> color<span class="typ-punct">.</span>green<span class="typ-punct">,</span> inset<span class="typ-punct">:</span> <span class="typ-num">2pt</span><span class="typ-punct">)</span><span class="typ-punct">)</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+  <span class="typ-punct">(</span><span class="typ-func">day</span><span class="typ-punct">(</span><span class="typ-str">"2024-02-22"</span><span class="typ-punct">)</span><span class="typ-punct">,</span> <span class="typ-punct">(</span>circle<span class="typ-punct">,</span> <span class="typ-punct">(</span>stroke<span class="typ-punct">:</span> color<span class="typ-punct">.</span>green<span class="typ-punct">,</span> inset<span class="typ-punct">:</span> <span class="typ-num">2pt</span><span class="typ-punct">)</span><span class="typ-punct">)</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+  <span class="typ-punct">(</span><span class="typ-func">day</span><span class="typ-punct">(</span><span class="typ-str">"2024-05-27"</span><span class="typ-punct">)</span><span class="typ-punct">,</span> <span class="typ-punct">(</span>circle<span class="typ-punct">,</span> <span class="typ-punct">(</span>stroke<span class="typ-punct">:</span> color<span class="typ-punct">.</span>green<span class="typ-punct">,</span> inset<span class="typ-punct">:</span> <span class="typ-num">2pt</span><span class="typ-punct">)</span><span class="typ-punct">)</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+  <span class="typ-punct">(</span><span class="typ-func">day</span><span class="typ-punct">(</span><span class="typ-str">"2024-05-28"</span><span class="typ-punct">)</span><span class="typ-punct">,</span> <span class="typ-punct">(</span>circle<span class="typ-punct">,</span> <span class="typ-punct">(</span>stroke<span class="typ-punct">:</span> color<span class="typ-punct">.</span>blue<span class="typ-punct">,</span> inset<span class="typ-punct">:</span> <span class="typ-num">2pt</span><span class="typ-punct">)</span><span class="typ-punct">)</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+  <span class="typ-punct">(</span><span class="typ-func">day</span><span class="typ-punct">(</span><span class="typ-str">"2024-05-29"</span><span class="typ-punct">)</span><span class="typ-punct">,</span> <span class="typ-punct">(</span>circle<span class="typ-punct">,</span> <span class="typ-punct">(</span>stroke<span class="typ-punct">:</span> color<span class="typ-punct">.</span>blue<span class="typ-punct">,</span> inset<span class="typ-punct">:</span> <span class="typ-num">2pt</span><span class="typ-punct">)</span><span class="typ-punct">)</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+  <span class="typ-punct">(</span><span class="typ-func">day</span><span class="typ-punct">(</span><span class="typ-str">"2024-06-03"</span><span class="typ-punct">)</span><span class="typ-punct">,</span> <span class="typ-punct">(</span>circle<span class="typ-punct">,</span> <span class="typ-punct">(</span>stroke<span class="typ-punct">:</span> color<span class="typ-punct">.</span>blue<span class="typ-punct">,</span> inset<span class="typ-punct">:</span> <span class="typ-num">2pt</span><span class="typ-punct">)</span><span class="typ-punct">)</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+  <span class="typ-punct">(</span><span class="typ-func">day</span><span class="typ-punct">(</span><span class="typ-str">"2024-06-04"</span><span class="typ-punct">)</span><span class="typ-punct">,</span> <span class="typ-punct">(</span>circle<span class="typ-punct">,</span> <span class="typ-punct">(</span>stroke<span class="typ-punct">:</span> color<span class="typ-punct">.</span>yellow<span class="typ-punct">,</span> inset<span class="typ-punct">:</span> <span class="typ-num">2pt</span><span class="typ-punct">)</span><span class="typ-punct">)</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+  <span class="typ-punct">(</span><span class="typ-func">day</span><span class="typ-punct">(</span><span class="typ-str">"2024-06-05"</span><span class="typ-punct">)</span><span class="typ-punct">,</span> <span class="typ-punct">(</span>circle<span class="typ-punct">,</span> <span class="typ-punct">(</span>stroke<span class="typ-punct">:</span> color<span class="typ-punct">.</span>yellow<span class="typ-punct">,</span> inset<span class="typ-punct">:</span> <span class="typ-num">2pt</span><span class="typ-punct">)</span><span class="typ-punct">)</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+  <span class="typ-punct">(</span><span class="typ-func">day</span><span class="typ-punct">(</span><span class="typ-str">"2024-06-10"</span><span class="typ-punct">)</span><span class="typ-punct">,</span> <span class="typ-punct">(</span>circle<span class="typ-punct">,</span> <span class="typ-punct">(</span>stroke<span class="typ-punct">:</span> color<span class="typ-punct">.</span>red<span class="typ-punct">,</span> inset<span class="typ-punct">:</span> <span class="typ-num">2pt</span><span class="typ-punct">)</span><span class="typ-punct">)</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+<span class="typ-punct">)</span>
+
+<span class="typ-func">#</span><span class="typ-func">calendar-month-summary</span><span class="typ-punct">(</span>
+  events<span class="typ-punct">:</span> events
+<span class="typ-punct">)</span>
+
+<span class="typ-func">#</span><span class="typ-func">calendar-month-summary</span><span class="typ-punct">(</span>
+  events<span class="typ-punct">:</span> events<span class="typ-punct">,</span>
+  sunday-first<span class="typ-punct">:</span> <span class="typ-key">true</span>
+<span class="typ-punct">)</span>
+
+<span class="typ-comment">// An empty calendar</span>
+<span class="typ-func">#</span><span class="typ-func">calendar-month-summary</span><span class="typ-punct">(</span>
+  events<span class="typ-punct">:</span> <span class="typ-punct">(</span>
+    <span class="typ-punct">(</span><span class="typ-func">datetime</span><span class="typ-punct">(</span>year<span class="typ-punct">:</span> <span class="typ-num">2024</span><span class="typ-punct">,</span> month<span class="typ-punct">:</span> <span class="typ-num">05</span><span class="typ-punct">,</span> day<span class="typ-punct">:</span> <span class="typ-num">21</span><span class="typ-punct">)</span><span class="typ-punct">,</span> <span class="typ-punct">(</span><span class="typ-key">none</span><span class="typ-punct">,</span><span class="typ-punct">)</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+  <span class="typ-punct">)</span><span class="typ-punct">,</span>
+  stroke<span class="typ-punct">:</span> <span class="typ-num">1pt</span><span class="typ-punct">,</span>
+<span class="typ-punct">)</span>
+</code></code></pre>
+      <p>
+       <img alt="" src="https://github.com/typst/packages/raw/main/packages/preview/cineca/0.4.0/test/month-summary.png"/>
+      </p>
+      <h2>
+       Day/Time/Daytime Format
+      </h2>
+      <p>
+       In addition to using
+       <code>
+        datetime()
+       </code>
+       to set up time, the package provided some other ways, supported by functions
+       <code>
+        day()
+       </code>
+       ,
+       <code>
+        time()
+       </code>
+       , and
+       <code>
+        daytime()
+       </code>
+       .
+      </p>
+      <pre><code class="language-typst"><code><span class="typ-marker">-</span> <span class="typ-func">#</span><span class="typ-func">time</span><span class="typ-punct">(</span><span class="typ-num">8</span><span class="typ-punct">)</span>
+<span class="typ-marker">-</span> <span class="typ-func">#</span><span class="typ-func">time</span><span class="typ-punct">(</span><span class="typ-num">8</span><span class="typ-punct">,</span> <span class="typ-num">10</span><span class="typ-punct">)</span>
+<span class="typ-marker">-</span> <span class="typ-func">#</span><span class="typ-func">time</span><span class="typ-punct">(</span><span class="typ-num">8</span><span class="typ-punct">,</span> <span class="typ-num">10</span><span class="typ-punct">,</span> <span class="typ-num">30</span><span class="typ-punct">)</span>
+<span class="typ-marker">-</span> <span class="typ-func">#</span><span class="typ-func">time</span><span class="typ-punct">(</span><span class="typ-str">"8.30"</span><span class="typ-punct">)</span>
+<span class="typ-marker">-</span> <span class="typ-func">#</span><span class="typ-func">time</span><span class="typ-punct">(</span><span class="typ-func">decimal</span><span class="typ-punct">(</span><span class="typ-str">"12.10"</span><span class="typ-punct">)</span><span class="typ-punct">)</span>
+<span class="typ-marker">-</span> <span class="typ-func">#</span><span class="typ-func">time</span><span class="typ-punct">(</span><span class="typ-num">14.10</span><span class="typ-punct">)</span>            <span class="typ-comment">// 24-hour format</span>
+<span class="typ-marker">-</span> <span class="typ-func">#</span><span class="typ-func">time</span><span class="typ-punct">(</span><span class="typ-str">"8:10:08"</span><span class="typ-punct">)</span>
+
+<span class="typ-marker">-</span> <span class="typ-func">#</span><span class="typ-func">day</span><span class="typ-punct">(</span><span class="typ-num">2024</span><span class="typ-punct">)</span>
+<span class="typ-marker">-</span> <span class="typ-func">#</span><span class="typ-func">day</span><span class="typ-punct">(</span><span class="typ-num">2024</span><span class="typ-punct">,</span> <span class="typ-num">2</span><span class="typ-punct">)</span>
+<span class="typ-marker">-</span> <span class="typ-func">#</span><span class="typ-func">day</span><span class="typ-punct">(</span><span class="typ-num">2024</span><span class="typ-punct">,</span> <span class="typ-num">2</span><span class="typ-punct">,</span> <span class="typ-num">5</span><span class="typ-punct">)</span>    <span class="typ-comment">// year, month, day</span>
+<span class="typ-marker">-</span> <span class="typ-func">#</span><span class="typ-func">day</span><span class="typ-punct">(</span><span class="typ-str">"2024-3-7"</span><span class="typ-punct">)</span>    <span class="typ-comment">// ISO format (year-month-day)</span>
+<span class="typ-marker">-</span> <span class="typ-func">#</span><span class="typ-func">day</span><span class="typ-punct">(</span><span class="typ-str">"26/12/2024"</span><span class="typ-punct">)</span>  <span class="typ-comment">// British format (day/month/year)</span>
+
+<span class="typ-marker">-</span> <span class="typ-func">#</span><span class="typ-func">daytime</span><span class="typ-punct">(</span><span class="typ-num">2024</span><span class="typ-punct">)</span>
+<span class="typ-marker">-</span> <span class="typ-func">#</span><span class="typ-func">daytime</span><span class="typ-punct">(</span><span class="typ-num">2024</span><span class="typ-punct">,</span> <span class="typ-num">2</span><span class="typ-punct">)</span>
+<span class="typ-marker">-</span> <span class="typ-func">#</span><span class="typ-func">daytime</span><span class="typ-punct">(</span><span class="typ-num">2024</span><span class="typ-punct">,</span> <span class="typ-num">2</span><span class="typ-punct">,</span> <span class="typ-num">5</span><span class="typ-punct">)</span>
+<span class="typ-marker">-</span> <span class="typ-func">#</span><span class="typ-func">daytime</span><span class="typ-punct">(</span><span class="typ-num">2024</span><span class="typ-punct">,</span> <span class="typ-num">2</span><span class="typ-punct">,</span> <span class="typ-num">5</span><span class="typ-punct">,</span> <span class="typ-num">8</span><span class="typ-punct">)</span>
+<span class="typ-marker">-</span> <span class="typ-func">#</span><span class="typ-func">daytime</span><span class="typ-punct">(</span><span class="typ-num">2024</span><span class="typ-punct">,</span> <span class="typ-num">2</span><span class="typ-punct">,</span> <span class="typ-num">5</span><span class="typ-punct">,</span> <span class="typ-num">8</span><span class="typ-punct">,</span> <span class="typ-num">10</span><span class="typ-punct">)</span>
+<span class="typ-marker">-</span> <span class="typ-func">#</span><span class="typ-func">daytime</span><span class="typ-punct">(</span><span class="typ-str">"2024-6-1"</span><span class="typ-punct">,</span> <span class="typ-num">8</span><span class="typ-punct">)</span>
+<span class="typ-marker">-</span> <span class="typ-func">#</span><span class="typ-func">daytime</span><span class="typ-punct">(</span><span class="typ-str">"2024-6-1"</span><span class="typ-punct">,</span> <span class="typ-num">8</span><span class="typ-punct">,</span> <span class="typ-num">10</span><span class="typ-punct">)</span>
+<span class="typ-marker">-</span> <span class="typ-func">#</span><span class="typ-func">daytime</span><span class="typ-punct">(</span><span class="typ-str">"2024-6-1"</span><span class="typ-punct">,</span> <span class="typ-num">8</span><span class="typ-punct">,</span> <span class="typ-num">10</span><span class="typ-punct">,</span> <span class="typ-num">30</span><span class="typ-punct">)</span>
+<span class="typ-marker">-</span> <span class="typ-func">#</span><span class="typ-func">daytime</span><span class="typ-punct">(</span><span class="typ-num">2024</span><span class="typ-punct">,</span> <span class="typ-str">"12:00"</span><span class="typ-punct">)</span>
+<span class="typ-marker">-</span> <span class="typ-func">#</span><span class="typ-func">daytime</span><span class="typ-punct">(</span><span class="typ-num">2024</span><span class="typ-punct">,</span> <span class="typ-num">2</span><span class="typ-punct">,</span> <span class="typ-str">"12:00"</span><span class="typ-punct">)</span>
+<span class="typ-marker">-</span> <span class="typ-func">#</span><span class="typ-func">daytime</span><span class="typ-punct">(</span><span class="typ-num">2024</span><span class="typ-punct">,</span> <span class="typ-num">2</span><span class="typ-punct">,</span> <span class="typ-num">5</span><span class="typ-punct">,</span> <span class="typ-str">"12:00"</span><span class="typ-punct">)</span>
+<span class="typ-marker">-</span> <span class="typ-func">#</span><span class="typ-func">daytime</span><span class="typ-punct">(</span><span class="typ-str">"2024-3-7"</span><span class="typ-punct">,</span> <span class="typ-str">"11:30:45"</span><span class="typ-punct">)</span>
+<span class="typ-marker">-</span> <span class="typ-func">#</span><span class="typ-func">daytime</span><span class="typ-punct">(</span><span class="typ-str">"2024-12-26 8:30"</span><span class="typ-punct">)</span>
+</code></code></pre>
+      <h2>
+       Limitations
+      </h2>
+      <ul>
+       <li>
+        Page breaking may be incorrect.
+       </li>
+       <li>
+        Items will overlap when they happens at the same time.
+       </li>
+      </ul>
+     </section>
+     <aside>
+      <section>
+       <h3>
+        How to add
+       </h3>
+       <p>
+        Copy this into your project and use the import as
+        <!-- -->
+        <code>
+         cineca
+        </code>
+       </p>
+       <div class="import-snippet">
+        <pre><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/cineca:0.4.0"</span></code></pre>
+        <button class="copy" title="Copy to clipboard">
+         <img alt="Copy" height="16" src="/assets/icons/16-copy.svg" width="16"/>
+        </button>
+       </div>
+       <p class="muted">
+        Check the docs for
+        <!-- -->
+        <a href="https://typst.app/docs/reference/scripting/#packages">
+         more information on how to import packages
+        </a>
+        .
+       </p>
+      </section>
+      <section id="about">
+       <h3>
+        About
+       </h3>
+       <dl>
+        <dt>
+         Author
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         HPDell
+        </dd>
+        <dt>
+         License:
+        </dt>
+        <dd>
+         MIT
+        </dd>
+        <dt>
+         Current version:
+        </dt>
+        <dd>
+         0.4.0
+        </dd>
+        <dt>
+         Last updated:
+        </dt>
+        <dd>
+         November 25, 2024
+        </dd>
+        <dt>
+         First released:
+        </dt>
+        <dd>
+         April 1, 2024
+        </dd>
+        <dt>
+         Archive size:
+        </dt>
+        <dd class="archive-size-value">
+         7.04 kB
+         <a href="https://packages.typst.org/preview/cineca-0.4.0.tar.gz">
+          <img alt="Size icon" src="/assets/icons/16-download.svg"/>
+         </a>
+        </dd>
+        <dt>
+         Repository:
+        </dt>
+        <dd>
+         <a href="https://github.com/HPdell/typst-cineca" rel="noopener noreferrer" target="_blank">
+          GitHub
+         </a>
+        </dd>
+        <dt>
+         Categor
+         <!-- -->
+         ies
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         <ul class="list-with-icons">
+          <li>
+           <img alt="Layout icon" src="/assets/icons/16-layout.svg"/>
+           <a href="https://typst.app/universe/search/?category=layout">
+            Layout
+           </a>
+          </li>
+          <li>
+           <img alt="Visualization icon" src="/assets/icons/16-chart.svg"/>
+           <a href="https://typst.app/universe/search/?category=visualization">
+            Visualization
+           </a>
+          </li>
+         </ul>
+        </dd>
+       </dl>
+      </section>
+      <section>
+       <h3>
+        Where to report issues?
+       </h3>
+       <p>
+        This
+        <!-- -->
+        package
+        <!-- -->
+        is a project of
+        <!-- -->
+        <!-- -->
+        HPDell
+        <!-- -->
+        .
+        <!-- -->
+        <!-- -->
+        Report issues on
+        <!-- -->
+        <a href="https://github.com/HPdell/typst-cineca" rel="noopener noreferrer" target="_blank">
+         their repository
+        </a>
+        .
+        <!-- -->
+        <!-- -->
+        You can also try to ask for help with this
+        <!-- -->
+        package
+        <!-- -->
+        on the
+        <!-- -->
+        <a href="https://forum.typst.app" rel="noopener" target="_blank">
+         Forum
+        </a>
+        .
+       </p>
+       <p>
+        Please report this
+        <!-- -->
+        package
+        <!-- -->
+        to the Typst team using the
+        <!-- -->
+        <a href="https://typst.app/contact" rel="noreferrer" target="_blank">
+         contact form
+        </a>
+        <!-- -->
+        if you believe it is a safety hazard or infringes upon your rights.
+       </p>
+      </section>
+      <section id="versions">
+       <h3>
+        Version history
+       </h3>
+       <table>
+        <thead>
+         <tr>
+          <th align="left">
+           Version
+          </th>
+          <th align="left">
+           Release Date
+          </th>
+         </tr>
+        </thead>
+        <tbody>
+         <tr>
+          <td align="left">
+           0.4.0
+          </td>
+          <td align="left">
+           November 25, 2024
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/cineca/0.3.0/">
+            0.3.0
+           </a>
+          </td>
+          <td align="left">
+           November 18, 2024
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/cineca/0.2.1/">
+            0.2.1
+           </a>
+          </td>
+          <td align="left">
+           July 1, 2024
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/cineca/0.2.0/">
+            0.2.0
+           </a>
+          </td>
+          <td align="left">
+           May 22, 2024
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/cineca/0.1.0/">
+            0.1.0
+           </a>
+          </td>
+          <td align="left">
+           April 1, 2024
+          </td>
+         </tr>
+        </tbody>
+       </table>
+      </section>
+      <p class="bottom-notice muted">
+       Typst GmbH did not create this
+       <!-- -->
+       package
+       <!-- -->
+       and cannot guarantee correct functionality of this
+       <!-- -->
+       package
+       <!-- -->
+       or compatibility with any version of the Typst compiler or app.
+      </p>
+     </aside>
+    </div>
+   </main>

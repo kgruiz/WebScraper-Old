@@ -1,0 +1,655 @@
+<main>
+    <div id="banner" style="--banner-accent:#000000;--banner-primary:#000000;--banner-secondary:#000000;--banner-tertiary:#565565;--banner-background:#eff0f3">
+     <div class="package-icon" role="img">
+     </div>
+     <div>
+      <div class="title">
+       <h1 class="name">
+        codelst
+       </h1>
+       <span class="version">
+        2.0.2
+       </span>
+      </div>
+      <p class="description">
+       A typst package to render sourcecode.
+      </p>
+     </div>
+    </div>
+    <div class="inner-grid">
+     <section id="readme">
+      <p>
+       <strong>
+        codelst
+       </strong>
+       is a
+       <a href="https://github.com/typst/typst" rel="nofollow ugc" target="_blank">
+        Typst
+       </a>
+       package for rendering sourcecode with line numbers and some other additions.
+      </p>
+      <h2>
+       Usage
+      </h2>
+      <p>
+       Import the package from the typst preview repository:
+      </p>
+      <pre><code class="language-js">#import "@preview/codelst:2.0.2": sourcecode
+</code></pre>
+      <p>
+       After importing the package, simply wrap any fenced code block in a call to
+       <code>
+        #sourcecode()
+       </code>
+       :
+      </p>
+      <pre><code class="language-js">#import "@preview/codelst:2.0.2": sourcecode
+
+#sourcecode[```typ
+#show "ArtosFlow": name =&gt; box[
+  #box(image(
+    "logo.svg",
+    height: 0.7em,
+  ))
+  #name
+]
+
+This report is embedded in the
+ArtosFlow project. ArtosFlow is a
+project of the Artos Institute.
+```]
+</code></pre>
+      <h2>
+       Further documentation
+      </h2>
+      <p>
+       See
+       <code>
+        manual.pdf
+       </code>
+       for a comprehensive manual of the package.
+      </p>
+      <p>
+       See
+       <code>
+        example.typ
+       </code>
+       for some quick usage examples.
+      </p>
+      <h2>
+       Development
+      </h2>
+      <p>
+       The documentation is created using
+       <a href="https://github.com/jneug/typst-mantys" rel="nofollow ugc" target="_blank">
+        Mantys
+       </a>
+       , a Typst template for creating package documentation.
+      </p>
+      <p>
+       To compile the manual, Mantys needs to be available as a local package. Refer to Mantysâ manual for instructions on how to do so.
+      </p>
+      <h2>
+       Changelog
+      </h2>
+      <h3>
+       v2.0.1
+      </h3>
+      <p>
+       This version makes
+       <code>
+        codelst
+       </code>
+       compatible to Typst 0.11.0. Version 2.0.1 now requires Typst 0.11.0, since there are some breaking changes to the way counters work.
+      </p>
+      <p>
+       Thanks to @kilpkonn for theses changes.
+      </p>
+      <h3>
+       v2.0.0
+      </h3>
+      <p>
+       Version 2 requires Typst 0.9.0 or newer. Rendering is now done using the new
+       <code>
+        raw.line
+       </code>
+       elements get consistent line numbers and syntax highlighting (even if
+       <code>
+        showrange
+       </code>
+       is used). Rendering is now done in a
+       <code>
+        #table
+       </code>
+       .
+      </p>
+      <ul>
+       <li>
+        Added
+        <code>
+         theme
+        </code>
+        and
+        <code>
+         syntaxes
+        </code>
+        options to overwrite passed in
+        <code>
+         #raw
+        </code>
+        values.
+       </li>
+       <li>
+        Breaking: Renamed
+        <code>
+         tab-indend
+        </code>
+        to
+        <code>
+         tab-size
+        </code>
+        , to conform with the Typst option.
+       </li>
+       <li>
+        Breaking: Removed
+        <code>
+         continue-numbering
+        </code>
+        option for now. (The feature failed in combination with label parsing and line highlights.)
+       </li>
+       <li>
+        Breaking: Removed styling of line numbers via a
+        <code>
+         show
+        </code>
+        -rule.
+       </li>
+      </ul>
+      <h3>
+       v1.0.0
+      </h3>
+      <ul>
+       <li>
+        Complete rewrite of code rendering.
+       </li>
+       <li>
+        New options for
+        <code>
+         #sourcecode()
+        </code>
+        :
+        <ul>
+         <li>
+          <code>
+           lang
+          </code>
+          : Overwrite code language setting.
+         </li>
+         <li>
+          <code>
+           numbers-first
+          </code>
+          : First line number to show.
+         </li>
+         <li>
+          <code>
+           numbers-step
+          </code>
+          : Only show every n-th number.
+         </li>
+         <li>
+          <code>
+           frame
+          </code>
+          : Set a frame (replaces
+          <code>
+           &lt;codelst&gt;
+          </code>
+          label.)
+         </li>
+         <li>
+          Merged
+          <code>
+           line-numbers
+          </code>
+          and
+          <code>
+           numbering
+          </code>
+          options.
+         </li>
+        </ul>
+       </li>
+       <li>
+        Removed
+        <code>
+         #numbers-style()
+        </code>
+        function.
+        <ul>
+         <li>
+          <code>
+           numbers-style
+          </code>
+          option now gets passed
+          <code>
+           counter.display()
+          </code>
+          .
+         </li>
+        </ul>
+       </li>
+       <li>
+        Removed
+        <code>
+         &lt;codelst&gt;
+        </code>
+        label.
+       </li>
+       <li>
+        <code>
+         codelst-style
+        </code>
+        only sets
+        <code>
+         breakable
+        </code>
+        for figures.
+       </li>
+       <li>
+        New
+        <code>
+         codelst
+        </code>
+        function to setup a catchall show rules for
+        <code>
+         raw
+        </code>
+        text.
+       </li>
+       <li>
+        <code>
+         label-regex: none
+        </code>
+        disables labels parsing.
+       </li>
+       <li>
+        Code improvements and refactorings.
+       </li>
+      </ul>
+      <h3>
+       v0.0.5
+      </h3>
+      <ul>
+       <li>
+        Fixed insets for line highlights.
+       </li>
+       <li>
+        Added
+        <code>
+         numbers-width
+        </code>
+        option to manually set width of line numbers column.
+        <ul>
+         <li>
+          This allows line numbers on margins by setting
+          <code>
+           numbers-width
+          </code>
+          to
+          <code>
+           0pt
+          </code>
+          or a negative number like
+          <code>
+           -1em
+          </code>
+          .
+         </li>
+        </ul>
+       </li>
+      </ul>
+      <h3>
+       v0.0.4
+      </h3>
+      <ul>
+       <li>
+        Fixed issue with context unaware syntax highlighting.
+       </li>
+      </ul>
+      <h3>
+       v0.0.3
+      </h3>
+      <ul>
+       <li>
+        Removed call to
+        <code>
+         #read()
+        </code>
+        from
+        <code>
+         #sourcefile()
+        </code>
+        .
+       </li>
+       <li>
+        Added
+        <code>
+         continue-numbering
+        </code>
+        argument to
+        <code>
+         #sourcecode()
+        </code>
+        .
+       </li>
+       <li>
+        Fixed problem with
+        <code>
+         showrange
+        </code>
+        having out of range line numbers.
+       </li>
+      </ul>
+      <h3>
+       v0.0.2
+      </h3>
+      <ul>
+       <li>
+        Added a comprehensive manual.
+       </li>
+       <li>
+        Fixed crash for missing
+        <code>
+         lang
+        </code>
+        attribute in
+        <code>
+         raw
+        </code>
+        element.
+       </li>
+      </ul>
+      <h3>
+       v0.0.1
+      </h3>
+      <ul>
+       <li>
+        Initial version submitted to typst/packages.
+       </li>
+      </ul>
+     </section>
+     <aside>
+      <section>
+       <h3>
+        How to add
+       </h3>
+       <p>
+        Copy this into your project and use the import as
+        <!-- -->
+        <code>
+         codelst
+        </code>
+       </p>
+       <div class="import-snippet">
+        <pre><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/codelst:2.0.2"</span></code></pre>
+        <button class="copy" title="Copy to clipboard">
+         <img alt="Copy" height="16" src="/assets/icons/16-copy.svg" width="16"/>
+        </button>
+       </div>
+       <p class="muted">
+        Check the docs for
+        <!-- -->
+        <a href="https://typst.app/docs/reference/scripting/#packages">
+         more information on how to import packages
+        </a>
+        .
+       </p>
+      </section>
+      <section id="about">
+       <h3>
+        About
+       </h3>
+       <dl>
+        <dt>
+         Author
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         Jonas Neugebauer
+        </dd>
+        <dt>
+         License:
+        </dt>
+        <dd>
+         MIT
+        </dd>
+        <dt>
+         Current version:
+        </dt>
+        <dd>
+         2.0.2
+        </dd>
+        <dt>
+         Last updated:
+        </dt>
+        <dd>
+         October 23, 2024
+        </dd>
+        <dt>
+         First released:
+        </dt>
+        <dd>
+         July 24, 2023
+        </dd>
+        <dt>
+         Minimum Typst version:
+        </dt>
+        <dd>
+         0.12.0
+        </dd>
+        <dt>
+         Archive size:
+        </dt>
+        <dd class="archive-size-value">
+         5.41 kB
+         <a href="https://packages.typst.org/preview/codelst-2.0.2.tar.gz">
+          <img alt="Size icon" src="/assets/icons/16-download.svg"/>
+         </a>
+        </dd>
+        <dt>
+         Repository:
+        </dt>
+        <dd>
+         <a href="https://github.com/jneug/typst-codelst" rel="noopener noreferrer" target="_blank">
+          GitHub
+         </a>
+        </dd>
+        <dt>
+         Discipline
+         <!-- -->
+         s
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         <ul class="list-without-icons">
+          <li>
+           <a href="https://typst.app/universe/search/?discipline=computer-science">
+            Computer Science
+           </a>
+          </li>
+          <li>
+           <a href="https://typst.app/universe/search/?discipline=mathematics">
+            Mathematics
+           </a>
+          </li>
+          <li>
+           <a href="https://typst.app/universe/search/?discipline=education">
+            Education
+           </a>
+          </li>
+          <li>
+           <a href="https://typst.app/universe/search/?discipline=linguistics">
+            Linguistics
+           </a>
+          </li>
+         </ul>
+        </dd>
+        <dt>
+         Categor
+         <!-- -->
+         ies
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         <ul class="list-with-icons">
+          <li>
+           <img alt="Components icon" src="/assets/icons/16-package.svg"/>
+           <a href="https://typst.app/universe/search/?category=components">
+            Components
+           </a>
+          </li>
+          <li>
+           <img alt="Layout icon" src="/assets/icons/16-layout.svg"/>
+           <a href="https://typst.app/universe/search/?category=layout">
+            Layout
+           </a>
+          </li>
+         </ul>
+        </dd>
+       </dl>
+      </section>
+      <section>
+       <h3>
+        Where to report issues?
+       </h3>
+       <p>
+        This
+        <!-- -->
+        package
+        <!-- -->
+        is a project of
+        <!-- -->
+        <!-- -->
+        Jonas Neugebauer
+        <!-- -->
+        .
+        <!-- -->
+        <!-- -->
+        Report issues on
+        <!-- -->
+        <a href="https://github.com/jneug/typst-codelst" rel="noopener noreferrer" target="_blank">
+         their repository
+        </a>
+        .
+        <!-- -->
+        <!-- -->
+        You can also try to ask for help with this
+        <!-- -->
+        package
+        <!-- -->
+        on the
+        <!-- -->
+        <a href="https://forum.typst.app" rel="noopener" target="_blank">
+         Forum
+        </a>
+        .
+       </p>
+       <p>
+        Please report this
+        <!-- -->
+        package
+        <!-- -->
+        to the Typst team using the
+        <!-- -->
+        <a href="https://typst.app/contact" rel="noreferrer" target="_blank">
+         contact form
+        </a>
+        <!-- -->
+        if you believe it is a safety hazard or infringes upon your rights.
+       </p>
+      </section>
+      <section id="versions">
+       <h3>
+        Version history
+       </h3>
+       <table>
+        <thead>
+         <tr>
+          <th align="left">
+           Version
+          </th>
+          <th align="left">
+           Release Date
+          </th>
+         </tr>
+        </thead>
+        <tbody>
+         <tr>
+          <td align="left">
+           2.0.2
+          </td>
+          <td align="left">
+           October 23, 2024
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/codelst/2.0.1/">
+            2.0.1
+           </a>
+          </td>
+          <td align="left">
+           March 19, 2024
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/codelst/2.0.0/">
+            2.0.0
+           </a>
+          </td>
+          <td align="left">
+           November 16, 2023
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/codelst/1.0.0/">
+            1.0.0
+           </a>
+          </td>
+          <td align="left">
+           July 29, 2023
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/codelst/0.0.3/">
+            0.0.3
+           </a>
+          </td>
+          <td align="left">
+           July 24, 2023
+          </td>
+         </tr>
+        </tbody>
+       </table>
+      </section>
+      <p class="bottom-notice muted">
+       Typst GmbH did not create this
+       <!-- -->
+       package
+       <!-- -->
+       and cannot guarantee correct functionality of this
+       <!-- -->
+       package
+       <!-- -->
+       or compatibility with any version of the Typst compiler or app.
+      </p>
+     </aside>
+    </div>
+   </main>

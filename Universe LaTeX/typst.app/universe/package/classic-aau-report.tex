@@ -1,0 +1,276 @@
+\title{typst.app/universe/package/classic-aau-report}
+
+\phantomsection\label{banner}
+\phantomsection\label{template-thumbnail}
+\pandocbounded{\includegraphics[keepaspectratio]{https://packages.typst.org/preview/thumbnails/classic-aau-report-0.1.0-small.webp}}
+
+\section{classic-aau-report}\label{classic-aau-report}
+
+{ 0.1.0 }
+
+An example package.
+
+\href{/app?template=classic-aau-report&version=0.1.0}{Create project in
+app}
+
+\phantomsection\label{readme}
+Unofficial Typst template for project reports at Aalborg University
+(AAU). This is based on the LaTeX template
+\url{https://github.com/jkjaer/aauLatexTemplates} .
+
+The template is generic to any field of study, but defaults to Computer
+Science.
+
+\subsection{Usage}\label{usage}
+
+Click â€œCreate project in appâ€?.
+
+Or via the CLI
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{typst}\NormalTok{ init @preview/classic{-}aau{-}report}
+\end{Highlighting}
+\end{Shaded}
+
+\textbf{NOTE:} The template tries to use the
+\texttt{\ Palatino\ Linotype\ } font, which is \emph{not} available in
+Typst. It is available
+\href{https://github.com/Tinggaard/classic-aau-report/tree/main/fonts}{here}
+
+To use it in the \emph{web-app} , put the \texttt{\ .ttf\ } files
+anywhere in the project tree.
+
+To use it \emph{locally} specify the \texttt{\ -\/-font-path\ } flag (or
+see the
+\href{https://typst.app/docs/reference/text/text/\#parameters-font}{docs}
+).
+
+\subsection{Confugiration}\label{confugiration}
+
+The \texttt{\ project\ } function takes the following (optional)
+arguments:
+
+\begin{itemize}
+\item
+  \texttt{\ meta\ } : Metadata about the project
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \texttt{\ project-group\ } : The project group name
+  \item
+    \texttt{\ participants\ } : A list of participants
+  \item
+    \texttt{\ supervisors\ } : A list of supervisors
+  \item
+    \texttt{\ field-of-study\ } : The field of study
+  \item
+    \texttt{\ project-type\ } : The type of project
+  \end{itemize}
+\item
+  \texttt{\ en\ } : English project info
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \texttt{\ title\ } : The title of the project
+  \item
+    \texttt{\ theme\ } : The theme of the project
+  \item
+    \texttt{\ abstract\ } : The English abstract of the project
+  \item
+    \texttt{\ department\ } : The department name
+  \item
+    \texttt{\ department-url\ } : The department URL
+  \end{itemize}
+\item
+  \texttt{\ dk\ } : Danish project info
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \texttt{\ title\ } : The Danish title of the project
+  \item
+    \texttt{\ theme\ } : The theme of the project in Danish
+  \item
+    \texttt{\ abstract\ } : The Danish abstract of the project
+  \item
+    \texttt{\ department\ } : The department name in Danish
+  \item
+    \texttt{\ department-url\ } : The Danish department URL
+  \end{itemize}
+\end{itemize}
+
+The defaults are as follows:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let defaults = (}
+\NormalTok{  meta: (}
+\NormalTok{    project{-}group: "No group name provided",}
+\NormalTok{    participants: (),}
+\NormalTok{    supervisors: (),}
+\NormalTok{    field{-}of{-}study: "Computer Science",}
+\NormalTok{    project{-}type: "Semester Project"}
+\NormalTok{  ),}
+\NormalTok{  en: (}
+\NormalTok{    title: "Untitled",}
+\NormalTok{    theme: "",}
+\NormalTok{    abstract: [],}
+\NormalTok{    department: "Department of Computer Science",}
+\NormalTok{    department{-}url: "https://www.cs.aau.dk",}
+\NormalTok{  ),}
+\NormalTok{  dk: (}
+\NormalTok{    title: "Uden titel",}
+\NormalTok{    theme: "",}
+\NormalTok{    abstract: [],}
+\NormalTok{    department: "Institut for Datalogi",}
+\NormalTok{    department{-}url: "https://www.dat.aau.dk",}
+\NormalTok{  ),}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+Furthermore, the template exports the shawrules
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ frontmatter\ } : Sets the page numbering to arabic and
+  chapter numbering to none
+\item
+  \texttt{\ mainmatter\ } : Sets the chapter numbering
+  \texttt{\ Chapter\ } followed by a number.
+\item
+  \texttt{\ backmatter\ } : Sets the chapter numbering back to none
+\item
+  \texttt{\ appendix\ } : Sets the chapter numbering to
+  \texttt{\ Appeendix\ } followed by a letter.
+\end{itemize}
+
+To use it in an existing project, add the following show rule to the top
+of your file.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#include "@preview/classic{-}aau{-}report:0.1.0": project, frontmatter, mainmatter, backmatter, appendix}
+
+\NormalTok{// Any of the below can be omitted, the defaults are either empty values or CS specific}
+\NormalTok{\#show: project.with(}
+\NormalTok{  meta: (}
+\NormalTok{    project{-}group: "CS{-}xx{-}DAT{-}y{-}zz",}
+\NormalTok{    participants: (}
+\NormalTok{      "Alice",}
+\NormalTok{      "Bob",}
+\NormalTok{      "Chad",}
+\NormalTok{    ),}
+\NormalTok{    supervisors: "John McClane"}
+\NormalTok{  ),}
+\NormalTok{  en: (}
+\NormalTok{    title: "An awesome project",}
+\NormalTok{    theme: "Writing a project in Typst",}
+\NormalTok{    abstract: [],}
+\NormalTok{  ),}
+\NormalTok{  dk: (}
+\NormalTok{    title: "Et fantastisk projekt",}
+\NormalTok{    theme: "Et projekt i Typst",}
+\NormalTok{    abstract: [],}
+\NormalTok{  ),}
+\NormalTok{)}
+
+\NormalTok{// \#show{-}todos()}
+
+\NormalTok{\#show: frontmatter}
+\NormalTok{\#include "chapters/introduction.typ"}
+
+\NormalTok{\#show: mainmatter}
+\NormalTok{\#include "chapters/problem{-}analysis.typ"}
+\NormalTok{\#include "chapters/conclusion.typ"}
+
+\NormalTok{\#show: backmatter}
+\NormalTok{\#bibliography("references.bib", title: "References")}
+
+\NormalTok{\#show: appendix}
+\NormalTok{\#include "appendices/code{-}snippets.typ"}
+\end{Highlighting}
+\end{Shaded}
+
+\href{/app?template=classic-aau-report&version=0.1.0}{Create project in
+app}
+
+\subsubsection{How to use}\label{how-to-use}
+
+Click the button above to create a new project using this template in
+the Typst app.
+
+You can also use the Typst CLI to start a new project on your computer
+using this command:
+
+\begin{verbatim}
+typst init @preview/classic-aau-report:0.1.0
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+\href{https://github.com/Tinggaard}{Jens Tinggaard}
+\item[License:]
+MIT
+\item[Current version:]
+0.1.0
+\item[Last updated:]
+November 22, 2024
+\item[First released:]
+November 22, 2024
+\item[Minimum Typst version:]
+0.12.0
+\item[Archive size:]
+149 kB
+\href{https://packages.typst.org/preview/classic-aau-report-0.1.0.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/Tinggaard/classic-aau-report}{GitHub}
+\item[Categor ies :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-speak.svg}}
+  \href{https://typst.app/universe/search/?category=report}{Report}
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-mortarboard.svg}}
+  \href{https://typst.app/universe/search/?category=thesis}{Thesis}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This template is a project of Jens Tinggaard . Report issues on
+\href{https://github.com/Tinggaard/classic-aau-report}{their repository}
+. You can also try to ask for help with this template on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this template to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.1.0 & November 22, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this template and cannot guarantee correct
+functionality of this template or compatibility with any version of the
+Typst compiler or app.

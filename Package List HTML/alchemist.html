@@ -1,0 +1,408 @@
+<main>
+    <div id="banner" style="--banner-accent:#145B49;--banner-primary:#092F27;--banner-secondary:#1B4C3A;--banner-tertiary:#448472;--banner-background:linear-gradient(90deg, #92E8BE 0%, #D1F5F8 100%)">
+     <div class="package-icon" role="img">
+     </div>
+     <div>
+      <div class="title">
+       <h1 class="name">
+        alchemist
+       </h1>
+       <span class="version">
+        0.1.2
+       </span>
+      </div>
+      <p class="description">
+       A package to render skeletal formulas using cetz
+      </p>
+     </div>
+     <p class="featured-label">
+      <span class="icon" role="img">
+      </span>
+      Featured
+      <!-- -->
+      Package
+     </p>
+    </div>
+    <div class="inner-grid">
+     <section id="readme">
+      <p>
+       Alchemist is a typst package to draw skeletal formulae. It is based on the
+       <a href="https://ctan.org/pkg/chemfig" rel="nofollow ugc" target="_blank">
+        chemfig
+       </a>
+       package. The main goal of alchemist is not to reproduce one-to-one chemfig. Instead, it aims to provide an interface to achieve the same results in Typst.
+      </p>
+      <pre><code class="language-typ"><code><span class="typ-func">#</span><span class="typ-func">skeletize</span><span class="typ-punct">(</span><span class="typ-punct">{</span>
+  <span class="typ-func">molecule</span><span class="typ-punct">(</span>name<span class="typ-punct">:</span> <span class="typ-str">"A"</span><span class="typ-punct">,</span> <span class="typ-str">"A"</span><span class="typ-punct">)</span>
+  <span class="typ-func">single</span><span class="typ-punct">(</span><span class="typ-punct">)</span>
+  <span class="typ-func">molecule</span><span class="typ-punct">(</span><span class="typ-str">"B"</span><span class="typ-punct">)</span>
+  <span class="typ-func">branch</span><span class="typ-punct">(</span><span class="typ-punct">{</span>
+    <span class="typ-func">single</span><span class="typ-punct">(</span>angle<span class="typ-punct">:</span> <span class="typ-num">1</span><span class="typ-punct">)</span>
+    <span class="typ-func">molecule</span><span class="typ-punct">(</span>
+      <span class="typ-str">"W"</span><span class="typ-punct">,</span>
+      links<span class="typ-punct">:</span> <span class="typ-punct">(</span>
+        <span class="typ-str">"A"</span><span class="typ-punct">:</span> <span class="typ-func">double</span><span class="typ-punct">(</span>stroke<span class="typ-punct">:</span> red<span class="typ-punct">)</span><span class="typ-punct">,</span>
+      <span class="typ-punct">)</span><span class="typ-punct">,</span>
+    <span class="typ-punct">)</span>
+    <span class="typ-func">single</span><span class="typ-punct">(</span><span class="typ-punct">)</span>
+    <span class="typ-func">molecule</span><span class="typ-punct">(</span>name<span class="typ-punct">:</span> <span class="typ-str">"X"</span><span class="typ-punct">,</span> <span class="typ-str">"X"</span><span class="typ-punct">)</span>
+  <span class="typ-punct">}</span><span class="typ-punct">)</span>
+  <span class="typ-func">branch</span><span class="typ-punct">(</span><span class="typ-punct">{</span>
+    <span class="typ-func">single</span><span class="typ-punct">(</span>angle<span class="typ-punct">:</span> <span class="typ-op">-</span><span class="typ-num">1</span><span class="typ-punct">)</span>
+    <span class="typ-func">molecule</span><span class="typ-punct">(</span><span class="typ-str">"Y"</span><span class="typ-punct">)</span>
+    <span class="typ-func">single</span><span class="typ-punct">(</span><span class="typ-punct">)</span>
+    <span class="typ-func">molecule</span><span class="typ-punct">(</span>
+      name<span class="typ-punct">:</span> <span class="typ-str">"Z"</span><span class="typ-punct">,</span>
+      <span class="typ-str">"Z"</span><span class="typ-punct">,</span>
+      links<span class="typ-punct">:</span> <span class="typ-punct">(</span>
+        <span class="typ-str">"X"</span><span class="typ-punct">:</span> <span class="typ-func">single</span><span class="typ-punct">(</span>stroke<span class="typ-punct">:</span> black <span class="typ-op">+</span> <span class="typ-num">3pt</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+      <span class="typ-punct">)</span><span class="typ-punct">,</span>
+    <span class="typ-punct">)</span>
+  <span class="typ-punct">}</span><span class="typ-punct">)</span>
+  <span class="typ-func">single</span><span class="typ-punct">(</span><span class="typ-punct">)</span>
+  <span class="typ-func">molecule</span><span class="typ-punct">(</span>
+    <span class="typ-str">"C"</span><span class="typ-punct">,</span>
+    links<span class="typ-punct">:</span> <span class="typ-punct">(</span>
+      <span class="typ-str">"X"</span><span class="typ-punct">:</span> <span class="typ-func">cram-filled-left</span><span class="typ-punct">(</span>fill<span class="typ-punct">:</span> blue<span class="typ-punct">)</span><span class="typ-punct">,</span>
+      <span class="typ-str">"Z"</span><span class="typ-punct">:</span> <span class="typ-func">single</span><span class="typ-punct">(</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+    <span class="typ-punct">)</span><span class="typ-punct">,</span>
+  <span class="typ-punct">)</span>
+<span class="typ-punct">}</span><span class="typ-punct">)</span>
+</code></code></pre>
+      <p>
+       <img alt="links" src="https://raw.githubusercontent.com/Robotechnic/alchemist/master/images/links1.png"/>
+      </p>
+      <p>
+       Alchemist uses cetz to draw the molecules. This means that you can draw cetz shapes in the same canvas as the molecules. Like this:
+      </p>
+      <pre><code class="language-typ"><code><span class="typ-func">#</span><span class="typ-func">skeletize</span><span class="typ-punct">(</span><span class="typ-punct">{</span>
+  <span class="typ-key">import</span> cetz<span class="typ-punct">.</span>draw<span class="typ-punct">:</span> <span class="typ-op">*</span>
+  <span class="typ-func">double</span><span class="typ-punct">(</span>absolute<span class="typ-punct">:</span> <span class="typ-num">30deg</span><span class="typ-punct">,</span> name<span class="typ-punct">:</span> <span class="typ-str">"l1"</span><span class="typ-punct">)</span>
+  <span class="typ-func">single</span><span class="typ-punct">(</span>absolute<span class="typ-punct">:</span> <span class="typ-op">-</span><span class="typ-num">30deg</span><span class="typ-punct">,</span> name<span class="typ-punct">:</span> <span class="typ-str">"l2"</span><span class="typ-punct">)</span>
+  <span class="typ-func">molecule</span><span class="typ-punct">(</span><span class="typ-str">"X"</span><span class="typ-punct">,</span> name<span class="typ-punct">:</span> <span class="typ-str">"X"</span><span class="typ-punct">)</span>
+  <span class="typ-func">hobby</span><span class="typ-punct">(</span>
+    <span class="typ-str">"l1.50%"</span><span class="typ-punct">,</span>
+    <span class="typ-punct">(</span><span class="typ-str">"l1.start"</span><span class="typ-punct">,</span> <span class="typ-num">0.5</span><span class="typ-punct">,</span> <span class="typ-num">90deg</span><span class="typ-punct">,</span> <span class="typ-str">"l1.end"</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+    <span class="typ-str">"l1.start"</span><span class="typ-punct">,</span>
+    stroke<span class="typ-punct">:</span> <span class="typ-punct">(</span>paint<span class="typ-punct">:</span> red<span class="typ-punct">,</span> dash<span class="typ-punct">:</span> <span class="typ-str">"dashed"</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+    mark<span class="typ-punct">:</span> <span class="typ-punct">(</span>end<span class="typ-punct">:</span> <span class="typ-str">"&gt;"</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+  <span class="typ-punct">)</span>
+  <span class="typ-func">hobby</span><span class="typ-punct">(</span>
+    <span class="typ-punct">(</span>to<span class="typ-punct">:</span> <span class="typ-str">"X.north"</span><span class="typ-punct">,</span> rel<span class="typ-punct">:</span> <span class="typ-punct">(</span><span class="typ-num">0</span><span class="typ-punct">,</span> <span class="typ-num">1pt</span><span class="typ-punct">)</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+    <span class="typ-punct">(</span><span class="typ-str">"l2.end"</span><span class="typ-punct">,</span> <span class="typ-num">0.4</span><span class="typ-punct">,</span> <span class="typ-op">-</span><span class="typ-num">90deg</span><span class="typ-punct">,</span> <span class="typ-str">"l2.start"</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+    <span class="typ-str">"l2.50%"</span><span class="typ-punct">,</span>
+    mark<span class="typ-punct">:</span> <span class="typ-punct">(</span>end<span class="typ-punct">:</span> <span class="typ-str">"&gt;"</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+  <span class="typ-punct">)</span>
+<span class="typ-punct">}</span><span class="typ-punct">)</span>
+</code></code></pre>
+      <p>
+       <img alt="cetz" src="https://raw.githubusercontent.com/Robotechnic/alchemist/master/images/cetz1.png"/>
+      </p>
+      <h2>
+       Usage
+      </h2>
+      <p>
+       To start using alchemist, just use the following code:
+      </p>
+      <pre><code class="language-typ"><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/alchemist:0.1.2"</span><span class="typ-punct">:</span> <span class="typ-op">*</span>
+
+<span class="typ-func">#</span><span class="typ-func">skeletize</span><span class="typ-punct">(</span><span class="typ-punct">{</span>
+  <span class="typ-comment">// Your molecule here</span>
+<span class="typ-punct">}</span><span class="typ-punct">)</span>
+</code></code></pre>
+      <p>
+       For more information, check the
+       <a href="https://raw.githubusercontent.com/Robotechnic/alchemist/master/doc/manual.pdf" rel="nofollow ugc" target="_blank">
+        manual
+       </a>
+       .
+      </p>
+      <h2>
+       Changelog
+      </h2>
+      <h3>
+       0.1.2
+      </h3>
+      <ul>
+       <li>
+        Added default values for link style properties.
+       </li>
+       <li>
+        Updated
+        <code>
+         cetz
+        </code>
+        to version 0.3.1.
+       </li>
+       <li>
+        Added a
+        <code>
+         tip-lenght
+        </code>
+        argument to dashed cram links.
+       </li>
+      </ul>
+      <h3>
+       0.1.1
+      </h3>
+      <ul>
+       <li>
+        Exposed the
+        <code>
+         draw-skeleton
+        </code>
+        function. This allows to draw in a cetz canvas directly.
+       </li>
+       <li>
+        Fixed multiples bugs that causes overdraws of links.
+       </li>
+      </ul>
+      <h3>
+       0.1.0
+      </h3>
+      <ul>
+       <li>
+        Initial release
+       </li>
+      </ul>
+     </section>
+     <aside>
+      <section>
+       <h3>
+        How to add
+       </h3>
+       <p>
+        Copy this into your project and use the import as
+        <!-- -->
+        <code>
+         alchemist
+        </code>
+       </p>
+       <div class="import-snippet">
+        <pre><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/alchemist:0.1.2"</span></code></pre>
+        <button class="copy" title="Copy to clipboard">
+         <img alt="Copy" height="16" src="/assets/icons/16-copy.svg" width="16"/>
+        </button>
+       </div>
+       <p class="muted">
+        Check the docs for
+        <!-- -->
+        <a href="https://typst.app/docs/reference/scripting/#packages">
+         more information on how to import packages
+        </a>
+        .
+       </p>
+      </section>
+      <section id="about">
+       <h3>
+        About
+       </h3>
+       <dl>
+        <dt>
+         Author
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         <a href="https://github.com/Robotechnic" rel="noopener noreferrer" target="_blank">
+          Robotechnic
+         </a>
+        </dd>
+        <dt>
+         License:
+        </dt>
+        <dd>
+         MIT
+        </dd>
+        <dt>
+         Current version:
+        </dt>
+        <dd>
+         0.1.2
+        </dd>
+        <dt>
+         Last updated:
+        </dt>
+        <dd>
+         November 13, 2024
+        </dd>
+        <dt>
+         First released:
+        </dt>
+        <dd>
+         August 14, 2024
+        </dd>
+        <dt>
+         Minimum Typst version:
+        </dt>
+        <dd>
+         0.11.0
+        </dd>
+        <dt>
+         Archive size:
+        </dt>
+        <dd class="archive-size-value">
+         11.5 kB
+         <a href="https://packages.typst.org/preview/alchemist-0.1.2.tar.gz">
+          <img alt="Size icon" src="/assets/icons/16-download.svg"/>
+         </a>
+        </dd>
+        <dt>
+         Repository:
+        </dt>
+        <dd>
+         <a href="https://github.com/Robotechnic/alchemist" rel="noopener noreferrer" target="_blank">
+          GitHub
+         </a>
+        </dd>
+        <dt>
+         Discipline
+         <!-- -->
+         s
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         <ul class="list-without-icons">
+          <li>
+           <a href="https://typst.app/universe/search/?discipline=chemistry">
+            Chemistry
+           </a>
+          </li>
+          <li>
+           <a href="https://typst.app/universe/search/?discipline=biology">
+            Biology
+           </a>
+          </li>
+         </ul>
+        </dd>
+        <dt>
+         Categor
+         <!-- -->
+         y
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         <ul class="list-with-icons">
+          <li>
+           <img alt="Visualization icon" src="/assets/icons/16-chart.svg"/>
+           <a href="https://typst.app/universe/search/?category=visualization">
+            Visualization
+           </a>
+          </li>
+         </ul>
+        </dd>
+       </dl>
+      </section>
+      <section>
+       <h3>
+        Where to report issues?
+       </h3>
+       <p>
+        This
+        <!-- -->
+        package
+        <!-- -->
+        is a project of
+        <!-- -->
+        <!-- -->
+        Robotechnic
+        <!-- -->
+        .
+        <!-- -->
+        <!-- -->
+        Report issues on
+        <!-- -->
+        <a href="https://github.com/Robotechnic/alchemist" rel="noopener noreferrer" target="_blank">
+         their repository
+        </a>
+        .
+        <!-- -->
+        <!-- -->
+        You can also try to ask for help with this
+        <!-- -->
+        package
+        <!-- -->
+        on the
+        <!-- -->
+        <a href="https://forum.typst.app" rel="noopener" target="_blank">
+         Forum
+        </a>
+        .
+       </p>
+       <p>
+        Please report this
+        <!-- -->
+        package
+        <!-- -->
+        to the Typst team using the
+        <!-- -->
+        <a href="https://typst.app/contact" rel="noreferrer" target="_blank">
+         contact form
+        </a>
+        <!-- -->
+        if you believe it is a safety hazard or infringes upon your rights.
+       </p>
+      </section>
+      <section id="versions">
+       <h3>
+        Version history
+       </h3>
+       <table>
+        <thead>
+         <tr>
+          <th align="left">
+           Version
+          </th>
+          <th align="left">
+           Release Date
+          </th>
+         </tr>
+        </thead>
+        <tbody>
+         <tr>
+          <td align="left">
+           0.1.2
+          </td>
+          <td align="left">
+           November 13, 2024
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/alchemist/0.1.1/">
+            0.1.1
+           </a>
+          </td>
+          <td align="left">
+           August 19, 2024
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/alchemist/0.1.0/">
+            0.1.0
+           </a>
+          </td>
+          <td align="left">
+           August 14, 2024
+          </td>
+         </tr>
+        </tbody>
+       </table>
+      </section>
+      <p class="bottom-notice muted">
+       Typst GmbH did not create this
+       <!-- -->
+       package
+       <!-- -->
+       and cannot guarantee correct functionality of this
+       <!-- -->
+       package
+       <!-- -->
+       or compatibility with any version of the Typst compiler or app.
+      </p>
+     </aside>
+    </div>
+   </main>

@@ -1,0 +1,249 @@
+\title{typst.app/universe/package/uo-pup-thesis-manuscript}
+
+\phantomsection\label{banner}
+\phantomsection\label{template-thumbnail}
+\pandocbounded{\includegraphics[keepaspectratio]{https://packages.typst.org/preview/thumbnails/uo-pup-thesis-manuscript-0.1.0-small.webp}}
+
+\section{uo-pup-thesis-manuscript}\label{uo-pup-thesis-manuscript}
+
+{ 0.1.0 }
+
+Unofficial Typst template for PUP (Polytechnic University of the
+Philippines) undergraduate thesis manuscript
+
+\href{/app?template=uo-pup-thesis-manuscript&version=0.1.0}{Create
+project in app}
+
+\phantomsection\label{readme}
+Unofficial \href{https://typst.app/}{typst} template for undergraduate
+thesis manuscript for PUP (Polytechnic University of the Philippines).
+This template adheres to the Universityâ€™s Thesis and Dissertation
+Manual as of 2017 (ISBN: 978-971â€``95208-8-7 (Online)). An example
+manuscript is also provided (see \texttt{\ ./thesis.pdf\ } ).
+
+\subsection{Setup}\label{setup}
+
+Using
+\href{https://github.com/typst/typst?tab=readme-ov-file\#installation}{Typst
+CLI} :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{typst}\NormalTok{ init @preview/uo{-}pup{-}thesis{-}manuscript my{-}thesis}
+\BuiltInTok{cd}\NormalTok{ my{-}thesis}
+\ExtensionTok{typst}\NormalTok{ compile thesis.typ  }\CommentTok{\# to compile to PDF}
+\end{Highlighting}
+\end{Shaded}
+
+or run
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{typst}\NormalTok{ watch thesis.typ  }\CommentTok{\# to automatically compiles PDF on save}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Usage}\label{usage}
+
+The template already provided an example structure and some guides. But
+to start from nothing, make an entrypoint file with a basic structure
+like this:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{// thesis.typ}
+\NormalTok{\#import "@preview/uo{-}pup{-}thesis{-}manuscript:0.1.0": *}
+
+
+\NormalTok{\#show: template.with(}
+\NormalTok{  [\textless{}your thesis title here\textgreater{}],}
+\NormalTok{  ("Author 1", "Author 2", ..., "Author N"),}
+\NormalTok{  "name of your college here",}
+\NormalTok{  "name of your deg. program here",}
+\NormalTok{  "Month YYYY"}
+\NormalTok{)}
+
+
+\NormalTok{// Main content starts here}
+
+\NormalTok{// This provides a customized heading for}
+\NormalTok{// chapters that follows the manual}
+\NormalTok{\#chapter(1, "Chapter 1 Title") }
+
+\NormalTok{// Since \#chapter() provides a heading level 1,}
+\NormalTok{// start each headings under chapters with level 2}
+\NormalTok{// to avoid messing up the generated Table of Contents}
+\NormalTok{== Introduction}
+
+\NormalTok{...}
+
+\NormalTok{\#chapter(2, "Chapter 2 Title")}
+
+\NormalTok{== Topic A}
+
+\NormalTok{...}
+
+\NormalTok{// End of main content}
+
+
+\NormalTok{// Bibliography formatting setup}
+\NormalTok{\#set par(first{-}line{-}indent: 0pt, hanging{-}indent: 0.5in)}
+\NormalTok{\#set page(header: context [\#h(1fr) \#counter(page).get().first()])}
+\NormalTok{\#align(center)[ \#heading("REFERENCES") ]}
+\NormalTok{\#set par(spacing: 1.5em)}
+
+\NormalTok{// Get the apa.csl file from \textasciigrave{}template/\textasciigrave{} folder}
+\NormalTok{\#bibliography(title: none, style: "./apa.csl", "path/to/your/bibtex/file.bib")}
+
+
+\NormalTok{// Appendices}
+\NormalTok{\#show: appendices{-}section}
+
+\NormalTok{\#appendix(1, "Appendix Title")}
+
+\NormalTok{...}
+
+\NormalTok{\#pagebreak()}
+
+\NormalTok{\#appendix(2, "Appendix Title")}
+
+\NormalTok{...}
+\end{Highlighting}
+\end{Shaded}
+
+There are also provided utilities for some parts that have a specific
+way of formatting.
+
+For example, in \texttt{\ Definition\ of\ Terms\ } and
+\texttt{\ Significance\ of\ the\ Study\ } sections, use
+\texttt{\ \#description\ } function:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{== Significance of the Study}
+\NormalTok{\#description(}
+\NormalTok{  (}
+\NormalTok{    (term: [Topic A], desc: [\#lorem(30)]),}
+\NormalTok{    (term: [Topic B], desc: [\#lorem(30)]),}
+\NormalTok{    (term: [Topic C], desc: [\#lorem(30)]),}
+\NormalTok{  )}
+\NormalTok{)}
+
+\NormalTok{...}
+
+\NormalTok{== Definition of Terms}
+\NormalTok{\#description(}
+\NormalTok{  (}
+\NormalTok{    (term: [Topic A], desc: [\#lorem(30)]),}
+\NormalTok{    (term: [Topic B], desc: [\#lorem(30)]),}
+\NormalTok{  )}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+If thereâ€™s any mistakes, wrong formatting (e.g., not actually
+following the manual), etc., file an issue or a pull request.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{TODO}\label{todo}
+
+\begin{itemize}
+\tightlist
+\item
+  {[} {]} Chapter 4
+\item
+  {[} {]} Chapter 5
+\item
+  {[} {]} Abstract
+\item
+  {[} {]} Acknowledgement
+\item
+  {[} {]} Copyright
+\item
+  If possible:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Approval Sheet
+  \item
+    Certificate of Originality
+  \end{itemize}
+\end{itemize}
+
+\href{/app?template=uo-pup-thesis-manuscript&version=0.1.0}{Create
+project in app}
+
+\subsubsection{How to use}\label{how-to-use}
+
+Click the button above to create a new project using this template in
+the Typst app.
+
+You can also use the Typst CLI to start a new project on your computer
+using this command:
+
+\begin{verbatim}
+typst init @preview/uo-pup-thesis-manuscript:0.1.0
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+\href{https://github.com/datsudo}{Datsudo}
+\item[License:]
+MIT
+\item[Current version:]
+0.1.0
+\item[Last updated:]
+November 4, 2024
+\item[First released:]
+November 4, 2024
+\item[Archive size:]
+21.6 kB
+\href{https://packages.typst.org/preview/uo-pup-thesis-manuscript-0.1.0.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://gitlab.com/datsudo/uo-pup-thesis-manuscript}{GitLab}
+\item[Categor y :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-mortarboard.svg}}
+  \href{https://typst.app/universe/search/?category=thesis}{Thesis}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This template is a project of Datsudo . Report issues on
+\href{https://gitlab.com/datsudo/uo-pup-thesis-manuscript}{their
+repository} . You can also try to ask for help with this template on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this template to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.1.0 & November 4, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this template and cannot guarantee correct
+functionality of this template or compatibility with any version of the
+Typst compiler or app.

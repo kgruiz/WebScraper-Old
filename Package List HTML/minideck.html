@@ -1,0 +1,907 @@
+<main>
+    <div id="banner" style="--banner-accent:#000000;--banner-primary:#000000;--banner-secondary:#000000;--banner-tertiary:#565565;--banner-background:#eff0f3">
+     <div class="package-icon" role="img">
+     </div>
+     <div>
+      <div class="title">
+       <h1 class="name">
+        minideck
+       </h1>
+       <span class="version">
+        0.2.1
+       </span>
+      </div>
+      <p class="description">
+       Simple dynamic slides.
+      </p>
+     </div>
+    </div>
+    <div class="inner-grid">
+     <section id="readme">
+      <p>
+       A small package for dynamic slides in typst.
+      </p>
+      <p>
+       minideck provides basic functionality for dynamic slides (
+       <code>
+        pause
+       </code>
+       ,
+       <code>
+        uncover
+       </code>
+       , â¦), integration with
+       <a href="https://typst.app/universe/package/fletcher">
+        fletcher
+       </a>
+       and
+       <a href="https://typst.app/universe/package/cetz/">
+        CetZ
+       </a>
+       , and some minimal infrastructure for theming.
+      </p>
+      <h2>
+       Usage
+      </h2>
+      <p>
+       Call
+       <code>
+        minideck.config
+       </code>
+       to get the functions you want to use:
+      </p>
+      <pre><code class="language-typst"><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/minideck:0.2.1"</span>
+
+<span class="typ-key">#</span><span class="typ-key">let</span> <span class="typ-punct">(</span>template<span class="typ-punct">,</span> slide<span class="typ-punct">,</span> title-slide<span class="typ-punct">,</span> pause<span class="typ-punct">,</span> uncover<span class="typ-punct">,</span> only<span class="typ-punct">)</span> <span class="typ-op">=</span> minideck<span class="typ-punct">.</span><span class="typ-func">config</span><span class="typ-punct">(</span><span class="typ-punct">)</span>
+<span class="typ-key">#</span><span class="typ-key">show</span><span class="typ-punct">:</span> <span class="typ-func">template</span>
+
+<span class="typ-func">#</span><span class="typ-func">title-slide</span><span class="typ-punct">[</span>
+  <span class="typ-heading">= Slides with <span class="typ-raw">`minideck`</span></span>
+  <span class="typ-heading">== Some examples</span>
+  John Doe
+
+  <span class="typ-pol">#</span><span class="typ-pol">datetime</span><span class="typ-punct">.</span><span class="typ-func">today</span><span class="typ-punct">(</span><span class="typ-punct">)</span><span class="typ-punct">.</span><span class="typ-func">display</span><span class="typ-punct">(</span><span class="typ-punct">)</span>
+<span class="typ-punct">]</span>
+
+<span class="typ-func">#</span><span class="typ-func">slide</span><span class="typ-punct">[</span>
+  <span class="typ-heading">= Some title</span>
+
+  Some content
+
+  <span class="typ-key">#</span><span class="typ-key">show</span><span class="typ-punct">:</span> <span class="typ-func">pause</span>
+
+  More content
+
+  <span class="typ-marker">1.</span> One
+  <span class="typ-marker">2.</span> Two
+  <span class="typ-key">#</span><span class="typ-key">show</span><span class="typ-punct">:</span> <span class="typ-func">pause</span>
+  <span class="typ-marker">3.</span> Three
+<span class="typ-punct">]</span>
+</code></code></pre>
+      <p>
+       This will show three subslides with progressively more content. (Note that the default theme uses the font Libertinus Sans from the
+       <a href="https://github.com/alerque/libertinus" rel="nofollow ugc" target="_blank">
+        Libertinus
+       </a>
+       family, so you may want to install it.)
+      </p>
+      <p>
+       Instead of
+       <code>
+        #show: pause
+       </code>
+       , you can use
+       <code>
+        #uncover(2,3)[...]
+       </code>
+       to make content visible only on subslides 2 and 3, or
+       <code>
+        #uncover(from: 2)[...]
+       </code>
+       to have it visible on subslide 2 and following.
+      </p>
+      <p>
+       The
+       <code>
+        only
+       </code>
+       function is similar to
+       <code>
+        uncover
+       </code>
+       , but instead of hiding the content (without affecting the layout), it removes it.
+      </p>
+      <pre><code class="language-typst"><code><span class="typ-func">#</span><span class="typ-func">slide</span><span class="typ-punct">[</span>
+  <span class="typ-heading">= <span class="typ-raw">`uncover`</span> and <span class="typ-raw">`only`</span></span>
+  
+  <span class="typ-func">#</span><span class="typ-func">uncover</span><span class="typ-punct">(</span><span class="typ-num">1</span><span class="typ-punct">,</span> from<span class="typ-punct">:</span><span class="typ-num">3</span><span class="typ-punct">)</span><span class="typ-punct">[</span>
+    Content visible on subslides 1 and 3+
+    (space reserved on 2).
+  <span class="typ-punct">]</span>
+
+  <span class="typ-func">#</span><span class="typ-func">only</span><span class="typ-punct">(</span><span class="typ-num">2</span><span class="typ-punct">,</span><span class="typ-num">3</span><span class="typ-punct">)</span><span class="typ-punct">[</span>
+    Content included on subslides 2 and 3
+    (no space reserved on 1).
+  <span class="typ-punct">]</span>
+
+  Content always visible.
+<span class="typ-punct">]</span>
+</code></code></pre>
+      <p>
+       Contrary to
+       <code>
+        pause
+       </code>
+       , the
+       <code>
+        uncover
+       </code>
+       and
+       <code>
+        only
+       </code>
+       functions also work in math mode:
+      </p>
+      <pre><code class="language-typst"><code><span class="typ-func">#</span><span class="typ-func">slide</span><span class="typ-punct">[</span>
+  <span class="typ-heading">= Dynamic equation</span>
+
+  <span class="typ-math-delim">$</span>
+    f(x) <span class="typ-math-op">&amp;</span>= x<span class="typ-math-op">^</span>2 + 2x + 1  <span class="typ-escape">\</span>
+         <span class="typ-func">#</span><span class="typ-func">uncover</span><span class="typ-punct">(</span><span class="typ-num">2</span><span class="typ-punct">,</span> <span class="typ-math-delim">$</span><span class="typ-math-op">&amp;</span>= (x + 1)<span class="typ-math-op">^</span>2<span class="typ-math-delim">$</span><span class="typ-punct">)</span>
+  <span class="typ-math-delim">$</span>
+<span class="typ-punct">]</span>
+</code></code></pre>
+      <p>
+       When mixing
+       <code>
+        pause
+       </code>
+       with
+       <code>
+        uncover
+       </code>
+       /
+       <code>
+        only
+       </code>
+       , the sequence of pauses should be taken as reference for the meaning of subslide indices. For example content after the first pause always appears on the second subslide, even if itâs preceded by a call to
+       <code>
+        #uncover(from: 3)[...]
+       </code>
+       .
+      </p>
+      <p>
+       The package also works well with
+       <a href="https://typst.app/universe/package/pinit">
+        pinit
+       </a>
+       :
+      </p>
+      <pre><code class="language-typst"><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/pinit:0.1.4"</span><span class="typ-punct">:</span> <span class="typ-op">*</span>
+
+<span class="typ-func">#</span><span class="typ-func">slide</span><span class="typ-punct">[</span>
+  <span class="typ-heading">= Works well with <span class="typ-raw">`pinit`</span></span>
+
+  Pythagorean theorem:
+
+  <span class="typ-math-delim">$</span> <span class="typ-func">#</span><span class="typ-func">pin</span><span class="typ-punct">(</span><span class="typ-num">1</span><span class="typ-punct">)</span>a<span class="typ-math-op">^</span>2<span class="typ-func">#</span><span class="typ-func">pin</span><span class="typ-punct">(</span><span class="typ-num">2</span><span class="typ-punct">)</span> + <span class="typ-func">#</span><span class="typ-func">pin</span><span class="typ-punct">(</span><span class="typ-num">3</span><span class="typ-punct">)</span>b<span class="typ-math-op">^</span>2<span class="typ-func">#</span><span class="typ-func">pin</span><span class="typ-punct">(</span><span class="typ-num">4</span><span class="typ-punct">)</span> = <span class="typ-func">#</span><span class="typ-func">pin</span><span class="typ-punct">(</span><span class="typ-num">5</span><span class="typ-punct">)</span>c<span class="typ-math-op">^</span>2<span class="typ-func">#</span><span class="typ-func">pin</span><span class="typ-punct">(</span><span class="typ-num">6</span><span class="typ-punct">)</span> <span class="typ-math-delim">$</span>
+
+  <span class="typ-key">#</span><span class="typ-key">show</span><span class="typ-punct">:</span> <span class="typ-func">pause</span>
+
+  <span class="typ-math-delim">$</span>a<span class="typ-math-op">^</span>2<span class="typ-math-delim">$</span> and <span class="typ-math-delim">$</span>b<span class="typ-math-op">^</span>2<span class="typ-math-delim">$</span> : squares of triangle legs
+
+  <span class="typ-func">#</span><span class="typ-func">only</span><span class="typ-punct">(</span><span class="typ-num">2</span><span class="typ-punct">,</span> <span class="typ-punct">{</span>
+    <span class="typ-func">pinit-highlight</span><span class="typ-punct">(</span><span class="typ-num">1</span><span class="typ-punct">,</span><span class="typ-num">2</span><span class="typ-punct">)</span>
+    <span class="typ-func">pinit-highlight</span><span class="typ-punct">(</span><span class="typ-num">3</span><span class="typ-punct">,</span><span class="typ-num">4</span><span class="typ-punct">)</span>
+  <span class="typ-punct">}</span><span class="typ-punct">)</span>
+
+  <span class="typ-key">#</span><span class="typ-key">show</span><span class="typ-punct">:</span> <span class="typ-func">pause</span>
+
+  <span class="typ-math-delim">$</span>c<span class="typ-math-op">^</span>2<span class="typ-math-delim">$</span> : square of hypotenuse
+
+  <span class="typ-func">#</span><span class="typ-func">pinit-highlight</span><span class="typ-punct">(</span><span class="typ-num">5</span><span class="typ-punct">,</span><span class="typ-num">6</span><span class="typ-punct">,</span> fill<span class="typ-punct">:</span> green<span class="typ-punct">.</span><span class="typ-func">transparentize</span><span class="typ-punct">(</span><span class="typ-num">80%</span><span class="typ-punct">)</span><span class="typ-punct">)</span>
+  <span class="typ-func">#</span><span class="typ-func">pinit-point-from</span><span class="typ-punct">(</span><span class="typ-num">6</span><span class="typ-punct">)</span><span class="typ-punct">[</span>larger than <span class="typ-math-delim">$</span>a<span class="typ-math-op">^</span>2<span class="typ-math-delim">$</span> and <span class="typ-math-delim">$</span>b<span class="typ-math-op">^</span>2<span class="typ-math-delim">$</span><span class="typ-punct">]</span>
+<span class="typ-punct">]</span>
+</code></code></pre>
+      <h3>
+       Handout mode
+      </h3>
+      <p>
+       minideck can make a handout version of the document, in which dynamic behavior is disabled: the content of all subslides is shown together in a single slide.
+      </p>
+      <p>
+       To compile a handout version, pass
+       <code>
+        --input handout=true
+       </code>
+       in the command line:
+      </p>
+      <pre><code class="language-bash">typst compile --input handout=true myfile.typ
+</code></pre>
+      <p>
+       It is also possible to enable handout mode from within the document, as shown in the next section.
+      </p>
+      <h3>
+       Configuration
+      </h3>
+      <p>
+       The behavior of the minideck functions depends on the settings passed to
+       <code>
+        minideck.config
+       </code>
+       . For example, handout mode can also be enabled like this:
+      </p>
+      <pre><code class="language-typst"><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/minideck:0.2.1"</span>
+
+<span class="typ-key">#</span><span class="typ-key">let</span> <span class="typ-punct">(</span>template<span class="typ-punct">,</span> slide<span class="typ-punct">,</span> pause<span class="typ-punct">)</span> <span class="typ-op">=</span> minideck<span class="typ-punct">.</span><span class="typ-func">config</span><span class="typ-punct">(</span>handout<span class="typ-punct">:</span> <span class="typ-key">true</span><span class="typ-punct">)</span>
+<span class="typ-key">#</span><span class="typ-key">show</span><span class="typ-punct">:</span> <span class="typ-func">template</span>
+
+<span class="typ-func">#</span><span class="typ-func">slide</span><span class="typ-punct">[</span>
+  <span class="typ-heading">= Slide title</span>
+  
+  Some text
+
+  <span class="typ-key">#</span><span class="typ-key">show</span><span class="typ-punct">:</span> <span class="typ-func">pause</span>
+
+  More text
+<span class="typ-punct">]</span>
+</code></code></pre>
+      <p>
+       (The default value of
+       <code>
+        handout
+       </code>
+       is
+       <code>
+        auto
+       </code>
+       , in which case minideck checks for a command line setting as in the previous section.)
+      </p>
+      <p>
+       <code>
+        minideck.config
+       </code>
+       accepts the following named arguments:
+      </p>
+      <ul>
+       <li>
+        <code>
+         paper
+        </code>
+        : a string for one of the paper size names recognized by
+        <a href="https://typst.app/docs/reference/layout/page/#parameters-paper">
+         <code>
+          page.paper
+         </code>
+        </a>
+        , or one of the shorthands
+        <code>
+         "16:9"
+        </code>
+        or
+        <code>
+         "4:3"
+        </code>
+        . Default:
+        <code>
+         "4:3"
+        </code>
+        .
+       </li>
+       <li>
+        <code>
+         landscape
+        </code>
+        : use the paper size in landscape orientation. Default:
+        <code>
+         true
+        </code>
+        .
+       </li>
+       <li>
+        <code>
+         width
+        </code>
+        : page width as an absolute length. Takes precedence over
+        <code>
+         paper
+        </code>
+        and
+        <code>
+         landscape
+        </code>
+        .
+       </li>
+       <li>
+        <code>
+         height
+        </code>
+        : page height as an absolute length. Takes precedence over
+        <code>
+         paper
+        </code>
+        and
+        <code>
+         landscape
+        </code>
+        .
+       </li>
+       <li>
+        <code>
+         handout
+        </code>
+        : whether to make a document for handout, with content of all subslides shown together in a single slide.
+       </li>
+       <li>
+        <code>
+         theme
+        </code>
+        : the theme (see below).
+       </li>
+       <li>
+        <code>
+         cetz
+        </code>
+        : the CeTZ module (see below).
+       </li>
+       <li>
+        <code>
+         fletcher
+        </code>
+        : the fletcher module (see below).
+       </li>
+      </ul>
+      <p>
+       For example to make slides with 16:9 aspect ratio, use
+       <code>
+        minideck.config(paper: "16:9")
+       </code>
+       .
+      </p>
+      <h3>
+       Themes
+      </h3>
+      <p>
+       Use
+       <code>
+        minideck.config(theme: ...)
+       </code>
+       to select a theme. Currently there is only one built-in:
+       <code>
+        minideck.themes.simple
+       </code>
+       . However you can also pass a theme implemented by yourself or from a third-party package. See the
+       <a href="https://github.com/typst/packages/raw/main/packages/preview/minideck/0.2.1/themes/README.md" rel="nofollow ugc" target="_blank">
+        theme documentation
+       </a>
+       for how that works.
+      </p>
+      <p>
+       Themes are functions and can be configured using the standard
+       <a href="https://typst.app/docs/reference/foundations/function/#definitions-with">
+        <code>
+         with
+        </code>
+        method
+       </a>
+       :
+      </p>
+      <ul>
+       <li>
+        The
+        <code>
+         simple
+        </code>
+        theme has a
+        <code>
+         variant
+        </code>
+        setting with values âlightâ (default) and âdarkâ.
+       </li>
+      </ul>
+      <p>
+       Hereâs an example:
+      </p>
+      <pre><code class="language-typst"><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/minideck:0.2.1"</span>
+
+<span class="typ-key">#</span><span class="typ-key">let</span> <span class="typ-punct">(</span>template<span class="typ-punct">,</span> slide<span class="typ-punct">)</span> <span class="typ-op">=</span> minideck<span class="typ-punct">.</span><span class="typ-func">config</span><span class="typ-punct">(</span>
+  theme<span class="typ-punct">:</span> minideck<span class="typ-punct">.</span>themes<span class="typ-punct">.</span>simple<span class="typ-punct">.</span><span class="typ-func">with</span><span class="typ-punct">(</span>variant<span class="typ-punct">:</span> <span class="typ-str">"dark"</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+<span class="typ-punct">)</span>
+<span class="typ-key">#</span><span class="typ-key">show</span><span class="typ-punct">:</span> <span class="typ-func">template</span>
+
+<span class="typ-func">#</span><span class="typ-func">slide</span><span class="typ-punct">[</span>
+  <span class="typ-heading">= Slide with dark theme</span>
+  
+  Some text
+<span class="typ-punct">]</span>
+</code></code></pre>
+      <p>
+       Note that you can override part of a theme with show and set rules:
+      </p>
+      <pre><code class="language-typst"><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/minideck:0.2.1"</span>
+
+<span class="typ-key">#</span><span class="typ-key">let</span> <span class="typ-punct">(</span>template<span class="typ-punct">,</span> slide<span class="typ-punct">)</span> <span class="typ-op">=</span> minideck<span class="typ-punct">.</span><span class="typ-func">config</span><span class="typ-punct">(</span>
+  theme<span class="typ-punct">:</span> minideck<span class="typ-punct">.</span>themes<span class="typ-punct">.</span>simple<span class="typ-punct">.</span><span class="typ-func">with</span><span class="typ-punct">(</span>variant<span class="typ-punct">:</span> <span class="typ-str">"dark"</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+<span class="typ-punct">)</span>
+<span class="typ-key">#</span><span class="typ-key">show</span><span class="typ-punct">:</span> <span class="typ-func">template</span>
+
+<span class="typ-key">#</span><span class="typ-key">set</span> <span class="typ-func">page</span><span class="typ-punct">(</span>footer<span class="typ-punct">:</span> <span class="typ-key">none</span><span class="typ-punct">)</span> <span class="typ-comment">// get rid of the page number</span>
+<span class="typ-key">#</span><span class="typ-key">show</span> <span class="typ-func">heading</span><span class="typ-punct">:</span> it <span class="typ-op">=&gt;</span> <span class="typ-func">text</span><span class="typ-punct">(</span>style<span class="typ-punct">:</span> <span class="typ-str">"italic"</span><span class="typ-punct">,</span> it<span class="typ-punct">)</span>
+<span class="typ-key">#</span><span class="typ-key">set</span> <span class="typ-func">text</span><span class="typ-punct">(</span>red<span class="typ-punct">)</span>
+
+<span class="typ-func">#</span><span class="typ-func">slide</span><span class="typ-punct">[</span>
+  <span class="typ-heading">= Slide with dark theme and red text</span>
+  
+  Some text
+<span class="typ-punct">]</span>
+</code></code></pre>
+      <h3>
+       Integration with CeTZ
+      </h3>
+      <p>
+       You can use
+       <code>
+        uncover
+       </code>
+       and
+       <code>
+        only
+       </code>
+       (but not
+       <code>
+        pause
+       </code>
+       ) in CeTZ figures, with the following extra steps:
+      </p>
+      <ul>
+       <li>
+        <p>
+         Get CeTZ-specific functions
+         <code>
+          cetz-uncover
+         </code>
+         and
+         <code>
+          cetz-only
+         </code>
+         by passing the CeTZ module to
+         <code>
+          minideck.config
+         </code>
+         (see example below).
+        </p>
+        <p>
+         This ensures that minideck uses CeTZ functions from the correct version of CeTZ.
+        </p>
+       </li>
+       <li>
+        <p>
+         Add a
+         <code>
+          context
+         </code>
+         keyword outside the
+         <code>
+          canvas
+         </code>
+         call.
+        </p>
+        <p>
+         This is required to access the minideck subslide state from within the canvas without making the content opaque (CeTZ needs to inspect the canvas content to make the drawing).
+        </p>
+       </li>
+      </ul>
+      <p>
+       Example:
+      </p>
+      <pre><code class="language-typst"><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/cetz:0.2.2"</span> <span class="typ-key">as</span> cetz<span class="typ-punct">:</span> <span class="typ-op">*</span>
+<span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/minideck:0.2.1"</span>
+
+<span class="typ-key">#</span><span class="typ-key">let</span> <span class="typ-punct">(</span>template<span class="typ-punct">,</span> slide<span class="typ-punct">,</span> only<span class="typ-punct">,</span> cetz-uncover<span class="typ-punct">,</span> cetz-only<span class="typ-punct">)</span> <span class="typ-op">=</span> minideck<span class="typ-punct">.</span><span class="typ-func">config</span><span class="typ-punct">(</span>cetz<span class="typ-punct">:</span> cetz<span class="typ-punct">)</span>
+<span class="typ-key">#</span><span class="typ-key">show</span><span class="typ-punct">:</span> <span class="typ-func">template</span>
+
+<span class="typ-func">#</span><span class="typ-func">slide</span><span class="typ-punct">[</span>
+  <span class="typ-heading">= In a CeTZ figure</span>
+
+  Above canvas
+  <span class="typ-key">#</span><span class="typ-key">context</span> <span class="typ-func">canvas</span><span class="typ-punct">(</span><span class="typ-punct">{</span>
+    <span class="typ-key">import</span> draw<span class="typ-punct">:</span> <span class="typ-op">*</span>
+    <span class="typ-func">cetz-only</span><span class="typ-punct">(</span><span class="typ-num">3</span><span class="typ-punct">,</span> <span class="typ-func">rect</span><span class="typ-punct">(</span><span class="typ-punct">(</span><span class="typ-num">0</span><span class="typ-punct">,</span><span class="typ-op">-</span><span class="typ-num">2</span><span class="typ-punct">)</span><span class="typ-punct">,</span> <span class="typ-punct">(</span><span class="typ-num">14</span><span class="typ-punct">,</span><span class="typ-num">4</span><span class="typ-punct">)</span><span class="typ-punct">,</span> stroke<span class="typ-punct">:</span> <span class="typ-num">3pt</span><span class="typ-punct">)</span><span class="typ-punct">)</span>
+    <span class="typ-func">cetz-uncover</span><span class="typ-punct">(</span>from<span class="typ-punct">:</span> <span class="typ-num">2</span><span class="typ-punct">,</span> <span class="typ-func">rect</span><span class="typ-punct">(</span><span class="typ-punct">(</span><span class="typ-num">0</span><span class="typ-punct">,</span><span class="typ-op">-</span><span class="typ-num">2</span><span class="typ-punct">)</span><span class="typ-punct">,</span> <span class="typ-punct">(</span><span class="typ-num">16</span><span class="typ-punct">,</span><span class="typ-num">2</span><span class="typ-punct">)</span><span class="typ-punct">,</span> stroke<span class="typ-punct">:</span> blue<span class="typ-op">+</span><span class="typ-num">3pt</span><span class="typ-punct">)</span><span class="typ-punct">)</span>
+    <span class="typ-func">content</span><span class="typ-punct">(</span><span class="typ-punct">(</span><span class="typ-num">8</span><span class="typ-punct">,</span><span class="typ-num">0</span><span class="typ-punct">)</span><span class="typ-punct">,</span> <span class="typ-func">box</span><span class="typ-punct">(</span>stroke<span class="typ-punct">:</span> red<span class="typ-op">+</span><span class="typ-num">3pt</span><span class="typ-punct">,</span> inset<span class="typ-punct">:</span> <span class="typ-num">1em</span><span class="typ-punct">)</span><span class="typ-punct">[</span>
+      A typst box <span class="typ-func">#</span><span class="typ-func">only</span><span class="typ-punct">(</span><span class="typ-num">2</span><span class="typ-punct">)</span><span class="typ-punct">[</span>on 2nd subslide<span class="typ-punct">]</span>
+    <span class="typ-punct">]</span><span class="typ-punct">)</span>
+  <span class="typ-punct">}</span><span class="typ-punct">)</span>
+  Below canvas
+<span class="typ-punct">]</span>
+</code></code></pre>
+      <h3>
+       Integration with fletcher
+      </h3>
+      <p>
+       The same steps are required as for CeTZ integration (passing the fletcher module to get fletcher-specific functions), plus an additional step:
+      </p>
+      <ul>
+       <li>
+        <p>
+         Give explicitly the number of subslides to the
+         <code>
+          slide
+         </code>
+         function.
+        </p>
+        <p>
+         This is required because I could not find a reliable way to update a typst state from within a fletcher diagram, so I cannot rely on the state to keep track of the number of subslides.
+        </p>
+       </li>
+      </ul>
+      <p>
+       Example:
+      </p>
+      <pre><code class="language-typst"><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/fletcher:0.5.0"</span> <span class="typ-key">as</span> fletcher<span class="typ-punct">:</span> diagram<span class="typ-punct">,</span> node<span class="typ-punct">,</span> edge
+<span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/minideck:0.2.1"</span>
+<span class="typ-key">#</span><span class="typ-key">let</span> <span class="typ-punct">(</span>template<span class="typ-punct">,</span> slide<span class="typ-punct">,</span> fletcher-uncover<span class="typ-punct">)</span> <span class="typ-op">=</span> minideck<span class="typ-punct">.</span><span class="typ-func">config</span><span class="typ-punct">(</span>fletcher<span class="typ-punct">:</span> fletcher<span class="typ-punct">)</span>
+<span class="typ-key">#</span><span class="typ-key">show</span><span class="typ-punct">:</span> <span class="typ-func">template</span>
+
+<span class="typ-func">#</span><span class="typ-func">slide</span><span class="typ-punct">(</span>steps<span class="typ-punct">:</span> <span class="typ-num">2</span><span class="typ-punct">)</span><span class="typ-punct">[</span>
+  <span class="typ-heading">= In a fletcher diagram</span>
+
+  <span class="typ-key">#</span><span class="typ-key">set</span> <span class="typ-func">align</span><span class="typ-punct">(</span>center<span class="typ-punct">)</span>
+
+  Above diagram
+
+  <span class="typ-key">#</span><span class="typ-key">context</span> <span class="typ-func">diagram</span><span class="typ-punct">(</span>
+    node-stroke<span class="typ-punct">:</span> <span class="typ-num">1pt</span><span class="typ-punct">,</span>
+    <span class="typ-func">node</span><span class="typ-punct">(</span><span class="typ-punct">(</span><span class="typ-num">0</span><span class="typ-punct">,</span><span class="typ-num">0</span><span class="typ-punct">)</span><span class="typ-punct">,</span> <span class="typ-punct">[</span>Start<span class="typ-punct">]</span><span class="typ-punct">,</span> corner-radius<span class="typ-punct">:</span> <span class="typ-num">2pt</span><span class="typ-punct">,</span> extrude<span class="typ-punct">:</span> <span class="typ-punct">(</span><span class="typ-num">0</span><span class="typ-punct">,</span> <span class="typ-num">3</span><span class="typ-punct">)</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+    <span class="typ-func">edge</span><span class="typ-punct">(</span><span class="typ-str">"-|&gt;"</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+    <span class="typ-func">node</span><span class="typ-punct">(</span><span class="typ-punct">(</span><span class="typ-num">1</span><span class="typ-punct">,</span><span class="typ-num">0</span><span class="typ-punct">)</span><span class="typ-punct">,</span> <span class="typ-func">align</span><span class="typ-punct">(</span>center<span class="typ-punct">)</span><span class="typ-punct">[</span>A<span class="typ-punct">]</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+    <span class="typ-func">fletcher-uncover</span><span class="typ-punct">(</span>from<span class="typ-punct">:</span> <span class="typ-num">2</span><span class="typ-punct">,</span> <span class="typ-func">edge</span><span class="typ-punct">(</span><span class="typ-str">"d,r,u,l"</span><span class="typ-punct">,</span> <span class="typ-str">"-|&gt;"</span><span class="typ-punct">,</span> <span class="typ-punct">[</span>x<span class="typ-punct">]</span><span class="typ-punct">,</span> label-pos<span class="typ-punct">:</span> <span class="typ-num">0.1</span><span class="typ-punct">)</span><span class="typ-punct">)</span>
+  <span class="typ-punct">)</span>
+  
+  Below diagram
+<span class="typ-punct">]</span>
+</code></code></pre>
+      <h2>
+       Comparison with other slides packages
+      </h2>
+      <p>
+       Performance: minideck is currently faster than
+       <a href="https://typst.app/universe/package/polylux/">
+        Polylux
+       </a>
+       when using
+       <code>
+        pause
+       </code>
+       , especially for incremental compilation, but a bit slower than
+       <a href="https://typst.app/universe/package/touying">
+        Touying
+       </a>
+       , according to my tests.
+      </p>
+      <p>
+       Features: Polylux and Touying have more themes and more features, for example support for
+       <a href="https://pdfpc.github.io/" rel="nofollow ugc" target="_blank">
+        pdfpc
+       </a>
+       which provides speaker notes and more. Minideck allows using
+       <code>
+        uncover
+       </code>
+       and
+       <code>
+        only
+       </code>
+       in CeTZ figures and fletcher diagrams, which Polylux currently doesnât support.
+      </p>
+      <p>
+       Syntax: package configuration is simpler in minideck than Touying but a bit more involved than in Polylux. The minideck
+       <code>
+        pause
+       </code>
+       is more cumbersome to use: one must write
+       <code>
+        #show: pause
+       </code>
+       instead of
+       <code>
+        #pause
+       </code>
+       . On the other hand minideckâs
+       <code>
+        uncover
+       </code>
+       and
+       <code>
+        only
+       </code>
+       can be used directly in equations without requiring a special math environment as in Touying (I think).
+      </p>
+      <p>
+       Other: minideck sometimes has better error messages than Touying due to implementation differences: the minideck stack trace points back to the userâs code while Touying errors sometimes point only to an output page number.
+      </p>
+      <h2>
+       Limitations
+      </h2>
+      <ul>
+       <li>
+        <code>
+         pause
+        </code>
+        ,
+        <code>
+         uncover
+        </code>
+        and
+        <code>
+         only
+        </code>
+        work in enumerations but they require explicit enum indices (
+        <code>
+         1. ...
+        </code>
+        rather than
+        <code>
+         + ...
+        </code>
+        ) as they cause a reset of the list index.
+       </li>
+       <li>
+        Usage in a CeTZ canvas or fletcher diagram requires a
+        <code>
+         context
+        </code>
+        keyword in front of the
+        <code>
+         canvas
+        </code>
+        /
+        <code>
+         diagram
+        </code>
+        call (see above).
+       </li>
+       <li>
+        fletcher diagrams also require to specify the number of subslides explicitly (see above).
+       </li>
+       <li>
+        <code>
+         pause
+        </code>
+        doesnât work in CeTZ figures, fletcher diagrams and math mode.
+       </li>
+       <li>
+        <code>
+         pause
+        </code>
+        requires writing
+        <code>
+         #show: pause
+        </code>
+        and its effect is lost after the
+        <code>
+         #show
+        </code>
+        call goes out of scope. For example this means that one can use
+        <code>
+         pause
+        </code>
+        inside of a grid, but further
+        <code>
+         pause
+        </code>
+        calls after the grid (in the same slide) wonât work as intended.
+       </li>
+      </ul>
+      <h2>
+       Internals
+      </h2>
+      <p>
+       The package uses states with the following keys:
+      </p>
+      <p>
+       <code>
+        __minideck-subslide-count
+       </code>
+       : an array of two integers for counting pauses and keeping track of the subslide number automatically. The first value is the number of subslides so far referenced in current slide. The second value is the number of pauses seen so far in the current slide. Both values are kept in one state so that an update function can update the number of subslides based on the number of pauses, without requiring a context. This avoids problems with layout convergence.
+      </p>
+      <p>
+       <code>
+        __minideck-subslide-step
+       </code>
+       : the current subslide being generated while processing a slide.
+      </p>
+     </section>
+     <aside>
+      <section>
+       <h3>
+        How to add
+       </h3>
+       <p>
+        Copy this into your project and use the import as
+        <!-- -->
+        <code>
+         minideck
+        </code>
+       </p>
+       <div class="import-snippet">
+        <pre><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/minideck:0.2.1"</span></code></pre>
+        <button class="copy" title="Copy to clipboard">
+         <img alt="Copy" height="16" src="/assets/icons/16-copy.svg" width="16"/>
+        </button>
+       </div>
+       <p class="muted">
+        Check the docs for
+        <!-- -->
+        <a href="https://typst.app/docs/reference/scripting/#packages">
+         more information on how to import packages
+        </a>
+        .
+       </p>
+      </section>
+      <section id="about">
+       <h3>
+        About
+       </h3>
+       <dl>
+        <dt>
+         Author
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         <a href="https://github.com/knuesel" rel="noopener noreferrer" target="_blank">
+          Jeremie Knuesel
+         </a>
+        </dd>
+        <dt>
+         License:
+        </dt>
+        <dd>
+         MIT
+        </dd>
+        <dt>
+         Current version:
+        </dt>
+        <dd>
+         0.2.1
+        </dd>
+        <dt>
+         Last updated:
+        </dt>
+        <dd>
+         July 1, 2024
+        </dd>
+        <dt>
+         First released:
+        </dt>
+        <dd>
+         July 1, 2024
+        </dd>
+        <dt>
+         Archive size:
+        </dt>
+        <dd class="archive-size-value">
+         10.3 kB
+         <a href="https://packages.typst.org/preview/minideck-0.2.1.tar.gz">
+          <img alt="Size icon" src="/assets/icons/16-download.svg"/>
+         </a>
+        </dd>
+        <dt>
+         Repository:
+        </dt>
+        <dd>
+         <a href="https://github.com/knuesel/typst-minideck" rel="noopener noreferrer" target="_blank">
+          GitHub
+         </a>
+        </dd>
+        <dt>
+         Categor
+         <!-- -->
+         y
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         <ul class="list-with-icons">
+          <li>
+           <img alt="Presentation icon" src="/assets/icons/16-presentation.svg"/>
+           <a href="https://typst.app/universe/search/?category=presentation">
+            Presentation
+           </a>
+          </li>
+         </ul>
+        </dd>
+       </dl>
+      </section>
+      <section>
+       <h3>
+        Where to report issues?
+       </h3>
+       <p>
+        This
+        <!-- -->
+        package
+        <!-- -->
+        is a project of
+        <!-- -->
+        <!-- -->
+        Jeremie Knuesel
+        <!-- -->
+        .
+        <!-- -->
+        <!-- -->
+        Report issues on
+        <!-- -->
+        <a href="https://github.com/knuesel/typst-minideck" rel="noopener noreferrer" target="_blank">
+         their repository
+        </a>
+        .
+        <!-- -->
+        <!-- -->
+        You can also try to ask for help with this
+        <!-- -->
+        package
+        <!-- -->
+        on the
+        <!-- -->
+        <a href="https://forum.typst.app" rel="noopener" target="_blank">
+         Forum
+        </a>
+        .
+       </p>
+       <p>
+        Please report this
+        <!-- -->
+        package
+        <!-- -->
+        to the Typst team using the
+        <!-- -->
+        <a href="https://typst.app/contact" rel="noreferrer" target="_blank">
+         contact form
+        </a>
+        <!-- -->
+        if you believe it is a safety hazard or infringes upon your rights.
+       </p>
+      </section>
+      <section id="versions">
+       <h3>
+        Version history
+       </h3>
+       <table>
+        <thead>
+         <tr>
+          <th align="left">
+           Version
+          </th>
+          <th align="left">
+           Release Date
+          </th>
+         </tr>
+        </thead>
+        <tbody>
+         <tr>
+          <td align="left">
+           0.2.1
+          </td>
+          <td align="left">
+           July 1, 2024
+          </td>
+         </tr>
+        </tbody>
+       </table>
+      </section>
+      <p class="bottom-notice muted">
+       Typst GmbH did not create this
+       <!-- -->
+       package
+       <!-- -->
+       and cannot guarantee correct functionality of this
+       <!-- -->
+       package
+       <!-- -->
+       or compatibility with any version of the Typst compiler or app.
+      </p>
+     </aside>
+    </div>
+   </main>

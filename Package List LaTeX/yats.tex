@@ -1,0 +1,212 @@
+\title{typst.app/universe/package/yats}
+
+\phantomsection\label{banner}
+\section{yats}\label{yats}
+
+{ 0.1.0 }
+
+Serialization module for Typst
+
+\phantomsection\label{readme}
+serialize the Typst objects into bytes and deserialize the bytes into
+Typst objects
+
+\subsection{Reason}\label{reason}
+
+I want to interactive between the wasm and typst. But I found that the
+input arguments and output argument are all bytes. It is not convenient
+for me to use WASM. So I designed the serialization protocol and
+implemented this serialization module for reference.
+
+Although there have been some serialization APIs like cbor, yaml, json
+and others, this is a good learning material and a good example to show
+the abilities of Typst.
+
+\subsection{Example}\label{example}
+
+Have a look at the example
+\href{https://github.com/typst/packages/raw/main/packages/preview/yats/0.1.0/example.typ}{here}
+.
+
+\subsection{Usage}\label{usage}
+
+Simply import 2 functions : \texttt{\ serialize\ } ,
+\texttt{\ deserialize\ } .
+
+And enjoy it
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/yats:0.1.0": serialize, deserialize}
+\NormalTok{\#\{}
+\NormalTok{  let obj = (}
+\NormalTok{    name : "0warning0error",}
+\NormalTok{    age : 100,}
+\NormalTok{    height : 1.8,}
+\NormalTok{    birthday : datetime(year : 1998,month : 7,day:8)}
+\NormalTok{  )}
+\NormalTok{  deserialize(serialize(obj))}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Supported Types}\label{supported-types}
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ none\ }
+\item
+  \texttt{\ bool\ }
+\item
+  \texttt{\ type\ } : type is a type
+\item
+  \texttt{\ int\ }
+\item
+  \texttt{\ float\ } : (implemented in string, for convenience)
+\item
+  \texttt{\ datetime\ } : only support \texttt{\ year\ } ,
+  \texttt{\ month\ } , \texttt{\ day\ } ; \texttt{\ hour\ } ,
+  \texttt{\ minute\ } , \texttt{\ second\ } ; both combined.
+\item
+  \texttt{\ duration\ }
+\item
+  \texttt{\ bytes\ }
+\item
+  \texttt{\ string\ }
+\item
+  \texttt{\ regex\ } : (dealing with it is a little tricky)
+\item
+  \texttt{\ array\ } : the element in it can be anything listed.
+\item
+  \texttt{\ dictionary\ } : the value in it can be anything listed.
+\end{itemize}
+
+\subsection{\texorpdfstring{\texttt{\ Yats\ }
+function}{ Yats  function}}\label{yats-function}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let serialize(}
+\NormalTok{  data : any}
+\NormalTok{) = \{ .. \}}
+\end{Highlighting}
+\end{Shaded}
+
+\textbf{Arguments:}
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ data\ } : {[} \texttt{\ any\ } {]} â€'' Any supported object
+  .
+\end{itemize}
+
+\textbf{Return}
+
+The serialized bytes.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let deserialize(}
+\NormalTok{  data : array}
+\NormalTok{) = \{ .. \}}
+\end{Highlighting}
+\end{Shaded}
+
+\textbf{Arguments:}
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ data\ } : {[} \texttt{\ bytes\ } {]} â€'' serialized objects
+  represented by bytes .
+\end{itemize}
+
+\textbf{Return}
+
+binary array. (the first one is the object deserialized, the second one
+is the valid length of the bytes)
+
+\subsection{Potential Problems and
+limitation}\label{potential-problems-and-limitation}
+
+\begin{itemize}
+\item
+  Some problem can be caused by changes of \texttt{\ repr\ } . For
+  example, the serialization of \texttt{\ regex\ } relies on the
+  \texttt{\ repr\ } of \texttt{\ regex\ } . And there are no method to
+  directly catch the inner \texttt{\ string\ } .
+\item
+  Because of lack of time, only basic types are supported. But more
+  types can be supported in Typst.
+\end{itemize}
+
+\subsection{License}\label{license}
+
+This project is licensed under the Apache 2.0 License.
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as \texttt{\ yats\ }
+
+\begin{verbatim}
+#import "@preview/yats:0.1.0"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+\href{https://github.com/0warning0error}{Zhao Yuanhang}
+\item[License:]
+Apache-2.0
+\item[Current version:]
+0.1.0
+\item[Last updated:]
+March 15, 2024
+\item[First released:]
+March 15, 2024
+\item[Minimum Typst version:]
+0.10.0
+\item[Archive size:]
+7.92 kB
+\href{https://packages.typst.org/preview/yats-0.1.0.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/0warning0error/typst-yats}{GitHub}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of Zhao Yuanhang . Report issues on
+\href{https://github.com/0warning0error/typst-yats}{their repository} .
+You can also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.1.0 & March 15, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.

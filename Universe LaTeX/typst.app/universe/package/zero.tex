@@ -1,0 +1,588 @@
+\title{typst.app/universe/package/zero}
+
+\phantomsection\label{banner}
+\section{zero}\label{zero}
+
+{ 0.3.0 }
+
+Advanced scientific number formatting.
+
+{ } Featured Package
+
+\phantomsection\label{readme}
+\emph{Advanced scientific number formatting.}
+
+\href{https://typst.app/universe/package/zero}{\pandocbounded{\includegraphics[keepaspectratio]{https://img.shields.io/badge/dynamic/toml?url=https\%3A\%2F\%2Fraw.githubusercontent.com\%2FMc-Zen\%2Fzero\%2Fv0.3.0\%2Ftypst.toml&query=\%24.package.version&prefix=v&logo=typst&label=package&color=239DAD}}}
+\href{https://github.com/Mc-Zen/zero/actions/workflows/run_tests.yml}{\pandocbounded{\includesvg[keepaspectratio]{https://github.com/Mc-Zen/zero/actions/workflows/run_tests.yml/badge.svg}}}
+\href{https://github.com/Mc-Zen/zero/blob/main/LICENSE}{\pandocbounded{\includegraphics[keepaspectratio]{https://img.shields.io/badge/license-MIT-blue}}}
+
+\begin{itemize}
+\tightlist
+\item
+  \href{https://github.com/typst/packages/raw/main/packages/preview/zero/0.3.0/\#introduction}{Introduction}
+\item
+  \href{https://github.com/typst/packages/raw/main/packages/preview/zero/0.3.0/\#quick-demo}{Quick
+  Demo}
+\item
+  \href{https://github.com/typst/packages/raw/main/packages/preview/zero/0.3.0/\#documentation}{Documentation}
+\item
+  \href{https://github.com/typst/packages/raw/main/packages/preview/zero/0.3.0/\#table-alignment}{Table
+  alignment}
+\item
+  \href{https://github.com/typst/packages/raw/main/packages/preview/zero/0.3.0/\#zero-for-third-party-packages}{Zero
+  for third-party packages}
+\end{itemize}
+
+\subsection{Introduction}\label{introduction}
+
+Proper number formatting requires some love for detail to guarantee a
+readable and clear output. This package provides tools to ensure
+consistent formatting and to simplify the process of following
+established publication practices. Key features are
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{standardized} formatting,
+\item
+  digit
+  \href{https://github.com/typst/packages/raw/main/packages/preview/zero/0.3.0/\#grouping}{\textbf{grouping}}
+  , e.g., 299â€¯792â€¯458 instead of 299792458,
+\item
+  \textbf{plug-and-play} number
+  \href{https://github.com/typst/packages/raw/main/packages/preview/zero/0.3.0/\#table-alignment}{\textbf{alignment
+  in tables}} ,
+\item
+  quick scientific notation, e.g., \texttt{\ "2e4"\ } becomes
+  2Ã---10â?´,
+\item
+  symmetric and asymmetric
+  \href{https://github.com/typst/packages/raw/main/packages/preview/zero/0.3.0/\#specifying-uncertainties}{\textbf{uncertainties}}
+  ,
+\item
+  \href{https://github.com/typst/packages/raw/main/packages/preview/zero/0.3.0/\#rounding}{\textbf{rounding}}
+  in various modes,
+\item
+  and some specials for package authors.
+\end{itemize}
+
+A number in scientific notation consists of three parts of which the
+latter two are optional. The first part is the \emph{mantissa} that may
+consist of an \emph{integer} and a \emph{fractional} part. In many
+fields of science, values are not known exactly and the corresponding
+\emph{uncertainty} is then given along with the mantissa. Lastly, to
+facilitate reading very large or small numbers, the mantissa may be
+multiplied with a \emph{power} of 10 (or another base).
+
+The anatomy of a formatted number is shown in the following figure.
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/user-attachments/assets/7ca9fa48-b732-4f4e-911f-b719e83305be}}
+
+\subsection{Quick Demo}\label{quick-demo}
+
+\begin{longtable}[]{@{}llll@{}}
+\toprule\noalign{}
+Code & Output & Code & Output \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\texttt{\ num("1.2e4")\ } & 1.2Ã---10â?´ & \texttt{\ num{[}1.2e4{]}\ } &
+1.2Ã---10â?´ \\
+\texttt{\ num("-5e-4")\ } & âˆ'5Ã---10â?»â?´ &
+\texttt{\ num(fixed:\ -2){[}0.02{]}\ } & 2Ã---10â?»Â² \\
+\texttt{\ num("9.81+-.01")\ } & 9.81Â±0.01 &
+\texttt{\ num("9.81+0.02-.01")\ } & 9.81â?ºÂ²â‚‹â‚? \\
+\texttt{\ num("9.81+-.01e2")\ } & (9.81Â±0.01)Ã---10Â² &
+\texttt{\ num(base:\ 2){[}3e4{]}\ } & 3Ã---2â?´ \\
+\end{longtable}
+
+\subsection{Documentation}\label{documentation}
+
+\begin{itemize}
+\tightlist
+\item
+  \href{https://github.com/typst/packages/raw/main/packages/preview/zero/0.3.0/\#num}{Function
+  \texttt{\ num\ }}
+\item
+  \href{https://github.com/typst/packages/raw/main/packages/preview/zero/0.3.0/\#grouping}{Grouping}
+\item
+  \href{https://github.com/typst/packages/raw/main/packages/preview/zero/0.3.0/\#rounding}{Rounding}
+\item
+  \href{https://github.com/typst/packages/raw/main/packages/preview/zero/0.3.0/\#specifying-uncertainties}{Uncertainties}
+\item
+  \href{https://github.com/typst/packages/raw/main/packages/preview/zero/0.3.0/\#table-alignment}{Table
+  alignment}
+\end{itemize}
+
+\subsubsection{\texorpdfstring{\texttt{\ num\ }}{ num }}\label{num}
+
+The function \texttt{\ num()\ } is the heart of \emph{Zero} . It
+provides a wide range of number formatting utilities and its default
+values are configurable via \texttt{\ set-num()\ } which takes the same
+named arguments as \texttt{\ num()\ } .
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let num(}
+\NormalTok{  number:                 str |âcontent | int | float | dictionary | array,}
+\NormalTok{  digits:                 auto |âint = auto,}
+\NormalTok{  fixed:                  none | int = none,}
+
+\NormalTok{  decimal{-}separator:      str = ".",}
+\NormalTok{  product:                content = sym.times,}
+\NormalTok{  tight:                  boolean = false,}
+\NormalTok{  math:                   boolean = true,}
+\NormalTok{  omit{-}unity{-}mantissa:    boolean = true,}
+\NormalTok{  positive{-}sign:          boolean = false,}
+\NormalTok{  positive{-}sign{-}exponent: boolean = false,}
+\NormalTok{  base:                   int | content = 10,}
+\NormalTok{  uncertainty{-}mode:       str = "separate",}
+\NormalTok{  round:                  dictionary,}
+\NormalTok{  group:                  dictionary,}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ number:\ str\ \textbar{}â€Šcontent\ \textbar{}\ int\ \textbar{}\ float\ \textbar{}\ array\ }
+  : Number input; \texttt{\ str\ } is preferred. If the input is
+  \texttt{\ content\ } , it may only contain text nodes. Numeric types
+  \texttt{\ int\ } and \texttt{\ float\ } are supported but not
+  encouraged because of information loss (e.g., the number of trailing
+  â€œ0â€? digits or the exponent). The remaining types
+  \texttt{\ dictionary\ } and \texttt{\ array\ } are intended for
+  advanced use, see
+  \href{https://github.com/typst/packages/raw/main/packages/preview/zero/0.3.0/\#zero-for-third-party-packages}{below}
+  .
+\item
+  \texttt{\ digits:\ auto\ \textbar{}â€Šint\ =\ auto\ } : Truncates the
+  number at a given (positive) number of decimal places or pads the
+  number with zeros if necessary. This is independent of
+  \href{https://github.com/typst/packages/raw/main/packages/preview/zero/0.3.0/\#rounding}{rounding}
+  .
+\item
+  \texttt{\ fixed:\ none\ \textbar{}\ int\ =\ none\ } : If not
+  \texttt{\ none\ } , forces a fixed exponent. Additional exponents
+  given in the number input are taken into account.
+\item
+  \texttt{\ decimal-separator:\ str\ =\ "."\ } : Specifies the marker
+  that is used for separating integer and decimal part.
+\item
+  \texttt{\ product:\ content\ =\ sym.times\ } : Specifies the
+  multiplication symbol used for scientific notation.
+\item
+  \texttt{\ tight:\ boolean\ =\ false\ } : If true, tight spacing is
+  applied between operands (applies to Ã--- and Â±).
+\item
+  \texttt{\ math:\ boolean\ =\ true\ } : If set to \texttt{\ false\ } ,
+  the parts of the number wonâ€™t be wrapped in a
+  \texttt{\ math.equation\ } wherever feasible. This makes it possible
+  to use \texttt{\ num()\ } with non-math fonts to some extent. Powers
+  are always rendered in math mode.
+\item
+  \texttt{\ omit-unity-mantissa:\ boolean\ =\ false\ } : Determines
+  whether a mantissa of 1 is omitted in scientific notation, e.g., 10â?´
+  instead of 1Â·10â?´.
+\item
+  \texttt{\ positive-sign:\ boolean\ =\ false\ } : If set to
+  \texttt{\ true\ } , positive coefficients are shown with a + sign.
+\item
+  \texttt{\ positive-sign-exponent:\ boolean\ =\ false\ } : If set to
+  \texttt{\ true\ } , positive exponents are shown with a + sign.
+\item
+  \texttt{\ base:\ int\ \textbar{}\ content\ =\ 10\ } : The base used
+  for scientific power notation.
+\item
+  \texttt{\ uncertainty-mode:\ str\ =\ "separate"\ } : Selects one of
+  the modes \texttt{\ "separate"\ } , \texttt{\ "compact"\ } , or
+  \texttt{\ "compact-separator"\ } for displaying uncertainties. The
+  different behaviors are shown below:
+\end{itemize}
+
+\begin{longtable}[]{@{}lll@{}}
+\toprule\noalign{}
+\texttt{\ "separate"\ } & \texttt{\ "compact"\ } &
+\texttt{\ "compact-separator"\ } \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+1.7Â±0.2 & 1.7(2) & 1.7(2) \\
+6.2Â±2.1 & 6.2(21) & 6.2(2.1) \\
+1.7â?ºâ?°Ë™Ì‡Â²â‚‹â‚€.â‚ & 1.7â?ºÂ²â‚‹â‚ & 1.7â?ºÂ²â‚‹â‚ \\
+1.7â?ºÂ²Ë™Ì‡â?°â‚‹â‚\ldots.â‚€ & 1.7â?ºÂ²â?°â‚‹â‚\ldots â‚€ &
+1.7â?ºÂ²Ë™Ì‡â?°â‚‹â‚\ldots.â‚€ \\
+\end{longtable}
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ round:\ dictionary\ } : You can provide one or more rounding
+  options in a dictionary. Also see
+  \href{https://github.com/typst/packages/raw/main/packages/preview/zero/0.3.0/\#rounding}{rounding}
+  .
+\item
+  \texttt{\ group:\ dictionary\ } : You can provide one or more grouping
+  options in a dictionary. Also see
+  \href{https://github.com/typst/packages/raw/main/packages/preview/zero/0.3.0/\#grouping}{grouping}
+  .
+\end{itemize}
+
+Configuration example:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#set{-}num(product: math.dot, tight: true)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{Grouping}\label{grouping}
+
+Digit grouping is important for keeping large figures readable. It is
+customary to separate thousands with a thin space, a period, comma, or
+an apostrophe (however, we discourage using a period or a comma to avoid
+confusion since both are used for decimal separators in various
+countries).
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/user-attachments/assets/1f53ae33-3e99-483d-ac6a-6e3cbed5484b}}
+
+Digit grouping can be configured with the \texttt{\ set-group()\ }
+function.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let set{-}group(}
+\NormalTok{  size:       int = 3, }
+\NormalTok{  separator:  content = sym.space.thin,}
+\NormalTok{  threshold:  int = 5}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ size:\ int\ =\ 3\ } : Determines the size of the groups.
+\item
+  \texttt{\ separator:\ content\ =\ sym.space.thin\ } : Separator
+  between groups.
+\item
+  \texttt{\ threshold:\ int\ =\ 5\ } : Necessary number of digits needed
+  for digit grouping to kick in. Four-digit numbers for example are
+  usually not grouped at all since they can still be read easily.
+\end{itemize}
+
+Configuration example:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#set{-}group(separator: "\textquotesingle{}", threshold: 4)}
+\end{Highlighting}
+\end{Shaded}
+
+Grouping can be turned off altogether by setting the
+\texttt{\ threshold\ } to \texttt{\ calc.inf\ } .
+
+\subsubsection{Rounding}\label{rounding}
+
+Rounding can be configured with the \texttt{\ set-round()\ } function.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let set{-}round(}
+\NormalTok{  mode:       none |âstr = none,}
+\NormalTok{  precision:  int = 2,}
+\NormalTok{  pad:        boolean = true,}
+\NormalTok{  direction:  str = "nearest",}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ mode:\ none\ \textbar{}â€Šstr\ =\ none\ } : Sets the
+  rounding mode. The possible options are
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \texttt{\ none\ } : Rounding is turned off.
+  \item
+    \texttt{\ "places"\ } : The number is rounded to the number of
+    decimal places given by the \texttt{\ precision\ } parameter.
+  \item
+    \texttt{\ "figures"\ } : The number is rounded to a number of
+    significant figures given by the \texttt{\ precision\ } parameter.
+  \item
+    \texttt{\ "uncertainty"\ } : Requires giving an uncertainty value.
+    The uncertainty is rounded to significant figures according to the
+    \texttt{\ precision\ } argument and then the number is rounded to
+    the same number of decimal places as the uncertainty.
+  \end{itemize}
+\item
+  \texttt{\ precision:\ int\ =\ 2\ } : The precision to round to. Also
+  see parameter \texttt{\ mode\ } .
+\item
+  \texttt{\ pad:\ boolean\ =\ true\ } : Whether to pad the number with
+  zeros if the number has fewer digits than the rounding precision.
+\item
+  \texttt{\ direction:\ str\ =\ "nearest"\ } : Sets the rounding
+  direction.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \texttt{\ "nearest"\ } : Rounding takes place in the usual fashion,
+    rounding to the nearer number, e.g., 2.34 â†' 2.3 and 2.36 â†' 2.4.
+  \item
+    \texttt{\ "down"\ } : Always rounds down, e.g., 2.38 â†' 2.3 and
+    2.30 â†' 2.3.
+  \item
+    \texttt{\ "up"\ } : Always rounds up, e.g., 2.32 â†' 2.4 and 2.30
+    â†' 2.3.
+  \end{itemize}
+\end{itemize}
+
+\subsubsection{Specifying uncertainties}\label{specifying-uncertainties}
+
+There are two ways of specifying uncertainties:
+
+\begin{itemize}
+\tightlist
+\item
+  Applying an uncertainty to the least significant digits using
+  parentheses, e.g., \texttt{\ 2.3(4)\ } ,
+\item
+  Denoting an absolute uncertainty, e.g., \texttt{\ 2.3+-0.4\ } becomes
+  2.3Â±0.4.
+\end{itemize}
+
+Zero supports both and can convert between these two, so that you can
+pick the displayed style (configured via \texttt{\ uncertainty-mode\ } ,
+see above) independently of the input style.
+
+How do uncertainties interplay with exponents? The uncertainty needs to
+come first, and the exponent applies to both the mantissa and the
+uncertainty, e.g., \texttt{\ num("1.23+-.04e2")\ } becomes
+
+(1.23â€¯Â±â€¯0.03)Ã---10Â²
+
+Note that the mantissa is now put in parentheses to disambiguate the
+application of the power.
+
+In some cases, the uncertainty is asymmetric which can be expressed via
+\texttt{\ num("1.23+0.02-0.01")\ }
+
+1.23â?ºâ?°Ë™Ì‡â?°Â²â‚‹â‚€.â‚€â‚?
+
+\subsubsection{Table alignment}\label{table-alignment}
+
+In scientific publication, presenting many numbers in a readable fashion
+can be a difficult discipline. A good starting point is to align numbers
+in a table at the decimal separator. With \emph{Zero} , this can be
+accomplished by using \texttt{\ ztable\ } , a wrapper for the built-in
+\texttt{\ table\ } function. It features an additional parameter
+\texttt{\ format\ } which takes an array of \texttt{\ none\ } ,
+\texttt{\ auto\ } , or \texttt{\ dictionary\ } values to turn on number
+alignment for specific columns.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#ztable(}
+\NormalTok{  columns: 3,}
+\NormalTok{  align: center,}
+\NormalTok{  format: (none, auto, auto),}
+\NormalTok{  $n$, $Î±$, $Î²$,}
+\NormalTok{  [1], [3.45], [{-}11.1],}
+\NormalTok{  ..}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+Non-number entries (e.g., in the header) are automatically recognized in
+some cases and will not be aligned. In ambiguous cases, adding a leading
+or trailing space tells \emph{Zero} not to apply alignment to this cell,
+e.g., \texttt{\ {[}Angle\ {]}\ } instead of \texttt{\ {[}Angle{]}\ } .
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/user-attachments/assets/2effb7f0-0d9b-401a-92e1-20461d0c1fcb}}
+
+In addition, you can prefix or suffix a numeral with content wrapped by
+the function \texttt{\ nonum{[}{]}\ } to mark it as \emph{not belonging
+to the number} . The remaining content may still be recognized as a
+number and formatted/aligned accordingly.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#ztable(}
+\NormalTok{  format: (auto,),}
+\NormalTok{  [\#nonum[â¬]123.0\#nonum(footnote[A special number])],}
+\NormalTok{  [12.111],}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/user-attachments/assets/270ae789-2a8c-44a3-b3a9-0ca588bfbad3}}
+
+Zero not only aligns numbers at the decimal point but also at the
+uncertainty and exponent part. Moreover, by passing a
+\texttt{\ dictionary\ } instead of \texttt{\ auto\ } , a set of
+\texttt{\ num()\ } arguments to apply to all numbers in a column can be
+specified.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#ztable(}
+\NormalTok{  columns: 4,}
+\NormalTok{  align: center,}
+\NormalTok{  format: (none, auto, auto, (digits: 1)),}
+\NormalTok{  $n$, $Î±$, $Î²$, $Î³$,}
+\NormalTok{  [1], [3.45e2], [{-}11.1+{-}3], [0],}
+\NormalTok{  ..}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/user-attachments/assets/c96941bc-f002-4b93-b2cd-705c8104682f}}
+
+\subsection{Zero for third-party
+packages}\label{zero-for-third-party-packages}
+
+This package provides some useful extras for third-party packages that
+generate formatted numbers (for example graphics libraries).
+
+Instead of passing a \texttt{\ str\ } to \texttt{\ num()\ } , it is also
+possible to pass a dictionary of the form
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{(}
+\NormalTok{  mantissa:  str | int | float,}
+\NormalTok{  e:         none | str,}
+\NormalTok{  pm:        none | array}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+This way, parsing the number can be avoided which makes especially sense
+for packages that generate numbers (e.g., tick labels for a diagram
+axis) with independent mantissa and exponent.
+
+Furthermore, \texttt{\ num()\ } also allows \texttt{\ array\ } arguments
+for \texttt{\ number\ } which allows for more efficient batch-processing
+of numbers with the same setup. In this case, the caller of the function
+needs to provide \texttt{\ context\ } .
+
+\subsection{Changelog}\label{changelog}
+
+\subsubsection{Version 0.3.0}\label{version-0.3.0}
+
+\begin{itemize}
+\tightlist
+\item
+  Adds \texttt{\ nonum{[}{]}\ } function that can be used to mark
+  content in cells as \emph{not belonging to the number} . The remaining
+  content may still be recognized as a number and formatted/aligned
+  accordingly. The content wrapped by \texttt{\ nonum{[}{]}\ } is
+  preserved.
+\item
+  Fixes number alignment tables with new version Typst 0.12.
+\end{itemize}
+
+\subsubsection{Version 0.2.0}\label{version-0.2.0}
+
+\begin{itemize}
+\tightlist
+\item
+  Adds support for using non-math fonts for \texttt{\ num\ } via the
+  option \texttt{\ math\ } . This can be activated by calling
+  \texttt{\ \#set-num(math:\ false)\ } .
+\item
+  Performance improvements for both \texttt{\ num()\ } and
+  \texttt{\ ztable(9)\ }
+\end{itemize}
+
+\subsubsection{Version 0.1.0}\label{version-0.1.0}
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as \texttt{\ zero\ }
+
+\begin{verbatim}
+#import "@preview/zero:0.3.0"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+\href{https://github.com/Mc-Zen}{Mc-Zen}
+\item[License:]
+MIT
+\item[Current version:]
+0.3.0
+\item[Last updated:]
+October 28, 2024
+\item[First released:]
+September 16, 2024
+\item[Minimum Typst version:]
+0.11.0
+\item[Archive size:]
+15.7 kB
+\href{https://packages.typst.org/preview/zero-0.3.0.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/Mc-Zen/zero}{GitHub}
+\item[Categor ies :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-chart.svg}}
+  \href{https://typst.app/universe/search/?category=visualization}{Visualization}
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-layout.svg}}
+  \href{https://typst.app/universe/search/?category=layout}{Layout}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of Mc-Zen . Report issues on
+\href{https://github.com/Mc-Zen/zero}{their repository} . You can also
+try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.3.0 & October 28, 2024 \\
+\href{https://typst.app/universe/package/zero/0.2.0/}{0.2.0} & October
+4, 2024 \\
+\href{https://typst.app/universe/package/zero/0.1.0/}{0.1.0} & September
+16, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.

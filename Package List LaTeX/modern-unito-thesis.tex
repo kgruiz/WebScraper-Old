@@ -1,0 +1,240 @@
+\title{typst.app/universe/package/modern-unito-thesis}
+
+\phantomsection\label{banner}
+\phantomsection\label{template-thumbnail}
+\pandocbounded{\includegraphics[keepaspectratio]{https://packages.typst.org/preview/thumbnails/modern-unito-thesis-0.1.0-small.webp}}
+
+\section{modern-unito-thesis}\label{modern-unito-thesis}
+
+{ 0.1.0 }
+
+A thesis template of the University of Turin
+
+\href{/app?template=modern-unito-thesis&version=0.1.0}{Create project in
+app}
+
+\phantomsection\label{readme}
+This is a thesis template for the University of Turin (UniTO) based on
+\href{https://github.com/eduardz1/Bachelor-Thesis}{my thesis} , since
+there are no strict templates (notable mention to
+\href{https://github.com/esenes/Unito-thesis-template}{Eugenioâ€™s LaTeX
+template though} ) take my choices with a grain of salt, different
+supervisors may ask you to customize the template differently. My
+choices are loosely based on this document:
+\href{https://elearning.unito.it/sme/pluginfile.php/29485/mod_folder/content/0/format_TESI_2011-2012.pdf}{Indicazioni
+per il Format della Tesi} .
+
+If you find errors or ways to improve the template please open an issue
+or contribute directly with a PR.
+
+\subsection{Usage}\label{usage}
+
+In the Typst web app simply click â€œStart from templateâ€? on the
+dashboard and search for \texttt{\ modern-unito-thesis\ } .
+
+From the CLI you can initialize the project with the command
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{typst}\NormalTok{ init @preview/modern{-}unito{-}thesis}
+\end{Highlighting}
+\end{Shaded}
+
+A new directory with all the files needed to get started will be
+created.
+
+\subsection{Configuration}\label{configuration}
+
+This template exports the \texttt{\ template\ } function with the
+following named arguments:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ title\ } : the title of the thesis
+\item
+  \texttt{\ academic-year\ } : the academic year (e.g. 2023/2024)
+\item
+  \texttt{\ subtitle\ } : e.g. â€œBachelorâ€™s Thesisâ€?
+\item
+  \texttt{\ paper-size\ } (default \texttt{\ a4\ } ): the paper format
+\item
+  \texttt{\ candidate\ } : your name, surname and matricola (student id)
+\item
+  \texttt{\ supervisor\ } (relatore): your supervisorâ€™s name and
+  surname
+\item
+  \texttt{\ co-supervisor\ } (correlatore): an array of your
+  co-supervisorsâ€™ names and surnames
+\item
+  \texttt{\ affiliation\ } : a dictionary that specifies
+  \texttt{\ university\ } , \texttt{\ school\ } and \texttt{\ degree\ }
+  keywords
+\item
+  \texttt{\ lang\ } : configurable between \texttt{\ en\ } for English
+  and \texttt{\ it\ } for Italian
+\item
+  \texttt{\ bibliography-path\ } : the path to your bibliography file
+  (e.g. \texttt{\ works.bib\ } )
+\item
+  \texttt{\ logo\ } (already set to UniTOâ€™s logo by default): the path
+  to your universityâ€™s logo
+\item
+  \texttt{\ abstract\ } : your thesisâ€™ abstract, can be set to
+  \texttt{\ none\ } if not needed
+\item
+  \texttt{\ acknowledgments\ } : your thesisâ€™ acknowledgments, can be
+  set to \texttt{\ none\ } if not needed
+\item
+  \texttt{\ keywords\ } : a list of keywords for the thesis, can be set
+  to \texttt{\ none\ } if not needed
+\end{itemize}
+
+The template will initialize an example project with sensible defaults.
+
+The template divides the level 1 headings in chapters under the
+\texttt{\ chapters\ } directory, I suggest using this structure to keep
+the project organized.
+
+If you want to change an existing project to use this template, you can
+add a show rule like this at the top of your file:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/modern{-}unito{-}thesis:0.1.0": template}
+
+\NormalTok{\#show: template.with(}
+\NormalTok{  title: "My Beautiful Thesis",}
+\NormalTok{  academic{-}year: [2023/2024],}
+\NormalTok{  subtitle: "Bachelor\textquotesingle{}s Thesis",}
+\NormalTok{  logo: image("path/to/your/logo.png"),}
+\NormalTok{  candidate: (}
+\NormalTok{    name: "Eduard Antonovic Occhipinti",}
+\NormalTok{    matricola: 947847}
+\NormalTok{  ),}
+\NormalTok{  supervisor: (}
+\NormalTok{    "Prof. Luigi Paperino"}
+\NormalTok{  ),}
+\NormalTok{  co{-}supervisor: (}
+\NormalTok{    "Dott. Pluto Mario",}
+\NormalTok{    "Dott. Minni Topolino"}
+\NormalTok{  ),}
+\NormalTok{  affiliation: (}
+\NormalTok{    university: "UniversitÃ  degli Studi di Torino",}
+\NormalTok{    school: "Scuola di Scienze della Natura",}
+\NormalTok{    degree: "Corso di Laurea Triennale in Informatica",}
+\NormalTok{  ),}
+\NormalTok{  bibliography: bibliography("works.yml"),}
+\NormalTok{  abstract: [Your abstract goes here],}
+\NormalTok{  acknowledgments: [Your acknowledgments go here],}
+\NormalTok{  keywords: [keyword1, keyword2, keyword3]}
+\NormalTok{)}
+
+\NormalTok{// Your content goes here}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Compile}\label{compile}
+
+To compile the project from the CLI you just need to run
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{typst}\NormalTok{ compile main.typ}
+\end{Highlighting}
+\end{Shaded}
+
+or if you want to watch for changes (recommended)
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{typst}\NormalTok{ watch main.typ}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Bibliography}\label{bibliography}
+
+I integrated the bibliography as a
+\href{https://github.com/typst/hayagriva}{Hayagriva} \texttt{\ yaml\ }
+file under
+\href{https://github.com/typst/packages/raw/main/packages/preview/modern-unito-thesis/0.1.0/template/works.yml}{works.yml}
+, nonetheless using the more common \texttt{\ bib\ } format for your
+bibliography management is as simple as passing a BibTex file to the
+template \texttt{\ bibliography\ } parameter. Given that our university
+is not strict in this regard I suggest using Hayagriva though :).
+
+\href{/app?template=modern-unito-thesis&version=0.1.0}{Create project in
+app}
+
+\subsubsection{How to use}\label{how-to-use}
+
+Click the button above to create a new project using this template in
+the Typst app.
+
+You can also use the Typst CLI to start a new project on your computer
+using this command:
+
+\begin{verbatim}
+typst init @preview/modern-unito-thesis:0.1.0
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+Eduard Antonovic Occhipinti
+\item[License:]
+MIT
+\item[Current version:]
+0.1.0
+\item[Last updated:]
+March 20, 2024
+\item[First released:]
+March 20, 2024
+\item[Minimum Typst version:]
+0.11.0
+\item[Archive size:]
+19.6 kB
+\href{https://packages.typst.org/preview/modern-unito-thesis-0.1.0.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/eduardz1/unito-typst-template}{GitHub}
+\item[Categor y :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-mortarboard.svg}}
+  \href{https://typst.app/universe/search/?category=thesis}{Thesis}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This template is a project of Eduard Antonovic Occhipinti . Report
+issues on \href{https://github.com/eduardz1/unito-typst-template}{their
+repository} . You can also try to ask for help with this template on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this template to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.1.0 & March 20, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this template and cannot guarantee correct
+functionality of this template or compatibility with any version of the
+Typst compiler or app.

@@ -1,0 +1,254 @@
+\title{typst.app/universe/package/latedef}
+
+\phantomsection\label{banner}
+\section{latedef}\label{latedef}
+
+{ 0.1.0 }
+
+Use now, define later
+
+\phantomsection\label{readme}
+\emph{Use now, define later!}
+
+\subsection{Basic usage}\label{basic-usage}
+
+This package exposes a single function, \texttt{\ latedef-setup\ } .
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let (undef, def) = latedef{-}setup(simple: true)}
+
+\NormalTok{My \#undef is \#undef.}
+\NormalTok{\#def("dog")}
+\NormalTok{\#def("cool")}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/latedef/0.1.0/example-images/1.png}}
+
+Note that the definition doesnâ€™t actually have to come \emph{after}
+the usage, but if you want to define something beforehand, youâ€™re
+better off using a variable instead.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let (undef, def) = latedef{-}setup(simple: true)}
+
+\NormalTok{// Instead of}
+\NormalTok{\#def("A")}
+\NormalTok{The first letter is \#undef.}
+
+\NormalTok{// you should use}
+\NormalTok{\#let A = "A"}
+\NormalTok{The first letter is \#A.}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/latedef/0.1.0/example-images/2.png}}
+
+\subsection{\texorpdfstring{The \texttt{\ simple\ }
+parameter}{The  simple  parameter}}\label{the-simple-parameter}
+
+When \texttt{\ simple:\ false\ } (which is the default),
+\texttt{\ undef\ } becomes a function you have to call. It takes an
+optional positional or named parameter \texttt{\ id\ } of type
+\texttt{\ str\ } , which can be used to define things out of order.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let (undef, def) = latedef{-}setup() // or \textasciigrave{}latedef{-}setup(simple: false)\textasciigrave{}}
+
+\NormalTok{// Note that you can still call it without an id, which works just like when \textasciigrave{}simple: true\textasciigrave{}.}
+\NormalTok{My letters are \#undef("1"), \#undef(id: "2"), and \#undef().}
+
+\NormalTok{// \textasciigrave{}def\textasciigrave{} now takes one positional and either another positional or a named parameter.}
+\NormalTok{\#def("C")}
+\NormalTok{\#def(id: "2", "B")}
+\NormalTok{\#def("1", "A")}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/latedef/0.1.0/example-images/3.png}}
+
+\subsection{\texorpdfstring{The \texttt{\ footnote\ }
+parameter}{The  footnote  parameter}}\label{the-footnote-parameter}
+
+This is a convenience feature that automatically wraps
+\texttt{\ undef\ } in \texttt{\ footnote\ } , either directly (when
+\texttt{\ simple:\ true\ } ) or as a function (when
+\texttt{\ simple:\ false\ } ).
+
+This corresponds to LaTeXâ€™s \texttt{\ \textbackslash{}footnotemark\ }
+and \texttt{\ \textbackslash{}footnotetext\ } , hence the different
+names in the example.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let (fmark, ftext) = latedef{-}setup(simple: true, footnote: true)}
+\NormalTok{Do\#fmark you\#fmark believe\#fmark in God?\#fmark}
+
+\NormalTok{\#let wdym = "What do you mean"}
+\NormalTok{\#ftext[\#wdym "Do"?]}
+\NormalTok{\#ftext[\#wdym "you"?]}
+\NormalTok{\#ftext[\#wdym "believe"?]}
+\NormalTok{\#ftext[And w\#wdym.slice(1) "God"?]}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/latedef/0.1.0/example-images/4.png}}
+
+\subsection{\texorpdfstring{The \texttt{\ stand-in\ }
+parameter}{The  stand-in  parameter}}\label{the-stand-in-parameter}
+
+This is a function that takes a single positional parameter (
+\texttt{\ id\ } ) of type \texttt{\ none\ \textbar{}\ str\ } and
+produces a stand-in value that gets shown when a late-defined value is
+missing a corresponding definition.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let (undef, def) = latedef{-}setup()}
+\NormalTok{// This is the default stand{-}in}
+\NormalTok{\#undef()}
+\NormalTok{\#undef("with an id")}
+
+\NormalTok{// Custom stand{-}in}
+\NormalTok{\#let (undef, def) = latedef{-}setup(stand{-}in: id =\textgreater{} emph[No \#id!])}
+\NormalTok{\#undef()}
+\NormalTok{\#undef("id")}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/latedef/0.1.0/example-images/5.png}}
+
+Since \texttt{\ stand-in\ } is a function, which is only called when a
+definition is actually missing, you can even set it to panic to enforce
+that all late-defined values have a definiton.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let (undef, def) = latedef{-}setup(stand{-}in: id =\textgreater{} panic("Missing definition for value with id " + repr(id)))}
+\NormalTok{\#undef()}
+\NormalTok{\#undef("id")}
+\end{Highlighting}
+\end{Shaded}
+
+The output will look something like
+
+\begin{verbatim}
+error: panicked with: "Missing definition for value with id none"
+  ââ example.typ:1:50
+  â
+  â #let (undef, def) = latedef-setup(stand-in: id => panic("Missing definition for value with id " + repr(id)))
+  â                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: panicked with: "Missing definition for value with id \"id\""
+  ââ example.typ:1:50
+  â
+  â #let (undef, def) = latedef-setup(stand-in: id => panic("Missing definition for value with id " + repr(id)))
+  â                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+\end{verbatim}
+
+And there is no error when everything has a definition:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let (undef, def) = latedef{-}setup(stand{-}in: id =\textgreater{} panic("Missing definition for value with id " + repr(id)))}
+\NormalTok{\#undef() is \#undef("id").}
+\NormalTok{\#def("This")}
+\NormalTok{\#def("id", "fine")}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/latedef/0.1.0/example-images/6.png}}
+
+\subsection{\texorpdfstring{The \texttt{\ group\ }
+parameter}{The  group  parameter}}\label{the-group-parameter}
+
+Sometimes you may want to use multiple instances of \texttt{\ latedef\ }
+in parallel. This is done using the \texttt{\ group\ } parameter, which
+can be \texttt{\ none\ } (the default) or any \texttt{\ str\ } .
+
+Note that using \texttt{\ footnote:\ true\ } sets the default group to
+\texttt{\ "footnote"\ } instead.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{// Use a group for the figure stuff...}
+\NormalTok{\#let (caption{-}undef, caption) = latedef{-}setup(simple: true, group: "figure")}
+\NormalTok{\#let figure = std.figure.with(caption: caption{-}undef)}
+\NormalTok{// ...so you can still use the regular mechanism in parallel.}
+\NormalTok{\#let (undef, def) = latedef{-}setup(simple: true)}
+
+\NormalTok{\#figure(raw(block: true, lorem(5)))}
+\NormalTok{\#caption[The \#undef \_lorem ipsum\_.]}
+\NormalTok{\#def("classic")}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/latedef/0.1.0/example-images/7.png}}
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as \texttt{\ latedef\ }
+
+\begin{verbatim}
+#import "@preview/latedef:0.1.0"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+\href{mailto:realt0mstone@gmail.com}{T0mstone}
+\item[License:]
+MIT-0
+\item[Current version:]
+0.1.0
+\item[Last updated:]
+October 21, 2024
+\item[First released:]
+October 21, 2024
+\item[Minimum Typst version:]
+0.11.0
+\item[Archive size:]
+3.64 kB
+\href{https://packages.typst.org/preview/latedef-0.1.0.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://codeberg.org/T0mstone/typst-latedef}{Codeberg}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of T0mstone . Report issues on
+\href{https://codeberg.org/T0mstone/typst-latedef}{their repository} .
+You can also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.1.0 & October 21, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.

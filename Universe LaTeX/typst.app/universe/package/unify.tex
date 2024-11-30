@@ -1,0 +1,289 @@
+\title{typst.app/universe/package/unify}
+
+\phantomsection\label{banner}
+\section{unify}\label{unify}
+
+{ 0.7.0 }
+
+Format numbers, units, and ranges correctly.
+
+{ } Featured Package
+
+\phantomsection\label{readme}
+\texttt{\ unify\ } is a \href{https://github.com/typst/typst}{Typst}
+package simplifying the typesetting of numbers, units, and ranges. It is
+the equivalent to LaTeXâ€™s \texttt{\ siunitx\ } , though not as mature.
+
+\subsection{Overview}\label{overview}
+
+\texttt{\ unify\ } allows flexible numbers and units, and still mostly
+gets well typeset results.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/unify:0.7.0": num,qty,numrange,qtyrange}
+
+\NormalTok{$ num("{-}1.32865+{-}0.50273e{-}6") $}
+\NormalTok{$ qty("1.3+1.2{-}0.3e3", "erg/cm\^{}2/s", space: "\#h(2mm)") $}
+\NormalTok{$ numrange("1,1238e{-}2", "3,0868e5", thousandsep: "\textquotesingle{}") $}
+\NormalTok{$ qtyrange("1e3", "2e3", "meter per second squared", per: "/", delimiter: "\textbackslash{}"to\textbackslash{}"") $}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics[width=3.125in,height=\textheight,keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/unify/0.7.0/examples/overview.jpg}
+
+Right now, physical, monetary, and binary units are supported. New
+issues or pull requests for new units are welcome!
+
+\subsection{Multilingual support}\label{multilingual-support}
+
+The Unify package supports multiple languages. Currently, the supported
+languages are English and Russian. The fallback is English. If you want
+to add your language, you should add two files:
+\texttt{\ prefixes-xx.csv\ } and \texttt{\ units-xx.csv\ } , and in the
+\texttt{\ lib.typ\ } file you should fix the \texttt{\ lang-db\ } state
+for your files.
+
+\subsection{\texorpdfstring{\texttt{\ num\ }}{ num }}\label{num}
+
+\texttt{\ num\ } uses string parsing in order to typeset numbers,
+including separators between the thousands. They can have the following
+form:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ float\ } or \texttt{\ integer\ } number
+\item
+  either ( \texttt{\ \{\}\ } stands for a number)
+
+  \begin{itemize}
+  \tightlist
+  \item
+    symmetric uncertainties with \texttt{\ +-\{\}\ }
+  \item
+    asymmetric uncertainties with \texttt{\ +\{\}-\{\}\ }
+  \end{itemize}
+\item
+  exponential notation \texttt{\ e\{\}\ }
+\end{itemize}
+
+Parentheses are automatically set as necessary. Use
+\texttt{\ thousandsep\ } to change the separator between the thousands,
+and \texttt{\ multiplier\ } to change the multiplication symbol between
+the number and exponential.
+
+\subsection{\texorpdfstring{\texttt{\ unit\ }}{ unit }}\label{unit}
+
+\texttt{\ unit\ } takes the unit in words or in symbolic notation as its
+first argument. The value of \texttt{\ space\ } will be inserted between
+units if necessary. Setting \texttt{\ per\ } to \texttt{\ symbol\ } will
+format the number with exponents (i.e. \texttt{\ \^{}(-1)\ } ),
+\texttt{\ fraction\ } or \texttt{\ /\ } using fraction, and
+\texttt{\ fraction-short\ } or
+\texttt{\ \textbackslash{}\textbackslash{}/\ } using in-line
+fractions.\\
+Units in words have four possible parts:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ per\ } forms the inverse of the following unit.
+\item
+  A written-out prefix in the sense of SI (e.g. \texttt{\ centi\ } ).
+  This is added before the unit.
+\item
+  The unit itself written out (e.g. \texttt{\ gram\ } ).
+\item
+  A postfix like \texttt{\ squared\ } . This is added after the unit and
+  takes \texttt{\ per\ } into account.
+\end{itemize}
+
+The shorthand notation also has four parts:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ /\ } forms the inverse of the following unit.
+\item
+  A short prefix in the sense of SI (e.g. \texttt{\ k\ } ). This is
+  added before the unit.
+\item
+  The short unit itself (e.g. \texttt{\ g\ } ).
+\item
+  An exponent like \texttt{\ \^{}2\ } . This is added after the unit and
+  takes \texttt{\ /\ } into account.
+\end{itemize}
+
+Note: Use \texttt{\ u\ } for micro.
+
+The possible values of the three latter parts are loaded at runtime from
+\texttt{\ prefixes.csv\ } , \texttt{\ units.csv\ } , and
+\texttt{\ postfixes.csv\ } (in the library directory). Your own units
+etc. can be permanently added in these files. At runtime, they can be
+added using \texttt{\ add-unit\ } and \texttt{\ add-prefix\ } ,
+respectively. The formats for the pre- and postfixes are:
+
+\begin{longtable}[]{@{}lll@{}}
+\toprule\noalign{}
+pre-/postfix & shorthand & symbol \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+milli & m & upright(â€œmâ€?) \\
+\end{longtable}
+
+and for units:
+
+\begin{longtable}[]{@{}llll@{}}
+\toprule\noalign{}
+unit & shorthand & symbol & space \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+meter & m & upright(â€œmâ€?) & true \\
+\end{longtable}
+
+The first column specifies the written-out word, the second one the
+shorthand. These should be unique. The third column represents the
+string that will be inserted as the unit symbol. For units, the last
+column describes whether there should be space before the unit (possible
+values: \texttt{\ true\ } / \texttt{\ false\ } , \texttt{\ 1\ } ,
+\texttt{\ 0\ } ). This is mostly the cases for degrees and other angle
+units (e.g. arcseconds).\\
+If you think there are units not included that are of interest for other
+users, you can create an issue or PR.
+
+\subsection{\texorpdfstring{\texttt{\ qty\ }}{ qty }}\label{qty}
+
+\texttt{\ qty\ } allows a \texttt{\ num\ } as the first argument
+following the same rules. The second argument is a unit. If
+\texttt{\ rawunit\ } is set to true, its value will be passed on to the
+result (note that the string passed on will be passed to
+\texttt{\ eval\ } , so add escaped quotes \texttt{\ \textbackslash{}"\ }
+if necessary). Otherwise, it follows the rules of \texttt{\ unit\ } .
+The value of \texttt{\ space\ } will be inserted between units if
+necessary, \texttt{\ thousandsep\ } between the thousands, and
+\texttt{\ per\ } switches between exponents and fractions.
+
+\subsection{\texorpdfstring{\texttt{\ numrange\ }}{ numrange }}\label{numrange}
+
+\texttt{\ numrange\ } takes two \texttt{\ num\ } s as the first two
+arguments. If they have the same exponent, it is automatically
+factorized. The range symbol can be changed with \texttt{\ delimiter\ }
+, and the space between the numbers and symbols with \texttt{\ space\ }
+.
+
+\subsection{\texorpdfstring{\texttt{\ qtyrange\ }}{ qtyrange }}\label{qtyrange}
+
+\texttt{\ qtyrange\ } is just a combination of \texttt{\ unit\ } and
+\texttt{\ range\ } .
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as \texttt{\ unify\ }
+
+\begin{verbatim}
+#import "@preview/unify:0.7.0"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+Christopher Hecker
+\item[License:]
+MIT
+\item[Current version:]
+0.7.0
+\item[Last updated:]
+November 28, 2024
+\item[First released:]
+July 27, 2023
+\item[Archive size:]
+9.04 kB
+\href{https://packages.typst.org/preview/unify-0.7.0.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/ChHecker/unify}{GitHub}
+\item[Discipline s :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \href{https://typst.app/universe/search/?discipline=business}{Business}
+\item
+  \href{https://typst.app/universe/search/?discipline=chemistry}{Chemistry}
+\item
+  \href{https://typst.app/universe/search/?discipline=computer-science}{Computer
+  Science}
+\item
+  \href{https://typst.app/universe/search/?discipline=economics}{Economics}
+\item
+  \href{https://typst.app/universe/search/?discipline=engineering}{Engineering}
+\item
+  \href{https://typst.app/universe/search/?discipline=mathematics}{Mathematics}
+\item
+  \href{https://typst.app/universe/search/?discipline=physics}{Physics}
+\end{itemize}
+\item[Categor y :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-text.svg}}
+  \href{https://typst.app/universe/search/?category=text}{Text}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of Christopher Hecker . Report issues on
+\href{https://github.com/ChHecker/unify}{their repository} . You can
+also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.7.0 & November 28, 2024 \\
+\href{https://typst.app/universe/package/unify/0.6.1/}{0.6.1} & November
+18, 2024 \\
+\href{https://typst.app/universe/package/unify/0.6.0/}{0.6.0} & May 23,
+2024 \\
+\href{https://typst.app/universe/package/unify/0.5.0/}{0.5.0} & March
+26, 2024 \\
+\href{https://typst.app/universe/package/unify/0.4.3/}{0.4.3} & October
+22, 2023 \\
+\href{https://typst.app/universe/package/unify/0.4.2/}{0.4.2} & October
+9, 2023 \\
+\href{https://typst.app/universe/package/unify/0.4.1/}{0.4.1} &
+September 3, 2023 \\
+\href{https://typst.app/universe/package/unify/0.4.0/}{0.4.0} & July 28,
+2023 \\
+\href{https://typst.app/universe/package/unify/0.1.0/}{0.1.0} & July 27,
+2023 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.

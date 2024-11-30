@@ -1,0 +1,155 @@
+\title{typst.app/universe/package/indenta}
+
+\phantomsection\label{banner}
+\section{indenta}\label{indenta}
+
+{ 0.0.3 }
+
+Fix indent of first paragraph.
+
+\phantomsection\label{readme}
+An attempt to fix the indentation of the first paragraph in typst.
+
+It works.
+
+\subsection{Usage}\label{usage}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#set par(first{-}line{-}indent: 2em)}
+\NormalTok{\#import "@preview/indenta:0.0.3": fix{-}indent}
+\NormalTok{\#show: fix{-}indent()}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Demo}\label{demo}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/flaribbit/indenta/assets/24885181/874df696-3277-4103-9166-a24639b0c7c6}}
+
+\subsection{Note}\label{note}
+
+When you use \texttt{\ fix-indent()\ } with other show rules, make sure
+to call \texttt{\ fix-indent()\ } \textbf{after other show rules} . For
+example:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#show heading.where(level: 1): set text(size: 20pt)}
+\NormalTok{\#show: fix{-}indent()}
+\end{Highlighting}
+\end{Shaded}
+
+If you want to process the content inside your custom block, you can
+call \texttt{\ fix-indent\ } inside your block. For example:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#block[\#set text(fill: red)}
+\NormalTok{\#show: fix{-}indent()}
+
+\NormalTok{Hello}
+
+\NormalTok{\#table()[table]}
+
+\NormalTok{World}
+\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+This package is in a very early stage and may not work as expected in
+some cases. Currently, there is no easy way to check if an element is
+inlined or not. If you got an unexpected result, you can try
+\texttt{\ fix-indent(unsafe:\ true)\ } to disable the check.
+
+Minor fixes can be made at any time, but the package in typst universe
+may not be updated immediately. You can check the latest version on
+\href{https://github.com/flaribbit/indenta}{GitHub} then copy and paste
+the code into your typst file.
+
+If it still doesnâ€™t work as expected, you can try another solution
+(aka fake-par solution):
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let fakepar=context\{box();v({-}measure(block()+block()).height)\}}
+\NormalTok{\#show heading: it=\textgreater{}it+fakepar}
+\NormalTok{\#show figure: it=\textgreater{}it+fakepar}
+\NormalTok{\#show math.equation.where(block: true): it=\textgreater{}it+fakepar}
+\NormalTok{// ... other elements}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as \texttt{\ indenta\ }
+
+\begin{verbatim}
+#import "@preview/indenta:0.0.3"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+\href{https://github.com/flaribbit}{æ¢¦é£žç¿''}
+\item[License:]
+MIT
+\item[Current version:]
+0.0.3
+\item[Last updated:]
+June 10, 2024
+\item[First released:]
+May 24, 2024
+\item[Archive size:]
+2.35 kB
+\href{https://packages.typst.org/preview/indenta-0.0.3.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/flaribbit/indenta}{GitHub}
+\item[Categor y :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-hammer.svg}}
+  \href{https://typst.app/universe/search/?category=utility}{Utility}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of æ¢¦é£žç¿'' . Report issues on
+\href{https://github.com/flaribbit/indenta}{their repository} . You can
+also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.0.3 & June 10, 2024 \\
+\href{https://typst.app/universe/package/indenta/0.0.2/}{0.0.2} & May
+27, 2024 \\
+\href{https://typst.app/universe/package/indenta/0.0.1/}{0.0.1} & May
+24, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.

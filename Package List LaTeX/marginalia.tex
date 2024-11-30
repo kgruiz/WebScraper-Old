@@ -1,0 +1,194 @@
+\title{typst.app/universe/package/marginalia}
+
+\phantomsection\label{banner}
+\section{marginalia}\label{marginalia}
+
+{ 0.1.1 }
+
+Configurable margin-notes and matching wide blocks.
+
+\phantomsection\label{readme}
+\subsection{Setup}\label{setup}
+
+Put something akin to the following at the start of your
+\texttt{\ .typ\ } file:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/marginalia:0.1.1" as marginalia: note, wideblock}
+\NormalTok{\#let config = (}
+\NormalTok{  // inner: ( far: 5mm, width: 15mm, sep: 5mm ),}
+\NormalTok{  // outer: ( far: 5mm, width: 15mm, sep: 5mm ),}
+\NormalTok{  // top: 2.5cm,}
+\NormalTok{  // bottom: 2.5cm,}
+\NormalTok{  // book: false,}
+\NormalTok{  // clearance: 8pt,}
+\NormalTok{  // flush{-}numbers: false,}
+\NormalTok{  // numbering: /* numbering{-}function */,}
+\NormalTok{)}
+\NormalTok{\#marginalia.configure(..config)}
+\NormalTok{\#set page(}
+\NormalTok{  // setup margins:}
+\NormalTok{  ..marginalia.page{-}setup(..config),}
+\NormalTok{  /* other page setup */}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+If \texttt{\ book\ } is \texttt{\ false\ } , \texttt{\ inner\ } and
+\texttt{\ outer\ } correspond to the left and right margins
+respectively. If book is true, the margins swap sides on even and odd
+pages. Notes are placed in the outside margin by default.
+
+Where you can then customize \texttt{\ config\ } to your preferences.
+Shown here (as comments) are the default values taken if the
+corresponding keys are unset.
+\href{https://github.com/nleanba/typst-marginalia/blob/v0.1.1/Marginalia.pdf}{Please
+refer to the PDF documentation for more details on the configuration and
+the provided commands.}
+
+\subsection{Margin-Notes}\label{margin-notes}
+
+Provided via the \texttt{\ \#note{[}...{]}\ } command.
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ \#note(reverse:\ true){[}...{]}\ } to put it on the inside
+  margin.
+\item
+  \texttt{\ \#note(numbered:\ false){[}...{]}\ } to remove the marker.
+\end{itemize}
+
+Note: it is recommended to reset the counter for the markers regularly,
+e.g. by putting \texttt{\ marginalia.notecounter.update(0)\ } into the
+code for your header.
+
+\subsection{Wide Blocks}\label{wide-blocks}
+
+Provided via the \texttt{\ \#wideblock{[}...{]}\ } command.
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ \#wideblock(reverse:\ true){[}...{]}\ } to extend into the
+  inside margin instead.
+\item
+  \texttt{\ \#wideblock(double:\ true){[}...{]}\ } to extend into both
+  margins.
+\end{itemize}
+
+Note: \texttt{\ reverse\ } and \texttt{\ double\ } are mutually
+exclusive.
+
+Note: Wideblocks do not handle pagebreaks in \texttt{\ book:\ true\ }
+documents well.
+
+\subsection{Figures}\label{figures}
+
+You can use figures as normal, also within wideblocks. To get captions
+on the side, use
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#set figure(gap: 0pt)}
+\NormalTok{\#set figure.caption(position: top)}
+\NormalTok{\#show figure.caption.where(position: top): note.with(numbered: false, dy: 1em)}
+\end{Highlighting}
+\end{Shaded}
+
+For small figures, the package also provides a \texttt{\ notefigure\ }
+command which places the figure in the margin.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#marginalia.notefigure(}
+\NormalTok{  rect(width: 100\%),}
+\NormalTok{  label: \textless{}aaa\textgreater{},}
+\NormalTok{  caption: [A notefigure.],}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\href{https://github.com/nleanba/typst-marginalia/blob/v0.1.1/Marginalia.pdf}{\pandocbounded{\includesvg[keepaspectratio]{https://raw.githubusercontent.com/nleanba/typst-marginalia/refs/tags/v0.1.1/preview.svg}}}
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as
+\texttt{\ marginalia\ }
+
+\begin{verbatim}
+#import "@preview/marginalia:0.1.1"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+\href{https://github.com/nleanba}{nleanba}
+\item[License:]
+Unlicense
+\item[Current version:]
+0.1.1
+\item[Last updated:]
+November 25, 2024
+\item[First released:]
+November 19, 2024
+\item[Minimum Typst version:]
+0.12.0
+\item[Archive size:]
+6.17 kB
+\href{https://packages.typst.org/preview/marginalia-0.1.1.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/nleanba/typst-marginalia}{GitHub}
+\item[Categor ies :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-layout.svg}}
+  \href{https://typst.app/universe/search/?category=layout}{Layout}
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-hammer.svg}}
+  \href{https://typst.app/universe/search/?category=utility}{Utility}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of nleanba . Report issues on
+\href{https://github.com/nleanba/typst-marginalia}{their repository} .
+You can also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.1.1 & November 25, 2024 \\
+\href{https://typst.app/universe/package/marginalia/0.1.0/}{0.1.0} &
+November 19, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.

@@ -1,0 +1,355 @@
+\title{typst.app/universe/package/outrageous}
+
+\phantomsection\label{banner}
+\section{outrageous}\label{outrageous}
+
+{ 0.3.0 }
+
+Easier customization of outline entries.
+
+\phantomsection\label{readme}
+Easier customization of outline entries.
+
+\subsection{Examples}\label{examples}
+
+For the full source see
+\href{https://github.com/typst/packages/raw/main/packages/preview/outrageous/0.3.0/examples/basic.typ}{\texttt{\ examples/basic.typ\ }}
+and for more examples see the
+\href{https://github.com/typst/packages/raw/main/packages/preview/outrageous/0.3.0/examples}{\texttt{\ examples\ }
+directory} .
+
+\subsubsection{Default Style}\label{default-style}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/outrageous/0.3.0/example-default.png}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/outrageous:0.1.0"}
+\NormalTok{\#show outline.entry: outrageous.show{-}entry}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{Custom Settings}\label{custom-settings}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/outrageous/0.3.0/example-custom.png}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/outrageous:0.1.0"}
+\NormalTok{\#show outline.entry: outrageous.show{-}entry.with(}
+\NormalTok{  // the typst preset retains the normal Typst appearance}
+\NormalTok{  ..outrageous.presets.typst,}
+\NormalTok{  // we only override a few things:}
+\NormalTok{  // level{-}1 entries are italic, all others keep their font style}
+\NormalTok{  font{-}style: ("italic", auto),}
+\NormalTok{  // no fill for level{-}1 entries, a thin gray line for all deeper levels}
+\NormalTok{  fill: (none, line(length: 100\%, stroke: gray + .5pt)),}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Usage}\label{usage}
+
+\subsubsection{\texorpdfstring{\texttt{\ show-entry\ }}{ show-entry }}\label{show-entry}
+
+Show the given outline entry with the provided styling. Should be used
+in a show rule like
+\texttt{\ \#show\ outline.entry:\ outrageous.show-entry\ } .
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let show{-}entry(}
+\NormalTok{  entry,}
+\NormalTok{  font{-}weight: presets.outrageous{-}toc.font{-}weight,}
+\NormalTok{  font{-}style: presets.outrageous{-}toc.font{-}style,}
+\NormalTok{  vspace: presets.outrageous{-}toc.vspace,}
+\NormalTok{  font: presets.outrageous{-}toc.font,}
+\NormalTok{  fill: presets.outrageous{-}toc.fill,}
+\NormalTok{  fill{-}right{-}pad: presets.outrageous{-}toc.fill{-}right{-}pad,}
+\NormalTok{  fill{-}align: presets.outrageous{-}toc.fill{-}align,}
+\NormalTok{  body{-}transform: presets.outrageous{-}toc.body{-}transform,}
+\NormalTok{  label: \textless{}outrageous{-}modified{-}entry\textgreater{},}
+\NormalTok{  state{-}key: "outline{-}page{-}number{-}max{-}width",}
+\NormalTok{) = \{ .. \}}
+\end{Highlighting}
+\end{Shaded}
+
+\textbf{Arguments:}
+
+For all the arguments that take arrays, the arrayâ€™s first item
+specifies the value for all level-one entries, the second item for
+level-two, and so on. The arrayâ€™s last item will be used for all
+deeper/following levels as well.
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ entry\ } :
+  \href{https://typst.app/docs/reference/foundations/content/}{\texttt{\ content\ }}
+  â€'' The
+  \href{https://typst.app/docs/reference/model/outline/\#definitions-entry}{\texttt{\ outline.entry\ }}
+  element from the show rule.
+\item
+  \texttt{\ font-weight\ } :
+  \href{https://typst.app/docs/reference/foundations/array/}{\texttt{\ array\ }}
+  of (
+  \href{https://typst.app/docs/reference/foundations/str/}{\texttt{\ str\ }}
+  or
+  \href{https://typst.app/docs/reference/foundations/int/}{\texttt{\ int\ }}
+  or \texttt{\ auto\ } or \texttt{\ none\ } ) â€'' The entryâ€™s font
+  weight. Setting to \texttt{\ auto\ } or \texttt{\ none\ } keeps the
+  contextâ€™s current style.
+\item
+  \texttt{\ font-style\ } :
+  \href{https://typst.app/docs/reference/foundations/array/}{\texttt{\ array\ }}
+  of (
+  \href{https://typst.app/docs/reference/foundations/str/}{\texttt{\ str\ }}
+  or \texttt{\ auto\ } or \texttt{\ none\ } ) â€'' The entryâ€™s font
+  style. Setting to \texttt{\ auto\ } or \texttt{\ none\ } keeps the
+  contextâ€™s current style.
+\item
+  \texttt{\ vspace\ } :
+  \href{https://typst.app/docs/reference/foundations/array/}{\texttt{\ array\ }}
+  of (
+  \href{https://typst.app/docs/reference/layout/relative/}{\texttt{\ relative\ }}
+  or
+  \href{https://typst.app/docs/reference/layout/fraction/}{\texttt{\ fraction\ }}
+  or \texttt{\ none\ } ) â€'' Vertical spacing to add above the entry.
+  Setting to \texttt{\ none\ } adds no space.
+\item
+  \texttt{\ font\ } :
+  \href{https://typst.app/docs/reference/foundations/array/}{\texttt{\ array\ }}
+  of (
+  \href{https://typst.app/docs/reference/foundations/str/}{\texttt{\ str\ }}
+  or
+  \href{https://typst.app/docs/reference/foundations/array/}{\texttt{\ array\ }}
+  or \texttt{\ auto\ } or \texttt{\ none\ } ) â€'' The entryâ€™s font.
+  Setting to \texttt{\ auto\ } or \texttt{\ none\ } keeps the
+  contextâ€™s current font.
+\item
+  \texttt{\ fill\ } :
+  \href{https://typst.app/docs/reference/foundations/array/}{\texttt{\ array\ }}
+  of (
+  \href{https://typst.app/docs/reference/foundations/content/}{\texttt{\ content\ }}
+  or \texttt{\ auto\ } or \texttt{\ none\ } ) â€'' The entryâ€™s fill.
+  Setting to \texttt{\ auto\ } keeps the contextâ€™s current setting.
+\item
+  \texttt{\ fill-right-pad\ } :
+  \href{https://typst.app/docs/reference/layout/relative/}{\texttt{\ relative\ }}
+  or \texttt{\ none\ } â€'' Horizontal space to put between the fill and
+  page number.
+\item
+  \texttt{\ fill-align\ } :
+  \href{https://typst.app/docs/reference/foundations/bool/}{\texttt{\ bool\ }}
+  â€'' Whether \texttt{\ fill-right-pad\ } should be relative to the
+  current page number or the widest page number. Setting this to
+  \texttt{\ true\ } has the effect of all fills ending on the same
+  vertical line.
+\item
+  \texttt{\ body-transform\ } :
+  \href{https://typst.app/docs/reference/foundations/function/}{\texttt{\ function\ }}
+  or \texttt{\ none\ } â€'' Callback for custom edits to the entryâ€™s
+  body. It gets passed the entryâ€™s level (
+  \href{https://typst.app/docs/reference/foundations/int/}{\texttt{\ int\ }}
+  ) and body (
+  \href{https://typst.app/docs/reference/foundations/content/}{\texttt{\ content\ }}
+  ) and should return
+  \href{https://typst.app/docs/reference/foundations/content/}{\texttt{\ content\ }}
+  or \texttt{\ none\ } . If \texttt{\ none\ } is returned, no
+  modifications are made.
+\item
+  \texttt{\ page-transform\ } :
+  \href{https://typst.app/docs/reference/foundations/function/}{\texttt{\ function\ }}
+  or \texttt{\ none\ } â€'' Callback for custom edits to the entryâ€™s
+  page number. It gets passed the entryâ€™s level (
+  \href{https://typst.app/docs/reference/foundations/int/}{\texttt{\ int\ }}
+  ) and page number (
+  \href{https://typst.app/docs/reference/foundations/content/}{\texttt{\ content\ }}
+  ) and should return
+  \href{https://typst.app/docs/reference/foundations/content/}{\texttt{\ content\ }}
+  or \texttt{\ none\ } . If \texttt{\ none\ } is returned, no
+  modifications are made.
+\item
+  \texttt{\ label\ } :
+  \href{https://typst.app/docs/reference/foundations/label/}{\texttt{\ label\ }}
+  â€'' The label to internally use for tracking recursion. This should
+  not need to be modified.
+\item
+  \texttt{\ state-key\ } :
+  \href{https://typst.app/docs/reference/foundations/str/}{\texttt{\ str\ }}
+  â€'' The key to use for the internal state which tracks the maximum
+  page number width. The state is global for the entire document and
+  thus applies to all outlines. If you wish to re-calculate the max page
+  number width for \texttt{\ fill-align\ } , then you must provide a
+  different key for each outline.
+\end{itemize}
+
+\textbf{Returns:}
+\href{https://typst.app/docs/reference/foundations/content/}{\texttt{\ content\ }}
+
+\subsubsection{\texorpdfstring{\texttt{\ presets\ }}{ presets }}\label{presets}
+
+Presets for the arguments for
+\href{https://github.com/typst/packages/raw/main/packages/preview/outrageous/0.3.0/\#show-entry}{\texttt{\ show-entry()\ }}
+. You can use them in your show rule with
+\texttt{\ \#show\ outline.entry:\ outrageous.show-entry.with(..outrageous.presets.outrageous-figures)\ }
+.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let presets = (}
+\NormalTok{  // outrageous preset for a Table of Contents}
+\NormalTok{  outrageous{-}toc: (}
+\NormalTok{    // ...}
+\NormalTok{  ),}
+\NormalTok{  // outrageous preset for List of Figures/Tables/Listings}
+\NormalTok{  outrageous{-}figures: (}
+\NormalTok{    // ...}
+\NormalTok{  ),}
+\NormalTok{  // preset without any style changes}
+\NormalTok{  typst: (}
+\NormalTok{    // ...}
+\NormalTok{  ),}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{\texorpdfstring{\texttt{\ repeat\ }}{ repeat }}\label{repeat}
+
+Utility function to repeat content to fill space with a fixed size gap.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let repeat(gap: none, justify: false, body) = \{ .. \}}
+\end{Highlighting}
+\end{Shaded}
+
+\textbf{Arguments:}
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ gap\ } :
+  \href{https://typst.app/docs/reference/layout/length/}{\texttt{\ length\ }}
+  or \texttt{\ none\ } â€'' The gap between repeated items.
+\item
+  \texttt{\ justify\ } :
+  \href{https://typst.app/docs/reference/foundations/bool/}{\texttt{\ bool\ }}
+  â€'' Whether to increase the gap to justify the items.
+\item
+  \texttt{\ body\ } :
+  \href{https://typst.app/docs/reference/foundations/content/}{\texttt{\ content\ }}
+  â€'' The content to repeat.
+\end{itemize}
+
+\textbf{Returns:}
+\href{https://typst.app/docs/reference/foundations/content/}{\texttt{\ content\ }}
+
+\subsubsection{\texorpdfstring{\texttt{\ align-helper\ }}{ align-helper }}\label{align-helper}
+
+Utility function to help with aligning multiple items.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let align{-}helper(state{-}key, what{-}to{-}measure, display) = \{ .. \}}
+\end{Highlighting}
+\end{Shaded}
+
+\textbf{Arguments:}
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ state-key\ } :
+  \href{https://typst.app/docs/reference/foundations/str/}{\texttt{\ str\ }}
+  â€'' The key to use for the
+  \href{https://typst.app/docs/reference/introspection/state/}{\texttt{\ state\ }}
+  that keeps track of the maximum encountered width.
+\item
+  \texttt{\ what-to-measure\ } :
+  \href{https://typst.app/docs/reference/foundations/content/}{\texttt{\ content\ }}
+  â€'' The content to measure at this call.
+\item
+  \texttt{\ display\ } :
+  \href{https://typst.app/docs/reference/foundations/function/}{\texttt{\ function\ }}
+  â€'' A callback which gets passed the maximum encountered width and
+  the width of the current item (what was given to
+  \texttt{\ what-to-measure\ } ), both as
+  \href{https://typst.app/docs/reference/layout/length/}{\texttt{\ length\ }}
+  , and should return
+  \href{https://typst.app/docs/reference/foundations/content/}{\texttt{\ content\ }}
+  which can make use of these widths for alignment.
+\end{itemize}
+
+\textbf{Returns:}
+\href{https://typst.app/docs/reference/foundations/content/}{\texttt{\ content\ }}
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as
+\texttt{\ outrageous\ }
+
+\begin{verbatim}
+#import "@preview/outrageous:0.3.0"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+RubixDev
+\item[License:]
+GPL-3.0-only
+\item[Current version:]
+0.3.0
+\item[Last updated:]
+October 21, 2024
+\item[First released:]
+October 9, 2023
+\item[Minimum Typst version:]
+0.11.0
+\item[Archive size:]
+15.8 kB
+\href{https://packages.typst.org/preview/outrageous-0.3.0.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/RubixDev/typst-outrageous}{GitHub}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of RubixDev . Report issues on
+\href{https://github.com/RubixDev/typst-outrageous}{their repository} .
+You can also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.3.0 & October 21, 2024 \\
+\href{https://typst.app/universe/package/outrageous/0.2.0/}{0.2.0} &
+September 14, 2024 \\
+\href{https://typst.app/universe/package/outrageous/0.1.0/}{0.1.0} &
+October 9, 2023 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.

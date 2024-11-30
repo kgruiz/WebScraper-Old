@@ -1,0 +1,348 @@
+<main>
+    <div id="banner" style="--banner-accent:#000000;--banner-primary:#000000;--banner-secondary:#000000;--banner-tertiary:#565565;--banner-background:#eff0f3">
+     <div class="package-icon" role="img">
+     </div>
+     <div>
+      <div class="title">
+       <h1 class="name">
+        minitoc
+       </h1>
+       <span class="version">
+        0.1.0
+       </span>
+      </div>
+      <p class="description">
+       An outline function just for one section and nothing else
+      </p>
+     </div>
+    </div>
+    <div class="inner-grid">
+     <section id="readme">
+      <p>
+       This package provides the
+       <code>
+        minitoc
+       </code>
+       command that does the same thing as the
+       <code>
+        outline
+       </code>
+       command but only for headings under the heading above it.
+      </p>
+      <p>
+       This is inspired by minitoc package for LaTeX.
+      </p>
+      <h2>
+       Example
+      </h2>
+      <pre><code class="language-typst"><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/minitoc:0.1.0"</span><span class="typ-punct">:</span> <span class="typ-op">*</span>
+<span class="typ-key">#</span><span class="typ-key">set</span> <span class="typ-func">heading</span><span class="typ-punct">(</span>numbering<span class="typ-punct">:</span> <span class="typ-str">"1.1"</span><span class="typ-punct">)</span>
+
+<span class="typ-func">#</span><span class="typ-func">outline</span><span class="typ-punct">(</span><span class="typ-punct">)</span>
+
+<span class="typ-heading">= Heading 1</span>
+
+<span class="typ-func">#</span><span class="typ-func">minitoc</span><span class="typ-punct">(</span><span class="typ-punct">)</span>
+
+<span class="typ-heading">== Heading 1.1</span>
+
+<span class="typ-func">#</span><span class="typ-func">lorem</span><span class="typ-punct">(</span><span class="typ-num">20</span><span class="typ-punct">)</span>
+
+<span class="typ-heading">=== Heading 1.1.1</span>
+
+<span class="typ-func">#</span><span class="typ-func">lorem</span><span class="typ-punct">(</span><span class="typ-num">30</span><span class="typ-punct">)</span>
+
+<span class="typ-heading">== Heading 1.2</span>
+
+<span class="typ-func">#</span><span class="typ-func">lorem</span><span class="typ-punct">(</span><span class="typ-num">10</span><span class="typ-punct">)</span>
+
+<span class="typ-heading">= Heading 2</span>
+
+</code></code></pre>
+      <p>
+       This produces
+      </p>
+      <p>
+       <img alt="" src="https://gitlab.com/human_person/typst-local-outline/-/raw/main/example/example.png"/>
+      </p>
+      <h2>
+       Usage
+      </h2>
+      <p>
+       The
+       <code>
+        minitoc
+       </code>
+       function has the following signature:
+      </p>
+      <pre><code class="language-typst"><code><span class="typ-key">#</span><span class="typ-key">let</span> <span class="typ-func">minitoc</span><span class="typ-punct">(</span>
+  title<span class="typ-punct">:</span> <span class="typ-key">none</span><span class="typ-punct">,</span> target<span class="typ-punct">:</span> heading<span class="typ-punct">.</span><span class="typ-func">where</span><span class="typ-punct">(</span>outlined<span class="typ-punct">:</span> <span class="typ-key">true</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+	depth<span class="typ-punct">:</span> <span class="typ-key">none</span><span class="typ-punct">,</span> indent<span class="typ-punct">:</span> <span class="typ-key">none</span><span class="typ-punct">,</span> fill<span class="typ-punct">:</span> <span class="typ-func">repeat</span><span class="typ-punct">(</span><span class="typ-punct">[</span>.<span class="typ-punct">]</span><span class="typ-punct">)</span>
+<span class="typ-punct">)</span> { <span class="typ-comment">/* .. */</span> }
+</code></code></pre>
+      <p>
+       This is designed to be as close to the
+       <a href="https://typst.app/docs/reference/meta/outline/">
+        <code>
+         outline
+        </code>
+       </a>
+       funtions as possible. The arguments are:
+      </p>
+      <ul>
+       <li>
+        <strong>
+         title
+        </strong>
+        : The title for the local outline. This is the same as for
+        <a href="https://typst.app/docs/reference/meta/outline/#parameters-title">
+         <code>
+          outline.title
+         </code>
+        </a>
+        .
+       </li>
+       <li>
+        <strong>
+         target
+        </strong>
+        : What should be included. This is the same as for
+        <a href="https://typst.app/docs/reference/meta/outline/#parameters-target">
+         <code>
+          outline.target
+         </code>
+        </a>
+       </li>
+       <li>
+        <strong>
+         depth
+        </strong>
+        : The maximum depth different to include. For example, if depth was 1 in the example, âHeading 1.1.1â would not be included
+       </li>
+       <li>
+        <strong>
+         indent
+        </strong>
+        : How the entries should be indented. Takes the same types as for
+        <a href="https://typst.app/docs/reference/meta/outline/#parameters-indent">
+         <code>
+          outline.indent
+         </code>
+        </a>
+        and is passed directly to it
+       </li>
+       <li>
+        <strong>
+         fill
+        </strong>
+        : Content to put between the numbering and title, and the page number. Same types as for
+        <a href="https://typst.app/docs/reference/meta/outline/#parameters-fill">
+         <code>
+          outline.fill
+         </code>
+        </a>
+       </li>
+      </ul>
+      <h2>
+       Unintended consequences
+      </h2>
+      <p>
+       Because
+       <code>
+        minitoc
+       </code>
+       uses
+       <code>
+        outline
+       </code>
+       , if you apply numbering to the title of outline with
+       <code>
+        #show outline: set heading(numbering: "1.")
+       </code>
+       or similar, any title in
+       <code>
+        minitoc
+       </code>
+       will be numbered and be a level 1 heading. This cannot be changed with
+       <code>
+        #show outline: set heading(level: 3)
+       </code>
+       or similar unfortunately.
+      </p>
+     </section>
+     <aside>
+      <section>
+       <h3>
+        How to add
+       </h3>
+       <p>
+        Copy this into your project and use the import as
+        <!-- -->
+        <code>
+         minitoc
+        </code>
+       </p>
+       <div class="import-snippet">
+        <pre><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/minitoc:0.1.0"</span></code></pre>
+        <button class="copy" title="Copy to clipboard">
+         <img alt="Copy" height="16" src="/assets/icons/16-copy.svg" width="16"/>
+        </button>
+       </div>
+       <p class="muted">
+        Check the docs for
+        <!-- -->
+        <a href="https://typst.app/docs/reference/scripting/#packages">
+         more information on how to import packages
+        </a>
+        .
+       </p>
+      </section>
+      <section id="about">
+       <h3>
+        About
+       </h3>
+       <dl>
+        <dt>
+         Author
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         <a href="https://github.com/RosiePuddles" rel="noopener noreferrer" target="_blank">
+          nxe
+         </a>
+        </dd>
+        <dt>
+         License:
+        </dt>
+        <dd>
+         GPL-3.0-only
+        </dd>
+        <dt>
+         Current version:
+        </dt>
+        <dd>
+         0.1.0
+        </dd>
+        <dt>
+         Last updated:
+        </dt>
+        <dd>
+         January 7, 2024
+        </dd>
+        <dt>
+         First released:
+        </dt>
+        <dd>
+         January 7, 2024
+        </dd>
+        <dt>
+         Archive size:
+        </dt>
+        <dd class="archive-size-value">
+         13.6 kB
+         <a href="https://packages.typst.org/preview/minitoc-0.1.0.tar.gz">
+          <img alt="Size icon" src="/assets/icons/16-download.svg"/>
+         </a>
+        </dd>
+        <dt>
+         Repository:
+        </dt>
+        <dd>
+         <a href="https://gitlab.com/human_person/typst-local-outline" rel="noopener noreferrer" target="_blank">
+          GitLab
+         </a>
+        </dd>
+       </dl>
+      </section>
+      <section>
+       <h3>
+        Where to report issues?
+       </h3>
+       <p>
+        This
+        <!-- -->
+        package
+        <!-- -->
+        is a project of
+        <!-- -->
+        <!-- -->
+        nxe
+        <!-- -->
+        .
+        <!-- -->
+        <!-- -->
+        Report issues on
+        <!-- -->
+        <a href="https://gitlab.com/human_person/typst-local-outline" rel="noopener noreferrer" target="_blank">
+         their repository
+        </a>
+        .
+        <!-- -->
+        <!-- -->
+        You can also try to ask for help with this
+        <!-- -->
+        package
+        <!-- -->
+        on the
+        <!-- -->
+        <a href="https://forum.typst.app" rel="noopener" target="_blank">
+         Forum
+        </a>
+        .
+       </p>
+       <p>
+        Please report this
+        <!-- -->
+        package
+        <!-- -->
+        to the Typst team using the
+        <!-- -->
+        <a href="https://typst.app/contact" rel="noreferrer" target="_blank">
+         contact form
+        </a>
+        <!-- -->
+        if you believe it is a safety hazard or infringes upon your rights.
+       </p>
+      </section>
+      <section id="versions">
+       <h3>
+        Version history
+       </h3>
+       <table>
+        <thead>
+         <tr>
+          <th align="left">
+           Version
+          </th>
+          <th align="left">
+           Release Date
+          </th>
+         </tr>
+        </thead>
+        <tbody>
+         <tr>
+          <td align="left">
+           0.1.0
+          </td>
+          <td align="left">
+           January 7, 2024
+          </td>
+         </tr>
+        </tbody>
+       </table>
+      </section>
+      <p class="bottom-notice muted">
+       Typst GmbH did not create this
+       <!-- -->
+       package
+       <!-- -->
+       and cannot guarantee correct functionality of this
+       <!-- -->
+       package
+       <!-- -->
+       or compatibility with any version of the Typst compiler or app.
+      </p>
+     </aside>
+    </div>
+   </main>

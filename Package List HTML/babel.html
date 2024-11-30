@@ -1,0 +1,355 @@
+<main>
+    <div id="banner" style="--banner-accent:#000000;--banner-primary:#000000;--banner-secondary:#000000;--banner-tertiary:#565565;--banner-background:#eff0f3">
+     <div class="package-icon" role="img">
+     </div>
+     <div>
+      <div class="title">
+       <h1 class="name">
+        babel
+       </h1>
+       <span class="version">
+        0.1.1
+       </span>
+      </div>
+      <p class="description">
+       Redact text by replacing it with random characters
+      </p>
+     </div>
+    </div>
+    <div class="inner-grid">
+     <section id="readme">
+      <p>
+       <a href="https://typst.app/universe/package/babel">
+        <img alt="Package on the Typst Universe" src="https://img.shields.io/badge/Typst_Universe-fdfdfd?logo=typst"/>
+       </a>
+       <a href="https://codeberg.org/afiaith/babel" rel="nofollow ugc" target="_blank">
+        <img alt="Babelâs Git repository" src="https://img.shields.io/badge/Git_repo-fdfdfd?logo=codeberg"/>
+       </a>
+       <a href="https://github.com/typst/packages/raw/main/packages/preview/babel/0.1.1/docs/manual.pdf" rel="nofollow ugc" target="_blank">
+        <img alt="A precompiled PDF file of the manual" src="https://img.shields.io/badge/%F0%9F%93%96%20manual-.pdf-239dad?labelColor=fdfdfd"/>
+       </a>
+       <a href="https://github.com/typst/packages/raw/main/packages/preview/babel/0.1.1/LICENSE" rel="nofollow ugc" target="_blank">
+        <img alt="Licence: MIT-0" src="https://img.shields.io/badge/licence-MIT0-239dad?labelColor=fdfdfd"/>
+       </a>
+       <a href="https://codeberg.org/afiaith/babel/releases/" rel="nofollow ugc" target="_blank">
+        <img alt="Codeberg release" src="https://img.shields.io/gitea/v/release/afiaith/babel?gitea_url=https%3A%2F%2Fcodeberg.org&amp;labelColor=fdfdfd&amp;color=239dad"/>
+       </a>
+       <a href="https://codeberg.org/afiaith/babel/stars" rel="nofollow ugc" target="_blank">
+        <img alt="Codeberg stars" src="https://img.shields.io/gitea/stars/afiaith/babel?gitea_url=https%3A%2F%2Fcodeberg.org&amp;labelColor=fdfdfd&amp;color=fdfdfd&amp;logo=codeberg"/>
+       </a>
+      </p>
+      <p>
+       This package provides functions that replace actual text with random characters, which is useful for redacting confidential information or sharing the design and structure of an existing document without disclosing the content itself. A variety of ready-made sets of characters for replacement are available (75 in total; termed
+       <em>
+        alphabets
+       </em>
+       ), representing diverse writing systems, codes, notations and symbols. Some of these are more conservative (such as emulating redaction using a wide black pen) and many are more whimsical, as demonstrated by the following example:
+      </p>
+      <pre><code class="language-typ"><code><span class="typ-func">#</span><span class="typ-func">baffle</span><span class="typ-punct">(</span>alphabet<span class="typ-punct">:</span> <span class="typ-str">"welsh"</span><span class="typ-punct">)</span><span class="typ-punct">[</span>Hello<span class="typ-punct">]</span>. My <span class="typ-func">#</span><span class="typ-func">tippex</span><span class="typ-punct">[</span>name<span class="typ-punct">]</span> is <span class="typ-func">#</span><span class="typ-func">baffle</span><span class="typ-punct">(</span>alphabet<span class="typ-punct">:</span> <span class="typ-str">"underscore"</span><span class="typ-punct">)</span><span class="typ-punct">[</span>Inigo Montoya<span class="typ-punct">]</span>. You <span class="typ-func">#</span><span class="typ-func">baffle</span><span class="typ-punct">(</span>alphabet<span class="typ-punct">:</span> <span class="typ-str">"alchemy"</span><span class="typ-punct">)</span><span class="typ-punct">[</span>killed<span class="typ-punct">]</span> my <span class="typ-func">#</span><span class="typ-func">baffle</span><span class="typ-punct">(</span>alphabet<span class="typ-punct">:</span> <span class="typ-str">"shavian"</span><span class="typ-punct">)</span><span class="typ-punct">[</span>father<span class="typ-punct">]</span>. Prepare to <span class="typ-func">#</span><span class="typ-func">redact</span><span class="typ-punct">[</span>die<span class="typ-punct">]</span>.
+
+Using show rules strings, regular expressions and other selectors can be redacted automatically:
+
+<span class="typ-key">#</span><span class="typ-key">show</span> <span class="typ-str">"jan Maja"</span><span class="typ-punct">:</span> baffle<span class="typ-punct">.</span><span class="typ-func">with</span><span class="typ-punct">(</span>alphabet<span class="typ-punct">:</span> <span class="typ-str">"sitelen-pona"</span><span class="typ-punct">)</span>
+<span class="typ-key">#</span><span class="typ-key">show</span> <span class="typ-func">regex</span><span class="typ-punct">(</span><span class="typ-str">"[a-zA-Z0-9.!#$%&amp;â*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*"</span><span class="typ-punct">)</span><span class="typ-punct">:</span> baffle<span class="typ-punct">.</span><span class="typ-func">with</span><span class="typ-punct">(</span>alphabet<span class="typ-punct">:</span> <span class="typ-str">"maze-3"</span><span class="typ-punct">)</span> 
+
+Iâm jan Maja, and my email is <span class="typ-raw">`foo@digitalwords.net`</span>.
+</code></code></pre>
+      <p>
+       <img alt="The output of the above Typst code" src="https://github.com/typst/packages/raw/main/packages/preview/babel/0.1.1/assets/example.webp"/>
+      </p>
+      <h2>
+       ð The manual
+      </h2>
+      <p>
+       Using
+       <span>
+        Babel
+       </span>
+       is quite straightforward. A
+       <a href="https://github.com/typst/packages/raw/main/packages/preview/babel/0.1.1/docs/manual.pdf" rel="nofollow ugc" target="_blank">
+        <strong>
+         comprehensive manual
+        </strong>
+       </a>
+       covers:
+      </p>
+      <ul>
+       <li>
+        Introductory background.
+       </li>
+       <li>
+        How to use the provided functions (
+        <code>
+         baffle()
+        </code>
+        ,
+        <code>
+         redact()
+        </code>
+        and
+        <code>
+         tippex()
+        </code>
+        ).
+       </li>
+       <li>
+        A list of the provided alphabets, each demonstrated by a line of random text.
+       </li>
+      </ul>
+      <p>
+       If the version of the precompiled manual doesnât match the version of the package, it means no difference between the two versions is reflected in the manual.
+      </p>
+      <h2>
+       ð¼ The Tower of
+       <span>
+        Babel
+       </span>
+      </h2>
+      <p>
+       A poster demonstrating the provided alphabets:
+      </p>
+      <p>
+       <a href="https://github.com/typst/packages/raw/main/packages/preview/babel/0.1.1/assets/poster.webp" rel="nofollow ugc" target="_blank">
+        <img alt="A demonstration of the provided alphabets in the shape of the Tower of Babel" src="https://github.com/typst/packages/raw/main/packages/preview/babel/0.1.1/assets/poster.webp"/>
+       </a>
+      </p>
+      <h2>
+       ð¨ Complementary tools
+      </h2>
+      <p>
+       If you wish to share the Typst source files of your document, not just the precompiled output, a tool called
+       <a href="https://github.com/frozolotl/typst-mutilate" rel="nofollow ugc" target="_blank">
+        <em>
+         Typst Mutilate
+        </em>
+       </a>
+       might be useful for you. Unlike
+       <span>
+        Babel
+       </span>
+       , it is not a Typst package but an external tool, written in Rust. It replaces the content of a Typst document with random words selected from a wordlist or random characters (similarly to
+       <span>
+        Babel
+       </span>
+       ), changing the document in place (so make sure to run it on a
+       <em>
+        copy
+       </em>
+       !). As a package for Typst,
+       <span>
+        Babel
+       </span>
+       cannot change your source files.
+      </p>
+     </section>
+     <aside>
+      <section>
+       <h3>
+        How to add
+       </h3>
+       <p>
+        Copy this into your project and use the import as
+        <!-- -->
+        <code>
+         babel
+        </code>
+       </p>
+       <div class="import-snippet">
+        <pre><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/babel:0.1.1"</span></code></pre>
+        <button class="copy" title="Copy to clipboard">
+         <img alt="Copy" height="16" src="/assets/icons/16-copy.svg" width="16"/>
+        </button>
+       </div>
+       <p class="muted">
+        Check the docs for
+        <!-- -->
+        <a href="https://typst.app/docs/reference/scripting/#packages">
+         more information on how to import packages
+        </a>
+        .
+       </p>
+      </section>
+      <section id="about">
+       <h3>
+        About
+       </h3>
+       <dl>
+        <dt>
+         Author
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         <a href="https://me.digitalwords.net" rel="noopener noreferrer" target="_blank">
+          Maja Abramski-Kronenberg
+         </a>
+        </dd>
+        <dt>
+         License:
+        </dt>
+        <dd>
+         MIT-0
+        </dd>
+        <dt>
+         Current version:
+        </dt>
+        <dd>
+         0.1.1
+        </dd>
+        <dt>
+         Last updated:
+        </dt>
+        <dd>
+         October 3, 2024
+        </dd>
+        <dt>
+         First released:
+        </dt>
+        <dd>
+         October 3, 2024
+        </dd>
+        <dt>
+         Minimum Typst version:
+        </dt>
+        <dd>
+         0.11.0
+        </dd>
+        <dt>
+         Archive size:
+        </dt>
+        <dd class="archive-size-value">
+         46.9 kB
+         <a href="https://packages.typst.org/preview/babel-0.1.1.tar.gz">
+          <img alt="Size icon" src="/assets/icons/16-download.svg"/>
+         </a>
+        </dd>
+        <dt>
+         Repository:
+        </dt>
+        <dd>
+         <a href="https://codeberg.org/afiaith/babel" rel="noopener noreferrer" target="_blank">
+          Codeberg
+         </a>
+        </dd>
+        <dt>
+         Categor
+         <!-- -->
+         ies
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         <ul class="list-with-icons">
+          <li>
+           <img alt="Languages icon" src="/assets/icons/16-world.svg"/>
+           <a href="https://typst.app/universe/search/?category=languages">
+            Languages
+           </a>
+          </li>
+          <li>
+           <img alt="Text icon" src="/assets/icons/16-text.svg"/>
+           <a href="https://typst.app/universe/search/?category=text">
+            Text
+           </a>
+          </li>
+          <li>
+           <img alt="Fun icon" src="/assets/icons/16-smile.svg"/>
+           <a href="https://typst.app/universe/search/?category=fun">
+            Fun
+           </a>
+          </li>
+         </ul>
+        </dd>
+       </dl>
+      </section>
+      <section>
+       <h3>
+        Where to report issues?
+       </h3>
+       <p>
+        This
+        <!-- -->
+        package
+        <!-- -->
+        is a project of
+        <!-- -->
+        <!-- -->
+        Maja Abramski-Kronenberg
+        <!-- -->
+        .
+        <!-- -->
+        <!-- -->
+        Report issues on
+        <!-- -->
+        <a href="https://codeberg.org/afiaith/babel" rel="noopener noreferrer" target="_blank">
+         their repository
+        </a>
+        .
+        <!-- -->
+        <!-- -->
+        You can also try to ask for help with this
+        <!-- -->
+        package
+        <!-- -->
+        on the
+        <!-- -->
+        <a href="https://forum.typst.app" rel="noopener" target="_blank">
+         Forum
+        </a>
+        .
+       </p>
+       <p>
+        Please report this
+        <!-- -->
+        package
+        <!-- -->
+        to the Typst team using the
+        <!-- -->
+        <a href="https://typst.app/contact" rel="noreferrer" target="_blank">
+         contact form
+        </a>
+        <!-- -->
+        if you believe it is a safety hazard or infringes upon your rights.
+       </p>
+      </section>
+      <section id="versions">
+       <h3>
+        Version history
+       </h3>
+       <table>
+        <thead>
+         <tr>
+          <th align="left">
+           Version
+          </th>
+          <th align="left">
+           Release Date
+          </th>
+         </tr>
+        </thead>
+        <tbody>
+         <tr>
+          <td align="left">
+           0.1.1
+          </td>
+          <td align="left">
+           October 3, 2024
+          </td>
+         </tr>
+        </tbody>
+       </table>
+      </section>
+      <p class="bottom-notice muted">
+       Typst GmbH did not create this
+       <!-- -->
+       package
+       <!-- -->
+       and cannot guarantee correct functionality of this
+       <!-- -->
+       package
+       <!-- -->
+       or compatibility with any version of the Typst compiler or app.
+      </p>
+     </aside>
+    </div>
+   </main>

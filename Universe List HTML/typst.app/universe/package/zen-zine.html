@@ -1,0 +1,305 @@
+<main>
+    <div id="banner" style="--banner-accent:#000000;--banner-primary:#000000;--banner-secondary:#000000;--banner-tertiary:#565565;--banner-background:#eff0f3">
+     <div id="template-thumbnail">
+      <img alt="A preview of the zen-zine Typst template." src="https://packages.typst.org/preview/thumbnails/zen-zine-0.1.0-small.webp"/>
+      <div class="icon" role="img">
+      </div>
+     </div>
+     <div>
+      <div class="title">
+       <h1 class="name">
+        zen-zine
+       </h1>
+       <span class="version">
+        0.1.0
+       </span>
+      </div>
+      <p class="description">
+       Excellently type-set a fun little zine!
+      </p>
+     </div>
+    </div>
+    <div class="inner-grid">
+     <a class="create-project-button mobile" href="/app?template=zen-zine&amp;version=0.1.0" rel="noopener noreferrer" target="_blank">
+      Create project in app
+     </a>
+     <section id="readme">
+      <p>
+       Excellently type-set a cute little zine about your favorite topic!
+      </p>
+      <p>
+       Providing your eight pages in order will produce a US-Letter page with the content in a layout ready to be folded into a zine! The content is wrapped before movement so that padding and alignment are respected.
+      </p>
+      <p>
+       Here is the template and its preview:
+      </p>
+      <pre><code class="language-typst"><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/zen-zine:0.1.0"</span><span class="typ-punct">:</span> zine
+
+<span class="typ-key">#</span><span class="typ-key">set</span> <span class="typ-func">document</span><span class="typ-punct">(</span>author<span class="typ-punct">:</span> <span class="typ-str">"Tom"</span><span class="typ-punct">,</span> title<span class="typ-punct">:</span> <span class="typ-str">"Zen Zine Example"</span><span class="typ-punct">)</span>
+<span class="typ-key">#</span><span class="typ-key">set</span> <span class="typ-func">text</span><span class="typ-punct">(</span>font<span class="typ-punct">:</span> <span class="typ-str">"Linux Libertine"</span><span class="typ-punct">,</span> lang<span class="typ-punct">:</span> <span class="typ-str">"en"</span><span class="typ-punct">)</span>
+
+<span class="typ-key">#</span><span class="typ-key">let</span> my_eight_pages <span class="typ-op">=</span> <span class="typ-punct">(</span>
+  <span class="typ-func">range</span><span class="typ-punct">(</span><span class="typ-num">8</span><span class="typ-punct">)</span><span class="typ-punct">.</span><span class="typ-func">map</span><span class="typ-punct">(</span>
+    number <span class="typ-op">=&gt;</span> <span class="typ-punct">[</span>
+      <span class="typ-func">#</span><span class="typ-func">pad</span><span class="typ-punct">(</span><span class="typ-num">2em</span><span class="typ-punct">,</span> <span class="typ-func">text</span><span class="typ-punct">(</span><span class="typ-num">10em</span><span class="typ-punct">,</span> <span class="typ-func">align</span><span class="typ-punct">(</span>center<span class="typ-punct">,</span> <span class="typ-func">str</span><span class="typ-punct">(</span>number<span class="typ-punct">)</span><span class="typ-punct">)</span><span class="typ-punct">)</span><span class="typ-punct">)</span>
+    <span class="typ-punct">]</span>
+  <span class="typ-punct">)</span>
+<span class="typ-punct">)</span>
+
+<span class="typ-comment">// provide your content pages in order and they</span>
+<span class="typ-comment">// are placed into the zine template positions.</span>
+<span class="typ-comment">// the content is wrapped before movement so that</span>
+<span class="typ-comment">// padding and alignment are respected.</span>
+<span class="typ-func">#</span><span class="typ-func">zine</span><span class="typ-punct">(</span>
+  <span class="typ-comment">// draw_border: true,</span>
+  <span class="typ-comment">// zine_page_margin: 5pt,</span>
+  contents<span class="typ-punct">:</span> my_eight_pages
+<span class="typ-punct">)</span>
+</code></code></pre>
+      <p>
+       <img alt="Image of Template" src="https://github.com/typst/packages/raw/main/packages/preview/zen-zine/0.1.0/template/preview.png"/>
+      </p>
+      <h2>
+       Improvement Ideas
+      </h2>
+      <p>
+       Roughly in order of priority.
+      </p>
+      <ul>
+       <li>
+        Write documentation and generate a manual
+       </li>
+       <li>
+        Deduce
+        <code>
+         page
+        </code>
+        properties so that user can change the page they wish to use.
+        <ul>
+         <li>
+          Make sure the page is
+          <code>
+           flipped
+          </code>
+          and deduce the zine page width and height from the full page width and height (and the zine margin)
+         </li>
+         <li>
+          Iâm currently struggling with finding out the page properties (whatâs the
+          <code>
+           #get
+          </code>
+          equivalent to
+          <code>
+           #set
+          </code>
+          ?)
+         </li>
+        </ul>
+       </li>
+       <li>
+        Add other zine sizes (there is a 16 page one I believe?)
+       </li>
+       <li>
+        Digital mode where zine pages are separate pages (of the same size) rather than âsub pagesâ of a printer page
+       </li>
+      </ul>
+     </section>
+     <aside>
+      <a class="create-project-button desktop" href="/app?template=zen-zine&amp;version=0.1.0" rel="noopener noreferrer" target="_blank">
+       Create project in app
+      </a>
+      <section>
+       <h3>
+        How to use
+       </h3>
+       <p>
+        Click the button above to create a new project using this template in the Typst app.
+       </p>
+       <p>
+        You can also use the Typst CLI to start a new project on your computer using this command:
+       </p>
+       <div class="init-snippet">
+        <pre><code>typst init @preview/<!-- -->zen-zine<!-- -->:<!-- -->0.1.0</code></pre>
+        <button class="copy" title="Copy to clipboard">
+         <img alt="Copy" height="16" src="/assets/icons/16-copy.svg" width="16"/>
+        </button>
+       </div>
+      </section>
+      <section id="about">
+       <h3>
+        About
+       </h3>
+       <dl>
+        <dt>
+         Author
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         <a href="https://github.com/tomeichlersmith" rel="noopener noreferrer" target="_blank">
+          Tom Eichlersmith
+         </a>
+        </dd>
+        <dt>
+         License:
+        </dt>
+        <dd>
+         MIT
+        </dd>
+        <dt>
+         Current version:
+        </dt>
+        <dd>
+         0.1.0
+        </dd>
+        <dt>
+         Last updated:
+        </dt>
+        <dd>
+         April 4, 2024
+        </dd>
+        <dt>
+         First released:
+        </dt>
+        <dd>
+         April 4, 2024
+        </dd>
+        <dt>
+         Minimum Typst version:
+        </dt>
+        <dd>
+         0.11.0
+        </dd>
+        <dt>
+         Archive size:
+        </dt>
+        <dd class="archive-size-value">
+         2.34 kB
+         <a href="https://packages.typst.org/preview/zen-zine-0.1.0.tar.gz">
+          <img alt="Size icon" src="/assets/icons/16-download.svg"/>
+         </a>
+        </dd>
+        <dt>
+         Repository:
+        </dt>
+        <dd>
+         <a href="https://github.com/tomeichlersmith/zen-zine" rel="noopener noreferrer" target="_blank">
+          GitHub
+         </a>
+        </dd>
+        <dt>
+         Categor
+         <!-- -->
+         ies
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         <ul class="list-with-icons">
+          <li>
+           <img alt="Fun icon" src="/assets/icons/16-smile.svg"/>
+           <a href="https://typst.app/universe/search/?category=fun">
+            Fun
+           </a>
+          </li>
+          <li>
+           <img alt="Layout icon" src="/assets/icons/16-layout.svg"/>
+           <a href="https://typst.app/universe/search/?category=layout">
+            Layout
+           </a>
+          </li>
+         </ul>
+        </dd>
+       </dl>
+      </section>
+      <section>
+       <h3>
+        Where to report issues?
+       </h3>
+       <p>
+        This
+        <!-- -->
+        template
+        <!-- -->
+        is a project of
+        <!-- -->
+        <!-- -->
+        Tom Eichlersmith
+        <!-- -->
+        .
+        <!-- -->
+        <!-- -->
+        Report issues on
+        <!-- -->
+        <a href="https://github.com/tomeichlersmith/zen-zine" rel="noopener noreferrer" target="_blank">
+         their repository
+        </a>
+        .
+        <!-- -->
+        <!-- -->
+        You can also try to ask for help with this
+        <!-- -->
+        template
+        <!-- -->
+        on the
+        <!-- -->
+        <a href="https://forum.typst.app" rel="noopener" target="_blank">
+         Forum
+        </a>
+        .
+       </p>
+       <p>
+        Please report this
+        <!-- -->
+        template
+        <!-- -->
+        to the Typst team using the
+        <!-- -->
+        <a href="https://typst.app/contact" rel="noreferrer" target="_blank">
+         contact form
+        </a>
+        <!-- -->
+        if you believe it is a safety hazard or infringes upon your rights.
+       </p>
+      </section>
+      <section id="versions">
+       <h3>
+        Version history
+       </h3>
+       <table>
+        <thead>
+         <tr>
+          <th align="left">
+           Version
+          </th>
+          <th align="left">
+           Release Date
+          </th>
+         </tr>
+        </thead>
+        <tbody>
+         <tr>
+          <td align="left">
+           0.1.0
+          </td>
+          <td align="left">
+           April 4, 2024
+          </td>
+         </tr>
+        </tbody>
+       </table>
+      </section>
+      <p class="bottom-notice muted">
+       Typst GmbH did not create this
+       <!-- -->
+       template
+       <!-- -->
+       and cannot guarantee correct functionality of this
+       <!-- -->
+       template
+       <!-- -->
+       or compatibility with any version of the Typst compiler or app.
+      </p>
+     </aside>
+    </div>
+   </main>

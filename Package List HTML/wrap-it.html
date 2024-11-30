@@ -1,0 +1,354 @@
+<main>
+    <div id="banner" style="--banner-accent:#145B49;--banner-primary:#092F27;--banner-secondary:#1B4C3A;--banner-tertiary:#448472;--banner-background:linear-gradient(90deg, #92E8BE 0%, #D1F5F8 100%)">
+     <div class="package-icon" role="img">
+     </div>
+     <div>
+      <div class="title">
+       <h1 class="name">
+        wrap-it
+       </h1>
+       <span class="version">
+        0.1.1
+       </span>
+      </div>
+      <p class="description">
+       Wrap text around figures and content
+      </p>
+     </div>
+     <p class="featured-label">
+      <span class="icon" role="img">
+      </span>
+      Featured
+      <!-- -->
+      Package
+     </p>
+    </div>
+    <div class="inner-grid">
+     <section id="readme">
+      <p>
+       Until
+       <u>
+        <u>
+         <a href="https://github.com/typst/typst/issues/553" rel="nofollow ugc" target="_blank">
+          https://github.com/typst/typst/issues/553
+         </a>
+        </u>
+       </u>
+       is resolved,
+       <code>
+        typst
+       </code>
+       doesnât natively support wrapping text around figures or other content. However, you can use
+       <code>
+        wrap-it
+       </code>
+       to mimic much of this functionality:
+      </p>
+      <ul>
+       <li>
+        <p>
+         Wrapping images left or right of their text
+        </p>
+       </li>
+       <li>
+        <p>
+         Specifying margins
+        </p>
+       </li>
+       <li>
+        <p>
+         And more
+        </p>
+       </li>
+      </ul>
+      <p>
+       Detailed descriptions of each parameter are available in the
+       <u>
+        <u>
+         <a href="https://github.com/ntjess/wrap-it/blob/main/docs/manual.pdf" rel="nofollow ugc" target="_blank">
+          wrap-it documentation
+         </a>
+        </u>
+       </u>
+       .
+      </p>
+      <p>
+       The easiest method is to import
+       <code>
+        wrap-it: wrap-content
+       </code>
+       from the
+       <code>
+        @preview
+       </code>
+       package:
+      </p>
+      <pre><code class="language-typ"><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/wrap-it:0.1.0"</span><span class="typ-punct">:</span> wrap-content
+</code></code></pre>
+      <h2>
+       Vanilla
+      </h2>
+      <pre><code class="language-typst"><code><span class="typ-key">#</span><span class="typ-key">let</span> fig <span class="typ-op">=</span> <span class="typ-func">figure</span><span class="typ-punct">(</span>
+<span class="typ-func">rect</span><span class="typ-punct">(</span>fill<span class="typ-punct">:</span> teal<span class="typ-punct">,</span> radius<span class="typ-punct">:</span> <span class="typ-num">0.5em</span><span class="typ-punct">,</span> width<span class="typ-punct">:</span> <span class="typ-num">8em</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+caption<span class="typ-punct">:</span> <span class="typ-punct">[</span>A figure<span class="typ-punct">]</span><span class="typ-punct">,</span>
+<span class="typ-punct">)</span>
+<span class="typ-key">#</span><span class="typ-key">let</span> body <span class="typ-op">=</span> <span class="typ-func">lorem</span><span class="typ-punct">(</span><span class="typ-num">30</span><span class="typ-punct">)</span>
+<span class="typ-func">#</span><span class="typ-func">wrap-content</span><span class="typ-punct">(</span>fig<span class="typ-punct">,</span> body<span class="typ-punct">)</span>
+</code></code></pre>
+      <p>
+       <img alt="Example 1" src="https://www.github.com/ntjess/wrap-it/raw/v0.1.1/assets/example-1.png"/>
+      </p>
+      <h2>
+       Changing alignment and margin
+      </h2>
+      <pre><code class="language-typst"><code><span class="typ-func">#</span><span class="typ-func">wrap-content</span><span class="typ-punct">(</span>
+fig<span class="typ-punct">,</span>
+body<span class="typ-punct">,</span>
+align<span class="typ-punct">:</span> bottom <span class="typ-op">+</span> right<span class="typ-punct">,</span>
+column-gutter<span class="typ-punct">:</span> <span class="typ-num">2em</span>
+<span class="typ-punct">)</span>
+</code></code></pre>
+      <p>
+       <img alt="Example 2" src="https://www.github.com/ntjess/wrap-it/raw/v0.1.1/assets/example-2.png"/>
+      </p>
+      <h2>
+       Uniform margin around the image
+      </h2>
+      <p>
+       The easiest way to get a uniform, highly-customizable margin is through boxing your image:
+      </p>
+      <pre><code class="language-typst"><code><span class="typ-key">#</span><span class="typ-key">let</span> boxed <span class="typ-op">=</span> <span class="typ-func">box</span><span class="typ-punct">(</span>fig<span class="typ-punct">,</span> inset<span class="typ-punct">:</span> <span class="typ-num">0.25em</span><span class="typ-punct">)</span>
+<span class="typ-func">#</span><span class="typ-func">wrap-content</span><span class="typ-punct">(</span>boxed<span class="typ-punct">)</span><span class="typ-punct">[</span>
+<span class="typ-func">#</span><span class="typ-func">lorem</span><span class="typ-punct">(</span><span class="typ-num">30</span><span class="typ-punct">)</span>
+<span class="typ-punct">]</span>
+</code></code></pre>
+      <p>
+       <img alt="Example 3" src="https://www.github.com/ntjess/wrap-it/raw/v0.1.1/assets/example-3.png"/>
+      </p>
+      <h2>
+       Wrapping two images in the same paragraph
+      </h2>
+      <p>
+       Note that for longer captions (as is the case in the bottom figure below), providing an explicit
+       <code>
+        columns
+       </code>
+       parameter is necessary to inform caption text of where to wrap.
+      </p>
+      <pre><code class="language-typst"><code><span class="typ-key">#</span><span class="typ-key">let</span> fig2 <span class="typ-op">=</span> <span class="typ-func">figure</span><span class="typ-punct">(</span>
+<span class="typ-func">rect</span><span class="typ-punct">(</span>fill<span class="typ-punct">:</span> lime<span class="typ-punct">,</span> radius<span class="typ-punct">:</span> <span class="typ-num">0.5em</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+caption<span class="typ-punct">:</span> <span class="typ-punct">[</span><span class="typ-func">#</span><span class="typ-func">lorem</span><span class="typ-punct">(</span><span class="typ-num">10</span><span class="typ-punct">)</span><span class="typ-punct">]</span><span class="typ-punct">,</span>
+<span class="typ-punct">)</span>
+<span class="typ-func">#</span><span class="typ-func">wrap-top-bottom</span><span class="typ-punct">(</span>
+bottom-kwargs<span class="typ-punct">:</span> <span class="typ-punct">(</span>columns<span class="typ-punct">:</span> <span class="typ-punct">(</span><span class="typ-num">1fr</span><span class="typ-punct">,</span> <span class="typ-num">2fr</span><span class="typ-punct">)</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+<span class="typ-func">box</span><span class="typ-punct">(</span>fig<span class="typ-punct">,</span> inset<span class="typ-punct">:</span> <span class="typ-num">0.25em</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+fig2<span class="typ-punct">,</span>
+<span class="typ-func">lorem</span><span class="typ-punct">(</span><span class="typ-num">50</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+<span class="typ-punct">)</span>
+</code></code></pre>
+      <p>
+       <img alt="Example 4" src="https://www.github.com/ntjess/wrap-it/raw/v0.1.1/assets/example-4.png"/>
+      </p>
+      <h2>
+       Adding a label to a wrapped figure
+      </h2>
+      <p>
+       Typst can only append labels to figures in content mode. So, when wrapping text around a figure that needs a label, you must first place your figure in a content block with its label, then wrap it:
+      </p>
+      <pre><code class="language-typst"><code><span class="typ-key">#</span><span class="typ-key">show</span> <span class="typ-func">ref</span><span class="typ-punct">:</span> it <span class="typ-op">=&gt;</span> <span class="typ-func">underline</span><span class="typ-punct">(</span><span class="typ-func">text</span><span class="typ-punct">(</span>blue<span class="typ-punct">,</span> it<span class="typ-punct">)</span><span class="typ-punct">)</span>
+<span class="typ-key">#</span><span class="typ-key">let</span> fig <span class="typ-op">=</span> <span class="typ-punct">[</span>
+  <span class="typ-func">#</span><span class="typ-func">figure</span><span class="typ-punct">(</span>
+    <span class="typ-func">rect</span><span class="typ-punct">(</span>fill<span class="typ-punct">:</span> red<span class="typ-punct">,</span> radius<span class="typ-punct">:</span> <span class="typ-num">0.5em</span><span class="typ-punct">,</span> width<span class="typ-punct">:</span> <span class="typ-num">8em</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+    caption<span class="typ-punct">:</span><span class="typ-punct">[</span>Labeled<span class="typ-punct">]</span>
+  <span class="typ-punct">)</span><span class="typ-label">&lt;fig:lbl&gt;</span>
+<span class="typ-punct">]</span>
+<span class="typ-func">#</span><span class="typ-func">wrap-content</span><span class="typ-punct">(</span>fig<span class="typ-punct">,</span> <span class="typ-punct">[</span>Fortunately, <span class="typ-ref">@fig:lbl</span>'s label can be referenced within the wrapped text. <span class="typ-func">#</span><span class="typ-func">lorem</span><span class="typ-punct">(</span><span class="typ-num">15</span><span class="typ-punct">)</span><span class="typ-punct">]</span><span class="typ-punct">)</span>
+</code></code></pre>
+      <p>
+       <img alt="Example 5" src="https://www.github.com/ntjess/wrap-it/raw/v0.1.1/assets/example-5.png"/>
+      </p>
+     </section>
+     <aside>
+      <section>
+       <h3>
+        How to add
+       </h3>
+       <p>
+        Copy this into your project and use the import as
+        <!-- -->
+        <code>
+         wrap-it
+        </code>
+       </p>
+       <div class="import-snippet">
+        <pre><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/wrap-it:0.1.1"</span></code></pre>
+        <button class="copy" title="Copy to clipboard">
+         <img alt="Copy" height="16" src="/assets/icons/16-copy.svg" width="16"/>
+        </button>
+       </div>
+       <p class="muted">
+        Check the docs for
+        <!-- -->
+        <a href="https://typst.app/docs/reference/scripting/#packages">
+         more information on how to import packages
+        </a>
+        .
+       </p>
+      </section>
+      <section id="about">
+       <h3>
+        About
+       </h3>
+       <dl>
+        <dt>
+         Author
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         Nathan Jessurun
+        </dd>
+        <dt>
+         License:
+        </dt>
+        <dd>
+         Unlicense
+        </dd>
+        <dt>
+         Current version:
+        </dt>
+        <dd>
+         0.1.1
+        </dd>
+        <dt>
+         Last updated:
+        </dt>
+        <dd>
+         November 28, 2024
+        </dd>
+        <dt>
+         First released:
+        </dt>
+        <dd>
+         January 26, 2024
+        </dd>
+        <dt>
+         Archive size:
+        </dt>
+        <dd class="archive-size-value">
+         5.30 kB
+         <a href="https://packages.typst.org/preview/wrap-it-0.1.1.tar.gz">
+          <img alt="Size icon" src="/assets/icons/16-download.svg"/>
+         </a>
+        </dd>
+        <dt>
+         Repository:
+        </dt>
+        <dd>
+         <a href="https://github.com/ntjess/wrap-it" rel="noopener noreferrer" target="_blank">
+          GitHub
+         </a>
+        </dd>
+       </dl>
+      </section>
+      <section>
+       <h3>
+        Where to report issues?
+       </h3>
+       <p>
+        This
+        <!-- -->
+        package
+        <!-- -->
+        is a project of
+        <!-- -->
+        <!-- -->
+        Nathan Jessurun
+        <!-- -->
+        .
+        <!-- -->
+        <!-- -->
+        Report issues on
+        <!-- -->
+        <a href="https://github.com/ntjess/wrap-it" rel="noopener noreferrer" target="_blank">
+         their repository
+        </a>
+        .
+        <!-- -->
+        <!-- -->
+        You can also try to ask for help with this
+        <!-- -->
+        package
+        <!-- -->
+        on the
+        <!-- -->
+        <a href="https://forum.typst.app" rel="noopener" target="_blank">
+         Forum
+        </a>
+        .
+       </p>
+       <p>
+        Please report this
+        <!-- -->
+        package
+        <!-- -->
+        to the Typst team using the
+        <!-- -->
+        <a href="https://typst.app/contact" rel="noreferrer" target="_blank">
+         contact form
+        </a>
+        <!-- -->
+        if you believe it is a safety hazard or infringes upon your rights.
+       </p>
+      </section>
+      <section id="versions">
+       <h3>
+        Version history
+       </h3>
+       <table>
+        <thead>
+         <tr>
+          <th align="left">
+           Version
+          </th>
+          <th align="left">
+           Release Date
+          </th>
+         </tr>
+        </thead>
+        <tbody>
+         <tr>
+          <td align="left">
+           0.1.1
+          </td>
+          <td align="left">
+           November 28, 2024
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/wrap-it/0.1.0/">
+            0.1.0
+           </a>
+          </td>
+          <td align="left">
+           January 26, 2024
+          </td>
+         </tr>
+        </tbody>
+       </table>
+      </section>
+      <p class="bottom-notice muted">
+       Typst GmbH did not create this
+       <!-- -->
+       package
+       <!-- -->
+       and cannot guarantee correct functionality of this
+       <!-- -->
+       package
+       <!-- -->
+       or compatibility with any version of the Typst compiler or app.
+      </p>
+     </aside>
+    </div>
+   </main>

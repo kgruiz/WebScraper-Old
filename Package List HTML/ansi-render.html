@@ -1,0 +1,528 @@
+<main>
+    <div id="banner" style="--banner-accent:#000000;--banner-primary:#000000;--banner-secondary:#000000;--banner-tertiary:#565565;--banner-background:#eff0f3">
+     <div class="package-icon" role="img">
+     </div>
+     <div>
+      <div class="title">
+       <h1 class="name">
+        ansi-render
+       </h1>
+       <span class="version">
+        0.6.1
+       </span>
+      </div>
+      <p class="description">
+       provides a simple way to render text with ANSI escape sequences.
+      </p>
+     </div>
+    </div>
+    <div class="inner-grid">
+     <section id="readme">
+      <a href="https://github.com/8LWXpg/typst-ansi-render/tags" rel="nofollow ugc" target="_blank">
+       <img alt="GitHub manifest version (path)" src="https://img.shields.io/github/v/tag/8LWXpg/typst-ansi-render"/>
+      </a>
+      <a href="https://github.com/8LWXpg/typst-ansi-render" rel="nofollow ugc" target="_blank">
+       <img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/8LWXpg/typst-ansi-render"/>
+      </a>
+      <a href="https://github.com/8LWXpg/typst-ansi-render/blob/master/LICENSE" rel="nofollow ugc" target="_blank">
+       <img alt="GitHub" src="https://img.shields.io/github/license/8LWXpg/typst-ansi-render"/>
+      </a>
+      <a href="https://github.com/typst/packages/tree/main/packages/preview/ansi-render" rel="nofollow ugc" target="_blank">
+       <img alt="typst package" src="https://img.shields.io/badge/typst-package-239dad"/>
+      </a>
+      <p>
+       This script provides a simple way to render text with ANSI escape sequences. Package
+       <code>
+        ansi-render
+       </code>
+       provides a function
+       <code>
+        ansi-render
+       </code>
+       , and a dictionary of themes
+       <code>
+        terminal-themes
+       </code>
+       .
+      </p>
+      <p>
+       contribution is welcomed!
+      </p>
+      <h2>
+       Usage
+      </h2>
+      <pre><code class="language-typst"><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/ansi-render:0.6.1"</span><span class="typ-punct">:</span> <span class="typ-op">*</span>
+
+<span class="typ-func">#</span><span class="typ-func">ansi-render</span><span class="typ-punct">(</span>
+  string<span class="typ-punct">,</span>
+  font<span class="typ-punct">:</span>           string <span class="typ-key">or</span> <span class="typ-key">none</span><span class="typ-punct">,</span>
+  size<span class="typ-punct">:</span>           length<span class="typ-punct">,</span>
+  width<span class="typ-punct">:</span>          <span class="typ-key">auto</span> <span class="typ-key">or</span> relative length<span class="typ-punct">,</span>
+  height<span class="typ-punct">:</span>         <span class="typ-key">auto</span> <span class="typ-key">or</span> relative length<span class="typ-punct">,</span>
+  breakable<span class="typ-punct">:</span>      boolean<span class="typ-punct">,</span>
+  radius<span class="typ-punct">:</span>         relative length <span class="typ-key">or</span> dictionary<span class="typ-punct">,</span>
+  inset<span class="typ-punct">:</span>          relative length <span class="typ-key">or</span> dictionary<span class="typ-punct">,</span>
+  outset<span class="typ-punct">:</span>         relative length <span class="typ-key">or</span> dictionary<span class="typ-punct">,</span>
+  spacing<span class="typ-punct">:</span>        relative length <span class="typ-key">or</span> fraction<span class="typ-punct">,</span>
+  above<span class="typ-punct">:</span>          relative length <span class="typ-key">or</span> fraction<span class="typ-punct">,</span>
+  below<span class="typ-punct">:</span>          relative length <span class="typ-key">or</span> fraction<span class="typ-punct">,</span>
+  clip<span class="typ-punct">:</span>           boolean<span class="typ-punct">,</span>
+  bold-is-bright<span class="typ-punct">:</span> boolean<span class="typ-punct">,</span>
+  theme<span class="typ-punct">:</span>          terminal-themes<span class="typ-punct">.</span>theme<span class="typ-punct">,</span>
+<span class="typ-punct">)</span>
+</code></code></pre>
+      <h3>
+       Parameters
+      </h3>
+      <ul>
+       <li>
+        <code>
+         string
+        </code>
+        - string with ANSI escape sequences
+       </li>
+       <li>
+        <code>
+         font
+        </code>
+        - font name or none, default is
+        <code>
+         Cascadia Code
+        </code>
+        , set to
+        <code>
+         none
+        </code>
+        to use the same font as
+        <code>
+         raw
+        </code>
+       </li>
+       <li>
+        <code>
+         size
+        </code>
+        - font size, default is
+        <code>
+         1em
+        </code>
+       </li>
+       <li>
+        <code>
+         bold-is-bright
+        </code>
+        - boolean, whether bold text is rendered with bright colors, default is
+        <code>
+         false
+        </code>
+       </li>
+       <li>
+        <code>
+         theme
+        </code>
+        - theme, default is
+        <code>
+         vscode-light
+        </code>
+       </li>
+       <li>
+        parameters from
+        <a href="https://typst.app/docs/reference/layout/block/">
+         <code>
+          block
+         </code>
+        </a>
+        function with the same default value, only affects outmost block layout:
+        <ul>
+         <li>
+          <code>
+           width
+          </code>
+         </li>
+         <li>
+          <code>
+           height
+          </code>
+         </li>
+         <li>
+          <code>
+           breakable
+          </code>
+         </li>
+         <li>
+          <code>
+           radius
+          </code>
+         </li>
+         <li>
+          <code>
+           inset
+          </code>
+         </li>
+         <li>
+          <code>
+           outset
+          </code>
+         </li>
+         <li>
+          <code>
+           spacing
+          </code>
+         </li>
+         <li>
+          <code>
+           above
+          </code>
+         </li>
+         <li>
+          <code>
+           below
+          </code>
+         </li>
+         <li>
+          <code>
+           clip
+          </code>
+         </li>
+        </ul>
+       </li>
+      </ul>
+      <h2>
+       Themes
+      </h2>
+      <p>
+       see
+       <a href="https://github.com/8LWXpg/typst-ansi-render/blob/master/test/themes.pdf" rel="nofollow ugc" target="_blank">
+        themes
+       </a>
+      </p>
+      <h2>
+       Demo
+      </h2>
+      <p>
+       see
+       <a href="https://github.com/8LWXpg/typst-ansi-render/blob/master/test/demo.typ" rel="nofollow ugc" target="_blank">
+        demo.typ
+       </a>
+       <a href="https://github.com/8LWXpg/typst-ansi-render/blob/master/test/demo.pdf" rel="nofollow ugc" target="_blank">
+        demo.pdf
+       </a>
+      </p>
+      <pre><code class="language-typst"><code><span class="typ-func">#</span><span class="typ-func">ansi-render</span><span class="typ-punct">(</span>
+<span class="typ-str">"\u{1b}[38;2;255;0;0mThis text is red.\u{1b}[0m
+\u{1b}[48;2;0;255;0mThis background is green.\u{1b}[0m
+\u{1b}[38;2;255;255;255m\u{1b}[48;2;0;0;255mThis text is white on a blue background.\u{1b}[0m
+\u{1b}[1mThis text is bold.\u{1b}[0m
+\u{1b}[4mThis text is underlined.\u{1b}[0m
+\u{1b}[38;2;255;165;0m\u{1b}[48;2;255;255;0mThis text is orange on a yellow background.\u{1b}[0m"</span><span class="typ-punct">,</span>
+inset<span class="typ-punct">:</span> <span class="typ-num">5pt</span><span class="typ-punct">,</span> radius<span class="typ-punct">:</span> <span class="typ-num">3pt</span><span class="typ-punct">,</span>
+theme<span class="typ-punct">:</span> terminal-themes<span class="typ-punct">.</span>vscode
+<span class="typ-punct">)</span>
+</code></code></pre>
+      <p>
+       <img alt="1.png" src="https://raw.githubusercontent.com/8LWXpg/typst-ansi-render/master/img/1.png"/>
+      </p>
+      <pre><code class="language-typst"><code><span class="typ-func">#</span><span class="typ-func">ansi-render</span><span class="typ-punct">(</span>
+<span class="typ-str">"\u{1b}[38;5;196mRed text\u{1b}[0m
+\u{1b}[48;5;27mBlue background\u{1b}[0m
+\u{1b}[38;5;226;48;5;18mYellow text on blue background\u{1b}[0m
+\u{1b}[7mInverted text\u{1b}[0m
+\u{1b}[38;5;208;48;5;237mOrange text on gray background\u{1b}[0m
+\u{1b}[38;5;39;48;5;208mBlue text on orange background\u{1b}[0m
+\u{1b}[38;5;255;48;5;0mWhite text on black background\u{1b}[0m"</span><span class="typ-punct">,</span>
+inset<span class="typ-punct">:</span> <span class="typ-num">5pt</span><span class="typ-punct">,</span> radius<span class="typ-punct">:</span> <span class="typ-num">3pt</span><span class="typ-punct">,</span>
+theme<span class="typ-punct">:</span> terminal-themes<span class="typ-punct">.</span>vscode
+<span class="typ-punct">)</span>
+</code></code></pre>
+      <p>
+       <img alt="2.png" src="https://raw.githubusercontent.com/8LWXpg/typst-ansi-render/master/img/2.png"/>
+      </p>
+      <pre><code class="language-typst"><code><span class="typ-func">#</span><span class="typ-func">ansi-render</span><span class="typ-punct">(</span>
+<span class="typ-str">"\u{1b}[31;1mHello \u{1b}[7mWorld\u{1b}[0m
+
+\u{1b}[53;4;36mOver  and \u{1b}[35m Under!
+\u{1b}[7;90mreverse\u{1b}[101m and \u{1b}[94;27mreverse"</span><span class="typ-punct">,</span>
+inset<span class="typ-punct">:</span> <span class="typ-num">5pt</span><span class="typ-punct">,</span> radius<span class="typ-punct">:</span> <span class="typ-num">3pt</span><span class="typ-punct">,</span>
+theme<span class="typ-punct">:</span> terminal-themes<span class="typ-punct">.</span>vscode
+<span class="typ-punct">)</span>
+</code></code></pre>
+      <p>
+       <img alt="3.png" src="https://raw.githubusercontent.com/8LWXpg/typst-ansi-render/master/img/3.png"/>
+      </p>
+      <pre><code class="language-typst"><code><span class="typ-comment">// uses the font that supports ligatures</span>
+<span class="typ-func">#</span><span class="typ-func">ansi-render</span><span class="typ-punct">(</span><span class="typ-func">read</span><span class="typ-punct">(</span><span class="typ-str">"test.txt"</span><span class="typ-punct">)</span><span class="typ-punct">,</span> inset<span class="typ-punct">:</span> <span class="typ-num">5pt</span><span class="typ-punct">,</span> radius<span class="typ-punct">:</span> <span class="typ-num">3pt</span><span class="typ-punct">,</span> font<span class="typ-punct">:</span> <span class="typ-str">"Cascadia Code"</span><span class="typ-punct">,</span> theme<span class="typ-punct">:</span> terminal-themes<span class="typ-punct">.</span>putty<span class="typ-punct">)</span>
+</code></code></pre>
+      <p>
+       <img alt="4.png" src="https://raw.githubusercontent.com/8LWXpg/typst-ansi-render/master/img/4.png"/>
+      </p>
+     </section>
+     <aside>
+      <section>
+       <h3>
+        How to add
+       </h3>
+       <p>
+        Copy this into your project and use the import as
+        <!-- -->
+        <code>
+         ansi-render
+        </code>
+       </p>
+       <div class="import-snippet">
+        <pre><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/ansi-render:0.6.1"</span></code></pre>
+        <button class="copy" title="Copy to clipboard">
+         <img alt="Copy" height="16" src="/assets/icons/16-copy.svg" width="16"/>
+        </button>
+       </div>
+       <p class="muted">
+        Check the docs for
+        <!-- -->
+        <a href="https://typst.app/docs/reference/scripting/#packages">
+         more information on how to import packages
+        </a>
+        .
+       </p>
+      </section>
+      <section id="about">
+       <h3>
+        About
+       </h3>
+       <dl>
+        <dt>
+         Author
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         8LWXpg
+        </dd>
+        <dt>
+         License:
+        </dt>
+        <dd>
+         MIT
+        </dd>
+        <dt>
+         Current version:
+        </dt>
+        <dd>
+         0.6.1
+        </dd>
+        <dt>
+         Last updated:
+        </dt>
+        <dd>
+         December 28, 2023
+        </dd>
+        <dt>
+         First released:
+        </dt>
+        <dd>
+         July 3, 2023
+        </dd>
+        <dt>
+         Minimum Typst version:
+        </dt>
+        <dd>
+         0.10.0
+        </dd>
+        <dt>
+         Archive size:
+        </dt>
+        <dd class="archive-size-value">
+         6.23 kB
+         <a href="https://packages.typst.org/preview/ansi-render-0.6.1.tar.gz">
+          <img alt="Size icon" src="/assets/icons/16-download.svg"/>
+         </a>
+        </dd>
+        <dt>
+         Repository:
+        </dt>
+        <dd>
+         <a href="https://github.com/8LWXpg/typst-ansi-render" rel="noopener noreferrer" target="_blank">
+          GitHub
+         </a>
+        </dd>
+       </dl>
+      </section>
+      <section>
+       <h3>
+        Where to report issues?
+       </h3>
+       <p>
+        This
+        <!-- -->
+        package
+        <!-- -->
+        is a project of
+        <!-- -->
+        <!-- -->
+        8LWXpg
+        <!-- -->
+        .
+        <!-- -->
+        <!-- -->
+        Report issues on
+        <!-- -->
+        <a href="https://github.com/8LWXpg/typst-ansi-render" rel="noopener noreferrer" target="_blank">
+         their repository
+        </a>
+        .
+        <!-- -->
+        <!-- -->
+        You can also try to ask for help with this
+        <!-- -->
+        package
+        <!-- -->
+        on the
+        <!-- -->
+        <a href="https://forum.typst.app" rel="noopener" target="_blank">
+         Forum
+        </a>
+        .
+       </p>
+       <p>
+        Please report this
+        <!-- -->
+        package
+        <!-- -->
+        to the Typst team using the
+        <!-- -->
+        <a href="https://typst.app/contact" rel="noreferrer" target="_blank">
+         contact form
+        </a>
+        <!-- -->
+        if you believe it is a safety hazard or infringes upon your rights.
+       </p>
+      </section>
+      <section id="versions">
+       <h3>
+        Version history
+       </h3>
+       <table>
+        <thead>
+         <tr>
+          <th align="left">
+           Version
+          </th>
+          <th align="left">
+           Release Date
+          </th>
+         </tr>
+        </thead>
+        <tbody>
+         <tr>
+          <td align="left">
+           0.6.1
+          </td>
+          <td align="left">
+           December 28, 2023
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/ansi-render/0.6.0/">
+            0.6.0
+           </a>
+          </td>
+          <td align="left">
+           December 10, 2023
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/ansi-render/0.5.1/">
+            0.5.1
+           </a>
+          </td>
+          <td align="left">
+           October 21, 2023
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/ansi-render/0.5.0/">
+            0.5.0
+           </a>
+          </td>
+          <td align="left">
+           September 29, 2023
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/ansi-render/0.4.2/">
+            0.4.2
+           </a>
+          </td>
+          <td align="left">
+           September 25, 2023
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/ansi-render/0.4.1/">
+            0.4.1
+           </a>
+          </td>
+          <td align="left">
+           September 22, 2023
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/ansi-render/0.4.0/">
+            0.4.0
+           </a>
+          </td>
+          <td align="left">
+           September 13, 2023
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/ansi-render/0.3.0/">
+            0.3.0
+           </a>
+          </td>
+          <td align="left">
+           September 9, 2023
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/ansi-render/0.2.0/">
+            0.2.0
+           </a>
+          </td>
+          <td align="left">
+           August 5, 2023
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/ansi-render/0.1.0/">
+            0.1.0
+           </a>
+          </td>
+          <td align="left">
+           July 3, 2023
+          </td>
+         </tr>
+        </tbody>
+       </table>
+      </section>
+      <p class="bottom-notice muted">
+       Typst GmbH did not create this
+       <!-- -->
+       package
+       <!-- -->
+       and cannot guarantee correct functionality of this
+       <!-- -->
+       package
+       <!-- -->
+       or compatibility with any version of the Typst compiler or app.
+      </p>
+     </aside>
+    </div>
+   </main>

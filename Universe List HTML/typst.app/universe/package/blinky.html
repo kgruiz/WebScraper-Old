@@ -1,0 +1,386 @@
+<main>
+    <div id="banner" style="--banner-accent:#000000;--banner-primary:#000000;--banner-secondary:#000000;--banner-tertiary:#565565;--banner-background:#eff0f3">
+     <div class="package-icon" role="img">
+     </div>
+     <div>
+      <div class="title">
+       <h1 class="name">
+        blinky
+       </h1>
+       <span class="version">
+        0.1.0
+       </span>
+      </div>
+      <p class="description">
+       Typesets paper titles in bibliographies as hyperlinks.
+      </p>
+     </div>
+    </div>
+    <div class="inner-grid">
+     <section id="readme">
+      <p>
+       This package permits the creation of Typst bibliographies in which paper titles are typeset as hyperlinks. Hereâs an example (with links typeset in blue):
+      </p>
+      <center>
+       <img src="https://raw.githubusercontent.com/alexanderkoller/typst-blinky/main/examples/screenshot.png" width="80%"/>
+      </center>
+      <p>
+       The bibliography is generated from a Bibtex file, and citations are done with the usual Typst mechanisms. The hyperlinks are specified through DOI or URL fields in the Bibtex entries; if such a field is present, the title of the entry will be automatically typeset as a hyperlink.
+      </p>
+      <p>
+       See
+       <a href="https://github.com/alexanderkoller/typst-blinky/tree/main/examples" rel="nofollow ugc" target="_blank">
+        here
+       </a>
+       for a full example.
+      </p>
+      <h2>
+       Usage
+      </h2>
+      <p>
+       Adding hyperlinks to your bibliography is a two-step process: (a) use a CSL style with magic symbols (explained below), and (b) enclose the
+       <code>
+        bibliography
+       </code>
+       command with the
+       <code>
+        link-bib-urls
+       </code>
+       function:
+      </p>
+      <pre><code><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/blinky:0.1.0"</span><span class="typ-punct">:</span> link-bib-urls
+
+<span class="typ-escape">...</span> <span class="typ-ref">@cite</span> something <span class="typ-escape">...</span> <span class="typ-ref">@cite</span> more <span class="typ-escape">...</span>
+
+<span class="typ-key">#</span><span class="typ-key">let</span> bibsrc <span class="typ-op">=</span> <span class="typ-func">read</span><span class="typ-punct">(</span><span class="typ-str">"custom.bib"</span><span class="typ-punct">)</span>
+<span class="typ-func">#</span><span class="typ-func">link-bib-urls</span><span class="typ-punct">(</span>bibsrc<span class="typ-punct">)</span><span class="typ-punct">[</span>
+  <span class="typ-func">#</span><span class="typ-func">bibliography</span><span class="typ-punct">(</span><span class="typ-str">"custom.bib"</span><span class="typ-punct">,</span> style<span class="typ-punct">:</span> <span class="typ-str">"./association-for-computational-linguistics-blinky.csl"</span><span class="typ-punct">)</span>
+<span class="typ-punct">]</span>
+</code></code></pre>
+      <p>
+       Observe that the Bibtex file
+       <code>
+        custom.bib
+       </code>
+       is loaded twice: once to load into
+       <code>
+        link-bib-urls
+       </code>
+       and once in the standard Typst
+       <code>
+        bibliography
+       </code>
+       command. Obviously, this needs to be the same file twice. See under âAlternative solutionsâ below why this canât be simplified further at the moment.
+      </p>
+      <p>
+       If a Bibtex entry contains a DOI field, the title will become a hyperlink to the DOI. Otherwise, if the Bibtex entry contains a URL field, the title will become a hyperlink to this URL. Otherwise, the title will be shown as normal, without a link.
+      </p>
+      <h2>
+       CSL with magic symbols
+      </h2>
+      <p>
+       Blinky generates the hyperlinked titles through a regex show rule that replaces a âmagic symbolâ with a
+       <a href="https://typst.app/docs/reference/model/link/">
+        link
+       </a>
+       command. This âmagic symbolâ is a string of the form
+       <code>
+        !!BIBENTRY!&lt;key&gt;!!
+       </code>
+       , where
+       <code>
+        &lt;key&gt;
+       </code>
+       is the Bibtex citation key of the reference.
+      </p>
+      <p>
+       You will therefore need to tweak your CSL style to use it with Blinky. Specifically, in every place where you would usually have the paper title, i.e.
+      </p>
+      <pre><code>
+</code></pre>
+      <p>
+       or similar, your CSL file now instead needs to print a decorated version of the paperâs citation-key (= Bibtex key):
+      </p>
+      <pre><code>
+</code></pre>
+      <p>
+       You can have more prefix before and suffix after the
+       <code>
+        !!BIBENTRY!
+       </code>
+       and
+       <code>
+        !!
+       </code>
+       , as in the example, but these magic symbols need to be there so Blinky can find the places in the document where the hyperlinked title needs to be inserted.
+      </p>
+      <p>
+       You can check the
+       <a href="https://github.com/alexanderkoller/typst-blinky/blob/main/examples/association-for-computational-linguistics-blinky.csl" rel="nofollow ugc" target="_blank">
+        example CSL file
+       </a>
+       to see what this looks like in practice; compare to
+       <a href="https://github.com/citation-style-language/styles/blob/master/association-for-computational-linguistics.csl" rel="nofollow ugc" target="_blank">
+        the unmodified original
+       </a>
+       .
+      </p>
+      <h2>
+       Alternative solutions
+      </h2>
+      <p>
+       The current mechanism in Blinky is somewhat heavy-handed: a Typst plugin uses the
+       <a href="https://github.com/typst/biblatex" rel="nofollow ugc" target="_blank">
+        biblatex
+       </a>
+       crate to parse the Bibtex file (independently of the normal operations of the
+       <code>
+        bibliography
+       </code>
+       command), and then all occurrences of the magic symbol in the Typst bibliography are replaced by the hyperlinked titles.
+      </p>
+      <p>
+       It would be great to replace this mechanism by something simpler, but it is actually remarkably tricky to make bibliography titles hyperlinks with the current version of Typst (0.11.1). All the alternatives that I could think of donât work. Here are some of them:
+      </p>
+      <ul>
+       <li>
+        Print the URL/DOI using the CSL style, and then use a regex show rule to convert it into a
+        <code>
+         link
+        </code>
+        around the title somehow. This does not work because most URLs contain a colon character (:), and these
+        <a href="https://github.com/typst/typst/issues/86" rel="nofollow ugc" target="_blank">
+         cause trouble with Typst regexes
+        </a>
+        .
+       </li>
+       <li>
+        Make the CSL style output text of the form
+        <code>
+         #link(url)[title]
+        </code>
+        . This does not work because the content generated by CSL is not evaluated further by Typst. Also, Typst
+        <a href="https://github.com/typst/typst/issues/942" rel="nofollow ugc" target="_blank">
+         does not support show rules for the individual bibliography items
+        </a>
+        , which makes it tricky to call
+        <a href="https://typst.app/docs/reference/foundations/eval/">
+         eval
+        </a>
+        on them.
+       </li>
+       <li>
+        Create a show rule for
+        <code>
+         link
+        </code>
+        . Some CSL styles already generate
+        <code>
+         link
+        </code>
+        elements if a URL/DOI is present in the bib entry - one could consider replacing it with a
+        <code>
+         link
+        </code>
+        whose URL is the same as before, but the text is a link symbol or some such. However, a show rule for a link that generates another link runs into an infinite recursion; Typst made
+        <a href="https://github.com/typst/typst/pull/3327" rel="nofollow ugc" target="_blank">
+         the deliberate decision
+        </a>
+        to handle such recursions only for
+        <code>
+         text
+        </code>
+        show rules.
+       </li>
+       <li>
+        The best solution would be to simply use an unmodified CSL file, but it is not clear to me how one would pick out the paper title from the bibliography in a general way. Iâm afraid that any solution that hyperlinks titles will require modifications to the CSL style.
+       </li>
+      </ul>
+      <p>
+       It would furthermore be desirable to hide the fact that we are reading the same Bibtex file twice behind a single function call. However, code in a Typst package
+       <a href="https://github.com/typst/typst/issues/2126" rel="nofollow ugc" target="_blank">
+        resolves all filenames relative to the package directory
+       </a>
+       , which means that the package cannot access a bibliography file outside of the package directory. We may be able to simplify this once
+       <a href="https://github.com/typst/typst/issues/971" rel="nofollow ugc" target="_blank">
+        #971
+       </a>
+       gets addressed.
+      </p>
+     </section>
+     <aside>
+      <section>
+       <h3>
+        How to add
+       </h3>
+       <p>
+        Copy this into your project and use the import as
+        <!-- -->
+        <code>
+         blinky
+        </code>
+       </p>
+       <div class="import-snippet">
+        <pre><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/blinky:0.1.0"</span></code></pre>
+        <button class="copy" title="Copy to clipboard">
+         <img alt="Copy" height="16" src="/assets/icons/16-copy.svg" width="16"/>
+        </button>
+       </div>
+       <p class="muted">
+        Check the docs for
+        <!-- -->
+        <a href="https://typst.app/docs/reference/scripting/#packages">
+         more information on how to import packages
+        </a>
+        .
+       </p>
+      </section>
+      <section id="about">
+       <h3>
+        About
+       </h3>
+       <dl>
+        <dt>
+         Author
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         <a href="mailto:akoller@gmail.com">
+          Alexander Koller
+         </a>
+        </dd>
+        <dt>
+         License:
+        </dt>
+        <dd>
+         MIT
+        </dd>
+        <dt>
+         Current version:
+        </dt>
+        <dd>
+         0.1.0
+        </dd>
+        <dt>
+         Last updated:
+        </dt>
+        <dd>
+         August 7, 2024
+        </dd>
+        <dt>
+         First released:
+        </dt>
+        <dd>
+         August 7, 2024
+        </dd>
+        <dt>
+         Archive size:
+        </dt>
+        <dd class="archive-size-value">
+         75.1 kB
+         <a href="https://packages.typst.org/preview/blinky-0.1.0.tar.gz">
+          <img alt="Size icon" src="/assets/icons/16-download.svg"/>
+         </a>
+        </dd>
+        <dt>
+         Repository:
+        </dt>
+        <dd>
+         <a href="https://github.com/alexanderkoller/typst-blinky" rel="noopener noreferrer" target="_blank">
+          GitHub
+         </a>
+        </dd>
+       </dl>
+      </section>
+      <section>
+       <h3>
+        Where to report issues?
+       </h3>
+       <p>
+        This
+        <!-- -->
+        package
+        <!-- -->
+        is a project of
+        <!-- -->
+        <!-- -->
+        Alexander Koller
+        <!-- -->
+        .
+        <!-- -->
+        <!-- -->
+        Report issues on
+        <!-- -->
+        <a href="https://github.com/alexanderkoller/typst-blinky" rel="noopener noreferrer" target="_blank">
+         their repository
+        </a>
+        .
+        <!-- -->
+        <!-- -->
+        You can also try to ask for help with this
+        <!-- -->
+        package
+        <!-- -->
+        on the
+        <!-- -->
+        <a href="https://forum.typst.app" rel="noopener" target="_blank">
+         Forum
+        </a>
+        .
+       </p>
+       <p>
+        Please report this
+        <!-- -->
+        package
+        <!-- -->
+        to the Typst team using the
+        <!-- -->
+        <a href="https://typst.app/contact" rel="noreferrer" target="_blank">
+         contact form
+        </a>
+        <!-- -->
+        if you believe it is a safety hazard or infringes upon your rights.
+       </p>
+      </section>
+      <section id="versions">
+       <h3>
+        Version history
+       </h3>
+       <table>
+        <thead>
+         <tr>
+          <th align="left">
+           Version
+          </th>
+          <th align="left">
+           Release Date
+          </th>
+         </tr>
+        </thead>
+        <tbody>
+         <tr>
+          <td align="left">
+           0.1.0
+          </td>
+          <td align="left">
+           August 7, 2024
+          </td>
+         </tr>
+        </tbody>
+       </table>
+      </section>
+      <p class="bottom-notice muted">
+       Typst GmbH did not create this
+       <!-- -->
+       package
+       <!-- -->
+       and cannot guarantee correct functionality of this
+       <!-- -->
+       package
+       <!-- -->
+       or compatibility with any version of the Typst compiler or app.
+      </p>
+     </aside>
+    </div>
+   </main>

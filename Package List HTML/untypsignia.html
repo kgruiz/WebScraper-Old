@@ -1,0 +1,428 @@
+<main>
+    <div id="banner" style="--banner-accent:#000000;--banner-primary:#000000;--banner-secondary:#000000;--banner-tertiary:#565565;--banner-background:#eff0f3">
+     <div class="package-icon" role="img">
+     </div>
+     <div>
+      <div class="title">
+       <h1 class="name">
+        untypsignia
+       </h1>
+       <span class="version">
+        0.1.1
+       </span>
+      </div>
+      <p class="description">
+       Unofficial typesetter's insignia emulations
+      </p>
+     </div>
+    </div>
+    <div class="inner-grid">
+     <section id="readme">
+      <p>
+       The
+       <code>
+        untypsignia
+       </code>
+       is a 3rd-party, unofficial, unendorsed Typst package that exposes commands for rendering, as
+       <code>
+        content
+       </code>
+       texts, some typesetters names in a stylized fashion, emulating their respective
+       <em>
+        insignia
+       </em>
+       , i.e., marks by which they are known.
+      </p>
+      <h2>
+       Name
+      </h2>
+      <p>
+       The package name is a blend of:
+      </p>
+      <ul>
+       <li>
+        âunâ, from âunofficialâ,
+       </li>
+       <li>
+        âtypâ, from âTypstâ, and
+       </li>
+       <li>
+        âsigniaâ, from âinsigniaâ, which means marks by which anything is known.
+       </li>
+      </ul>
+      <h2>
+       Description
+      </h2>
+      <p>
+       The typical use case of
+       <code>
+        untypsignia
+       </code>
+       in Typst is to emulate a given typesetting systemâs mark, if available, when referring to them, in sentences like: âThis document is typeset in
+       <code>
+        XYZ
+       </code>
+       â, as traditionally done in
+       <code>
+        TeX
+       </code>
+       systems and derivatives thereof.
+      </p>
+      <p>
+       Currently available insignia emulations include:
+      </p>
+      <ul>
+       <li>
+        <code>
+         TeX
+        </code>
+        ,
+       </li>
+       <li>
+        <code>
+         LaTeX
+        </code>
+        , and
+       </li>
+       <li>
+        <code>
+         Typst
+        </code>
+        (see below)
+       </li>
+      </ul>
+      <p>
+       Despite thereâs no such a thing as a Typst âofficialâ typography, according to this post on
+       <a href="https://discord.com/channels/1054443721975922748/1054443722592497796/1107039477714665522" rel="nofollow ugc" target="_blank">
+        Discord
+       </a>
+       , it can be typeset with âwhatever fontâ the surrounding text is being typeset. Moreover, Typst
+       <a href="https://typst.app/legal/brand/">
+        branding page
+       </a>
+       requires capitalization of the initial âTâ whenever the name is used in prose. Therefore, the âTypstâ support in this package is a mere, still unofficial, implementation of the capitalization of âTypstâ in the currently used font.
+      </p>
+      <h2>
+       Font Requirements
+      </h2>
+      <p>
+       For the
+       <code>
+        TeX
+       </code>
+       system and itâs derivatives, the
+       <code>
+        "New Computer Modern"
+       </code>
+       font is required.
+      </p>
+      <h2>
+       Usage
+      </h2>
+      <p>
+       The package exposes the following few, parameterless, functions:
+      </p>
+      <ul>
+       <li>
+        <code>
+         #texmark()
+        </code>
+        ,
+       </li>
+       <li>
+        <code>
+         #latexmark()
+        </code>
+        , and
+       </li>
+       <li>
+        <code>
+         #typstmark()
+        </code>
+        .
+       </li>
+      </ul>
+      <p>
+       Except for the
+       <code>
+        #typstmark()
+       </code>
+       , each such command outputs their respective namesake signus emulation, in the documentâs current
+       <code>
+        text
+       </code>
+       settings, with the exception of font â meaning text size, color, etcâ¦ will apply to the signus emulation.
+      </p>
+      <p>
+       Aditionally, the signus emulation is produced, as
+       <code>
+        contexts
+       </code>
+       text inside a
+       <code>
+        box
+       </code>
+       â hence not images â so as to avoid hyphenation to take place. This also applies to the
+       <code>
+        #typstmark()
+       </code>
+       function, for lack of specific guidance, and also because âTypstâ is a short word.
+      </p>
+      <h2>
+       Example
+      </h2>
+      <pre><code class="language-typst"><code><span class="typ-key">#</span><span class="typ-key">set</span> <span class="typ-func">page</span><span class="typ-punct">(</span>width<span class="typ-punct">:</span> <span class="typ-key">auto</span><span class="typ-punct">,</span> height<span class="typ-punct">:</span> <span class="typ-key">auto</span><span class="typ-punct">,</span> margin<span class="typ-punct">:</span> <span class="typ-num">12pt</span><span class="typ-punct">,</span> fill<span class="typ-punct">:</span> <span class="typ-func">rgb</span><span class="typ-punct">(</span><span class="typ-str">"19181f"</span><span class="typ-punct">)</span><span class="typ-punct">)</span>
+<span class="typ-key">#</span><span class="typ-key">set</span> <span class="typ-func">par</span><span class="typ-punct">(</span>leading<span class="typ-punct">:</span> <span class="typ-num">1.5em</span><span class="typ-punct">)</span>
+<span class="typ-key">#</span><span class="typ-key">set</span> <span class="typ-func">text</span><span class="typ-punct">(</span>font<span class="typ-punct">:</span> <span class="typ-str">"Rouge Script"</span><span class="typ-punct">,</span> fill<span class="typ-punct">:</span> <span class="typ-func">rgb</span><span class="typ-punct">(</span><span class="typ-str">"80f4b6"</span><span class="typ-punct">)</span><span class="typ-punct">)</span>
+
+<span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/untypsignia:0.1.1"</span><span class="typ-punct">:</span> <span class="typ-op">*</span>
+
+<span class="typ-key">#</span><span class="typ-key">let</span> <span class="typ-func">say</span><span class="typ-punct">(</span><span class="typ-punct">)</span> <span class="typ-op">=</span> <span class="typ-punct">[</span>I prefer <span class="typ-func">#</span><span class="typ-func">typstmark</span><span class="typ-punct">(</span><span class="typ-punct">)</span> over <span class="typ-func">#</span><span class="typ-func">texmark</span><span class="typ-punct">(</span><span class="typ-punct">)</span> or <span class="typ-func">#</span><span class="typ-func">latexmark</span><span class="typ-punct">(</span><span class="typ-punct">)</span>.<span class="typ-punct">]</span>
+
+<span class="typ-key">#</span><span class="typ-key">for</span> sz <span class="typ-key">in</span> <span class="typ-punct">(</span><span class="typ-num">20</span><span class="typ-punct">,</span> <span class="typ-num">16</span><span class="typ-punct">,</span> <span class="typ-num">14</span><span class="typ-punct">,</span> <span class="typ-num">12</span><span class="typ-punct">,</span> <span class="typ-num">10</span><span class="typ-punct">,</span> <span class="typ-num">8</span><span class="typ-punct">)</span> <span class="typ-punct">{</span>
+  <span class="typ-key">set</span> <span class="typ-func">text</span><span class="typ-punct">(</span>size<span class="typ-punct">:</span> sz <span class="typ-op">*</span> <span class="typ-num">1pt</span><span class="typ-punct">)</span>
+  <span class="typ-func">say</span><span class="typ-punct">(</span><span class="typ-punct">)</span>
+  <span class="typ-func">linebreak</span><span class="typ-punct">(</span><span class="typ-punct">)</span>
+<span class="typ-punct">}</span>
+</code></code></pre>
+      <p>
+       This example results in a 1-page document like this one:
+      </p>
+      <p>
+       <img alt="Compiled
+Example" src="https://raw.githubusercontent.com/cnaak/untypsignia.typ/86b221379931edcbfa91b50159a4ff930ecbec47/thumbnail.png"/>
+      </p>
+      <h2>
+       Citing
+      </h2>
+      <p>
+       This package can be cited with the following bibliography database entry:
+      </p>
+      <pre><code class="language-yml">untypsignia-package:
+  type: Web
+  author: Naaktgeboren, C.
+  title:
+    value: "untypsignia: unofficial typesetter's insignia emulations"
+  url: https://github.com/cnaak/untypsignia.typ
+  version: 0.1.1
+  date: 2024-08
+</code></pre>
+     </section>
+     <aside>
+      <section>
+       <h3>
+        How to add
+       </h3>
+       <p>
+        Copy this into your project and use the import as
+        <!-- -->
+        <code>
+         untypsignia
+        </code>
+       </p>
+       <div class="import-snippet">
+        <pre><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/untypsignia:0.1.1"</span></code></pre>
+        <button class="copy" title="Copy to clipboard">
+         <img alt="Copy" height="16" src="/assets/icons/16-copy.svg" width="16"/>
+        </button>
+       </div>
+       <p class="muted">
+        Check the docs for
+        <!-- -->
+        <a href="https://typst.app/docs/reference/scripting/#packages">
+         more information on how to import packages
+        </a>
+        .
+       </p>
+      </section>
+      <section id="about">
+       <h3>
+        About
+       </h3>
+       <dl>
+        <dt>
+         Author
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         Naaktgeboren, C.
+        </dd>
+        <dt>
+         License:
+        </dt>
+        <dd>
+         MIT
+        </dd>
+        <dt>
+         Current version:
+        </dt>
+        <dd>
+         0.1.1
+        </dd>
+        <dt>
+         Last updated:
+        </dt>
+        <dd>
+         August 21, 2024
+        </dd>
+        <dt>
+         First released:
+        </dt>
+        <dd>
+         August 14, 2024
+        </dd>
+        <dt>
+         Minimum Typst version:
+        </dt>
+        <dd>
+         0.11.1
+        </dd>
+        <dt>
+         Archive size:
+        </dt>
+        <dd class="archive-size-value">
+         2.13 kB
+         <a href="https://packages.typst.org/preview/untypsignia-0.1.1.tar.gz">
+          <img alt="Size icon" src="/assets/icons/16-download.svg"/>
+         </a>
+        </dd>
+        <dt>
+         Discipline
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         <ul class="list-without-icons">
+          <li>
+           <a href="https://typst.app/universe/search/?discipline=computer-science">
+            Computer Science
+           </a>
+          </li>
+         </ul>
+        </dd>
+        <dt>
+         Categor
+         <!-- -->
+         ies
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         <ul class="list-with-icons">
+          <li>
+           <img alt="Visualization icon" src="/assets/icons/16-chart.svg"/>
+           <a href="https://typst.app/universe/search/?category=visualization">
+            Visualization
+           </a>
+          </li>
+          <li>
+           <img alt="Utility icon" src="/assets/icons/16-hammer.svg"/>
+           <a href="https://typst.app/universe/search/?category=utility">
+            Utility
+           </a>
+          </li>
+          <li>
+           <img alt="Fun icon" src="/assets/icons/16-smile.svg"/>
+           <a href="https://typst.app/universe/search/?category=fun">
+            Fun
+           </a>
+          </li>
+         </ul>
+        </dd>
+       </dl>
+      </section>
+      <section>
+       <h3>
+        Where to report issues?
+       </h3>
+       <p>
+        This
+        <!-- -->
+        package
+        <!-- -->
+        is a project of
+        <!-- -->
+        <!-- -->
+        Naaktgeboren, C.
+        <!-- -->
+        .
+        <!-- -->
+        <!-- -->
+        <!-- -->
+        You can also try to ask for help with this
+        <!-- -->
+        package
+        <!-- -->
+        on the
+        <!-- -->
+        <a href="https://forum.typst.app" rel="noopener" target="_blank">
+         Forum
+        </a>
+        .
+       </p>
+       <p>
+        Please report this
+        <!-- -->
+        package
+        <!-- -->
+        to the Typst team using the
+        <!-- -->
+        <a href="https://typst.app/contact" rel="noreferrer" target="_blank">
+         contact form
+        </a>
+        <!-- -->
+        if you believe it is a safety hazard or infringes upon your rights.
+       </p>
+      </section>
+      <section id="versions">
+       <h3>
+        Version history
+       </h3>
+       <table>
+        <thead>
+         <tr>
+          <th align="left">
+           Version
+          </th>
+          <th align="left">
+           Release Date
+          </th>
+         </tr>
+        </thead>
+        <tbody>
+         <tr>
+          <td align="left">
+           0.1.1
+          </td>
+          <td align="left">
+           August 21, 2024
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/untypsignia/0.1.0/">
+            0.1.0
+           </a>
+          </td>
+          <td align="left">
+           August 14, 2024
+          </td>
+         </tr>
+        </tbody>
+       </table>
+      </section>
+      <p class="bottom-notice muted">
+       Typst GmbH did not create this
+       <!-- -->
+       package
+       <!-- -->
+       and cannot guarantee correct functionality of this
+       <!-- -->
+       package
+       <!-- -->
+       or compatibility with any version of the Typst compiler or app.
+      </p>
+     </aside>
+    </div>
+   </main>

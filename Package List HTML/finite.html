@@ -1,0 +1,453 @@
+<main>
+    <div id="banner" style="--banner-accent:#BF4705;--banner-primary:#330C00;--banner-secondary:#844523;--banner-tertiary:#C2764C;--banner-background:linear-gradient(90deg, #FFC174 0%, #FFD998 56%, #FFE4C4 100%)">
+     <div class="package-icon" role="img">
+     </div>
+     <div>
+      <div class="title">
+       <h1 class="name">
+        finite
+       </h1>
+       <span class="version">
+        0.3.2
+       </span>
+      </div>
+      <p class="description">
+       Typst-setting finite automata with CeTZ
+      </p>
+     </div>
+     <p class="featured-label">
+      <span class="icon" role="img">
+      </span>
+      Featured
+      <!-- -->
+      Package
+     </p>
+    </div>
+    <div class="inner-grid">
+     <section id="readme">
+      <p>
+       <strong>
+        finite
+       </strong>
+       is a
+       <a href="https://github.com/typst/typst" rel="nofollow ugc" target="_blank">
+        Typst
+       </a>
+       package for rendering finite automata on top of
+       <a href="https://github.com/johannes-wolf/typst-canvas" rel="nofollow ugc" target="_blank">
+        CeTZ
+       </a>
+       .
+      </p>
+      <h2>
+       Usage
+      </h2>
+      <p>
+       For Typst 0.6.0 or later, import the package from the typst preview repository:
+      </p>
+      <pre><code class="language-js">#import "@preview/finite:0.3.2": automaton
+</code></pre>
+      <p>
+       After importing the package, simply call
+       <code>
+        #automaton()
+       </code>
+       with a dictionary holding a transition table:
+      </p>
+      <pre><code class="language-js">#import "@preview/finite:0.3.2": automaton
+
+#automaton((
+  q0: (q1:0, q0:"0,1"),
+  q1: (q0:(0,1), q2:"0"),
+  q2: (),
+))
+</code></pre>
+      <p>
+       The output should look like this:
+       <img alt="Example for a finite automaton drawn with finite" src="https://github.com/typst/packages/raw/main/packages/preview/finite/0.3.2/assets/example.png"/>
+      </p>
+      <h2>
+       Further documentation
+      </h2>
+      <p>
+       See
+       <code>
+        manual.pdf
+       </code>
+       for a full manual of the package.
+      </p>
+      <h2>
+       Development
+      </h2>
+      <p>
+       The documentation is created using
+       <a href="https://github.com/jneug/typst-mantys" rel="nofollow ugc" target="_blank">
+        Mantys
+       </a>
+       , a Typst template for creating package documentation.
+      </p>
+      <p>
+       To compile the manual, Mantys needs to be available as a local package. Refer to Mantysâ manual for instructions on how to do so.
+      </p>
+      <h2>
+       Changelog
+      </h2>
+      <h3>
+       Version 0.3.2
+      </h3>
+      <ul>
+       <li>
+        Fixed an issue with final states not beeing recognized properly (#5)
+       </li>
+      </ul>
+      <h3>
+       Version 0.3.1
+      </h3>
+      <ul>
+       <li>
+        Added styling options for intial states:
+        <ul>
+         <li>
+          <code>
+           stroke
+          </code>
+          sets a stroke for the marking.
+         </li>
+         <li>
+          <code>
+           scale
+          </code>
+          scales the marking by a factor.
+         </li>
+        </ul>
+       </li>
+       <li>
+        Updated manual.
+       </li>
+      </ul>
+      <h3>
+       Version 0.3.0
+      </h3>
+      <ul>
+       <li>
+        Bumped tools4typst to v0.3.2.
+       </li>
+       <li>
+        Introducing automaton specs as a data structure.
+       </li>
+       <li>
+        Changes to
+        <code>
+         automaton
+        </code>
+        command:
+        <ul>
+         <li>
+          Changed
+          <code>
+           label-format
+          </code>
+          argument to
+          <code>
+           state-format
+          </code>
+          and
+          <code>
+           input-format
+          </code>
+          .
+         </li>
+         <li>
+          <code>
+           layout
+          </code>
+          can now take a dictionary with (
+          <code>
+           state
+          </code>
+          :
+          <code>
+           coordinate
+          </code>
+          ) pairs to position states.
+         </li>
+        </ul>
+       </li>
+       <li>
+        Added
+        <code>
+         #powerset
+        </code>
+        command, to transform a NFA into a DFA.
+       </li>
+       <li>
+        Added
+        <code>
+         #add-trap
+        </code>
+        command, to complete a partial DFA.
+       </li>
+       <li>
+        Added
+        <code>
+         #accepts
+        </code>
+        command, to test a word against an NFA or DFA.
+       </li>
+       <li>
+        Added
+        <code>
+         transpose-table
+        </code>
+        and
+        <code>
+         get-inputs
+        </code>
+        utilities.
+       </li>
+       <li>
+        Added âStartâ label to the mark for initial states.
+        <ul>
+         <li>
+          Added option to modify the mark label for initial states.
+         </li>
+        </ul>
+       </li>
+       <li>
+        Added anchor option for loops, to position the loop at one of the eight default anchors.
+       </li>
+       <li>
+        Changed
+        <code>
+         curve
+        </code>
+        option to be the height of the arc of the transition.
+        <ul>
+         <li>
+          This makes styling more consistent over longer distances.
+         </li>
+        </ul>
+       </li>
+       <li>
+        Added
+        <code>
+         rest
+        </code>
+        key to custom layouts.
+       </li>
+      </ul>
+      <h3>
+       Version 0.2.0
+      </h3>
+      <ul>
+       <li>
+        Bumped CeTZ to v0.1.1.
+       </li>
+      </ul>
+      <h3>
+       Version 0.1.0
+      </h3>
+      <ul>
+       <li>
+        Initial release submitted to
+        <a href="https://github.com/typst/packages" rel="nofollow ugc" target="_blank">
+         typst/packages
+        </a>
+        .
+       </li>
+      </ul>
+     </section>
+     <aside>
+      <section>
+       <h3>
+        How to add
+       </h3>
+       <p>
+        Copy this into your project and use the import as
+        <!-- -->
+        <code>
+         finite
+        </code>
+       </p>
+       <div class="import-snippet">
+        <pre><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/finite:0.3.2"</span></code></pre>
+        <button class="copy" title="Copy to clipboard">
+         <img alt="Copy" height="16" src="/assets/icons/16-copy.svg" width="16"/>
+        </button>
+       </div>
+       <p class="muted">
+        Check the docs for
+        <!-- -->
+        <a href="https://typst.app/docs/reference/scripting/#packages">
+         more information on how to import packages
+        </a>
+        .
+       </p>
+      </section>
+      <section id="about">
+       <h3>
+        About
+       </h3>
+       <dl>
+        <dt>
+         Author
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         Jonas Neugebauer
+        </dd>
+        <dt>
+         License:
+        </dt>
+        <dd>
+         MIT
+        </dd>
+        <dt>
+         Current version:
+        </dt>
+        <dd>
+         0.3.2
+        </dd>
+        <dt>
+         Last updated:
+        </dt>
+        <dd>
+         September 30, 2024
+        </dd>
+        <dt>
+         First released:
+        </dt>
+        <dd>
+         September 3, 2023
+        </dd>
+        <dt>
+         Archive size:
+        </dt>
+        <dd class="archive-size-value">
+         13.6 kB
+         <a href="https://packages.typst.org/preview/finite-0.3.2.tar.gz">
+          <img alt="Size icon" src="/assets/icons/16-download.svg"/>
+         </a>
+        </dd>
+        <dt>
+         Repository:
+        </dt>
+        <dd>
+         <a href="https://github.com/jneug/typst-finite" rel="noopener noreferrer" target="_blank">
+          GitHub
+         </a>
+        </dd>
+       </dl>
+      </section>
+      <section>
+       <h3>
+        Where to report issues?
+       </h3>
+       <p>
+        This
+        <!-- -->
+        package
+        <!-- -->
+        is a project of
+        <!-- -->
+        <!-- -->
+        Jonas Neugebauer
+        <!-- -->
+        .
+        <!-- -->
+        <!-- -->
+        Report issues on
+        <!-- -->
+        <a href="https://github.com/jneug/typst-finite" rel="noopener noreferrer" target="_blank">
+         their repository
+        </a>
+        .
+        <!-- -->
+        <!-- -->
+        You can also try to ask for help with this
+        <!-- -->
+        package
+        <!-- -->
+        on the
+        <!-- -->
+        <a href="https://forum.typst.app" rel="noopener" target="_blank">
+         Forum
+        </a>
+        .
+       </p>
+       <p>
+        Please report this
+        <!-- -->
+        package
+        <!-- -->
+        to the Typst team using the
+        <!-- -->
+        <a href="https://typst.app/contact" rel="noreferrer" target="_blank">
+         contact form
+        </a>
+        <!-- -->
+        if you believe it is a safety hazard or infringes upon your rights.
+       </p>
+      </section>
+      <section id="versions">
+       <h3>
+        Version history
+       </h3>
+       <table>
+        <thead>
+         <tr>
+          <th align="left">
+           Version
+          </th>
+          <th align="left">
+           Release Date
+          </th>
+         </tr>
+        </thead>
+        <tbody>
+         <tr>
+          <td align="left">
+           0.3.2
+          </td>
+          <td align="left">
+           September 30, 2024
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/finite/0.3.0/">
+            0.3.0
+           </a>
+          </td>
+          <td align="left">
+           September 23, 2023
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/finite/0.1.0/">
+            0.1.0
+           </a>
+          </td>
+          <td align="left">
+           September 3, 2023
+          </td>
+         </tr>
+        </tbody>
+       </table>
+      </section>
+      <p class="bottom-notice muted">
+       Typst GmbH did not create this
+       <!-- -->
+       package
+       <!-- -->
+       and cannot guarantee correct functionality of this
+       <!-- -->
+       package
+       <!-- -->
+       or compatibility with any version of the Typst compiler or app.
+      </p>
+     </aside>
+    </div>
+   </main>

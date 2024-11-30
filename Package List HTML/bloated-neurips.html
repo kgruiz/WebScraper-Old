@@ -1,0 +1,491 @@
+<main>
+    <div id="banner" style="--banner-accent:#000000;--banner-primary:#000000;--banner-secondary:#000000;--banner-tertiary:#565565;--banner-background:#eff0f3">
+     <div id="template-thumbnail">
+      <img alt="A preview of the bloated-neurips Typst template." src="https://packages.typst.org/preview/thumbnails/bloated-neurips-0.5.1-small.webp"/>
+      <div class="icon" role="img">
+      </div>
+     </div>
+     <div>
+      <div class="title">
+       <h1 class="name">
+        bloated-neurips
+       </h1>
+       <span class="version">
+        0.5.1
+       </span>
+      </div>
+      <p class="description">
+       NeurIPS-style paper template to publish at the Conference and Workshop on Neural Information Processing Systems
+      </p>
+     </div>
+    </div>
+    <div class="inner-grid">
+     <a class="create-project-button mobile" href="/app?template=bloated-neurips&amp;version=0.5.1" rel="noopener noreferrer" target="_blank">
+      Create project in app
+     </a>
+     <section id="readme">
+      <h2>
+       Usage
+      </h2>
+      <p>
+       You can use this template in the Typst web app by clicking
+       <em>
+        Start from template
+       </em>
+       on the dashboard and searching for
+       <code>
+        bloated-neurips
+       </code>
+       .
+      </p>
+      <p>
+       Alternatively, you can use the CLI to kick this project off using the command
+      </p>
+      <pre><code class="language-shell">typst init @preview/bloated-neurips
+</code></pre>
+      <p>
+       Typst will create a new directory with all the files needed to get you started.
+      </p>
+      <h2>
+       Configuration
+      </h2>
+      <p>
+       This template exports the
+       <code>
+        neurips2023
+       </code>
+       and
+       <code>
+        neurips2024
+       </code>
+       function with the following named arguments.
+      </p>
+      <ul>
+       <li>
+        <code>
+         title
+        </code>
+        : The paperâs title as content.
+       </li>
+       <li>
+        <code>
+         authors
+        </code>
+        : An array of author dictionaries. Each of the author dictionaries must have a name key and can have the keys department, organization, location, and email.
+       </li>
+       <li>
+        <code>
+         abstract
+        </code>
+        : The content of a brief summary of the paper or none. Appears at the top under the title.
+       </li>
+       <li>
+        <code>
+         bibliography
+        </code>
+        : The result of a call to the bibliography function or none. The function also accepts a single, positional argument for the body of the paper.
+       </li>
+       <li>
+        <code>
+         appendix
+        </code>
+        : A content which is placed after bibliography.
+       </li>
+       <li>
+        <code>
+         accepted
+        </code>
+        : If this is set to
+        <code>
+         false
+        </code>
+        then anonymized ready for submission document is produced;
+        <code>
+         accepted: true
+        </code>
+        produces camera-redy version. If the argument is set to
+        <code>
+         none
+        </code>
+        then preprint version is produced (can be uploaded to arXiv).
+       </li>
+      </ul>
+      <p>
+       The template will initialize your package with a sample call to the
+       <code>
+        neurips2024
+       </code>
+       function in a show rule. If you want to change an existing project to use this template, you can add a show rule at the top of your file as follows.
+      </p>
+      <pre><code class="language-typst"><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/bloated-neurips:0.5.1"</span><span class="typ-punct">:</span> neurips2024
+
+<span class="typ-key">#</span><span class="typ-key">show</span><span class="typ-punct">:</span> neurips2024<span class="typ-punct">.</span><span class="typ-func">with</span><span class="typ-punct">(</span>
+  title<span class="typ-punct">:</span> <span class="typ-punct">[</span>Formatting Instructions For NeurIPS 2024<span class="typ-punct">]</span><span class="typ-punct">,</span>
+  authors<span class="typ-punct">:</span> <span class="typ-punct">(</span>authors<span class="typ-punct">,</span> affls<span class="typ-punct">)</span><span class="typ-punct">,</span>
+  keywords<span class="typ-punct">:</span> <span class="typ-punct">(</span><span class="typ-str">"Machine Learning"</span><span class="typ-punct">,</span> <span class="typ-str">"NeurIPS"</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+  abstract<span class="typ-punct">:</span> <span class="typ-punct">[</span>
+    The abstract paragraph should be indented Â½ inch (3 picas) on both the
+    left- and right-hand margins. Use 10 point type, with a vertical spacing
+    (leading) of 11 points. The word <span class="typ-strong">*Abstract*</span> must be centered, bold, and in
+    point size 12. Two line spaces precede the abstract. The abstract must be
+    limited to one paragraph.
+  <span class="typ-punct">]</span><span class="typ-punct">,</span>
+  bibliography<span class="typ-punct">:</span> <span class="typ-func">bibliography</span><span class="typ-punct">(</span><span class="typ-str">"main.bib"</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+  appendix<span class="typ-punct">:</span> <span class="typ-punct">[</span>
+    <span class="typ-key">#</span><span class="typ-key">include</span> <span class="typ-str">"appendix.typ"</span>
+    <span class="typ-key">#</span><span class="typ-key">include</span> <span class="typ-str">"checklist.typ"</span>
+  <span class="typ-punct">]</span><span class="typ-punct">,</span>
+  accepted<span class="typ-punct">:</span> <span class="typ-key">false</span><span class="typ-punct">,</span>
+<span class="typ-punct">)</span>
+
+<span class="typ-func">#</span><span class="typ-func">lorem</span><span class="typ-punct">(</span><span class="typ-num">42</span><span class="typ-punct">)</span>
+</code></code></pre>
+      <p>
+       With template of version v0.5.1 or newer, one can override some parts. Specifically,
+       <code>
+        get-notice
+       </code>
+       entry of
+       <code>
+        aux
+       </code>
+       directory parameter of show rule allows to adjust the NeurIPS 2024 template to Science4DL workshop as follows.
+      </p>
+      <pre><code class="language-typst"><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/bloated-neurips:0.5.1"</span><span class="typ-punct">:</span> neurips
+
+<span class="typ-key">#</span><span class="typ-key">let</span> <span class="typ-func">get-notice</span><span class="typ-punct">(</span>accepted<span class="typ-punct">)</span> <span class="typ-op">=</span> <span class="typ-key">if</span> accepted <span class="typ-op">==</span> <span class="typ-key">none</span> <span class="typ-punct">{</span>
+  <span class="typ-key">return</span> <span class="typ-punct">[</span>Preprint. Under review.<span class="typ-punct">]</span>
+<span class="typ-punct">}</span> <span class="typ-key">else</span> <span class="typ-key">if</span> accepted <span class="typ-punct">{</span>
+  <span class="typ-key">return</span> <span class="typ-punct">[</span>
+    Workshop on Scientific Methods for Understanding Deep Learning, NeurIPS
+    <span class="typ-marker">2024.</span>
+  <span class="typ-punct">]</span>
+<span class="typ-punct">}</span> <span class="typ-key">else</span> <span class="typ-punct">{</span>
+  <span class="typ-key">return</span> <span class="typ-punct">[</span>
+    Submitted to Workshop on Scientific Methods for Understanding Deep
+    Learning, NeurIPS 2024.
+  <span class="typ-punct">]</span>
+<span class="typ-punct">}</span>
+
+<span class="typ-key">#</span><span class="typ-key">let</span> <span class="typ-func">science4dl2024</span><span class="typ-punct">(</span>
+  title<span class="typ-punct">:</span> <span class="typ-punct">[</span><span class="typ-punct">]</span><span class="typ-punct">,</span> authors<span class="typ-punct">:</span> <span class="typ-punct">(</span><span class="typ-punct">)</span><span class="typ-punct">,</span> keywords<span class="typ-punct">:</span> <span class="typ-punct">(</span><span class="typ-punct">)</span><span class="typ-punct">,</span> date<span class="typ-punct">:</span> <span class="typ-key">auto</span><span class="typ-punct">,</span> abstract<span class="typ-punct">:</span> <span class="typ-key">none</span><span class="typ-punct">,</span>
+  bibliography<span class="typ-punct">:</span> <span class="typ-key">none</span><span class="typ-punct">,</span> appendix<span class="typ-punct">:</span> <span class="typ-key">none</span><span class="typ-punct">,</span> accepted<span class="typ-punct">:</span> <span class="typ-key">false</span><span class="typ-punct">,</span> body<span class="typ-punct">,</span>
+<span class="typ-punct">)</span> <span class="typ-op">=</span> <span class="typ-punct">{</span>
+  <span class="typ-key">show</span><span class="typ-punct">:</span> neurips<span class="typ-punct">.</span><span class="typ-func">with</span><span class="typ-punct">(</span>
+    title<span class="typ-punct">:</span> title<span class="typ-punct">,</span>
+    authors<span class="typ-punct">:</span> authors<span class="typ-punct">,</span>
+    keywords<span class="typ-punct">:</span> keywords<span class="typ-punct">,</span>
+    date<span class="typ-punct">:</span> date<span class="typ-punct">,</span>
+    abstract<span class="typ-punct">:</span> abstract<span class="typ-punct">,</span>
+    accepted<span class="typ-punct">:</span> <span class="typ-key">false</span><span class="typ-punct">,</span>
+    aux<span class="typ-punct">:</span> <span class="typ-punct">(</span>get-notice<span class="typ-punct">:</span> get-notice<span class="typ-punct">)</span><span class="typ-punct">,</span>
+  <span class="typ-punct">)</span>
+  body
+<span class="typ-punct">}</span>
+</code></code></pre>
+      <h2>
+       Issues
+      </h2>
+      <ul>
+       <li>
+        <p>
+         The biggest and the most important issues is related to line ruler. We are not aware of universal method for numbering lines in the main body of a paper. Fortunately, line numbering support has been implemented at
+         <a href="https://github.com/typst/typst/pull/4516" rel="nofollow ugc" target="_blank">
+          typst/typst#4516
+         </a>
+         . Letâs wait for the next major release v0.12.0!
+        </p>
+       </li>
+       <li>
+        <p>
+         There is an issue in Typst with spacing between figures and between figure with floating placement. The issue is that there is no way to specify gap between subsequent figures. In order to have behaviour similar to original LaTeX template, one should consider direct spacing adjacemnt with
+         <code>
+          v(-1em)
+         </code>
+         as follows.
+        </p>
+        <pre><code class="language-typst"><code><span class="typ-func">#</span><span class="typ-func">figure</span><span class="typ-punct">(</span>
+  <span class="typ-func">rect</span><span class="typ-punct">(</span>width<span class="typ-punct">:</span> <span class="typ-num">4.25cm</span><span class="typ-punct">,</span> height<span class="typ-punct">:</span> <span class="typ-num">4.25cm</span><span class="typ-punct">,</span> stroke<span class="typ-punct">:</span> <span class="typ-num">0.4pt</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+  caption<span class="typ-punct">:</span> <span class="typ-punct">[</span>Sample figure caption.<span class="typ-func">#</span><span class="typ-func">v</span><span class="typ-punct">(</span><span class="typ-op">-</span><span class="typ-num">1em</span><span class="typ-punct">)</span><span class="typ-punct">]</span><span class="typ-punct">,</span>
+  placement<span class="typ-punct">:</span> top<span class="typ-punct">,</span>
+<span class="typ-punct">)</span>
+<span class="typ-func">#</span><span class="typ-func">figure</span><span class="typ-punct">(</span>
+  <span class="typ-func">rect</span><span class="typ-punct">(</span>width<span class="typ-punct">:</span> <span class="typ-num">4.25cm</span><span class="typ-punct">,</span> height<span class="typ-punct">:</span> <span class="typ-num">4.25cm</span><span class="typ-punct">,</span> stroke<span class="typ-punct">:</span> <span class="typ-num">0.4pt</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+  caption<span class="typ-punct">:</span> <span class="typ-punct">[</span>Sample figure caption.<span class="typ-punct">]</span><span class="typ-punct">,</span>
+  placement<span class="typ-punct">:</span> top<span class="typ-punct">,</span>
+<span class="typ-punct">)</span>
+</code></code></pre>
+       </li>
+       <li>
+        <p>
+         Another issue is related to Typstâs inablity to produce colored annotation. In order to mitigte the issue, we add a script which modifies annotations and make them colored.
+        </p>
+        <pre><code class="language-shell">../colorize-annotations.py \
+    example-paper.typst.pdf example-paper-colored.typst.pdf
+</code></pre>
+        <p>
+         See
+         <a href="https://github.com/daskol/typst-templates/#colored-annotations" rel="nofollow ugc" target="_blank">
+          README.md
+         </a>
+         for details.
+        </p>
+       </li>
+       <li>
+        <p>
+         NeurIPS 2023/2024 instructions discuss bibliography in vague terms. Namely, there is not specific requirements. Thus we stick to
+         <code>
+          ieee
+         </code>
+         bibliography style since we found it in several accepted papers and it is similar to that in the example paper.
+        </p>
+       </li>
+       <li>
+        <p>
+         It is unclear how to render notice in the bottom of the title page in case of final (
+         <code>
+          accepted: true
+         </code>
+         ) or preprint (
+         <code>
+          accepted: none
+         </code>
+         ) submission.
+        </p>
+       </li>
+      </ul>
+     </section>
+     <aside>
+      <a class="create-project-button desktop" href="/app?template=bloated-neurips&amp;version=0.5.1" rel="noopener noreferrer" target="_blank">
+       Create project in app
+      </a>
+      <section>
+       <h3>
+        How to use
+       </h3>
+       <p>
+        Click the button above to create a new project using this template in the Typst app.
+       </p>
+       <p>
+        You can also use the Typst CLI to start a new project on your computer using this command:
+       </p>
+       <div class="init-snippet">
+        <pre><code>typst init @preview/<!-- -->bloated-neurips<!-- -->:<!-- -->0.5.1</code></pre>
+        <button class="copy" title="Copy to clipboard">
+         <img alt="Copy" height="16" src="/assets/icons/16-copy.svg" width="16"/>
+        </button>
+       </div>
+      </section>
+      <section id="about">
+       <h3>
+        About
+       </h3>
+       <dl>
+        <dt>
+         Author
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         <a href="mailto:daniel.bershatsky2@skoltech.ru">
+          Daniel Bershatsky
+         </a>
+        </dd>
+        <dt>
+         License:
+        </dt>
+        <dd>
+         MIT
+        </dd>
+        <dt>
+         Current version:
+        </dt>
+        <dd>
+         0.5.1
+        </dd>
+        <dt>
+         Last updated:
+        </dt>
+        <dd>
+         October 8, 2024
+        </dd>
+        <dt>
+         First released:
+        </dt>
+        <dd>
+         March 19, 2024
+        </dd>
+        <dt>
+         Minimum Typst version:
+        </dt>
+        <dd>
+         0.11.1
+        </dd>
+        <dt>
+         Archive size:
+        </dt>
+        <dd class="archive-size-value">
+         21.2 kB
+         <a href="https://packages.typst.org/preview/bloated-neurips-0.5.1.tar.gz">
+          <img alt="Size icon" src="/assets/icons/16-download.svg"/>
+         </a>
+        </dd>
+        <dt>
+         Repository:
+        </dt>
+        <dd>
+         <a href="https://github.com/daskol/typst-templates" rel="noopener noreferrer" target="_blank">
+          GitHub
+         </a>
+        </dd>
+        <dt>
+         Discipline
+         <!-- -->
+         s
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         <ul class="list-without-icons">
+          <li>
+           <a href="https://typst.app/universe/search/?discipline=computer-science">
+            Computer Science
+           </a>
+          </li>
+          <li>
+           <a href="https://typst.app/universe/search/?discipline=mathematics">
+            Mathematics
+           </a>
+          </li>
+         </ul>
+        </dd>
+        <dt>
+         Categor
+         <!-- -->
+         y
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         <ul class="list-with-icons">
+          <li>
+           <img alt="Paper icon" src="/assets/icons/16-atom.svg"/>
+           <a href="https://typst.app/universe/search/?category=paper">
+            Paper
+           </a>
+          </li>
+         </ul>
+        </dd>
+       </dl>
+      </section>
+      <section>
+       <h3>
+        Where to report issues?
+       </h3>
+       <p>
+        This
+        <!-- -->
+        template
+        <!-- -->
+        is a project of
+        <!-- -->
+        <!-- -->
+        Daniel Bershatsky
+        <!-- -->
+        .
+        <!-- -->
+        <!-- -->
+        Report issues on
+        <!-- -->
+        <a href="https://github.com/daskol/typst-templates" rel="noopener noreferrer" target="_blank">
+         their repository
+        </a>
+        .
+        <!-- -->
+        <!-- -->
+        You can also try to ask for help with this
+        <!-- -->
+        template
+        <!-- -->
+        on the
+        <!-- -->
+        <a href="https://forum.typst.app" rel="noopener" target="_blank">
+         Forum
+        </a>
+        .
+       </p>
+       <p>
+        Please report this
+        <!-- -->
+        template
+        <!-- -->
+        to the Typst team using the
+        <!-- -->
+        <a href="https://typst.app/contact" rel="noreferrer" target="_blank">
+         contact form
+        </a>
+        <!-- -->
+        if you believe it is a safety hazard or infringes upon your rights.
+       </p>
+      </section>
+      <section id="versions">
+       <h3>
+        Version history
+       </h3>
+       <table>
+        <thead>
+         <tr>
+          <th align="left">
+           Version
+          </th>
+          <th align="left">
+           Release Date
+          </th>
+         </tr>
+        </thead>
+        <tbody>
+         <tr>
+          <td align="left">
+           0.5.1
+          </td>
+          <td align="left">
+           October 8, 2024
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/bloated-neurips/0.5.0/">
+            0.5.0
+           </a>
+          </td>
+          <td align="left">
+           September 22, 2024
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/bloated-neurips/0.2.1/">
+            0.2.1
+           </a>
+          </td>
+          <td align="left">
+           March 19, 2024
+          </td>
+         </tr>
+        </tbody>
+       </table>
+      </section>
+      <p class="bottom-notice muted">
+       Typst GmbH did not create this
+       <!-- -->
+       template
+       <!-- -->
+       and cannot guarantee correct functionality of this
+       <!-- -->
+       template
+       <!-- -->
+       or compatibility with any version of the Typst compiler or app.
+      </p>
+     </aside>
+    </div>
+   </main>

@@ -1,0 +1,149 @@
+\title{typst.app/universe/package/numberingx}
+
+\phantomsection\label{banner}
+\section{numberingx}\label{numberingx}
+
+{ 0.0.1 }
+
+Extended numbering patterns using the CSS Counter Styles spec
+
+\phantomsection\label{readme}
+\emph{Extended numbering patterns using the
+\href{https://www.w3.org/TR/css-counter-styles-3/}{CSS Counter Styles}
+specification, along with a number of
+\href{https://www.w3.org/TR/predefined-counter-styles/}{Ready-made
+Counter Styles} .}
+
+\subsection{Usage}\label{usage}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{// numberingx is expected to be imported with the syntax creating a named module}
+\NormalTok{\#}\ImportTok{import} \StringTok{"@preview/numberingx:0.0.1"}
+
+\CommentTok{// Use full{-}width roman numerals for titles, and lowercase ukrainian letters}
+\NormalTok{\#set }\FunctionTok{heading}\NormalTok{(numbering}\OperatorTok{:}\NormalTok{ numberingx}\OperatorTok{.}\FunctionTok{formatter}\NormalTok{(}
+  \StringTok{"\{fullwidth{-}upper{-}roman\}.\{fullwidth{-}lower{-}roman\}.\{lower{-}ukrainian\}"}
+\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{Patterns}\label{patterns}
+
+numberingxâ€™s patterns are similiar to typstâ€™s
+\href{https://typst.app/docs/reference/meta/numbering/}{numbering
+patterns} and use the same notion of fragments with a prefix and a final
+suffix. The main difference is that it doesnâ€™t use special characters
+and all numbering styles must be written within braces. To insert a
+literal brace, you can double it.
+
+A list of patterns can be found in the
+\href{https://www.w3.org/TR/predefined-counter-styles/}{Ready-made
+Counter Styles} document. Additionally, numberingx allows typstâ€™s
+numbering characters to be used in patterns. This way,
+\texttt{\ "\{upper-roman\}.\{decimal\})"\ } can be shortened to
+\texttt{\ "\{I\}.\{1\})"\ } .
+
+\subsubsection{API}\label{api}
+
+numberingx exposes two functions, \texttt{\ format\ } and
+\texttt{\ formatter\ } .
+
+\paragraph{\texorpdfstring{\texttt{\ format(fmt,\ styles:\ (:),\ ..nums)\ }}{ format(fmt, styles: (:), ..nums) }}\label{formatfmt-styles-..nums}
+
+This function uses the same api as typstâ€™s \texttt{\ numbering()\ }
+and takes the pattern string as its first positional argument, and
+numbers as trailing arguments. An optional \texttt{\ styles\ } argument
+allows for
+\href{https://github.com/typst/packages/raw/main/packages/preview/numberingx/0.0.1/\#user-defined-styles}{user-defined
+styles} .
+
+\paragraph{\texorpdfstring{\texttt{\ formatter(fmt,\ styles:\ (:))\ }}{ formatter(fmt, styles: (:)) }}\label{formatterfmt-styles}
+
+This function is little more than a shorter version of
+\texttt{\ format.with(..)\ } . It takes a pattern string and an optional
+\texttt{\ styles\ } argument, and return the matching numbering
+functions. This is mainly intended to be used for \texttt{\ \#set\ }
+rules.
+
+\subsection{User-defined styles}\label{user-defined-styles}
+
+Custom styles can be defined according to the
+\href{https://www.w3.org/TR/css-counter-styles-3/}{CSS Counter Styles}
+spec and passed through a \texttt{\ styles\ } named argument to
+\texttt{\ format\ } and \texttt{\ formatter\ } . It must be a dictionary
+mapping style names to style descriptions.
+
+Note that the \texttt{\ prefix\ } , \texttt{\ suffix\ } ,
+\texttt{\ pad\ } , and \texttt{\ speak-as\ } descriptors are not
+supported, nor is the \texttt{\ extends\ } system.
+
+\subsection{License}\label{license}
+
+This repository is licensed under
+\href{https://spdx.org/licenses/MIT-0.html}{MIT-0} , which is the
+closest Iâ€™m legally allowed to public domain while being OSI approved.
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as
+\texttt{\ numberingx\ }
+
+\begin{verbatim}
+#import "@preview/numberingx:0.0.1"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+Edhebi
+\item[License:]
+MIT-0
+\item[Current version:]
+0.0.1
+\item[Last updated:]
+July 21, 2023
+\item[First released:]
+July 21, 2023
+\item[Archive size:]
+13.9 kB
+\href{https://packages.typst.org/preview/numberingx-0.0.1.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/edhebi/numberingx}{GitHub}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of Edhebi . Report issues on
+\href{https://github.com/edhebi/numberingx}{their repository} . You can
+also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.0.1 & July 21, 2023 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.

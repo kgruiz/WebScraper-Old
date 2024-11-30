@@ -1,0 +1,261 @@
+\title{typst.app/universe/package/acrotastic}
+
+\phantomsection\label{banner}
+\section{acrotastic}\label{acrotastic}
+
+{ 0.1.1 }
+
+Manage acronyms and their definitions in Typst.
+
+\phantomsection\label{readme}
+Manages all your acronyms for you.
+
+Acrotastics main features are clickable abbreviations that auto-expand
+on the first occurence, manual short and long forms, implicit or manual
+plural form support, and customizable index printing.
+
+\subsection{Quick Start}\label{quick-start}
+
+\begin{verbatim}
+#import "@preview/acrotastic:0.1.1": *
+
+#init-acronyms((
+  "WTP": ("Wonderful Typst Package","Wonderful Typst Packages"),
+))
+
+Acrotastic is a #acr("WTP")! This #acr("WTP") enables easy acronym manipulation.
+\end{verbatim}
+
+\subsection{Usage}\label{usage}
+
+\subsubsection{Define acronyms}\label{define-acronyms}
+
+First, define the acronyms in a dictionary, with the keys being the
+acronyms and the values being arrays of their definitions. If there is
+only a singular version of the definition, the array contains only one
+value. If there are both singular and plural versions, define the
+definition as an array where the first item is the singular definition
+and the second item is the plural. Then, initialize Acrotastic by
+passing the dictionay you just defined to the
+\texttt{\ \#init-acronyms(...)\ } function.
+
+Here is a example of the \texttt{\ acronyms.typ\ } file:
+
+\begin{verbatim}
+#import "@preview/acrotastic:0.1.1": *
+
+#init-acronyms((
+  "NN": ("Neural Network"),
+  "OS": ("Operating System",),
+  "BIOS": ("Basic Input/Output System", "Basic Input/Output Systems"),
+))
+\end{verbatim}
+
+\subsubsection{Call Acrotastic
+functions}\label{call-acrotastic-functions}
+
+There is a large number of different functions to fit every use case.
+You will find an overview of all functions and their descriptions in the
+table below.
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Function & Description \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\texttt{\ \#acr(...)\ } & On the first occurrence the long version of
+the abbreviation and the abbreviation itself are displayed in brackets.
+The next time only the abbreviation is displayed. \\
+\texttt{\ \#acrpl(...)\ } & Same as \texttt{\ \#acr(...)\ } but the
+plural will be diplayed. If no plural is defined, an â€˜sâ€™ is added to
+the singular form. \\
+\texttt{\ \#acrf(...)\ } & The acronym will be displayed as if it is the
+first time. This means that it is again shown in the long form and the
+abbreviation in brackets. \\
+\texttt{\ \#acrfpl(...)\ } & Same as \texttt{\ \#acrf(...)\ } but the
+plural will be displayed. If no plural is defined, an â€˜sâ€™ is added
+to the singular form. \\
+\texttt{\ \#acrs(...)\ } & Always displays the short form of the
+acronym. \\
+\texttt{\ \#acrspl(...)\ } & Same as \texttt{\ \#acrs(...)\ } but adds
+an â€˜sâ€™ to the acronym for the plural form. \\
+\texttt{\ \#acrl(...)\ } & Always displays the long form of the
+acronym. \\
+\texttt{\ \#acrlpl(...)\ } & Same as \texttt{\ \#acrl(...)\ } but the
+plural will be displayed. If no plural is defined, an â€˜sâ€™ is added
+to the singular form. \\
+\texttt{\ \#reset-acronym(...)\ } & Resets a specific acronym. The
+acronym will be expanded on the next use. \\
+\texttt{\ reset-all-acronyms()\ } & Resets all acronyms. The acronyms
+will be expanded on their next use. \\
+\end{longtable}
+
+You can alternatively use \texttt{\ \#acr(...)\ } ,
+\texttt{\ \#acrf(...)\ } , \texttt{\ \#acrs(...)\ } and
+\texttt{\ \#acrl(...)\ } with \texttt{\ plural:\ true\ } to display the
+plural form.
+
+\begin{verbatim}
+#acr("BIOS", plural: true)
+\end{verbatim}
+
+To deactivate the link to the abbreviations directory (for whatever
+reason), you can set \texttt{\ link:\ false\ } .
+
+\begin{verbatim}
+#acr("BIOS", link: false)
+\end{verbatim}
+
+\subsubsection{Print Abbreviations
+directory}\label{print-abbreviations-directory}
+
+You can also print an index of all acronyms used in the document with
+the \texttt{\ \#print-index()\ } function. There are some parameters for
+customization.
+
+\begin{longtable}[]{@{}llll@{}}
+\toprule\noalign{}
+parameter & values & default & description \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+title & string & â€œList of Abbreviationsâ€? & Heading of the acronym
+index \\
+level & number & 1 & Level of the heading \\
+sorted & â€œupâ€?, â€œdownâ€?, â€œkeepâ€? & â€œupâ€? & â€œUpâ€? sorts
+alphabetically, â€œDownâ€? sorts reversed alphabetically and â€œkeepâ€?
+uses the order from initialization \\
+delimiter & string & â€œ:â€? & String to place after the acronym in the
+list \\
+acr-col-size & percentage & 20\% & Size of the acronym column in
+percent \\
+outlined & bool & false & Make the index section outlined \\
+\end{longtable}
+
+\subsection{Possible Errors}\label{possible-errors}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Error & Solution \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Acronym is not a key in the acronyms dictionary. & Make sure that the
+acronym is defined in the dictionary passed to
+\texttt{\ \#init-acronyms(dict)\ } \\
+No definitions found for acronym. Make sure it is defined in the
+dictionary passed to \#init-acronyms(dict) & The acronym is in the
+dictionary, but has no correct definition. \\
+Definitions should be arrays of one or two strings. Definition of
+acronym is: & The acronym has a definition, but the definition doesnâ€™t
+have the right type. Make sure itâ€™s an array of one or two strings. \\
+\end{longtable}
+
+Moreover you have to be careful when using states.
+
+\begin{itemize}
+\tightlist
+\item
+  For every acronym â€œABCâ€? that you define, the state named
+  â€œacronym-state-ABCâ€? is initialized and used. To avoid errors, do
+  not try to use this state manually for other purposes. Similarly, the
+  state named â€œacronymsâ€? is reserved to Acrotastic. Please avoid
+  using it.
+\item
+  The functions above are leveraging the state \texttt{\ display\ }
+  function and only works if the return value is actually printed in the
+  document. For more information on states, see the
+  \href{https://typst.app/docs/reference/introspection/state/}{Typst
+  documentation on states} .
+\end{itemize}
+
+\subsection{Contributing}\label{contributing}
+
+If you notice any bug or want to contribute a new feature, please open
+an issue or a pull request on the fork
+\href{https://github.com/Julian702/typst-packages?tab=readme-ov-file}{Julian702/typst-packages}
+
+\subsection{Acknowledgement}\label{acknowledgement}
+
+Thanks to @Grisely who developed the
+\href{https://typst.app/universe/package/acrostiche/}{acrostiche
+package} which was the basis for acrotastic.
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as
+\texttt{\ acrotastic\ }
+
+\begin{verbatim}
+#import "@preview/acrotastic:0.1.1"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author s :]
+@Julian702 \& Gaetan Lepage @GaetanLepage
+\item[License:]
+MIT
+\item[Current version:]
+0.1.1
+\item[Last updated:]
+September 3, 2024
+\item[First released:]
+April 29, 2024
+\item[Archive size:]
+4.20 kB
+\href{https://packages.typst.org/preview/acrotastic-0.1.1.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/Julian702/typst-packages}{GitHub}
+\item[Categor y :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-list-unordered.svg}}
+  \href{https://typst.app/universe/search/?category=model}{Model}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of @Julian702 and Gaetan Lepage @GaetanLepage
+. Report issues on
+\href{https://github.com/Julian702/typst-packages}{their repository} .
+You can also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.1.1 & September 3, 2024 \\
+\href{https://typst.app/universe/package/acrotastic/0.1.0/}{0.1.0} &
+April 29, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.

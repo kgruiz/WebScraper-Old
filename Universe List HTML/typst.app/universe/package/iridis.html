@@ -1,0 +1,323 @@
+<main>
+    <div id="banner" style="--banner-accent:#000000;--banner-primary:#000000;--banner-secondary:#000000;--banner-tertiary:#565565;--banner-background:#eff0f3">
+     <div class="package-icon" role="img">
+     </div>
+     <div>
+      <div class="title">
+       <h1 class="name">
+        iridis
+       </h1>
+       <span class="version">
+        0.1.0
+       </span>
+      </div>
+      <p class="description">
+       A package to colors matching parenthesis
+      </p>
+     </div>
+    </div>
+    <div class="inner-grid">
+     <section id="readme">
+      <p>
+       Iridis is a package to colorize parenthesis in your typst document. Iridis is a latin word that means ârainbowâ. This package is inspired by the many rainbow parenthesis plugins available for code editors.
+      </p>
+      <h2>
+       Usage
+      </h2>
+      <p>
+       The package provides a single show-rule
+       <code>
+        iridis-show
+       </code>
+       that can be used to colorize parenthesis in your document and a palette
+       <code>
+        iridis-palette
+       </code>
+       that can be used to define the colors used.
+      </p>
+      <p>
+       The rule takes 3 arguments:
+      </p>
+      <ul>
+       <li>
+        <code>
+         opening-parenthesis
+        </code>
+        : The opening parenthesis character. Default is
+        <code>
+         ("(", "[", "{")
+        </code>
+        .
+       </li>
+       <li>
+        <code>
+         closing-parenthesis
+        </code>
+        : The closing parenthesis character. Default is
+        <code>
+         (")", "]", "}")
+        </code>
+        .
+       </li>
+       <li>
+        <code>
+         palette
+        </code>
+        : The color palette to use. Default is
+        <code>
+         iridis-palette
+        </code>
+        .
+       </li>
+      </ul>
+      <p>
+       If the symbols are single characters, they are interpreted as normal strings but if you use multi-character strings, then they are interpreted as regular expressions.
+      </p>
+      <h2>
+       Exemples
+      </h2>
+      <pre><code class="language-typ"><code><span class="typ-key">#</span><span class="typ-key">show</span><span class="typ-punct">:</span> <span class="typ-func">iridis</span><span class="typ-punct">.</span><span class="typ-func">iridis-show</span>
+
+<span class="typ-raw">```rs
+fn main() {
+    let n = false;
+    if n {
+        println!("Hello, world!");
+    } else {
+        println!("Goodbye, world!");
+    }
+}
+```</span>
+
+<span class="typ-raw">```cpp
+#include &lt;iostream&gt;
+
+int main() {
+    bool n = false;
+    if (n) {
+        std::cout &lt;&lt; "Hello, world!" &lt;&lt; std::endl;
+    } else {
+        std::cout &lt;&lt; "Goodbye, world!" &lt;&lt; std::endl;
+    }
+}
+```</span>
+
+<span class="typ-raw">```py
+if __name__ == "__main__":
+    n = False
+    if n:
+        print("Hello, world!")
+    else:
+        print("Goodbye, world!")
+```</span>
+</code></code></pre>
+      <p>
+       <img alt="code" src="https://raw.githubusercontent.com/Robotechnic/iridis/master/images/code1.png"/>
+      </p>
+      <pre><code class="language-typ"><code><span class="typ-key">#</span><span class="typ-key">show</span><span class="typ-punct">:</span> <span class="typ-func">iridis</span><span class="typ-punct">.</span><span class="typ-func">iridis-show</span>
+
+<span class="typ-math-delim">$</span>
+    <span class="typ-str">"plus"</span> <span class="typ-pol">equiv</span> <span class="typ-pol">lambda</span> m. f <span class="typ-pol">lambda</span> n. <span class="typ-pol">lambda</span> f. <span class="typ-pol">lambda</span> x. m f (n f x) <span class="typ-escape">\</span>
+    <span class="typ-str">"succ"</span> <span class="typ-pol">equiv</span> <span class="typ-pol">lambda</span> n. <span class="typ-pol">lambda</span> f. <span class="typ-pol">lambda</span> x. f (n f x) <span class="typ-escape">\</span>
+    <span class="typ-str">"mult"</span> <span class="typ-pol">equiv</span> <span class="typ-pol">lambda</span> m. <span class="typ-pol">lambda</span> n. <span class="typ-pol">lambda</span> f. <span class="typ-pol">lambda</span> x. m (n f) x <span class="typ-escape">\</span>
+    <span class="typ-str">"pred"</span> <span class="typ-pol">equiv</span> <span class="typ-pol">lambda</span> n. <span class="typ-pol">lambda</span> f. <span class="typ-pol">lambda</span> x. n (<span class="typ-pol">lambda</span> g. <span class="typ-pol">lambda</span> h. h (g f)) (<span class="typ-pol">lambda</span> u. x) (<span class="typ-pol">lambda</span> u. u) <span class="typ-escape">\</span>
+    <span class="typ-str">"zero"</span> <span class="typ-pol">equiv</span> <span class="typ-pol">lambda</span> f. <span class="typ-pol">lambda</span> x. x <span class="typ-escape">\</span>
+    <span class="typ-str">"one"</span> <span class="typ-pol">equiv</span> <span class="typ-pol">lambda</span> f. <span class="typ-pol">lambda</span> x. f x <span class="typ-escape">\</span>
+    <span class="typ-str">"two"</span> <span class="typ-pol">equiv</span> <span class="typ-pol">lambda</span> f. <span class="typ-pol">lambda</span> x. f (f x) <span class="typ-escape">\</span>
+    <span class="typ-str">"three"</span> <span class="typ-pol">equiv</span> <span class="typ-pol">lambda</span> f. <span class="typ-pol">lambda</span> x. f (f (f x)) <span class="typ-escape">\</span>
+    <span class="typ-str">"four"</span> <span class="typ-pol">equiv</span> <span class="typ-pol">lambda</span> f. <span class="typ-pol">lambda</span> x. f (f (f (f x))) <span class="typ-escape">\</span>
+<span class="typ-math-delim">$</span>
+
+<span class="typ-math-delim">$</span>
+    (<span class="typ-punct">(</span>(1 + 5) <span class="typ-escape">*</span> 7<span class="typ-punct">)</span> <span class="typ-math-op">/</span> <span class="typ-punct">(</span>5 <span class="typ-escape">-</span> 8 <span class="typ-escape">*</span> 7<span class="typ-punct">)</span> + 3) <span class="typ-escape">*</span> 2 <span class="typ-pol">approx</span> 4.352941176
+<span class="typ-math-delim">$</span>
+
+<span class="typ-math-delim">$</span> <span class="typ-func">mat</span><span class="typ-punct">(</span>
+  1<span class="typ-punct">,</span> 2<span class="typ-punct">,</span> <span class="typ-escape">...</span><span class="typ-punct">,</span> (10 <span class="typ-math-op">/</span> 2)<span class="typ-punct">;</span>
+  2<span class="typ-punct">,</span> 2<span class="typ-punct">,</span> <span class="typ-escape">...</span><span class="typ-punct">,</span> 10<span class="typ-punct">;</span>
+  <span class="typ-pol">dots</span><span class="typ-punct">.</span><span class="typ-pol">v</span><span class="typ-punct">,</span> <span class="typ-pol">dots</span><span class="typ-punct">.</span><span class="typ-pol">v</span><span class="typ-punct">,</span> <span class="typ-pol">dots</span><span class="typ-punct">.</span><span class="typ-pol">down</span><span class="typ-punct">,</span> <span class="typ-pol">dots</span><span class="typ-punct">.</span><span class="typ-pol">v</span><span class="typ-punct">;</span>
+  10<span class="typ-punct">,</span> <span class="typ-punct">(</span>10 <span class="typ-escape">-</span> (5 <span class="typ-escape">*</span> 8)<span class="typ-punct">)</span> <span class="typ-math-op">/</span> 2<span class="typ-punct">,</span> <span class="typ-escape">...</span><span class="typ-punct">,</span> 10<span class="typ-punct">;</span>
+<span class="typ-punct">)</span> <span class="typ-math-delim">$</span>
+</code></code></pre>
+      <p>
+       <img alt="math" src="https://raw.githubusercontent.com/Robotechnic/iridis/master/images/math1.png"/>
+      </p>
+      <h2>
+       Changelog
+      </h2>
+      <h3>
+       0.1.0
+      </h3>
+      <ul>
+       <li>
+        Initial release
+       </li>
+      </ul>
+     </section>
+     <aside>
+      <section>
+       <h3>
+        How to add
+       </h3>
+       <p>
+        Copy this into your project and use the import as
+        <!-- -->
+        <code>
+         iridis
+        </code>
+       </p>
+       <div class="import-snippet">
+        <pre><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/iridis:0.1.0"</span></code></pre>
+        <button class="copy" title="Copy to clipboard">
+         <img alt="Copy" height="16" src="/assets/icons/16-copy.svg" width="16"/>
+        </button>
+       </div>
+       <p class="muted">
+        Check the docs for
+        <!-- -->
+        <a href="https://typst.app/docs/reference/scripting/#packages">
+         more information on how to import packages
+        </a>
+        .
+       </p>
+      </section>
+      <section id="about">
+       <h3>
+        About
+       </h3>
+       <dl>
+        <dt>
+         Author
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         <a href="https://github.com/Robotechnic" rel="noopener noreferrer" target="_blank">
+          Robotechnic
+         </a>
+        </dd>
+        <dt>
+         License:
+        </dt>
+        <dd>
+         MIT
+        </dd>
+        <dt>
+         Current version:
+        </dt>
+        <dd>
+         0.1.0
+        </dd>
+        <dt>
+         Last updated:
+        </dt>
+        <dd>
+         June 24, 2024
+        </dd>
+        <dt>
+         First released:
+        </dt>
+        <dd>
+         June 24, 2024
+        </dd>
+        <dt>
+         Minimum Typst version:
+        </dt>
+        <dd>
+         0.11.0
+        </dd>
+        <dt>
+         Archive size:
+        </dt>
+        <dd class="archive-size-value">
+         3.17 kB
+         <a href="https://packages.typst.org/preview/iridis-0.1.0.tar.gz">
+          <img alt="Size icon" src="/assets/icons/16-download.svg"/>
+         </a>
+        </dd>
+       </dl>
+      </section>
+      <section>
+       <h3>
+        Where to report issues?
+       </h3>
+       <p>
+        This
+        <!-- -->
+        package
+        <!-- -->
+        is a project of
+        <!-- -->
+        <!-- -->
+        Robotechnic
+        <!-- -->
+        .
+        <!-- -->
+        <!-- -->
+        <!-- -->
+        You can also try to ask for help with this
+        <!-- -->
+        package
+        <!-- -->
+        on the
+        <!-- -->
+        <a href="https://forum.typst.app" rel="noopener" target="_blank">
+         Forum
+        </a>
+        .
+       </p>
+       <p>
+        Please report this
+        <!-- -->
+        package
+        <!-- -->
+        to the Typst team using the
+        <!-- -->
+        <a href="https://typst.app/contact" rel="noreferrer" target="_blank">
+         contact form
+        </a>
+        <!-- -->
+        if you believe it is a safety hazard or infringes upon your rights.
+       </p>
+      </section>
+      <section id="versions">
+       <h3>
+        Version history
+       </h3>
+       <table>
+        <thead>
+         <tr>
+          <th align="left">
+           Version
+          </th>
+          <th align="left">
+           Release Date
+          </th>
+         </tr>
+        </thead>
+        <tbody>
+         <tr>
+          <td align="left">
+           0.1.0
+          </td>
+          <td align="left">
+           June 24, 2024
+          </td>
+         </tr>
+        </tbody>
+       </table>
+      </section>
+      <p class="bottom-notice muted">
+       Typst GmbH did not create this
+       <!-- -->
+       package
+       <!-- -->
+       and cannot guarantee correct functionality of this
+       <!-- -->
+       package
+       <!-- -->
+       or compatibility with any version of the Typst compiler or app.
+      </p>
+     </aside>
+    </div>
+   </main>

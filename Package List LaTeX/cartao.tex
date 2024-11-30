@@ -1,0 +1,230 @@
+\title{typst.app/universe/package/cartao}
+
+\phantomsection\label{banner}
+\section{cartao}\label{cartao}
+
+{ 0.1.0 }
+
+Dead simple flashcards with Typst.
+
+\phantomsection\label{readme}
+Dead simple flashcards with Typst.
+
+\subsection{Example usage:}\label{example-usage}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/cartao:0.1.0": card, letter8up, a48up}
+
+\NormalTok{\#set page(}
+\NormalTok{  paper: "a4",}
+\NormalTok{  // paper: "us{-}letter",}
+\NormalTok{  // paper: "presentation{-}16{-}9",}
+\NormalTok{  margin: (x: 0cm, y: 0cm),}
+\NormalTok{)}
+
+\NormalTok{// build the cards}
+\NormalTok{\#a48up}
+\NormalTok{// \#letter8up}
+\NormalTok{// \#present}
+
+\NormalTok{// define your cards}
+\NormalTok{\#card(}
+\NormalTok{  [Header],}
+\NormalTok{  [Footer],}
+\NormalTok{  [Question?],}
+\NormalTok{  [answer]}
+\NormalTok{)}
+
+\NormalTok{\#card(}
+\NormalTok{  [portuguese],}
+\NormalTok{  [Hint: Its the title of this package!],}
+\NormalTok{  [card],}
+\NormalTok{  [cartÃ£o]}
+\NormalTok{)}
+
+\NormalTok{\#card(}
+\NormalTok{  [french],}
+\NormalTok{  [Hint: close to the portuguese],}
+\NormalTok{  [card],}
+\NormalTok{  [carte]}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Documentation}\label{documentation}
+
+\subsubsection{\texorpdfstring{\texttt{\ card\ }}{ card }}\label{card}
+
+Defines a card by updating the below \texttt{\ counter\ } and
+\texttt{\ state\ } (s), and dropping a label.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let card(header, footer, question, answer) = [}
+\NormalTok{  \#cardnumber.step()}
+\NormalTok{  \#cardheader.update(header)}
+\NormalTok{  \#cardfooter.update(footer)}
+\NormalTok{  \#cardquestion.update(question)}
+\NormalTok{  \#cardanswer.update(answer)}
+\NormalTok{  \textless{}card\textgreater{}}
+\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\paragraph{Arguments}\label{arguments}
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ header\ }
+\item
+  \texttt{\ footer\ }
+\item
+  \texttt{\ question\ }
+\item
+  \texttt{\ answer\ }
+\end{itemize}
+
+\subsubsection{card builders}\label{card-builders}
+
+\textbf{How they work}
+
+\begin{enumerate}
+\tightlist
+\item
+  Find all locations of the \texttt{\ \textless{}card\textgreater{}\ }
+  label
+\item
+  Get the values of the \texttt{\ cardnumber\ } counter, and
+  \texttt{\ cardheader\ } , \texttt{\ cardfooter\ } ,
+  \texttt{\ cardquestion\ } , \texttt{\ cardanswer\ } states at each
+  \texttt{\ \textless{}card\textgreater{}\ } .
+\item
+  Populates an array of questions and an array of answers using these
+  values
+
+  \begin{itemize}
+  \tightlist
+  \item
+    The \texttt{\ \#a48up\ } and \texttt{\ \#letter8up\ } functions
+    describe the layout of each card for each item in these arrays, and
+    also rearrange the answers so that the layout makes sense when
+    printed double sided.
+  \end{itemize}
+\item
+  Loop over the arrays and dump each itemâ€™s \texttt{\ content\ } onto
+  the page.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    in the case of \texttt{\ \#a48up\ } and \texttt{\ letter8up\ } ,
+    each item is dumped into a 2-column table.
+  \end{itemize}
+\end{enumerate}
+
+\texttt{\ cartao\ } comes builtin with the following card building
+functions. Take a look at the source for how they work, and use them as
+a guide to help you build your own flashcards with different
+sizes/formats.
+
+\subsubsection{\texorpdfstring{\texttt{\ a48up\ }}{ a48up }}\label{a48up}
+
+Produces a 2x8 portrait card layout on a4 paper.
+
+Designed to be printed double-sided on the perforated 8-up a4 card paper
+you can find on
+\href{https://www.amazon.ca/s?k=a4+perforated+card&crid=37RT2L4H5XSD0&sprefix=a4+perforated+ca\%2Caps\%2C648&ref=nb_sb_noss}{Amazon}
+
+Usage
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#a48up}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{\texorpdfstring{\texttt{\ letter8up\ }}{ letter8up }}\label{letter8up}
+
+Produces a 2x8 portrait card layout on us-letter paper.
+
+Usage
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#letter8up}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{\texorpdfstring{\texttt{\ present\ }}{ present }}\label{present}
+
+A 16:9 presentation of the flashcards with questions and answers on
+different slides
+
+Usage
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#present}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as \texttt{\ cartao\ }
+
+\begin{verbatim}
+#import "@preview/cartao:0.1.0"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+Gavin Vales
+\item[License:]
+MIT
+\item[Current version:]
+0.1.0
+\item[Last updated:]
+November 21, 2023
+\item[First released:]
+November 21, 2023
+\item[Archive size:]
+3.40 kB
+\href{https://packages.typst.org/preview/cartao-0.1.0.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of Gavin Vales . You can also try to ask for
+help with this package on the \href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.1.0 & November 21, 2023 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.

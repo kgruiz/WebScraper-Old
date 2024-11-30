@@ -1,0 +1,205 @@
+\title{typst.app/universe/package/xarrow}
+
+\phantomsection\label{banner}
+\section{xarrow}\label{xarrow}
+
+{ 0.3.1 }
+
+Variable-length arrows in Typst.
+
+\phantomsection\label{readme}
+Variable-length arrows in Typst, fitting the width of a given content.
+
+\subsection{Usage}\label{usage}
+
+This library mainly provides the \texttt{\ xarrow\ } function. This
+function takes one positional argument, which is the content to display
+on top of the arrow. Additionally, the library provides the following
+arrow styles:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ xarrowDashed\ } using arrow \texttt{\ sym.arrow.dashed\ } .
+\item
+  \texttt{\ xarrowDouble\ } using arrow
+  \texttt{\ sym.arrow.double.long\ } ;
+\item
+  \texttt{\ xarrowHook\ } using arrow \texttt{\ sym.arrow.hook\ } ;
+\item
+  \texttt{\ xarrowSquiggly\ } using arrow
+  \texttt{\ sym.arrow.long.squiggly\ } ;
+\item
+  \texttt{\ xarrowTwoHead\ } using arrow \texttt{\ sym.arrow.twohead\ }
+  ;
+\item
+  â€¦
+\end{itemize}
+
+These names use camlCase in order to be simply called from math mode.
+This may change in the future, if it becomes possible to have the
+function names mirror the dot-separated name of the symbols themselves.
+
+\subsubsection{Arguments}\label{arguments}
+
+Users can provide the following arguments to any of the
+previously-mentioned functions:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ width\ } defines the width of the arrow. It defaults to
+  \texttt{\ auto\ } , which makes the arrow adapt to the size of the
+  body.
+\item
+  \texttt{\ margins\ } defines the spacing on each side of the
+  \texttt{\ body\ } argument. Ignored when \texttt{\ width\ } is not
+  \texttt{\ auto\ } .
+\item
+  \texttt{\ position\ } defines whether the main \texttt{\ body\ }
+  argument will be set above or below the arrow. Default is
+  \texttt{\ top\ } ; the only other accepted value is
+  \texttt{\ bottom\ } .
+\item
+  \texttt{\ opposite\ } sets the content that is displayed on the other,
+  non-default side of the arrow. Default is \texttt{\ none\ } .
+\end{itemize}
+
+\subsubsection{Example}\label{example}
+
+\begin{verbatim}
+#import "@preview/xarrow:0.3.0": xarrow, xarrowSquiggly, xarrowTwoHead
+
+$
+  a xarrow(sym: <--, QQ\, 1 + 1^4) b \
+  c xarrowSquiggly("very long boi") d \
+  c / ( a xarrowTwoHead("NP" limits(sum)^*) b times 4)
+$
+\end{verbatim}
+
+\subsection{Customisation}\label{customisation}
+
+The \texttt{\ xarrow\ } function has several named arguments which serve
+to create new arrow designs:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ sym\ } is the base symbol.
+\item
+  \texttt{\ sections\ } defines the way the symbol is divided. Drawing
+  an arrow consists of drawing its tail, then repeating a central part
+  that is defined by \texttt{\ sections\ } , then drawing the head. This
+  is the parameter that has to be tweaked if observing artefacts.
+  \texttt{\ sections\ } are given as two ratios, delimiting respectively
+  the beginning and the end of the central, repeated part of the symbol.
+\item
+  \texttt{\ partial\_repeats\ } indicates whether the central part of
+  the symbol can be partially repeated at the end in order to match the
+  exact desired width. This has to be disabled when the repeated part
+  has a clear period (like the squiggly arrow).
+\end{itemize}
+
+\subsubsection{Example}\label{example-1}
+
+\begin{verbatim}
+#let xarrowSquigglyBottom = xarrow.with(
+  sym: sym.arrow.long.squiggly,
+  sections: (20%, 45%),
+  partial_repeats: false,
+  position: bottom,
+)
+\end{verbatim}
+
+\subsection{Limitations}\label{limitations}
+
+\begin{itemize}
+\tightlist
+\item
+  The predefined arrows are tweaked with the Computer Modern Math font
+  in mind. With different glyphs, more sophisticated arrows will require
+  manual modifications (of the \texttt{\ sections\ } argument) to be
+  rendered correctly.
+\item
+  The \texttt{\ width\ } argument cannot be given ratio/fractions like
+  other shapes. This would be a nice feature to have, in order to be
+  able to create an arrow that takes 50\% of the available line width
+  for instance.
+\item
+  I would like to make a proper manual for this library in the future,
+  using something cool like
+  \href{https://github.com/jneug/typst-mantys}{mantys} .
+\end{itemize}
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as \texttt{\ xarrow\ }
+
+\begin{verbatim}
+#import "@preview/xarrow:0.3.1"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+loutr
+\item[License:]
+GPL-3.0-only
+\item[Current version:]
+0.3.1
+\item[Last updated:]
+March 20, 2024
+\item[First released:]
+July 10, 2023
+\item[Minimum Typst version:]
+0.11.0
+\item[Archive size:]
+3.50 kB
+\href{https://packages.typst.org/preview/xarrow-0.3.1.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://codeberg.org/loutr/typst-xarrow/}{Codeberg}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of loutr . Report issues on
+\href{https://codeberg.org/loutr/typst-xarrow/}{their repository} . You
+can also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.3.1 & March 20, 2024 \\
+\href{https://typst.app/universe/package/xarrow/0.3.0/}{0.3.0} & January
+10, 2024 \\
+\href{https://typst.app/universe/package/xarrow/0.2.0/}{0.2.0} &
+September 26, 2023 \\
+\href{https://typst.app/universe/package/xarrow/0.1.1/}{0.1.1} & July
+11, 2023 \\
+\href{https://typst.app/universe/package/xarrow/0.1.0/}{0.1.0} & July
+10, 2023 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.

@@ -1,0 +1,453 @@
+<main>
+    <div id="banner" style="--banner-accent:#000000;--banner-primary:#000000;--banner-secondary:#000000;--banner-tertiary:#565565;--banner-background:#eff0f3">
+     <div class="package-icon" role="img">
+     </div>
+     <div>
+      <div class="title">
+       <h1 class="name">
+        latedef
+       </h1>
+       <span class="version">
+        0.1.0
+       </span>
+      </div>
+      <p class="description">
+       Use now, define later
+      </p>
+     </div>
+    </div>
+    <div class="inner-grid">
+     <section id="readme">
+      <p>
+       <em>
+        Use now, define later!
+       </em>
+      </p>
+      <h2>
+       Basic usage
+      </h2>
+      <p>
+       This package exposes a single function,
+       <code>
+        latedef-setup
+       </code>
+       .
+      </p>
+      <pre><code class="language-typst"><code><span class="typ-key">#</span><span class="typ-key">let</span> <span class="typ-punct">(</span>undef<span class="typ-punct">,</span> def<span class="typ-punct">)</span> <span class="typ-op">=</span> <span class="typ-func">latedef-setup</span><span class="typ-punct">(</span>simple<span class="typ-punct">:</span> <span class="typ-key">true</span><span class="typ-punct">)</span>
+
+My <span class="typ-pol">#</span><span class="typ-pol">undef</span> is <span class="typ-pol">#</span><span class="typ-pol">undef</span>.
+<span class="typ-func">#</span><span class="typ-func">def</span><span class="typ-punct">(</span><span class="typ-str">"dog"</span><span class="typ-punct">)</span>
+<span class="typ-func">#</span><span class="typ-func">def</span><span class="typ-punct">(</span><span class="typ-str">"cool"</span><span class="typ-punct">)</span>
+</code></code></pre>
+      <p>
+       <img alt="" src="https://github.com/typst/packages/raw/main/packages/preview/latedef/0.1.0/example-images/1.png"/>
+      </p>
+      <p>
+       Note that the definition doesnât actually have to come
+       <em>
+        after
+       </em>
+       the usage, but if you want to define something beforehand, youâre better off using a variable instead.
+      </p>
+      <pre><code class="language-typst"><code><span class="typ-key">#</span><span class="typ-key">let</span> <span class="typ-punct">(</span>undef<span class="typ-punct">,</span> def<span class="typ-punct">)</span> <span class="typ-op">=</span> <span class="typ-func">latedef-setup</span><span class="typ-punct">(</span>simple<span class="typ-punct">:</span> <span class="typ-key">true</span><span class="typ-punct">)</span>
+
+<span class="typ-comment">// Instead of</span>
+<span class="typ-func">#</span><span class="typ-func">def</span><span class="typ-punct">(</span><span class="typ-str">"A"</span><span class="typ-punct">)</span>
+The first letter is <span class="typ-pol">#</span><span class="typ-pol">undef</span>.
+
+<span class="typ-comment">// you should use</span>
+<span class="typ-key">#</span><span class="typ-key">let</span> A <span class="typ-op">=</span> <span class="typ-str">"A"</span>
+The first letter is <span class="typ-pol">#</span><span class="typ-pol">A</span>.
+</code></code></pre>
+      <p>
+       <img alt="" src="https://github.com/typst/packages/raw/main/packages/preview/latedef/0.1.0/example-images/2.png"/>
+      </p>
+      <h2>
+       The
+       <code>
+        simple
+       </code>
+       parameter
+      </h2>
+      <p>
+       When
+       <code>
+        simple: false
+       </code>
+       (which is the default),
+       <code>
+        undef
+       </code>
+       becomes a function you have to call. It takes an optional positional or named parameter
+       <code>
+        id
+       </code>
+       of type
+       <code>
+        str
+       </code>
+       , which can be used to define things out of order.
+      </p>
+      <pre><code class="language-typst"><code><span class="typ-key">#</span><span class="typ-key">let</span> <span class="typ-punct">(</span>undef<span class="typ-punct">,</span> def<span class="typ-punct">)</span> <span class="typ-op">=</span> <span class="typ-func">latedef-setup</span><span class="typ-punct">(</span><span class="typ-punct">)</span> <span class="typ-comment">// or `latedef-setup(simple: false)`</span>
+
+<span class="typ-comment">// Note that you can still call it without an id, which works just like when `simple: true`.</span>
+My letters are <span class="typ-func">#</span><span class="typ-func">undef</span><span class="typ-punct">(</span><span class="typ-str">"1"</span><span class="typ-punct">)</span>, <span class="typ-func">#</span><span class="typ-func">undef</span><span class="typ-punct">(</span>id<span class="typ-punct">:</span> <span class="typ-str">"2"</span><span class="typ-punct">)</span>, and <span class="typ-func">#</span><span class="typ-func">undef</span><span class="typ-punct">(</span><span class="typ-punct">)</span>.
+
+<span class="typ-comment">// `def` now takes one positional and either another positional or a named parameter.</span>
+<span class="typ-func">#</span><span class="typ-func">def</span><span class="typ-punct">(</span><span class="typ-str">"C"</span><span class="typ-punct">)</span>
+<span class="typ-func">#</span><span class="typ-func">def</span><span class="typ-punct">(</span>id<span class="typ-punct">:</span> <span class="typ-str">"2"</span><span class="typ-punct">,</span> <span class="typ-str">"B"</span><span class="typ-punct">)</span>
+<span class="typ-func">#</span><span class="typ-func">def</span><span class="typ-punct">(</span><span class="typ-str">"1"</span><span class="typ-punct">,</span> <span class="typ-str">"A"</span><span class="typ-punct">)</span>
+</code></code></pre>
+      <p>
+       <img alt="" src="https://github.com/typst/packages/raw/main/packages/preview/latedef/0.1.0/example-images/3.png"/>
+      </p>
+      <h2>
+       The
+       <code>
+        footnote
+       </code>
+       parameter
+      </h2>
+      <p>
+       This is a convenience feature that automatically wraps
+       <code>
+        undef
+       </code>
+       in
+       <code>
+        footnote
+       </code>
+       , either directly (when
+       <code>
+        simple: true
+       </code>
+       ) or as a function (when
+       <code>
+        simple: false
+       </code>
+       ).
+      </p>
+      <p>
+       This corresponds to LaTeXâs
+       <code>
+        \footnotemark
+       </code>
+       and
+       <code>
+        \footnotetext
+       </code>
+       , hence the different names in the example.
+      </p>
+      <pre><code class="language-typst"><code><span class="typ-key">#</span><span class="typ-key">let</span> <span class="typ-punct">(</span>fmark<span class="typ-punct">,</span> ftext<span class="typ-punct">)</span> <span class="typ-op">=</span> <span class="typ-func">latedef-setup</span><span class="typ-punct">(</span>simple<span class="typ-punct">:</span> <span class="typ-key">true</span><span class="typ-punct">,</span> footnote<span class="typ-punct">:</span> <span class="typ-key">true</span><span class="typ-punct">)</span>
+Do<span class="typ-pol">#</span><span class="typ-pol">fmark</span> you<span class="typ-pol">#</span><span class="typ-pol">fmark</span> believe<span class="typ-pol">#</span><span class="typ-pol">fmark</span> in God?<span class="typ-pol">#</span><span class="typ-pol">fmark</span>
+
+<span class="typ-key">#</span><span class="typ-key">let</span> wdym <span class="typ-op">=</span> <span class="typ-str">"What do you mean"</span>
+<span class="typ-func">#</span><span class="typ-func">ftext</span><span class="typ-punct">[</span><span class="typ-pol">#</span><span class="typ-pol">wdym</span> "Do"?<span class="typ-punct">]</span>
+<span class="typ-func">#</span><span class="typ-func">ftext</span><span class="typ-punct">[</span><span class="typ-pol">#</span><span class="typ-pol">wdym</span> "you"?<span class="typ-punct">]</span>
+<span class="typ-func">#</span><span class="typ-func">ftext</span><span class="typ-punct">[</span><span class="typ-pol">#</span><span class="typ-pol">wdym</span> "believe"?<span class="typ-punct">]</span>
+<span class="typ-func">#</span><span class="typ-func">ftext</span><span class="typ-punct">[</span>And w<span class="typ-pol">#</span><span class="typ-pol">wdym</span><span class="typ-punct">.</span><span class="typ-func">slice</span><span class="typ-punct">(</span><span class="typ-num">1</span><span class="typ-punct">)</span> "God"?<span class="typ-punct">]</span>
+</code></code></pre>
+      <p>
+       <img alt="" src="https://github.com/typst/packages/raw/main/packages/preview/latedef/0.1.0/example-images/4.png"/>
+      </p>
+      <h2>
+       The
+       <code>
+        stand-in
+       </code>
+       parameter
+      </h2>
+      <p>
+       This is a function that takes a single positional parameter (
+       <code>
+        id
+       </code>
+       ) of type
+       <code>
+        none | str
+       </code>
+       and produces a stand-in value that gets shown when a late-defined value is missing a corresponding definition.
+      </p>
+      <pre><code class="language-typst"><code><span class="typ-key">#</span><span class="typ-key">let</span> <span class="typ-punct">(</span>undef<span class="typ-punct">,</span> def<span class="typ-punct">)</span> <span class="typ-op">=</span> <span class="typ-func">latedef-setup</span><span class="typ-punct">(</span><span class="typ-punct">)</span>
+<span class="typ-comment">// This is the default stand-in</span>
+<span class="typ-func">#</span><span class="typ-func">undef</span><span class="typ-punct">(</span><span class="typ-punct">)</span>
+<span class="typ-func">#</span><span class="typ-func">undef</span><span class="typ-punct">(</span><span class="typ-str">"with an id"</span><span class="typ-punct">)</span>
+
+<span class="typ-comment">// Custom stand-in</span>
+<span class="typ-key">#</span><span class="typ-key">let</span> <span class="typ-punct">(</span>undef<span class="typ-punct">,</span> def<span class="typ-punct">)</span> <span class="typ-op">=</span> <span class="typ-func">latedef-setup</span><span class="typ-punct">(</span>stand-in<span class="typ-punct">:</span> id <span class="typ-op">=&gt;</span> <span class="typ-func">emph</span><span class="typ-punct">[</span>No <span class="typ-pol">#</span><span class="typ-pol">id</span>!<span class="typ-punct">]</span><span class="typ-punct">)</span>
+<span class="typ-func">#</span><span class="typ-func">undef</span><span class="typ-punct">(</span><span class="typ-punct">)</span>
+<span class="typ-func">#</span><span class="typ-func">undef</span><span class="typ-punct">(</span><span class="typ-str">"id"</span><span class="typ-punct">)</span>
+</code></code></pre>
+      <p>
+       <img alt="" src="https://github.com/typst/packages/raw/main/packages/preview/latedef/0.1.0/example-images/5.png"/>
+      </p>
+      <p>
+       Since
+       <code>
+        stand-in
+       </code>
+       is a function, which is only called when a definition is actually missing, you can even set it to panic to enforce that all late-defined values have a definiton.
+      </p>
+      <pre><code class="language-typst"><code><span class="typ-key">#</span><span class="typ-key">let</span> <span class="typ-punct">(</span>undef<span class="typ-punct">,</span> def<span class="typ-punct">)</span> <span class="typ-op">=</span> <span class="typ-func">latedef-setup</span><span class="typ-punct">(</span>stand-in<span class="typ-punct">:</span> id <span class="typ-op">=&gt;</span> <span class="typ-func">panic</span><span class="typ-punct">(</span><span class="typ-str">"Missing definition for value with id "</span> <span class="typ-op">+</span> <span class="typ-func">repr</span><span class="typ-punct">(</span>id<span class="typ-punct">)</span><span class="typ-punct">)</span><span class="typ-punct">)</span>
+<span class="typ-func">#</span><span class="typ-func">undef</span><span class="typ-punct">(</span><span class="typ-punct">)</span>
+<span class="typ-func">#</span><span class="typ-func">undef</span><span class="typ-punct">(</span><span class="typ-str">"id"</span><span class="typ-punct">)</span>
+</code></code></pre>
+      <p>
+       The output will look something like
+      </p>
+      <pre><code>error: panicked with: "Missing definition for value with id none"
+  ââ example.typ:1:50
+  â
+  â #let (undef, def) = latedef-setup(stand-in: id =&gt; panic("Missing definition for value with id " + repr(id)))
+  â                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: panicked with: "Missing definition for value with id \"id\""
+  ââ example.typ:1:50
+  â
+  â #let (undef, def) = latedef-setup(stand-in: id =&gt; panic("Missing definition for value with id " + repr(id)))
+  â                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+</code></pre>
+      <p>
+       And there is no error when everything has a definition:
+      </p>
+      <pre><code class="language-typst"><code><span class="typ-key">#</span><span class="typ-key">let</span> <span class="typ-punct">(</span>undef<span class="typ-punct">,</span> def<span class="typ-punct">)</span> <span class="typ-op">=</span> <span class="typ-func">latedef-setup</span><span class="typ-punct">(</span>stand-in<span class="typ-punct">:</span> id <span class="typ-op">=&gt;</span> <span class="typ-func">panic</span><span class="typ-punct">(</span><span class="typ-str">"Missing definition for value with id "</span> <span class="typ-op">+</span> <span class="typ-func">repr</span><span class="typ-punct">(</span>id<span class="typ-punct">)</span><span class="typ-punct">)</span><span class="typ-punct">)</span>
+<span class="typ-func">#</span><span class="typ-func">undef</span><span class="typ-punct">(</span><span class="typ-punct">)</span> is <span class="typ-func">#</span><span class="typ-func">undef</span><span class="typ-punct">(</span><span class="typ-str">"id"</span><span class="typ-punct">)</span>.
+<span class="typ-func">#</span><span class="typ-func">def</span><span class="typ-punct">(</span><span class="typ-str">"This"</span><span class="typ-punct">)</span>
+<span class="typ-func">#</span><span class="typ-func">def</span><span class="typ-punct">(</span><span class="typ-str">"id"</span><span class="typ-punct">,</span> <span class="typ-str">"fine"</span><span class="typ-punct">)</span>
+</code></code></pre>
+      <p>
+       <img alt="" src="https://github.com/typst/packages/raw/main/packages/preview/latedef/0.1.0/example-images/6.png"/>
+      </p>
+      <h2>
+       The
+       <code>
+        group
+       </code>
+       parameter
+      </h2>
+      <p>
+       Sometimes you may want to use multiple instances of
+       <code>
+        latedef
+       </code>
+       in parallel. This is done using the
+       <code>
+        group
+       </code>
+       parameter, which can be
+       <code>
+        none
+       </code>
+       (the default) or any
+       <code>
+        str
+       </code>
+       .
+      </p>
+      <p>
+       Note that using
+       <code>
+        footnote: true
+       </code>
+       sets the default group to
+       <code>
+        "footnote"
+       </code>
+       instead.
+      </p>
+      <pre><code class="language-typst"><code><span class="typ-comment">// Use a group for the figure stuff...</span>
+<span class="typ-key">#</span><span class="typ-key">let</span> <span class="typ-punct">(</span>caption-undef<span class="typ-punct">,</span> caption<span class="typ-punct">)</span> <span class="typ-op">=</span> <span class="typ-func">latedef-setup</span><span class="typ-punct">(</span>simple<span class="typ-punct">:</span> <span class="typ-key">true</span><span class="typ-punct">,</span> group<span class="typ-punct">:</span> <span class="typ-str">"figure"</span><span class="typ-punct">)</span>
+<span class="typ-key">#</span><span class="typ-key">let</span> figure <span class="typ-op">=</span> std<span class="typ-punct">.</span>figure<span class="typ-punct">.</span><span class="typ-func">with</span><span class="typ-punct">(</span>caption<span class="typ-punct">:</span> caption-undef<span class="typ-punct">)</span>
+<span class="typ-comment">// ...so you can still use the regular mechanism in parallel.</span>
+<span class="typ-key">#</span><span class="typ-key">let</span> <span class="typ-punct">(</span>undef<span class="typ-punct">,</span> def<span class="typ-punct">)</span> <span class="typ-op">=</span> <span class="typ-func">latedef-setup</span><span class="typ-punct">(</span>simple<span class="typ-punct">:</span> <span class="typ-key">true</span><span class="typ-punct">)</span>
+
+<span class="typ-func">#</span><span class="typ-func">figure</span><span class="typ-punct">(</span><span class="typ-func">raw</span><span class="typ-punct">(</span>block<span class="typ-punct">:</span> <span class="typ-key">true</span><span class="typ-punct">,</span> <span class="typ-func">lorem</span><span class="typ-punct">(</span><span class="typ-num">5</span><span class="typ-punct">)</span><span class="typ-punct">)</span><span class="typ-punct">)</span>
+<span class="typ-func">#</span><span class="typ-func">caption</span><span class="typ-punct">[</span>The <span class="typ-pol">#</span><span class="typ-pol">undef</span> <span class="typ-emph">_lorem ipsum_</span>.<span class="typ-punct">]</span>
+<span class="typ-func">#</span><span class="typ-func">def</span><span class="typ-punct">(</span><span class="typ-str">"classic"</span><span class="typ-punct">)</span>
+</code></code></pre>
+      <p>
+       <img alt="" src="https://github.com/typst/packages/raw/main/packages/preview/latedef/0.1.0/example-images/7.png"/>
+      </p>
+     </section>
+     <aside>
+      <section>
+       <h3>
+        How to add
+       </h3>
+       <p>
+        Copy this into your project and use the import as
+        <!-- -->
+        <code>
+         latedef
+        </code>
+       </p>
+       <div class="import-snippet">
+        <pre><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/latedef:0.1.0"</span></code></pre>
+        <button class="copy" title="Copy to clipboard">
+         <img alt="Copy" height="16" src="/assets/icons/16-copy.svg" width="16"/>
+        </button>
+       </div>
+       <p class="muted">
+        Check the docs for
+        <!-- -->
+        <a href="https://typst.app/docs/reference/scripting/#packages">
+         more information on how to import packages
+        </a>
+        .
+       </p>
+      </section>
+      <section id="about">
+       <h3>
+        About
+       </h3>
+       <dl>
+        <dt>
+         Author
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         <a href="mailto:realt0mstone@gmail.com">
+          T0mstone
+         </a>
+        </dd>
+        <dt>
+         License:
+        </dt>
+        <dd>
+         MIT-0
+        </dd>
+        <dt>
+         Current version:
+        </dt>
+        <dd>
+         0.1.0
+        </dd>
+        <dt>
+         Last updated:
+        </dt>
+        <dd>
+         October 21, 2024
+        </dd>
+        <dt>
+         First released:
+        </dt>
+        <dd>
+         October 21, 2024
+        </dd>
+        <dt>
+         Minimum Typst version:
+        </dt>
+        <dd>
+         0.11.0
+        </dd>
+        <dt>
+         Archive size:
+        </dt>
+        <dd class="archive-size-value">
+         3.64 kB
+         <a href="https://packages.typst.org/preview/latedef-0.1.0.tar.gz">
+          <img alt="Size icon" src="/assets/icons/16-download.svg"/>
+         </a>
+        </dd>
+        <dt>
+         Repository:
+        </dt>
+        <dd>
+         <a href="https://codeberg.org/T0mstone/typst-latedef" rel="noopener noreferrer" target="_blank">
+          Codeberg
+         </a>
+        </dd>
+       </dl>
+      </section>
+      <section>
+       <h3>
+        Where to report issues?
+       </h3>
+       <p>
+        This
+        <!-- -->
+        package
+        <!-- -->
+        is a project of
+        <!-- -->
+        <!-- -->
+        T0mstone
+        <!-- -->
+        .
+        <!-- -->
+        <!-- -->
+        Report issues on
+        <!-- -->
+        <a href="https://codeberg.org/T0mstone/typst-latedef" rel="noopener noreferrer" target="_blank">
+         their repository
+        </a>
+        .
+        <!-- -->
+        <!-- -->
+        You can also try to ask for help with this
+        <!-- -->
+        package
+        <!-- -->
+        on the
+        <!-- -->
+        <a href="https://forum.typst.app" rel="noopener" target="_blank">
+         Forum
+        </a>
+        .
+       </p>
+       <p>
+        Please report this
+        <!-- -->
+        package
+        <!-- -->
+        to the Typst team using the
+        <!-- -->
+        <a href="https://typst.app/contact" rel="noreferrer" target="_blank">
+         contact form
+        </a>
+        <!-- -->
+        if you believe it is a safety hazard or infringes upon your rights.
+       </p>
+      </section>
+      <section id="versions">
+       <h3>
+        Version history
+       </h3>
+       <table>
+        <thead>
+         <tr>
+          <th align="left">
+           Version
+          </th>
+          <th align="left">
+           Release Date
+          </th>
+         </tr>
+        </thead>
+        <tbody>
+         <tr>
+          <td align="left">
+           0.1.0
+          </td>
+          <td align="left">
+           October 21, 2024
+          </td>
+         </tr>
+        </tbody>
+       </table>
+      </section>
+      <p class="bottom-notice muted">
+       Typst GmbH did not create this
+       <!-- -->
+       package
+       <!-- -->
+       and cannot guarantee correct functionality of this
+       <!-- -->
+       package
+       <!-- -->
+       or compatibility with any version of the Typst compiler or app.
+      </p>
+     </aside>
+    </div>
+   </main>

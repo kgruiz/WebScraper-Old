@@ -1,0 +1,277 @@
+\title{typst.app/universe/package/htlwienwest-da}
+
+\phantomsection\label{banner}
+\phantomsection\label{template-thumbnail}
+\pandocbounded{\includegraphics[keepaspectratio]{https://packages.typst.org/preview/thumbnails/htlwienwest-da-0.1.0-small.webp}}
+
+\section{htlwienwest-da}\label{htlwienwest-da}
+
+{ 0.1.0 }
+
+The diploma thesis template for students of the HTL Wien West.
+
+{ } Officially affiliated
+
+\href{/app?template=htlwienwest-da&version=0.1.0}{Create project in app}
+
+\phantomsection\label{readme}
+This is a Typst diploma thesis template for students of the HTL Wien
+West. It fulfils all the necessary requirements for the diploma thesis.
+
+\subsection{Usage}\label{usage}
+
+You can use this template in the Typst web app by clicking â€œStart from
+templateâ€? on the dashboard and searching for
+\texttt{\ htlwienwest-da\ } .
+
+Alternatively, you can use the CLI to kick this project off using the
+command
+
+\begin{verbatim}
+typst init @preview/htlwienwest-da
+\end{verbatim}
+
+Typst will create a new directory with all the files needed to get you
+started.
+
+\subsection{Configuration}\label{configuration}
+
+This template exports the \texttt{\ diplomarbeit\ } function with the
+following named arguments:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ titel\ } : \texttt{\ string\ } - The title of the thesis
+\item
+  \texttt{\ schuljahr\ } : \texttt{\ string\ } - The current school year
+\item
+  \texttt{\ abteilung\ } : \texttt{\ string\ } - The studentâ€™s
+  department
+\item
+  \texttt{\ unterschrifts-datum\ } : \texttt{\ string\ } - The
+  submission date
+\item
+  \texttt{\ autoren\ } : \texttt{\ array(dict)\ } - An array of all
+  authors, represented as dictionaries. Each of them has the following
+  properties
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \texttt{\ vorname\ } : \texttt{\ string\ } - Firstname of the
+    student
+  \item
+    \texttt{\ nachname\ } : \texttt{\ string\ } - Lastname of the
+    student
+  \item
+    \texttt{\ klasse\ } : \texttt{\ string\ } - School class of the
+    student
+  \item
+    \texttt{\ betreuer\ } : \texttt{\ dict\ } - The studentâ€™s advisor
+    as dictionary
+
+    \begin{itemize}
+    \tightlist
+    \item
+      \texttt{\ name\ } : \texttt{\ string\ \textbar{}\ content\ } - The
+      advisorâ€™s name
+    \item
+      \texttt{\ geschlecht\ } :
+      \texttt{\ "male"\ \textbar{}\ "female"\ } - Gender of advisor for
+      correct gendering
+    \end{itemize}
+  \item
+    \texttt{\ aufgaben\ } : \texttt{\ content\ } - The studentâ€™s
+    responsibilities
+  \end{itemize}
+\item
+  \texttt{\ kurzfassung\ } : \texttt{\ content\ } - Abstract in german
+  as content block
+\item
+  \texttt{\ abstract\ } : \texttt{\ content\ } - Abstract in english as
+  content block
+\item
+  \texttt{\ vorwort\ } : \texttt{\ content\ } - The thesisâ€™ preface
+\item
+  \texttt{\ danksagung\ } : \texttt{\ content\ } - Acknowledgement
+\item
+  \texttt{\ anhang\ } : \texttt{\ content\ \textbar{}\ none\ } -
+  Appendix
+\item
+  \texttt{\ literaturverzeichnis\ } : \texttt{\ function\ } - The
+  bibliography prefilled with the BibTex file path
+\end{itemize}
+
+The function also accepts a single, positional argument for the body of
+the paper.
+
+The template will initialize your package with a sample call to the
+\texttt{\ diplomarbeit\ } function in a show rule. If you want to change
+an existing project to use thistemplate, you can add a show rule like
+this at the top of your file:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/htlwienwest{-}da:0.1.0": *}
+
+\NormalTok{\#show: diplomarbeit.with(}
+\NormalTok{  titel: "Titel der Diplomarbeit",}
+\NormalTok{  abteilung: "Informationstechnologie",}
+\NormalTok{  schuljahr: "2023/24",}
+\NormalTok{  unterschrifts{-}datum: "20.04.2024",}
+\NormalTok{  autoren: (}
+\NormalTok{   (}
+\NormalTok{     vorname: "Hans", nachname: "Mustermann",}
+\NormalTok{     klasse: "5AHITN",}
+\NormalTok{     betreuer: (name: "Dr. Walter Turbo", geschlecht: "male"),}
+\NormalTok{     aufgaben: [}
+\NormalTok{       \#lorem(100)}
+\NormalTok{     ]}
+\NormalTok{   ),}
+\NormalTok{   (}
+\NormalTok{     vorname: "Herta", nachname: "Musterfrau",}
+\NormalTok{     klasse: "5AHITN",}
+\NormalTok{     betreuer: (name: "Dipl.{-}Ing Maria Kreisel", geschlecht: "female"),}
+\NormalTok{     aufgaben: [}
+\NormalTok{       \#lorem(100)}
+\NormalTok{     ]}
+\NormalTok{   ),}
+\NormalTok{  kurzfassung: [}
+\NormalTok{    Die Kurzfassung muss die folgenden Inhalte darlegen (Â§8, Absatz 5 PruÌfungsordnung): Thema, Fragestellung, Problemformulierung, wesentliche Ergebnisse. Sie soll einen prÃ¤gnanten Ãberblick uÌber die Arbeit geben.}
+\NormalTok{  ],}
+\NormalTok{  abstract: [}
+\NormalTok{    Englische Version der Kurzfassung (siehe \#link(\textless{}Kurzfassung\textgreater{})[\_Kurzfassung\_])}
+\NormalTok{  ],}
+\NormalTok{  vorwort: [}
+\NormalTok{    PerÃ¶nlicher Zugang zum Thema. GrÃ¼nde fÃ¼r die Themenwahl.}
+\NormalTok{  ],}
+\NormalTok{  danksagung: [}
+\NormalTok{    Dank an Personen, die bei der Erstellung der Arbeit unterstÃ¼tzt haben.}
+\NormalTok{  ],}
+\NormalTok{  anhang: include "anhang.typ", // entfernen falls nicht benÃ¶tigt}
+\NormalTok{  literaturverzeichnis: bibliography.with("literaturverzeichnis.bib")}
+\NormalTok{)}
+
+\NormalTok{// Your content goes below.}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Provided Functions}\label{provided-functions}
+
+Beside the \texttt{\ diplomarbeit\ } function, the template also
+provides the \texttt{\ autor\ } function that is used after a heading to
+indicate the specific author of the current section.
+
+\begin{verbatim}
+== Some Heading
+#autor[Your Name]
+\end{verbatim}
+
+This will render additional information to the sectionâ€™s heading.
+
+To install the template locally, you can use
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{just}\NormalTok{ install}
+\end{Highlighting}
+\end{Shaded}
+
+which uses the \href{https://github.com/casey/just}{just} command
+runner.
+
+If you donâ€™t want to install \texttt{\ just\ } , you can run
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{bash}\NormalTok{ ./scripts/package @local}
+\end{Highlighting}
+\end{Shaded}
+
+The installed version can be used via \texttt{\ @local\ } instead of
+\texttt{\ @preview\ } . To create a new typst project from the template,
+run
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{typst}\NormalTok{ init @local/htlwienwest{-}da:}
+\end{Highlighting}
+\end{Shaded}
+
+\href{/app?template=htlwienwest-da&version=0.1.0}{Create project in app}
+
+\subsubsection{How to use}\label{how-to-use}
+
+Click the button above to create a new project using this template in
+the Typst app.
+
+You can also use the Typst CLI to start a new project on your computer
+using this command:
+
+\begin{verbatim}
+typst init @preview/htlwienwest-da:0.1.0
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author s :]
+\href{https://github.com/jozott00}{Johannes Zottele} \&
+\href{https://github.com/peterw16}{peterw16}
+\item[License:]
+MIT
+\item[Current version:]
+0.1.0
+\item[Last updated:]
+May 3, 2024
+\item[First released:]
+May 3, 2024
+\item[Archive size:]
+61.9 kB
+\href{https://packages.typst.org/preview/htlwienwest-da-0.1.0.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Verification:]
+We verified that the author is affiliated with their institution
+\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-verified.svg}}
+\item[Repository:]
+\href{https://github.com/htlwienwest/da-vorlage-typst}{GitHub}
+\item[Categor y :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-mortarboard.svg}}
+  \href{https://typst.app/universe/search/?category=thesis}{Thesis}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This template is a project of Johannes Zottele and peterw16 . Report
+issues on \href{https://github.com/htlwienwest/da-vorlage-typst}{their
+repository} . You can also try to ask for help with this template on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this template to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.1.0 & May 3, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this template and cannot guarantee correct
+functionality of this template or compatibility with any version of the
+Typst compiler or app.

@@ -1,0 +1,702 @@
+\title{typst.app/universe/package/lovelace}
+
+\phantomsection\label{banner}
+\section{lovelace}\label{lovelace}
+
+{ 0.3.0 }
+
+Algorithms in pseudocode, unopinionated and flexible
+
+{ } Featured Package
+
+\phantomsection\label{readme}
+This is a package for writing pseudocode in
+\href{https://typst.app/}{Typst} . It is named after the computer
+science pioneer \href{https://en.wikipedia.org/wiki/Ada_Lovelace}{Ada
+Lovelace} and inspired by the \href{https://ctan.org/pkg/pseudo}{pseudo
+package} for LaTeX.
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://img.shields.io/github/license/andreasKroepelin/lovelace}}
+\pandocbounded{\includegraphics[keepaspectratio]{https://img.shields.io/github/v/release/andreasKroepelin/lovelace}}
+\pandocbounded{\includegraphics[keepaspectratio]{https://img.shields.io/github/stars/andreasKroepelin/lovelace}}
+
+Pseudocode is not a programming language, it doesnâ€™t have strict
+syntax, so you should be able to write it however you need to in your
+specific situation. Lovelace lets you do exactly that.
+
+Main features include:
+
+\begin{itemize}
+\tightlist
+\item
+  arbitrary keywords and syntax structures
+\item
+  optional line numbering
+\item
+  line labels
+\item
+  lots of customisation with sensible defaults
+\end{itemize}
+
+\subsection{Usage}\label{usage}
+
+\begin{itemize}
+\tightlist
+\item
+  \href{https://github.com/typst/packages/raw/main/packages/preview/lovelace/0.3.0/\#getting-started}{Getting
+  started}
+\item
+  \href{https://github.com/typst/packages/raw/main/packages/preview/lovelace/0.3.0/\#lower-level-interface}{Lower
+  level interface}
+\item
+  \href{https://github.com/typst/packages/raw/main/packages/preview/lovelace/0.3.0/\#line-numbers}{Line
+  numbers}
+\item
+  \href{https://github.com/typst/packages/raw/main/packages/preview/lovelace/0.3.0/\#referencing-lines}{Referencing
+  lines}
+\item
+  \href{https://github.com/typst/packages/raw/main/packages/preview/lovelace/0.3.0/\#indentation-guides}{Indentation
+  guides}
+\item
+  \href{https://github.com/typst/packages/raw/main/packages/preview/lovelace/0.3.0/\#spacing}{Spacing}
+\item
+  \href{https://github.com/typst/packages/raw/main/packages/preview/lovelace/0.3.0/\#decorations}{Decorations}
+\item
+  \href{https://github.com/typst/packages/raw/main/packages/preview/lovelace/0.3.0/\#algorithm-as-figure}{Algorithm
+  as figure}
+\item
+  \href{https://github.com/typst/packages/raw/main/packages/preview/lovelace/0.3.0/\#customisation-overview}{Customisation
+  overview}
+\item
+  \href{https://github.com/typst/packages/raw/main/packages/preview/lovelace/0.3.0/\#exported-functions}{Exported
+  functions}
+\end{itemize}
+
+\subsubsection{Getting started}\label{getting-started}
+
+Import the package using
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/lovelace:0.3.0": *}
+\end{Highlighting}
+\end{Shaded}
+
+The simplest usage is via \texttt{\ pseudocode-list\ } which transforms
+a nested list into pseudocode:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#pseudocode{-}list[}
+\NormalTok{  + do something}
+\NormalTok{  + do something else}
+\NormalTok{  + *while* still something to do}
+\NormalTok{    + do even more}
+\NormalTok{    + *if* not done yet *then*}
+\NormalTok{      + wait a bit}
+\NormalTok{      + resume working}
+\NormalTok{    + *else*}
+\NormalTok{      + go home}
+\NormalTok{    + *end*}
+\NormalTok{  + *end*}
+\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+resulting in:
+
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/lovelace/0.3.0/examples/simple.svg}}
+
+As you can see, every list item becomes one line of code and nested
+lists become indented blocks. There are no special commands for common
+keywords and control structures, you just use whatever you like.
+
+Maybe in your domain very uncommon structures make more sense? No
+problem!
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#pseudocode{-}list[}
+\NormalTok{  + *in parallel for each* $i = 1, ..., n$ *do*}
+\NormalTok{    + fetch chunk of data $i$}
+\NormalTok{    + *with probability* $exp({-}epsilon\_i slash k T)$ *do*}
+\NormalTok{      + perform update}
+\NormalTok{    + *end*}
+\NormalTok{  + *end*}
+\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/lovelace/0.3.0/examples/custom.svg}}
+
+\subsubsection{Lower level interface}\label{lower-level-interface}
+
+If you feel uncomfortable with abusing Typstâ€™s lists like we do here,
+you can also use the \texttt{\ pseudocode\ } function directly:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#pseudocode(}
+\NormalTok{  [do something],}
+\NormalTok{  [do something else],}
+\NormalTok{  [*while* still something to do],}
+\NormalTok{  indent(}
+\NormalTok{    [do even more],}
+\NormalTok{    [*if* not done yet *then*],}
+\NormalTok{    indent(}
+\NormalTok{      [wait a bit],}
+\NormalTok{      [resume working],}
+\NormalTok{    ),}
+\NormalTok{    [*else*],}
+\NormalTok{    indent(}
+\NormalTok{      [go home],}
+\NormalTok{    ),}
+\NormalTok{    [*end*],}
+\NormalTok{  ),}
+\NormalTok{  [*end*],}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+This is equivalent to the first example. Note that each line is given as
+one content argument and you indent a block by using the
+\texttt{\ indent\ } function.
+
+This approach has the advantage that you do not rely on significant
+whitespace and code formatters can automatically correctly indent your
+Typst code.
+
+\subsubsection{Line numbers}\label{line-numbers}
+
+Lovelace puts a number in front of each line by default. If you want no
+numbers at all, you can set the \texttt{\ line-numbering\ } option to
+\texttt{\ none\ } . The initial example then looks like this:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#pseudocode{-}list(line{-}numbering: none)[}
+\NormalTok{  + do something}
+\NormalTok{  + do something else}
+\NormalTok{  + *while* still something to do}
+\NormalTok{    + do even more}
+\NormalTok{    + *if* not done yet *then*}
+\NormalTok{      + wait a bit}
+\NormalTok{      + resume working}
+\NormalTok{    + *else*}
+\NormalTok{      + go home}
+\NormalTok{    + *end*}
+\NormalTok{  + *end*}
+\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/lovelace/0.3.0/examples/simple-no-numbers.svg}}
+
+(You can also pass this keyword argument to \texttt{\ pseudocode\ } .)
+
+If you do want line numbers in general but need to turn them off for
+specific lines, you can use \texttt{\ -\ } items instead of
+\texttt{\ +\ } items in \texttt{\ pseudocode-list\ } :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#pseudocode{-}list[}
+\NormalTok{  + normal line with a number}
+\NormalTok{  {-} this line has no number}
+\NormalTok{  + this one has a number again}
+\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/lovelace/0.3.0/examples/number-no-number.svg}}
+
+Itâ€™s easy to remember: \texttt{\ -\ } items usually produce unnumbered
+lists and \texttt{\ +\ } items produce numbered lists!
+
+When using the \texttt{\ pseudocode\ } function, you can achieve the
+same using \texttt{\ no-number\ } :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#pseudocode(}
+\NormalTok{  [normal line with a number],}
+\NormalTok{  no{-}number[this line has no number],}
+\NormalTok{  [this one has a number again],}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\paragraph{More line number
+customisation}\label{more-line-number-customisation}
+
+Other than \texttt{\ none\ } , you can assign anything listed
+\href{https://typst.app/docs/reference/model/numbering/\#parameters-numbering}{here}
+to \texttt{\ line-numbering\ } .
+
+So maybe you happen to think about the Roman Empire a lot and want to
+reflect that in your pseudocode?
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#set text(font: "Cinzel")}
+
+\NormalTok{\#pseudocode{-}list(line{-}numbering: "I:")[}
+\NormalTok{  + explore European tribes}
+\NormalTok{  + *while* not all tribes conquered}
+\NormalTok{    + *for each* tribe *in* unconquered tribes}
+\NormalTok{      + try to conquer tribe}
+\NormalTok{    + *end*}
+\NormalTok{  + *end*}
+\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/lovelace/0.3.0/examples/roman.svg}}
+
+\subsubsection{Referencing lines}\label{referencing-lines}
+
+You can reference an inividual line of a pseudocode by giving it a
+label. Inside \texttt{\ pseudocode-list\ } , you can use
+\texttt{\ line-label\ } :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#pseudocode{-}list[}
+\NormalTok{  + \#line{-}label(\textless{}start\textgreater{}) do something}
+\NormalTok{  + \#line{-}label(\textless{}important\textgreater{}) do something important}
+\NormalTok{  + go back to @start}
+\NormalTok{]}
+
+\NormalTok{The relevance of the step in @important cannot be overstated.}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/lovelace/0.3.0/examples/label.svg}}
+
+When using \texttt{\ pseudocode\ } , you can use
+\texttt{\ with-line-label\ } :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#pseudocode(}
+\NormalTok{  with{-}line{-}label(\textless{}start\textgreater{})[do something],}
+\NormalTok{  with{-}line{-}label(\textless{}important\textgreater{})[do something important],}
+\NormalTok{  [go back to @start],}
+\NormalTok{)}
+
+\NormalTok{The relevance of the step in @important cannot be overstated.}
+\end{Highlighting}
+\end{Shaded}
+
+This has the same effect as the previous example.
+
+The number shown in the reference uses the numbering scheme defined in
+the \texttt{\ line-numbering\ } option (see previous section).
+
+By default, \texttt{\ "Line"\ } is used as the supplement for
+referencing lines. You can change that using the
+\texttt{\ line-number-supplement\ } option to \texttt{\ pseudocode\ } or
+\texttt{\ pseudocode-list\ } .
+
+\subsubsection{Indentation guides}\label{indentation-guides}
+
+By default, Lovelace puts a thin gray ( \texttt{\ gray\ +\ 1pt\ } ) line
+to the left of each indented block, which guides the reader in
+understanding the indentations, just like a code editor would. You can
+customise this using the \texttt{\ stroke\ } option which takes any
+value that is a valid
+\href{https://typst.app/docs/reference/visualize/stroke/}{Typst stroke}
+. You can especially set it to \texttt{\ none\ } to have no indentation
+guides.
+
+The example from the beginning becomes:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#pseudocode{-}list(stroke: none)[}
+\NormalTok{  + do something}
+\NormalTok{  + do something else}
+\NormalTok{  + *while* still something to do}
+\NormalTok{    + do even more}
+\NormalTok{    + *if* not done yet *then*}
+\NormalTok{      + wait a bit}
+\NormalTok{      + resume working}
+\NormalTok{    + *else*}
+\NormalTok{      + go home}
+\NormalTok{    + *end*}
+\NormalTok{  + *end*}
+\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/lovelace/0.3.0/examples/simple-no-stroke.svg}}
+
+\paragraph{End blocks with hooks}\label{end-blocks-with-hooks}
+
+Some people prefer using the indentation guide to signal the end of a
+block instead of writing something like â€œ \textbf{end} â€? by having a
+small â€œhookâ€? at the end. To achieve that in Lovelace, you can make
+use of the \texttt{\ hook\ } option and specify how far a line should
+extend to the right from the indentation guide:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#pseudocode{-}list(hooks: .5em)[}
+\NormalTok{  + do something}
+\NormalTok{  + do something else}
+\NormalTok{  + *while* still something to do}
+\NormalTok{    + do even more}
+\NormalTok{    + *if* not done yet *then*}
+\NormalTok{      + wait a bit}
+\NormalTok{      + resume working}
+\NormalTok{    + *else*}
+\NormalTok{      + go home}
+\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/lovelace/0.3.0/examples/hooks.svg}}
+
+\subsubsection{Spacing}\label{spacing}
+
+You can control how far indented lines are shifted right by the
+\texttt{\ indentation\ } option. To change the space between lines, use
+the \texttt{\ line-gap\ } option.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#pseudocode{-}list(indentation: 3em, line{-}gap: 1.5em)[}
+\NormalTok{  + do something}
+\NormalTok{  + do something else}
+\NormalTok{  + *while* still something to do}
+\NormalTok{    + do even more}
+\NormalTok{    + *if* not done yet *then*}
+\NormalTok{      + wait a bit}
+\NormalTok{      + resume working}
+\NormalTok{    + *else*}
+\NormalTok{      + go home}
+\NormalTok{    + *end*}
+\NormalTok{  + *end*}
+\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/lovelace/0.3.0/examples/spacing.svg}}
+
+\subsubsection{Decorations}\label{decorations}
+
+You can also add a title and/or a frame around your algorithm if you
+like:
+
+\paragraph{Title}\label{title}
+
+Using the \texttt{\ title\ } option, you can give your pseudocode a
+title (surprise!). For example, to achieve
+\href{https://en.wikipedia.org/wiki/Introduction_to_Algorithms}{CLRS
+style} , you can do something like
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#pseudocode{-}list(stroke: none, title: smallcaps[Fancy{-}Algorithm])[}
+\NormalTok{  + do something}
+\NormalTok{  + do something else}
+\NormalTok{  + *while* still something to do}
+\NormalTok{    + do even more}
+\NormalTok{    + *if* not done yet *then*}
+\NormalTok{      + wait a bit}
+\NormalTok{      + resume working}
+\NormalTok{    + *else*}
+\NormalTok{      + go home}
+\NormalTok{    + *end*}
+\NormalTok{  + *end*}
+\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/lovelace/0.3.0/examples/title.svg}}
+
+\paragraph{Booktabs}\label{booktabs}
+
+If you like wrapping your algorithm in elegant horizontal lines, you can
+do so by setting the \texttt{\ booktabs\ } option to \texttt{\ true\ } .
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#pseudocode{-}list(booktabs: true)[}
+\NormalTok{  + do something}
+\NormalTok{  + do something else}
+\NormalTok{  + *while* still something to do}
+\NormalTok{    + do even more}
+\NormalTok{    + *if* not done yet *then*}
+\NormalTok{      + wait a bit}
+\NormalTok{      + resume working}
+\NormalTok{    + *else*}
+\NormalTok{      + go home}
+\NormalTok{    + *end*}
+\NormalTok{  + *end*}
+\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/lovelace/0.3.0/examples/booktabs.svg}}
+
+Together with the \texttt{\ title\ } option, you can produce
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#pseudocode{-}list(booktabs: true, title: [My cool title])[}
+\NormalTok{  + do something}
+\NormalTok{  + do something else}
+\NormalTok{  + *while* still something to do}
+\NormalTok{    + do even more}
+\NormalTok{    + *if* not done yet *then*}
+\NormalTok{      + wait a bit}
+\NormalTok{      + resume working}
+\NormalTok{    + *else*}
+\NormalTok{      + go home}
+\NormalTok{    + *end*}
+\NormalTok{  + *end*}
+\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/lovelace/0.3.0/examples/booktabs-title.svg}}
+
+By default, the outer booktab strokes are \texttt{\ black\ +\ 2pt\ } .
+You can change that with the option \texttt{\ booktabs-stroke\ } to any
+valid \href{https://typst.app/docs/reference/visualize/stroke/}{Typst
+stroke} . The inner line will always have the same stroke as the outer
+ones, just with half the thickness.
+
+\subsubsection{Algorithm as figure}\label{algorithm-as-figure}
+
+To make algorithms referencable and being able to float in the document,
+you can use Typstâ€™s \texttt{\ figure\ } function with a custom
+\texttt{\ kind\ } .
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#figure(}
+\NormalTok{  kind: "algorithm",}
+\NormalTok{  supplement: [Algorithm],}
+\NormalTok{  caption: [My cool algorithm],}
+
+\NormalTok{  pseudocode{-}list[}
+\NormalTok{    + do something}
+\NormalTok{    + do something else}
+\NormalTok{    + *while* still something to do}
+\NormalTok{      + do even more}
+\NormalTok{      + *if* not done yet *then*}
+\NormalTok{        + wait a bit}
+\NormalTok{        + resume working}
+\NormalTok{      + *else*}
+\NormalTok{        + go home}
+\NormalTok{      + *end*}
+\NormalTok{    + *end*}
+\NormalTok{  ]}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/lovelace/0.3.0/examples/figure.svg}}
+
+If you want to have the algorithm counter inside the title instead (see
+previous section), there is the option \texttt{\ numbered-title\ } :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#figure(}
+\NormalTok{  kind: "algorithm",}
+\NormalTok{  supplement: [Algorithm],}
+
+\NormalTok{  pseudocode{-}list(booktabs: true, numbered{-}title: [My cool algorithm])[}
+\NormalTok{    + do something}
+\NormalTok{    + do something else}
+\NormalTok{    + *while* still something to do}
+\NormalTok{      + do even more}
+\NormalTok{      + *if* not done yet *then*}
+\NormalTok{        + wait a bit}
+\NormalTok{        + resume working}
+\NormalTok{      + *else*}
+\NormalTok{        + go home}
+\NormalTok{      + *end*}
+\NormalTok{    + *end*}
+\NormalTok{  ]}
+\NormalTok{) \textless{}cool\textgreater{}}
+
+\NormalTok{See @cool for details on how to do something cool.}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/lovelace/0.3.0/examples/figure-title.svg}}
+
+Note that the \texttt{\ numbered-title\ } option only makes sense when
+nesting your pseudocode inside a figure with
+\texttt{\ kind:\ "algorithm"\ } , otherwise it produces undefined
+results.
+
+\subsubsection{Customisation overview}\label{customisation-overview}
+
+Both \texttt{\ pseudocode\ } and \texttt{\ pseudocode-list\ } accept the
+following configuration arguments:
+
+\begin{longtable}[]{@{}lll@{}}
+\toprule\noalign{}
+\textbf{option} & \textbf{type} & \textbf{default} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\href{https://github.com/typst/packages/raw/main/packages/preview/lovelace/0.3.0/\#line-numbers}{\texttt{\ line-numbering\ }}
+& \texttt{\ none\ } or a
+\href{https://typst.app/docs/reference/model/numbering/\#parameters-numbering}{numbering}
+& \texttt{\ "1"\ } \\
+\href{https://github.com/typst/packages/raw/main/packages/preview/lovelace/0.3.0/\#more-line-number-customisation}{\texttt{\ line-number-supplement\ }}
+& content & \texttt{\ "Line"\ } \\
+\href{https://github.com/typst/packages/raw/main/packages/preview/lovelace/0.3.0/\#indentation-guides}{\texttt{\ stroke\ }}
+& stroke & \texttt{\ 1pt\ +\ gray\ } \\
+\href{https://github.com/typst/packages/raw/main/packages/preview/lovelace/0.3.0/\#end-blocks-with-hooks}{\texttt{\ hooks\ }}
+& length & \texttt{\ 0pt\ } \\
+\href{https://github.com/typst/packages/raw/main/packages/preview/lovelace/0.3.0/\#spacing}{\texttt{\ indentation\ }}
+& length & \texttt{\ 1em\ } \\
+\href{https://github.com/typst/packages/raw/main/packages/preview/lovelace/0.3.0/\#spacing}{\texttt{\ line-gap\ }}
+& length & \texttt{\ .8em\ } \\
+\href{https://github.com/typst/packages/raw/main/packages/preview/lovelace/0.3.0/\#booktabs}{\texttt{\ booktabs\ }}
+& bool & \texttt{\ false\ } \\
+\href{https://github.com/typst/packages/raw/main/packages/preview/lovelace/0.3.0/\#booktabs}{\texttt{\ booktabs-stroke\ }}
+& stroke & \texttt{\ 2pt\ +\ black\ } \\
+\href{https://github.com/typst/packages/raw/main/packages/preview/lovelace/0.3.0/\#title}{\texttt{\ title\ }}
+& content or \texttt{\ none\ } & \texttt{\ none\ } \\
+\href{https://github.com/typst/packages/raw/main/packages/preview/lovelace/0.3.0/\#algorithm-as-figure}{\texttt{\ numbered-title\ }}
+& content or \texttt{\ none\ } & \texttt{\ none\ } \\
+\end{longtable}
+
+Until Typst supports user defined types, we can use the following trick
+when wanting to set own default values for these options. Say, you
+always want your algorithms to have colons after the line numbers, no
+indentation guides and, if present, blue booktabs. In this case, you
+would put the following at the top of your document:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let my{-}lovelace{-}defaults = (}
+\NormalTok{  line{-}numbering: "1:",}
+\NormalTok{  stroke: none,}
+\NormalTok{  booktabs{-}stroke: 2pt + blue,}
+\NormalTok{)}
+
+\NormalTok{\#let pseudocode = pseudocode.with(..my{-}lovelace{-}defaults)}
+\NormalTok{\#let pseudocode{-}list = pseudocode{-}list.with(..my{-}lovelace{-}defaults)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{Exported functions}\label{exported-functions}
+
+Lovelace exports the following functions:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ pseudocode\ } : Typeset pseudocode with each line as an
+  individual content argument, see
+  \href{https://github.com/typst/packages/raw/main/packages/preview/lovelace/0.3.0/\#lower-level-interface}{here}
+  for details. Has
+  \href{https://github.com/typst/packages/raw/main/packages/preview/lovelace/0.3.0/\#customisation-overview}{these}
+  optional arguments.
+\item
+  \texttt{\ pseudocode-list\ } : Takes a standard Typst list and
+  transforms it into a pseudocode. Has
+  \href{https://github.com/typst/packages/raw/main/packages/preview/lovelace/0.3.0/\#customisation-overview}{these}
+  optional arguments.
+\item
+  \texttt{\ indent\ } : Inside the argument list of
+  \texttt{\ pseudocode\ } , use \texttt{\ indent\ } to specify an
+  indented block, see
+  \href{https://github.com/typst/packages/raw/main/packages/preview/lovelace/0.3.0/\#lower-level-interface}{here}
+  for details.
+\item
+  \texttt{\ no-number\ } : Wrap an argument to \texttt{\ pseudocode\ }
+  in this function to have the corresponding line be unnumbered, see
+  \href{https://github.com/typst/packages/raw/main/packages/preview/lovelace/0.3.0/\#line-numbers}{here}
+  for details.
+\item
+  \texttt{\ with-line-label\ } : Use this function in the
+  \texttt{\ pseudocode\ } arguments to add a label to a specific line,
+  see
+  \href{https://github.com/typst/packages/raw/main/packages/preview/lovelace/0.3.0/\#referencing-lines}{here}
+  for details.
+\item
+  \texttt{\ line-label\ } : When using \texttt{\ pseudocode-list\ } ,
+  you do \emph{not} use \texttt{\ with-line-label\ } but insert a call
+  to \texttt{\ line-label\ } somewhere in a line to add a label, see
+  \href{https://github.com/typst/packages/raw/main/packages/preview/lovelace/0.3.0/\#referencing-lines}{here}
+  for details.
+\end{itemize}
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as \texttt{\ lovelace\ }
+
+\begin{verbatim}
+#import "@preview/lovelace:0.3.0"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author s :]
+Andreas KrÃ¶pelin \& Lovelace contributors
+\item[License:]
+MIT
+\item[Current version:]
+0.3.0
+\item[Last updated:]
+July 1, 2024
+\item[First released:]
+September 6, 2023
+\item[Archive size:]
+3.44 kB
+\href{https://packages.typst.org/preview/lovelace-0.3.0.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/andreasKroepelin/lovelace}{GitHub}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of Andreas KrÃ¶pelin and Lovelace contributors
+. Report issues on
+\href{https://github.com/andreasKroepelin/lovelace}{their repository} .
+You can also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.3.0 & July 1, 2024 \\
+\href{https://typst.app/universe/package/lovelace/0.2.0/}{0.2.0} &
+January 9, 2024 \\
+\href{https://typst.app/universe/package/lovelace/0.1.0/}{0.1.0} &
+September 6, 2023 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.
