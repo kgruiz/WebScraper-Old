@@ -259,7 +259,3 @@ def main():
 if __name__ == "__main__":
 
     main()
-
-    # HtmlDirToLatex(htmlDir="Package List HTML", latexDir="Package List LaTeX")
-
-    # CombineFiles(dirName="Package List LaTeX", maxLength=5000, addedPrefix="Package")

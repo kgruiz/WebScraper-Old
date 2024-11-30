@@ -1,0 +1,4165 @@
+\title{typst.app/universe/package/wrap-indent}
+
+\phantomsection\label{banner}
+\section{wrap-indent}\label{wrap-indent}
+
+{ 0.1.0 }
+
+Wrap content in custom functions with just indentation
+
+\phantomsection\label{readme}
+\texttt{\ wrap-indent\ } is a package for wrapping content in custom
+functions with just indentation. This lets you avoid using trailing
+square brackets to wrap content, instead you just indent it!
+
+This system works by re-purposing Typstâ€™s existing
+\href{https://typst.app/docs/reference/model/terms/}{term-list} syntax
+via a custom show rule on \texttt{\ terms.item\ } . We give it our
+custom function within
+\href{https://typst.app/docs/reference/introspection/state/}{state} via
+a new \texttt{\ wrap-in()\ } function.
+
+\subsection{Hereâ€™s a minimal
+example!}\label{hereuxe2s-a-minimal-example}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/wrap-indent/0.1.0/example_page1.png}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#set page(height: auto, width: 3.5in, margin: 0.25in)}
+
+\NormalTok{\#import "@preview/wrap{-}indent:0.1.0": wrap{-}in, allow{-}wrapping}
+
+\NormalTok{\#show terms.item: allow{-}wrapping}
+
+\NormalTok{/ First {-}{-}:}
+\NormalTok{  A normal term list}
+
+\NormalTok{  with multiple paragraphs}
+
+\NormalTok{But this text is separated}
+
+
+\NormalTok{\#line(length: 100\%)}
+
+
+\NormalTok{\#let custom{-}block(content) = rect(content,}
+\NormalTok{  fill: orange.lighten(90\%),}
+\NormalTok{  stroke: 1.5pt + gradient.linear(..color.map.flare)}
+\NormalTok{)}
+
+\NormalTok{/ \#wrap{-}in(custom{-}block):}
+\NormalTok{  A *custom block* using the \textasciigrave{}wrap{-}in\textasciigrave{} function}
+
+\NormalTok{  with indented text \textbackslash{}}
+\NormalTok{  over multiple lines}
+
+\NormalTok{And this text is \_still\_ separated!}
+\end{Highlighting}
+\end{Shaded}
+
+And in its own code block, hereâ€™s the required initialization:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/wrap{-}indent:0.1.0": wrap{-}in, allow{-}wrapping}
+
+\NormalTok{\#show terms.item: allow{-}wrapping}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{And hereâ€™s a more complicated
+example!}\label{and-hereuxe2s-a-more-complicated-example}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/wrap-indent/0.1.0/example_page2.png}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#set page(height: auto, width: 4.1in, margin: 0.25in)}
+
+\NormalTok{\#show heading: set text(size: 0.75em)}
+\NormalTok{\#show heading: set block(below: 1em)}
+\NormalTok{\#set heading(numbering: "1) ")}
+
+\NormalTok{= Normal function call:}
+
+\NormalTok{// A function for wrapping some text:}
+\NormalTok{\#let custom{-}quote(body) = rect(}
+\NormalTok{  body,}
+\NormalTok{  width: 100\%,}
+\NormalTok{  fill: luma(95\%),}
+\NormalTok{  stroke: (left: 2pt + luma(30\%))}
+\NormalTok{)}
+
+\NormalTok{\#custom{-}quote[}
+\NormalTok{  Some text in a \_custom quote\_ spread over multiple lines}
+\NormalTok{  so it actually looks like it was typed in a document.}
+\NormalTok{]}
+\NormalTok{This text is outside the quote box}
+
+
+\NormalTok{= Wrappped function call!}
+
+\NormalTok{/ \#wrap{-}in(custom{-}quote):}
+\NormalTok{  Some text in a \_custom quote\_ spread over multiple lines}
+\NormalTok{  so it actually looks like it was typed in a document.}
+
+\NormalTok{This text is \_still\_ outside the quote box!}
+
+
+\NormalTok{= Arbitrary functions should \_just work\#emoji.tm;\_}
+
+\NormalTok{/ \#wrap{-}in(x =\textgreater{} ellipse(align(center, x),}
+\NormalTok{    stroke: 3pt + gradient.conic(..color.map.rainbow)}
+\NormalTok{  )):}
+\NormalTok{  Some text in a \_rainbow ellipse\_ spread}
+\NormalTok{  over multiple lines so it actually looks}
+\NormalTok{  like it was typed in a document.}
+
+
+\NormalTok{= One{-}liners look great!}
+
+\NormalTok{/ \#wrap{-}in(underline): Here\textquotesingle{}s one line underlined}
+
+
+\NormalTok{= Let\textquotesingle{}s do some math:}
+
+\NormalTok{\#let named{-}thm(name) = (content) =\textgreater{} \{}
+\NormalTok{  pad(left: 2em, par(hanging{-}indent: {-}2em)[}
+\NormalTok{    *Theorem* (\#name) \#emph(content)}
+\NormalTok{  ])}
+\NormalTok{\}}
+
+\NormalTok{/ \#wrap{-}in(named{-}thm("Operational Soundness")):}
+\NormalTok{  If $med tack e : tau$ and $e$ reduces to $e\textquotesingle{}$}
+\NormalTok{  by zero or more steps and $"Irred"(e\textquotesingle{})$,}
+\NormalTok{  then $e\textquotesingle{} in "Val"$ and $med tack e\textquotesingle{} : tau$.}
+
+
+\NormalTok{= In{-}line styling doesn\textquotesingle{}t create blocks:}
+
+\NormalTok{/ \#wrap{-}in(highlight):}
+\NormalTok{  This text is highlighted.}
+\NormalTok{This text isn\textquotesingle{}t.}
+
+\NormalTok{Notice how there was *no* paragraph break between the}
+\NormalTok{two sentences? This is a useful result that makes}
+\NormalTok{\textasciigrave{}wrap{-}indent\textasciigrave{} really flexible!}
+
+\NormalTok{(if you want separate blocks, use \textasciigrave{}block\textasciigrave{} in your function)}
+
+
+\NormalTok{= Does it work with nesting?}
+
+\NormalTok{/ \#wrap{-}in(custom{-}quote):}
+\NormalTok{  Testing...}
+\NormalTok{  / \#wrap{-}in(align.with(center)):}
+\NormalTok{    / \#wrap{-}in(rect):}
+\NormalTok{      / \#wrap{-}in(emph):}
+\NormalTok{        Signs point to yes!}
+
+
+\NormalTok{= Final thoughts}
+
+\NormalTok{/ Note {-}{-}:}
+\NormalTok{  Regular term lists still work!}
+
+\NormalTok{/ Disclaimer {-}{-}:}
+\NormalTok{  You may run into issues with other term list}
+\NormalTok{  show rules conflicting with this rule. \textbackslash{}}
+\NormalTok{  (although set rules should be unaffected)}
+
+\NormalTok{  If you run into issues, \_let me know!\_ I\textquotesingle{}d love to hear}
+\NormalTok{  about it to make this package as robust as possible.}
+
+
+\NormalTok{= And}
+
+\NormalTok{\#let big{-}statement(content) = \{}
+\NormalTok{  align(center, text(}
+\NormalTok{    underline(stroke: 1.5pt, content),}
+\NormalTok{    size: 32pt,}
+\NormalTok{    weight: "bold",}
+\NormalTok{    style: "italic",}
+\NormalTok{    fill: eastern,}
+\NormalTok{  ))}
+\NormalTok{\}}
+
+\NormalTok{/ \#wrap{-}in(big{-}statement):}
+\NormalTok{  That\textquotesingle{}s a wrap!}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{References}\label{references}
+
+You can find my original writeup here for more context:\\
+\url{https://typst.app/project/r5ogFas7lj7E48iHw_M4yh}
+
+And also see the GitHub issue that prompted me to make this:\\
+\url{https://github.com/typst/typst/issues/1921}
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as
+\texttt{\ wrap-indent\ }
+
+\begin{verbatim}
+#import "@preview/wrap-indent:0.1.0"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+Ian Wrzesinski (LectronPusher)
+\item[License:]
+MIT
+\item[Current version:]
+0.1.0
+\item[Last updated:]
+May 3, 2024
+\item[First released:]
+May 3, 2024
+\item[Archive size:]
+3.69 kB
+\href{https://packages.typst.org/preview/wrap-indent-0.1.0.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Categor ies :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-code.svg}}
+  \href{https://typst.app/universe/search/?category=scripting}{Scripting}
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-hammer.svg}}
+  \href{https://typst.app/universe/search/?category=utility}{Utility}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of Ian Wrzesinski (LectronPusher) . You can
+also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.1.0 & May 3, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.
+
+
+\title{typst.app/universe/package/anatomy}
+
+\phantomsection\label{banner}
+\section{anatomy}\label{anatomy}
+
+{ 0.1.1 }
+
+Anatomy of a Font. Visualise metrics.
+
+\phantomsection\label{readme}
+\emph{Anatomy of a Font} . Visualise metrics.
+
+Import the \texttt{\ anatomy\ } package:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/anatomy:0.1.1": metrics}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Display Metrics}\label{display-metrics}
+
+\texttt{\ metrics(72pt,\ "EB\ Garamond",\ display:\ "Typewriter")\ }
+will be rendered as follows:
+
+\pandocbounded{\includesvg[keepaspectratio]{https://raw.githubusercontent.com/E8D08F/packages/main/packages/preview/anatomy/0.1.1/img/export-1.svg}}
+
+Additionally, a closure using \texttt{\ metrics\ } dictionary as
+parameter can be used to layout additional elements below:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#metrics(54pt, "ä¸é»æé«",}
+\NormalTok{  display: "é»å³æå­æ©",}
+\NormalTok{  use: metrics =\textgreater{} table(}
+\NormalTok{    columns: 2,}
+\NormalTok{    ..metrics.pairs().flatten().map(x =\textgreater{} [ \#x ])}
+\NormalTok{  )}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+It will generate:
+
+\pandocbounded{\includesvg[keepaspectratio]{https://raw.githubusercontent.com/E8D08F/packages/main/packages/preview/anatomy/0.1.1/img/export-2.svg}}
+
+\subsection{Remark on Hybrid
+Typesetting}\label{remark-on-hybrid-typesetting}
+
+To typeset CJK text, adopting fontâ€™s ascender/descender as
+\texttt{\ top-edge\ } / \texttt{\ bottom-edge\ } makes more sense in
+some cases. As for most CJK fonts, the difference between ascender and
+descender heights will be exact 1em.
+
+Tested with
+\texttt{\ metrics(54pt,\ "Hiragino\ Mincho\ ProN",\ "ãƒ†ãƒ¬ã‚¿ã‚¤ãƒ—ç«¯æœ«")\ }
+:
+
+\pandocbounded{\includesvg[keepaspectratio]{https://raw.githubusercontent.com/E8D08F/packages/main/packages/preview/anatomy/0.1.1/img/export-3.svg}}
+
+Since Typst will use metrics of the font which has the largest advance
+height amongst the list provided in
+\texttt{\ set\ text(font:\ (\ ...\ ))\ } to set up top and bottom edges
+of a line, leading might not work as expected in hybrid typesetting.
+This issue can be solved by passing the document to
+\texttt{\ metrics(use:\ metrics\ =\textgreater{}\ \{\ ...\ \})\ } like
+this:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#show: doc =\textgreater{} metrics(font.size, font.main,}
+\NormalTok{  // Retrieve the metrics of the CJK font}
+\NormalTok{  use: metrics =\textgreater{} \{}
+\NormalTok{    set text(}
+\NormalTok{      font.size,}
+\NormalTok{      font: ( font.latin, font.main ),}
+\NormalTok{      features: ( "pkna", ),}
+\NormalTok{      // Use CJK fontâs ascender/descender as top/bottom edges}
+\NormalTok{      top{-}edge: metrics.ascender,}
+\NormalTok{      bottom{-}edge: metrics.descender,}
+\NormalTok{      // ...}
+\NormalTok{    )}
+
+\NormalTok{    doc}
+\NormalTok{  \}}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as \texttt{\ anatomy\ }
+
+\begin{verbatim}
+#import "@preview/anatomy:0.1.1"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+Toto
+\item[License:]
+MIT
+\item[Current version:]
+0.1.1
+\item[Last updated:]
+February 19, 2024
+\item[First released:]
+February 17, 2024
+\item[Archive size:]
+2.59 kB
+\href{https://packages.typst.org/preview/anatomy-0.1.1.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of Toto . You can also try to ask for help
+with this package on the \href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.1.1 & February 19, 2024 \\
+\href{https://typst.app/universe/package/anatomy/0.1.0/}{0.1.0} &
+February 17, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.
+
+
+\title{typst.app/universe/package/mino}
+
+\phantomsection\label{banner}
+\section{mino}\label{mino}
+
+{ 0.1.2 }
+
+Render tetris fumen in typst.
+
+\phantomsection\label{readme}
+Render tetris \href{https://harddrop.com/fumen/}{fumen} in typst!
+
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/mino/0.1.2/mino.svg}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "typst{-}package/lib.typ": decode{-}fumen, render{-}field}
+\NormalTok{// Uncomment the following line to use the mino from the official package registry}
+\NormalTok{// \#import "@preview/mino:0.1.1": decode{-}fumen, render{-}field}
+\NormalTok{\#set page(margin: 1.5cm)}
+
+\NormalTok{\#align(center)[}
+\NormalTok{  \#text(size: 25pt)[}
+\NormalTok{    DT Cannon}
+\NormalTok{  ]}
+\NormalTok{]}
+
+\NormalTok{\#let fumen = decode{-}fumen("v115@vhPJHYaAkeEfEXoC+BlvlzByEEfE03k2AlP5ABwfAA?A+rQAAqsBsqBvtBTpBVhQeAlvlzByEEfE03k2AlP5ABwvDf?E33ZBBlfbOBV5AAAOfQeAlvlzByEEfE03+2BlP5ABwvDfEV?5k2AlPJVBjzAAA6WQAAzdBpeB0XBXUBFlQnAlvlzByEEfE0?3+2BlP5ABwvDfEXhWEBUYPNBkkuRA1GCLBUupAAdqQnAlvl?zByEEfE038UBlP5ABwvDfEXhWEBUYPNBkkuRA1GCLBU+rAA?AAPAA")}
+
+\NormalTok{\#for i in range(fumen.len()) \{}
+\NormalTok{  let field = fumen.at(i).at("field")}
+\NormalTok{  [}
+\NormalTok{    \#box[}
+\NormalTok{      \#render{-}field(field, rows: 8, cell{-}size: 13pt) }
+\NormalTok{      (\#(i+1))}
+\NormalTok{      \#fumen.at(i).comment}
+\NormalTok{    ]}
+\NormalTok{    \#h(0.5pt)}
+\NormalTok{  ]}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Documentation}\label{documentation}
+
+\subsubsection{\texorpdfstring{\texttt{\ decode-fumen\ }}{ decode-fumen }}\label{decode-fumen}
+
+Decode a fumen string into a series of pages.
+
+\paragraph{Arguments}\label{arguments}
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ data\ } : \texttt{\ str\ } - The fumen string to decode
+\end{itemize}
+
+\paragraph{Returns}\label{returns}
+
+The pages, of type
+\texttt{\ Array\textless{}\{\ field:\ Array\textless{}string,\ 20\textgreater{},\ comment:\ string\ \}\textgreater{}\ }
+.
+
+\begin{verbatim}
+(
+  (
+    field: (
+      "....",
+      "....",
+      ...
+    ),
+    comment: "..."
+  ),
+  ...
+)
+\end{verbatim}
+
+\subsubsection{\texorpdfstring{\texttt{\ render-field\ }}{ render-field }}\label{render-field}
+
+\paragraph{Arguments}\label{arguments-1}
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ field\ } : \texttt{\ array\ } of \texttt{\ str\ } - The
+  field to render
+\item
+  \texttt{\ rows\ } : \texttt{\ number\ } - The number of rows to
+  render, default to \texttt{\ 20\ }
+\item
+  \texttt{\ cell-size\ } : \texttt{\ length\ } - The size of each cell,
+  default to \texttt{\ 10pt\ }
+\item
+  \texttt{\ bg-color\ } : \texttt{\ color\ } - The background color,
+  default to \texttt{\ \#f3f3ed\ }
+\item
+  \texttt{\ stroke\ } : The stroke for the field, default to
+  \texttt{\ none\ }
+\item
+  \texttt{\ radius\ } : The border radius for the field, default to
+  \texttt{\ 0.25\ *\ cell-size\ }
+\item
+  \texttt{\ shadow\ } : Whether to show shadow for cells, default to
+  \texttt{\ true\ }
+\item
+  \texttt{\ highlight\ } : Whether to highlight cells, default to
+  \texttt{\ true\ }
+\item
+  \texttt{\ color-data\ } : The color data for the field, default to
+  \texttt{\ default-color-data\ } :
+\item
+  \texttt{\ overdraw\ } : (default, 5) Draw each cell multiple times to
+  avoid thin lines between cells. See
+  \url{https://github.com/linebender/vello/issues/49}
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let default{-}color = (}
+\NormalTok{  "Z": rgb("\#ef624d"),}
+\NormalTok{  "S": rgb("\#66c65c"),}
+\NormalTok{  "L": rgb("\#ef9535"),}
+\NormalTok{  "J": rgb("\#1983bf"),}
+\NormalTok{  "T": rgb("\#9c27b0"),}
+\NormalTok{  "O": rgb("\#f7d33e"),}
+\NormalTok{  "I": rgb("\#41afde"),}
+\NormalTok{  "X": rgb("\#686868")}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ highlight-color-data\ } : The highlight color data for the
+  field, default to \texttt{\ default-highlight-color\ } :
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let default{-}highlight{-}color = (}
+\NormalTok{  "Z": rgb("\#ff9484"),}
+\NormalTok{  "S": rgb("\#88ee86"),}
+\NormalTok{  "L": rgb("\#ffbf60"),}
+\NormalTok{  "J": rgb("\#1ba6f9"),}
+\NormalTok{  "T": rgb("\#e56add"),}
+\NormalTok{  "O": rgb("\#fff952"),}
+\NormalTok{  "I": rgb("\#43d3ff"),}
+\NormalTok{  "X": rgb("\#949494")}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ shadow-color\ } : The shadow color for the field, default to
+  \texttt{\ \#6f6f6f17\ }
+\end{itemize}
+
+\subsubsection{Credit}\label{credit}
+
+The styles and color scheme are inspired by four.lol
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as \texttt{\ mino\ }
+
+\begin{verbatim}
+#import "@preview/mino:0.1.2"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+Wenzhuo Liu
+\item[License:]
+MIT
+\item[Current version:]
+0.1.2
+\item[Last updated:]
+May 27, 2024
+\item[First released:]
+January 8, 2024
+\item[Archive size:]
+11.3 kB
+\href{https://packages.typst.org/preview/mino-0.1.2.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/Enter-tainer/mino}{GitHub}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of Wenzhuo Liu . Report issues on
+\href{https://github.com/Enter-tainer/mino}{their repository} . You can
+also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.1.2 & May 27, 2024 \\
+\href{https://typst.app/universe/package/mino/0.1.1/}{0.1.1} & January
+15, 2024 \\
+\href{https://typst.app/universe/package/mino/0.1.0/}{0.1.0} & January
+8, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.
+
+
+\title{typst.app/universe/package/circuiteria}
+
+\phantomsection\label{banner}
+\section{circuiteria}\label{circuiteria}
+
+{ 0.1.0 }
+
+Drawing block circuits with Typst made easy, using CeTZ
+
+\phantomsection\label{readme}
+Circuiteria is a \href{https://typst.app/}{Typst} package for drawing
+block circuit diagrams using the
+\href{https://typst.app/universe/package/cetz}{CeTZ} package.
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/circuiteria/0.1.0/gallery/platypus.png}}
+
+\subsection{Examples}\label{examples}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\multicolumn{2}{@{}l@{}}{%
+\href{https://github.com/typst/packages/raw/main/packages/preview/circuiteria/0.1.0/gallery/test.typ}{\includegraphics[width=5.20833in,height=\textheight,keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/circuiteria/0.1.0/gallery/test.png}}} \\
+\multicolumn{2}{@{}l@{}}{%
+A bit of eveything} \\
+\multicolumn{2}{@{}l@{}}{%
+\href{https://github.com/typst/packages/raw/main/packages/preview/circuiteria/0.1.0/gallery/test5.typ}{\includegraphics[width=5.20833in,height=\textheight,keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/circuiteria/0.1.0/gallery/test5.png}}} \\
+\multicolumn{2}{@{}l@{}}{%
+Wires everywhere} \\
+\href{https://github.com/typst/packages/raw/main/packages/preview/circuiteria/0.1.0/gallery/test4.typ}{\includegraphics[width=2.60417in,height=\textheight,keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/circuiteria/0.1.0/gallery/test4.png}}
+&
+\href{https://github.com/typst/packages/raw/main/packages/preview/circuiteria/0.1.0/gallery/test6.typ}{\includegraphics[width=2.60417in,height=\textheight,keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/circuiteria/0.1.0/gallery/test6.png}} \\
+Groups & Rotated \\
+\end{longtable}
+
+\begin{quote}
+\textbf{Note}\\
+These circuit layouts were copied from a digital design course given by
+prof. S. Zahno and recreated using this package
+\end{quote}
+
+\emph{Click on the example image to jump to the code.}
+
+\subsection{Usage}\label{usage}
+
+For more information, see the
+\href{https://github.com/typst/packages/raw/main/packages/preview/circuiteria/0.1.0/manual.pdf}{manual}
+
+To use this package, simply import
+\href{https://typst.app/universe/package/circuiteria}{circuiteria} and
+call the \texttt{\ circuit\ } function:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/circuiteria:0.1.0"}
+\NormalTok{\#circuiteria.circuit(\{}
+\NormalTok{  import circuiteria: *}
+\NormalTok{  ...}
+\NormalTok{\})}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as
+\texttt{\ circuiteria\ }
+
+\begin{verbatim}
+#import "@preview/circuiteria:0.1.0"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+\href{https://git.kb28.ch/HEL}{Louis Heredero}
+\item[License:]
+Apache-2.0
+\item[Current version:]
+0.1.0
+\item[Last updated:]
+October 3, 2024
+\item[First released:]
+October 3, 2024
+\item[Minimum Typst version:]
+0.11.0
+\item[Archive size:]
+193 kB
+\href{https://packages.typst.org/preview/circuiteria-0.1.0.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://git.kb28.ch/HEL/circuiteria}{git.kb28.ch}
+\item[Categor y :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-chart.svg}}
+  \href{https://typst.app/universe/search/?category=visualization}{Visualization}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of Louis Heredero . Report issues on
+\href{https://git.kb28.ch/HEL/circuiteria}{their repository} . You can
+also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.1.0 & October 3, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.
+
+
+\title{typst.app/universe/package/ucpc-solutions}
+
+\phantomsection\label{banner}
+\phantomsection\label{template-thumbnail}
+\pandocbounded{\includegraphics[keepaspectratio]{https://packages.typst.org/preview/thumbnails/ucpc-solutions-0.1.0-small.webp}}
+
+\section{ucpc-solutions}\label{ucpc-solutions}
+
+{ 0.1.0 }
+
+The port of UCPC solutions theme.
+
+\href{/app?template=ucpc-solutions&version=0.1.0}{Create project in app}
+
+\phantomsection\label{readme}
+\href{https://github.com/ShapeLayer/ucpc-solutions__typst}{ucpc-solutions}
+is the template for solutions editorial of algorithm contests, used
+widely in the \href{https://acmicpc.net/}{â€œBaekjoon Online Judgeâ€?}
+users community in Korea.
+
+The original version of ucpc-solution is written in LaTeX(
+\href{https://github.com/ucpcc/2020-solutions-theme}{ucpcc/2020-solutions-theme}
+), and this is the port of LaTeX ver. This contains content-generating
+utils for making solutions editorial and
+\href{https://solved.ac/}{â€œsolved.acâ€?} difficulty expression
+presets, a rating system for Baekjoon Online Judgeâ€™s problems.
+
+\subsection{Getting Started}\label{getting-started}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/ucpc{-}solutions:0.1.0" as ucpc}
+
+\NormalTok{\#show: ucpc.ucpc.with(}
+\NormalTok{  title: "Contest Name",}
+\NormalTok{  authors: ("Contest Authors", ),}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{Requirements}\label{requirements}
+
+\textbf{Fonts}
+
+\begin{itemize}
+\tightlist
+\item
+  \href{https://fonts.google.com/specimen/Inter}{Inter}
+\item
+  (optional) \href{https://fonts.google.com/specimen/Gothic+A1}{Gothic
+  A1}
+\item
+  (optional)
+  \href{https://github.com/orioncactus/pretendard/blob/main/packages/pretendard/docs/en/README.md}{Pretendard}
+\end{itemize}
+
+\subsection{Examples}\label{examples}
+
+See
+\href{https://github.com/typst/packages/raw/main/packages/preview/ucpc-solutions/0.1.0/examples/}{\texttt{\ /examples\ }}
+.
+
+You can also see other usecase using the original LaTeX theme. See the
+\href{https://github.com/ucpcc/2020-solutions-theme\#\%ED\%85\%8C\%EB\%A7\%88-\%EC\%82\%AC\%EC\%9A\%A9-\%EC\%98\%88}{(KR)
+â€œTheme Usage Examples(í\ldots Œë§ˆ ì‚¬ìš© ì˜ˆ)â€? section} in the
+origin repositoryâ€™s README.
+
+\subsection{For Contributing}\label{for-contributing}
+
+Requirements: \href{https://github.com/casey/just}{just} ,
+\href{https://github.com/tingerrr/typst-test}{typst-test}
+
+\textbf{Recompile Refs for Testing}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{just}\NormalTok{ update{-}test}
+\end{Highlighting}
+\end{Shaded}
+
+\textbf{Run Test}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{just}\NormalTok{ test}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\begin{itemize}
+\item
+  Special Thanks: \href{https://github.com/kiwiyou}{@kiwiyou} - about
+  technical issue
+\item
+  Since this ported version has been re-implemented only for appearance,
+  this repository does not include the source code of any distribution
+  or variant of ucpc-solutions.
+\end{itemize}
+
+\href{/app?template=ucpc-solutions&version=0.1.0}{Create project in app}
+
+\subsubsection{How to use}\label{how-to-use}
+
+Click the button above to create a new project using this template in
+the Typst app.
+
+You can also use the Typst CLI to start a new project on your computer
+using this command:
+
+\begin{verbatim}
+typst init @preview/ucpc-solutions:0.1.0
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author s :]
+\href{https://github.com/ShapeLayer}{Jonghyeon Park} \&
+\href{https://github.com/ucpcc}{The Union of Collegiate Programming
+Contest Clubs}
+\item[License:]
+MIT
+\item[Current version:]
+0.1.0
+\item[Last updated:]
+August 14, 2024
+\item[First released:]
+August 14, 2024
+\item[Minimum Typst version:]
+0.1.0
+\item[Archive size:]
+22.2 kB
+\href{https://packages.typst.org/preview/ucpc-solutions-0.1.0.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/ShapeLayer/ucpc-solutions__typst}{GitHub}
+\item[Categor y :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-presentation.svg}}
+  \href{https://typst.app/universe/search/?category=presentation}{Presentation}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This template is a project of Jonghyeon Park and The Union of Collegiate
+Programming Contest Clubs . Report issues on
+\href{https://github.com/ShapeLayer/ucpc-solutions__typst}{their
+repository} . You can also try to ask for help with this template on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this template to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.1.0 & August 14, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this template and cannot guarantee correct
+functionality of this template or compatibility with any version of the
+Typst compiler or app.
+
+
+\title{typst.app/universe/package/dining-table}
+
+\phantomsection\label{banner}
+\section{dining-table}\label{dining-table}
+
+{ 0.1.0 }
+
+Column-wise table definitions for big data
+
+\phantomsection\label{readme}
+Version 0.1.0
+
+Implements a layer on top of table to allow the user to define a table
+by column rather than by row, to automatically handle headers and
+footers, to implement table footnotes, to handle nested column quirks
+for you, to handle rendering nested data structures.
+
+Basically, if you are tabulating data where each row is an observation,
+and some features (columns) are to be grouped (a common case for
+scientific data) then this package might be worth checking out. Another
+use case is where you have multiple tables with identical layouts, and
+you wish to keep them all consistent with one another.
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/dining-table/0.1.0/examples/ledger.png}}
+
+\subsection{Usage}\label{usage}
+
+See the manual for in-depth usage, but for a quick reference, here is
+the ledger example (which is fully featured)
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/dining{-}table:0.1.0"}
+
+\NormalTok{\#let data = (}
+\NormalTok{  (}
+\NormalTok{    date: datetime.today(),}
+\NormalTok{    particulars: lorem(05),}
+\NormalTok{    ledger: [JRS123] + dining{-}table.note.make[Hello World],}
+\NormalTok{    amount: (unit: $100$, decimal: $00$),}
+\NormalTok{    total: (unit: $99$, decimal: $00$),}
+\NormalTok{  ),}
+\NormalTok{)*7 }
+
+\NormalTok{\#import "@preview/typpuccino:0.1.0"}
+\NormalTok{\#let bg{-}fill{-}1 = typpuccino.latte.base}
+\NormalTok{\#let bg{-}fill{-}2 = typpuccino.latte.mantle}
+
+\NormalTok{\#let example = (}
+\NormalTok{  (}
+\NormalTok{    key: "date",}
+\NormalTok{    header: align(left)[Date],}
+\NormalTok{    display: (it)=\textgreater{}it.display(auto),}
+\NormalTok{    fill: bg{-}fill{-}1,}
+\NormalTok{    align: start,}
+\NormalTok{    gutter: 0.5em,}
+\NormalTok{  ),}
+\NormalTok{  (}
+\NormalTok{    key: "particulars",}
+\NormalTok{    header: text(tracking: 5pt)[Particulars],}
+\NormalTok{    width: 1fr,}
+\NormalTok{    gutter: 0.5em,}
+\NormalTok{  ),}
+\NormalTok{  (}
+\NormalTok{    key: "ledger",}
+\NormalTok{    header: [Ledger],}
+\NormalTok{    fill: bg{-}fill{-}2,}
+\NormalTok{    width: 2cm,}
+\NormalTok{    gutter: 0.5em,}
+\NormalTok{  ),}
+\NormalTok{  (}
+\NormalTok{    header: align(center)[Amount],}
+\NormalTok{    fill: bg{-}fill{-}1,}
+\NormalTok{    gutter: 0.5em,}
+\NormalTok{    hline: arguments(stroke: dining{-}table.lightrule),}
+\NormalTok{    children: (}
+\NormalTok{      (}
+\NormalTok{        key: "amount.unit", }
+\NormalTok{        header: align(left)[Â£], }
+\NormalTok{        width: 5em, }
+\NormalTok{        align: right,}
+\NormalTok{        vline: arguments(stroke: dining{-}table.lightrule),}
+\NormalTok{        gutter: 0em,}
+\NormalTok{      ),}
+\NormalTok{      (}
+\NormalTok{        key: "amount.decimal",}
+\NormalTok{        header: align(right, text(number{-}type: "old{-}style")[.00]), }
+\NormalTok{        align: left}
+\NormalTok{      ),}
+\NormalTok{    )}
+\NormalTok{  ),}
+\NormalTok{  (}
+\NormalTok{    header: align(center)[Total],}
+\NormalTok{    gutter: 0.5em,}
+\NormalTok{    hline: arguments(stroke: dining{-}table.lightrule),}
+\NormalTok{    children: (}
+\NormalTok{      (}
+\NormalTok{        key: "total.unit", }
+\NormalTok{        header: align(left)[Â£], }
+\NormalTok{        width: 5em, }
+\NormalTok{        align: right,}
+\NormalTok{        vline: arguments(stroke: dining{-}table.lightrule),}
+\NormalTok{        gutter: 0em,}
+\NormalTok{      ),}
+\NormalTok{      (}
+\NormalTok{        key: "total.decimal",}
+\NormalTok{        header: align(right, text(number{-}type: "old{-}style")[.00]), }
+\NormalTok{        align: left}
+\NormalTok{      ),}
+\NormalTok{    )}
+\NormalTok{  ),}
+\NormalTok{)}
+
+\NormalTok{\#set text(size: 11pt)}
+\NormalTok{\#set page(height: auto, margin: 1em)}
+\NormalTok{\#dining{-}table.make(columns: example, }
+\NormalTok{  data: data, }
+\NormalTok{  notes: dining{-}table.note.display{-}list}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as
+\texttt{\ dining-table\ }
+
+\begin{verbatim}
+#import "@preview/dining-table:0.1.0"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+James R. Swift
+\item[License:]
+Unlicense
+\item[Current version:]
+0.1.0
+\item[Last updated:]
+July 10, 2024
+\item[First released:]
+July 10, 2024
+\item[Archive size:]
+598 kB
+\href{https://packages.typst.org/preview/dining-table-0.1.0.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/JamesxX/dining-table}{GitHub}
+\item[Discipline s :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \href{https://typst.app/universe/search/?discipline=agriculture}{Agriculture}
+\item
+  \href{https://typst.app/universe/search/?discipline=biology}{Biology}
+\item
+  \href{https://typst.app/universe/search/?discipline=chemistry}{Chemistry}
+\item
+  \href{https://typst.app/universe/search/?discipline=communication}{Communication}
+\item
+  \href{https://typst.app/universe/search/?discipline=computer-science}{Computer
+  Science}
+\item
+  \href{https://typst.app/universe/search/?discipline=economics}{Economics}
+\item
+  \href{https://typst.app/universe/search/?discipline=physics}{Physics}
+\end{itemize}
+\item[Categor ies :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-package.svg}}
+  \href{https://typst.app/universe/search/?category=components}{Components}
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-chart.svg}}
+  \href{https://typst.app/universe/search/?category=visualization}{Visualization}
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-list-unordered.svg}}
+  \href{https://typst.app/universe/search/?category=model}{Model}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of James R. Swift . Report issues on
+\href{https://github.com/JamesxX/dining-table}{their repository} . You
+can also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.1.0 & July 10, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.
+
+
+\title{typst.app/universe/package/hydra}
+
+\phantomsection\label{banner}
+\section{hydra}\label{hydra}
+
+{ 0.5.1 }
+
+Query and display headings in your documents and templates.
+
+{ } Featured Package
+
+\phantomsection\label{readme}
+Hydra is a Typst package allowing you to easily display the heading like
+elements anywhere in your document. Itâ€™s primary focus is to provide
+the reader with a reminder of where they currently are in your document
+only when it is needed.
+
+\subsection{Example}\label{example}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/hydra:0.5.1": hydra}
+
+\NormalTok{\#set page(paper: "a7", margin: (y: 4em), numbering: "1", header: context \{}
+\NormalTok{  if calc.odd(here().page()) \{}
+\NormalTok{    align(right, emph(hydra(1)))}
+\NormalTok{  \} else \{}
+\NormalTok{    align(left, emph(hydra(2)))}
+\NormalTok{  \}}
+\NormalTok{  line(length: 100\%)}
+\NormalTok{\})}
+\NormalTok{\#set heading(numbering: "1.1")}
+\NormalTok{\#show heading.where(level: 1): it =\textgreater{} pagebreak(weak: true) + it}
+
+\NormalTok{= Introduction}
+\NormalTok{\#lorem(50)}
+
+\NormalTok{= Content}
+\NormalTok{== First Section}
+\NormalTok{\#lorem(50)}
+\NormalTok{== Second Section}
+\NormalTok{\#lorem(100)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/hydra/0.5.1/examples/example.png}}
+
+\subsection{Documentation}\label{documentation}
+
+For a more in-depth description of hydraâ€™s functionality and the
+reference read its
+\href{https://github.com/typst/packages/raw/main/packages/preview/hydra/0.5.1/doc/manual.pdf}{manual}
+.
+
+\subsection{Contribution}\label{contribution}
+
+For contributing, please take a look
+\href{https://github.com/typst/packages/raw/main/packages/preview/hydra/0.5.1/CONTRIBUTING.md}{CONTRIBUTING}
+.
+
+\subsection{Etymology}\label{etymology}
+
+The package name hydra /ËˆhaÉªdrÉ™/ is a word play headings and headers,
+inspired by the monster in greek and roman mythology resembling a
+serpent with many heads.
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as \texttt{\ hydra\ }
+
+\begin{verbatim}
+#import "@preview/hydra:0.5.1"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+\href{mailto:me@tinger.dev}{tinger}
+\item[License:]
+MIT
+\item[Current version:]
+0.5.1
+\item[Last updated:]
+July 25, 2024
+\item[First released:]
+November 19, 2023
+\item[Minimum Typst version:]
+0.11.0
+\item[Archive size:]
+238 kB
+\href{https://packages.typst.org/preview/hydra-0.5.1.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/tingerrr/hydra}{GitHub}
+\item[Categor ies :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-package.svg}}
+  \href{https://typst.app/universe/search/?category=components}{Components}
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-code.svg}}
+  \href{https://typst.app/universe/search/?category=scripting}{Scripting}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of tinger . Report issues on
+\href{https://github.com/tingerrr/hydra}{their repository} . You can
+also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.5.1 & July 25, 2024 \\
+\href{https://typst.app/universe/package/hydra/0.5.0/}{0.5.0} & July 3,
+2024 \\
+\href{https://typst.app/universe/package/hydra/0.4.0/}{0.4.0} & March
+21, 2024 \\
+\href{https://typst.app/universe/package/hydra/0.3.0/}{0.3.0} & January
+8, 2024 \\
+\href{https://typst.app/universe/package/hydra/0.2.0/}{0.2.0} & November
+25, 2023 \\
+\href{https://typst.app/universe/package/hydra/0.1.0/}{0.1.0} & November
+19, 2023 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.
+
+
+\title{typst.app/universe/package/crossregex}
+
+\phantomsection\label{banner}
+\section{crossregex}\label{crossregex}
+
+{ 0.2.0 }
+
+A crossword-like regex game written in Typst.
+
+\phantomsection\label{readme}
+A crossword-like game written in Typst. You should fill in letters to
+satisfy regular expression constraints. Currently, \emph{squares} and
+\emph{regular hexagons} are supported.
+
+\begin{quote}
+{[}!note{]} This is not a puzzle solver, but a puzzle layout builder.
+\end{quote}
+
+It takes inspiration from a web image, which derives our standard
+example.
+
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/crossregex/0.2.0/examples/standard.svg}}
+
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/crossregex/0.2.0/examples/sudoku-main.svg}}
+
+More examples and source code:
+\url{https://github.com/QuadnucYard/crossregex-typ}
+
+\subsection{Basic Usage}\label{basic-usage}
+
+We use \texttt{\ crossregex-square\ } and \texttt{\ crossregex-hex\ } to
+build square and hex layouts respectively. They have the same argument
+formats. A \texttt{\ crossregex\ } dispatcher function can be used for
+dynamic grid kind, which is compatible with version 0.1.0.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/crossregex:0.2.0": crossregex}
+\NormalTok{// or import and use \textasciigrave{}crossregex{-}hex\textasciigrave{}}
+
+\NormalTok{\#crossregex(}
+\NormalTok{  3,}
+\NormalTok{  constraints: (}
+\NormalTok{    \textasciigrave{}A.*\textasciigrave{}, \textasciigrave{}B.*\textasciigrave{}, \textasciigrave{}C.*\textasciigrave{}, \textasciigrave{}D.*\textasciigrave{}, \textasciigrave{}E.*\textasciigrave{},}
+\NormalTok{    \textasciigrave{}F.*\textasciigrave{}, \textasciigrave{}G.*\textasciigrave{}, \textasciigrave{}H.*\textasciigrave{}, \textasciigrave{}I.*\textasciigrave{}, \textasciigrave{}J.*\textasciigrave{},}
+\NormalTok{    \textasciigrave{}K.*\textasciigrave{}, \textasciigrave{}L.*\textasciigrave{}, \textasciigrave{}M.*\textasciigrave{}, \textasciigrave{}N.*\textasciigrave{}, \textasciigrave{}O.*\textasciigrave{},}
+\NormalTok{  ),}
+\NormalTok{  answer: (}
+\NormalTok{    "ABC",}
+\NormalTok{    "DEFG",}
+\NormalTok{    "HIJKL",}
+\NormalTok{    "MNOP",}
+\NormalTok{    "QRS",}
+\NormalTok{  ),}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/crossregex:0.2.0": crossregex{-}square}
+
+\NormalTok{\#crossregex{-}square(}
+\NormalTok{  9,}
+\NormalTok{  alphabet: regex("[0{-}9]"),}
+\NormalTok{  constraints: (}
+\NormalTok{    \textasciigrave{}.*\textasciigrave{},}
+\NormalTok{    \textasciigrave{}.*\textasciigrave{},}
+\NormalTok{    \textasciigrave{}.*\textasciigrave{},}
+\NormalTok{    \textasciigrave{}.*\textasciigrave{},}
+\NormalTok{    \textasciigrave{}.*[12]\{2\}8\textasciigrave{},}
+\NormalTok{    \textasciigrave{}[1{-}9]9.*\textasciigrave{},}
+\NormalTok{    \textasciigrave{}.*\textasciigrave{},}
+\NormalTok{    \textasciigrave{}.*\textasciigrave{},}
+\NormalTok{    \textasciigrave{}.*\textasciigrave{},}
+\NormalTok{    \textasciigrave{}[1{-}9]7[29]\{2\}8.6.*\textasciigrave{},}
+\NormalTok{    \textasciigrave{}.*2[\^{}3]\{2\}1.\textasciigrave{},}
+\NormalTok{    \textasciigrave{}.9.315[\^{}6]+\textasciigrave{},}
+\NormalTok{    \textasciigrave{}.+4[15]\{2\}79.\textasciigrave{},}
+\NormalTok{    \textasciigrave{}[75]\{2\}18.63[1{-}9]+\textasciigrave{},}
+\NormalTok{    \textasciigrave{}8.*[\^{}2][\^{}3][\^{}1]+56[\^{}6]\textasciigrave{},}
+\NormalTok{    \textasciigrave{}[\^{}5{-}6][0{-}9][56]\{2\}.*9\textasciigrave{},}
+\NormalTok{    \textasciigrave{}.*\textasciigrave{},}
+\NormalTok{    \textasciigrave{}[98]\{2\}5.*[27]\{2\}6\textasciigrave{},}
+\NormalTok{  ),}
+\NormalTok{  answer: (}
+\NormalTok{    "934872651",}
+\NormalTok{    "812456937",}
+\NormalTok{    "576913482",}
+\NormalTok{    "125784369",}
+\NormalTok{    "467395128",}
+\NormalTok{    "398261574",}
+\NormalTok{    "241537896",}
+\NormalTok{    "783649215",}
+\NormalTok{    "659128743",}
+\NormalTok{  ),}
+\NormalTok{  cell: rect(width: 1.4em, height: 1.4em, radius: 0.1em, stroke: 1pt + orange, fill: orange.transparentize(80\%)),}
+\NormalTok{  cell{-}config: (size: 1.6em, text{-}style: (size: 1.4em)),}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Document}\label{document}
+
+Details are shown in the doc comments above the \texttt{\ crossregex\ }
+function in \texttt{\ lib.typ\ } . You can choose to turn off some
+views.
+
+Feel free to open issues if any problems.
+
+\subsection{Changelog}\label{changelog}
+
+\subsubsection{0.2.0}\label{section}
+
+\begin{itemize}
+\tightlist
+\item
+  Feature: Supports square shapes.
+\item
+  Feature: Supports customization the appearance of everything, even the
+  cells.
+\item
+  Feature: Supports custom alphabets.
+\item
+  Fix: An mistake related to import in the README example.
+\end{itemize}
+
+\subsubsection{0.1.0}\label{section-1}
+
+First release with basic hex features.
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as
+\texttt{\ crossregex\ }
+
+\begin{verbatim}
+#import "@preview/crossregex:0.2.0"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+QuadnucYard
+\item[License:]
+MIT
+\item[Current version:]
+0.2.0
+\item[Last updated:]
+September 22, 2024
+\item[First released:]
+September 3, 2024
+\item[Minimum Typst version:]
+0.11.0
+\item[Archive size:]
+197 kB
+\href{https://packages.typst.org/preview/crossregex-0.2.0.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/QuadnucYard/crossregex-typ}{GitHub}
+\item[Categor y :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-smile.svg}}
+  \href{https://typst.app/universe/search/?category=fun}{Fun}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of QuadnucYard . Report issues on
+\href{https://github.com/QuadnucYard/crossregex-typ}{their repository} .
+You can also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.2.0 & September 22, 2024 \\
+\href{https://typst.app/universe/package/crossregex/0.1.0/}{0.1.0} &
+September 3, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.
+
+
+\title{typst.app/universe/package/resume-ng}
+
+\phantomsection\label{banner}
+\phantomsection\label{template-thumbnail}
+\pandocbounded{\includegraphics[keepaspectratio]{https://packages.typst.org/preview/thumbnails/resume-ng-1.0.0-small.webp}}
+
+\section{resume-ng}\label{resume-ng}
+
+{ 1.0.0 }
+
+A Typst resume designed for optimal information density and aesthetic
+appeal.
+
+\href{/app?template=resume-ng&version=1.0.0}{Create project in app}
+
+\phantomsection\label{readme}
+A typst resume designed for optimal information density and aesthetic
+appeal.
+
+A LaTeX version
+
+\texttt{\ main.typ\ } will be a good start.
+
+A minimal exmaple would be:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#show: project.with(}
+\NormalTok{  title: "Resume{-}ng",}
+\NormalTok{  author: (name: "FengKaiyu"),}
+\NormalTok{  contacts: }
+\NormalTok{    (}
+\NormalTok{      "+86 188{-}888{-}8888",}
+\NormalTok{       link("https://github.com", "github.com/fky2015"),  }
+\NormalTok{      // More items...}
+\NormalTok{    )}
+\NormalTok{)}
+
+\NormalTok{\#resume{-}section("Educations")}
+\NormalTok{\#resume{-}education(}
+\NormalTok{  university: "BIT",}
+\NormalTok{  degree: "Your degree",}
+\NormalTok{  school: "Your Major and school",}
+\NormalTok{  start: "2021{-}09",}
+\NormalTok{  end: "2024{-}06"}
+\NormalTok{)[}
+\NormalTok{*GPA: 3.62/4.0*. My main research interest }
+\NormalTok{is in \#strong("Byzantine Consensus Algorithm"), }
+\NormalTok{and I have some research and engineering experience in the field of distributed systems.}
+\NormalTok{]}
+
+\NormalTok{\#resume{-}section[Work Experience]}
+\NormalTok{\#resume{-}work(}
+\NormalTok{  company: "A company",}
+\NormalTok{  duty: "Your duty",}
+\NormalTok{  start: "2020.10",}
+\NormalTok{  end: "2021.03",}
+\NormalTok{)[}
+\NormalTok{  {-} *Independently responsible for the design, development, testing and deployment of XXX business backend.* Implemented station letter template rendering service through FaaS, Kafka and other platforms. Provided SDK code to upstream, added or upgraded various offline and online logic.}
+\NormalTok{  {-} *Participate in XXX\textquotesingle{}s requirement analysis, system technical solution design; complete requirement development, grey scale testing, go{-}live and monitoring.*}
+\NormalTok{]}
+
+\NormalTok{\#resume{-}section[Projects]}
+
+\NormalTok{\#resume{-}project(}
+\NormalTok{  title: "Project name",}
+\NormalTok{  duty: "Your duty",}
+\NormalTok{  start: "2021.11",}
+\NormalTok{  end: "2022.07",}
+\NormalTok{)[}
+\NormalTok{  {-} Implemented a memory pool manager based on an extensible hash table and LRU{-}K, and developed a concurrent B+ tree supporting optimistic locking for read and write operations.}
+\NormalTok{  {-} Utilized the volcano model to implement executors for queries, updates, joins, and aggregations, and performed query rewriting and pushing down optimizations.}
+\NormalTok{  {-} Implemented concurrency control using 2PL (two{-}phase locking), supporting deadlock handling, multiple isolation levels, table locks, and row locks.}
+\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\href{/app?template=resume-ng&version=1.0.0}{Create project in app}
+
+\subsubsection{How to use}\label{how-to-use}
+
+Click the button above to create a new project using this template in
+the Typst app.
+
+You can also use the Typst CLI to start a new project on your computer
+using this command:
+
+\begin{verbatim}
+typst init @preview/resume-ng:1.0.0
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+\href{https://github.com/fky2015}{FengKaiyu}
+\item[License:]
+MIT
+\item[Current version:]
+1.0.0
+\item[Last updated:]
+October 8, 2024
+\item[First released:]
+October 8, 2024
+\item[Archive size:]
+5.27 kB
+\href{https://packages.typst.org/preview/resume-ng-1.0.0.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/fky2015/resume-ng-typst}{GitHub}
+\item[Categor y :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-user.svg}}
+  \href{https://typst.app/universe/search/?category=cv}{CV}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This template is a project of FengKaiyu . Report issues on
+\href{https://github.com/fky2015/resume-ng-typst}{their repository} .
+You can also try to ask for help with this template on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this template to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+1.0.0 & October 8, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this template and cannot guarantee correct
+functionality of this template or compatibility with any version of the
+Typst compiler or app.
+
+
+\title{typst.app/universe/package/dvdtyp}
+
+\phantomsection\label{banner}
+\phantomsection\label{template-thumbnail}
+\pandocbounded{\includegraphics[keepaspectratio]{https://packages.typst.org/preview/thumbnails/dvdtyp-1.0.0-small.webp}}
+
+\section{dvdtyp}\label{dvdtyp}
+
+{ 1.0.0 }
+
+a colorful template for writting handouts or notes
+
+\href{/app?template=dvdtyp&version=1.0.0}{Create project in app}
+
+\phantomsection\label{readme}
+A colorful template for writting handouts or notes
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/dvdtyp/1.0.0/thumbnail.png}}
+
+\href{/app?template=dvdtyp&version=1.0.0}{Create project in app}
+
+\subsubsection{How to use}\label{how-to-use}
+
+Click the button above to create a new project using this template in
+the Typst app.
+
+You can also use the Typst CLI to start a new project on your computer
+using this command:
+
+\begin{verbatim}
+typst init @preview/dvdtyp:1.0.0
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+DVDTSB
+\item[License:]
+MIT-0
+\item[Current version:]
+1.0.0
+\item[Last updated:]
+July 10, 2024
+\item[First released:]
+July 10, 2024
+\item[Archive size:]
+3.21 kB
+\href{https://packages.typst.org/preview/dvdtyp-1.0.0.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/DVDTSB/dvdtyp}{GitHub}
+\item[Categor ies :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-smile.svg}}
+  \href{https://typst.app/universe/search/?category=fun}{Fun}
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-layout.svg}}
+  \href{https://typst.app/universe/search/?category=layout}{Layout}
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-text.svg}}
+  \href{https://typst.app/universe/search/?category=text}{Text}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This template is a project of DVDTSB . Report issues on
+\href{https://github.com/DVDTSB/dvdtyp}{their repository} . You can also
+try to ask for help with this template on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this template to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+1.0.0 & July 10, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this template and cannot guarantee correct
+functionality of this template or compatibility with any version of the
+Typst compiler or app.
+
+
+\title{typst.app/universe/package/icicle}
+
+\phantomsection\label{banner}
+\phantomsection\label{template-thumbnail}
+\pandocbounded{\includegraphics[keepaspectratio]{https://packages.typst.org/preview/thumbnails/icicle-0.1.0-small.webp}}
+
+\section{icicle}\label{icicle}
+
+{ 0.1.0 }
+
+Help the Typst Guys reach the helicopter pad and save Christmas!
+
+\href{/app?template=icicle&version=0.1.0}{Create project in app}
+
+\phantomsection\label{readme}
+Help the Typst Guys reach the helicopter pad and save Christmas!
+Navigate them with the WASD keys and solve puzzles with snowballs to
+make way for the Typst Guys.
+
+This small Christmas-themed game is playable in the Typst editor and
+best enjoyed with the web app or \texttt{\ typst\ watch\ } . It was
+first released for the 24 Days to Christmas campaign in winter of 2023.
+
+\subsection{Usage}\label{usage}
+
+You can use this template in the Typst web app by clicking â€œStart from
+templateâ€? on the dashboard and searching for \texttt{\ icicle\ } .
+
+Alternatively, you can use the CLI to kick this project off using the
+command
+
+\begin{verbatim}
+typst init @preview/icicle
+\end{verbatim}
+
+Typst will create a new directory with all the files needed to get you
+started.
+
+\subsection{Configuration}\label{configuration}
+
+This template exports the \texttt{\ game\ } function, which accepts a
+positional argument for the game input.
+
+The template will initialize your package with a sample call to the
+\texttt{\ game\ } function in a show rule. If you want to change an
+existing project to use this template, you can add a show rule like this
+at the top of your file:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/icicle:0.1.0": game}
+\NormalTok{\#show: game}
+
+\NormalTok{// Move with WASD.}
+\end{Highlighting}
+\end{Shaded}
+
+You can also add your own levels by adding an array of level definition
+strings in the \texttt{\ game\ } functionâ€™s named \texttt{\ levels\ }
+argument. Each level file must conform to the following format:
+
+\begin{itemize}
+\tightlist
+\item
+  First, a line with two comma separated integers indicating the
+  playerâ€™s starting position.
+\item
+  Then, a matrix with the characters f (floor), x (wall), w (water), or
+  g (goal).
+\item
+  Finally, a matrix with the characters b (snowball) or \_ (nothing).
+\end{itemize}
+
+The three arguments must be separated by double newlines. Additionally,
+each row in the matrices space-separates its values. Newlines terminate
+the rows. Comments can be added with a double slash. Find an example for
+a valid level string below:
+
+\begin{verbatim}
+// The starting position
+0, 0
+
+// The back layer
+f f f w f f f
+f f f w f f f
+f f x w f f f
+f f f w f f f
+f f f w f x x
+x x x g x x x
+
+// The front layer.
+_ _ b _ _ _ _
+_ _ b _ _ _ _
+_ _ _ _ b _ _
+_ _ _ _ b _ _
+_ _ _ _ _ _ _
+_ _ _ _ _ _ _
+\end{verbatim}
+
+Itâ€™s best to put levels into separate files and load them with the
+\texttt{\ read\ } function.
+
+\href{/app?template=icicle&version=0.1.0}{Create project in app}
+
+\subsubsection{How to use}\label{how-to-use}
+
+Click the button above to create a new project using this template in
+the Typst app.
+
+You can also use the Typst CLI to start a new project on your computer
+using this command:
+
+\begin{verbatim}
+typst init @preview/icicle:0.1.0
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+\href{https://typst.app}{Typst GmbH}
+\item[License:]
+MIT-0
+\item[Current version:]
+0.1.0
+\item[Last updated:]
+March 6, 2024
+\item[First released:]
+March 6, 2024
+\item[Minimum Typst version:]
+0.8.0
+\item[Archive size:]
+143 kB
+\href{https://packages.typst.org/preview/icicle-0.1.0.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/typst/templates}{GitHub}
+\item[Categor y :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-smile.svg}}
+  \href{https://typst.app/universe/search/?category=fun}{Fun}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This template is a project of Typst GmbH . Report issues on
+\href{https://github.com/typst/templates}{their repository} . You can
+also try to ask for help with this template on the
+\href{https://forum.typst.app}{Forum} .
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.1.0 & March 6, 2024 \\
+\end{longtable}
+
+
+\title{typst.app/universe/package/georges-yetyp}
+
+\phantomsection\label{banner}
+\phantomsection\label{template-thumbnail}
+\pandocbounded{\includegraphics[keepaspectratio]{https://packages.typst.org/preview/thumbnails/georges-yetyp-0.2.0-small.webp}}
+
+\section{georges-yetyp}\label{georges-yetyp}
+
+{ 0.2.0 }
+
+Unofficial template for Polytech Grenoble internship reports
+
+\href{/app?template=georges-yetyp&version=0.2.0}{Create project in app}
+
+\phantomsection\label{readme}
+\href{https://github.com/typst/packages/raw/main/packages/preview/georges-yetyp/0.2.0/README.fr.md}{French
+version}
+
+Typst template for Polytech (Grenoble) internship reports.
+
+\href{https://github.com/typst/packages/raw/main/packages/preview/georges-yetyp/0.2.0/thumbnail.png}{\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/georges-yetyp/0.2.0/thumbnail.png}}}
+
+\subsection{Usage}\label{usage}
+
+Either use this template
+\href{https://typst.app/?template=georges-yetyp&version=0.1.0}{in the
+Typst web app} , or use the command line to initialize a new project
+based on this template:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{typst}\NormalTok{ init @preview/georges{-}yetyp}
+\end{Highlighting}
+\end{Shaded}
+
+Then, replace \texttt{\ logo.png\ } with the logo of the company you
+worked for, fill in all the details in the \texttt{\ rapport\ }
+parameters, and start writing below.
+
+\subsection{Other schools}\label{other-schools}
+
+Adding support for other schools of the Polytech network would be fairly
+easy if you want to re-use this template. All that is needed is a copy
+of their logo (with the authorization to use it). Submissions are
+welcome.
+
+\href{/app?template=georges-yetyp&version=0.2.0}{Create project in app}
+
+\subsubsection{How to use}\label{how-to-use}
+
+Click the button above to create a new project using this template in
+the Typst app.
+
+You can also use the Typst CLI to start a new project on your computer
+using this command:
+
+\begin{verbatim}
+typst init @preview/georges-yetyp:0.2.0
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+\href{https://ana.gelez.xyz/}{Ana Gelez}
+\item[License:]
+GPL-3.0
+\item[Current version:]
+0.2.0
+\item[Last updated:]
+September 26, 2024
+\item[First released:]
+July 5, 2024
+\item[Minimum Typst version:]
+0.11.0
+\item[Archive size:]
+116 kB
+\href{https://packages.typst.org/preview/georges-yetyp-0.2.0.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/elegaanz/georges-yetyp}{GitHub}
+\item[Discipline s :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \href{https://typst.app/universe/search/?discipline=engineering}{Engineering}
+\item
+  \href{https://typst.app/universe/search/?discipline=computer-science}{Computer
+  Science}
+\item
+  \href{https://typst.app/universe/search/?discipline=geology}{Geology}
+\item
+  \href{https://typst.app/universe/search/?discipline=medicine}{Medicine}
+\end{itemize}
+\item[Categor y :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-speak.svg}}
+  \href{https://typst.app/universe/search/?category=report}{Report}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This template is a project of Ana Gelez . Report issues on
+\href{https://github.com/elegaanz/georges-yetyp}{their repository} . You
+can also try to ask for help with this template on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this template to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.2.0 & September 26, 2024 \\
+\href{https://typst.app/universe/package/georges-yetyp/0.1.0/}{0.1.0} &
+July 5, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this template and cannot guarantee correct
+functionality of this template or compatibility with any version of the
+Typst compiler or app.
+
+
+\title{typst.app/universe/package/knowledge-key}
+
+\phantomsection\label{banner}
+\phantomsection\label{template-thumbnail}
+\pandocbounded{\includegraphics[keepaspectratio]{https://packages.typst.org/preview/thumbnails/knowledge-key-1.0.1-small.webp}}
+
+\section{knowledge-key}\label{knowledge-key}
+
+{ 1.0.1 }
+
+A compact cheat-sheet
+
+\href{/app?template=knowledge-key&version=1.0.1}{Create project in app}
+
+\phantomsection\label{readme}
+This is a typst template for a compact cheat-sheet.
+
+\subsection{Usage}\label{usage}
+
+You can use this template in the Typst web app by clicking â€œStart from
+templateâ€? on the dashboard and searching for
+\texttt{\ knowledge-key\ } . Alternatively, you can use the CLI to kick
+this project off using the command
+
+\begin{verbatim}
+typst init @preview/knowledge-key
+\end{verbatim}
+
+Typst will create a new directory with all the files needed to get you
+started.
+
+\subsection{Configuration}\label{configuration}
+
+This template exports the \texttt{\ ieee\ } function with the following
+named arguments:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ title\ } : The title of the cheat-sheet
+\item
+  \texttt{\ authors\ } : A string of authors
+\end{itemize}
+
+The function also accepts a single, positional argument for the body of
+the paper.
+
+The template will initialize your package with a sample call to the
+\texttt{\ knowledge-key\ } function in a show rule. If you want to
+change an existing project to use this template, you can add a show rule
+like this at the top of your file:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/knowledge{-}key:1.0.1": *}
+
+\NormalTok{\#show: knowledge{-}key.with(}
+\NormalTok{  title: [Title],}
+\NormalTok{  authors: "Author1, Author2"}
+\NormalTok{)}
+
+\NormalTok{// Your content goes below.}
+\end{Highlighting}
+\end{Shaded}
+
+\href{/app?template=knowledge-key&version=1.0.1}{Create project in app}
+
+\subsubsection{How to use}\label{how-to-use}
+
+Click the button above to create a new project using this template in
+the Typst app.
+
+You can also use the Typst CLI to start a new project on your computer
+using this command:
+
+\begin{verbatim}
+typst init @preview/knowledge-key:1.0.1
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+Nick Goetti
+\item[License:]
+MIT-0
+\item[Current version:]
+1.0.1
+\item[Last updated:]
+October 25, 2024
+\item[First released:]
+October 1, 2024
+\item[Minimum Typst version:]
+0.11.0
+\item[Archive size:]
+166 kB
+\href{https://packages.typst.org/preview/knowledge-key-1.0.1.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/ngoetti/knowledge-key}{GitHub}
+\item[Discipline s :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \href{https://typst.app/universe/search/?discipline=computer-science}{Computer
+  Science}
+\item
+  \href{https://typst.app/universe/search/?discipline=engineering}{Engineering}
+\end{itemize}
+\item[Categor y :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-map.svg}}
+  \href{https://typst.app/universe/search/?category=flyer}{Flyer}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This template is a project of Nick Goetti . Report issues on
+\href{https://github.com/ngoetti/knowledge-key}{their repository} . You
+can also try to ask for help with this template on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this template to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+1.0.1 & October 25, 2024 \\
+\href{https://typst.app/universe/package/knowledge-key/1.0.0/}{1.0.0} &
+October 1, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this template and cannot guarantee correct
+functionality of this template or compatibility with any version of the
+Typst compiler or app.
+
+
+\title{typst.app/universe/package/cram-snap}
+
+\phantomsection\label{banner}
+\phantomsection\label{template-thumbnail}
+\pandocbounded{\includegraphics[keepaspectratio]{https://packages.typst.org/preview/thumbnails/cram-snap-0.2.1-small.webp}}
+
+\section{cram-snap}\label{cram-snap}
+
+{ 0.2.1 }
+
+Compact and legible cheat sheets
+
+{ } Featured Template
+
+\href{/app?template=cram-snap&version=0.2.1}{Create project in app}
+
+\phantomsection\label{readme}
+Simple cheatsheet template for \href{https://typst.app/}{Typst} that
+allows you to snap a quick picture of essential information and cram it
+into a useful cheatsheet format.
+
+\subsection{Usage}\label{usage}
+
+You can use this template in the Typst web app by clicking â€œStart from
+templateâ€? on the dashboard and searching for \texttt{\ cram-snap\ } .
+
+Alternatively, you can use the CLI to kick this project off using the
+command
+
+\begin{verbatim}
+typst init @preview/cram-snap
+\end{verbatim}
+
+Typst will create a new directory with all the files needed to get you
+started.
+
+\subsection{Configuration}\label{configuration}
+
+This template exports the \texttt{\ cram-snap\ } function with the
+following named arguments:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ title\ } : Title of the document
+\item
+  \texttt{\ subtitle\ } : Subtitle of the document
+\item
+  \texttt{\ icon\ } : Image that appears next to the title
+\item
+  \texttt{\ column-number\ } : Number of columns
+\end{itemize}
+
+The \texttt{\ theader\ } function is a wrapper around the
+\texttt{\ table.header\ } function that creates a header and takes
+\texttt{\ colspan\ } as argument to span the header across multiple
+table columns (by default it spans across two)
+
+If you want to change an existing project to use this template, you can
+add a show rule like this at the top of your file:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/cram{-}snap:0.2.1": *}
+
+\NormalTok{\#set page(paper: "a4", flipped: true, margin: 1cm)}
+\NormalTok{\#set text(font: "Arial", size: 11pt)}
+
+\NormalTok{\#show: cram{-}snap.with(}
+\NormalTok{  title: [Cheatsheet],}
+\NormalTok{  subtitle: [Cheatsheet for an amazing program],}
+\NormalTok{  icon: image("icon.png"),}
+\NormalTok{  column{-}number: 3,}
+\NormalTok{)}
+
+\NormalTok{// Use it if you want different table columns (the default are: (2fr, 3fr))}
+\NormalTok{\#set table(columns: (2fr, 3fr, 3fr))}
+
+\NormalTok{\#table(}
+\NormalTok{  theader(colspan: 3)[Great heading that is really looooong],}
+\NormalTok{  [Closing the program], [Type \textasciigrave{}:q\textasciigrave{}], [You can also type \textasciigrave{}QQ\textasciigrave{}]}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\href{/app?template=cram-snap&version=0.2.1}{Create project in app}
+
+\subsubsection{How to use}\label{how-to-use}
+
+Click the button above to create a new project using this template in
+the Typst app.
+
+You can also use the Typst CLI to start a new project on your computer
+using this command:
+
+\begin{verbatim}
+typst init @preview/cram-snap:0.2.1
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+kamack38
+\item[License:]
+MIT
+\item[Current version:]
+0.2.1
+\item[Last updated:]
+October 25, 2024
+\item[First released:]
+May 13, 2024
+\item[Archive size:]
+3.79 kB
+\href{https://packages.typst.org/preview/cram-snap-0.2.1.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/kamack38/cram-snap}{GitHub}
+\item[Categor y :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-map.svg}}
+  \href{https://typst.app/universe/search/?category=flyer}{Flyer}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This template is a project of kamack38 . Report issues on
+\href{https://github.com/kamack38/cram-snap}{their repository} . You can
+also try to ask for help with this template on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this template to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.2.1 & October 25, 2024 \\
+\href{https://typst.app/universe/package/cram-snap/0.2.0/}{0.2.0} &
+October 15, 2024 \\
+\href{https://typst.app/universe/package/cram-snap/0.1.0/}{0.1.0} & May
+13, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this template and cannot guarantee correct
+functionality of this template or compatibility with any version of the
+Typst compiler or app.
+
+
+\title{typst.app/universe/package/cvssc}
+
+\phantomsection\label{banner}
+\section{cvssc}\label{cvssc}
+
+{ 0.1.0 }
+
+Common Vulnerability Scoring System Calculator
+
+\phantomsection\label{readme}
+\phantomsection\label{readme-top}{}
+
+\href{https://github.com/DrakeAxelrod/cvssc/graphs/contributors}{\pandocbounded{\includegraphics[keepaspectratio]{https://img.shields.io/github/contributors/DrakeAxelrod/cvssc.svg?style=for-the-badge}}}
+\href{https://github.com/DrakeAxelrod/cvssc/network/members}{\pandocbounded{\includegraphics[keepaspectratio]{https://img.shields.io/github/forks/DrakeAxelrod/cvssc.svg?style=for-the-badge}}}
+\href{https://github.com/DrakeAxelrod/cvssc/stargazers}{\pandocbounded{\includegraphics[keepaspectratio]{https://img.shields.io/github/stars/DrakeAxelrod/cvssc.svg?style=for-the-badge}}}
+\href{https://github.com/DrakeAxelrod/cvssc/issues}{\pandocbounded{\includegraphics[keepaspectratio]{https://img.shields.io/github/issues/DrakeAxelrod/cvssc.svg?style=for-the-badge}}}
+\href{https://github.com/DrakeAxelrod/cvssc/blob/master/LICENSE.txt}{\pandocbounded{\includegraphics[keepaspectratio]{https://img.shields.io/github/license/DrakeAxelrod/cvssc.svg?style=for-the-badge}}}
+
+\hfill\break
+
+\subsubsection{cvssc}\label{cvssc-1}
+
+\paragraph{Common Vulnerability Scoring System
+Calculator}\label{common-vulnerability-scoring-system-calculator}
+
+The CVSS Typst Library is a \href{https://github.com/typst/}{Typst}
+package designed to facilitate the calculation of Common Vulnerability
+Scoring System (CVSS) scores for vulnerabilities across multiple
+versions, including CVSS 2.0, 3.0, 3.1, and 4.0. This library provides
+developers, security analysts, and researchers with a reliable and
+efficient toolset for assessing the severity of security vulnerabilities
+based on the CVSS standards.\\
+\href{https://github.com/DrakeAxelrod/cvssc/tree/main/cvssc/0.1.0/src/docs.pdf}{\textbf{Explore
+the docs Â»}}\\
+\strut \\
+\href{https://github.com/DrakeAxelrod/cvssc/issues}{Report Bug} Â·
+\href{https://github.com/DrakeAxelrod/cvssc/issues}{Request Feature}
+
+Table of Contents
+
+\begin{enumerate}
+\tightlist
+\item
+  \href{https://github.com/typst/packages/raw/main/packages/preview/cvssc/0.1.0/\#about-the-project}{About
+  The Project}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \href{https://github.com/typst/packages/raw/main/packages/preview/cvssc/0.1.0/\#built-with}{Built
+    With}
+  \end{itemize}
+\item
+  \href{https://github.com/typst/packages/raw/main/packages/preview/cvssc/0.1.0/\#getting-started}{Getting
+  Started}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \href{https://github.com/typst/packages/raw/main/packages/preview/cvssc/0.1.0/\#prerequisites}{Prerequisites}
+  \item
+    \href{https://github.com/typst/packages/raw/main/packages/preview/cvssc/0.1.0/\#installation}{Installation}
+  \end{itemize}
+\item
+  \href{https://github.com/typst/packages/raw/main/packages/preview/cvssc/0.1.0/\#usage}{Usage}
+\item
+  \href{https://github.com/typst/packages/raw/main/packages/preview/cvssc/0.1.0/\#roadmap}{Roadmap}
+\item
+  \href{https://github.com/typst/packages/raw/main/packages/preview/cvssc/0.1.0/\#contributing}{Contributing}
+\item
+  \href{https://github.com/typst/packages/raw/main/packages/preview/cvssc/0.1.0/\#license}{License}
+\item
+  \href{https://github.com/typst/packages/raw/main/packages/preview/cvssc/0.1.0/\#contact}{Contact}
+\item
+  \href{https://github.com/typst/packages/raw/main/packages/preview/cvssc/0.1.0/\#acknowledgments}{Acknowledgments}
+\end{enumerate}
+
+(
+\href{https://github.com/typst/packages/raw/main/packages/preview/cvssc/0.1.0/\#readme-top}{back
+to top} )
+
+\subsubsection{Built With}\label{built-with}
+
+\begin{itemize}
+\tightlist
+\item
+  \href{https://typst.app/}{\pandocbounded{\includegraphics[keepaspectratio]{https://img.shields.io/badge/Typst-239dad?style=for-the-badge&logo=typst&logoColor=white}}}
+\item
+  \href{https://www.rust-lang.org/}{\pandocbounded{\includegraphics[keepaspectratio]{https://img.shields.io/badge/Rust-b7410e?style=for-the-badge&logo=rust&logoColor=white}}}
+\item
+  \href{https://webassembly.org/}{\pandocbounded{\includegraphics[keepaspectratio]{https://img.shields.io/badge/WebAssembly-654FF0?style=for-the-badge&logo=webassembly&logoColor=white}}}
+\end{itemize}
+
+(
+\href{https://github.com/typst/packages/raw/main/packages/preview/cvssc/0.1.0/\#readme-top}{back
+to top} )
+
+\subsection{Getting Started}\label{getting-started}
+
+Ensure you have the Typst CLI installed.
+
+\begin{enumerate}
+\tightlist
+\item
+  Import the package
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/cvssc:0.1.0";}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{enumerate}
+\setcounter{enumi}{1}
+\tightlist
+\item
+  Use the various library functions to calculate CVSS scores and
+  severities.
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/cvssc:0.1.0";}
+
+\NormalTok{\#cvssc.v2("CVSS:2.0/AV:L/AC:H/Au:M/C:P/I:C/A:C")}
+
+\NormalTok{\#cvssc.v3("CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H")}
+
+\NormalTok{\#cvssc.v3("CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:H")}
+
+\NormalTok{\#cvssc.v4("CVSS:4.0/AV:A/AC:H/AT:P/PR:L/UI:P/VC:H/VI:H/VA:L/SC:L/SI:L/SA:L")}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{Prerequisites}\label{prerequisites}
+
+\begin{itemize}
+\tightlist
+\item
+  typst (see \href{https://typst.app/}{Typst} )
+\end{itemize}
+
+\subsection{Usage}\label{usage}
+
+\emph{Please refer to the
+\href{https://github.com/typst/packages/raw/main/packages/preview/cvssc/0.1.0/cvssc/0.1.0/src/docs.pdf}{Docs}}
+
+(
+\href{https://github.com/typst/packages/raw/main/packages/preview/cvssc/0.1.0/\#readme-top}{back
+to top} )
+
+\subsection{Roadmap}\label{roadmap}
+
+See the \href{https://github.com/DrakeAxelrod/cvssc/issues}{open issues}
+for a full list of proposed features (and known issues).
+
+(
+\href{https://github.com/typst/packages/raw/main/packages/preview/cvssc/0.1.0/\#readme-top}{back
+to top} )
+
+\subsection{Contributing}\label{contributing}
+
+Contributions are what make the open source community such an amazing
+place to learn, inspire, and create. Any contributions you make are
+\textbf{greatly appreciated} .
+
+If you have a suggestion that would make this better, please fork the
+repo and create a pull request. You can also simply open an issue with
+the tag â€œenhancementâ€?. Donâ€™t forget to give the project a star!
+Thanks again!
+
+\begin{enumerate}
+\tightlist
+\item
+  Fork the Project
+\item
+  Create your Feature Branch (
+  \texttt{\ git\ checkout\ -b\ feature/AmazingFeature\ } )
+\item
+  Commit your Changes (
+  \texttt{\ git\ commit\ -m\ \textquotesingle{}Add\ some\ AmazingFeature\textquotesingle{}\ }
+  )
+\item
+  Push to the Branch (
+  \texttt{\ git\ push\ origin\ feature/AmazingFeature\ } )
+\item
+  Open a Pull Request
+\end{enumerate}
+
+(
+\href{https://github.com/typst/packages/raw/main/packages/preview/cvssc/0.1.0/\#readme-top}{back
+to top} )
+
+\subsection{License}\label{license}
+
+Distributed under the MIT License. See \texttt{\ LICENSE.txt\ } for more
+information.
+
+(
+\href{https://github.com/typst/packages/raw/main/packages/preview/cvssc/0.1.0/\#readme-top}{back
+to top} )
+
+\subsection{Contact}\label{contact}
+
+Drake Axelrod -
+\href{https://github.com/typst/packages/raw/main/packages/preview/cvssc/0.1.0/\%5Bhttps://github/\%5D(https://github.com/DrakeAxelrod/)}{Github
+Profile} -
+\href{mailto:drakeaxelrod@gmail.com}{\nolinkurl{drakeaxelrod@gmail.com}}
+
+Project Link: \url{https://github.com/DrakeAxelrod/cvssc}
+
+\subsection{Contributors}\label{contributors}
+
+\begin{longtable}[]{@{}
+  >{\centering\arraybackslash}p{(\linewidth - 0\tabcolsep) * \real{1.0000}}@{}}
+\toprule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\begin{minipage}[t]{\linewidth}\centering
+\href{https://github.com/DrakeAxelrod}{\pandocbounded{\includegraphics[keepaspectratio]{https://avatars.githubusercontent.com/u/51012876?v=4?s=64}}\\
+\textsubscript{\textbf{Drake Axelrod}}}\\
+\strut
+\end{minipage} \\
+\end{longtable}
+
+(
+\href{https://github.com/typst/packages/raw/main/packages/preview/cvssc/0.1.0/\#readme-top}{back
+to top} )
+
+\subsection{Acknowledgments}\label{acknowledgments}
+
+\begin{itemize}
+\tightlist
+\item
+  \href{https://typst.app/}{Typst}
+\item
+  \href{https://www.first.org/}{First.org}
+\item
+  \href{https://docs.rs/nvd-cvss}{Rust Library - nvd-cvss}
+\end{itemize}
+
+(
+\href{https://github.com/typst/packages/raw/main/packages/preview/cvssc/0.1.0/\#readme-top}{back
+to top} )
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as \texttt{\ cvssc\ }
+
+\begin{verbatim}
+#import "@preview/cvssc:0.1.0"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+\href{mailto:drakeaxelrod@gmail.com}{Drake Axelrod}
+\item[License:]
+MIT
+\item[Current version:]
+0.1.0
+\item[Last updated:]
+October 28, 2024
+\item[First released:]
+October 28, 2024
+\item[Minimum Typst version:]
+0.12.0
+\item[Archive size:]
+193 kB
+\href{https://packages.typst.org/preview/cvssc-0.1.0.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of Drake Axelrod . You can also try to ask for
+help with this package on the \href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.1.0 & October 28, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.
+
+
+\title{typst.app/universe/package/slashion}
+
+\phantomsection\label{banner}
+\section{slashion}\label{slashion}
+
+{ 0.1.1 }
+
+Fractions with slash.
+
+\phantomsection\label{readme}
+You might not like the inline fraction displayed in a vertical layout.
+Just use \textbf{Slashion} to convert it to a slash fraction.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/slashion:0.1.1": slash{-}frac}
+\NormalTok{\#show math.equation.where(block: false): slash{-}frac}
+\end{Highlighting}
+\end{Shaded}
+
+You may also use it solely
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/slashion:0.1.1": slash{-}frac as sfrac}
+\NormalTok{$sfrac(1/2)$, $sfrac(3, 4)$ or even $sfrac((5 + 6) / 7 + 8)$ are acceptable.}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Notice}\label{notice}
+
+\begin{enumerate}
+\tightlist
+\item
+  This function converts only the outermoest fraction.
+\item
+  This function has an option to turn off the auto parenthesizing
+  feature: \texttt{\ slash-frac.with(parens:\ false)\ }
+\end{enumerate}
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as \texttt{\ slashion\ }
+
+\begin{verbatim}
+#import "@preview/slashion:0.1.1"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+sjfhsjfh
+\item[License:]
+MIT
+\item[Current version:]
+0.1.1
+\item[Last updated:]
+November 13, 2024
+\item[First released:]
+November 12, 2024
+\item[Archive size:]
+2.23 kB
+\href{https://packages.typst.org/preview/slashion-0.1.1.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/sjfhsjfh/slashion}{GitHub}
+\item[Categor y :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-layout.svg}}
+  \href{https://typst.app/universe/search/?category=layout}{Layout}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of sjfhsjfh . Report issues on
+\href{https://github.com/sjfhsjfh/slashion}{their repository} . You can
+also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.1.1 & November 13, 2024 \\
+\href{https://typst.app/universe/package/slashion/0.1.0/}{0.1.0} &
+November 12, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.
+
+
+\title{typst.app/universe/package/derive-it}
+
+\phantomsection\label{banner}
+\section{derive-it}\label{derive-it}
+
+{ 0.1.1 }
+
+Simple functions for creating fitch-style natural deduction proofs and
+derivations.
+
+\phantomsection\label{readme}
+A Typst package to create Fitch-style natural deductions.
+
+\pandocbounded{\includegraphics[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/derive-it/0.1.1/examples/example.png}}
+
+\subsection{Usage}\label{usage}
+
+This package provides two functions:
+
+\texttt{\ ded-nat\ } is a function that expects 2 parameters:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ stcolor\ } : the stroke color of the indentation guides. The
+  default is \texttt{\ black\ } .
+\item
+  \texttt{\ arr\ } : an array with the shape, it can be provided in two
+  shapes.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    4 items: (dependency: text content, indentation: integer starting
+    from 0, formula: text content, rule: text content).
+  \item
+    3 items: the same as above, but without the dependency.
+  \end{itemize}
+\end{itemize}
+
+\texttt{\ ded-nat-boxed\ } is a function that expects 4 parameters, and
+returns the deduction in a \texttt{\ box\ } :
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ stcolor\ } : the stroke color of the indentation guides. The
+  default is \texttt{\ black\ } .
+\item
+  \texttt{\ premises-and-conclusion\ } : bool, whether to automatically
+  insert or not the premises and conclusion of the derivation above the
+  lines. The default is \texttt{\ true\ } .
+\item
+  \texttt{\ premise-rule-text\ } : text content, used for finding the
+  premisesâ€™ formulas when \texttt{\ premises-and-conclusion\ } is set
+  to \texttt{\ true\ } . The default is \texttt{\ "PR"\ } .
+\item
+  \texttt{\ arr\ } : an array with the shape, it can be provided in two
+  shapes.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    4 items: (dependency: text content, indentation: integer starting
+    from 0, formula: text content, rule: text content).
+  \item
+    3 items: the same as above, but without the dependency.
+  \end{itemize}
+\end{itemize}
+
+\subsubsection{Example}\label{example}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/derive{-}it:0.1.1": *}
+
+\NormalTok{\#ded{-}nat(stcolor: black, arr:(}
+\NormalTok{    ("1", 0, $forall x (P x) and forall x (Q x)$, "PR"),}
+\NormalTok{    ("2", 0, $forall x (P x {-}\textgreater{} R x)$, "PR"),}
+  
+\NormalTok{    ("1", 0, $forall x (P x)$, "S 1"),}
+\NormalTok{    ("1", 0, $P a$, "IU 3"),}
+\NormalTok{    ("2", 0, $P a {-}\textgreater{} R a$, "IU 2"),}
+\NormalTok{    ("1,2", 0, $R a$, "MP 4, 5"),}
+  
+\NormalTok{    ("1,2", 0, $forall x (R x)$, "GU 6"),}
+\NormalTok{))}
+
+\NormalTok{\#ded{-}nat{-}boxed(stcolor: black, premises{-}and{-}conclusion: false, arr: (}
+\NormalTok{  ("1", 0, $forall x (S x b) and not forall y (P y {-}\textgreater{} Q b y)$, "PR"),}
+\NormalTok{  ("2", 0, $forall x forall y (Q x y {-}\textgreater{} not Q y x)$, "PR"),}
+\NormalTok{    ("3", 1, $not forall x (not P x) {-}\textgreater{} forall y (S y b {-}\textgreater{} Q b y)$, "Sup. RAA"),}
+\NormalTok{    ("1", 1, $not forall y (P y {-}\textgreater{} Q b y)$, "S 1"),}
+\NormalTok{    ("1", 1, $exists y not (P y {-}\textgreater{} Q b y)$, "EMC 4"),}
+\NormalTok{      ("6", 2, $not (P a {-}\textgreater{} Q b a)$, "Sup. IE 5"),}
+\NormalTok{        ("7", 3, $not (P a and not Q b a)$, "Sup. RAA"),}
+\NormalTok{        ("7", 3, $not P a or not not Q  b a$, "DM 7"),}
+\NormalTok{          ("9", 4, $not P a$, "Sup. PC"),}
+\NormalTok{          ("9", 4, $not P a or Q b a$, "Disy. 9"),}
+\NormalTok{        ("", 3, $not P a {-}\textgreater{} (not P a or Q b a)$, "PC 9{-}10"),}
+\NormalTok{          ("12", 4, $not  not Q b a$, "Sup. PC"),}
+\NormalTok{          ("12", 4, $Q b a$, "DN 12"),}
+\NormalTok{          ("12", 4, $not P a or Q b a$, "Disy. 13"),}
+\NormalTok{        ("", 3, $not not Q b a {-}\textgreater{} (not P a or Q b a)$, "PC 12{-}14"),}
+\NormalTok{        ("7", 3, $not P a or Q b a$, "Dil. 8,11,15"),}
+\NormalTok{        ("7", 3, $P a {-}\textgreater{} Q b a$, "IM 16"),}
+\NormalTok{        ("6,7", 3, $(P a {-}\textgreater{} Q b a) and not (P a {-}\textgreater{} Q b a)$, "Conj. 6, 17"),}
+\NormalTok{      ("6", 2, $P a and not Q b a$, "RAA 7{-}18"),}
+\NormalTok{      ("6", 2, $P a$, "S 19"),}
+\NormalTok{      ("6", 2, $exists x (P x)$, "GE 20"),}
+\NormalTok{      ("6", 2, $not forall x (not P x)$, "EMC 21"),}
+\NormalTok{      ("3,6", 2, $forall y (S y b {-}\textgreater{} Q b y)$, "MP 3, 22"),}
+\NormalTok{      ("3,6", 2, $S a b {-}\textgreater{} Q b a$, "IU 23"),}
+\NormalTok{      ("1", 2, $forall x (S x b)$, "S 1"),}
+\NormalTok{      ("1", 2, $S a b$, "IU 25"),}
+\NormalTok{      ("1,3,6", 2, $Q b a$, "MP 24, 25"),}
+\NormalTok{      ("6", 2, $not Q b a$, "S 19"),}
+\NormalTok{      ("1,3,6", 2, $Q b a or not exists y not (P y {-}\textgreater{} Q b y)$, "Disy. 27"),}
+\NormalTok{      ("1,3,6", 2, $not exists y not (P y {-}\textgreater{} Q b y)$, "MTP 28, 29"),}
+\NormalTok{    ("1,3", 1, $not exists y not (P y {-}\textgreater{} Q b y)$, "IE 5, 6, 30"),}
+\NormalTok{    ("1,3", 1, $not exists y not (P y {-}\textgreater{} Q b y) and exists y not (P y {-}\textgreater{} Q b y)$, "Conj. 5, 31"),}
+
+\NormalTok{  ("1", 0, $not (not forall x (not P x) {-}\textgreater{} forall y ( S y b {-}\textgreater{} Q b y))$, "RAA 3{-}32"),}
+\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+In order to compile locally \texttt{\ examples/example.typ\ } the
+command is:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{typst}\NormalTok{ compile examples/example.typ }\AttributeTok{{-}root}\NormalTok{ .}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as \texttt{\ derive-it\ }
+
+\begin{verbatim}
+#import "@preview/derive-it:0.1.1"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+\href{https://github.com/0rphee}{0rphee}
+\item[License:]
+MIT
+\item[Current version:]
+0.1.1
+\item[Last updated:]
+November 14, 2024
+\item[First released:]
+November 12, 2024
+\item[Archive size:]
+3.31 kB
+\href{https://packages.typst.org/preview/derive-it-0.1.1.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/0rphee/derive-it}{GitHub}
+\item[Discipline s :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \href{https://typst.app/universe/search/?discipline=mathematics}{Mathematics}
+\item
+  \href{https://typst.app/universe/search/?discipline=philosophy}{Philosophy}
+\end{itemize}
+\item[Categor ies :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-layout.svg}}
+  \href{https://typst.app/universe/search/?category=layout}{Layout}
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-chart.svg}}
+  \href{https://typst.app/universe/search/?category=visualization}{Visualization}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of 0rphee . Report issues on
+\href{https://github.com/0rphee/derive-it}{their repository} . You can
+also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.1.1 & November 14, 2024 \\
+\href{https://typst.app/universe/package/derive-it/0.1.0/}{0.1.0} &
+November 12, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.
+
+
+\title{typst.app/universe/package/mannot}
+
+\phantomsection\label{banner}
+\section{mannot}\label{mannot}
+
+{ 0.1.0 }
+
+A package for highlighting and annotating in math blocks.
+
+\phantomsection\label{readme}
+A package for highlighting and annotating in math blocks in
+\href{https://typst.app/}{Typst} .
+
+A full documentation is
+\href{https://github.com/typst/packages/raw/main/packages/preview/mannot/0.1.0/docs/doc.pdf}{here}
+.
+
+\subsection{Example}\label{example}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{$}
+\NormalTok{mark(1, tag: \#\textless{}num\textgreater{}) / mark(x + 1, tag: \#\textless{}den\textgreater{}, color: \#blue)}
+\NormalTok{+ mark(2, tag: \#\textless{}quo\textgreater{}, color: \#red)}
+
+\NormalTok{\#annot(\textless{}num\textgreater{}, pos: top)[Numerator]}
+\NormalTok{\#annot(\textless{}den\textgreater{})[Denominator]}
+\NormalTok{\#annot(\textless{}quo\textgreater{}, pos: right, yshift: 1em)[Quotient]}
+\NormalTok{$}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/mannot/0.1.0/examples/showcase.svg}}
+
+\subsection{Usage}\label{usage}
+
+Import and initialize the package \texttt{\ mannot\ } on the top of your
+document.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/mannot:0.1.0": *}
+\NormalTok{\#show: mannot{-}init}
+\end{Highlighting}
+\end{Shaded}
+
+To highlight a part of a math block, use the \texttt{\ mark\ } function:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{$}
+\NormalTok{mark(x)}
+\NormalTok{$}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/mannot/0.1.0/examples/usage1.svg}}
+
+You can also specify a color for the highlighted part:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{$ // Need \# before color names.}
+\NormalTok{mark(3, color: \#red) mark(x, color: \#blue)}
+\NormalTok{+ mark(integral x dif x, color: \#green)}
+\NormalTok{$}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/mannot/0.1.0/examples/usage2.svg}}
+
+To add an annotation to a highlighted part, use the \texttt{\ annot\ }
+function. You need to specify the tag of the marked content:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{$}
+\NormalTok{mark(x, tag: \#\textless{}x\textgreater{})  // Need \# before tags.}
+\NormalTok{\#annot(\textless{}x\textgreater{})[Annotation]}
+\NormalTok{$}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/mannot/0.1.0/examples/usage3.svg}}
+
+You can customize the position of the annotation and the vertical
+distance from the marked content:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{$}
+\NormalTok{mark(integral x dif x, tag: \#\textless{}i\textgreater{}, color: \#green)}
+\NormalTok{+ mark(3, tag: \#\textless{}3\textgreater{}, color: \#red) mark(x, tag: \#\textless{}x\textgreater{}, color: \#blue)}
+
+\NormalTok{\#annot(\textless{}i\textgreater{}, pos: left)[Set pos to left.]}
+\NormalTok{\#annot(\textless{}i\textgreater{}, pos: top + left)[Top left.]}
+\NormalTok{\#annot(\textless{}3\textgreater{}, pos: top, yshift: 1.2em)[Use yshift.]}
+\NormalTok{\#annot(\textless{}x\textgreater{}, pos: right, yshift: 1.2em)[Auto arrow.]}
+\NormalTok{$}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/mannot/0.1.0/examples/usage4.svg}}
+
+For convenience, you can define custom mark functions:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#let rmark = mark.with(color: red)}
+\NormalTok{\#let gmark = mark.with(color: green)}
+\NormalTok{\#let bmark = mark.with(color: blue)}
+
+\NormalTok{$}
+\NormalTok{integral\_rmark(0, tag: \#\textless{}i0\textgreater{})\^{}bmark(1, tag: \#\textless{}i1\textgreater{})}
+\NormalTok{mark(x\^{}2 + 1, tag: \#\textless{}i2\textgreater{}) dif gmark(x, tag: \#\textless{}i3\textgreater{})}
+
+\NormalTok{\#annot(\textless{}i0\textgreater{})[Begin]}
+\NormalTok{\#annot(\textless{}i1\textgreater{}, pos: top)[End]}
+\NormalTok{\#annot(\textless{}i2\textgreater{}, pos: top + right)[Integrand]}
+\NormalTok{\#annot(\textless{}i3\textgreater{}, pos: right, yshift: .6em)[Variable]}
+\NormalTok{$}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/mannot/0.1.0/examples/usage5.svg}}
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as \texttt{\ mannot\ }
+
+\begin{verbatim}
+#import "@preview/mannot:0.1.0"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+ryuryu-ymj
+\item[License:]
+MIT
+\item[Current version:]
+0.1.0
+\item[Last updated:]
+October 21, 2024
+\item[First released:]
+October 21, 2024
+\item[Minimum Typst version:]
+0.12.0
+\item[Archive size:]
+6.84 kB
+\href{https://packages.typst.org/preview/mannot-0.1.0.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/ryuryu-ymj/mannot}{GitHub}
+\item[Categor ies :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-chart.svg}}
+  \href{https://typst.app/universe/search/?category=visualization}{Visualization}
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-layout.svg}}
+  \href{https://typst.app/universe/search/?category=layout}{Layout}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of ryuryu-ymj . Report issues on
+\href{https://github.com/ryuryu-ymj/mannot}{their repository} . You can
+also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.1.0 & October 21, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.
+
+
+\title{typst.app/universe/package/tud-corporate-design-slides}
+
+\phantomsection\label{banner}
+\phantomsection\label{template-thumbnail}
+\pandocbounded{\includegraphics[keepaspectratio]{https://packages.typst.org/preview/thumbnails/tud-corporate-design-slides-0.1.0-small.webp}}
+
+\section{tud-corporate-design-slides}\label{tud-corporate-design-slides}
+
+{ 0.1.0 }
+
+Presentation template for TU Dresden (Technische UniversitÃ¤t Dresden).
+
+\href{/app?template=tud-corporate-design-slides&version=0.1.0}{Create
+project in app}
+
+\phantomsection\label{readme}
+This template can be used to create presentations in
+\href{https://github.com/typst/typst}{Typst} with the corporate design
+of \href{https://www.tu-dresden.de/}{TU Dresden} .
+
+\subsection{Usage}\label{usage}
+
+Create a new typst project based on this template locally.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{typst}\NormalTok{ init @preview/tud{-}corporate{-}design{-}slides}
+\BuiltInTok{cd}\NormalTok{ tud{-}corporate{-}design{-}slides}
+\end{Highlighting}
+\end{Shaded}
+
+Or create a project on the typst web app based on this template.
+
+\subsubsection{Font setup}\label{font-setup}
+
+The fonts \texttt{\ Open\ Sans\ } needs to be installed on your system:
+
+You can download the fonts from the
+\href{https://tu-dresden.de/intern/services-und-hilfe/ressourcen/dateien/kommunizieren_und_publizieren/corporate-design/cd-elemente/schrift-tud-open-sans}{TU
+Dresden website} .
+
+Once you download the fonts, make sure to install and activate them on
+your system.
+
+\subsubsection{Compile (and watch) your typst
+file}\label{compile-and-watch-your-typst-file}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{typst}\NormalTok{ w main.typ}
+\end{Highlighting}
+\end{Shaded}
+
+This will watch your file and recompile it to a pdf when the file is
+saved. For writing, you can use
+\href{https://code.visualstudio.com/}{Vscode} with these extensions:
+\href{https://marketplace.visualstudio.com/items?itemName=nvarner.typst-lsp}{Typst
+LSP} and
+\href{https://marketplace.visualstudio.com/items?itemName=mgt19937.typst-preview}{Typst
+Preview} . Or use the \href{https://typst.app/}{typst web app} (here you
+need to upload the fonts).
+
+\subsection{Todos}\label{todos}
+
+\begin{itemize}
+\tightlist
+\item
+  {[} {]} Add more slide layouts (e.g. 2-column layout)
+\item
+  {[} {]} Port to \href{https://github.com/touying-typ/touying}{touying}
+\end{itemize}
+
+\href{/app?template=tud-corporate-design-slides&version=0.1.0}{Create
+project in app}
+
+\subsubsection{How to use}\label{how-to-use}
+
+Click the button above to create a new project using this template in
+the Typst app.
+
+You can also use the Typst CLI to start a new project on your computer
+using this command:
+
+\begin{verbatim}
+typst init @preview/tud-corporate-design-slides:0.1.0
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+\href{https://github.com/jakoblistabarth}{Jakob Listabarth}
+\item[License:]
+MIT
+\item[Current version:]
+0.1.0
+\item[Last updated:]
+October 10, 2024
+\item[First released:]
+October 10, 2024
+\item[Archive size:]
+9.54 kB
+\href{https://packages.typst.org/preview/tud-corporate-design-slides-0.1.0.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/jakoblistabarth/tud-corporate-design-slides-typst}{GitHub}
+\item[Categor y :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-presentation.svg}}
+  \href{https://typst.app/universe/search/?category=presentation}{Presentation}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This template is a project of Jakob Listabarth . Report issues on
+\href{https://github.com/jakoblistabarth/tud-corporate-design-slides-typst}{their
+repository} . You can also try to ask for help with this template on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this template to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.1.0 & October 10, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this template and cannot guarantee correct
+functionality of this template or compatibility with any version of the
+Typst compiler or app.
+
+
+\title{typst.app/universe/package/m-jaxon}
+
+\phantomsection\label{banner}
+\section{m-jaxon}\label{m-jaxon}
+
+{ 0.1.1 }
+
+Render LaTeX equation in typst using MathJax.
+
+\phantomsection\label{readme}
+Render LaTeX equation in typst using MathJax.
+
+\textbf{Note:} This package is made for fun and to demonstrate the
+capability of typst plugins. And it is \textbf{slow} . To actually
+convert LaTeX equations to typst ones, you should use \textbf{pandoc} or
+\textbf{texmath} .
+
+\pandocbounded{\includesvg[keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/m-jaxon/0.1.1/mj.svg}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "./typst{-}package/lib.typ" as m{-}jaxon}
+\NormalTok{// Uncomment the following line to use the m{-}jaxon from the official package registry}
+\NormalTok{// \#import "@preview/m{-}jaxon:0.1.1"}
+
+\NormalTok{= M{-}Jaxon}
+
+\NormalTok{Typst, now with *MathJax*.}
+
+\NormalTok{The equation of mass{-}energy equivalence is often written as $E=m c\^{}2$ in modern physics.}
+
+\NormalTok{But we can also write it using M{-}Jaxon as: \#m{-}jaxon.render("E = mc\^{}2", inline: true)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Limitations}\label{limitations}
+
+\begin{itemize}
+\tightlist
+\item
+  The baseline of the inline equation still looks a bit off.
+\end{itemize}
+
+\subsection{Documentation}\label{documentation}
+
+\subsubsection{\texorpdfstring{\texttt{\ render\ }}{ render }}\label{render}
+
+Render a LaTeX equation string to an svg image. Depending on the
+\texttt{\ inline\ } argument, the image will be rendered as an inline
+image or a block image.
+
+\paragraph{Arguments}\label{arguments}
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ src\ } : \texttt{\ str\ } or \texttt{\ raw\ } block - The
+  LaTeX equation string
+\item
+  \texttt{\ inline\ } : \texttt{\ bool\ } - Whether to render the image
+  as an inline image or a block image
+\end{itemize}
+
+\paragraph{Returns}\label{returns}
+
+The image, of type \texttt{\ content\ }
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as \texttt{\ m-jaxon\ }
+
+\begin{verbatim}
+#import "@preview/m-jaxon:0.1.1"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+Wenzhuo Liu
+\item[License:]
+MIT
+\item[Current version:]
+0.1.1
+\item[Last updated:]
+January 17, 2024
+\item[First released:]
+December 14, 2023
+\item[Archive size:]
+633 kB
+\href{https://packages.typst.org/preview/m-jaxon-0.1.1.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/Enter-tainer/m-jaxon}{GitHub}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of Wenzhuo Liu . Report issues on
+\href{https://github.com/Enter-tainer/m-jaxon}{their repository} . You
+can also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.1.1 & January 17, 2024 \\
+\href{https://typst.app/universe/package/m-jaxon/0.1.0/}{0.1.0} &
+December 14, 2023 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.
+
+
+\title{typst.app/universe/package/umbra}
+
+\phantomsection\label{banner}
+\section{umbra}\label{umbra}
+
+{ 0.1.0 }
+
+Basic shadows for Typst
+
+{ } Featured Package
+
+\phantomsection\label{readme}
+Umbra is a library for drawing basic gradient shadows in
+\href{https://typst.app/}{typst} . It currently provides only one
+function for drawing a shadow along one edge of a path.
+
+\subsection{Examples}\label{examples}
+
+\subsubsection{Basic Shadow}\label{basic-shadow}
+
+\href{https://github.com/typst/packages/raw/main/packages/preview/umbra/0.1.0/gallery/basic.typ}{\includegraphics[width=\linewidth,height=2.60417in,keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/umbra/0.1.0/gallery/basic.png}}
+
+\subsubsection{Neumorphism}\label{neumorphism}
+
+\href{https://github.com/typst/packages/raw/main/packages/preview/umbra/0.1.0/gallery/neumorphism.typ}{\includegraphics[width=\linewidth,height=2.60417in,keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/umbra/0.1.0/gallery/neumorphism.png}}
+
+\subsubsection{Torn Paper}\label{torn-paper}
+
+\href{https://github.com/typst/packages/raw/main/packages/preview/umbra/0.1.0/gallery/torn-paper.typ}{\includegraphics[width=\linewidth,height=2.60417in,keepaspectratio]{https://github.com/typst/packages/raw/main/packages/preview/umbra/0.1.0/gallery/torn-paper.png}}
+
+\emph{Click on the example image to jump to the code.}
+
+\subsection{Usage}\label{usage}
+
+The following code creates a very basic square shadow:
+
+\begin{verbatim}
+#import "@preview/umbra:0.1.0": shadow-path
+
+#shadow-path((10%, 10%), (10%, 90%), (90%, 90%), (90%, 10%), closed: true)
+\end{verbatim}
+
+The function syntax is similar to the normal path syntax. The following
+arguments were added:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ shadow-radius\ } (default \texttt{\ 0.5cm\ } ): The shadow
+  size in the direction normal to the edge
+\item
+  \texttt{\ shadow-stops\ } (default \texttt{\ (gray,\ white)\ } ): The
+  colours to be used in the shadow, passed directly to
+  \texttt{\ gradient\ }
+\item
+  \texttt{\ correction\ } (default \texttt{\ 5deg\ } ): A small
+  correction factor to be added to round shadows at corners. Otherwise,
+  there will be a small gap between the two shadows
+\end{itemize}
+
+\subsubsection{Vertex Order}\label{vertex-order}
+
+The order of the vertices defines the direction of the shadow. If the
+shadow is the wrong way around, just reverse the vertices.
+
+\subsubsection{Transparency}\label{transparency}
+
+This package is designed in such a way that it should support
+transparency in the gradients (i.e. corners define shadows using a path
+which approximates the arc, instead of an entire circle). However, typst
+doesnâ€™t currently support transparency in gradients. (
+\href{https://github.com/typst/typst/issues/2546}{issue} ).
+
+In addition, the aforementioned correction factor would likely cause
+issues with transparent gradients.
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as \texttt{\ umbra\ }
+
+\begin{verbatim}
+#import "@preview/umbra:0.1.0"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+\href{https://github.com/davystrong}{David Armstrong}
+\item[License:]
+MIT
+\item[Current version:]
+0.1.0
+\item[Last updated:]
+August 30, 2024
+\item[First released:]
+August 30, 2024
+\item[Minimum Typst version:]
+0.10.0
+\item[Archive size:]
+3.50 kB
+\href{https://packages.typst.org/preview/umbra-0.1.0.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/davystrong/umbra}{GitHub}
+\item[Categor y :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-chart.svg}}
+  \href{https://typst.app/universe/search/?category=visualization}{Visualization}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of David Armstrong . Report issues on
+\href{https://github.com/davystrong/umbra}{their repository} . You can
+also try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.1.0 & August 30, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.
+
+
+\title{typst.app/universe/package/neoplot}
+
+\phantomsection\label{banner}
+\section{neoplot}\label{neoplot}
+
+{ 0.0.2 }
+
+Gnuplot in Typst
+
+\phantomsection\label{readme}
+A Typst package to use \href{http://www.gnuplot.info/}{gnuplot} in
+Typst.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/neoplot:0.0.2" as gp}
+\end{Highlighting}
+\end{Shaded}
+
+Execute gnuplot commands:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#gp.exec(}
+\NormalTok{    kind: "command",}
+\NormalTok{    \textasciigrave{}\textasciigrave{}\textasciigrave{}gnuplot}
+\NormalTok{    reset;}
+\NormalTok{    set samples 1000;}
+\NormalTok{    plot sin(x),}
+\NormalTok{         cos(x)}
+\NormalTok{    \textasciigrave{}\textasciigrave{}\textasciigrave{}}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+Execute a gnuplot script:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#gp.exec(}
+\NormalTok{    \textasciigrave{}\textasciigrave{}\textasciigrave{}gnuplot}
+\NormalTok{    reset}
+\NormalTok{    \# Can add comments since it is a script}
+\NormalTok{    set samples 1000}
+\NormalTok{    \# Use a backslash to extend commands}
+\NormalTok{    plot sin(x), \textbackslash{}}
+\NormalTok{         cos(x)}
+\NormalTok{    \textasciigrave{}\textasciigrave{}\textasciigrave{}}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+To read a data file:
+
+\begin{verbatim}
+# datafile.dat
+# x  y
+  0  0
+  2  4
+  4  0
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#gp.exec(}
+\NormalTok{    \textasciigrave{}\textasciigrave{}\textasciigrave{}gnuplot}
+\NormalTok{    $data \textless{}\textless{}EOD}
+\NormalTok{    0  0}
+\NormalTok{    2  4}
+\NormalTok{    4  0}
+\NormalTok{    EOD}
+\NormalTok{    plot $data with linespoints}
+\NormalTok{    \textasciigrave{}\textasciigrave{}\textasciigrave{}}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+or
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#gp.exec(}
+\NormalTok{    // Use a datablock since Typst doesn\textquotesingle{}t support WASI}
+\NormalTok{    "$data \textless{}\textless{}EOD\textbackslash{}n" +}
+\NormalTok{    // Load "datafile.dat" using Typst}
+\NormalTok{    read("datafile.dat") +}
+\NormalTok{    "EOD\textbackslash{}n" +}
+\NormalTok{    "plot $data with linespoints"}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+To print \texttt{\ \$data\ } :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#gp.exec("print $data")}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as \texttt{\ neoplot\ }
+
+\begin{verbatim}
+#import "@preview/neoplot:0.0.2"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+\href{https://github.com/KNnut}{KNnut}
+\item[License:]
+BSD-3-Clause
+\item[Current version:]
+0.0.2
+\item[Last updated:]
+July 16, 2024
+\item[First released:]
+June 17, 2024
+\item[Minimum Typst version:]
+0.11.1
+\item[Archive size:]
+512 kB
+\href{https://packages.typst.org/preview/neoplot-0.0.2.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://github.com/KNnut/neoplot}{GitHub}
+\item[Discipline :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \href{https://typst.app/universe/search/?discipline=mathematics}{Mathematics}
+\end{itemize}
+\item[Categor ies :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-chart.svg}}
+  \href{https://typst.app/universe/search/?category=visualization}{Visualization}
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-integration.svg}}
+  \href{https://typst.app/universe/search/?category=integration}{Integration}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of KNnut . Report issues on
+\href{https://github.com/KNnut/neoplot}{their repository} . You can also
+try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.0.2 & July 16, 2024 \\
+\href{https://typst.app/universe/package/neoplot/0.0.1/}{0.0.1} & June
+17, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.
+
+
+\title{typst.app/universe/package/km}
+
+\phantomsection\label{banner}
+\section{km}\label{km}
+
+{ 0.1.0 }
+
+Draw simple Karnaugh maps
+
+\phantomsection\label{readme}
+Draw simple Karnaugh maps. Use with:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/km:0.1.0": karnaugh}
+
+\NormalTok{\#karnaugh(("C", "AB"),}
+\NormalTok{  implicants: (}
+\NormalTok{    (0, 1, 1, 2),}
+\NormalTok{    (1, 2, 2, 1),}
+\NormalTok{  ),}
+\NormalTok{  (}
+\NormalTok{    (0, 1, 0, 0),}
+\NormalTok{    (0, 1, 1, 1),}
+\NormalTok{  )}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+Samples are available in
+\href{https://github.com/typst/packages/blob/main/packages/preview/km/0.1.0/sample.pdf}{\texttt{\ sample.pdf\ }}
+.
+
+\subsubsection{How to add}\label{how-to-add}
+
+Copy this into your project and use the import as \texttt{\ km\ }
+
+\begin{verbatim}
+#import "@preview/km:0.1.0"
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+Check the docs for
+\href{https://typst.app/docs/reference/scripting/\#packages}{more
+information on how to import packages} .
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+\href{mailto:the@unpopular.me}{Toto}
+\item[License:]
+MIT
+\item[Current version:]
+0.1.0
+\item[Last updated:]
+June 18, 2024
+\item[First released:]
+June 18, 2024
+\item[Minimum Typst version:]
+0.11.0
+\item[Archive size:]
+2.56 kB
+\href{https://packages.typst.org/preview/km-0.1.0.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Repository:]
+\href{https://git.sr.ht/~toto/karnaugh}{git.sr.ht}
+\item[Discipline :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \href{https://typst.app/universe/search/?discipline=mathematics}{Mathematics}
+\end{itemize}
+\item[Categor y :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-hammer.svg}}
+  \href{https://typst.app/universe/search/?category=utility}{Utility}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This package is a project of Toto . Report issues on
+\href{https://git.sr.ht/~toto/karnaugh}{their repository} . You can also
+try to ask for help with this package on the
+\href{https://forum.typst.app}{Forum} .
+
+Please report this package to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.1.0 & June 18, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this package and cannot guarantee correct
+functionality of this package or compatibility with any version of the
+Typst compiler or app.
+
+
+\title{typst.app/universe/package/bone-resume}
+
+\phantomsection\label{banner}
+\phantomsection\label{template-thumbnail}
+\pandocbounded{\includegraphics[keepaspectratio]{https://packages.typst.org/preview/thumbnails/bone-resume-0.3.0-small.webp}}
+
+\section{bone-resume}\label{bone-resume}
+
+{ 0.3.0 }
+
+A colorful resume template for chinese.
+
+\href{/app?template=bone-resume&version=0.3.0}{Create project in app}
+
+\phantomsection\label{readme}
+This is a Typst template.
+
+\subsection{Usage}\label{usage}
+
+You can use this template in the Typst web app by clicking â€œStart from
+templateâ€? on the dashboard and searching for \texttt{\ bone-resumee\ }
+.
+
+Alternatively, you can use the CLI to kick this project off using the
+command
+
+\begin{verbatim}
+typst init @preview/bone-resume
+\end{verbatim}
+
+Typst will create a new directory with all the files needed to get you
+started.
+
+\subsubsection{Fonts}\label{fonts}
+
+\begin{itemize}
+\tightlist
+\item
+  \href{https://github.com/adobe-fonts/source-han-sans}{Source Han Sans}
+\item
+  \href{https://github.com/lxgw/LxgwWenkaiGB}{LXGW WenKai GB}
+\item
+  \href{https://www.nerdfonts.com/}{Hack Nerd Font}
+\end{itemize}
+
+\subsection{Configuration}\label{configuration}
+
+This template exports the \texttt{\ resume-init\ } function with the
+following named arguments:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ authors\ } : Your name.
+\item
+  \texttt{\ title(optional)\ } : The resumeâ€™s title as content.
+\item
+  \texttt{\ footer(optional)\ } : The resumeâ€™s footer as content.
+\end{itemize}
+
+The function also accepts a single, positional argument for the body of
+the paper.
+
+The template will initialize your package with a sample call to the
+\texttt{\ bone-resume\ } function in a show rule. If you want to change
+an existing project to use this template, you can add a show rule like
+this at the top of your file:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\#import "@preview/bone{-}resume:0.1.0": bone{-}resume}
+
+\NormalTok{\#show: bone{-}resume.with(}
+\NormalTok{  author: "å­ä¸ªéª¨å¤´"}
+\NormalTok{)}
+
+\NormalTok{= ä¸ªäººä»ç»}
+\NormalTok{A Student.}
+
+\NormalTok{// Your content goes below.}
+\end{Highlighting}
+\end{Shaded}
+
+\href{/app?template=bone-resume&version=0.3.0}{Create project in app}
+
+\subsubsection{How to use}\label{how-to-use}
+
+Click the button above to create a new project using this template in
+the Typst app.
+
+You can also use the Typst CLI to start a new project on your computer
+using this command:
+
+\begin{verbatim}
+typst init @preview/bone-resume:0.3.0
+\end{verbatim}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-copy.svg}
+
+\subsubsection{About}\label{about}
+
+\begin{description}
+\tightlist
+\item[Author :]
+zrr1999
+\item[License:]
+Apache-2.0
+\item[Current version:]
+0.3.0
+\item[Last updated:]
+September 2, 2024
+\item[First released:]
+June 3, 2024
+\item[Archive size:]
+7.42 kB
+\href{https://packages.typst.org/preview/bone-resume-0.3.0.tar.gz}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-download.svg}}}
+\item[Categor y :]
+\begin{itemize}
+\tightlist
+\item[]
+\item
+  \pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-user.svg}}
+  \href{https://typst.app/universe/search/?category=cv}{CV}
+\end{itemize}
+\end{description}
+
+\subsubsection{Where to report issues?}\label{where-to-report-issues}
+
+This template is a project of zrr1999 . You can also try to ask for help
+with this template on the \href{https://forum.typst.app}{Forum} .
+
+Please report this template to the Typst team using the
+\href{https://typst.app/contact}{contact form} if you believe it is a
+safety hazard or infringes upon your rights.
+
+\phantomsection\label{versions}
+\subsubsection{Version history}\label{version-history}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Version & Release Date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.3.0 & September 2, 2024 \\
+\href{https://typst.app/universe/package/bone-resume/0.2.0/}{0.2.0} &
+July 4, 2024 \\
+\href{https://typst.app/universe/package/bone-resume/0.1.0/}{0.1.0} &
+June 3, 2024 \\
+\end{longtable}
+
+Typst GmbH did not create this template and cannot guarantee correct
+functionality of this template or compatibility with any version of the
+Typst compiler or app.
+
+

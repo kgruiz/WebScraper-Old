@@ -1,0 +1,921 @@
+\title{sitandr.github.io/typst-examples-book/book/basics/scripting/arguments}
+
+\section{\texorpdfstring{\hyperref[advanced-arguments]{Advanced
+arguments}}{Advanced arguments}}\label{advanced-arguments}
+
+\subsection{\texorpdfstring{\hyperref[spreading-arguments-from-list]{Spreading
+arguments from
+list}}{Spreading arguments from list}}\label{spreading-arguments-from-list}
+
+Spreading operator allows you to "unpack" the list of values into
+arguments of function:
+
+\begin{verbatim}
+#let func(a, b, c, d, e) = [#a #b #c #d #e]
+#func(..(([hi],) * 5))
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/0586f1f7eb73effd507824b57f7282f12fe2612119d64413f72e6518aba01513-1.svg}}
+
+This may be super useful in tables:
+
+\begin{verbatim}
+#let a = ("hi", "b", "c")
+
+#table(columns: 3,
+  [test], [x], [hello],
+  ..a
+)
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/eb669f70df63815adcbe764fdb8635eecab33651c7eef55ea4de6cd63c96d9de-1.svg}}
+
+\subsection{\texorpdfstring{\hyperref[key-arguments]{Key
+arguments}}{Key arguments}}\label{key-arguments}
+
+The same idea works with key arguments:
+
+\begin{verbatim}
+#let text-params = (fill: blue, size: 0.8em)
+
+Some #text(..text-params)[text].
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/e56483e8f4285f8fed8cd6867e720b9a1c9f62ef0bffea28d124159f8a61648d-1.svg}}
+
+\section{\texorpdfstring{\hyperref[managing-arbitrary-arguments]{Managing
+arbitrary
+arguments}}{Managing arbitrary arguments}}\label{managing-arbitrary-arguments}
+
+Typst allows taking as many arbitrary positional and key arguments as
+you want.
+
+In that case function is given special
+\texttt{\ }{\texttt{\ arguments\ }}\texttt{\ } object that stores in it
+positional and named arguments.
+
+\begin{quote}
+Link to
+\href{https://typst.app/docs/reference/foundations/arguments/}{reference}
+\end{quote}
+
+\begin{verbatim}
+#let f(..args) = [
+  #args.pos()\
+  #args.named()
+]
+
+#f(1, "a", width: 50%, block: false)
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/2fc64c8521734ea689368ec83fe54025eb94b016a8ed1f6d6a9880ac6c94edf5-1.svg}}
+
+You can combine them with other arguments. Spreading operator will "eat"
+all remaining arguments:
+
+\begin{verbatim}
+#let format(title, ..authors) = {
+  let by = authors
+    .pos()
+    .join(", ", last: " and ")
+
+  [*#title* \ _Written by #by;_]
+}
+
+#format("ArtosFlow", "Jane", "Joe")
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/4ba76c5176e0b93c6c2b03c38d55f88702546a5183717ed8c3567865c0d1bf5d-1.svg}}
+
+\subsection{\texorpdfstring{\hyperref[optional-argument]{Optional
+argument}}{Optional argument}}\label{optional-argument}
+
+\emph{Currently the only way in Typst to create optional positional
+arguments is using \texttt{\ }{\texttt{\ arguments\ }}\texttt{\ }
+object:}
+
+TODO
+
+
+\title{sitandr.github.io/typst-examples-book/book/basics/scripting/index}
+
+\section{\texorpdfstring{\hyperref[scripting]{Scripting}}{Scripting}}\label{scripting}
+
+\textbf{Typst} has a complete interpreted language inside. One of key
+aspects of working with your document in a nicer way
+
+
+\title{sitandr.github.io/typst-examples-book/book/basics/scripting/types_2}
+
+\section{\texorpdfstring{\hyperref[types-part-ii]{Types, part
+II}}{Types, part II}}\label{types-part-ii}
+
+In Typst, most of things are \textbf{immutable} . You
+can\textquotesingle t change content, you can just create new using this
+one (for example, using addition).
+
+Immutability is very important for Typst since it tries to be \emph{as
+pure language as possible} . Functions do nothing outside of returning
+some value.
+
+However, purity is partly "broken" by these types. They are
+\emph{super-useful} and not adding them would make Typst much pain.
+
+However, using them adds complexity.
+
+\subsection{\texorpdfstring{\hyperref[arrays-array]{Arrays (
+\texttt{\ }{\texttt{\ array\ }}\texttt{\ }
+)}}{Arrays (   array   )}}\label{arrays-array}
+
+\begin{quote}
+\href{https://typst.app/docs/reference/foundations/array/}{Link to
+Reference} .
+\end{quote}
+
+Mutable object that stores data with their indices.
+
+\subsubsection{\texorpdfstring{\hyperref[working-with-indices]{Working
+with indices}}{Working with indices}}\label{working-with-indices}
+
+\begin{verbatim}
+#let values = (1, 7, 4, -3, 2)
+
+// take value at index 0
+#values.at(0) \
+// set value at 0 to 3
+#(values.at(0) = 3)
+// negative index => start from the back
+#values.at(-1) \
+// add index of something that is even
+#values.find(calc.even)
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/0374c20b28fbf2b2d15bc32e5428f7f5121ea9d673d96de3274a0c6d988d5fb5-1.svg}}
+
+\subsubsection{\texorpdfstring{\hyperref[iterating-methods]{Iterating
+methods}}{Iterating methods}}\label{iterating-methods}
+
+\begin{verbatim}
+#let values = (1, 7, 4, -3, 2)
+
+// leave only what is odd
+#values.filter(calc.odd) \
+// create new list of absolute values of list values
+#values.map(calc.abs) \
+// reverse
+#values.rev() \
+// convert array of arrays to flat array
+#(1, (2, 3)).flatten() \
+// join array of string to string
+#(("A", "B", "C")
+ .join(", ", last: " and "))
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/684400186916f8f16a2d7edb151b7f5023c7e4c010b23a2c6566f0bd7a224061-1.svg}}
+
+\subsubsection{\texorpdfstring{\hyperref[list-operations]{List
+operations}}{List operations}}\label{list-operations}
+
+\begin{verbatim}
+// sum of lists:
+#((1, 2, 3) + (4, 5, 6))
+
+// list product:
+#((1, 2, 3) * 4)
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/abe2d311638b351e0938be0e432f10265ca81a69a9ed7d2e6f88f656c60dfc65-1.svg}}
+
+\subsubsection{\texorpdfstring{\hyperref[empty-list]{Empty
+list}}{Empty list}}\label{empty-list}
+
+\begin{verbatim}
+#() \ // this is an empty list
+#(1,) \  // this is a list with one element
+BAD: #(1) // this is just an element, not a list!
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/da4f77f8784462ca5c4f73862e58420695916064d56921e4adef7a7e37d5a532-1.svg}}
+
+\subsection{\texorpdfstring{\hyperref[dictionaries-dict]{Dictionaries (
+\texttt{\ }{\texttt{\ dict\ }}\texttt{\ }
+)}}{Dictionaries (   dict   )}}\label{dictionaries-dict}
+
+\begin{quote}
+\href{https://typst.app/docs/reference/foundations/dictionary/}{Link to
+Reference} .
+\end{quote}
+
+Dictionaries are objects that store a string "key" and a value,
+associated with that key.
+
+\begin{verbatim}
+#let dict = (
+  name: "Typst",
+  born: 2019,
+)
+
+#dict.name \
+#(dict.launch = 20)
+#dict.len() \
+#dict.keys() \
+#dict.values() \
+#dict.at("born") \
+#dict.insert("city", "Berlin ")
+#("name" in dict)
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/638ada64eb36af0b1891def1b2c0a2cc97a14d87987df8c16f5f3872244553d6-1.svg}}
+
+\subsubsection{\texorpdfstring{\hyperref[empty-dictionary]{Empty
+dictionary}}{Empty dictionary}}\label{empty-dictionary}
+
+\begin{verbatim}
+This is an empty list: #() \
+This is an empty dict: #(:)
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/6ef41801d46f0b7256bb6913482fde054c811a1850ecae3a446660eb6d1c8850-1.svg}}
+
+
+\title{sitandr.github.io/typst-examples-book/book/basics/scripting/conditions}
+
+\section{\texorpdfstring{\hyperref[conditions--loops]{Conditions \&
+loops}}{Conditions \& loops}}\label{conditions--loops}
+
+\subsection{\texorpdfstring{\hyperref[conditions]{Conditions}}{Conditions}}\label{conditions}
+
+\begin{quote}
+See
+\href{https://typst.app/docs/reference/scripting/\#conditionals}{official
+documentation} .
+\end{quote}
+
+In Typst, you can use \texttt{\ }{\texttt{\ if-else\ }}\texttt{\ }
+statements. This is especially useful inside function bodies to vary
+behavior depending on arguments types or many other things.
+
+\begin{verbatim}
+#if 1 < 2 [
+  This is shown
+] else [
+  This is not.
+]
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/2e914defa3353d6fd42ed58c37a97aedcc2237cfe20228f0cc0d223dfff4619a-1.svg}}
+
+Of course, \texttt{\ }{\texttt{\ else\ }}\texttt{\ } is unnecessary:
+
+\begin{verbatim}
+#let a = 3
+
+#if a < 4 {
+  a = 5
+}
+
+#a
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/a7264774be154606a44d829d31edae18bf686262ccea66de9ed97fa20c720bd8-1.svg}}
+
+You can also use \texttt{\ }{\texttt{\ else\ if\ }}\texttt{\ } statement
+(known as \texttt{\ }{\texttt{\ elif\ }}\texttt{\ } in Python):
+
+\begin{verbatim}
+#let a = 5
+
+#if a < 4 {
+  a = 5
+} else if a < 6 {
+  a = -3
+}
+
+#a
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/9f65678fc26af2d197d979e1b0a5295ed64037ee00c30fa28c9c417a2c7dc308-1.svg}}
+
+\subsubsection{\texorpdfstring{\hyperref[booleans]{Booleans}}{Booleans}}\label{booleans}
+
+\texttt{\ }{\texttt{\ if,\ else\ if,\ else\ }}\texttt{\ } accept
+\emph{only boolean} values as a switch. You can combine booleans as
+described in \href{./types.html\#boolean-bool}{types section} :
+
+\begin{verbatim}
+#let a = 5
+
+#if (a > 1 and a <= 4) or a == 5 [
+    `a` matches the condition
+]
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/21d3a48404d4e0c59bc0fccb114fdeac7384189db0020247796f44b0e9a7c362-1.svg}}
+
+\subsection{\texorpdfstring{\hyperref[loops]{Loops}}{Loops}}\label{loops}
+
+\begin{quote}
+See \href{https://typst.app/docs/reference/scripting/\#loops}{official
+documentation} .
+\end{quote}
+
+There are two kinds of loops: \texttt{\ }{\texttt{\ while\ }}\texttt{\ }
+and \texttt{\ }{\texttt{\ for\ }}\texttt{\ } . While repeats body while
+the condition is met:
+
+\begin{verbatim}
+#let a = 3
+
+#while a < 100 {
+    a *= 2
+    str(a)
+    " "
+}
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/ece06c012663616cac05b0f365bd02ea5607dcddfaa0249963088ceff797c100-1.svg}}
+
+\texttt{\ }{\texttt{\ for\ }}\texttt{\ } iterates over all elements of
+sequence. The sequence may be an
+\texttt{\ }{\texttt{\ array\ }}\texttt{\ } ,
+\texttt{\ }{\texttt{\ string\ }}\texttt{\ } or
+\texttt{\ }{\texttt{\ dictionary\ }}\texttt{\ } (
+\texttt{\ }{\texttt{\ for\ }}\texttt{\ } iterates over its
+\emph{key-value pairs} ).
+
+\begin{verbatim}
+#for c in "ABC" [
+  #c is a letter.
+]
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/9e70091e4c1f276d548f8200329298bf6b98946c331ca4630fec8313d5a91eff-1.svg}}
+
+To iterate to all numbers from \texttt{\ }{\texttt{\ a\ }}\texttt{\ } to
+\texttt{\ }{\texttt{\ b\ }}\texttt{\ } , use
+\texttt{\ }{\texttt{\ range(a,\ b+1)\ }}\texttt{\ } :
+
+\begin{verbatim}
+#let s = 0
+
+#for i in range(3, 6) {
+    s += i
+    [Number #i is added to sum. Now sum is #s.]
+}
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/1e3d95ee79d7bc6989e40ff1e27c0ef6e3b152a1e5f8a0df5b2819621e0e299f-1.svg}}
+
+Because range is end-exclusive this is equal to
+
+\begin{verbatim}
+#let s = 0
+
+#for i in (3, 4, 5) {
+    s += i
+    [Number #i is added to sum. Now sum is #s.]
+}
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/6158d29261339f8f285d592deff8992ca129ce32264abcdcf6734ac44cf558a4-1.svg}}
+
+\begin{verbatim}
+#let people = (Alice: 3, Bob: 5)
+
+#for (name, value) in people [
+    #name has #value apples.
+]
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/50ff0963afe8c9ec5a0562d518431b63d5dd3810525f55f084f812452b11eb21-1.svg}}
+
+\subsubsection{\texorpdfstring{\hyperref[break-and-continue]{Break and
+continue}}{Break and continue}}\label{break-and-continue}
+
+Inside loops can be used \texttt{\ }{\texttt{\ break\ }}\texttt{\ } and
+\texttt{\ }{\texttt{\ continue\ }}\texttt{\ } commands.
+\texttt{\ }{\texttt{\ break\ }}\texttt{\ } breaks loop, jumping outside.
+\texttt{\ }{\texttt{\ continue\ }}\texttt{\ } jumps to next loop
+iteration.
+
+See the difference on these examples:
+
+\begin{verbatim}
+#for letter in "abc nope" {
+  if letter == " " {
+    // stop when there is space
+    break
+  }
+
+  letter
+}
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/a744551cab635d3ab70d9bf4258bb5fc26fe384f8e9f487ad0b8eee986ffe581-1.svg}}
+
+\begin{verbatim}
+#for letter in "abc nope" {
+  if letter == " " {
+    // skip the space
+    continue
+  }
+
+  letter
+}
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/bbb719820f986e52fbf64306536766ecbfd7264d29429a5c62d1bd648a4754c5-1.svg}}
+
+
+\title{sitandr.github.io/typst-examples-book/book/basics/scripting/basics}
+
+\section{\texorpdfstring{\hyperref[basics]{Basics}}{Basics}}\label{basics}
+
+\subsection{\texorpdfstring{\hyperref[variables-i]{Variables
+I}}{Variables I}}\label{variables-i}
+
+Let\textquotesingle s start with \emph{variables} .
+
+The concept is very simple, just some value you can reuse:
+
+\begin{verbatim}
+#let author = "John Doe"
+
+This is a book by #author. #author is a great guy.
+
+#quote(block: true, attribution: author)[
+  \<Some quote\>
+]
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/c311c1612cafa802f16f0d4ca2d6f1ecca59f545ed1f6ee99d3c4ae06ee2bff4-1.svg}}
+
+\subsection{\texorpdfstring{\hyperref[variables-ii]{Variables
+II}}{Variables II}}\label{variables-ii}
+
+You can store \emph{any} Typst value in variable:
+
+\begin{verbatim}
+#let block_text = block(stroke: red, inset: 1em)[Text]
+
+#block_text
+
+#figure(caption: "The block", block_text)
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/c6290389652d1771d5149c9393af8eb32bd37e4b2bfb2c11764f9f22c294f84b-1.svg}}
+
+\subsection{\texorpdfstring{\hyperref[functions]{Functions}}{Functions}}\label{functions}
+
+We have already seen some "custom" functions in
+\href{../tutorial/advanced_styling.html}{Advanced Styling} chapter.
+
+Functions are values that take some values and output some values:
+
+\begin{verbatim}
+// This is a syntax that we have seen earlier
+#let f = (name) => "Hello, " + name
+
+#f("world!")
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/23fba8e9081a8b32b16d7deb54018bb73a8ac910adbfb1a0ca577eb3520a73b4-1.svg}}
+
+\subsubsection{\texorpdfstring{\hyperref[alternative-syntax]{Alternative
+syntax}}{Alternative syntax}}\label{alternative-syntax}
+
+You can write the same shorter:
+
+\begin{verbatim}
+// The following syntaxes are equivalent
+#let f = (name) => "Hello, " + name
+#let f(name) = "Hello, " + name
+
+#f("world!")
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/e6e4bd179a38f1b3af96f3e7c6308be6f9494f41f43daa26ebabf7a77fc54780-1.svg}}
+
+
+\title{sitandr.github.io/typst-examples-book/book/basics/scripting/braces}
+
+\section{\texorpdfstring{\hyperref[braces-brackets-and-default]{Braces,
+brackets and
+default}}{Braces, brackets and default}}\label{braces-brackets-and-default}
+
+\subsection{\texorpdfstring{\hyperref[square-brackets]{Square
+brackets}}{Square brackets}}\label{square-brackets}
+
+You may remember that square brackets convert everything inside to
+\emph{content} .
+
+\begin{verbatim}
+#let v = [Some text, _markup_ and other #strong[functions]]
+#v
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/5ba617daa8d4c166d96a0abbba02d6502fe7fde1ded460afa78682993295142d-1.svg}}
+
+We may use same for functions bodies:
+
+\begin{verbatim}
+#let f(name) = [Hello, #name]
+#f[World] // also don't forget we can use it to pass content!
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/4545deeee45655ee6666feb4773416cd075fe7522cbfd80d0847c615c6c5f30a-1.svg}}
+
+\textbf{Important:} It is very hard to convert \emph{content} to
+\emph{plain text} , as \emph{content} may contain \emph{anything} ! Sp
+be careful when passing and storing content in variables.
+
+\subsection{\texorpdfstring{\hyperref[braces]{Braces}}{Braces}}\label{braces}
+
+However, we often want to use code inside functions.
+That\textquotesingle s when we use
+\texttt{\ }{\texttt{\ \{\}\ }}\texttt{\ } :
+
+\begin{verbatim}
+#let f(name) = {
+  // this is code mode
+
+  // First part of our output
+  "Hello, "
+
+  // we check if name is empty, and if it is,
+  // insert placeholder
+  if name == "" {
+      "anonym"
+  } else {
+      name
+  }
+
+  // finish sentence
+  "!"
+}
+
+#f("")
+#f("Joe")
+#f("world")
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/f2bc6aebef06f213c9a8e740266a96e424318d953c09cffba6c5811375e91395-1.svg}}
+
+\subsection{\texorpdfstring{\hyperref[scopes]{Scopes}}{Scopes}}\label{scopes}
+
+\textbf{This is a very important thing to remember} .
+
+\emph{You can\textquotesingle t use variables outside of scopes they are
+defined (unless it is file root, then you can import them)} . \emph{Set
+and show rules affect things in their scope only.}
+
+\begin{verbatim}
+#{
+  let a = 3;
+}
+// can't use "a" there.
+
+#[
+  #show "true": "false"
+
+  This is true.
+]
+
+This is true.
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/c25d356831eeea19bb243b87c0f32d062c7086a55b4ee432e41b388d626f875b-1.svg}}
+
+\subsection{\texorpdfstring{\hyperref[return]{Return}}{Return}}\label{return}
+
+\textbf{Important} : by default braces return anything that "returns"
+into them. For example,
+
+\begin{verbatim}
+#let change_world() = {
+  // some code there changing everything in the world
+  str(4e7)
+  // another code changing the world
+}
+
+#let g() = {
+  "Hahaha, I will change the world now! "
+  change_world()
+  " So here is my long evil monologue..."
+}
+
+#g()
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/160d9672bd7abc64ea61943d1bfcbd1b06dc70f87be5e5cf9c411fe4ee6d2a44-1.svg}}
+
+To avoid returning everything, return only what you want explicitly,
+otherwise everything will be joined:
+
+\begin{verbatim}
+#let f() = {
+  "Some long text"
+  // Crazy numbers
+  "2e7"
+  return none
+}
+
+// Returns nothing
+#f()
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/14c935733a8c91165ee4ebe8246efb841207feeaa0309e36a1cde2888acffb10-1.svg}}
+
+\subsection{\texorpdfstring{\hyperref[default-values]{Default
+values}}{Default values}}\label{default-values}
+
+What we made just now was inventing "default values".
+
+They are very common in styling, so there is a special syntax for them:
+
+\begin{verbatim}
+#let f(name: "anonym") = [Hello, #name!]
+
+#f()
+#f(name: "Joe")
+#f(name: "world")
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/e9730d0d1f30ec9f2404179560ae4a4b19dd788b1afc2f6b956fb32268439cb6-1.svg}}
+
+You may have noticed that the argument became \emph{named} now. In
+Typst, named argument is an argument \emph{that has default value} .
+
+
+\title{sitandr.github.io/typst-examples-book/book/basics/scripting/tips}
+
+\section{\texorpdfstring{\hyperref[tips]{Tips}}{Tips}}\label{tips}
+
+There are lots of elements in Typst scripting that are not obvious, but
+important. All the book is designated to show them, but some of them
+
+\subsection{\texorpdfstring{\hyperref[equality]{Equality}}{Equality}}\label{equality}
+
+Equality doesn\textquotesingle t mean objects are really the same, like
+in many other objects:
+
+\begin{verbatim}
+#let a = 7
+#let b = 7.0
+#(a == b)
+#(type(a) == type(b))
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/3632e0202f7aae6ed6e2958b7bc6360a6cba31aa3d1aaf169a133ef987c839de-1.svg}}
+
+That may be less obvious for dictionaries. In dictionaries \textbf{the
+order may matter} , so equality doesn\textquotesingle t mean they behave
+exactly the same way:
+
+\begin{verbatim}
+#let a = (x: 1, y: 2)
+#let b = (y: 2, x: 1)
+#(a == b)
+#(a.pairs() == b.pairs())
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/f7277d7cc170d7cc2ae1de5436b534fb113cda82d8e7829a0fc92e950b78238f-1.svg}}
+
+\subsection{\texorpdfstring{\hyperref[check-key-is-in-dictionary]{Check
+key is in
+dictionary}}{Check key is in dictionary}}\label{check-key-is-in-dictionary}
+
+Use the keyword \texttt{\ }{\texttt{\ in\ }}\texttt{\ } , like in
+\texttt{\ }{\texttt{\ Python\ }}\texttt{\ } :
+
+\begin{verbatim}
+#let dict = (a: 1, b: 2)
+
+#("a" in dict)
+// gives the same as
+#(dict.keys().contains("a"))
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/c4ae77418e54911af371f203d2bd3d5badb7269496bb8f07a2e3010e15f18922-1.svg}}
+
+Note it works for lists too:
+
+\begin{verbatim}
+#("a" in ("b", "c", "a"))
+#(("b", "c", "a").contains("a"))
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/0fc3ff7d44bbb5bcacd38e921f199699d2ea43ce0a142e79f67314d4f24386a7-1.svg}}
+
+
+\title{sitandr.github.io/typst-examples-book/book/basics/scripting/types}
+
+\section{\texorpdfstring{\hyperref[types-part-i]{Types, part
+I}}{Types, part I}}\label{types-part-i}
+
+Each value in Typst has a type. You don\textquotesingle t have to
+specify it, but it is important.
+
+\subsection{\texorpdfstring{\hyperref[content-content]{Content (
+\texttt{\ }{\texttt{\ content\ }}\texttt{\ }
+)}}{Content (   content   )}}\label{content-content}
+
+\begin{quote}
+\href{https://typst.app/docs/reference/foundations/content/}{Link to
+Reference} .
+\end{quote}
+
+We have already seen it. A type that represents what is displayed in
+document.
+
+\begin{verbatim}
+#let c = [It is _content_!]
+
+// Check type of c
+#(type(c) == content)
+
+#c
+
+// repr gives an "inner representation" of value
+#repr(c)
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/21fd80460de8e8a377a9ef2046a27232ad88924070509ccf8647c9135c9c2fe3-1.svg}}
+
+\textbf{Important:} It is very hard to convert \emph{content} to
+\emph{plain text} , as \emph{content} may contain \emph{anything} ! So
+be careful when passing and storing content in variables.
+
+\subsection{\texorpdfstring{\hyperref[none-none]{None (
+\texttt{\ }{\texttt{\ none\ }}\texttt{\ }
+)}}{None (   none   )}}\label{none-none}
+
+Nothing. Also known as \texttt{\ }{\texttt{\ null\ }}\texttt{\ } in
+other languages. It isn\textquotesingle t displayed, converts to empty
+content.
+
+\begin{verbatim}
+#none
+#repr(none)
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/c4100c1d1df8fc0a51bd99945d9bac3c5aa67de19b8f872fd33fd9068bb2507b-1.svg}}
+
+\subsection{\texorpdfstring{\hyperref[string-str]{String (
+\texttt{\ }{\texttt{\ str\ }}\texttt{\ }
+)}}{String (   str   )}}\label{string-str}
+
+\begin{quote}
+\href{https://typst.app/docs/reference/foundations/str/}{Link to
+Reference} .
+\end{quote}
+
+String contains only plain text and no formatting. Just some chars. That
+allows us to work with chars:
+
+\begin{verbatim}
+#let s = "Some large string. There could be escape sentences: \n,
+ line breaks, and even unicode codes: \u{1251}"
+#s \
+#type(s) \
+`repr`: #repr(s)
+
+#let s = "another small string"
+#s.replace("a", sym.alpha) \
+#s.split(" ") // split by space
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/b797f9c4a540fcf1429bec801d0b334e7d88dc9ccd10e3b7b859f451e269f30f-1.svg}}
+
+You can convert other types to their string representation using this
+type\textquotesingle s constructor (e.g. convert number to string):
+
+\begin{verbatim}
+#str(5) // string, can be worked with as string
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/ab4d4a5d93533525f7f9b2cc8378b79f1561904f3c5d5f6d2ec4bdc448669cb5-1.svg}}
+
+\subsection{\texorpdfstring{\hyperref[boolean-bool]{Boolean (
+\texttt{\ }{\texttt{\ bool\ }}\texttt{\ }
+)}}{Boolean (   bool   )}}\label{boolean-bool}
+
+\begin{quote}
+\href{https://typst.app/docs/reference/foundations/bool/}{Link to
+Reference} .
+\end{quote}
+
+true/false. Used in \texttt{\ }{\texttt{\ if\ }}\texttt{\ } and many
+others
+
+\begin{verbatim}
+#let b = false
+#b \
+#repr(b) \
+#(true and not true or true) = #((true and (not true)) or true) \
+#if (4 > 3) {
+  "4 is more than 3"
+}
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/e848d78e220ca8cf3b6c323a99d5d963e529aad36857f0e6753c56c02984a616-1.svg}}
+
+\subsection{\texorpdfstring{\hyperref[integer-int]{Integer (
+\texttt{\ }{\texttt{\ int\ }}\texttt{\ }
+)}}{Integer (   int   )}}\label{integer-int}
+
+\begin{quote}
+\href{https://typst.app/docs/reference/foundations/int/}{Link to
+Reference} .
+\end{quote}
+
+A whole number.
+
+The number can also be specified as hexadecimal, octal, or binary by
+starting it with a zero followed by either x, o, or b.
+
+\begin{verbatim}
+#let n = 5
+#n \
+#(n += 1) \
+#n \
+#calc.pow(2, n) \
+#type(n) \
+#repr(n)
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/6f1c9e02393e14aa23add33d0e6dc2b596ee97a0d425cd3edb3e2b912c6ef6b0-1.svg}}
+
+\begin{verbatim}
+#(1 + 2) \
+#(2 - 5) \
+#(3 + 4 < 8)
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/e610f15659cb6b64c3516be48740b54e6caf3d933919004157ba64b757389ba5-1.svg}}
+
+\begin{verbatim}
+#0xff \
+#0o10 \
+#0b1001
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/1446dba05ee6f8006884c280ff32e31ede8425d4847445e97cae5dfcde1efe7f-1.svg}}
+
+You can convert a value to an integer with this type\textquotesingle s
+constructor (e.g. convert string to int).
+
+\begin{verbatim}
+#int(false) \
+#int(true) \
+#int(2.7) \
+#(int("27") + int("4"))
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/b44779a87fd984d317ec4d1aed732c0ebdc6220fd4764e407f77fedd139c0d8c-1.svg}}
+
+\subsection{\texorpdfstring{\hyperref[float-float]{Float (
+\texttt{\ }{\texttt{\ float\ }}\texttt{\ }
+)}}{Float (   float   )}}\label{float-float}
+
+\begin{quote}
+\href{https://typst.app/docs/reference/foundations/float/}{Link to
+Reference} .
+\end{quote}
+
+Works the same way as integer, but can store floating point numbers.
+However, precision may be lost.
+
+\begin{verbatim}
+#let n = 5.0
+
+// You can mix floats and integers, 
+// they will be implicitly converted
+#(n += 1) \
+#calc.pow(2, n) \
+#(0.2 + 0.1) \
+#type(n) 
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/21cafe751ec803dd9598c871b283a29bc3c6b2e302f0f9bd78edc17330b45616-1.svg}}
+
+\begin{verbatim}
+#3.14 \
+#1e4 \
+#(10 / 4)
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/05bd400096c1df5a954fda0897f3c1756c9f99f73503d32d992b3222667a45cd-1.svg}}
+
+You can convert a value to a float with this type\textquotesingle s
+constructor (e.g. convert string to float).
+
+\begin{verbatim}
+#float(40%) \
+#float("2.7") \
+#float("1e5")
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/f50a22cbea42fded97ab8340f0939e786e5c1cdb5ea531cd4b35b1f732947b7f-1.svg}}
+
+

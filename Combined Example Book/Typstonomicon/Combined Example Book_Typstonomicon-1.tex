@@ -1,0 +1,847 @@
+\title{sitandr.github.io/typst-examples-book/book/typstonomicon/inline_with}
+
+\section{\texorpdfstring{\hyperref[horizontally-align-something-with-something]{Horizontally
+align something with
+something}}{Horizontally align something with something}}\label{horizontally-align-something-with-something}
+
+\begin{verbatim}
+// author: tabiasgeehuman
+#let inline-with(select, content) = context {
+  let target = query(
+    selector(select)
+  ).last().location().position().x
+  let current = here().position().x
+
+  box(inset: (x: target - current + 0.3em), content)
+}
+
+#let inline-label(name) = [#line(length: 0%) #name]
+
+#inline-with(selector(<start-c>))[= Common values]
+#align(left, box[$
+    #inline-label(<start-c>) "Circles"(0) =& 0 \
+    lim_(x -> 1) "Circles"(0) =& 0
+$])
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/6aedec57e7a1480b4eeb9ad00c327661943c9144d64eaaffe73de22872386739-1.svg}}
+
+
+\title{sitandr.github.io/typst-examples-book/book/typstonomicon/word_count}
+
+\section{\texorpdfstring{\hyperref[word-count]{Word
+count}}{Word count}}\label{word-count}
+
+This chapter is deprecated now. It will be removed soon.
+
+\subsection{\texorpdfstring{\hyperref[recommended-solution]{Recommended
+solution}}{Recommended solution}}\label{recommended-solution}
+
+Use \texttt{\ }{\texttt{\ wordometr\ }}\texttt{\ }
+\href{https://github.com/Jollywatt/typst-wordometer}{package} :
+
+\begin{verbatim}
+#import "@preview/wordometer:0.1.0": word-count, total-words
+
+#show: word-count
+
+In this document, there are #total-words words all up.
+
+#word-count(total => [
+  The number of words in this block is #total.words
+  and there are #total.characters letters.
+])
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/a36d12209002f93aeaf23d4b21fcd4dcb1f9326f6ad358ad01558f09dede39c2-1.svg}}
+
+\subsection{\texorpdfstring{\hyperref[just-count-all-words-in-document]{Just
+count \emph{all} words in
+document}}{Just count all words in document}}\label{just-count-all-words-in-document}
+
+\begin{verbatim}
+// original author: laurmaedje
+#let words = counter("words")
+#show regex("\p{L}+"): it => it + words.step()
+
+== A heading
+#lorem(50)
+
+=== Strong chapter
+#strong(lorem(25))
+
+// it is ignoring comments
+
+#align(right)[(#words.display() words)]
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/b32a6f39c86a7719a156fb53625f8ec0d8a5f559e85367107b07b52cc7172e3a-1.svg}}
+
+\subsection{\texorpdfstring{\hyperref[count-only-some-elements-ignore-others]{Count
+only some elements, ignore
+others}}{Count only some elements, ignore others}}\label{count-only-some-elements-ignore-others}
+
+\begin{verbatim}
+// original author: jollywatt
+#let count-words(it) = {
+    let fn = repr(it.func())
+    if fn == "sequence" { it.children.map(count-words).sum() }
+    else if fn == "text" { it.text.split().len() }
+    else if fn in ("styled") { count-words(it.child) }
+    else if fn in ("highlight", "item", "strong", "link") { count-words(it.body) }
+    else if fn in ("footnote", "heading", "equation") { 0 }
+    else { 0 }
+}
+
+#show: rest => {
+    let n = count-words(rest)
+    rest + align(right, [(#n words)])
+}
+
+== A heading (shouldn't be counted)
+#lorem(50)
+
+=== Strong chapter
+#strong(lorem(25)) // counted too!
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/0ba529d013270ae2cb21618241d5c3562ce4743815a68146fb4d5617dc1c4b22-1.svg}}
+
+
+\title{sitandr.github.io/typst-examples-book/book/typstonomicon/chapters}
+
+\section{\texorpdfstring{\hyperref[create-zero-level-chapters]{Create
+zero-level
+chapters}}{Create zero-level chapters}}\label{create-zero-level-chapters}
+
+\begin{verbatim}
+// author: tinger
+
+#let chapter = figure.with(
+  kind: "chapter",
+  // same as heading
+  numbering: none,
+  // this cannot use auto to translate this automatically as headings can, auto also means something different for figures
+  supplement: "Chapter",
+  // empty caption required to be included in outline
+  caption: [],
+)
+
+// emulate element function by creating show rule
+#show figure.where(kind: "chapter"): it => {
+  set text(22pt)
+  counter(heading).update(0)
+  if it.numbering != none { strong(it.counter.display(it.numbering)) } + [ ] + strong(it.body)
+}
+
+// no access to element in outline(indent: it => ...), so we must do indentation in here instead of outline
+#show outline.entry: it => {
+  if it.element.func() == figure {
+    // we're configuring chapter printing here, effectively recreating the default show impl with slight tweaks
+    let res = link(it.element.location(), 
+      // we must recreate part of the show rule from above once again
+      if it.element.numbering != none {
+        numbering(it.element.numbering, ..it.element.counter.at(it.element.location()))
+      } + [ ] + it.element.body
+    )
+
+    if it.fill != none {
+      res += [ ] + box(width: 1fr, it.fill) + [ ] 
+    } else {
+      res += h(1fr)
+    }
+
+    res += link(it.element.location(), it.page)
+    strong(res)
+  } else {
+    // we're doing indenting here
+    h(1em * it.level) + it
+  }
+}
+
+// new target selector for default outline
+#let chapters-and-headings = figure.where(kind: "chapter", outlined: true).or(heading.where(outlined: true))
+
+//
+// start of actual doc prelude
+//
+
+#set heading(numbering: "1.")
+
+// can't use set, so we reassign with default args
+#let chapter = chapter.with(numbering: "I")
+
+// an example of a "show rule" for a chapter
+// can't use chapter because it's not an element after using .with() anymore
+#show figure.where(kind: "chapter"): set text(red)
+
+//
+// start of actual doc
+//
+
+// as you can see these are not elements like headings, which makes the setup a bit harder
+// because the chapters are not headings, the numbering does not include their chapter, but could using a show rule for headings
+
+#outline(target: chapters-and-headings)
+
+#chapter[Chapter]
+= Chap Heading
+== Sub Heading
+
+#chapter[Chapter again]
+= Chap Heading
+= Chap Heading
+== Sub Heading
+=== Sub Sub Heading
+== Sub Heading
+
+#chapter[Chapter yet again]
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/0ad0c265008f81fca8694b44d2d9407815cd64a7bb4b10a631aac3370a9d52e1-1.svg}}
+
+
+\title{sitandr.github.io/typst-examples-book/book/typstonomicon/try_catch}
+
+\section{\texorpdfstring{\hyperref[try--catch]{Try \&
+Catch}}{Try \& Catch}}\label{try--catch}
+
+\begin{verbatim}
+// author: laurmaedje
+// Renders an image or a placeholder if it doesn't exist.
+// Don’t try this at home, kids!
+#let maybe-image(path, ..args) = context {
+  let path-label = label(path)
+   let first-time = query((context {}).func()).len() == 0
+   if first-time or query(path-label).len() > 0 {
+    [#image(path, ..args)#path-label]
+  } else {
+    rect(width: 50%, height: 5em, fill: luma(235), stroke: 1pt)[
+      #set align(center + horizon)
+      Could not find #raw(path)
+    ]
+  }
+}
+
+#maybe-image("../tiger.jpg")
+#maybe-image("../tiger1.jpg")
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/ee71afd2e954c4ab04385fb359baa63b3c6852718ae7b0d63948cf9180d50e89-1.svg}}
+
+
+\title{sitandr.github.io/typst-examples-book/book/typstonomicon/original_image}
+
+\section{\texorpdfstring{\hyperref[image-with-original-size]{Image with
+original
+size}}{Image with original size}}\label{image-with-original-size}
+
+This function renders image with the size it "naturally" has.
+
+\textbf{Note: starting from v0.11} , Typst tries using default image
+size when width and height are \texttt{\ }{\texttt{\ auto\ }}\texttt{\ }
+. It only uses container\textquotesingle s size if the image
+doesn\textquotesingle t fit. So this code is more like a legacy, but
+still may be useful.
+
+This works because measure conceptually places the image onto a page
+with infinite size and then the image defaults to 1pt per pixel instead
+of becoming infinitely larger itself.
+
+\begin{verbatim}
+// author: laurmaedje
+#let natural-image(..args) = style(styles => {
+  let (width, height) = measure(image(..args), styles)
+  image(..args, width: width, height: height)
+})
+
+#image("../tiger.jpg")
+#natural-image("../tiger.jpg")
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/59503efa7e4aa0d37418ed3d0cb2c0c123268fae37cdcd54f8f7eb06b556e05d-1.svg}}
+
+
+\title{sitandr.github.io/typst-examples-book/book/typstonomicon/math_display}
+
+\section{\texorpdfstring{\hyperref[make-all-math-display-math]{Make all
+math display
+math}}{Make all math display math}}\label{make-all-math-display-math}
+
+May slightly interfere with math blocks.
+
+\begin{verbatim}
+// author: eric1102
+#show math.equation: it => {
+  if it.body.fields().at("size", default: none) != "display" {
+    return math.display(it)
+  }
+  it
+}
+
+Inline math: $sum_(n=0)^oo e^(x^2 - n/x^2)$\
+Some other text on new line.
+
+
+$
+sum_(n=0)^oo e^(x^2 - n/x^2)
+$
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/e339a54461b130913bf4f724b29b763aec7dffa0662827935aeb7b258538523b-1.svg}}
+
+
+\title{sitandr.github.io/typst-examples-book/book/typstonomicon/multiple-show}
+
+\subsection{\texorpdfstring{\hyperref[multiple-show-rules]{Multiple show
+rules}}{Multiple show rules}}\label{multiple-show-rules}
+
+Sometimes there is a need to apply several rules that look very similar.
+Or generate them from code. One of the ways to deal with this, the most
+cursed one, is this:
+
+\begin{verbatim}
+#let rules = (math.sum, math.product, math.root)
+
+#let apply-rules(rules, it) = {
+  if rules.len() == 0 {
+    return it
+  }
+  show rules.pop(): math.display
+  apply-rules(rules, it)
+}
+
+$product/sum root(3, x)/2$
+
+#show: apply-rules.with(rules)
+
+$product/sum root(3, x)/2$
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/3f8166b0ca4ea7bdcf8017e914da7036f5b5ac804c34535f36b2a67bba3d995b-1.svg}}
+
+The recursion problem may be avoided with the power of
+\texttt{\ }{\texttt{\ fold\ }}\texttt{\ } , with basically the same
+idea:
+
+\begin{verbatim}
+// author: Eric
+#let kind_supp = (code: "Listing", algo: "Algorithme")
+#show: it => kind_supp.pairs().fold(it, (acc, (kind, supp)) => {
+  show figure.where(kind: kind): set figure(supplement: supp)
+  acc
+})
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/e2ee1949cb74ef6dc8109f082f424dcb30765452043f5e93ccdd8a4fc30029b3-1.svg}}
+
+Note that just in case of symbols (if you don\textquotesingle t need
+element functions), one can use regular expressions. That is a more
+robust way:
+
+\begin{verbatim}
+#show regex("[" + math.product + math.sum + "]"): math.display
+
+$product/sum root(3, x)/2$
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/b0f3afcb048a141cbfc9404f17ab9f91c701528560eb09810ce0bbaae66adbaa-1.svg}}
+
+
+\title{sitandr.github.io/typst-examples-book/book/typstonomicon/extract_plain_text}
+
+\section{\texorpdfstring{\hyperref[extracting-plain-text]{Extracting
+plain text}}{Extracting plain text}}\label{extracting-plain-text}
+
+\begin{verbatim}
+// original author: ntjess
+#let stringify-by-func(it) = {
+  let func = it.func()
+  return if func in (parbreak, pagebreak, linebreak) {
+    "\n"
+  } else if func == smartquote {
+    if it.double { "\"" } else { "'" } // "
+  } else if it.fields() == (:) {
+    // a fieldless element is either specially represented (and caught earlier) or doesn't have text
+    ""
+  } else {
+    panic("Not sure how to handle type `" + repr(func) + "`")
+  }
+}
+
+#let plain-text(it) = {
+  return if type(it) == str {
+    it
+  } else if it == [ ] {
+    " "
+  } else if it.has("children") {
+    it.children.map(plain-text).join()
+  } else if it.has("body") {
+    plain-text(it.body)
+  } else if it.has("text") {
+    if type(it.text) == "string" {
+      it.text
+    } else {
+      plain-text(it.text)
+    }
+  } else {
+    // remove this to ignore all other non-text elements
+    stringify-by-func(it)
+  }
+}
+
+#plain-text(`raw inline text`)
+
+#plain-text(highlight[Highlighted text])
+
+#plain-text[List
+  - With
+  - Some
+  - Elements
+
+  + And
+  + Enumerated
+  + Too
+]
+
+#plain-text(underline[Underlined])
+
+#plain-text($sin(x + y)$)
+
+#for el in (
+  circle,
+  rect,
+  ellipse,
+  block,
+  box,
+  par,
+  raw.with(block: true),
+  raw.with(block: false),
+  heading,
+) {
+  plain-text(el(repr(el)))
+  linebreak()
+}
+
+// Some empty elements
+#plain-text(circle())
+#plain-text(line())
+
+#for spacer in (linebreak, pagebreak, parbreak) {
+  plain-text(spacer())
+}
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/bcf07a5cddbcf3f046484609e01f9a05df81807d05391d590bf8c8e96b324d1b-1.svg}}
+
+
+\title{sitandr.github.io/typst-examples-book/book/typstonomicon/remove-indent-nested}
+
+\section{\texorpdfstring{\hyperref[remove-indent-from-nested-lists]{Remove
+indent from nested
+lists}}{Remove indent from nested lists}}\label{remove-indent-from-nested-lists}
+
+\begin{verbatim}
+// author: fenjalien
+#show enum.item: it => {
+  if repr(it.body.func()) == "sequence" {
+    let children = it.body.children
+    let index = children.position(x => x.func() == enum.item)
+    if index != none {
+      enum.item({
+        children.slice(0, index).join()
+        set enum(indent: -1.2em) // Note that this stops an infinitly recursive show rule
+        children.slice(index).join()
+      })
+    } else {
+      it
+    }
+  } else {
+    it
+  }
+}
+
+arst
++ A
++ b
++ c
+  + d
++ e
+  + f
++ g
++ h
++ i
++ 
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/39725eefebf4a24de8f643e32c454fc7dff8f4f594ba29c6ca84c098b8983860-1.svg}}
+
+
+\title{sitandr.github.io/typst-examples-book/book/typstonomicon/block_break}
+
+\section{\texorpdfstring{\hyperref[breakpoints-on-broken-blocks]{Breakpoints
+on broken
+blocks}}{Breakpoints on broken blocks}}\label{breakpoints-on-broken-blocks}
+
+\subsubsection{\texorpdfstring{\hyperref[implementation-with-table-headers--footers]{Implementation
+with table headers \&
+footers}}{Implementation with table headers \& footers}}\label{implementation-with-table-headers--footers}
+
+See a demo project (more comments, I stripped some of them)
+\href{https://typst.app/project/r-yQHF952iFnPme9BWbRu3}{there} .
+
+\begin{verbatim}
+/// author: wrzian
+
+// Underlying counter and zig-zag functions
+#let counter-family(id) = {
+  let parent = counter(id)
+  let parent-step() = parent.step()
+  let get-child() = counter(id + str(parent.get().at(0)))
+  return (parent-step, get-child)
+}
+
+// A fun zig-zag line!
+#let zig-zag(fill: black, rough-width: 6pt, height: 4pt, thick: 1pt, angle: 0deg) = {
+  layout((size) => {
+    // Use layout to get the size and measure our horizontal distance
+    // Then get the per-zigzag width with some maths.
+    let count = int(calc.round(size.width / rough-width))
+    // Need to add extra thickness since we join with `h(-thick)`
+    let width = thick + (size.width - thick) / count
+    // One zig and one zag:
+    let zig-and-zag = {
+      let line-stroke = stroke(thickness: thick, cap: "round", paint: fill)
+      let top-left = (thick/2, thick/2)
+      let bottom-mid = (width/2, height - thick/2)
+      let top-right = (width - thick/2, thick/2)
+      let zig = line(stroke: line-stroke, start: top-left, end: bottom-mid)
+      let zag = line(stroke: line-stroke, start: bottom-mid, end: top-right)
+      box(place(zig) + place(zag), width: width, height: height, clip: true)
+    }
+    let zig-zags = ((zig-and-zag,) * count).join(h(-thick))
+    rotate(zig-zags, angle)
+  })
+}
+
+// ---- Define split-box ---- //
+
+// Customizable options for a split-box border:
+#let default-border = (
+  // The starting and ending lines
+  above: line(length: 100%),
+  below: line(length: 100%),
+  // Lines to put between the box over multiple pages
+  btwn-above: line(length: 100%, stroke: (dash:"dotted")),
+  btwn-below: line(length: 100%, stroke: (dash:"dotted")),
+  // Left/right lines
+  // These *must* use `grid.vline()`, otherwise you will get an error.
+  // To remove the lines, set them to: `grid.vline(stroke: none)`.
+  // You could probably configure this better with a rowspan, but I'm lazy.
+  left: grid.vline(),
+  right: grid.vline(),
+)
+
+// Create a box for content which spans multiple pages/columns and
+// has custom borders above and below the column-break.
+#let split-box(
+  // Set the border dictionary, see `default-border` above for options
+  border: default-border,
+  // The cell to place content in, this should resolve to a `grid.cell`
+  cell: grid.cell.with(inset: 5pt),
+  // The last positional arg or args are your actual content
+  // Any extra named args will be sent to the underlying grid when called
+  // This is useful for fill, align, etc.
+  ..args
+) = {
+  // See `utils.typ` for more info.
+  let (parent-step, get-child) = counter-family("split-box-unique-counter-string")
+  parent-step() // Place the parent counter once.
+  // Keep track of each time the header is placed on a page.
+  // Then check if we're at the first placement (for header) or the last (footer)
+  // If not, we'll use the 'between' forms of the  border lines.
+  let border-above = context {
+    let header-count = get-child()
+    header-count.step()
+    context if header-count.get() == (1,) { border.above } else { border.btwn-above }
+  }
+  let border-below = context {
+    let header-count = get-child()
+    if header-count.get() == header-count.final() { border.below } else { border.btwn-below }
+  }
+  // Place the grid!
+  grid(
+    ..args.named(),
+    columns: 3,
+    border.left,
+    grid.header(border-above , repeat: true),
+    ..args.pos().map(cell),
+    grid.footer(border-below, repeat: true),
+    border.right,
+  )
+}
+
+// ---- Examples ---- //
+
+#set page(width: 7.2in, height: 3in, columns: 6)
+
+// Tada!
+#split-box[
+  #lorem(20)
+]
+
+// And here's a fun example:
+
+#let fun-border = (
+  // gradients!
+  above: line(length: 100%, stroke: 2pt + gradient.linear(..color.map.rainbow)),
+  below: line(length: 100%, stroke: 2pt + gradient.linear(..color.map.rainbow, angle: 180deg)),
+  // zig-zags!
+  btwn-above: move(dy: +2pt, zig-zag(fill: blue, angle: 3deg)),
+  btwn-below: move(dy: -2pt, zig-zag(fill: orange, angle: 177deg)),
+  left: grid.vline(stroke: (cap: "round", paint: purple)),
+  right: grid.vline(stroke: (cap: "round", paint: purple)),
+)
+
+#split-box(border: fun-border)[
+  #lorem(25)
+]
+
+// And some more tame friends:
+
+#split-box(border: (
+  above: move(dy: -0.5pt, line(length: 100%)),
+  below: move(dy: +0.5pt, line(length: 100%)),
+  // zig-zags!
+  btwn-above: move(dy: -1.1pt, zig-zag()),
+  btwn-below: move(dy: +1.1pt, zig-zag(angle: 180deg)),
+  left: grid.vline(stroke: (cap: "round")),
+  right: grid.vline(stroke: (cap: "round")),
+))[
+  #lorem(10)
+]
+
+#split-box(
+  border: (
+    above: line(length: 100%, stroke: luma(50%)),
+    below: line(length: 100%, stroke: luma(50%)),
+    btwn-above: line(length: 100%, stroke: (dash: "dashed", paint: luma(50%))),
+    btwn-below: line(length: 100%, stroke: (dash: "dashed", paint: luma(50%))),
+    left: grid.vline(stroke: none),
+    right: grid.vline(stroke: none),
+  ),
+  cell: grid.cell.with(inset: 5pt, fill: color.yellow.saturate(-85%))
+)[
+  #lorem(20)
+]
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/52bd37f3e860317c6a162bb4a1ea8275ac73dede79a9e50c5201b4d1fd59c323-1.svg}}
+
+\subsubsection{\texorpdfstring{\hyperref[implementation-via-headers-footers-and-stated]{Implementation
+via headers, footers and
+stated}}{Implementation via headers, footers and stated}}\label{implementation-via-headers-footers-and-stated}
+
+Limitations: \textbf{works only with one-column layout and one break} .
+
+\begin{verbatim}
+#let countBoundaries(loc, fromHeader) = {
+  let startSelector = selector(label("boundary-start"))
+  let endSelector = selector(label("boundary-end"))
+
+  if fromHeader {
+    // Count down from the top of the page
+    startSelector = startSelector.after(loc)
+    endSelector = endSelector.after(loc)
+  } else {
+    // Count up from the bottom of the page
+    startSelector = startSelector.before(loc)
+    endSelector = endSelector.before(loc)
+  }
+
+  let startMarkers = query(startSelector)
+  let endMarkers = query(endSelector)
+  let currentPage = loc.position().page
+
+  let pageStartMarkers = startMarkers.filter(elem =>
+    elem.location().position().page == currentPage)
+
+  let pageEndMarkers = endMarkers.filter(elem =>
+    elem.location().position().page == currentPage)
+
+  (start: pageStartMarkers.len(), end: pageEndMarkers.len())
+}
+
+#set page(
+  margin: 2em,
+  // ... other page setup here ...
+  header: context {
+    let boundaryCount = countBoundaries(here(), true)
+
+    if boundaryCount.end > boundaryCount.start {
+      // Decorate this header with an opening decoration
+      [Block break top: $-->$]
+    }
+  },
+  footer: context {
+    let boundaryCount = countBoundaries(here(), false)
+
+    if boundaryCount.start > boundaryCount.end {
+      // Decorate this footer with a closing decoration
+      [Block break end: $<--$]
+    }
+  }
+)
+
+#let breakable-block(body) = block({
+  [
+    #metadata("boundary") <boundary-start>
+  ]
+  stack(
+    // Breakable list content goes here
+    body
+  )
+  [
+    #metadata("boundary") <boundary-end>
+  ]
+})
+
+#set page(height: 10em)
+
+#breakable-block[
+    #([Something \ ]*10)
+]
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/b5c4a13157c5e42b879173a5b11ec49526bdaec107c979e90572aa38aadb424f-1.svg}}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/b5c4a13157c5e42b879173a5b11ec49526bdaec107c979e90572aa38aadb424f-2.svg}}
+
+
+\title{sitandr.github.io/typst-examples-book/book/typstonomicon/index}
+
+\section{\texorpdfstring{\hyperref[typstonomicon-or-the-code-you-should-not-write]{Typstonomicon,
+or The Code You Should Not
+Write}}{Typstonomicon, or The Code You Should Not Write}}\label{typstonomicon-or-the-code-you-should-not-write}
+
+Totally cursed examples with lots of quires, measure and other things to
+hack around current Typst limitations. Generally you should use this
+code only if you really need it.
+
+Code in this chapter may break in lots of circumstances and debugging it
+will be very painful. You are warned.
+
+I think that this chapter will slowly die as Typst matures.
+
+
+\title{sitandr.github.io/typst-examples-book/book/typstonomicon/totally-empty}
+
+\section{\texorpdfstring{\hyperref[empty-pages-without-numbering]{Empty
+pages without
+numbering}}{Empty pages without numbering}}\label{empty-pages-without-numbering}
+
+\subsection{\texorpdfstring{\hyperref[empty-pages-before-chapters-starting-at-odd-pages]{Empty
+pages before chapters starting at odd
+pages}}{Empty pages before chapters starting at odd pages}}\label{empty-pages-before-chapters-starting-at-odd-pages}
+
+This snippet has been broken on 0.12.0. If someone will help fixing it,
+this would be cool.
+
+\begin{verbatim}
+// author: janekfleper
+
+#set page(height: 20em)
+
+#let find-labels(name) = {
+  return query(name).map(label => label.location().page())
+}
+
+#let page-header = context {
+  let empty-pages = find-labels(<empty-page>)
+  let new-chapters = find-labels(<new-chapter>)
+  if new-chapters.len() > 0 {
+    if new-chapters.contains(here().page()) [
+      _a new chapter starts on this page_
+      #return
+    ]
+
+    // get the index of the next <new-chapter> label
+    let new-chapter-index = new-chapters.position(page => page > here().page())
+    if new-chapter-index != none {
+      let empty-page = empty-pages.at(new-chapter-index)
+      if empty-page < here().page() [
+        _this is an empty page to make the next chapter start on an odd page_
+        #return
+      ]
+    }
+  }
+
+  [and this would be a regular header]
+  line(length: 100%)
+}
+
+#let page-footer = context {
+  // since the page breaks in chapter-heading() are inserted after the <empty-page> label,
+  // the selector has to look "before" the current page to find the relevant label
+  let empty-page-labels = query(selector(<empty-page>).before(here()))
+  if empty-page-labels.len() > 0 {
+    let empty-page = empty-page-labels.last().location().page()
+    // look back at the most recent <new-chapter> label
+    let new-chapter = query(selector(<new-chapter>).before(here())).last().location().page()
+    // check that there is no <new-chapter> label on the current page
+    if (new-chapter != here().page()) and (empty-page + 1 == here().page()) [
+      _this is an empty page where the page number should be omitted_
+      #return
+    ]
+  }
+
+  let page-display = counter(page).display(here().page-numbering())
+  h(1fr) + page-display + h(1fr)
+}
+
+#show heading.where(level: 1): it => [
+  #[] <empty-page>
+  #pagebreak(to: "even", weak: true)
+  #[] <new-chapter>
+  #pagebreak(to: "odd", weak: true)
+  #it.body
+  #v(2em)
+]
+
+
+#show outline.entry.where(level: 1): it => {
+  // reverse the results of the label queries to find the last <empty-page> label for the targeted page
+  // the method array.position() will always return the first one...
+  let empty-pages = find-labels(<empty-page>).rev()
+  let new-chapters = query(<new-chapter>).rev()
+  let empty-page-index = empty-pages.position(page => page == int(it.page.text))
+  let new-chapter = new-chapters.at(empty-page-index)
+  link(new-chapter.location())[#it.body #box(width: 1fr)[#it.fill] #new-chapter.location().page()]
+}
+
+#set page(header: page-header, footer: page-footer, numbering: "1")
+
+#outline()
+
+= The explanation
+
+```
+These queries reveal where the corresponding tags are found. The actual empty page is always at the location of the label <empty-page> + 1. If an empty page is actually inserted by the pagebreaks, the two labels will cover the page of the heading and one page before that. If no empty page was inserted, both labels will point to the same page which is not an issue either. And even then we can check for the <new-chapter> label first to give it a higher priority.
+
+The first <empty-page> label is always on page 1 and can just be ignored since it points to the (non-existing) empty page before the first chapter.
+
+pages with the label <empty-page>: #context find-labels(<empty-page>)
+pages with the label <new-chapter>: #context find-labels(<new-chapter>)
+```
+
+= A heading
+#lorem(190)
+
+= Another heading
+#lorem(100)
+
+= The last heading
+#lorem(400)
+\end{verbatim}
+
+

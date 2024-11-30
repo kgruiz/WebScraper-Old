@@ -1,0 +1,2553 @@
+\title{sitandr.github.io/typst-examples-book/book/packages/drawing}
+
+\section{\texorpdfstring{\hyperref[drawing]{Drawing}}{Drawing}}\label{drawing}
+
+\subsection{\texorpdfstring{\hyperref[cetz]{\texttt{\ }{\texttt{\ cetz\ }}\texttt{\ }}}{  cetz  }}\label{cetz}
+
+Cetz is an analogue of LaTeX\textquotesingle s
+\texttt{\ }{\texttt{\ tikz\ }}\texttt{\ } . Maybe it is not as powerful
+yet, but certainly easier to learn and use.
+
+It is the best choice in most of cases you want to draw something in
+Typst.
+
+\begin{verbatim}
+#import "@preview/cetz:0.1.2"
+
+#cetz.canvas(length: 1cm, {
+  import cetz.draw: *
+  import cetz.angle: angle
+  let (a, b, c) = ((0,0), (-1,1), (1.5,0))
+  line(a, b)
+  line(a, c)
+  set-style(angle: (radius: 1, label-radius: .5), stroke: blue)
+  angle(a, c, b, label: $alpha$, mark: (end: ">"), stroke: blue)
+  set-style(stroke: red)
+  angle(a, b, c, label: n => $#{n/1deg} degree$,
+    mark: (end: ">"), stroke: red, inner: false)
+})
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/d3b5277dd18dffb6da9a8f41486cb85a5044597821e80867652f062724ed8dd4-1.svg}}
+
+\begin{verbatim}
+#import "@preview/cetz:0.1.2": canvas, draw
+
+#canvas(length: 1cm, {
+  import draw: *
+  intersections(name: "demo", {
+    circle((0, 0))
+    bezier((0,0), (3,0), (1,-1), (2,1))
+    line((0,-1), (0,1))
+    rect((1.5,-1),(2.5,1))
+  })
+  for-each-anchor("demo", (name) => {
+    circle("demo." + name, radius: .1, fill: black)
+  })
+})
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/05a1dbe2a2d17e5e81991406bed640775db6ab4ce2d585bc5a0d1175def43ea1-1.svg}}
+
+\begin{verbatim}
+#import "@preview/cetz:0.1.2": canvas, draw
+
+#canvas(length: 1cm, {
+  import draw: *
+  let (a, b, c) = ((0, 0), (1, 1), (2, -1))
+  line(a, b, c, stroke: gray)
+  bezier-through(a, b, c, name: "b")
+  // Show calculated control points
+  line(a, "b.ctrl-1", "b.ctrl-2", c, stroke: gray)
+})
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/8e7d39d73212ebf8f230a0bd54a7fb7e58607a99f327e29809c4021b9e797345-1.svg}}
+
+\begin{verbatim}
+#import "@preview/cetz:0.1.2": canvas, draw
+
+#canvas(length: 1cm, {
+  import draw: *
+  group(name: "g", {
+    rotate(45deg)
+    rect((0,0), (1,1), name: "r")
+    copy-anchors("r")
+  })
+  circle("g.top", radius: .1, fill: black)
+})
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/b3d0b37a84cddb77a1508333743f851509e2250930abdcbda7ec4675e00077c3-1.svg}}
+
+\begin{verbatim}
+// author: LDemetrios
+#import "@preview/cetz:0.2.2"
+
+#cetz.canvas({
+  let left = (a:2, b:1, d:-1, e:-2)
+  let right = (p:2.7, q: 1.8, r: 0.9, s: -.3, t: -1.5, u: -2.4)
+  let edges = "as,bq,dq,et".split(",")
+
+  let ell-width = 1.5
+  let ell-height = 3
+  let dist = 5
+  let dot-radius = 0.1
+  let dot-clr = blue
+
+  import cetz.draw: *
+  circle((-dist/2, 0), radius:(ell-width ,  ell-height))
+  circle((+dist/2, 0), radius:(ell-width ,  ell-height))
+
+  for (name, y) in left {
+    circle((-dist/2, y), radius:dot-radius, fill:dot-clr, name:name)
+    content(name, anchor:"east", pad(right:.7em, text(fill:dot-clr, name)))
+  }
+
+  for (name, y) in right {
+    circle((dist/2, y), radius:dot-radius, fill:dot-clr, name:name)
+    content(name, anchor:"west", pad(left:.7em, text(fill:dot-clr, name)))
+  }
+
+  for edge in edges {
+    let from = edge.at(0)
+    let to = edge.at(1)
+    line(from, to)
+    mark(from, to, symbol: ">",  fill: black)
+  }
+
+  content((0, - ell-height), text(fill:blue)[APPLICATION], anchor:"south")
+})
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/7a4a9224b76305ecd694fd4505b3fdee8c706ccea76ac0e59fd13d469c343dd4-1.svg}}
+
+
+\title{sitandr.github.io/typst-examples-book/book/packages/physics}
+
+\section{\texorpdfstring{\hyperref[physics]{Physics}}{Physics}}\label{physics}
+
+\subsection{\texorpdfstring{\hyperref[physica]{\texttt{\ }{\texttt{\ physica\ }}\texttt{\ }}}{  physica  }}\label{physica}
+
+\begin{quote}
+Physica (Latin for \emph{natural sciences} ) provides utilities that
+simplify otherwise complex and repetitive mathematical expressions in
+natural sciences.
+\end{quote}
+
+\begin{quote}
+Its
+\href{https://github.com/Leedehai/typst-physics/blob/master/physica-manual.pdf}{manual}
+provides a full set of demonstrations of how the package could be
+helpful.
+\end{quote}
+
+\subsubsection{\texorpdfstring{\hyperref[mathematical-physics]{Mathematical
+physics}}{Mathematical physics}}\label{mathematical-physics}
+
+The \href{./math.html\#common-notations}{packages/math.md} page has more
+examples on its math capabilities. Below is a preview that may be of
+particular interest in the domain of physics:
+
+\begin{itemize}
+\tightlist
+\item
+  Calculus: differential, ordinary and partial derivatives
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Optional function name,
+  \item
+    Optional order number or array of order numbers,
+  \item
+    Customizable "d" symbol and product joiner (say, exterior product),
+  \item
+    Overridable total order calculation,
+  \end{itemize}
+\item
+  Vectors and vector fields: div, grad, curl,
+\item
+  Taylor expansion,
+\item
+  Dirac braket notations,
+\item
+  Tensors with abstract index notations,
+\item
+  Matrix transpose and dagger (conjugate transpose).
+\item
+  Special matrices: determinant, (anti-)diagonal, identity, zero,
+  Jacobian, Hessian, etc.
+\end{itemize}
+
+A partial glimpse:
+
+\begin{verbatim}
+#import "@preview/physica:0.9.1": *
+#show: super-T-as-transpose // put in a #[...] to limit its scope...
+#show: super-plus-as-dagger // ...or use scripts() to manually override
+
+$ dd(x,y,2) quad dv(f,x,d:Delta)      quad pdv(,x,y,[2i+1,2+i]) quad
+  vb(a) va(a) vu(a_i)  quad mat(laplacian, div; grad, curl)     quad
+  tensor(T,+a,-b,+c)   quad ket(phi)  quad A^+ e^scripts(+) A^T integral^T $
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/fa8a12d2904a08958d4f83d69dda6bb38308b431055a25790d286a250e364c6c-1.svg}}
+
+\subsubsection{\texorpdfstring{\hyperref[isotopes]{Isotopes}}{Isotopes}}\label{isotopes}
+
+\begin{verbatim}
+#import "@preview/physica:0.9.1": isotope
+
+// a: mass number A
+// z: the atomic number Z
+$
+isotope(I, a:127), quad isotope("Fe", z:26), quad
+isotope("Tl",a:207,z:81) --> isotope("Pb",a:207,z:82) + isotope(e,a:0,z:-1)
+$
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/b290d801c6760a41e50520401d9e72cb63a8691aa136308cbad87349e7e436f0-1.svg}}
+
+\subsubsection{\texorpdfstring{\hyperref[reduced-planck-constant-hbar]{Reduced
+Planck constant
+(hbar)}}{Reduced Planck constant (hbar)}}\label{reduced-planck-constant-hbar}
+
+In the default font, the Typst built-in symbol
+\texttt{\ }{\texttt{\ planck.reduce\ }}\texttt{\ } looks a bit off: on
+letter "h" there is a slash instead of a horizontal bar, contrary to the
+symbol\textquotesingle s colloquial name "h-bar". This package offers
+\texttt{\ }{\texttt{\ hbar\ }}\texttt{\ } to render the symbol in the
+familiar form⁠. Contrast:
+
+\begin{verbatim}
+#import "@preview/physica:0.9.1": hbar
+
+$ E = planck.reduce omega => E = hbar omega, wide
+  frac(planck.reduce^2, 2m) => frac(hbar^2, 2m), wide
+  (pi G^2) / (planck.reduce c^4) => (pi G^2) / (hbar c^4), wide
+  e^(frac(i(p x - E t), planck.reduce)) => e^(frac(i(p x - E t), hbar)) $
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/efab3b0486d1cddc3388248c4100e1cc919088cdb93f3e072001547c40005f01-1.svg}}
+
+\subsection{\texorpdfstring{\hyperref[quill-quantum-diagrams]{\texttt{\ }{\texttt{\ quill\ }}\texttt{\ }
+: quantum
+diagrams}}{  quill   : quantum diagrams}}\label{quill-quantum-diagrams}
+
+\begin{quote}
+See \href{https://github.com/Mc-Zen/quill/tree/main}{documentation} .
+\end{quote}
+
+\begin{verbatim}
+#import "@preview/quill:0.2.0": *
+#quantum-circuit(
+  lstick($|0〉$), gate($H$), ctrl(1), rstick($(|00〉+|11〉)/√2$, n: 2), [\ ],
+  lstick($|0〉$), 1, targ(), 1
+)
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/bd14c65cd60e1efc4d15ae7234e364c6d5740a168e2cb275743ed1fbcc9483eb-1.svg}}
+
+\begin{verbatim}
+#import "@preview/quill:0.2.0": *
+
+#let ancillas = (setwire(0), 5, lstick($|0〉$), setwire(1), targ(), 2, [\ ],
+setwire(0), 5, lstick($|0〉$), setwire(1), 1, targ(), 1)
+
+#quantum-circuit(
+  scale-factor: 80%,
+  lstick($|ψ〉$), 1, 10pt, ctrl(3), ctrl(6), $H$, 1, 15pt, 
+    ctrl(1), ctrl(2), 1, [\ ],
+  ..ancillas, [\ ],
+  lstick($|0〉$), 1, targ(), 1, $H$, 1, ctrl(1), ctrl(2), 
+    1, [\ ],
+  ..ancillas, [\ ],
+  lstick($|0〉$), 2, targ(),  $H$, 1, ctrl(1), ctrl(2), 
+    1, [\ ],
+  ..ancillas
+)
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/597640923e31369199c6e7158de9094a2c94f2c5dae6ced72c6b83b1067fa8e4-1.svg}}
+
+\begin{verbatim}
+#import "@preview/quill:0.2.0": *
+
+#quantum-circuit(
+  lstick($|psi〉$),  ctrl(1), gate($H$), 1, ctrl(2), meter(), [\ ],
+  lstick($|beta_00〉$, n: 2), targ(), 1, ctrl(1), 1, meter(), [\ ],
+  3, gate($X$), gate($Z$),  midstick($|psi〉$)
+)
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/cc71bc052c7a80c702289f780ee42a168c1491076dd5934408373895ca95c35e-1.svg}}
+
+
+\title{sitandr.github.io/typst-examples-book/book/packages/wrapping}
+
+\section{\texorpdfstring{\hyperref[wrapping-figures]{Wrapping
+figures}}{Wrapping figures}}\label{wrapping-figures}
+
+The better native support for wrapping is planned, however, something is
+already possible via package:
+
+\begin{verbatim}
+#import "@preview/wrap-it:0.1.0": wrap-content, wrap-top-bottom
+
+#set par(justify: true)
+#let fig = figure(
+  rect(fill: teal, radius: 0.5em, width: 8em),
+  caption: [A figure],
+)
+#let body = lorem(40)
+#wrap-content(fig, body)
+
+#wrap-content(
+  fig,
+  body,
+  align: bottom + right,
+  column-gutter: 2em
+)
+
+#let boxed = box(fig, inset: 0.5em)
+#wrap-content(boxed)[
+  #lorem(40)
+]
+
+#let fig2 = figure(
+  rect(fill: lime, radius: 0.5em),
+  caption: [Another figure],
+)
+#wrap-top-bottom(boxed, fig2, lorem(60))
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/1d249d6947bbea7f94c4f5f111c873f278dcf473e0cf672d6c55800c0eb6822c-1.svg}}
+
+Limitations: non-ideal spacing near warping, only top-bottom left/right
+are supported.
+
+
+\title{sitandr.github.io/typst-examples-book/book/packages/math}
+
+\section{\texorpdfstring{\hyperref[math]{Math}}{Math}}\label{math}
+
+\subsection{\texorpdfstring{\hyperref[general]{General}}{General}}\label{general}
+
+\subsubsection{\texorpdfstring{\hyperref[physica]{\texttt{\ }{\texttt{\ physica\ }}\texttt{\ }}}{  physica  }}\label{physica}
+
+\begin{quote}
+Physica (Latin for \emph{natural sciences} ) provides utilities that
+simplify otherwise complex and repetitive mathematical expressions in
+natural sciences.
+\end{quote}
+
+\begin{quote}
+Its
+\href{https://github.com/Leedehai/typst-physics/blob/master/physica-manual.pdf}{manual}
+provides a full set of demonstrations of how the package could be
+helpful.
+\end{quote}
+
+\paragraph{\texorpdfstring{\hyperref[common-notations]{Common
+notations}}{Common notations}}\label{common-notations}
+
+\begin{itemize}
+\tightlist
+\item
+  Calculus: differential, ordinary and partial derivatives
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Optional function name,
+  \item
+    Optional order number or an array of thereof,
+  \item
+    Customizable "d" symbol and product joiner (say, exterior product),
+  \item
+    Overridable total order calculation,
+  \end{itemize}
+\item
+  Vectors and vector fields: div, grad, curl,
+\item
+  Taylor expansion,
+\item
+  Dirac braket notations,
+\item
+  Tensors with abstract index notations,
+\item
+  Matrix transpose and dagger (conjugate transpose).
+\item
+  Special matrices: determinant, (anti-)diagonal, identity, zero,
+  Jacobian, Hessian, etc.
+\end{itemize}
+
+Below is a preview of those notations.
+
+\begin{verbatim}
+#import "@preview/physica:0.9.1": * // Symbol names annotated below
+
+#table(
+  columns: 4, align: horizon, stroke: none, gutter: 1em,
+
+  // vectors: bold, unit, arrow
+  [$ vb(a), vb(e_i), vu(a), vu(e_i), va(a), va(e_i) $],
+  // dprod (dot product), cprod (cross product), iprod (innerproduct)
+  [$ a dprod b, a cprod b, iprod(a, b) $],
+  // laplacian (different from built-in laplace)
+  [$ dot.double(u) = laplacian u =: laplace u $],
+  // grad, div, curl (vector fields)
+  [$ grad phi, div vb(E), \ curl vb(B) $],
+)
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/3be7ef86d6c5f7044a42c69fcf93afccd936eb0fcbe987122702c7dda467480f-1.svg}}
+
+\begin{verbatim}
+#import "@preview/physica:0.9.1": * // Symbol names annotated below
+
+#table(
+  columns: 4, align: horizon, stroke: none, gutter: 1em,
+
+  // Row 1.
+  // dd (differential), var (variation), difference
+  [$ dd(f), var(f), difference(f) $],
+  // dd, with an order number or an array thereof
+  [$ dd(x,y), dd(x,y,2), \ dd(x,y,[1,n]), dd(vb(x),t,[3,]) $],
+  // dd, with custom "d" symbol and joiner
+  [$ dd(x,y,p:and), dd(x,y,d:Delta), \ dd(x,y,z,[1,1,n+1],d:d,p:dot) $],
+  // dv (ordinary derivative), with custom "d" symbol and joiner
+  [$ dv(phi,t,d:Delta), dv(phi,t,d:upright(D)), dv(phi,t,d:delta) $],
+
+  // Row 2.
+  // dv, with optional function name and order
+  [$ dv(,t) (dv(x,t)) = dv(x,t,2) $],
+  // pdv (partial derivative)
+  [$ pdv(f,x,y,2), pdv(,x,y,[k,]) $],
+  // pdv, with auto-added overridable total
+  [$ pdv(,x,y,[i+2,i+1]), pdv(,y,x,[i+1,i+2],total:3+2i) $],
+  // In a flat form
+  [$ dv(u,x,s:slash), \ pdv(u,x,y,2,s:slash) $],
+)
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/0835a840454f88ed2e3b98ddfe37d6f8026729812372a6298d86129611f348c3-1.svg}}
+
+\begin{verbatim}
+#import "@preview/physica:0.9.1": * // Symbol names annotated below
+
+#table(
+  columns: 3, align: horizon, stroke: none, gutter: 1em,
+
+  // tensor
+  [$ tensor(T,+a,-b,-c) != tensor(T,-b,-c,+a) != tensor(T,+a',-b,-c) $],
+  // Set builder notation
+  [$ Set(p, {q^*, p} = 1) $],
+  // taylorterm (Taylor series term)
+  [$ taylorterm(f,x,x_0,1) \ taylorterm(f,x,x_0,(n+1)) $],
+)
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/5c08b65761578f38762229692a33e2b05f096aa8fb7859238b1018240f054d10-1.svg}}
+
+\begin{verbatim}
+#import "@preview/physica:0.9.1": * // Symbol names annotated below
+
+#table(
+  columns: 3, align: horizon, stroke: none, gutter: 1em,
+
+  // expval (mean/expectation value), eval (evaluation boundary)
+  [$ expval(X) = eval(f(x)/g(x))^oo_1 $],
+  // Dirac braket notations
+  [$
+    bra(u), braket(u), braket(u, v), \
+    ket(u), ketbra(u), ketbra(u, v), \
+    mel(phi, hat(p), psi) $],
+  // Superscript show rules that need to be enabled explicitly.
+  // If put in a content block, they only control that block's scope.
+  [
+    #show: super-T-as-transpose // "..^T" just like handwriting
+    #show: super-plus-as-dagger // "..^+" just like handwriting
+    $ op("conj")A^T =^"def" A^+ \
+      e^scripts(T), e^scripts(+) $ ], // Override with scripts()
+)
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/8965812a9c349892988d61872ff06418581098d15169b775f67b30e3460dd854-1.svg}}
+
+\paragraph{\texorpdfstring{\hyperref[matrices]{Matrices}}{Matrices}}\label{matrices}
+
+In addition to Typst\textquotesingle s built-in
+\texttt{\ }{\texttt{\ mat()\ }}\texttt{\ } to write a matrix, physica
+provides a number of handy tools to make it even easier.
+
+\begin{verbatim}
+#import "@preview/physica:0.9.1": TT, mdet
+
+$
+// Matrix transpose with "TT", though it is recommended to
+// use super-T-as-transpose so that "A^T" also works (more on that later).
+A^TT,
+// Determinant with "mdet(...)".
+det mat(a, b; c, d) := mdet(a, b; c, d)
+$
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/7eccaa3a0cf838bca4daf9ebf573452506d3ea724086fcda0c9eb4264e66b5d9-1.svg}}
+
+Diagonal matrix
+\texttt{\ }{\texttt{\ dmat(\ }}\texttt{\ }{\texttt{\ ...\ }}\texttt{\ }{\texttt{\ )\ }}\texttt{\ }
+, antidiagonal matrix
+\texttt{\ }{\texttt{\ admat(\ }}\texttt{\ }{\texttt{\ ...\ }}\texttt{\ }{\texttt{\ )\ }}\texttt{\ }
+, identity matrix \texttt{\ }{\texttt{\ imat(n)\ }}\texttt{\ } , and
+zero matrix \texttt{\ }{\texttt{\ zmat(n)\ }}\texttt{\ } .
+
+\begin{verbatim}
+#import "@preview/physica:0.9.1": dmat, admat, imat, zmat
+
+$ dmat(1, 2)  dmat(1, a_1, xi, fill:0)               quad
+  admat(1, 2) admat(1, a_1, xi, fill:dot, delim:"[") quad
+  imat(2)     imat(3, delim:"{",fill:*) quad
+  zmat(2)     zmat(3, delim:"|") $
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/66bbf5294be293cc58d98de6ca078eb17c58539169325e6b59a6aa78e7a49f62-1.svg}}
+
+Jacobian matrix with
+\texttt{\ }{\texttt{\ jmat(func;\ }}\texttt{\ }{\texttt{\ ...\ }}\texttt{\ }{\texttt{\ )\ }}\texttt{\ }
+or the longer name \texttt{\ }{\texttt{\ jacobianmatrix\ }}\texttt{\ } ,
+Hessian matrix with
+\texttt{\ }{\texttt{\ hmat(func;\ }}\texttt{\ }{\texttt{\ ...\ }}\texttt{\ }{\texttt{\ )\ }}\texttt{\ }
+or the longer name \texttt{\ }{\texttt{\ hessianmatrix\ }}\texttt{\ } ,
+and finally \texttt{\ }{\texttt{\ xmat(row,\ col,\ func)\ }}\texttt{\ }
+to build a matrix.
+
+\begin{verbatim}
+#import "@preview/physica:0.9.1": jmat, hmat, xmat
+
+$
+jmat(f_1,f_2; x,y) jmat(f,g; x,y,z; delim:"[") quad
+hmat(f; x,y)       hmat(; x,y; big:#true)      quad
+
+#let elem-ij = (i,j) => $g^(#(i - 1)#(j - 1)) = #calc.pow(i,j)$
+xmat(2, 2, #elem-ij)
+$
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/7cd30cef52b187d17459d7806a94d5ae56118d0f969760bbbaabeb83007e6869-1.svg}}
+
+\subsubsection{\texorpdfstring{\hyperref[mitex]{\texttt{\ }{\texttt{\ mitex\ }}\texttt{\ }}}{  mitex  }}\label{mitex}
+
+\begin{quote}
+MiTeX provides LaTeX support powered by WASM in Typst, including
+real-time rendering of LaTeX math equations. You can also use LaTeX
+syntax to write
+\texttt{\ }{\texttt{\ \textbackslash{}r\ }}\texttt{\ }{\texttt{\ ef\ }}\texttt{\ }
+and
+\texttt{\ }{\texttt{\ \textbackslash{}l\ }}\texttt{\ }{\texttt{\ abel\ }}\texttt{\ }
+.
+\end{quote}
+
+\begin{quote}
+Please refer to the \href{https://github.com/mitex-rs/mitex}{manual} for
+more details.
+\end{quote}
+
+\begin{verbatim}
+#import "@preview/mitex:0.2.4": *
+
+Write inline equations like #mi("x") or #mi[y].
+
+Also block equations:
+
+#mitex(`
+  \newcommand{\f}[2]{#1f(#2)}
+  \f\relax{x} = \int_{-\infty}^\infty
+    \f\hat\xi\,e^{2 \pi i \xi x}
+    \,d\xi
+`)
+
+Text mode:
+
+#mitext(`
+  \iftypst
+    #set math.equation(numbering: "(1)", supplement: "equation")
+  \fi
+
+  An inline equation $x + y$ and block \eqref{eq:pythagoras}.
+
+  \begin{equation}
+    a^2 + b^2 = c^2 \label{eq:pythagoras}
+  \end{equation}
+`)
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/a3ff500a39b6d93d85b223af0aa162a5bfbe93fad3436dba80ee022638ed727a-1.svg}}
+
+\subsubsection{\texorpdfstring{\hyperref[i-figured]{\texttt{\ }{\texttt{\ i-figured\ }}\texttt{\ }}}{  i-figured  }}\label{i-figured}
+
+Configurable equation numbering per section in Typst. There is also
+figure numbering per section, see more examples in its
+\href{https://github.com/RubixDev/typst-i-figured}{manual} .
+
+\begin{verbatim}
+#import "@preview/i-figured:0.2.3"
+
+// make sure you have some heading numbering set
+#set heading(numbering: "1.1")
+
+// apply the show rules (these can be customized)
+#show heading: i-figured.reset-counters
+#show math.equation: i-figured.show-equation.with(
+  level: 1,
+  zero-fill: true,
+  leading-zero: true,
+  numbering: "(1.1)",
+  prefix: "eqt:",
+  only-labeled: false,  // numbering all block equations implicitly
+  unnumbered-label: "-",
+)
+
+
+= Introduction
+
+You can write inline equations such as $x + y$, and numbered block equations like:
+
+$ phi.alt := (1 + sqrt(5)) / 2 $ <ratio>
+
+To reference a math equation, please use the `eqt:` prefix. For example, with @eqt:ratio, we have:
+
+$ F_n = floor(1 / sqrt(5) phi.alt^n) $
+
+
+= Appdendix
+
+Additionally, you can use the <-> tag to indicate that a block formula should not be numbered:
+
+$ y = integral_1^2 x^2 dif x $ <->
+
+Subsequent math equations will continue to be numbered as usual:
+
+$ F_n = floor(1 / sqrt(5) phi.alt^n) $
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/b338b679a09371841be9322ac7cee901b6a1415582c3495677833602e344cae0-1.svg}}
+
+\subsection{\texorpdfstring{\hyperref[theorems]{Theorems}}{Theorems}}\label{theorems}
+
+\subsubsection{\texorpdfstring{\hyperref[ctheorem]{\texttt{\ }{\texttt{\ ctheorem\ }}\texttt{\ }}}{  ctheorem  }}\label{ctheorem}
+
+A numbered theorem environment in Typst. See more examples in its
+\href{https://github.com/sahasatvik/typst-theorems/blob/main/manual.pdf}{manual}
+.
+
+\begin{verbatim}
+#import "@preview/ctheorems:1.1.0": *
+#show: thmrules
+
+#set page(width: 16cm, height: auto, margin: 1.5cm)
+#set heading(numbering: "1.1")
+
+#let theorem = thmbox("theorem", "Theorem", fill: rgb("#eeffee"))
+#let corollary = thmplain("corollary", "Corollary", base: "theorem", titlefmt: strong)
+#let definition = thmbox("definition", "Definition", inset: (x: 1.2em, top: 1em))
+
+#let example = thmplain("example", "Example").with(numbering: none)
+#let proof = thmplain(
+  "proof", "Proof", base: "theorem",
+  bodyfmt: body => [#body #h(1fr) $square$]
+).with(numbering: none)
+
+= Prime Numbers
+#lorem(7)
+#definition[ A natural number is called a #highlight[_prime number_] if ... ]
+#example[
+  The numbers $2$, $3$, and $17$ are prime. See @cor_largest_prime shows that
+  this list is not exhaustive!
+]
+#theorem("Euclid")[There are infinitely many primes.]
+#proof[
+  Suppose to the contrary that $p_1, p_2, dots, p_n$ is a finite enumeration
+  of all primes. ... a contradiction.
+]
+#corollary[
+  There is no largest prime number.
+] <cor_largest_prime>
+#corollary[There are infinitely many composite numbers.]
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/54d7817ddc4a8481da09052aa51dc6e4dde19bd85f40173b92750c402b07ff73-1.svg}}
+
+\subsubsection{\texorpdfstring{\hyperref[lemmify]{\texttt{\ }{\texttt{\ lemmify\ }}\texttt{\ }}}{  lemmify  }}\label{lemmify}
+
+Lemmify is another theorem evironment generator with many selector and
+numbering capabilities. See documentations in its
+\href{https://github.com/Marmare314/lemmify}{readme} .
+
+\begin{verbatim}
+#import "@preview/lemmify:0.1.5": *
+
+#let my-thm-style(
+  thm-type, name, number, body
+) = grid(
+  columns: (1fr, 3fr),
+  column-gutter: 1em,
+  stack(spacing: .5em, [#strong(thm-type) #number], emph(name)),
+  body
+)
+#let my-styling = ( thm-styling: my-thm-style )
+#let (
+  definition, theorem, proof, lemma, rules
+) = default-theorems("thm-group", lang: "en", ..my-styling)
+#show: rules
+#show thm-selector("thm-group"): box.with(inset: 0.8em)
+#show thm-selector("thm-group", subgroup: "theorem"): it => box(
+  it, fill: rgb("#eeffee"))
+
+#set heading(numbering: "1.1")
+
+= Prime numbers
+#lorem(7) @proof and @thm[theorem]
+#definition[ A natural number is called a #highlight[_prime number_] if ... ]
+#theorem(name: "Theorem name")[There are infinitely many primes.]<thm>
+#proof[
+  Suppose to the contrary that $p_1, p_2, dots, p_n$ is a finite enumeration
+  of all primes. ... #highlight[_a contradiction_].]<proof>
+#lemma[There are infinitely many composite numbers.]
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/46b0a27243980ee99b20133dbba1f00d4d819adff6e645ca0749820f5caf3589-1.svg}}
+
+
+\title{sitandr.github.io/typst-examples-book/book/packages/graphs}
+
+\section{\texorpdfstring{\hyperref[graphs]{Graphs}}{Graphs}}\label{graphs}
+
+\subsection{\texorpdfstring{\hyperref[cetz]{\texttt{\ }{\texttt{\ cetz\ }}\texttt{\ }}}{  cetz  }}\label{cetz}
+
+Cetz comes with quite built-in support of drawing basic graphs. It is
+much more customizable and extensible then packages like
+\texttt{\ }{\texttt{\ plotst\ }}\texttt{\ } , so it is recommended to
+skim through its possibilities.
+
+\begin{quote}
+See full manual
+\href{https://github.com/johannes-wolf/cetz/blob/master/manual.pdf?raw=true}{there}
+.
+\end{quote}
+
+\begin{verbatim}
+#let data = (
+  [A], ([B], [C], [D]), ([E], [F])
+)
+
+#import "@preview/cetz:0.1.2": canvas, draw, tree
+
+#canvas(length: 1cm, {
+  import draw: *
+
+  set-style(content: (padding: .2),
+    fill: gray.lighten(70%),
+    stroke: gray.lighten(70%))
+
+  tree.tree(data, spread: 2.5, grow: 1.5, draw-node: (node, _) => {
+    circle((), radius: .45, stroke: none)
+    content((), node.content)
+  }, draw-edge: (from, to, _) => {
+    line((a: from, number: .6, abs: true, b: to),
+         (a: to, number: .6, abs: true, b: from), mark: (end: ">"))
+  }, name: "tree")
+
+  // Draw a "custom" connection between two nodes
+  let (a, b) = ("tree.0-0-1", "tree.0-1-0",)
+  line((a: a, number: .6, abs: true, b: b), (a: b, number: .6, abs: true, b: a), mark: (end: ">", start: ">"))
+})
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/18fc5bbebb79c44df6fd484d2cc0c763b6a64e4a6455535738e40932f5fa39b4-1.svg}}
+
+\begin{verbatim}
+#import "@preview/cetz:0.1.2": canvas, draw
+
+#canvas({
+    import draw: *
+    circle((90deg, 3), radius: 0, name: "content")
+    circle((210deg, 3), radius: 0, name: "structure")
+    circle((-30deg, 3), radius: 0, name: "form")
+    for (c, a) in (
+    ("content", "bottom"),
+    ("structure", "top-right"),
+    ("form", "top-left")
+    ) {
+    content(c, box(c + " oriented", inset: 5pt), anchor:
+    a)
+    }
+    stroke(gray + 1.2pt)
+    line("content", "structure", "form", close: true)
+    for (c, s, f, cont) in (
+    (0.5, 0.1, 1, "PostScript"),
+    (1, 0, 0.4, "DVI"),
+    (0.5, 0.5, 1, "PDF"),
+    (0, 0.25, 1, "CSS"),
+    (0.5, 1, 0, "XML"),
+    (0.5, 1, 0.4, "HTML"),
+    (1, 0.2, 0.8, "LaTeX"),
+    (1, 0.6, 0.8, "TeX"),
+    (0.8, 0.8, 1, "Word"),
+    (1, 0.05, 0.05, "ASCII")
+    ) {
+    content((bary: (content: c, structure: s, form:
+    f)),cont)
+    }
+})
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/e93f89ca321c612b1157fd81cea439ade85d17485d0111a08b94e54e59e356db-1.svg}}
+
+\begin{verbatim}
+#import "@preview/cetz:0.1.2": canvas, chart
+
+#let data2 = (
+  ([15-24], 18.0, 20.1, 23.0, 17.0),
+  ([25-29], 16.3, 17.6, 19.4, 15.3),
+  ([30-34], 14.0, 15.3, 13.9, 18.7),
+  ([35-44], 35.5, 26.5, 29.4, 25.8),
+  ([45-54], 25.0, 20.6, 22.4, 22.0),
+  ([55+],   19.9, 18.2, 19.2, 16.4),
+)
+
+#canvas({
+  chart.barchart(mode: "clustered",
+                 size: (9, auto),
+                 label-key: 0,
+                 value-key: (..range(1, 5)),
+                 bar-width: .8,
+                 x-tick-step: 2.5,
+                 data2)
+})
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/3d162509c91794a0814503ed304bea48b221b2f58559c9d832c3254580cd0d2b-1.svg}}
+
+\subsubsection{\texorpdfstring{\hyperref[draw-a-graph-in-polar-coords]{Draw
+a graph in polar
+coords}}{Draw a graph in polar coords}}\label{draw-a-graph-in-polar-coords}
+
+\begin{verbatim}
+#import "@preview/cetz:0.1.2": canvas, plot
+
+#figure(
+canvas(length: 1cm, {
+  plot.plot(size: (5, 5),
+    x-tick-step: 5,
+    y-tick-step: 5,
+    x-max: 20,
+    y-max: 20,
+    x-min: -20,
+    y-min: -20,
+    x-grid: true,
+    y-grid: true,
+    {
+      plot.add(
+        domain: (0,2*calc.pi),
+        samples: 100,
+        t => (13*calc.cos(t)-5*calc.cos(2*t)-2*calc.cos(3*t)-calc.cos(4*t), 16*calc.sin(t)*calc.sin(t)*calc.sin(t))
+        )
+    })
+}), caption: "Plot made with cetz",)
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/d24c6270b5c074f9331b16cdde3b626129537c5b4760c17b4e447a7ef3f22388-1.svg}}
+
+\subsection{\texorpdfstring{\hyperref[diagraph]{\texttt{\ }{\texttt{\ diagraph\ }}\texttt{\ }}}{  diagraph  }}\label{diagraph}
+
+\subsubsection{\texorpdfstring{\hyperref[test]{Test}}{Test}}\label{test}
+
+\begin{verbatim}
+#import "@preview/diagraph:0.2.0": *
+#let renderc(code) = render(code.text)
+
+#renderc(
+  ```
+  digraph {
+    rankdir=LR;
+    f -> B
+    B -> f
+    C -> D
+    D -> B
+    E -> F
+    f -> E
+    B -> F
+  }
+  ```
+)
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/f47c3218e9b78fba4f38d6daeaff627ee6b210bda8dd26fcbc56f14a7bb984ee-1.svg}}
+
+\subsubsection{\texorpdfstring{\hyperref[eating]{Eating}}{Eating}}\label{eating}
+
+\begin{verbatim}
+#import "@preview/diagraph:0.2.0": *
+#let renderc(code) = render(code.text)
+
+#renderc(
+  ```
+  digraph {
+    orange -> fruit
+    apple -> fruit
+    fruit -> food
+    carrot -> vegetable
+    vegetable -> food
+    food -> eat
+    eat -> survive
+  }
+  ```
+)
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/0a7fcbfb15be7bac447381d10af9488a7353071c92d849d1e4b7800a360c7659-1.svg}}
+
+\subsubsection{\texorpdfstring{\hyperref[fft]{FFT}}{FFT}}\label{fft}
+
+Labels are overridden manually.
+
+\begin{verbatim}
+#import "@preview/diagraph:0.2.0": *
+#let renderc(code) = render(code.text)
+
+#renderc(
+  ```
+  digraph {
+    node [shape=none]
+    1
+    2
+    3
+    r1
+    r2
+    r3
+    1->2
+    1->3
+    2->r1 [color=red]
+    3->r2 [color=red]
+    r1->r3 [color=red]
+    r2->r3 [color=red]
+  }
+  ```
+)
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/5d7074ff82c6786fa2fad07b25ff4c238dbb9333b0a806d3ea74474fbf8d005e-1.svg}}
+
+\subsubsection{\texorpdfstring{\hyperref[state-machine]{State
+Machine}}{State Machine}}\label{state-machine}
+
+\begin{verbatim}
+#import "@preview/diagraph:0.2.0": *
+#set page(width: auto)
+#let renderc(code) = render(code.text)
+
+#renderc(
+  ```
+  digraph finite_state_machine {
+    rankdir=LR
+    size="8,5"
+
+    node [shape=doublecircle]
+    LR_0
+    LR_3
+    LR_4
+    LR_8
+
+    node [shape=circle]
+    LR_0 -> LR_2 [label="SS(B)"]
+    LR_0 -> LR_1 [label="SS(S)"]
+    LR_1 -> LR_3 [label="S($end)"]
+    LR_2 -> LR_6 [label="SS(b)"]
+    LR_2 -> LR_5 [label="SS(a)"]
+    LR_2 -> LR_4 [label="S(A)"]
+    LR_5 -> LR_7 [label="S(b)"]
+    LR_5 -> LR_5 [label="S(a)"]
+    LR_6 -> LR_6 [label="S(b)"]
+    LR_6 -> LR_5 [label="S(a)"]
+    LR_7 -> LR_8 [label="S(b)"]
+    LR_7 -> LR_5 [label="S(a)"]
+    LR_8 -> LR_6 [label="S(b)"]
+    LR_8 -> LR_5 [label="S(a)"]
+  }
+  ```
+)
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/ce09c93e743aceb45852a12c83839cafd73a5c68d370ff2f863c79ec5896ff10-1.svg}}
+
+\subsubsection{\texorpdfstring{\hyperref[clustering]{Clustering}}{Clustering}}\label{clustering}
+
+\begin{quote}
+See \href{http://www.graphviz.org/content/cluster}{docs} .
+\end{quote}
+
+\begin{verbatim}
+#import "@preview/diagraph:0.2.0": *
+#let renderc(code) = render(code.text)
+
+#renderc(
+  ```
+  digraph G {
+
+    subgraph cluster_0 {
+      style=filled;
+      color=lightgrey;
+      node [style=filled,color=white];
+      a0 -> a1 -> a2 -> a3;
+      label = "process #1";
+    }
+
+    subgraph cluster_1 {
+      node [style=filled];
+      b0 -> b1 -> b2 -> b3;
+      label = "process #2";
+      color=blue
+    }
+
+    start -> a0;
+    start -> b0;
+    a1 -> b3;
+    b2 -> a3;
+    a3 -> a0;
+    a3 -> end;
+    b3 -> end;
+
+    start [shape=Mdiamond];
+    end [shape=Msquare];
+  }
+  ```
+)
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/5b51a47ca589de6fdd481db4b61f96395ef246f12a54d77d6d9c443c3cd2fc72-1.svg}}
+
+\subsubsection{\texorpdfstring{\hyperref[html]{HTML}}{HTML}}\label{html}
+
+\begin{verbatim}
+#import "@preview/diagraph:0.2.0": *
+#let renderc(code) = render(code.text)
+
+#renderc(
+  ```
+  digraph structs {
+      node [shape=plaintext]
+      struct1 [label=<
+  <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0">
+    <TR><TD>left</TD><TD PORT="f1">mid dle</TD><TD PORT="f2">right</TD></TR>
+  </TABLE>>];
+      struct2 [label=<
+  <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0">
+    <TR><TD PORT="f0">one</TD><TD>two</TD></TR>
+  </TABLE>>];
+      struct3 [label=<
+  <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
+    <TR>
+      <TD ROWSPAN="3">hello<BR/>world</TD>
+      <TD COLSPAN="3">b</TD>
+      <TD ROWSPAN="3">g</TD>
+      <TD ROWSPAN="3">h</TD>
+    </TR>
+    <TR>
+      <TD>c</TD><TD PORT="here">d</TD><TD>e</TD>
+    </TR>
+    <TR>
+      <TD COLSPAN="3">f</TD>
+    </TR>
+  </TABLE>>];
+      struct1:f1 -> struct2:f0;
+      struct1:f2 -> struct3:here;
+  }
+  ```
+)
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/104d9f0e05417c58dce29ff55b47019eadd8538eed11bf552b03c9803fb8ce5b-1.svg}}
+
+\subsubsection{\texorpdfstring{\hyperref[overridden-labels]{Overridden
+labels}}{Overridden labels}}\label{overridden-labels}
+
+Labels for nodes \texttt{\ }{\texttt{\ big\ }}\texttt{\ } and
+\texttt{\ }{\texttt{\ sum\ }}\texttt{\ } are overridden.
+
+\begin{verbatim}
+#import "@preview/diagraph:0.2.0": *
+#set page(width: auto)
+
+#raw-render(
+  ```
+  digraph {
+    rankdir=LR
+    node[shape=circle]
+    Hmm -> a_0
+    Hmm -> big
+    a_0 -> "a'" -> big [style="dashed"]
+    big -> sum
+  }
+  ```,
+  labels: (:
+    big: [_some_#text(2em)[ big ]*text*],
+    sum: $ sum_(i=0)^n 1/i $,
+  ),
+)
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/a89c13a3c9aad0509c224ede97b8f1ed14c899049f92e6f23a2effc0bd56de40-1.svg}}
+
+\subsection{\texorpdfstring{\hyperref[bob-draw]{\texttt{\ }{\texttt{\ bob-draw\ }}\texttt{\ }}}{  bob-draw  }}\label{bob-draw}
+
+WASM plugin for \href{https://github.com/ivanceras/svgbob}{svgbob} to
+draw easily with ASCII,.
+
+\begin{verbatim}
+#import "@preview/bob-draw:0.1.0": *
+#render(```
+         /\_/\
+bob ->  ( o.o )
+         \ " /
+  .------/  /
+ (        | |
+  `====== o o
+```)
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/6f2c3c039f98a852450fad73ef9ee68d6e4ddcef39edc2376903cf0aa72606a2-1.svg}}
+
+\begin{verbatim}
+#import "@preview/bob-draw:0.1.0": *
+#show raw.where(lang: "bob"): it => render(it)
+
+#render(
+    ```
+      0       3  
+       *-------* 
+    1 /|    2 /| 
+     *-+-----* | 
+     | |4    | |7
+     | *-----|-*
+     |/      |/
+     *-------*
+    5       6
+    ```,
+    width: 25%,
+)
+
+```bob
+"cats:"
+ /\_/\  /\_/\  /\_/\  /\_/\ 
+( o.o )( o.o )( o.o )( o.o )
+```
+
+```bob
+       +10-15V           ___0,047R
+      *---------o-----o-|___|-o--o---------o----o-------.
+    + |         |     |       |  |         |    |       |
+    -===-      _|_    |       | .+.        |    |       |
+    -===-      .-.    |       | | | 2k2    |    |       |
+    -===-    470| +   |       | | |        |    |      _|_
+    - |       uF|     '--.    | '+'       .+.   |      \ / LED
+      +---------o        |6   |7 |8    1k | |   |      -+-
+             ___|___   .-+----+--+--.     | |   |       |
+              -═══-    |            |     '+'   |       |
+                -      |            |1     |  |/  BC    |
+               GND     |            +------o--+   547   |
+                       |            |      |  |`>       |
+                       |            |     ,+.   |       |
+               .-------+            | 220R| |   o----||-+  IRF9Z34
+               |       |            |     | |   |    |+->
+               |       |  MC34063   |     `+'   |    ||-+
+               |       |            |      |    |       |  BYV29     -12V6
+               |       |            |      '----'       o--|<-o----o--X OUT
+ 6000 micro  - | +     |            |2                  |     |    |
+ Farad, 40V ___|_____  |            |--o                C|    |    |
+ Capacitor  ~ ~ ~ ~ ~  |            | GND         30uH  C|    |   --- 470
+               |       |            |3      1nF         C|    |   ###  uF
+               |       |            |-------||--.       |     |    | +
+               |       '-----+----+-'           |      GND    |   GND
+               |            5|   4|             |             |
+               |             |    '-------------o-------------o
+               |             |                           ___  |
+               `-------------*------/\/\/------------o--|___|-'
+                                     2k              |       1k0
+                                                    .+.
+                                                    | | 5k6 + 3k3
+                                                    | | in Serie
+                                                    '+'
+                                                     |
+                                                    GND
+```
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/850abc33fa97f8b80bbda399475b0e4436d275c03f1ca369187eea9e72948b01-1.svg}}
+
+\subsection{\texorpdfstring{\hyperref[wavy]{\texttt{\ }{\texttt{\ wavy\ }}\texttt{\ }}}{  wavy  }}\label{wavy}
+
+\subsection{\texorpdfstring{\hyperref[finite]{\texttt{\ }{\texttt{\ finite\ }}\texttt{\ }}}{  finite  }}\label{finite}
+
+Finite automata. See the
+\href{https://github.com/jneug/typst-finite/blob/main/manual.pdf}{manual}
+for a full documentation.
+
+\begin{verbatim}
+#import "@preview/finite:0.3.0": automaton
+
+#automaton((
+  q0: (q1:0, q0:"0,1"),
+  q1: (q0:(0,1), q2:"0"),
+  q2: (),
+))
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/9eddd9b18a2df43372188dab692be9e2973fac63f3764683c431a2c0fb8ba873-1.svg}}
+
+
+\title{sitandr.github.io/typst-examples-book/book/packages/misc}
+
+\section{\texorpdfstring{\hyperref[misc]{Misc}}{Misc}}\label{misc}
+
+\section{\texorpdfstring{\hyperref[formatting-strings]{Formatting
+strings}}{Formatting strings}}\label{formatting-strings}
+
+\subsection{\texorpdfstring{\hyperref[oxifmt-general-purpose-string-formatter]{\texttt{\ }{\texttt{\ oxifmt\ }}\texttt{\ }
+, general purpose string
+formatter}}{  oxifmt   , general purpose string formatter}}\label{oxifmt-general-purpose-string-formatter}
+
+\begin{verbatim}
+#import "@preview/oxifmt:0.2.0": strfmt
+#strfmt("I'm {}. I have {num} cars. I'm {0}. {} is {{cool}}.", "John", "Carl", num: 10) \
+#strfmt("{0:?}, {test:+012e}, {1:-<#8x}", "hi", -74, test: 569.4) \
+#strfmt("{:_>+11.5}", 59.4) \
+#strfmt("Dict: {:!<10?}", (a: 5))
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/f4f305da3efacf420f5d2a5159a57cca479ebbfd9b7412246d483de520135087-1.svg}}
+
+\begin{verbatim}
+#import "@preview/oxifmt:0.2.0": strfmt
+#strfmt("First: {}, Second: {}, Fourth: {3}, Banana: {banana} (brackets: {{escaped}})", 1, 2.1, 3, label("four"), banana: "Banana!!")\
+#strfmt("The value is: {:?} | Also the label is {:?}", "something", label("label"))\
+#strfmt("Values: {:?}, {1:?}, {stuff:?}", (test: 500), ("a", 5.1), stuff: [a])\
+#strfmt("Left5 {:_<5}, Right6 {:*>6}, Center10 {centered: ^10?}, Left3 {tleft:_<3}", "xx", 539, tleft: "okay", centered: [a])\
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/39d725a28a184c450c74f3f895d1d59d26271b86acbddd454da564df76b668c8-1.svg}}
+
+\begin{verbatim}
+#import "@preview/oxifmt:0.2.0": strfmt
+#repr(strfmt("Left-padded7 numbers: {:07} {:07} {:07} {3:07}", 123, -344, 44224059, 45.32))\
+#strfmt("Some numbers: {:+} {:+08}; With fill and align: {:_<+8}; Negative (no-op): {neg:+}", 123, 456, 4444, neg: -435)\
+#strfmt("Bases (10, 2, 8, 16(l), 16(U):) {0} {0:b} {0:o} {0:x} {0:X} | W/ prefixes and modifiers: {0:#b} {0:+#09o} {0:_>+#9X}", 124)\
+#strfmt("{0:.8} {0:.2$} {0:.potato$}", 1.234, 0, 2, potato: 5)\
+#strfmt("{0:e} {0:E} {0:+.9e} | {1:e} | {2:.4E}", 124.2312, 50, -0.02)\
+#strfmt("{0} {0:.6} {0:.5e}", 1.432, fmt-decimal-separator: ",")
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/7b709cd252c147436c88822b60d49ede25a23040531eeac41fb2ba37ca46a2d8-1.svg}}
+
+\subsection{\texorpdfstring{\hyperref[name-it-integer-to-text]{\texttt{\ }{\texttt{\ name-it\ }}\texttt{\ }
+, integer to
+text}}{  name-it   , integer to text}}\label{name-it-integer-to-text}
+
+\begin{verbatim}
+#import "@preview/name-it:0.1.0": name-it
+
+- #name-it(2418345)
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/825de955e9f7261cd08d725520caf813e797aa4891da32ed7b43bafbe8b19f28-1.svg}}
+
+\subsection{\texorpdfstring{\hyperref[nth-nth-element]{\texttt{\ }{\texttt{\ nth\ }}\texttt{\ }
+, Nth element}}{  nth   , Nth element}}\label{nth-nth-element}
+
+\begin{verbatim}
+#import "@preview/nth:0.2.0": nth
+#nth(3), #nth(5), #nth(2421)
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/f8389763af9ec32227285bdc25885f02b4ad74d6a5900852ccd0664989f1d3cb-1.svg}}
+
+
+\title{sitandr.github.io/typst-examples-book/book/packages/tables}
+
+\section{\texorpdfstring{\hyperref[tables]{Tables}}{Tables}}\label{tables}
+
+\subsection{\texorpdfstring{\hyperref[tablex-general-purpose-tables-library]{Tablex:
+general purpose tables
+library}}{Tablex: general purpose tables library}}\label{tablex-general-purpose-tables-library}
+
+\begin{verbatim}
+#import "@preview/tablex:0.0.7": tablex, rowspanx, colspanx
+
+#tablex(
+  columns: 4,
+  align: center + horizon,
+  auto-vlines: false,
+
+  // indicate the first two rows are the header
+  // (in case we need to eventually
+  // enable repeating the header across pages)
+  header-rows: 2,
+
+  // color the last column's cells
+  // based on the written number
+  map-cells: cell => {
+    if cell.x == 3 and cell.y > 1 {
+      cell.content = {
+        let value = int(cell.content.text)
+        let text-color = if value < 10 {
+          red.lighten(30%)
+        } else if value < 15 {
+          yellow.darken(13%)
+        } else {
+          green
+        }
+        set text(text-color)
+        strong(cell.content)
+      }
+    }
+    cell
+  },
+
+  /* --- header --- */
+  rowspanx(2)[*Username*], colspanx(2)[*Data*], (), rowspanx(2)[*Score*],
+  (),                 [*Location*], [*Height*], (),
+  /* -------------- */
+
+  [John], [Second St.], [180 cm], [5],
+  [Wally], [Third Av.], [160 cm], [10],
+  [Jason], [Some St.], [150 cm], [15],
+  [Robert], [123 Av.], [190 cm], [20],
+  [Other], [Unknown St.], [170 cm], [25],
+)
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/9283c11489e3997fb302d12c4958a964543f3de172f3f8e21eb739f97ae78ae2-1.svg}}
+
+\begin{verbatim}
+#import "@preview/tablex:0.0.7": tablex, hlinex, vlinex, colspanx, rowspanx
+
+#pagebreak()
+#v(80%)
+
+#tablex(
+  columns: 4,
+  align: center + horizon,
+  auto-vlines: false,
+  repeat-header: true,
+
+  /* --- header --- */
+  rowspanx(2)[*Names*], colspanx(2)[*Properties*], (), rowspanx(2)[*Creators*],
+  (),                 [*Type*], [*Size*], (),
+  /* -------------- */
+
+  [Machine], [Steel], [5 $"cm"^3$], [John p& Kate],
+  [Frog], [Animal], [6 $"cm"^3$], [Robert],
+  [Frog], [Animal], [6 $"cm"^3$], [Robert],
+  [Frog], [Animal], [6 $"cm"^3$], [Robert],
+  [Frog], [Animal], [6 $"cm"^3$], [Robert],
+  [Frog], [Animal], [6 $"cm"^3$], [Robert],
+  [Frog], [Animal], [6 $"cm"^3$], [Robert],
+  [Frog], [Animal], [6 $"cm"^3$], [Rodbert],
+)
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/03fd8d593886849d39370d731f423691b255e47da0a391649235f3f746c25e5c-1.svg}}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/03fd8d593886849d39370d731f423691b255e47da0a391649235f3f746c25e5c-2.svg}}
+
+\begin{verbatim}
+#import "@preview/tablex:0.0.7": tablex, gridx, hlinex, vlinex, colspanx, rowspanx
+
+#tablex(
+  columns: 4,
+  auto-lines: false,
+
+  // skip a column here         vv
+  vlinex(), vlinex(), vlinex(), (), vlinex(),
+  colspanx(2)[a], (),  [b], [J],
+  [c], rowspanx(2)[d], [e], [K],
+  [f], (),             [g], [L],
+  //   ^^ '()' after the first cell are 100% ignored
+)
+
+#tablex(
+  columns: 4,
+  auto-vlines: false,
+  colspanx(2)[a], (),  [b], [J],
+  [c], rowspanx(2)[d], [e], [K],
+  [f], (),             [g], [L],
+)
+
+#gridx(
+  columns: 4,
+  (), (), vlinex(end: 2),
+  hlinex(stroke: yellow + 2pt),
+  colspanx(2)[a], (),  [b], [J],
+  hlinex(start: 0, end: 1, stroke: yellow + 2pt),
+  hlinex(start: 1, end: 2, stroke: green + 2pt),
+  hlinex(start: 2, end: 3, stroke: red + 2pt),
+  hlinex(start: 3, end: 4, stroke: blue.lighten(50%) + 2pt),
+  [c], rowspanx(2)[d], [e], [K],
+  hlinex(start: 2),
+  [f], (),             [g], [L],
+)
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/4d25fc4ba39ee99bf9b8c043ab89bc74cf61cad3f4640b3384dad2e69f5f64c8-1.svg}}
+
+\begin{verbatim}
+#import "@preview/tablex:0.0.7": tablex, colspanx, rowspanx
+
+#tablex(
+  columns: 3,
+  map-hlines: h => (..h, stroke: blue),
+  map-vlines: v => (..v, stroke: green + 2pt),
+  colspanx(2)[a], (),  [b],
+  [c], rowspanx(2)[d], [ed],
+  [f], (),             [g]
+)
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/9f721aa89d44247b880a2d34d64940cce12a782d4888a09b6a031a2918805128-1.svg}}
+
+\begin{verbatim}
+#import "@preview/tablex:0.0.7": tablex, colspanx, rowspanx
+
+#tablex(
+  columns: 4,
+  auto-vlines: true,
+
+  // make all cells italicized
+  map-cells: cell => {
+    (..cell, content: emph(cell.content))
+  },
+
+  // add some arbitrary content to entire rows
+  map-rows: (row, cells) => cells.map(c =>
+    if c == none {
+      c  // keeping 'none' is important
+    } else {
+      (..c, content: [#c.content\ *R#row*])
+    }
+  ),
+
+  // color cells based on their columns
+  // (using 'fill: (column, row) => color' also works
+  // for this particular purpose)
+  map-cols: (col, cells) => cells.map(c =>
+    if c == none {
+      c
+    } else {
+      (..c, fill: if col < 2 { blue } else { yellow })
+    }
+  ),
+
+  colspanx(2)[a], (),  [b], [J],
+  [c], rowspanx(2)[dd], [e], [K],
+  [f], (),             [g], [L],
+)
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/e4aeb7879544c21da12283922f4e3110d740059da77b65d94e34ed39229ffad1-1.svg}}
+
+\begin{verbatim}
+#import "@preview/tablex:0.0.7": gridx
+
+#gridx(
+  columns: 3,
+  rows: 6,
+  fill: (col, row) => (blue, red, green).at(calc.rem(row + col - 1, 3)),
+  map-cols: (col, cells) => {
+    let last = cells.last()
+    last.content = [
+      #cells.slice(0, cells.len() - 1).fold(0, (acc, c) => if c != none { acc + eval(c.content.text) } else { acc })
+    ]
+    last.fill = aqua
+    cells.last() = last
+    cells
+  },
+  [0], [5], [10],
+  [1], [6], [11],
+  [2], [7], [12],
+  [3], [8], [13],
+  [4], [9], [14],
+  [s], [s], [s]
+)
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/c67cc9e428f9b21ae2e9c4ba792eacc7391fce70f06375f49d3a5f08234a5a77-1.svg}}
+
+\subsection{\texorpdfstring{\hyperref[tada-data-manipulation]{Tada: data
+manipulation}}{Tada: data manipulation}}\label{tada-data-manipulation}
+
+\begin{verbatim}
+#import "@preview/tada:0.1.0"
+
+#let column-data = (
+  name: ("Bread", "Milk", "Eggs"),
+  price: (1.25, 2.50, 1.50),
+  quantity: (2, 1, 3),
+)
+#let record-data = (
+  (name: "Bread", price: 1.25, quantity: 2),
+  (name: "Milk", price: 2.50, quantity: 1),
+  (name: "Eggs", price: 1.50, quantity: 3),
+)
+#let row-data = (
+  ("Bread", 1.25, 2),
+  ("Milk", 2.50, 1),
+  ("Eggs", 1.50, 3),
+)
+
+#import tada: TableData, to-tablex
+#let td = TableData(data: column-data)
+// Equivalent to:
+#let td2 = tada.from-records(record-data)
+// _Not_ equivalent to (since field names are unknown):
+#let td3 = tada.from-rows(row-data)
+
+#to-tablex(td)
+#to-tablex(td2)
+#to-tablex(td3)
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/06c7045a0bb3aad12c70133b4aa55b1cadc17c944d28803e9418a376187afb2d-1.svg}}
+
+\subsection{\texorpdfstring{\hyperref[tablem-markdown-tables]{Tablem:
+markdown
+tables}}{Tablem: markdown tables}}\label{tablem-markdown-tables}
+
+\begin{quote}
+See documentation \href{https://github.com/OrangeX4/typst-tablem}{there}
+\end{quote}
+
+Render markdown tables in Typst.
+
+\begin{verbatim}
+#import "@preview/tablem:0.1.0": tablem
+
+#tablem[
+  | *Name* | *Location* | *Height* | *Score* |
+  | ------ | ---------- | -------- | ------- |
+  | John   | Second St. | 180 cm   |  5      |
+  | Wally  | Third Av.  | 160 cm   |  10     |
+]
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/6845ef64c7c12ce5f6616f130172c76974b184e97976e59a3a957c273c9084eb-1.svg}}
+
+\subsubsection{\texorpdfstring{\hyperref[custom-render]{Custom
+render}}{Custom render}}\label{custom-render}
+
+\begin{verbatim}
+#import "@preview/tablex:0.0.6": tablex, hlinex
+#import "@preview/tablem:0.1.0": tablem
+
+#let three-line-table = tablem.with(
+  render: (columns: auto, ..args) => {
+    tablex(
+      columns: columns,
+      auto-lines: false,
+      align: center + horizon,
+      hlinex(y: 0),
+      hlinex(y: 1),
+      ..args,
+      hlinex(),
+    )
+  }
+)
+
+#three-line-table[
+  | *Name* | *Location* | *Height* | *Score* |
+  | ------ | ---------- | -------- | ------- |
+  | John   | Second St. | 180 cm   |  5      |
+  | Wally  | Third Av.  | 160 cm   |  10     |
+]
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/ebddbdf17a6518755d55af3900eabe9ffb8fa2c0d8b0326518dac03ca1856648-1.svg}}
+
+
+\title{sitandr.github.io/typst-examples-book/book/packages/headers}
+
+\section{\texorpdfstring{\hyperref[headers]{Headers}}{Headers}}\label{headers}
+
+\subsection{\texorpdfstring{\hyperref[hydra-contextual-headers]{\texttt{\ }{\texttt{\ hydra\ }}\texttt{\ }
+: Contextual
+headers}}{  hydra   : Contextual headers}}\label{hydra-contextual-headers}
+
+We have discussed in \texttt{\ }{\texttt{\ Typst\ Basics\ }}\texttt{\ }
+how to get current heading with
+\texttt{\ }{\texttt{\ query(selector(heading).before(here()))\ }}\texttt{\ }
+for headers. However, this works badly for nested headings with
+numbering and similar things. For these cases there is
+\texttt{\ }{\texttt{\ hydra\ }}\texttt{\ } :
+
+\begin{verbatim}
+#import "@preview/hydra:0.5.1": hydra
+
+#set page(height: 10 * 20pt, margin: (y: 4em), numbering: "1", header: context {
+  if calc.odd(here().page()) {
+    align(right, emph(hydra(1)))
+  } else {
+    align(left, emph(hydra(2)))
+  }
+  line(length: 100%)
+})
+#set heading(numbering: "1.1")
+#show heading.where(level: 1): it => pagebreak(weak: true) + it
+
+= Introduction
+#lorem(50)
+
+= Content
+== First Section
+#lorem(50)
+== Second Section
+#lorem(100)
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/1a1e2d4655c80e3b0cd9cd7db25c191054aac7ff69aa9cf7cda6935041b614ae-1.svg}}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/1a1e2d4655c80e3b0cd9cd7db25c191054aac7ff69aa9cf7cda6935041b614ae-2.svg}}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/1a1e2d4655c80e3b0cd9cd7db25c191054aac7ff69aa9cf7cda6935041b614ae-3.svg}}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/1a1e2d4655c80e3b0cd9cd7db25c191054aac7ff69aa9cf7cda6935041b614ae-4.svg}}
+
+
+\title{sitandr.github.io/typst-examples-book/book/packages/layout}
+
+\section{\texorpdfstring{\hyperref[layouting]{Layouting}}{Layouting}}\label{layouting}
+
+General useful things.
+
+\subsection{\texorpdfstring{\hyperref[pinit-relative-place-by-pins]{Pinit:
+relative place by
+pins}}{Pinit: relative place by pins}}\label{pinit-relative-place-by-pins}
+
+The idea of \href{https://github.com/OrangeX4/typst-pinit}{pinit} is
+pinning pins on the normal flow of the text, and then placing the
+content relative to pins.
+
+\begin{verbatim}
+#import "@preview/pinit:0.1.3": *
+#set page(height: 6em, width: 20em)
+
+#set text(size: 24pt)
+
+A simple #pin(1)highlighted text#pin(2).
+
+#pinit-highlight(1, 2)
+
+#pinit-point-from(2)[It is simple.]
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/b0a3a289ec65a00a9b39e0689578c9c139a65d1d9f379fa1593ba8ea9268af25-1.svg}}
+
+More complex example:
+
+\begin{verbatim}
+#import "@preview/pinit:0.1.3": *
+
+// Pages
+#set page(paper: "presentation-4-3")
+#set text(size: 20pt)
+#show heading: set text(weight: "regular")
+#show heading: set block(above: 1.4em, below: 1em)
+#show heading.where(level: 1): set text(size: 1.5em)
+
+// Useful functions
+#let crimson = rgb("#c00000")
+#let greybox(..args, body) = rect(fill: luma(95%), stroke: 0.5pt, inset: 0pt, outset: 10pt, ..args, body)
+#let redbold(body) = {
+  set text(fill: crimson, weight: "bold")
+  body
+}
+#let blueit(body) = {
+  set text(fill: blue)
+  body
+}
+
+// Main body
+#block[
+  = Asymptotic Notation: $O$
+
+  Use #pin("h1")asymptotic notations#pin("h2") to describe asymptotic efficiency of algorithms.
+  (Ignore constant coefficients and lower-order terms.)
+
+  #greybox[
+    Given a function $g(n)$, we denote by $O(g(n))$ the following *set of functions*:
+    #redbold(${f(n): "exists" c > 0 "and" n_0 > 0, "such that" f(n) <= c dot g(n) "for all" n >= n_0}$)
+  ]
+
+  #pinit-highlight("h1", "h2")
+
+  $f(n) = O(g(n))$: #pin(1)$f(n)$ is *asymptotically smaller* than $g(n)$.#pin(2)
+
+  $f(n) redbold(in) O(g(n))$: $f(n)$ is *asymptotically* #redbold[at most] $g(n)$.
+
+  #pinit-line(stroke: 3pt + crimson, start-dy: -0.25em, end-dy: -0.25em, 1, 2)
+
+  #block[Insertion Sort as an #pin("r1")example#pin("r2"):]
+
+  - Best Case: $T(n) approx c n + c' n - c''$ #pin(3)
+  - Worst case: $T(n) approx c n + (c' \/ 2) n^2 - c''$ #pin(4)
+
+  #pinit-rect("r1", "r2")
+
+  #pinit-place(3, dx: 15pt, dy: -15pt)[#redbold[$T(n) = O(n)$]]
+  #pinit-place(4, dx: 15pt, dy: -15pt)[#redbold[$T(n) = O(n)$]]
+
+  #blueit[Q: Is $n^(3) = O(n^2)$#pin("que")? How to prove your answer#pin("ans")?]
+
+  #pinit-point-to("que", fill: crimson, redbold[No.])
+  #pinit-point-from("ans", body-dx: -150pt)[
+    Show that the equation $(3/2)^n >= c$ \
+    has infinitely many solutions for $n$.
+  ]
+]
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/4cc4ac1de81450b49f618408d35cd551858a4fcee317859f7f2a5d84482a9612-1.svg}}
+
+\subsection{\texorpdfstring{\hyperref[margin-notes]{Margin
+notes}}{Margin notes}}\label{margin-notes}
+
+\begin{verbatim}
+#import "@preview/drafting:0.1.1": *
+
+#let (l-margin, r-margin) = (1in, 2in)
+#set page(
+  margin: (left: l-margin, right: r-margin, rest: 0.1in),
+)
+#set-page-properties(margin-left: l-margin, margin-right: r-margin)
+
+= Margin Notes
+== Setup
+Unfortunately `typst` doesn't expose margins to calling functions, so you'll need to set them explicitly. This is done using `set-page-properties` *before you place any content*:
+
+// At the top of your source file
+// Of course, you can substitute any margin numbers you prefer
+// provided the page margins match what you pass to `set-page-properties`
+
+== The basics
+#lorem(20)
+#margin-note(side: left)[Hello, world!]
+#lorem(10)
+#margin-note[Hello from the other side]
+
+#lorem(25)
+#margin-note[When notes are about to overlap, they're automatically shifted]
+#margin-note(stroke: aqua + 3pt)[To avoid collision]
+#lorem(25)
+
+#let caution-rect = rect.with(inset: 1em, radius: 0.5em, fill: orange.lighten(80%))
+#inline-note(rect: caution-rect)[
+  Be aware that notes will stop automatically avoiding collisions if 4 or more notes
+  overlap. This is because `typst` warns when the layout doesn't resolve after 5 attempts
+  (initial layout + adjustment for each note)
+]
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/80c65cf70b8da549afe447ce97f6dc71087cc0654dd85cd4f5e95bea388e3179-1.svg}}
+
+\begin{verbatim}
+#import "@preview/drafting:0.1.1": *
+
+#let (l-margin, r-margin) = (1in, 2in)
+#set page(
+  margin: (left: l-margin, right: r-margin, rest: 0.1in),
+)
+#set-page-properties(margin-left: l-margin, margin-right: r-margin)
+
+== Adjusting the default style
+All function defaults are customizable through updating the module state:
+
+#lorem(4) #margin-note(dy: -2em)[Default style]
+#set-margin-note-defaults(stroke: orange, side: left)
+#lorem(4) #margin-note[Updated style]
+
+
+Even deeper customization is possible by overriding the default `rect`:
+
+#import "@preview/colorful-boxes:1.1.0": stickybox
+
+#let default-rect(stroke: none, fill: none, width: 0pt, content) = {
+  stickybox(rotation: 30deg, width: width/1.5, content)
+}
+#set-margin-note-defaults(rect: default-rect, stroke: none, side: right)
+
+#lorem(20)
+#margin-note(dy: -25pt)[Why not use sticky notes in the margin?]
+
+// Undo changes from last example
+#set-margin-note-defaults(rect: rect, stroke: red)
+
+== Multiple document reviewers
+#let reviewer-a = margin-note.with(stroke: blue)
+#let reviewer-b = margin-note.with(stroke: purple)
+#lorem(20)
+#reviewer-a[Comment from reviewer A]
+#lorem(15)
+#reviewer-b(side: left)[Comment from reviewer B]
+
+== Inline Notes
+#lorem(10)
+#inline-note[The default inline note will split the paragraph at its location]
+#lorem(10)
+/*
+// Should work, but doesn't? Created an issue in repo.
+#inline-note(par-break: false, stroke: (paint: orange, dash: "dashed"))[
+  But you can specify `par-break: false` to prevent this
+]
+*/
+#lorem(10)
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/282de769e728a8bdb9c78c665664b382ecbf59fd7d3c915fab67aae7055e2acb-1.svg}}
+
+\begin{verbatim}
+#import "@preview/drafting:0.1.1": *
+
+#let (l-margin, r-margin) = (1in, 2in)
+#set page(
+  margin: (left: l-margin, right: r-margin, rest: 0.1in),
+)
+#set-page-properties(margin-left: l-margin, margin-right: r-margin)
+
+== Hiding notes for print preview
+#set-margin-note-defaults(hidden: true)
+
+#lorem(20)
+#margin-note[This will respect the global "hidden" state]
+#margin-note(hidden: false, dy: -2.5em)[This note will never be hidden]
+
+= Positioning
+== Precise placement: rule grid
+Need to measure space for fine-tuned positioning? You can use `rule-grid` to cross-hatch
+the page with rule lines:
+
+#rule-grid(width: 10cm, height: 3cm, spacing: 20pt)
+#place(
+  dx: 180pt,
+  dy: 40pt,
+  rect(fill: white, stroke: red, width: 1in, "This will originate at (180pt, 40pt)")
+)
+
+// Optionally specify divisions of the smallest dimension to automatically calculate
+// spacing
+#rule-grid(dx: 10cm + 3em, width: 3cm, height: 1.2cm, divisions: 5, square: true,  stroke: green)
+
+// The rule grid doesn't take up space, so add it explicitly
+#v(3cm + 1em)
+
+== Absolute positioning
+What about absolutely positioning something regardless of margin and relative location? `absolute-place` is your friend. You can put content anywhere:
+
+#context {
+  let (dx, dy) = (25%, here().position().y)
+  let content-str = (
+    "This absolutely-placed box will originate at (" + repr(dx) + ", " + repr(dy) + ")"
+    + " in page coordinates"
+  )
+  absolute-place(
+    dx: dx, dy: dy,
+    rect(
+      fill: green.lighten(60%),
+      radius: 0.5em,
+      width: 2.5in,
+      height: 0.5in,
+      [#align(center + horizon, content-str)]
+    )
+  )
+}
+#v(1in)
+
+The "rule-grid" also supports absolute placement at the top-left of the page by passing `relative: false`. This is helpful for "rule"-ing the whole page.
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/212dfc0f37bc9749e459085bb305f46a1db7ab3fbb22760f62ec58e349837d9e-1.svg}}
+
+\subsection{\texorpdfstring{\hyperref[dropped-capitals]{Dropped
+capitals}}{Dropped capitals}}\label{dropped-capitals}
+
+\begin{quote}
+Get more info
+\href{https://github.com/EpicEricEE/typst-plugins/tree/master/droplet}{here}
+\end{quote}
+
+\subsubsection{\texorpdfstring{\hyperref[basic-usage]{Basic
+usage}}{Basic usage}}\label{basic-usage}
+
+\begin{verbatim}
+#import "@preview/droplet:0.1.0": dropcap
+
+#dropcap(gap: -2pt, hanging-indent: 8pt)[
+  #lorem(42)
+]
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/a9c411d628d90aa8313aa9f0829bfdf43122c4532ad0d9d323a64b989a049d64-1.svg}}
+
+\subsubsection{\texorpdfstring{\hyperref[extended-styling]{Extended
+styling}}{Extended styling}}\label{extended-styling}
+
+\begin{verbatim}
+#import "@preview/droplet:0.1.0": dropcap
+
+#dropcap(
+  height: 2,
+  justify: true,
+  gap: 6pt,
+  transform: letter => style(styles => {
+    let height = measure(letter, styles).height
+
+    grid(columns: 2, gutter: 6pt,
+      align(center + horizon, text(blue, letter)),
+      // Use "place" to ignore the line's height when
+      // the font size is calculated later on.
+      place(horizon, line(
+        angle: 90deg,
+        length: height + 6pt,
+        stroke: blue.lighten(40%) + 1pt
+      )),
+    )
+  })
+)[
+  #lorem(42)
+]
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/50d7ee4ffb1e61856535409373b040d579ab05734f3f304a4dc15f23361fd710-1.svg}}
+
+\subsection{\texorpdfstring{\hyperref[headings-for-actual-current-chapter]{Headings
+for actual current
+chapter}}{Headings for actual current chapter}}\label{headings-for-actual-current-chapter}
+
+\begin{quote}
+See \href{https://github.com/tingerrr/hydra}{hydra}
+\end{quote}
+
+\begin{verbatim}
+#import "@preview/hydra:0.2.0": hydra
+
+#set page(header: hydra() + line(length: 100%))
+#set heading(numbering: "1.1")
+#show heading.where(level: 1): it => pagebreak(weak: true) + it
+
+= Introduction
+#lorem(750)
+
+= Content
+== First Section
+#lorem(500)
+== Second Section
+#lorem(250)
+== Third Section
+#lorem(500)
+
+= Annex
+#lorem(10)
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/ab3a07e72c5e19f28936f6d2249c9c5bcd102a27f4af177db63d7715c5c64f33-1.svg}}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/ab3a07e72c5e19f28936f6d2249c9c5bcd102a27f4af177db63d7715c5c64f33-2.svg}}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/ab3a07e72c5e19f28936f6d2249c9c5bcd102a27f4af177db63d7715c5c64f33-3.svg}}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/ab3a07e72c5e19f28936f6d2249c9c5bcd102a27f4af177db63d7715c5c64f33-4.svg}}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/ab3a07e72c5e19f28936f6d2249c9c5bcd102a27f4af177db63d7715c5c64f33-5.svg}}
+
+
+\title{sitandr.github.io/typst-examples-book/book/packages/glossary}
+
+\section{\texorpdfstring{\hyperref[glossary]{Glossary}}{Glossary}}\label{glossary}
+
+\subsection{\texorpdfstring{\hyperref[glossarium]{glossarium}}{glossarium}}\label{glossarium}
+
+\begin{quote}
+\href{https://typst.app/universe/package/glossarium}{Link to the
+universe}
+\end{quote}
+
+Package to manage glossary and abbreviations.
+
+One of the very first cool packages of Typst, made specially for
+(probably) the first thesis written in Typst.
+
+\begin{verbatim}
+#import "@preview/glossarium:0.4.1": make-glossary, print-glossary, gls, glspl
+#show: make-glossary
+
+// for better link visibility
+#show link: set text(fill: blue.darken(60%))
+
+#print-glossary(
+    (
+    // minimal term
+    (key: "kuleuven", short: "KU Leuven"),
+
+    // a term with a long form and a group
+    (key: "unamur", short: "UNamur", long: "Namur University", group: "Universities"),
+
+    // a term with a markup description
+    (
+      key: "oidc",
+      short: "OIDC",
+      long: "OpenID Connect",
+      desc: [OpenID is an open standard and decentralized authentication protocol promoted by the non-profit
+      #link("https://en.wikipedia.org/wiki/OpenID#OpenID_Foundation")[OpenID Foundation].],
+      group: "Accronyms",
+    ),
+
+    // a term with a short plural
+    (
+      key: "potato",
+      short: "potato",
+      // "plural" will be used when "short" should be pluralized
+      plural: "potatoes",
+      desc: [#lorem(10)],
+    ),
+
+    // a term with a long plural
+    (
+      key: "dm",
+      short: "DM",
+      long: "diagonal matrix",
+      // "longplural" will be used when "long" should be pluralized
+      longplural: "diagonal matrices",
+      desc: "Probably some math stuff idk",
+    ),
+  )
+)
+
+// referencing the OIDC term using gls
+#gls("oidc")
+// displaying the long form forcibly
+#gls("oidc", long: true)
+
+// referencing the OIDC term using the reference syntax
+@oidc
+
+Plural: #glspl("potato")
+
+#gls("oidc", display: "whatever you want")
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/c17c1be6563520252dfc59ccc646a6c48fb29e467d03f2892fdbfbddb496c3f9-1.svg}}
+
+
+\title{sitandr.github.io/typst-examples-book/book/packages/boxes}
+
+\section{\texorpdfstring{\hyperref[custom-boxes]{Custom
+boxes}}{Custom boxes}}\label{custom-boxes}
+
+\subsection{\texorpdfstring{\hyperref[showbox]{Showbox}}{Showbox}}\label{showbox}
+
+\begin{verbatim}
+#import "@preview/showybox:2.0.1": showybox
+
+#showybox(
+  [Hello world!]
+)
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/5b1a31dde61cee643fe9c8550a396d2cad3d27bcaf56412fb1b1a1a2563c462e-1.svg}}
+
+\begin{verbatim}
+#import "@preview/showybox:2.0.1": showybox
+
+// First showybox
+#showybox(
+  frame: (
+    border-color: red.darken(50%),
+    title-color: red.lighten(60%),
+    body-color: red.lighten(80%)
+  ),
+  title-style: (
+    color: black,
+    weight: "regular",
+    align: center
+  ),
+  shadow: (
+    offset: 3pt,
+  ),
+  title: "Red-ish showybox with separated sections!",
+  lorem(20),
+  lorem(12)
+)
+
+// Second showybox
+#showybox(
+  frame: (
+    dash: "dashed",
+    border-color: red.darken(40%)
+  ),
+  body-style: (
+    align: center
+  ),
+  sep: (
+    dash: "dashed"
+  ),
+  shadow: (
+    offset: (x: 2pt, y: 3pt),
+    color: yellow.lighten(70%)
+  ),
+  [This is an important message!],
+  [Be careful outside. There are dangerous bananas!]
+)
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/71353a03ef746508398e53dc16ea676041d953dadb029a8e186fd9c317085510-1.svg}}
+
+\begin{verbatim}
+#import "@preview/showybox:2.0.1": showybox
+
+#showybox(
+  title: "Stokes' theorem",
+  frame: (
+    border-color: blue,
+    title-color: blue.lighten(30%),
+    body-color: blue.lighten(95%),
+    footer-color: blue.lighten(80%)
+  ),
+  footer: "Information extracted from a well-known public encyclopedia"
+)[
+  Let $Sigma$ be a smooth oriented surface in $RR^3$ with boundary $diff Sigma equiv Gamma$. If a vector field $bold(F)(x,y,z)=(F_x (x,y,z), F_y (x,y,z), F_z (x,y,z))$ is defined and has continuous first order partial derivatives in a region containing $Sigma$, then
+
+  $ integral.double_Sigma (bold(nabla) times bold(F)) dot bold(Sigma) = integral.cont_(diff Sigma) bold(F) dot dif bold(Gamma) $
+]
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/9e5c363090d9b928ee6c998876dd9e15a388ab6f6ae793f8a86ad688d2a62f2c-1.svg}}
+
+\begin{verbatim}
+#import "@preview/showybox:2.0.1": showybox
+
+#showybox(
+  title-style: (
+    weight: 900,
+    color: red.darken(40%),
+    sep-thickness: 0pt,
+    align: center
+  ),
+  frame: (
+    title-color: red.lighten(80%),
+    border-color: red.darken(40%),
+    thickness: (left: 1pt),
+    radius: 0pt
+  ),
+  title: "Carnot cycle's efficiency"
+)[
+  Inside a Carnot cycle, the efficiency $eta$ is defined to be:
+
+  $ eta = W/Q_H = frac(Q_H + Q_C, Q_H) = 1 - T_C/T_H $
+]
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/3ce2b6bf5cd66f8aaa6c960c8f18902b63518eb4c6ee3f41337c1857e31128e9-1.svg}}
+
+\begin{verbatim}
+#import "@preview/showybox:2.0.1": showybox
+
+#showybox(
+  footer-style: (
+    sep-thickness: 0pt,
+    align: right,
+    color: black
+  ),
+  title: "Divergence theorem",
+  footer: [
+    In the case of $n=3$, $V$ represents a volume in three-dimensional space, and $diff V = S$ its surface
+  ]
+)[
+  Suppose $V$ is a subset of $RR^n$ which is compact and has a piecewise smooth boundary $S$ (also indicated with $diff V = S$). If $bold(F)$ is a continuously differentiable vector field defined on a neighborhood of $V$, then:
+
+  $ integral.triple_V (bold(nabla) dot bold(F)) dif V = integral.surf_S (bold(F) dot bold(hat(n))) dif S $
+]
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/9abf5c05795f94a0b36b0e0fe84bb13ae210e6c234ad306606ed9bf52bd5e481-1.svg}}
+
+\begin{verbatim}
+#import "@preview/showybox:2.0.1": showybox
+
+#showybox(
+  frame: (
+    border-color: red.darken(30%),
+    title-color: red.darken(30%),
+    radius: 0pt,
+    thickness: 2pt,
+    body-inset: 2em,
+    dash: "densely-dash-dotted"
+  ),
+  title: "Gauss's Law"
+)[
+  The net electric flux through any hypothetical closed surface is equal to $1/epsilon_0$ times the net electric charge enclosed within that closed surface. The closed surface is also referred to as Gaussian surface. In its integral form:
+
+  $ Phi_E = integral.surf_S bold(E) dot dif bold(A) = Q/epsilon_0 $
+]
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/9ae97a9b51a35a54fab7e017b1f500b5062b7e644928fa132a4cd1b218e8aad8-1.svg}}
+
+\subsection{\texorpdfstring{\hyperref[colorful-boxes]{Colorful
+boxes}}{Colorful boxes}}\label{colorful-boxes}
+
+\begin{verbatim}
+#import "@preview/colorful-boxes:1.2.0": colorbox, slantedColorbox, outlinebox, stickybox
+
+#colorbox(
+  title: lorem(5),
+  color: "blue",
+  radius: 2pt,
+  width: auto
+)[
+  #lorem(50)
+]
+
+#slantedColorbox(
+  title: lorem(5),
+  color: "red",
+  radius: 0pt,
+  width: auto
+)[
+  #lorem(50)
+]
+
+#outlinebox(
+  title: lorem(5),
+  color: none,
+  width: auto,
+  radius: 2pt,
+  centering: false
+)[
+  #lorem(50)
+]
+
+#outlinebox(
+  title: lorem(5),
+  color: "green",
+  width: auto,
+  radius: 2pt,
+  centering: true
+)[
+  #lorem(50)
+]
+
+#stickybox(
+  rotation: 3deg,
+  width: 7cm
+)[
+  #lorem(20)
+]
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/a8efee5212da42450ccb46cedda2280b5e876e22cc08ab656a73d379754c8661-1.svg}}
+
+\subsection{\texorpdfstring{\hyperref[theorems]{Theorems}}{Theorems}}\label{theorems}
+
+See \href{./math.html}{math}
+
+
+\title{sitandr.github.io/typst-examples-book/book/packages/code}
+
+\section{\texorpdfstring{\hyperref[code]{Code}}{Code}}\label{code}
+
+\subsection{\texorpdfstring{\hyperref[codly]{\texttt{\ }{\texttt{\ codly\ }}\texttt{\ }}}{  codly  }}\label{codly}
+
+\begin{quote}
+See docs \href{https://github.com/Dherse/codly}{there}
+\end{quote}
+
+\begin{verbatim}
+#import "@preview/codly:0.1.0": codly-init, codly, disable-codly
+#show: codly-init.with()
+
+#codly(languages: (
+        typst: (name: "Typst", color: rgb("#41A241"), icon: none),
+    ),
+    breakable: false
+)
+
+```typst
+#import "@preview/codly:0.1.0": codly-init
+#show: codly-init.with()
+```
+
+// Still formatted!
+```rust
+pub fn main() {
+    println!("Hello, world!");
+}
+```
+
+#disable-codly()
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/eaa07afd21b4783a4be0a9726e714a8a4644421e5a93383e7deaeffaf4765105-1.svg}}
+
+\subsection{\texorpdfstring{\hyperref[codelst]{Codelst}}{Codelst}}\label{codelst}
+
+\begin{verbatim}
+#import "@preview/codelst:2.0.0": sourcecode
+
+#sourcecode[```typ
+#show "ArtosFlow": name => box[
+  #box(image(
+    "logo.svg",
+    height: 0.7em,
+  ))
+  #name
+]
+
+This report is embedded in the
+ArtosFlow project. ArtosFlow is a
+project of the Artos Institute.
+```]
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/2b2bbf130111979e4bc4cbc33171a39842467b3ea5e67a7fa0fcbf26222e8f90-1.svg}}
+
+
+\title{sitandr.github.io/typst-examples-book/book/packages/external}
+
+\section{\texorpdfstring{\hyperref[external]{External}}{External}}\label{external}
+
+These are not official packages. Maybe once they will become one.
+
+However, they may be very useful.
+
+\subsection{\texorpdfstring{\hyperref[treemap-display]{Treemap
+display}}{Treemap display}}\label{treemap-display}
+
+\href{https://gist.github.com/taylorh140/9e353fdf737f1ef51aacb332efdd9516}{Code
+Link}
+
+\pandocbounded{\includegraphics[keepaspectratio]{img/treemap.png}}
+
+
+\title{sitandr.github.io/typst-examples-book/book/packages/presentation}
+
+\section{\texorpdfstring{\hyperref[presentations]{Presentations}}{Presentations}}\label{presentations}
+
+\subsection{\texorpdfstring{\hyperref[polylux]{Polylux}}{Polylux}}\label{polylux}
+
+\begin{quote}
+See \href{https://polylux.dev/book/}{polylux book}
+\end{quote}
+
+\begin{verbatim}
+// Get Polylux from the official package repository
+#import "@preview/polylux:0.3.1": *
+
+// Make the paper dimensions fit for a presentation and the text larger
+#set page(paper: "presentation-16-9")
+#set text(size: 25pt)
+
+// Use #polylux-slide to create a slide and style it using your favourite Typst functions
+#polylux-slide[
+  #align(horizon + center)[
+    = Very minimalist slides
+
+    A lazy author
+
+    July 23, 2023
+  ]
+]
+
+#polylux-slide[
+  == First slide
+
+  Some static text on this slide.
+]
+
+#polylux-slide[
+  == This slide changes!
+
+  You can always see this.
+  // Make use of features like #uncover, #only, and others to create dynamic content
+  #uncover(2)[But this appears later!]
+]
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/f46993d445b33c112929c1b2e3308a9a2b27297acc2eb470701fbe6b8707f710-1.svg}}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/f46993d445b33c112929c1b2e3308a9a2b27297acc2eb470701fbe6b8707f710-2.svg}}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/f46993d445b33c112929c1b2e3308a9a2b27297acc2eb470701fbe6b8707f710-3.svg}}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/f46993d445b33c112929c1b2e3308a9a2b27297acc2eb470701fbe6b8707f710-4.svg}}
+
+\subsection{\texorpdfstring{\hyperref[slydst]{Slydst}}{Slydst}}\label{slydst}
+
+\begin{quote}
+See the documentation
+\href{https://github.com/glambrechts/slydst?ysclid=lr2gszrkck541184604}{there}
+.
+\end{quote}
+
+Much more simpler and less powerful than polulyx:
+
+\begin{verbatim}
+#import "@preview/slydst:0.1.0": *
+
+#show: slides.with(
+  title: "Insert your title here", // Required
+  subtitle: none,
+  date: none,
+  authors: (),
+  layout: "medium",
+  title-color: none,
+)
+
+== Outline
+
+#outline()
+
+= First section
+
+== First slide
+
+#figure(rect(width: 60%), caption: "Caption")
+
+#v(1fr)
+
+#lorem(20)
+
+#definition(title: "An interesting definition")[
+  #lorem(20)
+]
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/9d718fb02239fe71227dce959f0f468c0520df208e9b55e518dcf43f554bbd28-1.svg}}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/9d718fb02239fe71227dce959f0f468c0520df208e9b55e518dcf43f554bbd28-2.svg}}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/9d718fb02239fe71227dce959f0f468c0520df208e9b55e518dcf43f554bbd28-3.svg}}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/9d718fb02239fe71227dce959f0f468c0520df208e9b55e518dcf43f554bbd28-4.svg}}
+
+
+\title{sitandr.github.io/typst-examples-book/book/packages/index}
+
+\section{\texorpdfstring{\hyperref[packages]{Packages}}{Packages}}\label{packages}
+
+Once the \href{https://typst.app/universe}{Typst Universe} was launched,
+this chapter has become almost redundant. The Universe is actually a
+very cool place to look for packages.
+
+However, there are still some cool examples of interesting package
+usage.
+
+\subsection{\texorpdfstring{\hyperref[general]{General}}{General}}\label{general}
+
+Typst has packages, but, unlike LaTeX, you need to remember:
+
+\begin{itemize}
+\tightlist
+\item
+  You need them only for some specialized tasks, basic formatting
+  \emph{can be totally done without them} .
+\item
+  Packages are much lighter and much easier "installed" than LaTeX ones.
+\item
+  Packages are just plain Typst files (and sometimes plugins), so you
+  can easily write your own!
+\end{itemize}
+
+To use mighty package, just write, like this:
+
+\begin{verbatim}
+#import "@preview/cetz:0.1.2": canvas, plot
+
+#canvas(length: 1cm, {
+  plot.plot(size: (8, 6),
+    x-tick-step: none,
+    x-ticks: ((-calc.pi, $-pi$), (0, $0$), (calc.pi, $pi$)),
+    y-tick-step: 1,
+    {
+      plot.add(
+        style: plot.palette.blue,
+        domain: (-calc.pi, calc.pi), x => calc.sin(x * 1rad))
+      plot.add(
+        hypograph: true,
+        style: plot.palette.blue,
+        domain: (-calc.pi, calc.pi), x => calc.cos(x * 1rad))
+      plot.add(
+        hypograph: true,
+        style: plot.palette.blue,
+        domain: (-calc.pi, calc.pi), x => calc.cos((x + calc.pi) * 1rad))
+    })
+})
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/29d7015ed96122fa3fb663929c1ac58d25340995423c82456ab8815811373979-1.svg}}
+
+\subsection{\texorpdfstring{\hyperref[contributing]{Contributing}}{Contributing}}\label{contributing}
+
+If you are author of a package or just want to make a fair overview,
+feel free to make issues/PR-s!
+
+
+\title{sitandr.github.io/typst-examples-book/book/packages/word_count}
+
+\section{\texorpdfstring{\hyperref[counting-words]{Counting
+words}}{Counting words}}\label{counting-words}
+
+\subsection{\texorpdfstring{\hyperref[wordometr]{Wordometr}}{Wordometr}}\label{wordometr}
+
+\begin{verbatim}
+#import "@preview/wordometer:0.1.0": word-count, total-words
+
+#show: word-count
+
+In this document, there are #total-words words all up.
+
+#word-count(total => [
+  The number of words in this block is #total.words
+  and there are #total.characters letters.
+])
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/a36d12209002f93aeaf23d4b21fcd4dcb1f9326f6ad358ad01558f09dede39c2-1.svg}}
+
+\subsubsection{\texorpdfstring{\hyperref[excluding-elements]{Excluding
+elements}}{Excluding elements}}\label{excluding-elements}
+
+You can exclude elements by name (e.g.,
+\texttt{\ }{\texttt{\ "caption"\ }}\texttt{\ } ), function (e.g.,
+\texttt{\ }{\texttt{\ figure.caption\ }}\texttt{\ } ), where-selector
+(e.g., \texttt{\ }{\texttt{\ raw.where(block:\ true)\ }}\texttt{\ } ),
+or \texttt{\ }{\texttt{\ label\ }}\texttt{\ } (e.g.,
+\texttt{\ }{\texttt{\ \textless{}\ }}\texttt{\ }{\texttt{\ no-wc\ }}\texttt{\ }{\texttt{\ \textgreater{}\ }}\texttt{\ }
+).
+
+\begin{verbatim}
+#import "@preview/wordometer:0.1.0": word-count, total-words
+
+#show: word-count.with(exclude: (heading.where(level: 1), strike))
+
+= This Heading Doesn't Count
+== But I do!
+
+In this document #strike[(excluding me)], there are #total-words words all up.
+
+#word-count(total => [
+  You can exclude elements by label, too.
+  #[That was #total-words, excluding this sentence!] <no-wc>
+], exclude: <no-wc>)
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/0e46f8aa570972e4f8a92bfa4b8f7b86b6374d632fa27bd043c102b683d70f96-1.svg}}
+
+

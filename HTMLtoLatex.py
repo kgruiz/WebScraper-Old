@@ -272,42 +272,23 @@ def CombineDirs(dirName: str, addFullName: bool = False) -> None:
 
 def CombineFiles(
     dirName: str,
+    outDir: str,
     addFullName: bool = False,
     maxLength: int = 3000,
-    addedPrefix: str = None,
 ) -> None:
 
-    def WriteGroup(
-        group: List[str], groupNum: int, outDir: str, addedPrefix: str = None
-    ) -> None:
+    def WriteGroup(group: List[str], groupNum: int, outDir: str) -> None:
 
-        if addedPrefix is not None:
-
-            outputPath = os.path.join(outDir, f"{addedPrefix}-Group{groupNum}.tex")
-
-        else:
-
-            outputPath = os.path.join(outDir, f"Group{groupNum}.tex")
+        outputPath = os.path.join(outDir, f"Group{groupNum}.tex")
+        outputPath = os.path.join(
+            outDir, f"{outDir.replace("/","_")}-{groupNumber}.tex"
+        )
 
         with open(outputPath, "w") as file:
 
             for fileContent in group:
 
                 file.write(f"{fileContent}\n\n")
-
-    if dirName.find(" ") == -1:
-
-        outDir = f"Combined-{dirName}"
-
-    else:
-
-        outDir = f"Combined {dirName}"
-
-    currentPath = os.path.abspath(dirName)
-
-    currentDir = currentPath[: currentPath.rfind("/")]
-
-    outDir = os.path.join(currentDir, outDir)
 
     os.makedirs(outDir, exist_ok=True)
 
@@ -325,6 +306,10 @@ def CombineFiles(
 
             filePath = os.path.join(dirName, fileName)
 
+            if os.path.isdir(filePath):
+
+                continue
+
             with open(filePath, "r") as file:
 
                 content = file.read()
@@ -337,7 +322,6 @@ def CombineFiles(
                     group=[content],
                     groupNum=groupNumber,
                     outDir=outDir,
-                    addedPrefix=addedPrefix,
                 )
                 groupNumber += 1
 
@@ -352,8 +336,15 @@ def CombineFiles(
                     group=currentFile,
                     groupNum=groupNumber,
                     outDir=outDir,
-                    addedPrefix=addedPrefix,
                 )
                 groupNumber += 1
                 currentLength = 0
                 currentFile = []
+
+        if len(currentFile) > 0:
+
+            WriteGroup(
+                group=currentFile,
+                groupNum=groupNumber,
+                outDir=outDir,
+            )
