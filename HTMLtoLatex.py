@@ -271,16 +271,3 @@ def CombineDirs(dirName: str, addFullName: bool = False) -> None:
                         file.write(subFile)
 
                         file.write(f"\n\n")
-
-
-if __name__ == "__main__":
-
-    htmlDir = "Raw HTML Files"
-    latexDir = "Latex Pages"
-
-    # HTMLDirtoLatex(htmlDir=htmlDir, latexDir=latexDir, fileNameFull=True)
-
-    # FlattenDir(dirName=f"Full Path Latex Pages")
-    # CombineDirs(dirName=latexDir)
-    FlattenDir(dirName=f"Combined Latex Pages")
-    # CombineDirs(dirName=latexDir, addFullName=True)

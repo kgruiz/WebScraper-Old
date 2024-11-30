@@ -7,7 +7,7 @@ import requests
 from bs4 import BeautifulSoup
 from tqdm import tqdm
 
-from DirStructure import DirStructureFromURLList
+from DirStructure import DirStructureFromURLList, OutputJsonWalk
 
 
 def OutputJson(urlList: list, fileName: str):
@@ -26,6 +26,9 @@ def GetUrls(
     verbose: bool = False,
     parentLink=None,
     writeHtml: bool = True,  # New parameter to control HTML file writing
+    includeWords: List[str] = None,  # New parameter for words to include
+    excludeWords: List[str] = None,  # New parameter for words to exclude
+    maxPage: str = None,
 ):
 
     if urlList is None:
@@ -33,6 +36,12 @@ def GetUrls(
 
     if baseUrl is None:
         baseUrl = url
+
+    if includeWords is None:
+        includeWords = []
+
+    if excludeWords is None:
+        excludeWords = []
 
     response = requests.get(url)
     soup = BeautifulSoup(response.text, "html.parser")
@@ -43,7 +52,9 @@ def GetUrls(
         parsedUrl = urlparse(url)
         pathParts = parsedUrl.path.strip("/").split("/")
         dirPath = os.path.join("Raw HTML Files", parsedUrl.netloc, *pathParts[:-1])
+
         if not os.path.exists(dirPath):
+
             os.makedirs(dirPath)
 
         # Save the HTML content to a file
@@ -59,7 +70,11 @@ def GetUrls(
         response = requests.get(parentLink)
         soup = BeautifulSoup(response.text, "html.parser")
 
-        with open("output.html", "w") as file:
+        with open("parentOfError.html", "w") as file:
+
+            file.write(
+                f"<!-- {(f"404 Error on {url}. Parent link: {parentLink}")} -->\n\n"
+            )
 
             file.write(BeautifulSoup.prettify(soup))
             file.write("\n")
@@ -70,7 +85,45 @@ def GetUrls(
 
                 file.write(f"<!-- {link.get('href')} -->\n")
 
-        raise Exception(f"404 Error on {url}. Parent link: {parentLink}")
+            raise Exception(f"404 Error on {url}. Parent link: {parentLink}")
+
+    if url == r"https://typst.app/universe/search/?kind=packages":
+
+        print("found")
+
+    if maxPage is not None and f"/{maxPage}/" in url:
+
+        urlParts = url.split("/")
+
+        while "" in urlParts:
+
+            urlParts.remove("")
+
+        if maxPage not in urlParts[-3:-1]:
+
+            links = []
+
+        else:
+
+            if maxPage == urlParts[-2]:
+
+                newLinks = []
+
+                for link in links:
+
+                    if all(char.isdigit() or char == "." for char in link.get("href")):
+
+                        newLinks.append(link)
+
+                links = newLinks
+
+                # raise SystemExit
+
+            if maxPage == urlParts[-3]:
+
+                if not all(char.isdigit() or char == "." for char in urlParts[-1]):
+
+                    links = []
 
     uniqueLinksLengthTest = []
 
@@ -78,30 +131,21 @@ def GetUrls(
 
         link = link.get("href")
 
-        if "docs" not in link:
-
-            continue
-
-        if "changelog" in link:
-
-            continue
-
         if link.startswith("#"):
-
             continue
 
         if "#" in link:
-
             link = link.split("#")[0]
 
-        if "blog" in link or "universe" in link:
+        if "https" not in link:
+            if rf"{baseUrl}{link[1:]}" not in addedUrls:
+                link = rf"{baseUrl}/{link[1:]}"
 
+        if any(word in link for word in excludeWords):
             continue
 
-        if "https" not in link:
-
-            if f"{baseUrl}{link[1:]}" not in addedUrls:
-                link = f"{baseUrl}{link[1:]}"
+        if includeWords and not any(word in link for word in includeWords):
+            continue
 
         uniqueLinksLengthTest.append(link)
 
@@ -109,10 +153,6 @@ def GetUrls(
     uniqueLinks = set(uniqueLinksLengthTest) - addedUrls
 
     for link in uniqueLinks:
-
-        if "universe" in link:
-
-            continue
 
         if link.startswith(baseUrl) and link not in addedUrls:
 
@@ -122,7 +162,7 @@ def GetUrls(
             bar.total = total
             bar.refresh()
 
-            bar.set_description(f"Added {link}")
+            bar.set_description(rf"Added {link}")
             urlList.append(link)
             GetUrls(
                 url=link,
@@ -133,25 +173,9 @@ def GetUrls(
                 verbose=verbose,
                 parentLink=url,
                 writeHtml=writeHtml,  # Pass the parameter to recursive calls
+                includeWords=includeWords,  # Pass the parameter to recursive calls
+                excludeWords=excludeWords,  # Pass the parameter to recursive calls
+                maxPage=maxPage,
             )
 
     return urlList
-
-
-if __name__ == r"__main__":
-
-    # Example usage
-    startUrl = r"https://typst.app/"
-    outputJsonFile = r"urlStructure.json"
-
-    bar = tqdm(total=0, bar_format="{desc} {bar} Total: {total_fmt} [{elapsed}]")
-
-    urlList = GetUrls(startUrl, bar=bar)
-
-    OutputJson(urlList=urlList, fileName=f"urlList.json")
-
-    fileName = "urlStructure.json"
-
-    urlStructure = DirStructureFromURLList(urlList)
-
-    OutputJson(urlList=urlStructure, fileName=fileName)

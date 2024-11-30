@@ -26,11 +26,13 @@ def BuildURLTree(urls):
         currentLevel = tree
 
         for part in path[:-1]:  # Directories
+            if not part:  # Skip empty parts
+                continue
+            if currentLevel is None:
+                break
             currentLevel = currentLevel.setdefault(part, {})
-        # The last part is a file
-        if (
-            path[-1] and currentLevel is not None
-        ):  # Ensure path is not empty and currentLevel is not None
+
+        if path[-1] and currentLevel is not None:
             currentLevel.setdefault(path[-1], None)
 
     return tree
@@ -102,3 +104,23 @@ def PrintJsonWalk(walkGen):
         result.append({"root": root, "directories": dirs, "files": files})
 
     print(json.dumps(result, indent=4))
+
+
+def OutputJsonWalk(walkGen, fileName: str):
+    """
+    Output the directory walk as a JSON file.
+
+    Parameters
+    ----------
+    walkGen : generator
+        The directory walk generator.
+    fileName : str
+        The name of the output JSON file.
+    """
+    result = []
+
+    for root, dirs, files in walkGen:
+        result.append({"root": root, "directories": dirs, "files": files})
+
+    with open(fileName, "w") as file:
+        json.dump(result, file, indent=4)

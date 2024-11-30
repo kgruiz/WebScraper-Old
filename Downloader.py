@@ -76,15 +76,3 @@ def LoadUrlsFromJson(jsonFilePath):
         urls = data.get("all", [])
 
     return urls
-
-
-if __name__ == "__main__":
-    jsonFilePath = "urlList.json"
-    outputDirectory = "downloadedPdfs"
-    urls = LoadUrlsFromJson(jsonFilePath)
-
-    with tqdm(total=len(urls), desc="Processing URLs") as mainBar:
-        for url in urls:
-            mainBar.set_postfix_str(url)
-            SavePageAsPdf(url, outputDirectory)
-            mainBar.update(1)
