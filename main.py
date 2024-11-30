@@ -66,12 +66,6 @@ def main():
 
     args = parser.parse_args()
 
-    # typst.app / universe / --flatten - -combine - -writeHtml
-    args.baseUrl = "typst.app/universe/"
-    args.flatten = True
-    args.combine = True
-    args.writeHtml = True
-
     if not any(vars(args).values()) or args.interactive or not args.baseUrl:
         args.baseUrl = input("Enter the base URL: ")
         args.outputJson = (
@@ -99,6 +93,10 @@ def main():
         args.excludeWords = (
             [word.strip() for word in excludeWords.split(",")] if excludeWords else []
         )
+
+    if args.baseUrl[-1] != "/":
+
+        args.baseUrl = f"{args.baseUrl}/"
 
     if r"https://" not in args.baseUrl:
 
@@ -131,9 +129,9 @@ def main():
         includeWords=args.includeWords,
         excludeWords=args.excludeWords,
         maxPage="package",
+        htmlDirName=args.htmlDir,  # Added parameter
     )
 
-    print(f"Scraped URLs: {urlList}")
     OutputJson(urlList=urlList, fileName=args.outputJson)
 
     if args.downloadPdf:

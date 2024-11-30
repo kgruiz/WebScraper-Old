@@ -29,6 +29,7 @@ def GetUrls(
     includeWords: List[str] = None,  # New parameter for words to include
     excludeWords: List[str] = None,  # New parameter for words to exclude
     maxPage: str = None,
+    htmlDirName: str = "Raw HTML Files",  # Added parameter
 ):
 
     if urlList is None:
@@ -51,7 +52,7 @@ def GetUrls(
         # Create directory structure based on URL
         parsedUrl = urlparse(url)
         pathParts = parsedUrl.path.strip("/").split("/")
-        dirPath = os.path.join("Raw HTML Files", parsedUrl.netloc, *pathParts[:-1])
+        dirPath = os.path.join(htmlDirName, parsedUrl.netloc, *pathParts[:-1])
 
         if not os.path.exists(dirPath):
 
@@ -86,10 +87,6 @@ def GetUrls(
                 file.write(f"<!-- {link.get('href')} -->\n")
 
             raise Exception(f"404 Error on {url}. Parent link: {parentLink}")
-
-    if url == r"https://typst.app/universe/search/?kind=packages":
-
-        print("found")
 
     if maxPage is not None and f"/{maxPage}/" in url:
 
@@ -176,6 +173,7 @@ def GetUrls(
                 includeWords=includeWords,  # Pass the parameter to recursive calls
                 excludeWords=excludeWords,  # Pass the parameter to recursive calls
                 maxPage=maxPage,
+                htmlDirName=htmlDirName,  # Pass the parameter to recursive calls
             )
 
     return urlList

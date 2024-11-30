@@ -1,0 +1,1751 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta charset="utf-8"/>
+  <title>
+   oxifmt â Typst Universe
+  </title>
+  <meta content="Convenient Rust-like string formatting in Typst" name="description"/>
+  <meta content="width=device-width,initial-scale=1" name="viewport"/>
+  <meta content="#239dad" name="theme-color"/>
+  <link href="/assets/site.webmanifest" rel="manifest"/>
+  <meta content="https://typst.app/universe/package/oxifmt/" property="og:url"/>
+  <meta content="oxifmt â Typst Universe" property="og:title"/>
+  <meta content="Typst" property="og:site_name"/>
+  <meta content="Convenient Rust-like string formatting in Typst" property="og:description"/>
+  <meta content="website" property="og:type"/>
+  <meta content="https://typst.app/assets/social.png" property="og:image"/>
+  <meta content="1200" property="og:image:width"/>
+  <meta content="630" property="og:image:height"/>
+  <meta content="@typstapp" name="twitter:site"/>
+  <meta content="summary_large_image" name="twitter:card"/>
+  <link href="https://typst.app/universe/package/oxifmt/" rel="canonical"/>
+  <meta content="The left side of a text editor with colorful cursors, as well as the text 'Compose papers faster, Typst'" name="twitter:image:alt"/>
+  <link href="/assets/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png"/>
+  <link href="/assets/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png"/>
+  <link href="/assets/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180"/>
+  <link color="#239dad" href="/assets/safari-pinned-tab.svg" rel="mask-icon"/>
+  <link href="/assets/site.webmanifest" rel="manifest"/>
+  <link href="/styles/fonts-4f0c2d41.css" rel="stylesheet"/>
+  <link href="/styles/default-ece7e2d2.css" rel="stylesheet"/>
+  <link href="/styles/universe-shared-f3c0aa71.css" rel="stylesheet"/>
+  <link href="/styles/universe-package-288b65b5.css" rel="stylesheet"/>
+  <link as="font" crossorigin="anonymous" href="/assets/fonts/HKGrotesk-Regular.woff2" rel="preload"/>
+  <link as="font" crossorigin="anonymous" href="/assets/fonts/HKGrotesk-Bold.woff2" rel="preload"/>
+  <link as="font" crossorigin="anonymous" href="/assets/fonts/HKGrotesk-SemiBold.woff2" rel="preload"/>
+  <link as="font" crossorigin="anonymous" href="/assets/fonts/CascadiaMono-Regular-Sub.woff2" rel="preload"/>
+  <script>
+   "use strict";document.documentElement.className=document.documentElement.className.replace("no-js","js"),document.addEventListener("DOMContentLoaded",(()=>{let e=document.querySelector('body > header nav ul li a[href="/"]');if(function(){let e=document.cookie.split("; "),t=null;for(let n=0;n<e.length;n++)if(e[n].startsWith("INSECURE_SIGNED_IN=")){t=e[n].split("=")[1].toLowerCase();break}return t&&("1"===t||"true"===t||"yes"===t)}()){document.documentElement.classList.add("signed-in");let t=document.querySelector("header nav a.nav-btn"),n=document.querySelector("header nav a.sign-in"),r=document.querySelector(".ctas a.btn[href^='/signup']"),o=document.querySelector(".ctas a.btn[href^='/signin']");t&&(t.innerHTML="Go to app",t.setAttribute("href","/app/")),r&&(r.innerHTML="Go to your dashboard",r.setAttribute("href","/app/")),o&&(HAS_PRICING?(o.innerHTML="Upgrade your plan",o.setAttribute("href","/pricing/")):o.classList.add("hidden")),n&&(n.innerHTML="Sign out",n.setAttribute("href","https://api.typst.app/v1/auth/logout")),e&&e.setAttribute("href","/home/")}}))
+  </script>
+ </head>
+ <body class="no-js">
+  <header class="boring">
+   <div>
+    <a class="logo-box" href="/universe">
+     <img alt="Typst" class="inner-typst-logo" height="35" src="/assets/images/typst.svg" width="91"/>
+     <span>
+      Universe
+     </span>
+    </a>
+    <button class="hamburger">
+     <img alt="Open navigation" height="16" src="/assets/icons/16-hamburger-dark.svg" width="16"/>
+    </button>
+    <nav>
+     <ul>
+      <li class="social">
+       <a href="https://github.com/typst/">
+        <svg aria-labelledby=":Rsq:-label" height="16" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 16 16" width="16">
+         <title id=":Rsq:-label">
+          GitHub
+         </title>
+         <use href="/assets/icons/social.svg#github">
+         </use>
+        </svg>
+       </a>
+      </li>
+      <li class="social">
+       <a href="https://discord.gg/2uDybryKPe">
+        <svg aria-labelledby=":R1cq:-label" height="16" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 16 16" width="16">
+         <title id=":R1cq:-label">
+          Discord
+         </title>
+         <use href="/assets/icons/social.svg#discord">
+         </use>
+        </svg>
+       </a>
+      </li>
+      <li class="social">
+       <a href="https://mastodon.social/@typst">
+        <svg aria-labelledby=":R1sq:-label" height="16" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 16 16" width="16">
+         <title id=":R1sq:-label">
+          Mastodon
+         </title>
+         <use href="/assets/icons/social.svg#mastodon">
+         </use>
+        </svg>
+       </a>
+      </li>
+      <li class="social">
+       <a href="https://bsky.app/profile/typst.app">
+        <svg aria-labelledby=":R2cq:-label" height="16" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 16 16" width="16">
+         <title id=":R2cq:-label">
+          Bluesky
+         </title>
+         <use href="/assets/icons/social.svg#bluesky">
+         </use>
+        </svg>
+       </a>
+      </li>
+      <li class="social">
+       <a href="https://www.linkedin.com/company/typst/">
+        <svg aria-labelledby=":R2sq:-label" height="16" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 16 16" width="16">
+         <title id=":R2sq:-label">
+          LinkedIn
+         </title>
+         <use href="/assets/icons/social.svg#linkedin">
+         </use>
+        </svg>
+       </a>
+      </li>
+      <li class="secondary">
+       <a href="/">
+        Home
+       </a>
+      </li>
+      <li class="secondary">
+       <a href="/pricing/">
+        Pricing
+       </a>
+      </li>
+      <li class="secondary">
+       <a href="/docs/">
+        Docs
+       </a>
+      </li>
+      <li class="secondary">
+       <a href="https://forum.typst.app">
+        Forum
+       </a>
+      </li>
+      <li class="secondary">
+       <a class="sign-in" href="/signin/">
+        Sign in
+       </a>
+      </li>
+      <li>
+       <a class="nav-btn btn" href="/signup" id="header-btn">
+        Sign up
+       </a>
+      </li>
+     </ul>
+    </nav>
+   </div>
+  </header>
+  <div class="main-grid">
+   <nav id="universe-navigation">
+    <a class="title-row" href="/universe/">
+     <svg aria-labelledby=":R4la:-label" height="35" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 91 35" width="91">
+      <title id=":R4la:-label">
+       Typst
+      </title>
+      <use href="/assets/images/typst.svg#logo">
+      </use>
+     </svg>
+     <span>
+      Universe
+     </span>
+    </a>
+    <button class="close">
+     <img alt="Close" height="16" src="/assets/icons/16-close-dark.svg" width="16"/>
+    </button>
+    <ul>
+     <li>
+      <a href="/universe/">
+       <img alt="Home icon" height="16" src="/assets/icons/16-home.svg" width="16"/>
+       Start
+      </a>
+     </li>
+     <li>
+      <a class="active" href="https://typst.app/universe/search/?kind=packages" id="nav-packages-btn">
+       <img alt="Packages icon" height="16" src="/assets/icons/16-packages.svg" width="16"/>
+       Packages
+      </a>
+     </li>
+     <li>
+      <a href="https://typst.app/universe/search/?kind=templates" id="nav-templates-btn">
+       <img alt="Templates icon" height="16" src="/assets/icons/16-template.svg" width="16"/>
+       Templates
+      </a>
+     </li>
+     <li>
+      <a href="https://typst.app/universe/search/" id="nav-search-btn">
+       <img alt="Search icon" height="16" src="/assets/icons/16-search.svg" width="16"/>
+       Search
+      </a>
+     </li>
+     <li>
+      <a href="https://typst.app/universe#categories">
+       <img alt="Categories icon" height="16" src="/assets/icons/16-grid.svg" width="16"/>
+       Browse Categories
+      </a>
+     </li>
+     <li>
+      <a href="https://github.com/typst/packages">
+       <img alt="Submit icon" height="16" src="/assets/icons/16-upgrade.svg" width="16"/>
+       Submit
+      </a>
+     </li>
+    </ul>
+   </nav>
+   <main>
+    <div id="banner" style="--banner-accent:#000000;--banner-primary:#000000;--banner-secondary:#000000;--banner-tertiary:#565565;--banner-background:#eff0f3">
+     <div class="package-icon" role="img">
+     </div>
+     <div>
+      <div class="title">
+       <h1 class="name">
+        oxifmt
+       </h1>
+       <span class="version">
+        0.2.1
+       </span>
+      </div>
+      <p class="description">
+       Convenient Rust-like string formatting in Typst
+      </p>
+     </div>
+    </div>
+    <div class="inner-grid">
+     <section id="readme">
+      <p>
+       A Typst library that brings convenient string formatting and interpolation through the
+       <code>
+        strfmt
+       </code>
+       function. Its syntax is taken directly from Rustâs
+       <code>
+        format!
+       </code>
+       syntax, so feel free to read its page for more information (
+       <a href="https://doc.rust-lang.org/std/fmt/" rel="nofollow ugc" target="_blank">
+        https://doc.rust-lang.org/std/fmt/
+       </a>
+       ); however, this README should have enough information and examples for all expected uses of the library. Only a few things arenât supported from the Rust syntax, such as the
+       <code>
+        p
+       </code>
+       (pointer) format type, or the
+       <code>
+        .*
+       </code>
+       precision specifier.
+      </p>
+      <p>
+       A few extras (beyond the Rust-like syntax) will be added over time, though (feel free to drop suggestions at the repository:
+       <a href="https://github.com/PgBiel/typst-oxifmt" rel="nofollow ugc" target="_blank">
+        https://github.com/PgBiel/typst-oxifmt
+       </a>
+       ). The first âextraâ so far is the
+       <code>
+        fmt-decimal-separator: "string"
+       </code>
+       parameter, which lets you customize the decimal separator for decimal numbers (floats) inserted into strings. E.g.
+       <code>
+        strfmt("Result: {}", 5.8, fmt-decimal-separator: ",")
+       </code>
+       will return the string
+       <code>
+        "Result: 5,8"
+       </code>
+       (comma instead of dot). See more below.
+      </p>
+      <p>
+       <strong>
+        Compatible with:
+       </strong>
+       <a href="https://github.com/typst/typst" rel="nofollow ugc" target="_blank">
+        Typst
+       </a>
+       v0.4.0+
+      </p>
+      <h2>
+       Table of Contents
+      </h2>
+      <ul>
+       <li>
+        <a href="https://github.com/typst/packages/raw/main/packages/preview/oxifmt/0.2.1/#usage" rel="nofollow ugc" target="_blank">
+         Usage
+        </a>
+        <ul>
+         <li>
+          <a href="https://github.com/typst/packages/raw/main/packages/preview/oxifmt/0.2.1/#formatting-options" rel="nofollow ugc" target="_blank">
+           Formatting options
+          </a>
+         </li>
+         <li>
+          <a href="https://github.com/typst/packages/raw/main/packages/preview/oxifmt/0.2.1/#examples" rel="nofollow ugc" target="_blank">
+           Examples
+          </a>
+         </li>
+         <li>
+          <a href="https://github.com/typst/packages/raw/main/packages/preview/oxifmt/0.2.1/#grammar" rel="nofollow ugc" target="_blank">
+           Grammar
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li>
+        <a href="https://github.com/typst/packages/raw/main/packages/preview/oxifmt/0.2.1/#issues-and-contributing" rel="nofollow ugc" target="_blank">
+         Issues and Contributing
+        </a>
+       </li>
+       <li>
+        <a href="https://github.com/typst/packages/raw/main/packages/preview/oxifmt/0.2.1/#testing" rel="nofollow ugc" target="_blank">
+         Testing
+        </a>
+       </li>
+       <li>
+        <a href="https://github.com/typst/packages/raw/main/packages/preview/oxifmt/0.2.1/#changelog" rel="nofollow ugc" target="_blank">
+         Changelog
+        </a>
+       </li>
+       <li>
+        <a href="https://github.com/typst/packages/raw/main/packages/preview/oxifmt/0.2.1/#license" rel="nofollow ugc" target="_blank">
+         License
+        </a>
+       </li>
+      </ul>
+      <h2>
+       Usage
+      </h2>
+      <p>
+       You can use this library through Typstâs package manager (for Typst v0.6.0+):
+      </p>
+      <pre><code class="language-typ"><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/oxifmt:0.2.1"</span><span class="typ-punct">:</span> strfmt
+</code></code></pre>
+      <p>
+       For older Typst versions, download the
+       <code>
+        oxifmt.typ
+       </code>
+       file either from Releases or directly from the repository. Then, move it to your projectâs folder, and write at the top of your Typst file(s):
+      </p>
+      <pre><code class="language-typ"><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"oxifmt.typ"</span><span class="typ-punct">:</span> strfmt
+</code></code></pre>
+      <p>
+       Doing the above will give you access to the main function provided by this library (
+       <code>
+        strfmt
+       </code>
+       ), which accepts a format string, followed by zero or more replacements to insert in that string (according to
+       <code>
+        {...}
+       </code>
+       formats inserted in that string), an optional
+       <code>
+        fmt-decimal-separator
+       </code>
+       parameter, and returns the formatted string, as described below.
+      </p>
+      <p>
+       Its syntax is almost identical to Rustâs
+       <code>
+        format!
+       </code>
+       (as specified here:
+       <a href="https://doc.rust-lang.org/std/fmt/" rel="nofollow ugc" target="_blank">
+        https://doc.rust-lang.org/std/fmt/
+       </a>
+       ). You can escape formats by duplicating braces (
+       <code>
+        {{
+       </code>
+       and
+       <code>
+        }}
+       </code>
+       become
+       <code>
+        {
+       </code>
+       and
+       <code>
+        }
+       </code>
+       ). Hereâs an example (see more examples in the file
+       <code>
+        tests/strfmt-tests.typ
+       </code>
+       ):
+      </p>
+      <pre><code class="language-typ"><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/oxifmt:0.2.1"</span><span class="typ-punct">:</span> strfmt
+
+<span class="typ-key">#</span><span class="typ-key">let</span> s <span class="typ-op">=</span> <span class="typ-func">strfmt</span><span class="typ-punct">(</span><span class="typ-str">"I'm {}. I have {num} cars. I'm {0}. {} is {{cool}}."</span><span class="typ-punct">,</span> <span class="typ-str">"John"</span><span class="typ-punct">,</span> <span class="typ-str">"Carl"</span><span class="typ-punct">,</span> num<span class="typ-punct">:</span> <span class="typ-num">10</span><span class="typ-punct">)</span>
+<span class="typ-pol">#</span><span class="typ-pol">assert</span><span class="typ-punct">.</span><span class="typ-func">eq</span><span class="typ-punct">(</span>s<span class="typ-punct">,</span> <span class="typ-str">"I'm John. I have 10 cars. I'm John. Carl is {cool}."</span><span class="typ-punct">)</span>
+</code></code></pre>
+      <p>
+       Note that
+       <code>
+        {}
+       </code>
+       extracts positional arguments after the string sequentially (the first
+       <code>
+        {}
+       </code>
+       extracts the first one, the second
+       <code>
+        {}
+       </code>
+       extracts the second one, and so on), while
+       <code>
+        {0}
+       </code>
+       ,
+       <code>
+        {1}
+       </code>
+       , etc. will always extract the first, the second etc. positional arguments after the string. Additionally,
+       <code>
+        {bananas}
+       </code>
+       will extract the named argument âbananasâ.
+      </p>
+      <h3>
+       Formatting options
+      </h3>
+      <p>
+       You can use
+       <code>
+        {:spec}
+       </code>
+       to customize your output. See the Rust docs linked above for more info, but a summary is below.
+      </p>
+      <p>
+       (You may also want to check out the examples at
+       <a href="https://github.com/typst/packages/raw/main/packages/preview/oxifmt/0.2.1/#examples" rel="nofollow ugc" target="_blank">
+        Examples
+       </a>
+       .)
+      </p>
+      <ul>
+       <li>
+        Adding a
+        <code>
+         ?
+        </code>
+        at the end of
+        <code>
+         spec
+        </code>
+        (that is, writing e.g.
+        <code>
+         {0:?}
+        </code>
+        ) will call
+        <code>
+         repr()
+        </code>
+        to stringify your argument, instead of
+        <code>
+         str()
+        </code>
+        . Note that this only has an effect if your argument is a string, an integer, a float or a
+        <code>
+         label()
+        </code>
+        /
+        <code>
+         &lt;label&gt;
+        </code>
+        - for all other types (such as booleans or elements),
+        <code>
+         repr()
+        </code>
+        is always called (as
+        <code>
+         str()
+        </code>
+        is unsupported for those).
+        <ul>
+         <li>
+          For strings,
+          <code>
+           ?
+          </code>
+          (and thus
+          <code>
+           repr()
+          </code>
+          ) has the effect of printing them with double quotes. For floats, this ensures a
+          <code>
+           .0
+          </code>
+          appears after it, even if it doesnât have decimal digits. For integers, this doesnât change anything. Finally, for labels, the
+          <code>
+           &lt;label&gt;
+          </code>
+          (with
+          <code>
+           ?
+          </code>
+          ) is printed as
+          <code>
+           &lt;label&gt;
+          </code>
+          instead of
+          <code>
+           label
+          </code>
+          .
+         </li>
+         <li>
+          <strong>
+           TIP:
+          </strong>
+          Prefer to always use
+          <code>
+           ?
+          </code>
+          when youâre inserting something that isnât a string, number or label, in order to ensure consistent results even if the library eventually changes the non-
+          <code>
+           ?
+          </code>
+          representation.
+         </li>
+        </ul>
+       </li>
+       <li>
+        After the
+        <code>
+         :
+        </code>
+        , add e.g.
+        <code>
+         _&lt;8
+        </code>
+        to align the string to the left, padding it with as many
+        <code>
+         _
+        </code>
+        s as necessary for it to be at least
+        <code>
+         8
+        </code>
+        characters long (for example). Replace
+        <code>
+         &lt;
+        </code>
+        by
+        <code>
+         &gt;
+        </code>
+        for right alignment, or
+        <code>
+         ^
+        </code>
+        for center alignment. (If the
+        <code>
+         _
+        </code>
+        is omitted, it defaults to â â (aligns with spaces).)
+        <ul>
+         <li>
+          If you prefer to specify the minimum width (the
+          <code>
+           8
+          </code>
+          there) as a separate argument to
+          <code>
+           strfmt
+          </code>
+          instead, you can specify
+          <code>
+           argument$
+          </code>
+          in place of the width, which will extract it from the integer at
+          <code>
+           argument
+          </code>
+          . For example,
+          <code>
+           _^3$
+          </code>
+          will center align the output with
+          <code>
+           _
+          </code>
+          s, where the minimum width desired is specified by the fourth positional argument (index
+          <code>
+           3
+          </code>
+          ), as an integer. This means that a call such as
+          <code>
+           strfmt("{:_^3$}", 1, 2, 3, 4)
+          </code>
+          would produce
+          <code>
+           "__1__"
+          </code>
+          , as
+          <code>
+           3$
+          </code>
+          would evaluate to
+          <code>
+           4
+          </code>
+          (the value at the fourth positional argument/index
+          <code>
+           3
+          </code>
+          ). Similarly,
+          <code>
+           named$
+          </code>
+          would take the width from the argument with name
+          <code>
+           named
+          </code>
+          , if it is an integer (otherwise, error).
+         </li>
+        </ul>
+       </li>
+       <li>
+        <strong>
+         For numbers:
+        </strong>
+        <ul>
+         <li>
+          Specify
+          <code>
+           +
+          </code>
+          after the
+          <code>
+           :
+          </code>
+          to ensure zero or positive numbers are prefixed with
+          <code>
+           +
+          </code>
+          before them (instead of having no sign).
+          <code>
+           -
+          </code>
+          is also accepted but ignored (negative numbers always specify their sign anyways).
+         </li>
+         <li>
+          Use something like
+          <code>
+           :09
+          </code>
+          to add zeroes to the left of the number until it has at least 9 digits / characters.
+          <ul>
+           <li>
+            The
+            <code>
+             9
+            </code>
+            here is also a width, so the same comment from before applies (you can add
+            <code>
+             $
+            </code>
+            to take it from an argument to the
+            <code>
+             strfmt
+            </code>
+            function).
+           </li>
+          </ul>
+         </li>
+         <li>
+          Use
+          <code>
+           :.5
+          </code>
+          to ensure your float is represented with 5 decimal digits of precision (zeroes are added to the right if needed; otherwise, it is rounded,
+          <strong>
+           not truncated
+          </strong>
+          ).
+          <ul>
+           <li>
+            Note that floating point inaccuracies can be sometimes observed here, which is an unfortunate current limitation.
+           </li>
+           <li>
+            Similarly to
+            <code>
+             width
+            </code>
+            , the precision can also be specified via an argument with the
+            <code>
+             $
+            </code>
+            syntax:
+            <code>
+             .5$
+            </code>
+            will take the precision from the integer at argument number 5 (the sixth one), while
+            <code>
+             .test$
+            </code>
+            will take it from the argument named
+            <code>
+             test
+            </code>
+            .
+           </li>
+          </ul>
+         </li>
+         <li>
+          <strong>
+           Integers only:
+          </strong>
+          Add
+          <code>
+           x
+          </code>
+          (lowercase hex) or
+          <code>
+           X
+          </code>
+          (uppercase) at the end of the
+          <code>
+           spec
+          </code>
+          to convert the number to hexadecimal. Also,
+          <code>
+           b
+          </code>
+          will convert it to binary, while
+          <code>
+           o
+          </code>
+          will convert to octal.
+          <ul>
+           <li>
+            Specify a hashtag, e.g.
+            <code>
+             #x
+            </code>
+            or
+            <code>
+             #b
+            </code>
+            , to prepend the corresponding base prefix to the base-converted number, e.g.
+            <code>
+             0xABC
+            </code>
+            instead of
+            <code>
+             ABC
+            </code>
+            .
+           </li>
+          </ul>
+         </li>
+         <li>
+          Add
+          <code>
+           e
+          </code>
+          or
+          <code>
+           E
+          </code>
+          at the end of the
+          <code>
+           spec
+          </code>
+          to ensure the number is represented in scientific notation (with
+          <code>
+           e
+          </code>
+          or
+          <code>
+           E
+          </code>
+          as the exponent separator, respectively).
+         </li>
+         <li>
+          For decimal numbers (floats), you can specify
+          <code>
+           fmt-decimal-separator: ","
+          </code>
+          to
+          <code>
+           strfmt
+          </code>
+          to have the decimal separator be a comma instead of a dot, for example.
+          <ul>
+           <li>
+            To have this be the default, you can alias
+            <code>
+             strfmt
+            </code>
+            , such as using
+            <code>
+             #let strfmt = strfmt.with(fmt-decimal-separator: ",")
+            </code>
+            .
+           </li>
+          </ul>
+         </li>
+         <li>
+          Number spec arguments (such as
+          <code>
+           .5
+          </code>
+          ) are ignored when the argument is not a number, but e.g. a string, even if it looks like a number (such as
+          <code>
+           "5"
+          </code>
+          ).
+         </li>
+        </ul>
+       </li>
+       <li>
+        Note that all spec arguments above
+        <strong>
+         have to be specified in order
+        </strong>
+        - if you mix up the order, it wonât work properly!
+        <ul>
+         <li>
+          Check the grammar below for the proper order, but, in summary: fill (character) with align (
+          <code>
+           &lt;
+          </code>
+          ,
+          <code>
+           &gt;
+          </code>
+          or
+          <code>
+           ^
+          </code>
+          ) -&gt; sign (
+          <code>
+           +
+          </code>
+          or
+          <code>
+           -
+          </code>
+          ) -&gt;
+          <code>
+           #
+          </code>
+          -&gt;
+          <code>
+           0
+          </code>
+          (for 0 left-padding of numbers) -&gt; width (e.g.
+          <code>
+           8
+          </code>
+          from
+          <code>
+           08
+          </code>
+          or
+          <code>
+           9
+          </code>
+          from
+          <code>
+           -&lt;9
+          </code>
+          ) -&gt;
+          <code>
+           .precision
+          </code>
+          -&gt; spec type (
+          <code>
+           ?
+          </code>
+          ,
+          <code>
+           x
+          </code>
+          ,
+          <code>
+           X
+          </code>
+          ,
+          <code>
+           b
+          </code>
+          ,
+          <code>
+           o
+          </code>
+          ,
+          <code>
+           e
+          </code>
+          ,
+          <code>
+           E
+          </code>
+          )).
+         </li>
+        </ul>
+       </li>
+      </ul>
+      <p>
+       Some examples:
+      </p>
+      <pre><code class="language-typ"><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/oxifmt:0.2.1"</span><span class="typ-punct">:</span> strfmt
+
+<span class="typ-key">#</span><span class="typ-key">let</span> s1 <span class="typ-op">=</span> <span class="typ-func">strfmt</span><span class="typ-punct">(</span><span class="typ-str">"{0:?}, {test:+012e}, {1:-&lt;#8x}"</span><span class="typ-punct">,</span> <span class="typ-str">"hi"</span><span class="typ-punct">,</span> <span class="typ-op">-</span><span class="typ-num">74</span><span class="typ-punct">,</span> test<span class="typ-punct">:</span> <span class="typ-num">569.4</span><span class="typ-punct">)</span>
+<span class="typ-pol">#</span><span class="typ-pol">assert</span><span class="typ-punct">.</span><span class="typ-func">eq</span><span class="typ-punct">(</span>s1<span class="typ-punct">,</span> <span class="typ-str">"\"hi\", +00005.694e2, -0x4a---"</span><span class="typ-punct">)</span>
+
+<span class="typ-key">#</span><span class="typ-key">let</span> s2 <span class="typ-op">=</span> <span class="typ-func">strfmt</span><span class="typ-punct">(</span><span class="typ-str">"{:_&gt;+11.5}"</span><span class="typ-punct">,</span> <span class="typ-num">59.4</span><span class="typ-punct">)</span>
+<span class="typ-pol">#</span><span class="typ-pol">assert</span><span class="typ-punct">.</span><span class="typ-func">eq</span><span class="typ-punct">(</span>s2<span class="typ-punct">,</span> <span class="typ-str">"__+59.40000"</span><span class="typ-punct">)</span>
+
+<span class="typ-key">#</span><span class="typ-key">let</span> s3 <span class="typ-op">=</span> <span class="typ-func">strfmt</span><span class="typ-punct">(</span><span class="typ-str">"Dict: {:!&lt;10?}"</span><span class="typ-punct">,</span> <span class="typ-punct">(</span>a<span class="typ-punct">:</span> <span class="typ-num">5</span><span class="typ-punct">)</span><span class="typ-punct">)</span>
+<span class="typ-pol">#</span><span class="typ-pol">assert</span><span class="typ-punct">.</span><span class="typ-func">eq</span><span class="typ-punct">(</span>s3<span class="typ-punct">,</span> <span class="typ-str">"Dict: (a: 5)!!!!"</span><span class="typ-punct">)</span>
+</code></code></pre>
+      <h3>
+       Examples
+      </h3>
+      <ul>
+       <li>
+        <strong>
+         Inserting labels, text and numbers into strings:
+        </strong>
+       </li>
+      </ul>
+      <pre><code class="language-typ"><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/oxifmt:0.2.1"</span><span class="typ-punct">:</span> strfmt
+
+<span class="typ-key">#</span><span class="typ-key">let</span> s <span class="typ-op">=</span> <span class="typ-func">strfmt</span><span class="typ-punct">(</span><span class="typ-str">"First: {}, Second: {}, Fourth: {3}, Banana: {banana} (brackets: {{escaped}})"</span><span class="typ-punct">,</span> <span class="typ-num">1</span><span class="typ-punct">,</span> <span class="typ-num">2.1</span><span class="typ-punct">,</span> <span class="typ-num">3</span><span class="typ-punct">,</span> <span class="typ-func">label</span><span class="typ-punct">(</span><span class="typ-str">"four"</span><span class="typ-punct">)</span><span class="typ-punct">,</span> banana<span class="typ-punct">:</span> <span class="typ-str">"Banana!!"</span><span class="typ-punct">)</span>
+<span class="typ-pol">#</span><span class="typ-pol">assert</span><span class="typ-punct">.</span><span class="typ-func">eq</span><span class="typ-punct">(</span>s<span class="typ-punct">,</span> <span class="typ-str">"First: 1, Second: 2.1, Fourth: four, Banana: Banana!! (brackets: {escaped})"</span><span class="typ-punct">)</span>
+</code></code></pre>
+      <ul>
+       <li>
+        <strong>
+         Forcing
+         <code>
+          repr()
+         </code>
+         with
+         <code>
+          {:?}
+         </code>
+        </strong>
+        (which adds quotes around strings, and other things - basically represents a Typst value):
+       </li>
+      </ul>
+      <pre><code class="language-typ"><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/oxifmt:0.2.1"</span><span class="typ-punct">:</span> strfmt
+
+<span class="typ-key">#</span><span class="typ-key">let</span> s <span class="typ-op">=</span> <span class="typ-func">strfmt</span><span class="typ-punct">(</span><span class="typ-str">"The value is: {:?} | Also the label is {:?}"</span><span class="typ-punct">,</span> <span class="typ-str">"something"</span><span class="typ-punct">,</span> <span class="typ-func">label</span><span class="typ-punct">(</span><span class="typ-str">"label"</span><span class="typ-punct">)</span><span class="typ-punct">)</span>
+<span class="typ-pol">#</span><span class="typ-pol">assert</span><span class="typ-punct">.</span><span class="typ-func">eq</span><span class="typ-punct">(</span>s<span class="typ-punct">,</span> <span class="typ-str">"The value is: \"something\" | Also the label is &lt;label&gt;"</span><span class="typ-punct">)</span>
+</code></code></pre>
+      <ul>
+       <li>
+        <strong>
+         Inserting other types than numbers and strings
+        </strong>
+        (for now, they will always use
+        <code>
+         repr()
+        </code>
+        , even without
+        <code>
+         {...:?}
+        </code>
+        , although that is more explicit):
+       </li>
+      </ul>
+      <pre><code class="language-typ"><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/oxifmt:0.2.1"</span><span class="typ-punct">:</span> strfmt
+
+<span class="typ-key">#</span><span class="typ-key">let</span> s <span class="typ-op">=</span> <span class="typ-func">strfmt</span><span class="typ-punct">(</span><span class="typ-str">"Values: {:?}, {1:?}, {stuff:?}"</span><span class="typ-punct">,</span> <span class="typ-punct">(</span>test<span class="typ-punct">:</span> <span class="typ-num">500</span><span class="typ-punct">)</span><span class="typ-punct">,</span> <span class="typ-punct">(</span><span class="typ-str">"a"</span><span class="typ-punct">,</span> <span class="typ-num">5.1</span><span class="typ-punct">)</span><span class="typ-punct">,</span> stuff<span class="typ-punct">:</span> <span class="typ-punct">[</span>a<span class="typ-punct">]</span><span class="typ-punct">)</span>
+<span class="typ-pol">#</span><span class="typ-pol">assert</span><span class="typ-punct">.</span><span class="typ-func">eq</span><span class="typ-punct">(</span>s<span class="typ-punct">,</span> <span class="typ-str">"Values: (test: 500), (\"a\", 5.1), [a]"</span><span class="typ-punct">)</span>
+</code></code></pre>
+      <ul>
+       <li>
+        <strong>
+         Padding to a certain width with characters:
+        </strong>
+        Use
+        <code>
+         {:x&lt;8}
+        </code>
+        , where
+        <code>
+         x
+        </code>
+        is the
+        <strong>
+         character to pad with
+        </strong>
+        (e.g. space or
+        <code>
+         _
+        </code>
+        , but can be anything),
+        <code>
+         &lt;
+        </code>
+        is the
+        <strong>
+         alignment of the original text
+        </strong>
+        relative to the padding (can be
+        <code>
+         &lt;
+        </code>
+        for left aligned (padding goes to the right),
+        <code>
+         &gt;
+        </code>
+        for right aligned (padded to its left) and
+        <code>
+         ^
+        </code>
+        for center aligned (padded at both left and right)), and
+        <code>
+         8
+        </code>
+        is the
+        <strong>
+         desired total width
+        </strong>
+        (padding will add enough characters to reach this width; if the replacement string already has this width, no padding will be added):
+       </li>
+      </ul>
+      <pre><code class="language-typ"><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/oxifmt:0.2.1"</span><span class="typ-punct">:</span> strfmt
+
+<span class="typ-key">#</span><span class="typ-key">let</span> s <span class="typ-op">=</span> <span class="typ-func">strfmt</span><span class="typ-punct">(</span><span class="typ-str">"Left5 {:-&lt;5}, Right6 {:=&gt;6}, Center10 {centered: ^10?}, Left3 {tleft:_&lt;3}"</span><span class="typ-punct">,</span> <span class="typ-str">"xx"</span><span class="typ-punct">,</span> <span class="typ-num">539</span><span class="typ-punct">,</span> tleft<span class="typ-punct">:</span> <span class="typ-str">"okay"</span><span class="typ-punct">,</span> centered<span class="typ-punct">:</span> <span class="typ-punct">[</span>a<span class="typ-punct">]</span><span class="typ-punct">)</span>
+<span class="typ-pol">#</span><span class="typ-pol">assert</span><span class="typ-punct">.</span><span class="typ-func">eq</span><span class="typ-punct">(</span>s<span class="typ-punct">,</span> <span class="typ-str">"Left5 xx---, Right6 ===539, Center10     [a]    , Left3 okay"</span><span class="typ-punct">)</span>
+<span class="typ-comment">// note how 'okay' didn't suffer any padding at all (it already had at least the desired total width).</span>
+</code></code></pre>
+      <ul>
+       <li>
+        <strong>
+         Padding numbers with zeroes to the left:
+        </strong>
+        Itâs a similar functionality to the above, however you write
+        <code>
+         {:08}
+        </code>
+        for 8 characters (for instance) - note that any characters in the numberâs representation matter for width (including sign, dot and decimal part):
+       </li>
+      </ul>
+      <pre><code class="language-typ"><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/oxifmt:0.2.1"</span><span class="typ-punct">:</span> strfmt
+
+<span class="typ-key">#</span><span class="typ-key">let</span> s <span class="typ-op">=</span> <span class="typ-func">strfmt</span><span class="typ-punct">(</span><span class="typ-str">"Left-padded7 numbers: {:07} {:07} {:07} {3:07}"</span><span class="typ-punct">,</span> <span class="typ-num">123</span><span class="typ-punct">,</span> <span class="typ-op">-</span><span class="typ-num">344</span><span class="typ-punct">,</span> <span class="typ-num">44224059</span><span class="typ-punct">,</span> <span class="typ-num">45.32</span><span class="typ-punct">)</span>
+<span class="typ-pol">#</span><span class="typ-pol">assert</span><span class="typ-punct">.</span><span class="typ-func">eq</span><span class="typ-punct">(</span>s<span class="typ-punct">,</span> <span class="typ-str">"Left-padded7 numbers: 0000123 -000344 44224059 0045.32"</span><span class="typ-punct">)</span>
+</code></code></pre>
+      <ul>
+       <li>
+        <strong>
+         Defining padding-to width using parameters, not literals:
+        </strong>
+        If you want the desired replacement width (the
+        <code>
+         8
+        </code>
+        in
+        <code>
+         {:08}
+        </code>
+        or
+        <code>
+         {: ^8}
+        </code>
+        ) to be passed via parameter (instead of being hardcoded into the format string), you can specify
+        <code>
+         parameter$
+        </code>
+        in place of the width, e.g.
+        <code>
+         {:02$}
+        </code>
+        to take it from the third positional parameter, or
+        <code>
+         {:a&gt;banana$}
+        </code>
+        to take it from the parameter named
+        <code>
+         banana
+        </code>
+        - note that the chosen parameter
+        <strong>
+         must be an integer
+        </strong>
+        (desired total width):
+       </li>
+      </ul>
+      <pre><code class="language-typ"><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/oxifmt:0.2.1"</span><span class="typ-punct">:</span> strfmt
+
+<span class="typ-key">#</span><span class="typ-key">let</span> s <span class="typ-op">=</span> <span class="typ-func">strfmt</span><span class="typ-punct">(</span><span class="typ-str">"Padding depending on parameter: {0:02$} and {0:a&gt;banana$}"</span><span class="typ-punct">,</span> <span class="typ-num">432</span><span class="typ-punct">,</span> <span class="typ-num">0</span><span class="typ-punct">,</span> <span class="typ-num">5</span><span class="typ-punct">,</span> banana<span class="typ-punct">:</span> <span class="typ-num">9</span><span class="typ-punct">)</span>
+<span class="typ-pol">#</span><span class="typ-pol">assert</span><span class="typ-punct">.</span><span class="typ-func">eq</span><span class="typ-punct">(</span>s<span class="typ-punct">,</span> <span class="typ-str">"Padding depending on parameter: 00432 aaaaaa432"</span><span class="typ-punct">)</span>  <span class="typ-comment">// widths 5 and 9</span>
+</code></code></pre>
+      <ul>
+       <li>
+        <strong>
+         Displaying
+         <code>
+          +
+         </code>
+         on positive numbers:
+        </strong>
+        Just add a
+        <code>
+         +
+        </code>
+        at the âbeginningâ, i.e., before the
+        <code>
+         #0
+        </code>
+        (if either is there), or after the custom fill and align (if itâs there and not
+        <code>
+         0
+        </code>
+        - see
+        <a href="https://github.com/typst/packages/raw/main/packages/preview/oxifmt/0.2.1/#grammar" rel="nofollow ugc" target="_blank">
+         Grammar
+        </a>
+        for the exact positioning), like so:
+       </li>
+      </ul>
+      <pre><code class="language-typ"><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/oxifmt:0.2.1"</span><span class="typ-punct">:</span> strfmt
+
+<span class="typ-key">#</span><span class="typ-key">let</span> s <span class="typ-op">=</span> <span class="typ-func">strfmt</span><span class="typ-punct">(</span><span class="typ-str">"Some numbers: {:+} {:+08}; With fill and align: {:_&lt;+8}; Negative (no-op): {neg:+}"</span><span class="typ-punct">,</span> <span class="typ-num">123</span><span class="typ-punct">,</span> <span class="typ-num">456</span><span class="typ-punct">,</span> <span class="typ-num">4444</span><span class="typ-punct">,</span> neg<span class="typ-punct">:</span> <span class="typ-op">-</span><span class="typ-num">435</span><span class="typ-punct">)</span>
+<span class="typ-pol">#</span><span class="typ-pol">assert</span><span class="typ-punct">.</span><span class="typ-func">eq</span><span class="typ-punct">(</span>s<span class="typ-punct">,</span> <span class="typ-str">"Some numbers: +123 +0000456; With fill and align: +4444___; Negative (no-op): -435"</span><span class="typ-punct">)</span>
+
+</code></code></pre>
+      <ul>
+       <li>
+        <strong>
+         Converting numbers to bases 2, 8 and 16:
+        </strong>
+        Use one of the following specifier types (i.e., characters which always go at the very end of the format):
+        <code>
+         b
+        </code>
+        (binary),
+        <code>
+         o
+        </code>
+        (octal),
+        <code>
+         x
+        </code>
+        (lowercase hexadecimal) or
+        <code>
+         X
+        </code>
+        (uppercase hexadecimal). You can also add a
+        <code>
+         #
+        </code>
+        between
+        <code>
+         +
+        </code>
+        and
+        <code>
+         0
+        </code>
+        (see the exact position at the
+        <a href="https://github.com/typst/packages/raw/main/packages/preview/oxifmt/0.2.1/#grammar" rel="nofollow ugc" target="_blank">
+         Grammar
+        </a>
+        ) to display a
+        <strong>
+         base prefix
+        </strong>
+        before the number (i.e.
+        <code>
+         0b
+        </code>
+        for binary,
+        <code>
+         0o
+        </code>
+        for octal and
+        <code>
+         0x
+        </code>
+        for hexadecimal):
+       </li>
+      </ul>
+      <pre><code class="language-typ"><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/oxifmt:0.2.1"</span><span class="typ-punct">:</span> strfmt
+
+<span class="typ-key">#</span><span class="typ-key">let</span> s <span class="typ-op">=</span> <span class="typ-func">strfmt</span><span class="typ-punct">(</span><span class="typ-str">"Bases (10, 2, 8, 16(l), 16(U):) {0} {0:b} {0:o} {0:x} {0:X} | W/ prefixes and modifiers: {0:#b} {0:+#09o} {0:_&gt;+#9X}"</span><span class="typ-punct">,</span> <span class="typ-num">124</span><span class="typ-punct">)</span>
+<span class="typ-pol">#</span><span class="typ-pol">assert</span><span class="typ-punct">.</span><span class="typ-func">eq</span><span class="typ-punct">(</span>s<span class="typ-punct">,</span> <span class="typ-str">"Bases (10, 2, 8, 16(l), 16(U):) 124 1111100 174 7c 7C | W/ prefixes and modifiers: 0b1111100 +0o000174 ____+0x7C"</span><span class="typ-punct">)</span>
+</code></code></pre>
+      <ul>
+       <li>
+        <strong>
+         Picking float precision (right-extending with zeroes):
+        </strong>
+        Add, at the end of the format (just before the spec type (such as
+        <code>
+         ?
+        </code>
+        ), if thereâs any), either
+        <code>
+         .precision
+        </code>
+        (hardcoded, e.g.
+        <code>
+         .8
+        </code>
+        for 8 decimal digits) or
+        <code>
+         .parameter$
+        </code>
+        (taking the precision value from the specified parameter, like with
+        <code>
+         width
+        </code>
+        ):
+       </li>
+      </ul>
+      <pre><code class="language-typ"><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/oxifmt:0.2.1"</span><span class="typ-punct">:</span> strfmt
+
+<span class="typ-key">#</span><span class="typ-key">let</span> s <span class="typ-op">=</span> <span class="typ-func">strfmt</span><span class="typ-punct">(</span><span class="typ-str">"{0:.8} {0:.2$} {0:.potato$}"</span><span class="typ-punct">,</span> <span class="typ-num">1.234</span><span class="typ-punct">,</span> <span class="typ-num">0</span><span class="typ-punct">,</span> <span class="typ-num">2</span><span class="typ-punct">,</span> potato<span class="typ-punct">:</span> <span class="typ-num">5</span><span class="typ-punct">)</span>
+<span class="typ-pol">#</span><span class="typ-pol">assert</span><span class="typ-punct">.</span><span class="typ-func">eq</span><span class="typ-punct">(</span>s<span class="typ-punct">,</span> <span class="typ-str">"1.23400000 1.23 1.23400"</span><span class="typ-punct">)</span>
+</code></code></pre>
+      <ul>
+       <li>
+        <strong>
+         Scientific notation:
+        </strong>
+        Use
+        <code>
+         e
+        </code>
+        (lowercase) or
+        <code>
+         E
+        </code>
+        (uppercase) as specifier types (can be combined with precision):
+       </li>
+      </ul>
+      <pre><code class="language-typ"><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/oxifmt:0.2.1"</span><span class="typ-punct">:</span> strfmt
+
+<span class="typ-key">#</span><span class="typ-key">let</span> s <span class="typ-op">=</span> <span class="typ-func">strfmt</span><span class="typ-punct">(</span><span class="typ-str">"{0:e} {0:E} {0:+.9e} | {1:e} | {2:.4E}"</span><span class="typ-punct">,</span> <span class="typ-num">124.2312</span><span class="typ-punct">,</span> <span class="typ-num">50</span><span class="typ-punct">,</span> <span class="typ-op">-</span><span class="typ-num">0.02</span><span class="typ-punct">)</span>
+<span class="typ-pol">#</span><span class="typ-pol">assert</span><span class="typ-punct">.</span><span class="typ-func">eq</span><span class="typ-punct">(</span>s<span class="typ-punct">,</span> <span class="typ-str">"1.242312e2 1.242312E2 +1.242312000e2 | 5e1 | -2.0000E-2"</span><span class="typ-punct">)</span>
+</code></code></pre>
+      <ul>
+       <li>
+        <strong>
+         Customizing the decimal separator on floats:
+        </strong>
+        Just specify
+        <code>
+         fmt-decimal-separator: ","
+        </code>
+        (comma as an example):
+       </li>
+      </ul>
+      <pre><code class="language-typ"><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/oxifmt:0.2.1"</span><span class="typ-punct">:</span> strfmt
+
+<span class="typ-key">#</span><span class="typ-key">let</span> s <span class="typ-op">=</span> <span class="typ-func">strfmt</span><span class="typ-punct">(</span><span class="typ-str">"{0} {0:.6} {0:.5e}"</span><span class="typ-punct">,</span> <span class="typ-num">1.432</span><span class="typ-punct">,</span> fmt-decimal-separator<span class="typ-punct">:</span> <span class="typ-str">","</span><span class="typ-punct">)</span>
+<span class="typ-pol">#</span><span class="typ-pol">assert</span><span class="typ-punct">.</span><span class="typ-func">eq</span><span class="typ-punct">(</span>s<span class="typ-punct">,</span> <span class="typ-str">"1,432 1,432000 1,43200e0"</span><span class="typ-punct">)</span>
+</code></code></pre>
+      <h3>
+       Grammar
+      </h3>
+      <p>
+       Hereâs the grammar specification for valid format
+       <code>
+        spec
+       </code>
+       s (in
+       <code>
+        {name:spec}
+       </code>
+       ), which is basically Rustâs format:
+      </p>
+      <pre><code>format_spec := [[fill]align][sign]['#']['0'][width]['.' precision]type
+fill := character
+align := '&lt;' | '^' | '&gt;'
+sign := '+' | '-'
+width := count
+precision := count | '*'
+type := '' | '?' | 'x?' | 'X?' | identifier
+count := parameter | integer
+parameter := argument '$'
+</code></pre>
+      <p>
+       Note, however, that precision of type
+       <code>
+        .*
+       </code>
+       is not supported yet and will raise an error.
+      </p>
+      <h2>
+       Issues and Contributing
+      </h2>
+      <p>
+       Please report any issues or send any contributions (through pull requests) to the repository at
+       <a href="https://github.com/PgBiel/typst-oxifmt" rel="nofollow ugc" target="_blank">
+        https://github.com/PgBiel/typst-oxifmt
+       </a>
+      </p>
+      <h2>
+       Testing
+      </h2>
+      <p>
+       If you wish to contribute, you may clone the repository and test this package with the following commands (from the project root folder):
+      </p>
+      <pre><code class="language-sh">git clone https://github.com/PgBiel/typst-oxifmt
+cd typst-oxifmt/tests
+typst c strfmt-tests.typ --root ..
+</code></pre>
+      <p>
+       The tests succeeded if you received no error messages from the last command (please ensure youâre using a supported Typst version).
+      </p>
+      <h2>
+       Changelog
+      </h2>
+      <h3>
+       v0.2.1
+      </h3>
+      <ul>
+       <li>
+        Fixed formatting of UTF-8 strings. Before, strings with multi-byte UTF-8 codepoints would cause formatting inconsistencies or even crashes. (
+        <a href="https://github.com/PgBiel/typst-oxifmt/issues/6" rel="nofollow ugc" target="_blank">
+         Issue #6
+        </a>
+        )
+       </li>
+       <li>
+        Fixed an inconsistency in negative number formatting. Now, it will always print a regular hyphen (e.g. â-2â), which is consistent with Rustâs behavior; before, it would occasionally print a minus sign instead (as observed in a comment to
+        <a href="https://github.com/PgBiel/typst-oxifmt/issues/4" rel="nofollow ugc" target="_blank">
+         Issue #4
+        </a>
+        ).
+       </li>
+       <li>
+        Added compatibility with Typst 0.8.0âs new type system.
+       </li>
+      </ul>
+      <h3>
+       v0.2.0
+      </h3>
+      <ul>
+       <li>
+        The packageâs name is now
+        <code>
+         oxifmt
+        </code>
+        !
+       </li>
+       <li>
+        <code>
+         oxifmt:0.2.0
+        </code>
+        is now available through Typstâs Package Manager! You can now write
+        <code>
+         #import "@preview/oxifmt:0.2.0": strfmt
+        </code>
+        to use the library.
+       </li>
+       <li>
+        Greatly improved the README, adding a section for common examples.
+       </li>
+       <li>
+        Fixed negative numbers being formatted with two minus signs.
+       </li>
+       <li>
+        Fixed custom precision of floats not working when they are exact integers.
+       </li>
+      </ul>
+      <h3>
+       v0.1.0
+      </h3>
+      <ul>
+       <li>
+        Initial release, added
+        <code>
+         strfmt
+        </code>
+        .
+       </li>
+      </ul>
+      <h2>
+       License
+      </h2>
+      <p>
+       MIT-0 license (see the
+       <code>
+        LICENSE
+       </code>
+       file).
+      </p>
+     </section>
+     <aside>
+      <section>
+       <h3>
+        How to add
+       </h3>
+       <p>
+        Copy this into your project and use the import as
+        <!-- -->
+        <code>
+         oxifmt
+        </code>
+       </p>
+       <div class="import-snippet">
+        <pre><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/oxifmt:0.2.1"</span></code></pre>
+        <button class="copy" title="Copy to clipboard">
+         <img alt="Copy" height="16" src="/assets/icons/16-copy.svg" width="16"/>
+        </button>
+       </div>
+       <p class="muted">
+        Check the docs for
+        <!-- -->
+        <a href="https://typst.app/docs/reference/scripting/#packages">
+         more information on how to import packages
+        </a>
+        .
+       </p>
+      </section>
+      <section id="about">
+       <h3>
+        About
+       </h3>
+       <dl>
+        <dt>
+         Author
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         <a href="https://github.com/PgBiel" rel="noopener noreferrer" target="_blank">
+          PgBiel
+         </a>
+        </dd>
+        <dt>
+         License:
+        </dt>
+        <dd>
+         MIT-0
+        </dd>
+        <dt>
+         Current version:
+        </dt>
+        <dd>
+         0.2.1
+        </dd>
+        <dt>
+         Last updated:
+        </dt>
+        <dd>
+         May 6, 2024
+        </dd>
+        <dt>
+         First released:
+        </dt>
+        <dd>
+         August 2, 2023
+        </dd>
+        <dt>
+         Archive size:
+        </dt>
+        <dd class="archive-size-value">
+         12.0 kB
+         <a href="https://packages.typst.org/preview/oxifmt-0.2.1.tar.gz">
+          <img alt="Size icon" src="/assets/icons/16-download.svg"/>
+         </a>
+        </dd>
+        <dt>
+         Repository:
+        </dt>
+        <dd>
+         <a href="https://github.com/PgBiel/typst-oxifmt" rel="noopener noreferrer" target="_blank">
+          GitHub
+         </a>
+        </dd>
+       </dl>
+      </section>
+      <section>
+       <h3>
+        Where to report issues?
+       </h3>
+       <p>
+        This
+        <!-- -->
+        package
+        <!-- -->
+        is a project of
+        <!-- -->
+        <!-- -->
+        PgBiel
+        <!-- -->
+        .
+        <!-- -->
+        <!-- -->
+        Report issues on
+        <!-- -->
+        <a href="https://github.com/PgBiel/typst-oxifmt" rel="noopener noreferrer" target="_blank">
+         their repository
+        </a>
+        .
+        <!-- -->
+        <!-- -->
+        You can also try to ask for help with this
+        <!-- -->
+        package
+        <!-- -->
+        on the
+        <!-- -->
+        <a href="https://forum.typst.app" rel="noopener" target="_blank">
+         Forum
+        </a>
+        .
+       </p>
+       <p>
+        Please report this
+        <!-- -->
+        package
+        <!-- -->
+        to the Typst team using the
+        <!-- -->
+        <a href="https://typst.app/contact" rel="noreferrer" target="_blank">
+         contact form
+        </a>
+        <!-- -->
+        if you believe it is a safety hazard or infringes upon your rights.
+       </p>
+      </section>
+      <section id="versions">
+       <h3>
+        Version history
+       </h3>
+       <table>
+        <thead>
+         <tr>
+          <th align="left">
+           Version
+          </th>
+          <th align="left">
+           Release Date
+          </th>
+         </tr>
+        </thead>
+        <tbody>
+         <tr>
+          <td align="left">
+           0.2.1
+          </td>
+          <td align="left">
+           May 6, 2024
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/oxifmt/0.2.0/">
+            0.2.0
+           </a>
+          </td>
+          <td align="left">
+           August 2, 2023
+          </td>
+         </tr>
+        </tbody>
+       </table>
+      </section>
+      <p class="bottom-notice muted">
+       Typst GmbH did not create this
+       <!-- -->
+       package
+       <!-- -->
+       and cannot guarantee correct functionality of this
+       <!-- -->
+       package
+       <!-- -->
+       or compatibility with any version of the Typst compiler or app.
+      </p>
+     </aside>
+    </div>
+   </main>
+  </div>
+  <footer>
+   <div>
+    <ul>
+     <li>
+      <a href="/">
+       Home
+      </a>
+     </li>
+     <li>
+      <a href="/pricing/">
+       Pricing
+      </a>
+     </li>
+     <li>
+      <a href="/docs/">
+       Documentation
+      </a>
+     </li>
+     <li>
+      <a href="/universe/">
+       Universe
+      </a>
+     </li>
+     <li>
+      <a href="/about/">
+       About Us
+      </a>
+     </li>
+     <li>
+      <a href="/contact/">
+       Contact Us
+      </a>
+     </li>
+     <li>
+      <a href="/privacy/">
+       Privacy
+      </a>
+     </li>
+     <li>
+      <a href="https://typst.app/terms">
+       Terms and Conditions
+      </a>
+     </li>
+     <li>
+      <a href="/legal/">
+       Legal (Impressum)
+      </a>
+     </li>
+    </ul>
+   </div>
+   <div>
+    <ul>
+     <li>
+      <a href="https://forum.typst.app">
+       Forum
+      </a>
+     </li>
+     <li>
+      <a href="/tools/">
+       Tools
+      </a>
+     </li>
+     <li>
+      <a href="/blog/">
+       Blog
+      </a>
+     </li>
+     <li>
+      <a href="https://github.com/typst/">
+       GitHub
+      </a>
+     </li>
+     <li>
+      <a href="https://discord.gg/2uDybryKPe">
+       Discord
+      </a>
+     </li>
+     <li>
+      <a href="https://mastodon.social/@typst" rel="me">
+       Mastodon
+      </a>
+     </li>
+     <li>
+      <a href="https://bsky.app/profile/typst.app">
+       Bluesky
+      </a>
+     </li>
+     <li>
+      <a href="https://www.linkedin.com/company/typst/">
+       LinkedIn
+      </a>
+     </li>
+     <li>
+      <a href="https://instagram.com/typstapp/">
+       Instagram
+      </a>
+     </li>
+    </ul>
+   </div>
+   <div>
+    <p>
+     Made in Berlin
+    </p>
+   </div>
+  </footer>
+  <script src="/scripts/legal-QMARIJRU.js">
+  </script>
+  <script src="/scripts/universe-J2OIJH3C.js">
+  </script>
+  <script data-domain="typst.app" defer="" src="https://misc-a.typst.app/js/script.manual.pageview-props.js">
+  </script>
+  <script>
+   for(var i=!1,e=0;e<document.cookie.split("; ").length;e++){var o=document.cookie.split("; ")[e];if(o.startsWith("INSECURE_SIGNED_IN=")){var l=o.split("=")[1].toLowerCase();i=["yes","1","true"].indexOf(l)>-1;break}}window.plausible=window.plausible||function(){(window.plausible.q=window.plausible.q||[]).push(arguments)},window.plausible("pageview",{props:{logged_in:String(i)}})
+  </script>
+ </body>
+</html>
+
+<!-- All hrefs on this page -->
+<!-- /universe -->
+<!-- https://github.com/typst/ -->
+<!-- https://discord.gg/2uDybryKPe -->
+<!-- https://mastodon.social/@typst -->
+<!-- https://bsky.app/profile/typst.app -->
+<!-- https://www.linkedin.com/company/typst/ -->
+<!-- / -->
+<!-- /pricing/ -->
+<!-- /docs/ -->
+<!-- https://forum.typst.app -->
+<!-- /signin/ -->
+<!-- /signup -->
+<!-- /universe/ -->
+<!-- /universe/ -->
+<!-- https://typst.app/universe/search/?kind=packages -->
+<!-- https://typst.app/universe/search/?kind=templates -->
+<!-- https://typst.app/universe/search/ -->
+<!-- https://typst.app/universe#categories -->
+<!-- https://github.com/typst/packages -->
+<!-- https://doc.rust-lang.org/std/fmt/ -->
+<!-- https://github.com/PgBiel/typst-oxifmt -->
+<!-- https://github.com/typst/typst -->
+<!-- https://github.com/typst/packages/raw/main/packages/preview/oxifmt/0.2.1/#usage -->
+<!-- https://github.com/typst/packages/raw/main/packages/preview/oxifmt/0.2.1/#formatting-options -->
+<!-- https://github.com/typst/packages/raw/main/packages/preview/oxifmt/0.2.1/#examples -->
+<!-- https://github.com/typst/packages/raw/main/packages/preview/oxifmt/0.2.1/#grammar -->
+<!-- https://github.com/typst/packages/raw/main/packages/preview/oxifmt/0.2.1/#issues-and-contributing -->
+<!-- https://github.com/typst/packages/raw/main/packages/preview/oxifmt/0.2.1/#testing -->
+<!-- https://github.com/typst/packages/raw/main/packages/preview/oxifmt/0.2.1/#changelog -->
+<!-- https://github.com/typst/packages/raw/main/packages/preview/oxifmt/0.2.1/#license -->
+<!-- https://doc.rust-lang.org/std/fmt/ -->
+<!-- https://github.com/typst/packages/raw/main/packages/preview/oxifmt/0.2.1/#examples -->
+<!-- https://github.com/typst/packages/raw/main/packages/preview/oxifmt/0.2.1/#grammar -->
+<!-- https://github.com/typst/packages/raw/main/packages/preview/oxifmt/0.2.1/#grammar -->
+<!-- https://github.com/PgBiel/typst-oxifmt -->
+<!-- https://github.com/PgBiel/typst-oxifmt/issues/6 -->
+<!-- https://github.com/PgBiel/typst-oxifmt/issues/4 -->
+<!-- https://typst.app/docs/reference/scripting/#packages -->
+<!-- https://github.com/PgBiel -->
+<!-- https://packages.typst.org/preview/oxifmt-0.2.1.tar.gz -->
+<!-- https://github.com/PgBiel/typst-oxifmt -->
+<!-- https://github.com/PgBiel/typst-oxifmt -->
+<!-- https://forum.typst.app -->
+<!-- https://typst.app/contact -->
+<!-- https://typst.app/universe/package/oxifmt/0.2.0/ -->
+<!-- / -->
+<!-- /pricing/ -->
+<!-- /docs/ -->
+<!-- /universe/ -->
+<!-- /about/ -->
+<!-- /contact/ -->
+<!-- /privacy/ -->
+<!-- https://typst.app/terms -->
+<!-- /legal/ -->
+<!-- https://forum.typst.app -->
+<!-- /tools/ -->
+<!-- /blog/ -->
+<!-- https://github.com/typst/ -->
+<!-- https://discord.gg/2uDybryKPe -->
+<!-- https://mastodon.social/@typst -->
+<!-- https://bsky.app/profile/typst.app -->
+<!-- https://www.linkedin.com/company/typst/ -->
+<!-- https://instagram.com/typstapp/ -->

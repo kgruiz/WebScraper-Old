@@ -1,0 +1,1350 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta charset="utf-8"/>
+  <title>
+   board-n-pieces â Typst Universe
+  </title>
+  <meta content="Display chessboards." name="description"/>
+  <meta content="width=device-width,initial-scale=1" name="viewport"/>
+  <meta content="#239dad" name="theme-color"/>
+  <link href="/assets/site.webmanifest" rel="manifest"/>
+  <meta content="https://typst.app/universe/package/board-n-pieces/" property="og:url"/>
+  <meta content="board-n-pieces â Typst Universe" property="og:title"/>
+  <meta content="Typst" property="og:site_name"/>
+  <meta content="Display chessboards." property="og:description"/>
+  <meta content="website" property="og:type"/>
+  <meta content="https://typst.app/assets/social.png" property="og:image"/>
+  <meta content="1200" property="og:image:width"/>
+  <meta content="630" property="og:image:height"/>
+  <meta content="@typstapp" name="twitter:site"/>
+  <meta content="summary_large_image" name="twitter:card"/>
+  <link href="https://typst.app/universe/package/board-n-pieces/" rel="canonical"/>
+  <meta content="The left side of a text editor with colorful cursors, as well as the text 'Compose papers faster, Typst'" name="twitter:image:alt"/>
+  <link href="/assets/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png"/>
+  <link href="/assets/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png"/>
+  <link href="/assets/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180"/>
+  <link color="#239dad" href="/assets/safari-pinned-tab.svg" rel="mask-icon"/>
+  <link href="/assets/site.webmanifest" rel="manifest"/>
+  <link href="/styles/fonts-4f0c2d41.css" rel="stylesheet"/>
+  <link href="/styles/default-ece7e2d2.css" rel="stylesheet"/>
+  <link href="/styles/universe-shared-f3c0aa71.css" rel="stylesheet"/>
+  <link href="/styles/universe-package-288b65b5.css" rel="stylesheet"/>
+  <link as="font" crossorigin="anonymous" href="/assets/fonts/HKGrotesk-Regular.woff2" rel="preload"/>
+  <link as="font" crossorigin="anonymous" href="/assets/fonts/HKGrotesk-Bold.woff2" rel="preload"/>
+  <link as="font" crossorigin="anonymous" href="/assets/fonts/HKGrotesk-SemiBold.woff2" rel="preload"/>
+  <link as="font" crossorigin="anonymous" href="/assets/fonts/CascadiaMono-Regular-Sub.woff2" rel="preload"/>
+  <script>
+   "use strict";document.documentElement.className=document.documentElement.className.replace("no-js","js"),document.addEventListener("DOMContentLoaded",(()=>{let e=document.querySelector('body > header nav ul li a[href="/"]');if(function(){let e=document.cookie.split("; "),t=null;for(let n=0;n<e.length;n++)if(e[n].startsWith("INSECURE_SIGNED_IN=")){t=e[n].split("=")[1].toLowerCase();break}return t&&("1"===t||"true"===t||"yes"===t)}()){document.documentElement.classList.add("signed-in");let t=document.querySelector("header nav a.nav-btn"),n=document.querySelector("header nav a.sign-in"),r=document.querySelector(".ctas a.btn[href^='/signup']"),o=document.querySelector(".ctas a.btn[href^='/signin']");t&&(t.innerHTML="Go to app",t.setAttribute("href","/app/")),r&&(r.innerHTML="Go to your dashboard",r.setAttribute("href","/app/")),o&&(HAS_PRICING?(o.innerHTML="Upgrade your plan",o.setAttribute("href","/pricing/")):o.classList.add("hidden")),n&&(n.innerHTML="Sign out",n.setAttribute("href","https://api.typst.app/v1/auth/logout")),e&&e.setAttribute("href","/home/")}}))
+  </script>
+ </head>
+ <body class="no-js">
+  <header class="boring">
+   <div>
+    <a class="logo-box" href="/universe">
+     <img alt="Typst" class="inner-typst-logo" height="35" src="/assets/images/typst.svg" width="91"/>
+     <span>
+      Universe
+     </span>
+    </a>
+    <button class="hamburger">
+     <img alt="Open navigation" height="16" src="/assets/icons/16-hamburger-dark.svg" width="16"/>
+    </button>
+    <nav>
+     <ul>
+      <li class="social">
+       <a href="https://github.com/typst/">
+        <svg aria-labelledby=":Rsq:-label" height="16" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 16 16" width="16">
+         <title id=":Rsq:-label">
+          GitHub
+         </title>
+         <use href="/assets/icons/social.svg#github">
+         </use>
+        </svg>
+       </a>
+      </li>
+      <li class="social">
+       <a href="https://discord.gg/2uDybryKPe">
+        <svg aria-labelledby=":R1cq:-label" height="16" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 16 16" width="16">
+         <title id=":R1cq:-label">
+          Discord
+         </title>
+         <use href="/assets/icons/social.svg#discord">
+         </use>
+        </svg>
+       </a>
+      </li>
+      <li class="social">
+       <a href="https://mastodon.social/@typst">
+        <svg aria-labelledby=":R1sq:-label" height="16" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 16 16" width="16">
+         <title id=":R1sq:-label">
+          Mastodon
+         </title>
+         <use href="/assets/icons/social.svg#mastodon">
+         </use>
+        </svg>
+       </a>
+      </li>
+      <li class="social">
+       <a href="https://bsky.app/profile/typst.app">
+        <svg aria-labelledby=":R2cq:-label" height="16" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 16 16" width="16">
+         <title id=":R2cq:-label">
+          Bluesky
+         </title>
+         <use href="/assets/icons/social.svg#bluesky">
+         </use>
+        </svg>
+       </a>
+      </li>
+      <li class="social">
+       <a href="https://www.linkedin.com/company/typst/">
+        <svg aria-labelledby=":R2sq:-label" height="16" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 16 16" width="16">
+         <title id=":R2sq:-label">
+          LinkedIn
+         </title>
+         <use href="/assets/icons/social.svg#linkedin">
+         </use>
+        </svg>
+       </a>
+      </li>
+      <li class="secondary">
+       <a href="/">
+        Home
+       </a>
+      </li>
+      <li class="secondary">
+       <a href="/pricing/">
+        Pricing
+       </a>
+      </li>
+      <li class="secondary">
+       <a href="/docs/">
+        Docs
+       </a>
+      </li>
+      <li class="secondary">
+       <a href="https://forum.typst.app">
+        Forum
+       </a>
+      </li>
+      <li class="secondary">
+       <a class="sign-in" href="/signin/">
+        Sign in
+       </a>
+      </li>
+      <li>
+       <a class="nav-btn btn" href="/signup" id="header-btn">
+        Sign up
+       </a>
+      </li>
+     </ul>
+    </nav>
+   </div>
+  </header>
+  <div class="main-grid">
+   <nav id="universe-navigation">
+    <a class="title-row" href="/universe/">
+     <svg aria-labelledby=":R4la:-label" height="35" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 91 35" width="91">
+      <title id=":R4la:-label">
+       Typst
+      </title>
+      <use href="/assets/images/typst.svg#logo">
+      </use>
+     </svg>
+     <span>
+      Universe
+     </span>
+    </a>
+    <button class="close">
+     <img alt="Close" height="16" src="/assets/icons/16-close-dark.svg" width="16"/>
+    </button>
+    <ul>
+     <li>
+      <a href="/universe/">
+       <img alt="Home icon" height="16" src="/assets/icons/16-home.svg" width="16"/>
+       Start
+      </a>
+     </li>
+     <li>
+      <a class="active" href="https://typst.app/universe/search/?kind=packages" id="nav-packages-btn">
+       <img alt="Packages icon" height="16" src="/assets/icons/16-packages.svg" width="16"/>
+       Packages
+      </a>
+     </li>
+     <li>
+      <a href="https://typst.app/universe/search/?kind=templates" id="nav-templates-btn">
+       <img alt="Templates icon" height="16" src="/assets/icons/16-template.svg" width="16"/>
+       Templates
+      </a>
+     </li>
+     <li>
+      <a href="https://typst.app/universe/search/" id="nav-search-btn">
+       <img alt="Search icon" height="16" src="/assets/icons/16-search.svg" width="16"/>
+       Search
+      </a>
+     </li>
+     <li>
+      <a href="https://typst.app/universe#categories">
+       <img alt="Categories icon" height="16" src="/assets/icons/16-grid.svg" width="16"/>
+       Browse Categories
+      </a>
+     </li>
+     <li>
+      <a href="https://github.com/typst/packages">
+       <img alt="Submit icon" height="16" src="/assets/icons/16-upgrade.svg" width="16"/>
+       Submit
+      </a>
+     </li>
+    </ul>
+   </nav>
+   <main>
+    <div id="banner" style="--banner-accent:#000000;--banner-primary:#000000;--banner-secondary:#000000;--banner-tertiary:#565565;--banner-background:#eff0f3">
+     <div class="package-icon" role="img">
+     </div>
+     <div>
+      <div class="title">
+       <h1 class="name">
+        board-n-pieces
+       </h1>
+       <span class="version">
+        0.5.0
+       </span>
+      </div>
+      <p class="description">
+       Display chessboards.
+      </p>
+     </div>
+    </div>
+    <div class="inner-grid">
+     <section id="readme">
+      <p>
+       Display chessboards in Typst.
+      </p>
+      <h2>
+       Displaying chessboards
+      </h2>
+      <p>
+       The main function of this package is
+       <code>
+        board
+       </code>
+       . It lets you display a specific position on a board.
+      </p>
+      <pre><code class="language-typ"><code><span class="typ-func">#</span><span class="typ-func">board</span><span class="typ-punct">(</span>starting-position<span class="typ-punct">)</span>
+</code></code></pre>
+      <p>
+       <img alt="image" src="https://github.com/typst/packages/raw/main/packages/preview/board-n-pieces/0.5.0/examples/example-1.svg"/>
+      </p>
+      <p>
+       <code>
+        starting-position
+       </code>
+       is a position that is provided by the package. It represents the initial position of a chess game.
+      </p>
+      <p>
+       You can create a different position using the
+       <code>
+        position
+       </code>
+       function. It accepts strings representing each rank. Use upper-case letters for white pieces, and lower-case letters for black pieces. Dots and spaces correspond to empty squares.
+      </p>
+      <pre><code class="language-typ"><code><span class="typ-func">#</span><span class="typ-func">board</span><span class="typ-punct">(</span><span class="typ-func">position</span><span class="typ-punct">(</span>
+  <span class="typ-str">"....r..."</span><span class="typ-punct">,</span>
+  <span class="typ-str">"........"</span><span class="typ-punct">,</span>
+  <span class="typ-str">"..p..PPk"</span><span class="typ-punct">,</span>
+  <span class="typ-str">".p.r...."</span><span class="typ-punct">,</span>
+  <span class="typ-str">"pP..p.R."</span><span class="typ-punct">,</span>
+  <span class="typ-str">"P.B....."</span><span class="typ-punct">,</span>
+  <span class="typ-str">"..P..K.."</span><span class="typ-punct">,</span>
+  <span class="typ-str">"........"</span><span class="typ-punct">,</span>
+<span class="typ-punct">)</span><span class="typ-punct">)</span>
+</code></code></pre>
+      <p>
+       <img alt="image" src="https://github.com/typst/packages/raw/main/packages/preview/board-n-pieces/0.5.0/examples/example-2.svg"/>
+      </p>
+      <p>
+       Alternatively, you can use the
+       <code>
+        fen
+       </code>
+       function to create a position using
+       <a href="https://en.wikipedia.org/wiki/Forsyth%E2%80%93Edwards_Notation" rel="nofollow ugc" target="_blank">
+        ForsythâEdwards notation
+       </a>
+       :
+      </p>
+      <pre><code class="language-typ"><code><span class="typ-func">#</span><span class="typ-func">board</span><span class="typ-punct">(</span><span class="typ-func">fen</span><span class="typ-punct">(</span><span class="typ-str">"r1bk3r/p2pBpNp/n4n2/1p1NP2P/6P1/3P4/P1P1K3/q5b1 b - - 1 23"</span><span class="typ-punct">)</span><span class="typ-punct">)</span>
+</code></code></pre>
+      <p>
+       <img alt="image" src="https://github.com/typst/packages/raw/main/packages/preview/board-n-pieces/0.5.0/examples/example-3.svg"/>
+      </p>
+      <p>
+       Note that you can specify only the first part of the FEN string:
+      </p>
+      <pre><code class="language-typ"><code><span class="typ-func">#</span><span class="typ-func">board</span><span class="typ-punct">(</span><span class="typ-func">fen</span><span class="typ-punct">(</span><span class="typ-str">"r4rk1/pp2Bpbp/1qp3p1/8/2BP2b1/Q1n2N2/P4PPP/3RK2R"</span><span class="typ-punct">)</span><span class="typ-punct">)</span>
+</code></code></pre>
+      <p>
+       <img alt="image" src="https://github.com/typst/packages/raw/main/packages/preview/board-n-pieces/0.5.0/examples/example-4.svg"/>
+      </p>
+      <p>
+       Also note that positions do not need to be on a standard 8Ã8 board:
+      </p>
+      <pre><code class="language-typ"><code><span class="typ-func">#</span><span class="typ-func">board</span><span class="typ-punct">(</span><span class="typ-func">position</span><span class="typ-punct">(</span>
+  <span class="typ-str">"....Q...."</span><span class="typ-punct">,</span>
+  <span class="typ-str">"......Q.."</span><span class="typ-punct">,</span>
+  <span class="typ-str">"........Q"</span><span class="typ-punct">,</span>
+  <span class="typ-str">"...Q....."</span><span class="typ-punct">,</span>
+  <span class="typ-str">".Q......."</span><span class="typ-punct">,</span>
+  <span class="typ-str">".......Q."</span><span class="typ-punct">,</span>
+  <span class="typ-str">".....Q..."</span><span class="typ-punct">,</span>
+  <span class="typ-str">"..Q......"</span><span class="typ-punct">,</span>
+  <span class="typ-str">"Q........"</span><span class="typ-punct">,</span>
+<span class="typ-punct">)</span><span class="typ-punct">)</span>
+</code></code></pre>
+      <p>
+       <img alt="image" src="https://github.com/typst/packages/raw/main/packages/preview/board-n-pieces/0.5.0/examples/example-5.svg"/>
+      </p>
+      <h2>
+       Using the
+       <code>
+        game
+       </code>
+       function
+      </h2>
+      <p>
+       The
+       <code>
+        game
+       </code>
+       function creates an array of positions from a full chess game. A game is described by a series of turns written in
+       <a href="https://en.wikipedia.org/wiki/Algebraic_notation_(chess)" rel="nofollow ugc" target="_blank">
+        standard algebraic notation
+       </a>
+       . Those turns can be specified as an array of strings, or as a single string containing whitespace-separated moves.
+      </p>
+      <pre><code class="language-typ"><code>The scholar's mate:
+<span class="typ-key">#</span><span class="typ-key">let</span> positions <span class="typ-op">=</span> <span class="typ-func">game</span><span class="typ-punct">(</span><span class="typ-str">"e4 e5 Qh5 Nc6 Bc4 Nf6 Qxf7"</span><span class="typ-punct">)</span>
+<span class="typ-func">#</span><span class="typ-func">grid</span><span class="typ-punct">(</span>
+  columns<span class="typ-punct">:</span> <span class="typ-num">4</span><span class="typ-punct">,</span>
+  gutter<span class="typ-punct">:</span> <span class="typ-num">0.2cm</span><span class="typ-punct">,</span>
+  <span class="typ-op">..</span>positions<span class="typ-punct">.</span><span class="typ-func">map</span><span class="typ-punct">(</span>board<span class="typ-punct">.</span><span class="typ-func">with</span><span class="typ-punct">(</span>square-size<span class="typ-punct">:</span> <span class="typ-num">0.5cm</span><span class="typ-punct">)</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+<span class="typ-punct">)</span>
+</code></code></pre>
+      <p>
+       <img alt="image" src="https://github.com/typst/packages/raw/main/packages/preview/board-n-pieces/0.5.0/examples/example-6.svg"/>
+      </p>
+      <p>
+       You can specify an alternative starting position to the
+       <code>
+        game
+       </code>
+       function with the
+       <code>
+        starting-position
+       </code>
+       named argument.
+      </p>
+      <h2>
+       Using the
+       <code>
+        pgn
+       </code>
+       function to import PGN files
+      </h2>
+      <p>
+       Similarly to the
+       <code>
+        game
+       </code>
+       function, the
+       <code>
+        pgn
+       </code>
+       function creates an array of positions. It accepts a single argument, which is a string containing
+       <a href="https://en.wikipedia.org/wiki/Portable_Game_Notation" rel="nofollow ugc" target="_blank">
+        portable game notation
+       </a>
+       . To read a game from a PGN file, you can use this function in combination with Typstâs native
+       <a href="https://typst.app/docs/reference/data-loading/read/">
+        <code>
+         read
+        </code>
+       </a>
+       function.
+      </p>
+      <pre><code class="language-typ"><code><span class="typ-key">#</span><span class="typ-key">let</span> positions <span class="typ-op">=</span> <span class="typ-func">pgn</span><span class="typ-punct">(</span><span class="typ-func">read</span><span class="typ-punct">(</span><span class="typ-str">"game.pgn"</span><span class="typ-punct">)</span><span class="typ-punct">)</span>
+</code></code></pre>
+      <p>
+       Note that the argument to
+       <code>
+        pgn
+       </code>
+       must describe a single game. If you have a PGN file containing multiple games, you will need to split them using other means.
+      </p>
+      <h2>
+       Using non-standard chess pieces
+      </h2>
+      <p>
+       The
+       <code>
+        board
+       </code>
+       functionâs
+       <code>
+        pieces
+       </code>
+       argument lets you specify how to display each piece by mapping each piece character to some content. You can use this feature to display non-standard chess pieces:
+      </p>
+      <pre><code class="language-typ"><code><span class="typ-func">#</span><span class="typ-func">board</span><span class="typ-punct">(</span>
+  <span class="typ-func">fen</span><span class="typ-punct">(</span><span class="typ-str">"g7/5g2/8/8/8/8/p6g/k1K4G"</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+  pieces<span class="typ-punct">:</span> <span class="typ-punct">(</span>
+    <span class="typ-comment">// We use symbols for the example.</span>
+    <span class="typ-comment">// In practice, you should import your own images.</span>
+    g<span class="typ-punct">:</span> chess-sym<span class="typ-punct">.</span>queen<span class="typ-punct">.</span>black<span class="typ-punct">.</span>b<span class="typ-punct">,</span>
+    p<span class="typ-punct">:</span> chess-sym<span class="typ-punct">.</span>pawn<span class="typ-punct">.</span>black<span class="typ-punct">,</span>
+    k<span class="typ-punct">:</span> chess-sym<span class="typ-punct">.</span>king<span class="typ-punct">.</span>black<span class="typ-punct">,</span>
+    K<span class="typ-punct">:</span> chess-sym<span class="typ-punct">.</span>king<span class="typ-punct">.</span>white<span class="typ-punct">,</span>
+    G<span class="typ-punct">:</span> chess-sym<span class="typ-punct">.</span>queen<span class="typ-punct">.</span>white<span class="typ-punct">.</span>b<span class="typ-punct">,</span>
+  <span class="typ-punct">)</span><span class="typ-punct">,</span>
+<span class="typ-punct">)</span>
+</code></code></pre>
+      <p>
+       <img alt="image" src="https://github.com/typst/packages/raw/main/packages/preview/board-n-pieces/0.5.0/examples/example-7.svg"/>
+      </p>
+      <h2>
+       Customizing a chessboard
+      </h2>
+      <p>
+       The
+       <code>
+        board
+       </code>
+       function lets you customize the appearance of the board in various ways, as illustrated in the example below.
+      </p>
+      <pre><code class="language-typ"><code><span class="typ-comment">// From https://lichess.org/study/Xf1PGrM0.</span>
+<span class="typ-func">#</span><span class="typ-func">board</span><span class="typ-punct">(</span>
+  <span class="typ-func">fen</span><span class="typ-punct">(</span><span class="typ-str">"3k4/7R/8/2PK4/8/8/8/6r1 b - - 0 1"</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+
+  marked-squares<span class="typ-punct">:</span> <span class="typ-str">"c7 c6 h6"</span><span class="typ-punct">,</span>
+  arrows<span class="typ-punct">:</span> <span class="typ-punct">(</span><span class="typ-str">"d8 c8"</span><span class="typ-punct">,</span> <span class="typ-str">"d8 c7"</span><span class="typ-punct">,</span> <span class="typ-str">"g1 g6"</span><span class="typ-punct">,</span> <span class="typ-str">"h7 h6"</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+  display-numbers<span class="typ-punct">:</span> <span class="typ-key">true</span><span class="typ-punct">,</span>
+
+  white-square-fill<span class="typ-punct">:</span> <span class="typ-func">rgb</span><span class="typ-punct">(</span><span class="typ-str">"#d2eeea"</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+  black-square-fill<span class="typ-punct">:</span> <span class="typ-func">rgb</span><span class="typ-punct">(</span><span class="typ-str">"#567f96"</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+  marking-color<span class="typ-punct">:</span> <span class="typ-func">rgb</span><span class="typ-punct">(</span><span class="typ-str">"#2bcbC6"</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+  arrow-stroke<span class="typ-punct">:</span> <span class="typ-num">0.2cm</span> <span class="typ-op">+</span> <span class="typ-func">rgb</span><span class="typ-punct">(</span><span class="typ-str">"#38f442df"</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+
+  stroke<span class="typ-punct">:</span> <span class="typ-num">0.8pt</span> <span class="typ-op">+</span> black<span class="typ-punct">,</span>
+<span class="typ-punct">)</span>
+</code></code></pre>
+      <p>
+       <img alt="image" src="https://github.com/typst/packages/raw/main/packages/preview/board-n-pieces/0.5.0/examples/example-8.svg"/>
+      </p>
+      <p>
+       Here is a list of all the available arguments:
+      </p>
+      <ul>
+       <li>
+        <p>
+         <code>
+          marked-squares
+         </code>
+         is a list of squares to mark (e.g.,
+         <code>
+          ("d3", "d2", "e3")
+         </code>
+         ). It can also be specified as a single string containing whitespace-separated squares (e.g.,
+         <code>
+          "d3 d2 e3"
+         </code>
+         ).
+        </p>
+       </li>
+       <li>
+        <p>
+         <code>
+          arrows
+         </code>
+         is a list of arrows to draw (e.g.,
+         <code>
+          ("e2 e4", "e7 e5")
+         </code>
+         ).
+        </p>
+       </li>
+       <li>
+        <p>
+         <code>
+          reverse
+         </code>
+         is a boolean indicating whether to reverse the board, displaying it from blackâs point of view. This is
+         <code>
+          false
+         </code>
+         by default, meaning the board is displayed from whiteâs point of view.
+        </p>
+       </li>
+       <li>
+        <p>
+         <code>
+          display-numbers
+         </code>
+         is a boolean indicating whether ranks and files should be numbered. This is
+         <code>
+          false
+         </code>
+         by default.
+        </p>
+       </li>
+       <li>
+        <p>
+         <code>
+          rank-numbering
+         </code>
+         and
+         <code>
+          file-numbering
+         </code>
+         are functions describing how ranks and files should be numbered. By default they are respectively
+         <code>
+          numbering.with("1")
+         </code>
+         and
+         <code>
+          numbering.with("a")
+         </code>
+         .
+        </p>
+       </li>
+       <li>
+        <p>
+         <code>
+          square-size
+         </code>
+         is a length describing the size of each square. By default, this is
+         <code>
+          1cm
+         </code>
+         .
+        </p>
+       </li>
+       <li>
+        <p>
+         <code>
+          white-square-fill
+         </code>
+         and
+         <code>
+          black-square-fill
+         </code>
+         indicate how squares should be filled. They can be colors, gradient or patterns.
+        </p>
+       </li>
+       <li>
+        <p>
+         <code>
+          marking-color
+         </code>
+         is the color to use for markings (marked squares and arrows).
+        </p>
+       </li>
+       <li>
+        <p>
+         <code>
+          marked-white-square-background
+         </code>
+         and
+         <code>
+          marked-black-square-background
+         </code>
+         define the content to display in the background of marked squares. By default, this is a circle using the
+         <code>
+          marking-color
+         </code>
+         .
+        </p>
+       </li>
+       <li>
+        <p>
+         <code>
+          arrow-stroke
+         </code>
+         is the stroke to draw the arrows with. If only a length is given,
+         <code>
+          marking-color
+         </code>
+         is used. Alternatively, a stroke can be passed to specify a different color.
+        </p>
+       </li>
+       <li>
+        <p>
+         <code>
+          pieces
+         </code>
+         is a dictionary containing images representing each piece. If specified, the dictionary must contain an entry for every piece kind in the displayed position. Keys are single upper-case letters for white pieces and single lower-case letters for black pieces. The default images are taken from
+         <a href="https://commons.wikimedia.org/wiki/Category:SVG_chess_pieces" rel="nofollow ugc" target="_blank">
+          Wikimedia Commons
+         </a>
+         . Please refer to
+         <a href="https://github.com/typst/packages/raw/main/packages/preview/board-n-pieces/0.5.0/#licensing" rel="nofollow ugc" target="_blank">
+          the section on licensing
+         </a>
+         for information on how you can use them in your documents.
+        </p>
+       </li>
+       <li>
+        <p>
+         <code>
+          stroke
+         </code>
+         has the same structure as
+         <a href="https://typst.app/docs/reference/visualize/rect/#parameters-stroke">
+          <code>
+           rect
+          </code>
+          âs
+          <code>
+           stroke
+          </code>
+          parameter
+         </a>
+         and corresponds to the stroke to use around the board. If
+         <code>
+          display-numbers
+         </code>
+         is
+         <code>
+          true
+         </code>
+         , the numbers are displayed outside the stroke. The default value is
+         <code>
+          none
+         </code>
+         .
+        </p>
+       </li>
+      </ul>
+      <h2>
+       Chess symbols
+      </h2>
+      <p>
+       This package also exports chess symbols for all Unicode chess-related codepoints under the
+       <code>
+        chess-sym
+       </code>
+       submodule. Standard chess pieces are available as
+       <code>
+        chess-sym.{pawn,knight,bishop,rook,queen,king}.{white,black,neutral}
+       </code>
+       . Alternatively, you can use
+       <code>
+        stroked
+       </code>
+       and
+       <code>
+        filled
+       </code>
+       instead of, respectively,
+       <code>
+        white
+       </code>
+       and
+       <code>
+        black
+       </code>
+       . They can be rotated rightward, downward, and leftward respectively with with
+       <code>
+        .r
+       </code>
+       ,
+       <code>
+        .b
+       </code>
+       , and
+       <code>
+        .l
+       </code>
+       . Chinese chess pieces are also available as
+       <code>
+        chess-sym.{soldier,cannon,chariot,horse,elephant,mandarin,general}.{red,black}
+       </code>
+       . Similarly, you can use
+       <code>
+        stroked
+       </code>
+       and
+       <code>
+        filled
+       </code>
+       as alternatives to, respectively,
+       <code>
+        red
+       </code>
+       and
+       <code>
+        black
+       </code>
+       . Note that most fonts only support black and white versions of standard pieces. To use the other symbols, you may have to use a font such as Noto Sans Symbols 2.
+      </p>
+      <pre><code class="language-typ"><code>The best move in this position is <span class="typ-pol">#</span><span class="typ-pol">chess-sym</span><span class="typ-punct">.</span><span class="typ-pol">knight</span><span class="typ-punct">.</span><span class="typ-pol">white</span><span class="typ-punct">;</span>c6.
+</code></code></pre>
+      <p>
+       <img alt="image" src="https://github.com/typst/packages/raw/main/packages/preview/board-n-pieces/0.5.0/examples/example-9.svg"/>
+      </p>
+      <h2>
+       Licensing
+      </h2>
+      <p>
+       The default images for chess pieces used by the
+       <code>
+        board
+       </code>
+       function come from
+       <a href="https://commons.wikimedia.org/wiki/Category:SVG_chess_pieces" rel="nofollow ugc" target="_blank">
+        Wikimedia Commons
+       </a>
+       . They are all licensed the
+       <a href="https://www.gnu.org/licenses/old-licenses/gpl-2.0.html" rel="nofollow ugc" target="_blank">
+        GNU General Public License, version 2
+       </a>
+       by their original author:
+       <a href="https://en.wikipedia.org/wiki/User:Cburnett" rel="nofollow ugc" target="_blank">
+        Cburnett
+       </a>
+       .
+      </p>
+      <h2>
+       Changelog
+      </h2>
+      <h3>
+       Version 0.5.0
+      </h3>
+      <ul>
+       <li>
+        <p>
+         Add symbols for all Unicode chess-related codepoints.
+        </p>
+       </li>
+       <li>
+        <p>
+         Change the signature of the
+         <code>
+          board
+         </code>
+         function.
+        </p>
+        <ul>
+         <li>
+          Rename argument
+          <code>
+           highlighted-squares
+          </code>
+          to
+          <code>
+           marked-squares
+          </code>
+          .
+         </li>
+         <li>
+          Remove arguments
+          <code>
+           highlighted-white-square-fill
+          </code>
+          and
+          <code>
+           highlighted-black-square-fill
+          </code>
+          .
+         </li>
+         <li>
+          Add argument
+          <code>
+           marking-color
+          </code>
+          , together with
+          <code>
+           marked-white-square-background
+          </code>
+          and
+          <code>
+           marked-black-square-background
+          </code>
+          .
+         </li>
+         <li>
+          Support passing a length as
+          <code>
+           arrow-stroke
+          </code>
+          .
+         </li>
+        </ul>
+       </li>
+       <li>
+        <p>
+         Fix arrows not being displayed properly on reversed boards.
+        </p>
+       </li>
+      </ul>
+      <h3>
+       Version 0.4.0
+      </h3>
+      <ul>
+       <li>
+        Add the ability to draw arrows in
+        <code>
+         board
+        </code>
+        .
+       </li>
+      </ul>
+      <h3>
+       Version 0.3.0
+      </h3>
+      <ul>
+       <li>
+        <p>
+         Detect moves that put the king in check as illegal, improving SAN support.
+        </p>
+       </li>
+       <li>
+        <p>
+         Add
+         <code>
+          stroke
+         </code>
+         argument to the
+         <code>
+          board
+         </code>
+         function.
+        </p>
+       </li>
+       <li>
+        <p>
+         Rename
+         <code>
+          {highlighted-,}{white,black}-square-color
+         </code>
+         arguments to the
+         <code>
+          board
+         </code>
+         function to
+         <code>
+          {highlighted-,}{white,black}-square-fill
+         </code>
+         .
+        </p>
+       </li>
+      </ul>
+      <h3>
+       Version 0.2.0
+      </h3>
+      <ul>
+       <li>
+        <p>
+         Allow using dashes for empty squares in
+         <code>
+          position
+         </code>
+         function.
+        </p>
+       </li>
+       <li>
+        <p>
+         Allow passing highlighted squares as a single string of whitespace-separated squares.
+        </p>
+       </li>
+       <li>
+        <p>
+         Describe entire games using algebraic notation with the
+         <code>
+          game
+         </code>
+         function.
+        </p>
+       </li>
+       <li>
+        <p>
+         Initial PGN support through the
+         <code>
+          pgn
+         </code>
+         function.
+        </p>
+       </li>
+      </ul>
+      <h3>
+       Version 0.1.0
+      </h3>
+      <ul>
+       <li>
+        <p>
+         Display a chess position on a chessboard with the
+         <code>
+          board
+         </code>
+         function.
+        </p>
+       </li>
+       <li>
+        <p>
+         Get the starting position with
+         <code>
+          starting-position
+         </code>
+         .
+        </p>
+       </li>
+       <li>
+        <p>
+         Use chess-related symbols with the
+         <code>
+          chess-sym
+         </code>
+         module.
+        </p>
+       </li>
+      </ul>
+     </section>
+     <aside>
+      <section>
+       <h3>
+        How to add
+       </h3>
+       <p>
+        Copy this into your project and use the import as
+        <!-- -->
+        <code>
+         board-n-pieces
+        </code>
+       </p>
+       <div class="import-snippet">
+        <pre><code><span class="typ-key">#</span><span class="typ-key">import</span> <span class="typ-str">"@preview/board-n-pieces:0.5.0"</span></code></pre>
+        <button class="copy" title="Copy to clipboard">
+         <img alt="Copy" height="16" src="/assets/icons/16-copy.svg" width="16"/>
+        </button>
+       </div>
+       <p class="muted">
+        Check the docs for
+        <!-- -->
+        <a href="https://typst.app/docs/reference/scripting/#packages">
+         more information on how to import packages
+        </a>
+        .
+       </p>
+      </section>
+      <section id="about">
+       <h3>
+        About
+       </h3>
+       <dl>
+        <dt>
+         Author
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         <a href="https://github.com/MDLC01" rel="noopener noreferrer" target="_blank">
+          Malo
+         </a>
+        </dd>
+        <dt>
+         License:
+        </dt>
+        <dd>
+         MIT AND GPL-2.0-only
+        </dd>
+        <dt>
+         Current version:
+        </dt>
+        <dd>
+         0.5.0
+        </dd>
+        <dt>
+         Last updated:
+        </dt>
+        <dd>
+         July 22, 2024
+        </dd>
+        <dt>
+         First released:
+        </dt>
+        <dd>
+         March 20, 2024
+        </dd>
+        <dt>
+         Minimum Typst version:
+        </dt>
+        <dd>
+         0.11.0
+        </dd>
+        <dt>
+         Archive size:
+        </dt>
+        <dd class="archive-size-value">
+         52.2 kB
+         <a href="https://packages.typst.org/preview/board-n-pieces-0.5.0.tar.gz">
+          <img alt="Size icon" src="/assets/icons/16-download.svg"/>
+         </a>
+        </dd>
+        <dt>
+         Repository:
+        </dt>
+        <dd>
+         <a href="https://github.com/MDLC01/board-n-pieces" rel="noopener noreferrer" target="_blank">
+          GitHub
+         </a>
+        </dd>
+        <dt>
+         Discipline
+         <!-- -->
+         s
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         <ul class="list-without-icons">
+          <li>
+           <a href="https://typst.app/universe/search/?discipline=computer-science">
+            Computer Science
+           </a>
+          </li>
+          <li>
+           <a href="https://typst.app/universe/search/?discipline=mathematics">
+            Mathematics
+           </a>
+          </li>
+         </ul>
+        </dd>
+        <dt>
+         Categor
+         <!-- -->
+         y
+         <!-- -->
+         :
+        </dt>
+        <dd>
+         <ul class="list-with-icons">
+          <li>
+           <img alt="Visualization icon" src="/assets/icons/16-chart.svg"/>
+           <a href="https://typst.app/universe/search/?category=visualization">
+            Visualization
+           </a>
+          </li>
+         </ul>
+        </dd>
+       </dl>
+      </section>
+      <section>
+       <h3>
+        Where to report issues?
+       </h3>
+       <p>
+        This
+        <!-- -->
+        package
+        <!-- -->
+        is a project of
+        <!-- -->
+        <!-- -->
+        Malo
+        <!-- -->
+        .
+        <!-- -->
+        <!-- -->
+        Report issues on
+        <!-- -->
+        <a href="https://github.com/MDLC01/board-n-pieces" rel="noopener noreferrer" target="_blank">
+         their repository
+        </a>
+        .
+        <!-- -->
+        <!-- -->
+        You can also try to ask for help with this
+        <!-- -->
+        package
+        <!-- -->
+        on the
+        <!-- -->
+        <a href="https://forum.typst.app" rel="noopener" target="_blank">
+         Forum
+        </a>
+        .
+       </p>
+       <p>
+        Please report this
+        <!-- -->
+        package
+        <!-- -->
+        to the Typst team using the
+        <!-- -->
+        <a href="https://typst.app/contact" rel="noreferrer" target="_blank">
+         contact form
+        </a>
+        <!-- -->
+        if you believe it is a safety hazard or infringes upon your rights.
+       </p>
+      </section>
+      <section id="versions">
+       <h3>
+        Version history
+       </h3>
+       <table>
+        <thead>
+         <tr>
+          <th align="left">
+           Version
+          </th>
+          <th align="left">
+           Release Date
+          </th>
+         </tr>
+        </thead>
+        <tbody>
+         <tr>
+          <td align="left">
+           0.5.0
+          </td>
+          <td align="left">
+           July 22, 2024
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/board-n-pieces/0.4.0/">
+            0.4.0
+           </a>
+          </td>
+          <td align="left">
+           July 8, 2024
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/board-n-pieces/0.3.0/">
+            0.3.0
+           </a>
+          </td>
+          <td align="left">
+           May 23, 2024
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/board-n-pieces/0.2.0/">
+            0.2.0
+           </a>
+          </td>
+          <td align="left">
+           April 29, 2024
+          </td>
+         </tr>
+         <tr>
+          <td align="left">
+           <a href="https://typst.app/universe/package/board-n-pieces/0.1.0/">
+            0.1.0
+           </a>
+          </td>
+          <td align="left">
+           March 20, 2024
+          </td>
+         </tr>
+        </tbody>
+       </table>
+      </section>
+      <p class="bottom-notice muted">
+       Typst GmbH did not create this
+       <!-- -->
+       package
+       <!-- -->
+       and cannot guarantee correct functionality of this
+       <!-- -->
+       package
+       <!-- -->
+       or compatibility with any version of the Typst compiler or app.
+      </p>
+     </aside>
+    </div>
+   </main>
+  </div>
+  <footer>
+   <div>
+    <ul>
+     <li>
+      <a href="/">
+       Home
+      </a>
+     </li>
+     <li>
+      <a href="/pricing/">
+       Pricing
+      </a>
+     </li>
+     <li>
+      <a href="/docs/">
+       Documentation
+      </a>
+     </li>
+     <li>
+      <a href="/universe/">
+       Universe
+      </a>
+     </li>
+     <li>
+      <a href="/about/">
+       About Us
+      </a>
+     </li>
+     <li>
+      <a href="/contact/">
+       Contact Us
+      </a>
+     </li>
+     <li>
+      <a href="/privacy/">
+       Privacy
+      </a>
+     </li>
+     <li>
+      <a href="https://typst.app/terms">
+       Terms and Conditions
+      </a>
+     </li>
+     <li>
+      <a href="/legal/">
+       Legal (Impressum)
+      </a>
+     </li>
+    </ul>
+   </div>
+   <div>
+    <ul>
+     <li>
+      <a href="https://forum.typst.app">
+       Forum
+      </a>
+     </li>
+     <li>
+      <a href="/tools/">
+       Tools
+      </a>
+     </li>
+     <li>
+      <a href="/blog/">
+       Blog
+      </a>
+     </li>
+     <li>
+      <a href="https://github.com/typst/">
+       GitHub
+      </a>
+     </li>
+     <li>
+      <a href="https://discord.gg/2uDybryKPe">
+       Discord
+      </a>
+     </li>
+     <li>
+      <a href="https://mastodon.social/@typst" rel="me">
+       Mastodon
+      </a>
+     </li>
+     <li>
+      <a href="https://bsky.app/profile/typst.app">
+       Bluesky
+      </a>
+     </li>
+     <li>
+      <a href="https://www.linkedin.com/company/typst/">
+       LinkedIn
+      </a>
+     </li>
+     <li>
+      <a href="https://instagram.com/typstapp/">
+       Instagram
+      </a>
+     </li>
+    </ul>
+   </div>
+   <div>
+    <p>
+     Made in Berlin
+    </p>
+   </div>
+  </footer>
+  <script src="/scripts/legal-QMARIJRU.js">
+  </script>
+  <script src="/scripts/universe-J2OIJH3C.js">
+  </script>
+  <script data-domain="typst.app" defer="" src="https://misc-a.typst.app/js/script.manual.pageview-props.js">
+  </script>
+  <script>
+   for(var i=!1,e=0;e<document.cookie.split("; ").length;e++){var o=document.cookie.split("; ")[e];if(o.startsWith("INSECURE_SIGNED_IN=")){var l=o.split("=")[1].toLowerCase();i=["yes","1","true"].indexOf(l)>-1;break}}window.plausible=window.plausible||function(){(window.plausible.q=window.plausible.q||[]).push(arguments)},window.plausible("pageview",{props:{logged_in:String(i)}})
+  </script>
+ </body>
+</html>
+
+<!-- All hrefs on this page -->
+<!-- /universe -->
+<!-- https://github.com/typst/ -->
+<!-- https://discord.gg/2uDybryKPe -->
+<!-- https://mastodon.social/@typst -->
+<!-- https://bsky.app/profile/typst.app -->
+<!-- https://www.linkedin.com/company/typst/ -->
+<!-- / -->
+<!-- /pricing/ -->
+<!-- /docs/ -->
+<!-- https://forum.typst.app -->
+<!-- /signin/ -->
+<!-- /signup -->
+<!-- /universe/ -->
+<!-- /universe/ -->
+<!-- https://typst.app/universe/search/?kind=packages -->
+<!-- https://typst.app/universe/search/?kind=templates -->
+<!-- https://typst.app/universe/search/ -->
+<!-- https://typst.app/universe#categories -->
+<!-- https://github.com/typst/packages -->
+<!-- https://en.wikipedia.org/wiki/Forsyth%E2%80%93Edwards_Notation -->
+<!-- https://en.wikipedia.org/wiki/Algebraic_notation_(chess) -->
+<!-- https://en.wikipedia.org/wiki/Portable_Game_Notation -->
+<!-- https://typst.app/docs/reference/data-loading/read/ -->
+<!-- https://commons.wikimedia.org/wiki/Category:SVG_chess_pieces -->
+<!-- https://github.com/typst/packages/raw/main/packages/preview/board-n-pieces/0.5.0/#licensing -->
+<!-- https://typst.app/docs/reference/visualize/rect/#parameters-stroke -->
+<!-- https://commons.wikimedia.org/wiki/Category:SVG_chess_pieces -->
+<!-- https://www.gnu.org/licenses/old-licenses/gpl-2.0.html -->
+<!-- https://en.wikipedia.org/wiki/User:Cburnett -->
+<!-- https://typst.app/docs/reference/scripting/#packages -->
+<!-- https://github.com/MDLC01 -->
+<!-- https://packages.typst.org/preview/board-n-pieces-0.5.0.tar.gz -->
+<!-- https://github.com/MDLC01/board-n-pieces -->
+<!-- https://typst.app/universe/search/?discipline=computer-science -->
+<!-- https://typst.app/universe/search/?discipline=mathematics -->
+<!-- https://typst.app/universe/search/?category=visualization -->
+<!-- https://github.com/MDLC01/board-n-pieces -->
+<!-- https://forum.typst.app -->
+<!-- https://typst.app/contact -->
+<!-- https://typst.app/universe/package/board-n-pieces/0.4.0/ -->
+<!-- https://typst.app/universe/package/board-n-pieces/0.3.0/ -->
+<!-- https://typst.app/universe/package/board-n-pieces/0.2.0/ -->
+<!-- https://typst.app/universe/package/board-n-pieces/0.1.0/ -->
+<!-- / -->
+<!-- /pricing/ -->
+<!-- /docs/ -->
+<!-- /universe/ -->
+<!-- /about/ -->
+<!-- /contact/ -->
+<!-- /privacy/ -->
+<!-- https://typst.app/terms -->
+<!-- /legal/ -->
+<!-- https://forum.typst.app -->
+<!-- /tools/ -->
+<!-- /blog/ -->
+<!-- https://github.com/typst/ -->
+<!-- https://discord.gg/2uDybryKPe -->
+<!-- https://mastodon.social/@typst -->
+<!-- https://bsky.app/profile/typst.app -->
+<!-- https://www.linkedin.com/company/typst/ -->
+<!-- https://instagram.com/typstapp/ -->
