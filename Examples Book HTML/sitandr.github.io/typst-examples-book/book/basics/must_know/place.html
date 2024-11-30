@@ -1,0 +1,260 @@
+<main>
+       <!-- Page table of contents -->
+       <div class="sidetoc">
+        <nav class="pagetoc">
+        </nav>
+       </div>
+       <h1 id="placing-moving-scale--hide">
+        <a class="header" href="#placing-moving-scale--hide">
+         Placing, Moving, Scale &amp; Hide
+        </a>
+       </h1>
+       <p>
+        This is
+        <strong>
+         a very important section
+        </strong>
+        if you want to do arbitrary things with layout,
+create custom elements and hacking a way around current Typst limitations.
+       </p>
+       <p>
+        TODO: WIP, add text and better examples
+       </p>
+       <h1 id="place">
+        <a class="header" href="#place">
+         Place
+        </a>
+       </h1>
+       <p>
+        <em>
+         Ignore layout
+        </em>
+        , just put some object somehow relative to parent and current position.
+The placed object
+        <em>
+         will not
+        </em>
+        affect layouting
+       </p>
+       <blockquote>
+        <p>
+         Link to
+         <a href="https://typst.app/docs/reference/layout/place/">
+          reference
+         </a>
+        </p>
+       </blockquote>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#859900;">#set page</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">height</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">60pt</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">Hello, world!
+</span><span style="color:var(--fg);">
+</span><span style="color:#b58900;">#place</span><span style="color:#657b83;">(
+</span><span style="color:var(--fg);">  top </span><span style="color:#859900;">+</span><span style="color:var(--fg);"> right, </span><span style="color:#586e75;">// place at the page right and top
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">square</span><span style="color:#657b83;">(
+</span><span style="color:var(--fg);">    </span><span style="color:#268bd2;">width</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">20pt</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">    </span><span style="color:#268bd2;">stroke</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">2pt </span><span style="color:#859900;">+</span><span style="color:var(--fg);"> blue
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">)</span><span style="color:var(--fg);">,
+</span><span style="color:#657b83;">)</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/e0d4c250d0f288e1a110ebddcb06149e0acd11b626a0ccb0ca9feb1c1d7be359-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <h3 id="basic-floating-with-place">
+        <a class="header" href="#basic-floating-with-place">
+         Basic floating with place
+        </a>
+       </h3>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#859900;">#set page</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">height</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">150pt</span><span style="color:#657b83;">)
+</span><span style="color:#859900;">#let note</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">where, body</span><span style="color:#657b83;">) </span><span style="color:#859900;">= place</span><span style="color:#657b83;">(
+</span><span style="color:var(--fg);">  center </span><span style="color:#859900;">+</span><span style="color:var(--fg);"> where,
+</span><span style="color:var(--fg);">  </span><span style="color:#268bd2;">float</span><span style="color:var(--fg);">: </span><span style="color:#b58900;">true</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#268bd2;">clearance</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">6pt</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">rect</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">body</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">,
+</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">
+</span><span style="color:#b58900;">#lorem</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">10</span><span style="color:#657b83;">)
+</span><span style="color:#b58900;">#note</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">bottom</span><span style="color:#657b83;">)[</span><span style="color:var(--fg);">Bottom 1</span><span style="color:#657b83;">]
+</span><span style="color:#b58900;">#note</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">bottom</span><span style="color:#657b83;">)[</span><span style="color:var(--fg);">Bottom 2</span><span style="color:#657b83;">]
+</span><span style="color:#b58900;">#lorem</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">40</span><span style="color:#657b83;">)
+</span><span style="color:#b58900;">#note</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">top</span><span style="color:#657b83;">)[</span><span style="color:var(--fg);">Top</span><span style="color:#657b83;">]
+</span><span style="color:#b58900;">#lorem</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">10</span><span style="color:#657b83;">)</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/b770cfef024690b5fc7ab82458797d6cfab0c5cc8f52078ecf2d61be17c13acc-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/b770cfef024690b5fc7ab82458797d6cfab0c5cc8f52078ecf2d61be17c13acc-2.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <h3 id="dx-dy">
+        <a class="header" href="#dx-dy">
+         dx, dy
+        </a>
+       </h3>
+       <p>
+        Manually change position by
+        <code class="hljs">
+         <span style="color:var(--fg);">
+          (dx, dy)
+         </span>
+        </code>
+        relative to intended.
+       </p>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#859900;">#set page</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">height</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">100pt</span><span style="color:#657b83;">)
+</span><span style="color:#859900;">#for</span><span style="color:var(--fg);"> i </span><span style="color:#859900;">in range</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">16</span><span style="color:#657b83;">) {
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">let</span><span style="color:var(--fg);"> amount </span><span style="color:#859900;">=</span><span style="color:var(--fg);"> i </span><span style="color:#859900;">* </span><span style="color:#6c71c4;">4pt
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">place</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">center, </span><span style="color:#268bd2;">dx</span><span style="color:var(--fg);">: amount </span><span style="color:#859900;">- </span><span style="color:#6c71c4;">32pt</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">dy</span><span style="color:var(--fg);">: amount</span><span style="color:#657b83;">)[</span><span style="color:var(--fg);">A</span><span style="color:#657b83;">]
+</span><span style="color:#657b83;">}</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/12464f1a2cfe81fb04623033345f3f88ff598af5dc77de378b9d7cf88fc1d5b3-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <h1 id="move">
+        <a class="header" href="#move">
+         Move
+        </a>
+       </h1>
+       <blockquote>
+        <p>
+         Link to
+         <a href="https://typst.app/docs/reference/layout/move/">
+          reference
+         </a>
+        </p>
+       </blockquote>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#b58900;">#rect</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">inset</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">0pt</span><span style="color:var(--fg);">, </span><span style="color:#859900;">move</span><span style="color:#657b83;">(
+</span><span style="color:var(--fg);">  </span><span style="color:#268bd2;">dx</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">6pt</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">dy</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">6pt</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">rect</span><span style="color:#657b83;">(
+</span><span style="color:var(--fg);">    </span><span style="color:#268bd2;">inset</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">8pt</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">    </span><span style="color:#268bd2;">fill</span><span style="color:var(--fg);">: white,
+</span><span style="color:var(--fg);">    </span><span style="color:#268bd2;">stroke</span><span style="color:var(--fg);">: black,
+</span><span style="color:var(--fg);">    </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">Abra cadabra</span><span style="color:#657b83;">]
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">)
+</span><span style="color:#657b83;">))</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/3292aebf7b633a2d9574027f50867d723d80850e046a101b9df5ab5143eb8a8d-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <h1 id="scale">
+        <a class="header" href="#scale">
+         Scale
+        </a>
+       </h1>
+       <p>
+        Scale content
+        <em>
+         without affecting the layout
+        </em>
+        .
+       </p>
+       <blockquote>
+        <p>
+         Link to
+         <a href="https://typst.app/docs/reference/layout/scale/">
+          reference
+         </a>
+        </p>
+       </blockquote>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#b58900;">#scale</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">x</span><span style="color:var(--fg);">: </span><span style="color:#859900;">-</span><span style="color:#6c71c4;">100%</span><span style="color:#657b83;">)[</span><span style="color:var(--fg);">This is mirrored.</span><span style="color:#657b83;">]</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/401c8cd6f306771a3b12432c3c51e097a3ec1d12656c131c0043a12c4c1c3a0e-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:var(--fg);">A</span><span style="color:#b58900;">#box</span><span style="color:#657b83;">(</span><span style="color:#859900;">scale</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">75%</span><span style="color:#657b83;">)[</span><span style="color:var(--fg);">A</span><span style="color:#657b83;">])</span><span style="color:var(--fg);">A </span><span style="color:#dc322f;">\
+</span><span style="color:var(--fg);">B</span><span style="color:#b58900;">#box</span><span style="color:#657b83;">(</span><span style="color:#859900;">scale</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">75%</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">origin</span><span style="color:var(--fg);">: bottom </span><span style="color:#859900;">+</span><span style="color:var(--fg);"> left</span><span style="color:#657b83;">)[</span><span style="color:var(--fg);">B</span><span style="color:#657b83;">])</span><span style="color:var(--fg);">B</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/204b55690645eb6cc623c8d2d74b5521d72e4ba38d58ea40ea5e2d4354a01836-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <h1 id="hide">
+        <a class="header" href="#hide">
+         Hide
+        </a>
+       </h1>
+       <p>
+        Don't show content, but leave empty space there.
+       </p>
+       <blockquote>
+        <p>
+         Link to
+         <a href="https://typst.app/docs/reference/layout/hide/">
+          reference
+         </a>
+        </p>
+       </blockquote>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:var(--fg);">Hello Jane </span><span style="color:#dc322f;">\
+</span><span style="color:#b58900;">#hide</span><span style="color:#657b83;">[</span><span style="color:var(--fg);">Hello</span><span style="color:#657b83;">]</span><span style="color:var(--fg);"> Joe</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/610672d5e43baa3ce94fe61f8d6dd0307e405c785639359c6a9e84bdd66884ad-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+      </main>

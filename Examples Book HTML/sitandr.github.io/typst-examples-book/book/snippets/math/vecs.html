@@ -1,0 +1,119 @@
+<main>
+       <!-- Page table of contents -->
+       <div class="sidetoc">
+        <nav class="pagetoc">
+        </nav>
+       </div>
+       <h1 id="vectors--matrices">
+        <a class="header" href="#vectors--matrices">
+         Vectors &amp; Matrices
+        </a>
+       </h1>
+       <p>
+        You can easily note that the gap isn't necessarily even or the same in different vectors and matrices:
+       </p>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#2aa198;">$
+</span><span style="color:#859900;">mat</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">0</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">1</span><span style="color:var(--fg);">, </span><span style="color:#859900;">-</span><span style="color:#6c71c4;">1</span><span style="color:var(--fg);">; </span><span style="color:#859900;">-</span><span style="color:#6c71c4;">1</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">0</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">1</span><span style="color:var(--fg);">; </span><span style="color:#6c71c4;">1</span><span style="color:var(--fg);">, </span><span style="color:#859900;">-</span><span style="color:#6c71c4;">1</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">0</span><span style="color:#657b83;">) </span><span style="color:#859900;">vec</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">a</span><span style="color:#859900;">/</span><span style="color:#268bd2;">b</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">a</span><span style="color:#859900;">/</span><span style="color:#268bd2;">b</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">a</span><span style="color:#859900;">/</span><span style="color:#268bd2;">b</span><span style="color:#657b83;">) </span><span style="color:#859900;">= vec</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">c</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">d</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">e</span><span style="color:#657b83;">)
+</span><span style="color:#2aa198;">$</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/6a28529f5b38a17bcb660981691cdcc2bc4b6ddfbdb103327ae9e42b1365458e-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <p>
+        That happens because
+        <code class="hljs">
+         <span style="color:var(--fg);">
+          gap
+         </span>
+        </code>
+        refers to
+        <em>
+         spacing between
+        </em>
+        elements, not the distance between their centers.
+       </p>
+       <p>
+        To fix this, you can use this snippet:
+       </p>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#586e75;">// Fixed height vector
+</span><span style="color:#859900;">#let fvec</span><span style="color:#657b83;">(</span><span style="color:#859900;">..</span><span style="color:var(--fg);">children, </span><span style="color:#268bd2;">delim</span><span style="color:var(--fg);">: </span><span style="color:#839496;">"</span><span style="color:#2aa198;">(</span><span style="color:#839496;">"</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">gap</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">1.5em</span><span style="color:#657b83;">) </span><span style="color:#859900;">= </span><span style="color:#657b83;">{ </span><span style="color:#586e75;">// change default gap there
+</span><span style="color:var(--fg);">  context math.</span><span style="color:#859900;">vec</span><span style="color:#657b83;">(
+</span><span style="color:var(--fg);">      </span><span style="color:#268bd2;">delim</span><span style="color:var(--fg);">: delim,
+</span><span style="color:var(--fg);">      </span><span style="color:#268bd2;">gap</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">0em</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">      </span><span style="color:#859900;">..for</span><span style="color:var(--fg);"> el </span><span style="color:#859900;">in</span><span style="color:var(--fg);"> children.</span><span style="color:#859900;">pos</span><span style="color:#657b83;">() {
+</span><span style="color:var(--fg);">        </span><span style="color:#657b83;">({
+</span><span style="color:var(--fg);">          </span><span style="color:#859900;">box</span><span style="color:#657b83;">(
+</span><span style="color:var(--fg);">            </span><span style="color:#268bd2;">width</span><span style="color:var(--fg);">: </span><span style="color:#859900;">measure</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">el</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">.width,
+</span><span style="color:var(--fg);">            </span><span style="color:#268bd2;">height</span><span style="color:var(--fg);">: gap, </span><span style="color:#859900;">place</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">horizon, el</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">          </span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">        </span><span style="color:#657b83;">}</span><span style="color:var(--fg);">,</span><span style="color:#657b83;">) </span><span style="color:#586e75;">// this is an array
+</span><span style="color:var(--fg);">        </span><span style="color:#586e75;">// `for` merges all these arrays, then we pass it to arguments
+</span><span style="color:var(--fg);">      </span><span style="color:#657b83;">}
+</span><span style="color:var(--fg);">    </span><span style="color:#657b83;">)
+</span><span style="color:#657b83;">}
+</span><span style="color:var(--fg);">
+</span><span style="color:#586e75;">// fixed hight matrix
+</span><span style="color:#586e75;">// accepts also row-gap, column-gap and gap
+</span><span style="color:#859900;">#let fmat</span><span style="color:#657b83;">(</span><span style="color:#859900;">..</span><span style="color:var(--fg);">rows, </span><span style="color:#268bd2;">delim</span><span style="color:var(--fg);">: </span><span style="color:#839496;">"</span><span style="color:#2aa198;">(</span><span style="color:#839496;">"</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">augment</span><span style="color:var(--fg);">: </span><span style="color:#b58900;">none</span><span style="color:#657b83;">) </span><span style="color:#859900;">= </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">let</span><span style="color:var(--fg);"> args </span><span style="color:#859900;">=</span><span style="color:var(--fg);"> rows.</span><span style="color:#859900;">named</span><span style="color:#657b83;">()
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">let </span><span style="color:#657b83;">(</span><span style="color:var(--fg);">gap, row</span><span style="color:#859900;">-</span><span style="color:var(--fg);">gap, column</span><span style="color:#859900;">-</span><span style="color:var(--fg);">gap</span><span style="color:#657b83;">) </span><span style="color:#859900;">= </span><span style="color:#657b83;">(</span><span style="color:#b58900;">none</span><span style="color:var(--fg);">,</span><span style="color:#657b83;">)</span><span style="color:#859900;">*</span><span style="color:#6c71c4;">3</span><span style="color:var(--fg);">;
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">if </span><span style="color:#839496;">"</span><span style="color:#2aa198;">gap</span><span style="color:#839496;">" </span><span style="color:#859900;">in</span><span style="color:var(--fg);"> args </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">    gap </span><span style="color:#859900;">=</span><span style="color:var(--fg);"> args.</span><span style="color:#859900;">at</span><span style="color:#657b83;">(</span><span style="color:#839496;">"</span><span style="color:#2aa198;">gap</span><span style="color:#839496;">"</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">    row</span><span style="color:#859900;">-</span><span style="color:var(--fg);">gap </span><span style="color:#859900;">=</span><span style="color:var(--fg);"> args.</span><span style="color:#859900;">at</span><span style="color:#657b83;">(</span><span style="color:#839496;">"</span><span style="color:#2aa198;">row-gap</span><span style="color:#839496;">"</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">default</span><span style="color:var(--fg);">: gap</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">    column</span><span style="color:#859900;">-</span><span style="color:var(--fg);">gap </span><span style="color:#859900;">=</span><span style="color:var(--fg);"> args.</span><span style="color:#859900;">at</span><span style="color:#657b83;">(</span><span style="color:#839496;">"</span><span style="color:#2aa198;">row-gap</span><span style="color:#839496;">"</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">default</span><span style="color:var(--fg);">: gap</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">}
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">else </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">    </span><span style="color:#586e75;">// change default vertical there
+</span><span style="color:var(--fg);">    row</span><span style="color:#859900;">-</span><span style="color:var(--fg);">gap </span><span style="color:#859900;">=</span><span style="color:var(--fg);"> args.</span><span style="color:#859900;">at</span><span style="color:#657b83;">(</span><span style="color:#839496;">"</span><span style="color:#2aa198;">row-gap</span><span style="color:#839496;">"</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">default</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">1.5em</span><span style="color:#657b83;">) 
+</span><span style="color:var(--fg);">    </span><span style="color:#586e75;">// and horizontal there
+</span><span style="color:var(--fg);">    column</span><span style="color:#859900;">-</span><span style="color:var(--fg);">gap </span><span style="color:#859900;">=</span><span style="color:var(--fg);"> rows.</span><span style="color:#859900;">named</span><span style="color:#657b83;">()</span><span style="color:var(--fg);">.</span><span style="color:#859900;">at</span><span style="color:#657b83;">(</span><span style="color:#839496;">"</span><span style="color:#2aa198;">column-gap</span><span style="color:#839496;">"</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">default</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">0.5em</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">}
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">  context math.</span><span style="color:#859900;">mat</span><span style="color:#657b83;">(
+</span><span style="color:var(--fg);">      </span><span style="color:#268bd2;">delim</span><span style="color:var(--fg);">: delim,
+</span><span style="color:var(--fg);">      </span><span style="color:#268bd2;">row-gap</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">0em</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">      </span><span style="color:#268bd2;">column-gap</span><span style="color:var(--fg);">: column</span><span style="color:#859900;">-</span><span style="color:var(--fg);">gap,
+</span><span style="color:var(--fg);">      </span><span style="color:#859900;">..for</span><span style="color:var(--fg);"> row </span><span style="color:#859900;">in</span><span style="color:var(--fg);"> rows.</span><span style="color:#859900;">pos</span><span style="color:#657b83;">() {
+</span><span style="color:var(--fg);">        </span><span style="color:#657b83;">(</span><span style="color:#859900;">for</span><span style="color:var(--fg);"> el </span><span style="color:#859900;">in</span><span style="color:var(--fg);"> row </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">          </span><span style="color:#657b83;">({
+</span><span style="color:var(--fg);">          </span><span style="color:#859900;">box</span><span style="color:#657b83;">(
+</span><span style="color:var(--fg);">            </span><span style="color:#268bd2;">width</span><span style="color:var(--fg);">: </span><span style="color:#859900;">measure</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">el</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">.width,
+</span><span style="color:var(--fg);">            </span><span style="color:#268bd2;">height</span><span style="color:var(--fg);">: row</span><span style="color:#859900;">-</span><span style="color:var(--fg);">gap, </span><span style="color:#859900;">place</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">horizon, el</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">          </span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">        </span><span style="color:#657b83;">}</span><span style="color:var(--fg);">,</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">        </span><span style="color:#657b83;">}</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">      </span><span style="color:#657b83;">}
+</span><span style="color:var(--fg);">    </span><span style="color:#657b83;">)
+</span><span style="color:#657b83;">}
+</span><span style="color:var(--fg);">
+</span><span style="color:#2aa198;">$
+</span><span style="color:#839496;">"</span><span style="color:#2aa198;">Before:</span><span style="color:#839496;">"</span><span style="color:#cb4b16;">&amp; </span><span style="color:#859900;">vec</span><span style="color:#657b83;">(</span><span style="color:#cb4b16;">((</span><span style="color:#268bd2;">a</span><span style="color:#859900;">/</span><span style="color:#268bd2;">b</span><span style="color:#cb4b16;">))</span><span style="color:#859900;">/</span><span style="color:#268bd2;">c</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">a</span><span style="color:#859900;">/</span><span style="color:#268bd2;">b</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">c</span><span style="color:#657b83;">) </span><span style="color:#859900;">= vec</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">1</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">1</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">1</span><span style="color:#657b83;">)</span><span style="color:#dc322f;">\
+</span><span style="color:#839496;">"</span><span style="color:#2aa198;">After:</span><span style="color:#839496;">"</span><span style="color:#cb4b16;">&amp; </span><span style="color:#859900;">fvec</span><span style="color:#657b83;">(</span><span style="color:#cb4b16;">((</span><span style="color:#268bd2;">a</span><span style="color:#859900;">/</span><span style="color:#268bd2;">b</span><span style="color:#cb4b16;">))</span><span style="color:#859900;">/</span><span style="color:#268bd2;">c</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">a</span><span style="color:#859900;">/</span><span style="color:#268bd2;">b</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">c</span><span style="color:#657b83;">) </span><span style="color:#859900;">= fvec</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">1</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">1</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">1</span><span style="color:#657b83;">)</span><span style="color:#dc322f;">\
+</span><span style="color:var(--fg);">
+</span><span style="color:#839496;">"</span><span style="color:#2aa198;">Before:</span><span style="color:#839496;">"</span><span style="color:#cb4b16;">&amp; </span><span style="color:#859900;">mat</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">a</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">b</span><span style="color:var(--fg);">; </span><span style="color:#268bd2;">c</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">d</span><span style="color:#657b83;">) </span><span style="color:#859900;">vec</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">e</span><span style="color:var(--fg);">, </span><span style="color:#859900;">dot</span><span style="color:#657b83;">) </span><span style="color:#859900;">= vec</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">c</span><span style="color:#859900;">/</span><span style="color:#268bd2;">d</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">e</span><span style="color:#859900;">/</span><span style="color:#268bd2;">f</span><span style="color:#657b83;">)</span><span style="color:#dc322f;">\
+</span><span style="color:#839496;">"</span><span style="color:#2aa198;">After:</span><span style="color:#839496;">"</span><span style="color:#cb4b16;">&amp; </span><span style="color:#859900;">fmat</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">a</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">b</span><span style="color:var(--fg);">; </span><span style="color:#268bd2;">c</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">d</span><span style="color:#657b83;">) </span><span style="color:#859900;">fvec</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">e</span><span style="color:var(--fg);">, </span><span style="color:#859900;">dot</span><span style="color:#657b83;">) </span><span style="color:#859900;">= fvec</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">c</span><span style="color:#859900;">/</span><span style="color:#268bd2;">d</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">e</span><span style="color:#859900;">/</span><span style="color:#268bd2;">f</span><span style="color:#657b83;">)
+</span><span style="color:#2aa198;">$</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/98195a6d9cfb93fdc5dca4db04dde22c00b969129e2962c8f7cba9012cd2bd0d-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+      </main>

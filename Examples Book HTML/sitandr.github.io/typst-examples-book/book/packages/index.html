@@ -1,0 +1,91 @@
+<main>
+       <!-- Page table of contents -->
+       <div class="sidetoc">
+        <nav class="pagetoc">
+        </nav>
+       </div>
+       <h1 id="packages">
+        <a class="header" href="#packages">
+         Packages
+        </a>
+       </h1>
+       <p>
+        Once the
+        <a href="https://typst.app/universe">
+         Typst Universe
+        </a>
+        was launched, this chapter has become almost redundant. The Universe is actually a very cool place to look for packages.
+       </p>
+       <p>
+        However, there are still some cool examples of interesting package usage.
+       </p>
+       <h2 id="general">
+        <a class="header" href="#general">
+         General
+        </a>
+       </h2>
+       <p>
+        Typst has packages, but, unlike LaTeX, you need to remember:
+       </p>
+       <ul>
+        <li>
+         You need them only for some specialized tasks, basic formatting
+         <em>
+          can be totally done without them
+         </em>
+         .
+        </li>
+        <li>
+         Packages are much lighter and much easier "installed" than LaTeX ones.
+        </li>
+        <li>
+         Packages are just plain Typst files (and sometimes plugins), so you can easily write your own!
+        </li>
+       </ul>
+       <p>
+        To use mighty package, just write, like this:
+       </p>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#859900;">#import </span><span style="color:#839496;">"</span><span style="color:#2aa198;">@preview/cetz:0.1.2</span><span style="color:#839496;">"</span><span style="color:var(--fg);">: canvas, plot
+</span><span style="color:var(--fg);">
+</span><span style="color:#b58900;">#canvas</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">length</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">1cm</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">  plot.</span><span style="color:#859900;">plot</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">size</span><span style="color:var(--fg);">: </span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">8</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">6</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">    </span><span style="color:#268bd2;">x-tick-step</span><span style="color:var(--fg);">: </span><span style="color:#b58900;">none</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">    </span><span style="color:#268bd2;">x-ticks</span><span style="color:var(--fg);">: </span><span style="color:#657b83;">((</span><span style="color:#859900;">-</span><span style="color:var(--fg);">calc.pi, </span><span style="color:#2aa198;">$</span><span style="color:#859900;">-pi</span><span style="color:#2aa198;">$</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">0</span><span style="color:var(--fg);">, </span><span style="color:#2aa198;">$</span><span style="color:#6c71c4;">0</span><span style="color:#2aa198;">$</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">(</span><span style="color:var(--fg);">calc.pi, </span><span style="color:#2aa198;">$</span><span style="color:#859900;">pi</span><span style="color:#2aa198;">$</span><span style="color:#657b83;">))</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">    </span><span style="color:#268bd2;">y-tick-step</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">1</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">    </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">      plot.</span><span style="color:#859900;">add</span><span style="color:#657b83;">(
+</span><span style="color:var(--fg);">        </span><span style="color:#268bd2;">style</span><span style="color:var(--fg);">: plot.palette.blue,
+</span><span style="color:var(--fg);">        </span><span style="color:#268bd2;">domain</span><span style="color:var(--fg);">: </span><span style="color:#657b83;">(</span><span style="color:#859900;">-</span><span style="color:var(--fg);">calc.pi, calc.pi</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">, x </span><span style="color:#859900;">=&gt;</span><span style="color:var(--fg);"> calc.</span><span style="color:#859900;">sin</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">x </span><span style="color:#859900;">* </span><span style="color:#6c71c4;">1rad</span><span style="color:#657b83;">))
+</span><span style="color:var(--fg);">      plot.</span><span style="color:#859900;">add</span><span style="color:#657b83;">(
+</span><span style="color:var(--fg);">        </span><span style="color:#268bd2;">hypograph</span><span style="color:var(--fg);">: </span><span style="color:#b58900;">true</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">        </span><span style="color:#268bd2;">style</span><span style="color:var(--fg);">: plot.palette.blue,
+</span><span style="color:var(--fg);">        </span><span style="color:#268bd2;">domain</span><span style="color:var(--fg);">: </span><span style="color:#657b83;">(</span><span style="color:#859900;">-</span><span style="color:var(--fg);">calc.pi, calc.pi</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">, x </span><span style="color:#859900;">=&gt;</span><span style="color:var(--fg);"> calc.</span><span style="color:#859900;">cos</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">x </span><span style="color:#859900;">* </span><span style="color:#6c71c4;">1rad</span><span style="color:#657b83;">))
+</span><span style="color:var(--fg);">      plot.</span><span style="color:#859900;">add</span><span style="color:#657b83;">(
+</span><span style="color:var(--fg);">        </span><span style="color:#268bd2;">hypograph</span><span style="color:var(--fg);">: </span><span style="color:#b58900;">true</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">        </span><span style="color:#268bd2;">style</span><span style="color:var(--fg);">: plot.palette.blue,
+</span><span style="color:var(--fg);">        </span><span style="color:#268bd2;">domain</span><span style="color:var(--fg);">: </span><span style="color:#657b83;">(</span><span style="color:#859900;">-</span><span style="color:var(--fg);">calc.pi, calc.pi</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">, x </span><span style="color:#859900;">=&gt;</span><span style="color:var(--fg);"> calc.</span><span style="color:#859900;">cos</span><span style="color:#657b83;">((</span><span style="color:var(--fg);">x </span><span style="color:#859900;">+</span><span style="color:var(--fg);"> calc.pi</span><span style="color:#657b83;">) </span><span style="color:#859900;">* </span><span style="color:#6c71c4;">1rad</span><span style="color:#657b83;">))
+</span><span style="color:var(--fg);">    </span><span style="color:#657b83;">})
+</span><span style="color:#657b83;">})</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/29d7015ed96122fa3fb663929c1ac58d25340995423c82456ab8815811373979-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <h2 id="contributing">
+        <a class="header" href="#contributing">
+         Contributing
+        </a>
+       </h2>
+       <p>
+        If you are author of a package or just want to make a fair overview,
+feel free to make issues/PR-s!
+       </p>
+      </main>

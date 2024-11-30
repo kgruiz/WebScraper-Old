@@ -1,0 +1,209 @@
+\title{sitandr.github.io/typst-examples-book/book/basics/scripting/types}
+
+\section{\texorpdfstring{\hyperref[types-part-i]{Types, part
+I}}{Types, part I}}\label{types-part-i}
+
+Each value in Typst has a type. You don\textquotesingle t have to
+specify it, but it is important.
+
+\subsection{\texorpdfstring{\hyperref[content-content]{Content (
+\texttt{\ }{\texttt{\ content\ }}\texttt{\ }
+)}}{Content (   content   )}}\label{content-content}
+
+\begin{quote}
+\href{https://typst.app/docs/reference/foundations/content/}{Link to
+Reference} .
+\end{quote}
+
+We have already seen it. A type that represents what is displayed in
+document.
+
+\begin{verbatim}
+#let c = [It is _content_!]
+
+// Check type of c
+#(type(c) == content)
+
+#c
+
+// repr gives an "inner representation" of value
+#repr(c)
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/21fd80460de8e8a377a9ef2046a27232ad88924070509ccf8647c9135c9c2fe3-1.svg}}
+
+\textbf{Important:} It is very hard to convert \emph{content} to
+\emph{plain text} , as \emph{content} may contain \emph{anything} ! So
+be careful when passing and storing content in variables.
+
+\subsection{\texorpdfstring{\hyperref[none-none]{None (
+\texttt{\ }{\texttt{\ none\ }}\texttt{\ }
+)}}{None (   none   )}}\label{none-none}
+
+Nothing. Also known as \texttt{\ }{\texttt{\ null\ }}\texttt{\ } in
+other languages. It isn\textquotesingle t displayed, converts to empty
+content.
+
+\begin{verbatim}
+#none
+#repr(none)
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/c4100c1d1df8fc0a51bd99945d9bac3c5aa67de19b8f872fd33fd9068bb2507b-1.svg}}
+
+\subsection{\texorpdfstring{\hyperref[string-str]{String (
+\texttt{\ }{\texttt{\ str\ }}\texttt{\ }
+)}}{String (   str   )}}\label{string-str}
+
+\begin{quote}
+\href{https://typst.app/docs/reference/foundations/str/}{Link to
+Reference} .
+\end{quote}
+
+String contains only plain text and no formatting. Just some chars. That
+allows us to work with chars:
+
+\begin{verbatim}
+#let s = "Some large string. There could be escape sentences: \n,
+ line breaks, and even unicode codes: \u{1251}"
+#s \
+#type(s) \
+`repr`: #repr(s)
+
+#let s = "another small string"
+#s.replace("a", sym.alpha) \
+#s.split(" ") // split by space
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/b797f9c4a540fcf1429bec801d0b334e7d88dc9ccd10e3b7b859f451e269f30f-1.svg}}
+
+You can convert other types to their string representation using this
+type\textquotesingle s constructor (e.g. convert number to string):
+
+\begin{verbatim}
+#str(5) // string, can be worked with as string
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/ab4d4a5d93533525f7f9b2cc8378b79f1561904f3c5d5f6d2ec4bdc448669cb5-1.svg}}
+
+\subsection{\texorpdfstring{\hyperref[boolean-bool]{Boolean (
+\texttt{\ }{\texttt{\ bool\ }}\texttt{\ }
+)}}{Boolean (   bool   )}}\label{boolean-bool}
+
+\begin{quote}
+\href{https://typst.app/docs/reference/foundations/bool/}{Link to
+Reference} .
+\end{quote}
+
+true/false. Used in \texttt{\ }{\texttt{\ if\ }}\texttt{\ } and many
+others
+
+\begin{verbatim}
+#let b = false
+#b \
+#repr(b) \
+#(true and not true or true) = #((true and (not true)) or true) \
+#if (4 > 3) {
+  "4 is more than 3"
+}
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/e848d78e220ca8cf3b6c323a99d5d963e529aad36857f0e6753c56c02984a616-1.svg}}
+
+\subsection{\texorpdfstring{\hyperref[integer-int]{Integer (
+\texttt{\ }{\texttt{\ int\ }}\texttt{\ }
+)}}{Integer (   int   )}}\label{integer-int}
+
+\begin{quote}
+\href{https://typst.app/docs/reference/foundations/int/}{Link to
+Reference} .
+\end{quote}
+
+A whole number.
+
+The number can also be specified as hexadecimal, octal, or binary by
+starting it with a zero followed by either x, o, or b.
+
+\begin{verbatim}
+#let n = 5
+#n \
+#(n += 1) \
+#n \
+#calc.pow(2, n) \
+#type(n) \
+#repr(n)
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/6f1c9e02393e14aa23add33d0e6dc2b596ee97a0d425cd3edb3e2b912c6ef6b0-1.svg}}
+
+\begin{verbatim}
+#(1 + 2) \
+#(2 - 5) \
+#(3 + 4 < 8)
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/e610f15659cb6b64c3516be48740b54e6caf3d933919004157ba64b757389ba5-1.svg}}
+
+\begin{verbatim}
+#0xff \
+#0o10 \
+#0b1001
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/1446dba05ee6f8006884c280ff32e31ede8425d4847445e97cae5dfcde1efe7f-1.svg}}
+
+You can convert a value to an integer with this type\textquotesingle s
+constructor (e.g. convert string to int).
+
+\begin{verbatim}
+#int(false) \
+#int(true) \
+#int(2.7) \
+#(int("27") + int("4"))
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/b44779a87fd984d317ec4d1aed732c0ebdc6220fd4764e407f77fedd139c0d8c-1.svg}}
+
+\subsection{\texorpdfstring{\hyperref[float-float]{Float (
+\texttt{\ }{\texttt{\ float\ }}\texttt{\ }
+)}}{Float (   float   )}}\label{float-float}
+
+\begin{quote}
+\href{https://typst.app/docs/reference/foundations/float/}{Link to
+Reference} .
+\end{quote}
+
+Works the same way as integer, but can store floating point numbers.
+However, precision may be lost.
+
+\begin{verbatim}
+#let n = 5.0
+
+// You can mix floats and integers, 
+// they will be implicitly converted
+#(n += 1) \
+#calc.pow(2, n) \
+#(0.2 + 0.1) \
+#type(n) 
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/21cafe751ec803dd9598c871b283a29bc3c6b2e302f0f9bd78edc17330b45616-1.svg}}
+
+\begin{verbatim}
+#3.14 \
+#1e4 \
+#(10 / 4)
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/05bd400096c1df5a954fda0897f3c1756c9f99f73503d32d992b3222667a45cd-1.svg}}
+
+You can convert a value to a float with this type\textquotesingle s
+constructor (e.g. convert string to float).
+
+\begin{verbatim}
+#float(40%) \
+#float("2.7") \
+#float("1e5")
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/f50a22cbea42fded97ab8340f0939e786e5c1cdb5ea531cd4b35b1f732947b7f-1.svg}}

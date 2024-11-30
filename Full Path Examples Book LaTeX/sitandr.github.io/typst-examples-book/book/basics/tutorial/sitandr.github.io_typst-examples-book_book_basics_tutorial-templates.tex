@@ -1,0 +1,89 @@
+\title{sitandr.github.io/typst-examples-book/book/basics/tutorial/templates}
+
+\section{\texorpdfstring{\hyperref[templates]{Templates}}{Templates}}\label{templates}
+
+\subsection{\texorpdfstring{\hyperref[templates-1]{Templates}}{Templates}}\label{templates-1}
+
+If you want to reuse styling in other files, you can use the
+\emph{template} idiom. Because \texttt{\ }{\texttt{\ set\ }}\texttt{\ }
+and \texttt{\ }{\texttt{\ show\ }}\texttt{\ } rules are only active in
+their current scope, they will not affect content in a file you imported
+your file into. But functions can circumvent this in a predictable way:
+
+\begin{verbatim}
+// define a function that:
+// - takes content
+// - applies styling to it
+// - returns the styled content
+#let apply-template(body) = [
+  #show heading.where(level: 1): emph
+  #set heading(numbering: "1.1")
+  // ...
+  #body
+]
+\end{verbatim}
+
+This is equivalent to:
+
+\begin{verbatim}
+// we can reduce the number of hashes needed here by using scripting mode
+// same as above but we exchanged `[...]` for `{...}` to switch from markup
+// into scripting mode
+#let apply-template(body) = {
+  show heading.where(level: 1): emph
+  set heading(numbering: "1.1")
+  // ...
+  body
+}
+\end{verbatim}
+
+Then in your main file:
+
+\begin{verbatim}
+#import "template.typ": apply-template
+#show: apply-template
+\end{verbatim}
+
+\emph{This will apply a "template" function to the rest of your
+document!}
+
+\subsubsection{\texorpdfstring{\hyperref[passing-arguments]{Passing
+arguments}}{Passing arguments}}\label{passing-arguments}
+
+\begin{verbatim}
+// add optional named arguments
+#let apply-template(body, name: "My document") = {
+  show heading.where(level: 1): emph
+  set heading(numbering: "1.1")
+
+  align(center, text(name, size: 2em))
+
+  body
+}
+\end{verbatim}
+
+Then, in template file:
+
+\begin{verbatim}
+#import "template.typ": apply-template
+
+// `func.with(..)` applies the arguments to the function and returns the new
+// function with those defaults applied
+#show: apply-template.with(name: "Report")
+
+// it is functionally the same as this
+#let new-template(..args) = apply-template(name: "Report", ..args)
+#show: new-template
+\end{verbatim}
+
+Writing templates is fairly easy if you understand
+\href{../scripting/index.html}{scripting} .
+
+See more information about writing templates in
+\href{https://typst.app/docs/tutorial/making-a-template/}{Official
+Tutorial} .
+
+There is no official repository for templates yet, but there are a
+plenty community ones in
+\href{https://github.com/qjcg/awesome-typst?ysclid=lj8pur1am7431908794\#general}{awesome-typst}
+.

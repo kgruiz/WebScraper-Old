@@ -1,0 +1,60 @@
+\title{sitandr.github.io/typst-examples-book/book/basics/math/alignment}
+
+\section{\texorpdfstring{\hyperref[alignment]{Alignment}}{Alignment}}\label{alignment}
+
+\subsection{\texorpdfstring{\hyperref[general-alignment]{General
+alignment}}{General alignment}}\label{general-alignment}
+
+By default display math is center-aligned, but that can be set up with
+\texttt{\ }{\texttt{\ show\ }}\texttt{\ } rule:
+
+\begin{verbatim}
+#show math.equation: set align(right)
+
+$
+(a + b)/2
+$
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/bcd19808066d4eee09c984bf17077653b1c1bf25115c10a155611056a30e2cb6-1.svg}}
+
+Or using \texttt{\ }{\texttt{\ align\ }}\texttt{\ } element:
+
+\begin{verbatim}
+#align(left, block($ x = 5 $))
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/4545bd54c4090d4c9599e639aa441b68eb214011861d9949652df140843af042-1.svg}}
+
+\subsection{\texorpdfstring{\hyperref[alignment-points]{Alignment
+points}}{Alignment points}}\label{alignment-points}
+
+When equations include multiple alignment points (\&), this creates
+blocks of alternatingly \emph{right-} and \emph{left-} aligned columns.
+
+In the example below, the expression
+\texttt{\ }{\texttt{\ (3x\ +\ y)\ /\ 7\ }}\texttt{\ } is
+\emph{right-aligned} and
+\texttt{\ }{\texttt{\ =\ }}\texttt{\ }{\texttt{\ 9\ }}\texttt{\ } is
+\emph{left-aligned} .
+
+\begin{verbatim}
+$ (3x + y) / 7 &= 9 && "given" \
+  3x + y &= 63 & "multiply by 7" \
+  3x &= 63 - y && "subtract y" \
+  x &= 21 - y/3 & "divide by 3" $
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/bfb7a5df8873923079f45d12fa92204afeddecb15ec31d6b8624ac4610d29677-1.svg}}
+
+The word "given" is also left-aligned because
+\texttt{\ }{\texttt{\ \&\&\ }}\texttt{\ } creates two alignment points
+in a row, \emph{alternating the alignment twice} .
+
+\texttt{\ }{\texttt{\ \&\ \&\ }}\texttt{\ } and
+\texttt{\ }{\texttt{\ \&\&\ }}\texttt{\ } behave exactly the same way.
+Meanwhile, "multiply by 7" is left-aligned because just one
+\texttt{\ }{\texttt{\ \&\ }}\texttt{\ } precedes it.
+
+\textbf{Each alignment point simply alternates between
+right-aligned/left-aligned.}

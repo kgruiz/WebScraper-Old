@@ -1,0 +1,140 @@
+<main>
+       <!-- Page table of contents -->
+       <div class="sidetoc">
+        <nav class="pagetoc">
+        </nav>
+       </div>
+       <h1 id="shaped-boxes-with-text">
+        <a class="header" href="#shaped-boxes-with-text">
+         Shaped boxes with text
+        </a>
+       </h1>
+       <p>
+        (I guess that will make a package eventually, but let it be a snippet for now)
+       </p>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#586e75;">/// author: JustForFun88
+</span><span style="color:#859900;">#import </span><span style="color:#839496;">"</span><span style="color:#2aa198;">@preview/oxifmt:0.2.0</span><span style="color:#839496;">"</span><span style="color:var(--fg);">: strfmt
+</span><span style="color:var(--fg);">
+</span><span style="color:#859900;">#let</span><span style="color:var(--fg);"> shadow_svg_path </span><span style="color:#859900;">=</span><span style="color:var(--fg);"> `
+</span><span style="color:var(--fg);">&lt;svg
+</span><span style="color:var(--fg);">    width="{canvas-width}"
+</span><span style="color:var(--fg);">    height="{canvas-height}"
+</span><span style="color:var(--fg);">    viewBox="{viewbox}"
+</span><span style="color:var(--fg);">    version="1.1"
+</span><span style="color:var(--fg);">    xmlns="http://www.w3.org/2000/svg"
+</span><span style="color:var(--fg);">    xmlns:svg="http://www.w3.org/2000/svg"&gt;
+</span><span style="color:var(--fg);">    &lt;!</span><span style="color:#cb4b16;">--</span><span style="color:var(--fg);"> Definitions for reusable components </span><span style="color:#cb4b16;">--</span><span style="color:var(--fg);">&gt;
+</span><span style="color:var(--fg);">    </span><span style="color:#93a1a1;">&lt;</span><span style="color:#b58900;">defs</span><span style="color:#93a1a1;">&gt;
+</span><span style="color:var(--fg);">        &lt;filter id="shadowing" &gt;
+</span><span style="color:var(--fg);">            &lt;feGaussianBlur in="SourceGraphic" stdDeviation="{blur}" /&gt;
+</span><span style="color:var(--fg);">        &lt;/filter&gt;
+</span><span style="color:var(--fg);">    &lt;/defs&gt;
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">    &lt;!</span><span style="color:#cb4b16;">--</span><span style="color:var(--fg);"> Drawing the rectangle with a fill and feGaussianBlur effect </span><span style="color:#cb4b16;">--</span><span style="color:var(--fg);">&gt;
+</span><span style="color:var(--fg);">    &lt;path
+</span><span style="color:var(--fg);">        style="fill: {flood-color}; opacity: {flood-opacity}; filter:url(</span><span style="color:#859900;">#</span><span style="color:#cb4b16;">shadowing</span><span style="color:var(--fg);">)"
+</span><span style="color:var(--fg);">        d="{vertices} Z" /&gt;
+</span><span style="color:var(--fg);">&lt;/svg&gt;
+</span><span style="color:var(--fg);">`.text
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">#let parallelogram(width: 20mm, height: 5mm, angle: 30deg) = {
+</span><span style="color:var(--fg);">	let δ = height * calc.tan(angle)
+</span><span style="color:var(--fg);">	(
+</span><span style="color:var(--fg);">    (      + δ,     0pt   ),
+</span><span style="color:var(--fg);">    (width + δ * 2, 0pt   ),
+</span><span style="color:var(--fg);">    (width + δ,     height),
+</span><span style="color:var(--fg);">    (0pt,           height),
+</span><span style="color:var(--fg);">	)
+</span><span style="color:var(--fg);">}
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">#let hexagon(width: 100pt, height: 30pt, angle: 30deg) = {
+</span><span style="color:var(--fg);">  let dy = height / 2;
+</span><span style="color:var(--fg);">	let δ = dy * calc.tan(angle)
+</span><span style="color:var(--fg);">	(
+</span><span style="color:var(--fg);">    (0pt,           dy    ),
+</span><span style="color:var(--fg);">    (      + δ,     0pt   ),
+</span><span style="color:var(--fg);">    (width + δ,     0pt   ),
+</span><span style="color:var(--fg);">    (width + δ * 2, dy    ),
+</span><span style="color:var(--fg);">    (width + δ,     height),
+</span><span style="color:var(--fg);">    (      + δ,     height),
+</span><span style="color:var(--fg);">	)
+</span><span style="color:var(--fg);">}
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">#let shape_size(vertices) = {
+</span><span style="color:var(--fg);">    let x_vertices = vertices.map(array.first);
+</span><span style="color:var(--fg);">    let y_vertices = vertices.map(array.last);
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">    (
+</span><span style="color:var(--fg);">      calc.max(..x_vertices) - calc.min(..x_vertices),
+</span><span style="color:var(--fg);">      calc.max(..y_vertices) - calc.min(..y_vertices)
+</span><span style="color:var(--fg);">    )
+</span><span style="color:var(--fg);">}
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">#let shadowed_shape(shape: hexagon, fill: none,
+</span><span style="color:var(--fg);">  stroke: auto, angle: 30deg, shadow_fill: black, alpha: 0.5, 
+</span><span style="color:var(--fg);">  blur: 1.5, blur_margin: 5, dx: 0pt, dy: 0pt, ..args, content
+</span><span style="color:var(--fg);">) = layout(size =&gt; context {
+</span><span style="color:var(--fg);">    let named = args.named()
+</span><span style="color:var(--fg);">    for key in ("width", "height") {
+</span><span style="color:var(--fg);">      if key in named and type(named.at(key)) == ratio {
+</span><span style="color:var(--fg);">        named.insert(key, size.at(key) * named.at(key))
+</span><span style="color:var(--fg);">      }
+</span><span style="color:var(--fg);">    }
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">    let opts = (blur: blur, flood-color: shadow_fill.to-hex())
+</span><span style="color:var(--fg);">       
+</span><span style="color:var(--fg);">    let content = box(content, ..named)
+</span><span style="color:var(--fg);">    let size = measure(content)
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">    let vertices = shape(..size, angle: angle)
+</span><span style="color:var(--fg);">    let (shape_width, shape_height) = shape_size(vertices)
+</span><span style="color:var(--fg);">    let margin = opts.blur * blur_margin * 1pt
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">    opts += (
+</span><span style="color:var(--fg);">      canvas-width:  shape_width  + margin,
+</span><span style="color:var(--fg);">      canvas-height: shape_height + margin,
+</span><span style="color:var(--fg);">      flood-opacity: alpha
+</span><span style="color:var(--fg);">    )
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">    opts.viewbox = (0, 0, opts.canvas-width.pt(), opts.canvas-height.pt()).map(str).join(",")
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">    opts.vertices = "";
+</span><span style="color:var(--fg);">    let d = margin / 2;
+</span><span style="color:var(--fg);">    for (i, p) in vertices.enumerate() {
+</span><span style="color:var(--fg);">        let prefix = if i == 0 { "M " } else { " L " };
+</span><span style="color:var(--fg);">        opts.vertices += prefix + p.map(x =&gt; str((x + d).pt())).join(", ");
+</span><span style="color:var(--fg);">    }
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">    let svg-shadow = image.decode(strfmt(shadow_svg_path, ..opts))
+</span><span style="color:var(--fg);">    place(dx: dx, dy: dy, svg-shadow)
+</span><span style="color:var(--fg);">    place(path(..vertices, fill: fill, stroke: stroke, closed: true))
+</span><span style="color:var(--fg);">    box(h((shape_width - size.width) / 2) + content, width: shape_width)
+</span><span style="color:var(--fg);">})
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">#set text(3em);
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">#shadowed_shape(shape: hexagon,
+</span><span style="color:var(--fg);">    inset: 1em, fill: teal,
+</span><span style="color:var(--fg);">    stroke: 1.5pt + teal.darken(50%),
+</span><span style="color:var(--fg);">    shadow_fill: red,
+</span><span style="color:var(--fg);">    dx: 0.5em, dy: 0.35em, blur: 3)[Hello there!]
+</span><span style="color:var(--fg);">#shadowed_shape(shape: parallelogram,
+</span><span style="color:var(--fg);">    inset: 1em, fill: teal,
+</span><span style="color:var(--fg);">    stroke: 1.5pt + teal.darken(50%),
+</span><span style="color:var(--fg);">    shadow_fill: red,
+</span><span style="color:var(--fg);">    dx: 0.5em, dy: 0.35em, blur: 3)[Hello there!]
+</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/f40acb7d6d2753b0845c9dd1fb26979c29dd0850448cf585f0c7f1b20acde7ea-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+      </main>

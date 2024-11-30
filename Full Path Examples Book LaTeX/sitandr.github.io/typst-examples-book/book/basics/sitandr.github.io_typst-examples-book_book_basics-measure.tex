@@ -1,0 +1,108 @@
+\title{sitandr.github.io/typst-examples-book/book/basics/measure}
+
+\section{\texorpdfstring{\hyperref[measure-layout]{Measure,
+Layout}}{Measure, Layout}}\label{measure-layout}
+
+This section is outdated. It may be still useful, but it is strongly
+recommended to study new context system (using the reference).
+
+\subsection{\texorpdfstring{\hyperref[style--measure]{Style \&
+Measure}}{Style \& Measure}}\label{style--measure}
+
+\begin{quote}
+Style
+\href{https://typst.app/docs/reference/foundations/style/}{documentation}
+.
+\end{quote}
+
+\begin{quote}
+Measure
+\href{https://typst.app/docs/reference/layout/measure/}{documentation} .
+\end{quote}
+
+\texttt{\ }{\texttt{\ measure\ }}\texttt{\ } returns \emph{the element
+size} . This command is extremely helpful when doing custom layout with
+\texttt{\ }{\texttt{\ place\ }}\texttt{\ } .
+
+However, there is a catch. Element size depends on styles, applied to
+this element.
+
+\begin{verbatim}
+#let content = [Hello!]
+#content
+#set text(14pt)
+#content
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/00a6cbbc650947c03f34564786b0645eee60396f288d26333c591ff9059cc369-1.svg}}
+
+So if we will set the big text size for some part of our text, to
+measure the element\textquotesingle s size, we have to know \emph{where
+the element is located} . Without knowing it, we can\textquotesingle t
+tell what styles should be applied.
+
+So we need a scheme similar to
+\texttt{\ }{\texttt{\ locate\ }}\texttt{\ } .
+
+This is what \texttt{\ }{\texttt{\ styles\ }}\texttt{\ } function is
+used for. It is \emph{a content} , which, when located in document,
+calls a function inside on \emph{current styles} .
+
+Now, when we got fixed \texttt{\ }{\texttt{\ styles\ }}\texttt{\ } , we
+can get the element\textquotesingle s size using
+\texttt{\ }{\texttt{\ measure\ }}\texttt{\ } :
+
+\begin{verbatim}
+#let thing(body) = style(styles => {
+  let size = measure(body, styles)
+  [Width of "#body" is #size.width]
+})
+
+#thing[Hey] \
+#thing[Welcome]
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/5afe1855072b4ee8e343e5b5aa79affae5b17bc89738ffbe93dac245576cdd04-1.svg}}
+
+\section{\texorpdfstring{\hyperref[layout]{Layout}}{Layout}}\label{layout}
+
+Layout is similar to \texttt{\ }{\texttt{\ measure\ }}\texttt{\ } , but
+it returns current scope \textbf{parent size} .
+
+If you are putting elements in block, that will be
+block\textquotesingle s size. If you are just putting right on the page,
+that will be page\textquotesingle s size.
+
+As parent\textquotesingle s size depends on it\textquotesingle s place
+in document, it uses the similar scheme to
+\texttt{\ }{\texttt{\ locate\ }}\texttt{\ } and
+\texttt{\ }{\texttt{\ style\ }}\texttt{\ } :
+
+\begin{verbatim}
+#layout(size => {
+  let half = 50% * size.width
+  [Half a page is #half wide.]
+})
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/c68a166f6e6b1b3229fd56478ae302dbeb39c882e229c69d4c6ebb6c9c528985-1.svg}}
+
+It may be extremely useful to combine
+\texttt{\ }{\texttt{\ layout\ }}\texttt{\ } with
+\texttt{\ }{\texttt{\ measure\ }}\texttt{\ } , to get width of things
+that depend on parent\textquotesingle s size:
+
+\begin{verbatim}
+#let text = lorem(30)
+#layout(size => style(styles => [
+  #let (height,) = measure(
+    block(width: size.width, text),
+    styles,
+  )
+  This text is #height high with
+  the current page width: \
+  #text
+]))
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/93167dc0b22b02fe27aa92c6b03c2281665b4352624364a19c63f61a488aa75a-1.svg}}

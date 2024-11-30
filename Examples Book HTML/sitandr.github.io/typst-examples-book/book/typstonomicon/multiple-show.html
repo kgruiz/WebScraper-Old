@@ -1,0 +1,90 @@
+<main>
+       <!-- Page table of contents -->
+       <div class="sidetoc">
+        <nav class="pagetoc">
+        </nav>
+       </div>
+       <h2 id="multiple-show-rules">
+        <a class="header" href="#multiple-show-rules">
+         Multiple show rules
+        </a>
+       </h2>
+       <p>
+        Sometimes there is a need to apply several rules that look very similar. Or generate them from code. One of the ways to deal with this, the most cursed one, is this:
+       </p>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#859900;">#let</span><span style="color:var(--fg);"> rules </span><span style="color:#859900;">= </span><span style="color:#657b83;">(</span><span style="color:var(--fg);">math.sum, math.product, math.root</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">
+</span><span style="color:#859900;">#let apply-rules</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">rules, it</span><span style="color:#657b83;">) </span><span style="color:#859900;">= </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">if</span><span style="color:var(--fg);"> rules.</span><span style="color:#859900;">len</span><span style="color:#657b83;">() </span><span style="color:#859900;">== </span><span style="color:#6c71c4;">0 </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">    return it
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">}
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">show</span><span style="color:var(--fg);"> rules.</span><span style="color:#859900;">pop</span><span style="color:#657b83;">()</span><span style="color:var(--fg);">: math.display
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">apply-rules</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">rules, it</span><span style="color:#657b83;">)
+</span><span style="color:#657b83;">}
+</span><span style="color:var(--fg);">
+</span><span style="color:#2aa198;">$</span><span style="color:#859900;">product/sum root</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">3</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">x</span><span style="color:#657b83;">)</span><span style="color:#859900;">/</span><span style="color:#6c71c4;">2</span><span style="color:#2aa198;">$
+</span><span style="color:var(--fg);">
+</span><span style="color:#859900;">#show</span><span style="color:var(--fg);">: apply</span><span style="color:#859900;">-</span><span style="color:var(--fg);">rules.</span><span style="color:#859900;">with</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">rules</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">
+</span><span style="color:#2aa198;">$</span><span style="color:#859900;">product/sum root</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">3</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">x</span><span style="color:#657b83;">)</span><span style="color:#859900;">/</span><span style="color:#6c71c4;">2</span><span style="color:#2aa198;">$</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/3f8166b0ca4ea7bdcf8017e914da7036f5b5ac804c34535f36b2a67bba3d995b-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <p>
+        The recursion problem may be avoided with the power of
+        <code class="hljs">
+         <span style="color:var(--fg);">
+          fold
+         </span>
+        </code>
+        , with basically the same idea:
+       </p>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#586e75;">// author: Eric
+</span><span style="color:#859900;">#let</span><span style="color:var(--fg);"> kind_supp </span><span style="color:#859900;">= </span><span style="color:#657b83;">(</span><span style="color:var(--fg);">code: </span><span style="color:#839496;">"</span><span style="color:#2aa198;">Listing</span><span style="color:#839496;">"</span><span style="color:var(--fg);">, algo: </span><span style="color:#839496;">"</span><span style="color:#2aa198;">Algorithme</span><span style="color:#839496;">"</span><span style="color:#657b83;">)
+</span><span style="color:#859900;">#show</span><span style="color:var(--fg);">: it </span><span style="color:#859900;">=&gt;</span><span style="color:var(--fg);"> kind_supp.</span><span style="color:#859900;">pairs</span><span style="color:#657b83;">()</span><span style="color:var(--fg);">.</span><span style="color:#859900;">fold</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">it, </span><span style="color:#657b83;">(</span><span style="color:var(--fg);">acc, </span><span style="color:#657b83;">(</span><span style="color:var(--fg);">kind, supp</span><span style="color:#657b83;">)) </span><span style="color:#859900;">=&gt; </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">show</span><span style="color:var(--fg);"> figure.</span><span style="color:#859900;">where</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">kind</span><span style="color:var(--fg);">: kind</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">: </span><span style="color:#859900;">set figure</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">supplement</span><span style="color:var(--fg);">: supp</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">  acc
+</span><span style="color:#657b83;">})</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/e2ee1949cb74ef6dc8109f082f424dcb30765452043f5e93ccdd8a4fc30029b3-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <p>
+        Note that just in case of symbols (if you don't need element functions), one can use regular expressions. That is a more robust way:
+       </p>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#859900;">#show regex</span><span style="color:#657b83;">(</span><span style="color:#839496;">"</span><span style="color:#2aa198;">[</span><span style="color:#839496;">" </span><span style="color:#859900;">+</span><span style="color:var(--fg);"> math.product </span><span style="color:#859900;">+</span><span style="color:var(--fg);"> math.sum </span><span style="color:#859900;">+ </span><span style="color:#839496;">"</span><span style="color:#2aa198;">]</span><span style="color:#839496;">"</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">: math.display
+</span><span style="color:var(--fg);">
+</span><span style="color:#2aa198;">$</span><span style="color:#859900;">product/sum root</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">3</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">x</span><span style="color:#657b83;">)</span><span style="color:#859900;">/</span><span style="color:#6c71c4;">2</span><span style="color:#2aa198;">$</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/b0f3afcb048a141cbfc9404f17ab9f91c701528560eb09810ce0bbaae66adbaa-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+      </main>

@@ -1,0 +1,224 @@
+<main>
+       <!-- Page table of contents -->
+       <div class="sidetoc">
+        <nav class="pagetoc">
+        </nav>
+       </div>
+       <h1 id="basic-styling">
+        <a class="header" href="#basic-styling">
+         Basic styling
+        </a>
+       </h1>
+       <h2 id="set-rule">
+        <a class="header" href="#set-rule">
+         <code class="hljs">
+          <span style="color:var(--fg);">
+           Set
+          </span>
+         </code>
+         rule
+        </a>
+       </h2>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#859900;">#set page</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">width</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">15cm</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">margin</span><span style="color:var(--fg);">: </span><span style="color:#657b83;">(</span><span style="color:var(--fg);">left: </span><span style="color:#6c71c4;">4cm</span><span style="color:var(--fg);">, right: </span><span style="color:#6c71c4;">4cm</span><span style="color:#657b83;">))
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">That was great, but using functions everywhere, especially
+</span><span style="color:var(--fg);">with many arguments every time is awfully cumbersome.
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">That's why Typst has </span><span style="font-style:italic;color:var(--fg);">_rules_</span><span style="color:var(--fg);">. No, not for you, for the document.
+</span><span style="color:var(--fg);">
+</span><span style="color:#859900;">#set par</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">justify</span><span style="color:var(--fg);">: </span><span style="color:#b58900;">true</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">And the first rule we will consider there is `set` rule.
+</span><span style="color:var(--fg);">As you see, I've just used it on `par` (which is short from paragraph)
+</span><span style="color:var(--fg);">and now all paragraphs became </span><span style="font-style:italic;color:var(--fg);">_justified_</span><span style="color:var(--fg);">.
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">It will apply to all paragraphs after the rule,
+</span><span style="color:var(--fg);">but will work only in it's </span><span style="font-style:italic;color:var(--fg);">_scope_</span><span style="color:var(--fg);"> (we will discuss them later).
+</span><span style="color:var(--fg);">
+</span><span style="color:#b58900;">#par</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">justify</span><span style="color:var(--fg);">: </span><span style="color:#b58900;">false</span><span style="color:#657b83;">)[
+</span><span style="color:var(--fg);">  Of course, you can override a `set` rule.
+</span><span style="color:var(--fg);">  This rule just sets the </span><span style="font-style:italic;color:var(--fg);">_default value_
+</span><span style="color:var(--fg);">  of an argument of an element.
+</span><span style="color:#657b83;">]
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">By the way, at first line of this snippet
+</span><span style="color:var(--fg);">I've reduced page size to make justifying more visible,
+</span><span style="color:var(--fg);">also increasing margins to add blank space on left and right.</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/cee42a8b1274afa36891438d4b1611eb55b2cd8bb4546df47128a7d3eb66653b-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <h2 id="a-bit-about-length-units">
+        <a class="header" href="#a-bit-about-length-units">
+         A bit about length units
+        </a>
+       </h2>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:var(--fg);">Before we continue with rules, we should talk about length. There are several absolute length units in Typst:
+</span><span style="color:var(--fg);">
+</span><span style="color:#859900;">#set rect</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">height</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">1em</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">
+</span><span style="color:#b58900;">#table</span><span style="color:#657b83;">(
+</span><span style="color:var(--fg);">  </span><span style="color:#268bd2;">columns</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">2</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">Points</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#859900;">rect</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">width</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">72pt</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">Millimeters</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#859900;">rect</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">width</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">25.4mm</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">Centimeters</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#859900;">rect</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">width</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">2.54cm</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">Inches</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#859900;">rect</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">width</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">1in</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">Relative to font size</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#859900;">rect</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">width</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">6.5em</span><span style="color:#657b83;">)
+</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">`1 em` = current font size. </span><span style="color:#dc322f;">\
+</span><span style="color:var(--fg);">It is a very convenient unit,
+</span><span style="color:var(--fg);">so we are going to use it a lot</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/5f8abc94a3d9df0e16f78c258e7f487d5698b4c96491300b3a48ad8e685534bc-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <h2 id="setting-something-else">
+        <a class="header" href="#setting-something-else">
+         Setting something else
+        </a>
+       </h2>
+       <p>
+        Of course, you can use
+        <code class="hljs">
+         <span style="color:var(--fg);">
+          set
+         </span>
+        </code>
+        rule with all built-in functions
+and all their named arguments to make some argument "default".
+       </p>
+       <p>
+        For example, let's make all quotes in this snippet authored by the book:
+       </p>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#859900;">#set quote</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">block</span><span style="color:var(--fg);">: </span><span style="color:#b58900;">true</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">attribution</span><span style="color:var(--fg);">: </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">Typst Examples Book</span><span style="color:#657b83;">])
+</span><span style="color:var(--fg);">
+</span><span style="color:#b58900;">#quote</span><span style="color:#657b83;">[
+</span><span style="color:var(--fg);">  Typst is great!
+</span><span style="color:#657b83;">]
+</span><span style="color:var(--fg);">
+</span><span style="color:#b58900;">#quote</span><span style="color:#657b83;">[
+</span><span style="color:var(--fg);">  The problem with quotes on the internet is
+</span><span style="color:var(--fg);">  that it is hard to verify their authenticity.
+</span><span style="color:#657b83;">]</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/c34c25cad05b7c20b6e0f146002886a1de65b61f48666cfec3d3494bd694a641-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <h2 id="opinionated-defaults">
+        <a class="header" href="#opinionated-defaults">
+         Opinionated defaults
+        </a>
+       </h2>
+       <p>
+        That allows you to set Typst default styling as you want it:
+       </p>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#859900;">#set par</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">justify</span><span style="color:var(--fg);">: </span><span style="color:#b58900;">true</span><span style="color:#657b83;">)
+</span><span style="color:#859900;">#set list</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">indent</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">1em</span><span style="color:#657b83;">)
+</span><span style="color:#859900;">#set enum</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">indent</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">1em</span><span style="color:#657b83;">)
+</span><span style="color:#859900;">#set page</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">numbering</span><span style="color:var(--fg);">: </span><span style="color:#839496;">"</span><span style="color:#2aa198;">1</span><span style="color:#839496;">"</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">- List item
+</span><span style="color:var(--fg);">- List item
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">+ Enum item
+</span><span style="color:var(--fg);">+ Enum item</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/773d68bc55eb89f119ad07b882eae5fd31868d8a1bb3d4963573ec80fb1c7466-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <p>
+        Don't complain about bad defaults!
+        <code class="hljs">
+         <span style="color:var(--fg);">
+          Set
+         </span>
+        </code>
+        your own.
+       </p>
+       <h2 id="numbering">
+        <a class="header" href="#numbering">
+         Numbering
+        </a>
+       </h2>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#b58900;">= </span><span style="color:#cb4b16;">Numbering
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">Some of elements have a property called "numbering".
+</span><span style="color:var(--fg);">They accept so-called "numbering patterns" and
+</span><span style="color:var(--fg);">are very useful with set rules. Let's see what I mean.
+</span><span style="color:var(--fg);">
+</span><span style="color:#859900;">#set heading</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">numbering</span><span style="color:var(--fg);">: </span><span style="color:#839496;">"</span><span style="color:#2aa198;">I.1:</span><span style="color:#839496;">"</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">
+</span><span style="color:#b58900;">= </span><span style="color:#cb4b16;">This is first level
+</span><span style="color:#b58900;">= </span><span style="color:#cb4b16;">Another first
+</span><span style="color:#b58900;">== </span><span style="color:#cb4b16;">Second
+</span><span style="color:#b58900;">== </span><span style="color:#cb4b16;">Another second
+</span><span style="color:#b58900;">=== </span><span style="color:#cb4b16;">Now third
+</span><span style="color:#b58900;">== </span><span style="color:#cb4b16;">And second again
+</span><span style="color:#b58900;">= </span><span style="color:#cb4b16;">Now returning to first
+</span><span style="color:#b58900;">= </span><span style="color:#cb4b16;">These are actual romanian numerals</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/39fb958032888b1e41da849152fed716b6f590eed3ea975b051ab786fac4ce5c-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <p>
+        Of course, there are lots of other cool properties
+that can be
+        <em>
+         set
+        </em>
+        , so feel free to dive into
+        <a href="https://typst.app/docs/reference/">
+         Official Reference
+        </a>
+        and explore them!
+       </p>
+       <p>
+        And now we are moving into something much more interesting…
+       </p>
+      </main>

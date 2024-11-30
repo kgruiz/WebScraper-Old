@@ -1,0 +1,710 @@
+<main>
+       <!-- Page table of contents -->
+       <div class="sidetoc">
+        <nav class="pagetoc">
+        </nav>
+       </div>
+       <h1 id="graphs">
+        <a class="header" href="#graphs">
+         Graphs
+        </a>
+       </h1>
+       <h2 id="cetz">
+        <a class="header" href="#cetz">
+         <code class="hljs">
+          <span style="color:var(--fg);">
+           cetz
+          </span>
+         </code>
+        </a>
+       </h2>
+       <p>
+        Cetz comes with quite built-in support of drawing basic graphs.
+It is much more customizable and extensible then packages like
+        <code class="hljs">
+         <span style="color:var(--fg);">
+          plotst
+         </span>
+        </code>
+        ,
+so it is recommended to skim through its possibilities.
+       </p>
+       <blockquote>
+        <p>
+         See full manual
+         <a href="https://github.com/johannes-wolf/cetz/blob/master/manual.pdf?raw=true">
+          there
+         </a>
+         .
+        </p>
+       </blockquote>
+       <!-- // wait till cetz:0.1.3 is published
+```typ
+#import "@preview/cetz:0.1.2"
+
+#import cetz.plot
+#plot.plot(size: (3,2), x-tick-step: 1, y-tick-step: 1, {
+ let z(x, y) = {
+   (1 - x/2 + calc.pow(x,5) + calc.pow(y,3)) * calc.exp(-(x*x) - (y*y))
+ }
+ plot.add-contour(x-domain: (-2, 3), y-domain: (-3, 3),
+ z, z: (.1, .4, .7), fill: true)
+})
+```
+-->
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#859900;">#let</span><span style="color:var(--fg);"> data </span><span style="color:#859900;">= </span><span style="color:#657b83;">(
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">A</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">([</span><span style="color:var(--fg);">B</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">C</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">D</span><span style="color:#657b83;">])</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">([</span><span style="color:var(--fg);">E</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">F</span><span style="color:#657b83;">])
+</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">
+</span><span style="color:#859900;">#import </span><span style="color:#839496;">"</span><span style="color:#2aa198;">@preview/cetz:0.1.2</span><span style="color:#839496;">"</span><span style="color:var(--fg);">: canvas, draw, tree
+</span><span style="color:var(--fg);">
+</span><span style="color:#b58900;">#canvas</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">length</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">1cm</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">import</span><span style="color:var(--fg);"> draw: </span><span style="color:#859900;">*
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">set-style</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">content</span><span style="color:var(--fg);">: </span><span style="color:#657b83;">(</span><span style="color:var(--fg);">padding: </span><span style="color:#6c71c4;">.2</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">    </span><span style="color:#268bd2;">fill</span><span style="color:var(--fg);">: gray.</span><span style="color:#859900;">lighten</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">70%</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">    </span><span style="color:#268bd2;">stroke</span><span style="color:var(--fg);">: gray.</span><span style="color:#859900;">lighten</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">70%</span><span style="color:#657b83;">))
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">  tree.</span><span style="color:#859900;">tree</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">data, </span><span style="color:#268bd2;">spread</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">2.5</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">grow</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">1.5</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">draw-node</span><span style="color:var(--fg);">: </span><span style="color:#657b83;">(</span><span style="color:var(--fg);">node, _</span><span style="color:#657b83;">) </span><span style="color:#859900;">=&gt; </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">    </span><span style="color:#859900;">circle</span><span style="color:#657b83;">(()</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">radius</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">.45</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">stroke</span><span style="color:var(--fg);">: </span><span style="color:#b58900;">none</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">    </span><span style="color:#859900;">content</span><span style="color:#657b83;">(()</span><span style="color:var(--fg);">, node.content</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">}</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">draw-edge</span><span style="color:var(--fg);">: </span><span style="color:#657b83;">(</span><span style="color:var(--fg);">from, to, _</span><span style="color:#657b83;">) </span><span style="color:#859900;">=&gt; </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">    </span><span style="color:#859900;">line</span><span style="color:#657b83;">((</span><span style="color:var(--fg);">a: from, number: </span><span style="color:#6c71c4;">.6</span><span style="color:var(--fg);">, abs: </span><span style="color:#b58900;">true</span><span style="color:var(--fg);">, b: to</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">         </span><span style="color:#657b83;">(</span><span style="color:var(--fg);">a: to, number: </span><span style="color:#6c71c4;">.6</span><span style="color:var(--fg);">, abs: </span><span style="color:#b58900;">true</span><span style="color:var(--fg);">, b: from</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">mark</span><span style="color:var(--fg);">: </span><span style="color:#657b83;">(</span><span style="color:var(--fg);">end: </span><span style="color:#839496;">"</span><span style="color:#2aa198;">&gt;</span><span style="color:#839496;">"</span><span style="color:#657b83;">))
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">}</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">name</span><span style="color:var(--fg);">: </span><span style="color:#839496;">"</span><span style="color:#2aa198;">tree</span><span style="color:#839496;">"</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">  </span><span style="color:#586e75;">// Draw a "custom" connection between two nodes
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">let </span><span style="color:#657b83;">(</span><span style="color:var(--fg);">a, b</span><span style="color:#657b83;">) </span><span style="color:#859900;">= </span><span style="color:#657b83;">(</span><span style="color:#839496;">"</span><span style="color:#2aa198;">tree.0-0-1</span><span style="color:#839496;">"</span><span style="color:var(--fg);">, </span><span style="color:#839496;">"</span><span style="color:#2aa198;">tree.0-1-0</span><span style="color:#839496;">"</span><span style="color:var(--fg);">,</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">line</span><span style="color:#657b83;">((</span><span style="color:var(--fg);">a: a, number: </span><span style="color:#6c71c4;">.6</span><span style="color:var(--fg);">, abs: </span><span style="color:#b58900;">true</span><span style="color:var(--fg);">, b: b</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">(</span><span style="color:var(--fg);">a: b, number: </span><span style="color:#6c71c4;">.6</span><span style="color:var(--fg);">, abs: </span><span style="color:#b58900;">true</span><span style="color:var(--fg);">, b: a</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">mark</span><span style="color:var(--fg);">: </span><span style="color:#657b83;">(</span><span style="color:var(--fg);">end: </span><span style="color:#839496;">"</span><span style="color:#2aa198;">&gt;</span><span style="color:#839496;">"</span><span style="color:var(--fg);">, start: </span><span style="color:#839496;">"</span><span style="color:#2aa198;">&gt;</span><span style="color:#839496;">"</span><span style="color:#657b83;">))
+</span><span style="color:#657b83;">})</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/18fc5bbebb79c44df6fd484d2cc0c763b6a64e4a6455535738e40932f5fa39b4-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#859900;">#import </span><span style="color:#839496;">"</span><span style="color:#2aa198;">@preview/cetz:0.1.2</span><span style="color:#839496;">"</span><span style="color:var(--fg);">: canvas, draw
+</span><span style="color:var(--fg);">
+</span><span style="color:#b58900;">#canvas</span><span style="color:#657b83;">({
+</span><span style="color:var(--fg);">    </span><span style="color:#859900;">import</span><span style="color:var(--fg);"> draw: </span><span style="color:#859900;">*
+</span><span style="color:var(--fg);">    </span><span style="color:#859900;">circle</span><span style="color:#657b83;">((</span><span style="color:#6c71c4;">90deg</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">3</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">radius</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">0</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">name</span><span style="color:var(--fg);">: </span><span style="color:#839496;">"</span><span style="color:#2aa198;">content</span><span style="color:#839496;">"</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">    </span><span style="color:#859900;">circle</span><span style="color:#657b83;">((</span><span style="color:#6c71c4;">210deg</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">3</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">radius</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">0</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">name</span><span style="color:var(--fg);">: </span><span style="color:#839496;">"</span><span style="color:#2aa198;">structure</span><span style="color:#839496;">"</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">    </span><span style="color:#859900;">circle</span><span style="color:#657b83;">((</span><span style="color:#859900;">-</span><span style="color:#6c71c4;">30deg</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">3</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">radius</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">0</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">name</span><span style="color:var(--fg);">: </span><span style="color:#839496;">"</span><span style="color:#2aa198;">form</span><span style="color:#839496;">"</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">    </span><span style="color:#859900;">for </span><span style="color:#657b83;">(</span><span style="color:var(--fg);">c, a</span><span style="color:#657b83;">) </span><span style="color:#859900;">in </span><span style="color:#657b83;">(
+</span><span style="color:var(--fg);">    </span><span style="color:#657b83;">(</span><span style="color:#839496;">"</span><span style="color:#2aa198;">content</span><span style="color:#839496;">"</span><span style="color:var(--fg);">, </span><span style="color:#839496;">"</span><span style="color:#2aa198;">bottom</span><span style="color:#839496;">"</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">    </span><span style="color:#657b83;">(</span><span style="color:#839496;">"</span><span style="color:#2aa198;">structure</span><span style="color:#839496;">"</span><span style="color:var(--fg);">, </span><span style="color:#839496;">"</span><span style="color:#2aa198;">top-right</span><span style="color:#839496;">"</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">    </span><span style="color:#657b83;">(</span><span style="color:#839496;">"</span><span style="color:#2aa198;">form</span><span style="color:#839496;">"</span><span style="color:var(--fg);">, </span><span style="color:#839496;">"</span><span style="color:#2aa198;">top-left</span><span style="color:#839496;">"</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">    </span><span style="color:#657b83;">) {
+</span><span style="color:var(--fg);">    </span><span style="color:#859900;">content</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">c, </span><span style="color:#859900;">box</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">c </span><span style="color:#859900;">+ </span><span style="color:#839496;">"</span><span style="color:#2aa198;"> oriented</span><span style="color:#839496;">"</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">inset</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">5pt</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">anchor</span><span style="color:var(--fg);">:
+</span><span style="color:var(--fg);">    a</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">    </span><span style="color:#657b83;">}
+</span><span style="color:var(--fg);">    </span><span style="color:#859900;">stroke</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">gray </span><span style="color:#859900;">+ </span><span style="color:#6c71c4;">1.2pt</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">    </span><span style="color:#859900;">line</span><span style="color:#657b83;">(</span><span style="color:#839496;">"</span><span style="color:#2aa198;">content</span><span style="color:#839496;">"</span><span style="color:var(--fg);">, </span><span style="color:#839496;">"</span><span style="color:#2aa198;">structure</span><span style="color:#839496;">"</span><span style="color:var(--fg);">, </span><span style="color:#839496;">"</span><span style="color:#2aa198;">form</span><span style="color:#839496;">"</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">close</span><span style="color:var(--fg);">: </span><span style="color:#b58900;">true</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">    </span><span style="color:#859900;">for </span><span style="color:#657b83;">(</span><span style="color:var(--fg);">c, s, f, cont</span><span style="color:#657b83;">) </span><span style="color:#859900;">in </span><span style="color:#657b83;">(
+</span><span style="color:var(--fg);">    </span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">0.5</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">0.1</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">1</span><span style="color:var(--fg);">, </span><span style="color:#839496;">"</span><span style="color:#2aa198;">PostScript</span><span style="color:#839496;">"</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">    </span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">1</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">0</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">0.4</span><span style="color:var(--fg);">, </span><span style="color:#839496;">"</span><span style="color:#2aa198;">DVI</span><span style="color:#839496;">"</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">    </span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">0.5</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">0.5</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">1</span><span style="color:var(--fg);">, </span><span style="color:#839496;">"</span><span style="color:#2aa198;">PDF</span><span style="color:#839496;">"</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">    </span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">0</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">0.25</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">1</span><span style="color:var(--fg);">, </span><span style="color:#839496;">"</span><span style="color:#2aa198;">CSS</span><span style="color:#839496;">"</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">    </span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">0.5</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">1</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">0</span><span style="color:var(--fg);">, </span><span style="color:#839496;">"</span><span style="color:#2aa198;">XML</span><span style="color:#839496;">"</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">    </span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">0.5</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">1</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">0.4</span><span style="color:var(--fg);">, </span><span style="color:#839496;">"</span><span style="color:#2aa198;">HTML</span><span style="color:#839496;">"</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">    </span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">1</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">0.2</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">0.8</span><span style="color:var(--fg);">, </span><span style="color:#839496;">"</span><span style="color:#2aa198;">LaTeX</span><span style="color:#839496;">"</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">    </span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">1</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">0.6</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">0.8</span><span style="color:var(--fg);">, </span><span style="color:#839496;">"</span><span style="color:#2aa198;">TeX</span><span style="color:#839496;">"</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">    </span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">0.8</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">0.8</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">1</span><span style="color:var(--fg);">, </span><span style="color:#839496;">"</span><span style="color:#2aa198;">Word</span><span style="color:#839496;">"</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">    </span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">1</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">0.05</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">0.05</span><span style="color:var(--fg);">, </span><span style="color:#839496;">"</span><span style="color:#2aa198;">ASCII</span><span style="color:#839496;">"</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">    </span><span style="color:#657b83;">) {
+</span><span style="color:var(--fg);">    </span><span style="color:#859900;">content</span><span style="color:#657b83;">((</span><span style="color:var(--fg);">bary: </span><span style="color:#657b83;">(</span><span style="color:var(--fg);">content: c, structure: s, form:
+</span><span style="color:var(--fg);">    f</span><span style="color:#657b83;">))</span><span style="color:var(--fg);">,cont</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">    </span><span style="color:#657b83;">}
+</span><span style="color:#657b83;">})</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/e93f89ca321c612b1157fd81cea439ade85d17485d0111a08b94e54e59e356db-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#859900;">#import </span><span style="color:#839496;">"</span><span style="color:#2aa198;">@preview/cetz:0.1.2</span><span style="color:#839496;">"</span><span style="color:var(--fg);">: canvas, chart
+</span><span style="color:var(--fg);">
+</span><span style="color:#859900;">#let</span><span style="color:var(--fg);"> data2 </span><span style="color:#859900;">= </span><span style="color:#657b83;">(
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">([</span><span style="color:var(--fg);">15-24</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">18.0</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">20.1</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">23.0</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">17.0</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">([</span><span style="color:var(--fg);">25-29</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">16.3</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">17.6</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">19.4</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">15.3</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">([</span><span style="color:var(--fg);">30-34</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">14.0</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">15.3</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">13.9</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">18.7</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">([</span><span style="color:var(--fg);">35-44</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">35.5</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">26.5</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">29.4</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">25.8</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">([</span><span style="color:var(--fg);">45-54</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">25.0</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">20.6</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">22.4</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">22.0</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">([</span><span style="color:var(--fg);">55+</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">,   </span><span style="color:#6c71c4;">19.9</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">18.2</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">19.2</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">16.4</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">,
+</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">
+</span><span style="color:#b58900;">#canvas</span><span style="color:#657b83;">({
+</span><span style="color:var(--fg);">  chart.</span><span style="color:#859900;">barchart</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">mode</span><span style="color:var(--fg);">: </span><span style="color:#839496;">"</span><span style="color:#2aa198;">clustered</span><span style="color:#839496;">"</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">                 </span><span style="color:#268bd2;">size</span><span style="color:var(--fg);">: </span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">9</span><span style="color:var(--fg);">, </span><span style="color:#b58900;">auto</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">                 </span><span style="color:#268bd2;">label-key</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">0</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">                 </span><span style="color:#268bd2;">value-key</span><span style="color:var(--fg);">: </span><span style="color:#657b83;">(</span><span style="color:#859900;">..range</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">1</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">5</span><span style="color:#657b83;">))</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">                 </span><span style="color:#268bd2;">bar-width</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">.8</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">                 </span><span style="color:#268bd2;">x-tick-step</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">2.5</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">                 data2</span><span style="color:#657b83;">)
+</span><span style="color:#657b83;">})</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/3d162509c91794a0814503ed304bea48b221b2f58559c9d832c3254580cd0d2b-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <h3 id="draw-a-graph-in-polar-coords">
+        <a class="header" href="#draw-a-graph-in-polar-coords">
+         Draw a graph in polar coords
+        </a>
+       </h3>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#859900;">#import </span><span style="color:#839496;">"</span><span style="color:#2aa198;">@preview/cetz:0.1.2</span><span style="color:#839496;">"</span><span style="color:var(--fg);">: canvas, plot
+</span><span style="color:var(--fg);">
+</span><span style="color:#b58900;">#figure</span><span style="color:#657b83;">(
+</span><span style="color:#859900;">canvas</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">length</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">1cm</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">  plot.</span><span style="color:#859900;">plot</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">size</span><span style="color:var(--fg);">: </span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">5</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">5</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">    </span><span style="color:#268bd2;">x-tick-step</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">5</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">    </span><span style="color:#268bd2;">y-tick-step</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">5</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">    </span><span style="color:#268bd2;">x-max</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">20</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">    </span><span style="color:#268bd2;">y-max</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">20</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">    </span><span style="color:#268bd2;">x-min</span><span style="color:var(--fg);">: </span><span style="color:#859900;">-</span><span style="color:#6c71c4;">20</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">    </span><span style="color:#268bd2;">y-min</span><span style="color:var(--fg);">: </span><span style="color:#859900;">-</span><span style="color:#6c71c4;">20</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">    </span><span style="color:#268bd2;">x-grid</span><span style="color:var(--fg);">: </span><span style="color:#b58900;">true</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">    </span><span style="color:#268bd2;">y-grid</span><span style="color:var(--fg);">: </span><span style="color:#b58900;">true</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">    </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">      plot.</span><span style="color:#859900;">add</span><span style="color:#657b83;">(
+</span><span style="color:var(--fg);">        </span><span style="color:#268bd2;">domain</span><span style="color:var(--fg);">: </span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">0</span><span style="color:var(--fg);">,</span><span style="color:#6c71c4;">2</span><span style="color:#859900;">*</span><span style="color:var(--fg);">calc.pi</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">        </span><span style="color:#268bd2;">samples</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">100</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">        t </span><span style="color:#859900;">=&gt; </span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">13</span><span style="color:#859900;">*</span><span style="color:var(--fg);">calc.</span><span style="color:#859900;">cos</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">t</span><span style="color:#657b83;">)</span><span style="color:#859900;">-</span><span style="color:#6c71c4;">5</span><span style="color:#859900;">*</span><span style="color:var(--fg);">calc.</span><span style="color:#859900;">cos</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">2</span><span style="color:#859900;">*</span><span style="color:var(--fg);">t</span><span style="color:#657b83;">)</span><span style="color:#859900;">-</span><span style="color:#6c71c4;">2</span><span style="color:#859900;">*</span><span style="color:var(--fg);">calc.</span><span style="color:#859900;">cos</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">3</span><span style="color:#859900;">*</span><span style="color:var(--fg);">t</span><span style="color:#657b83;">)</span><span style="color:#859900;">-</span><span style="color:var(--fg);">calc.</span><span style="color:#859900;">cos</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">4</span><span style="color:#859900;">*</span><span style="color:var(--fg);">t</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">16</span><span style="color:#859900;">*</span><span style="color:var(--fg);">calc.</span><span style="color:#859900;">sin</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">t</span><span style="color:#657b83;">)</span><span style="color:#859900;">*</span><span style="color:var(--fg);">calc.</span><span style="color:#859900;">sin</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">t</span><span style="color:#657b83;">)</span><span style="color:#859900;">*</span><span style="color:var(--fg);">calc.</span><span style="color:#859900;">sin</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">t</span><span style="color:#657b83;">))
+</span><span style="color:var(--fg);">        </span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">    </span><span style="color:#657b83;">})
+</span><span style="color:#657b83;">})</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">caption</span><span style="color:var(--fg);">: </span><span style="color:#839496;">"</span><span style="color:#2aa198;">Plot made with cetz</span><span style="color:#839496;">"</span><span style="color:var(--fg);">,</span><span style="color:#657b83;">)</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/d24c6270b5c074f9331b16cdde3b626129537c5b4760c17b4e447a7ef3f22388-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <h2 id="diagraph">
+        <a class="header" href="#diagraph">
+         <code class="hljs">
+          <span style="color:var(--fg);">
+           diagraph
+          </span>
+         </code>
+        </a>
+       </h2>
+       <h3 id="test">
+        <a class="header" href="#test">
+         Test
+        </a>
+       </h3>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#859900;">#import </span><span style="color:#839496;">"</span><span style="color:#2aa198;">@preview/diagraph:0.2.0</span><span style="color:#839496;">"</span><span style="color:var(--fg);">: </span><span style="color:#859900;">*
+</span><span style="color:#859900;">#let renderc</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">code</span><span style="color:#657b83;">) </span><span style="color:#859900;">= render</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">code.text</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">
+</span><span style="color:#b58900;">#renderc</span><span style="color:#657b83;">(
+</span><span style="color:var(--fg);">  ```
+</span><span style="color:var(--fg);">  digraph </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">    rankdir</span><span style="color:#859900;">=</span><span style="color:var(--fg);">LR;
+</span><span style="color:var(--fg);">    f </span><span style="color:#859900;">-&gt;</span><span style="color:var(--fg);"> B
+</span><span style="color:var(--fg);">    B </span><span style="color:#859900;">-&gt;</span><span style="color:var(--fg);"> f
+</span><span style="color:var(--fg);">    C </span><span style="color:#859900;">-&gt;</span><span style="color:var(--fg);"> D
+</span><span style="color:var(--fg);">    D </span><span style="color:#859900;">-&gt;</span><span style="color:var(--fg);"> B
+</span><span style="color:var(--fg);">    E </span><span style="color:#859900;">-&gt;</span><span style="color:var(--fg);"> F
+</span><span style="color:var(--fg);">    f </span><span style="color:#859900;">-&gt;</span><span style="color:var(--fg);"> E
+</span><span style="color:var(--fg);">    B </span><span style="color:#859900;">-&gt;</span><span style="color:var(--fg);"> F
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">}
+</span><span style="color:var(--fg);">  ```
+</span><span style="color:#657b83;">)</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/f47c3218e9b78fba4f38d6daeaff627ee6b210bda8dd26fcbc56f14a7bb984ee-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <h3 id="eating">
+        <a class="header" href="#eating">
+         Eating
+        </a>
+       </h3>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#859900;">#import </span><span style="color:#839496;">"</span><span style="color:#2aa198;">@preview/diagraph:0.2.0</span><span style="color:#839496;">"</span><span style="color:var(--fg);">: </span><span style="color:#859900;">*
+</span><span style="color:#859900;">#let renderc</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">code</span><span style="color:#657b83;">) </span><span style="color:#859900;">= render</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">code.text</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">
+</span><span style="color:#b58900;">#renderc</span><span style="color:#657b83;">(
+</span><span style="color:var(--fg);">  ```
+</span><span style="color:var(--fg);">  digraph </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">    orange </span><span style="color:#859900;">-&gt;</span><span style="color:var(--fg);"> fruit
+</span><span style="color:var(--fg);">    apple </span><span style="color:#859900;">-&gt;</span><span style="color:var(--fg);"> fruit
+</span><span style="color:var(--fg);">    fruit </span><span style="color:#859900;">-&gt;</span><span style="color:var(--fg);"> food
+</span><span style="color:var(--fg);">    carrot </span><span style="color:#859900;">-&gt;</span><span style="color:var(--fg);"> vegetable
+</span><span style="color:var(--fg);">    vegetable </span><span style="color:#859900;">-&gt;</span><span style="color:var(--fg);"> food
+</span><span style="color:var(--fg);">    food </span><span style="color:#859900;">-&gt;</span><span style="color:var(--fg);"> eat
+</span><span style="color:var(--fg);">    eat </span><span style="color:#859900;">-&gt;</span><span style="color:var(--fg);"> survive
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">}
+</span><span style="color:var(--fg);">  ```
+</span><span style="color:#657b83;">)</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/0a7fcbfb15be7bac447381d10af9488a7353071c92d849d1e4b7800a360c7659-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <h3 id="fft">
+        <a class="header" href="#fft">
+         FFT
+        </a>
+       </h3>
+       <p>
+        Labels are overridden manually.
+       </p>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#859900;">#import </span><span style="color:#839496;">"</span><span style="color:#2aa198;">@preview/diagraph:0.2.0</span><span style="color:#839496;">"</span><span style="color:var(--fg);">: </span><span style="color:#859900;">*
+</span><span style="color:#859900;">#let renderc</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">code</span><span style="color:#657b83;">) </span><span style="color:#859900;">= render</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">code.text</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">
+</span><span style="color:#b58900;">#renderc</span><span style="color:#657b83;">(
+</span><span style="color:var(--fg);">  ```
+</span><span style="color:var(--fg);">  digraph </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">    node </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">shape=none</span><span style="color:#657b83;">]
+</span><span style="color:var(--fg);">    </span><span style="color:#6c71c4;">1
+</span><span style="color:var(--fg);">    </span><span style="color:#6c71c4;">2
+</span><span style="color:var(--fg);">    </span><span style="color:#6c71c4;">3
+</span><span style="color:var(--fg);">    r1
+</span><span style="color:var(--fg);">    r2
+</span><span style="color:var(--fg);">    r3
+</span><span style="color:var(--fg);">    </span><span style="color:#6c71c4;">1</span><span style="color:#859900;">-&gt;</span><span style="color:#6c71c4;">2
+</span><span style="color:var(--fg);">    </span><span style="color:#6c71c4;">1</span><span style="color:#859900;">-&gt;</span><span style="color:#6c71c4;">3
+</span><span style="color:var(--fg);">    </span><span style="color:#6c71c4;">2</span><span style="color:#859900;">-&gt;</span><span style="color:var(--fg);">r1 </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">color=red</span><span style="color:#657b83;">]
+</span><span style="color:var(--fg);">    </span><span style="color:#6c71c4;">3</span><span style="color:#859900;">-&gt;</span><span style="color:var(--fg);">r2 </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">color=red</span><span style="color:#657b83;">]
+</span><span style="color:var(--fg);">    r1</span><span style="color:#859900;">-&gt;</span><span style="color:var(--fg);">r3 </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">color=red</span><span style="color:#657b83;">]
+</span><span style="color:var(--fg);">    r2</span><span style="color:#859900;">-&gt;</span><span style="color:var(--fg);">r3 </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">color=red</span><span style="color:#657b83;">]
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">}
+</span><span style="color:var(--fg);">  ```
+</span><span style="color:#657b83;">)</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/5d7074ff82c6786fa2fad07b25ff4c238dbb9333b0a806d3ea74474fbf8d005e-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <h3 id="state-machine">
+        <a class="header" href="#state-machine">
+         State Machine
+        </a>
+       </h3>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#859900;">#import </span><span style="color:#839496;">"</span><span style="color:#2aa198;">@preview/diagraph:0.2.0</span><span style="color:#839496;">"</span><span style="color:var(--fg);">: </span><span style="color:#859900;">*
+</span><span style="color:#859900;">#set page</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">width</span><span style="color:var(--fg);">: </span><span style="color:#b58900;">auto</span><span style="color:#657b83;">)
+</span><span style="color:#859900;">#let renderc</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">code</span><span style="color:#657b83;">) </span><span style="color:#859900;">= render</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">code.text</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">
+</span><span style="color:#b58900;">#renderc</span><span style="color:#657b83;">(
+</span><span style="color:var(--fg);">  ```
+</span><span style="color:var(--fg);">  digraph finite_state_machine </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">    rankdir</span><span style="color:#859900;">=</span><span style="color:var(--fg);">LR
+</span><span style="color:var(--fg);">    size</span><span style="color:#859900;">=</span><span style="color:#839496;">"</span><span style="color:#2aa198;">8,5</span><span style="color:#839496;">"
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">    node </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">shape=doublecircle</span><span style="color:#657b83;">]
+</span><span style="color:var(--fg);">    LR_0
+</span><span style="color:var(--fg);">    LR_3
+</span><span style="color:var(--fg);">    LR_4
+</span><span style="color:var(--fg);">    LR_8
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">    node </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">shape=circle</span><span style="color:#657b83;">]
+</span><span style="color:var(--fg);">    LR_0 </span><span style="color:#859900;">-&gt;</span><span style="color:var(--fg);"> LR_2 </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">label="SS(B)"</span><span style="color:#657b83;">]
+</span><span style="color:var(--fg);">    LR_0 </span><span style="color:#859900;">-&gt;</span><span style="color:var(--fg);"> LR_1 </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">label="SS(S)"</span><span style="color:#657b83;">]
+</span><span style="color:var(--fg);">    LR_1 </span><span style="color:#859900;">-&gt;</span><span style="color:var(--fg);"> LR_3 </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">label="S(</span><span style="color:#2aa198;">$</span><span style="color:#859900;">end</span><span style="color:var(--fg);">)</span><span style="color:#839496;">"</span><span style="color:#2aa198;">]
+</span><span style="color:#2aa198;">    LR_2 -&gt; LR_6 [label=</span><span style="color:#839496;">"</span><span style="color:#859900;">SS</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">b</span><span style="color:#657b83;">)</span><span style="color:#839496;">"</span><span style="color:#2aa198;">]
+</span><span style="color:#2aa198;">    LR_2 -&gt; LR_5 [label=</span><span style="color:#839496;">"</span><span style="color:#859900;">SS</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">a</span><span style="color:#657b83;">)</span><span style="color:#839496;">"</span><span style="color:#2aa198;">]
+</span><span style="color:#2aa198;">    LR_2 -&gt; LR_4 [label=</span><span style="color:#839496;">"</span><span style="color:#859900;">S</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">A</span><span style="color:#657b83;">)</span><span style="color:#839496;">"</span><span style="color:#2aa198;">]
+</span><span style="color:#2aa198;">    LR_5 -&gt; LR_7 [label=</span><span style="color:#839496;">"</span><span style="color:#859900;">S</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">b</span><span style="color:#657b83;">)</span><span style="color:#839496;">"</span><span style="color:#2aa198;">]
+</span><span style="color:#2aa198;">    LR_5 -&gt; LR_5 [label=</span><span style="color:#839496;">"</span><span style="color:#859900;">S</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">a</span><span style="color:#657b83;">)</span><span style="color:#839496;">"</span><span style="color:#2aa198;">]
+</span><span style="color:#2aa198;">    LR_6 -&gt; LR_6 [label=</span><span style="color:#839496;">"</span><span style="color:#859900;">S</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">b</span><span style="color:#657b83;">)</span><span style="color:#839496;">"</span><span style="color:#2aa198;">]
+</span><span style="color:#2aa198;">    LR_6 -&gt; LR_5 [label=</span><span style="color:#839496;">"</span><span style="color:#859900;">S</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">a</span><span style="color:#657b83;">)</span><span style="color:#839496;">"</span><span style="color:#2aa198;">]
+</span><span style="color:#2aa198;">    LR_7 -&gt; LR_8 [label=</span><span style="color:#839496;">"</span><span style="color:#859900;">S</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">b</span><span style="color:#657b83;">)</span><span style="color:#839496;">"</span><span style="color:#2aa198;">]
+</span><span style="color:#2aa198;">    LR_7 -&gt; LR_5 [label=</span><span style="color:#839496;">"</span><span style="color:#859900;">S</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">a</span><span style="color:#657b83;">)</span><span style="color:#839496;">"</span><span style="color:#2aa198;">]
+</span><span style="color:#2aa198;">    LR_8 -&gt; LR_6 [label=</span><span style="color:#839496;">"</span><span style="color:#859900;">S</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">b</span><span style="color:#657b83;">)</span><span style="color:#839496;">"</span><span style="color:#2aa198;">]
+</span><span style="color:#2aa198;">    LR_8 -&gt; LR_5 [label=</span><span style="color:#839496;">"</span><span style="color:#859900;">S</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">a</span><span style="color:#657b83;">)</span><span style="color:#839496;">"</span><span style="color:#2aa198;">]
+</span><span style="color:#2aa198;">  }
+</span><span style="color:#2aa198;">  ```
+</span><span style="color:#2aa198;">)</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/ce09c93e743aceb45852a12c83839cafd73a5c68d370ff2f863c79ec5896ff10-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <h3 id="clustering">
+        <a class="header" href="#clustering">
+         Clustering
+        </a>
+       </h3>
+       <blockquote>
+        <p>
+         See
+         <a href="http://www.graphviz.org/content/cluster">
+          docs
+         </a>
+         .
+        </p>
+       </blockquote>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#859900;">#import </span><span style="color:#839496;">"</span><span style="color:#2aa198;">@preview/diagraph:0.2.0</span><span style="color:#839496;">"</span><span style="color:var(--fg);">: </span><span style="color:#859900;">*
+</span><span style="color:#859900;">#let renderc</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">code</span><span style="color:#657b83;">) </span><span style="color:#859900;">= render</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">code.text</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">
+</span><span style="color:#b58900;">#renderc</span><span style="color:#657b83;">(
+</span><span style="color:var(--fg);">  ```
+</span><span style="color:var(--fg);">  digraph G </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">    subgraph cluster_0 </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">      style</span><span style="color:#859900;">=</span><span style="color:var(--fg);">filled;
+</span><span style="color:var(--fg);">      color</span><span style="color:#859900;">=</span><span style="color:var(--fg);">lightgrey;
+</span><span style="color:var(--fg);">      node </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">style=filled,color=white</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">;
+</span><span style="color:var(--fg);">      a0 </span><span style="color:#859900;">-&gt;</span><span style="color:var(--fg);"> a1 </span><span style="color:#859900;">-&gt;</span><span style="color:var(--fg);"> a2 </span><span style="color:#859900;">-&gt;</span><span style="color:var(--fg);"> a3;
+</span><span style="color:var(--fg);">      label </span><span style="color:#859900;">= </span><span style="color:#839496;">"</span><span style="color:#2aa198;">process #1</span><span style="color:#839496;">"</span><span style="color:var(--fg);">;
+</span><span style="color:var(--fg);">    </span><span style="color:#657b83;">}
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">    subgraph cluster_1 </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">      node </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">style=filled</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">;
+</span><span style="color:var(--fg);">      b0 </span><span style="color:#859900;">-&gt;</span><span style="color:var(--fg);"> b1 </span><span style="color:#859900;">-&gt;</span><span style="color:var(--fg);"> b2 </span><span style="color:#859900;">-&gt;</span><span style="color:var(--fg);"> b3;
+</span><span style="color:var(--fg);">      label </span><span style="color:#859900;">= </span><span style="color:#839496;">"</span><span style="color:#2aa198;">process #2</span><span style="color:#839496;">"</span><span style="color:var(--fg);">;
+</span><span style="color:var(--fg);">      color</span><span style="color:#859900;">=</span><span style="color:var(--fg);">blue
+</span><span style="color:var(--fg);">    </span><span style="color:#657b83;">}
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">    start </span><span style="color:#859900;">-&gt;</span><span style="color:var(--fg);"> a0;
+</span><span style="color:var(--fg);">    start </span><span style="color:#859900;">-&gt;</span><span style="color:var(--fg);"> b0;
+</span><span style="color:var(--fg);">    a1 </span><span style="color:#859900;">-&gt;</span><span style="color:var(--fg);"> b3;
+</span><span style="color:var(--fg);">    b2 </span><span style="color:#859900;">-&gt;</span><span style="color:var(--fg);"> a3;
+</span><span style="color:var(--fg);">    a3 </span><span style="color:#859900;">-&gt;</span><span style="color:var(--fg);"> a0;
+</span><span style="color:var(--fg);">    a3 </span><span style="color:#859900;">-&gt;</span><span style="color:var(--fg);"> end;
+</span><span style="color:var(--fg);">    b3 </span><span style="color:#859900;">-&gt;</span><span style="color:var(--fg);"> end;
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">    start </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">shape=Mdiamond</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">;
+</span><span style="color:var(--fg);">    end </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">shape=Msquare</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">;
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">}
+</span><span style="color:var(--fg);">  ```
+</span><span style="color:#657b83;">)</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/5b51a47ca589de6fdd481db4b61f96395ef246f12a54d77d6d9c443c3cd2fc72-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <h3 id="html">
+        <a class="header" href="#html">
+         HTML
+        </a>
+       </h3>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#859900;">#import </span><span style="color:#839496;">"</span><span style="color:#2aa198;">@preview/diagraph:0.2.0</span><span style="color:#839496;">"</span><span style="color:var(--fg);">: </span><span style="color:#859900;">*
+</span><span style="color:#859900;">#let renderc</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">code</span><span style="color:#657b83;">) </span><span style="color:#859900;">= render</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">code.text</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">
+</span><span style="color:#b58900;">#renderc</span><span style="color:#657b83;">(
+</span><span style="color:var(--fg);">  ```
+</span><span style="color:var(--fg);">  digraph structs </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">      node </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">shape=plaintext</span><span style="color:#657b83;">]
+</span><span style="color:var(--fg);">      struct1 </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">label=&lt;
+</span><span style="color:var(--fg);">  &lt;TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0"&gt;
+</span><span style="color:var(--fg);">    </span><span style="color:#93a1a1;">&lt;</span><span style="color:#b58900;">TR</span><span style="color:#93a1a1;">&gt;&lt;</span><span style="color:#b58900;">TD</span><span style="color:#93a1a1;">&gt;</span><span style="color:var(--fg);">left&lt;/TD&gt;&lt;TD PORT="f1"&gt;mid dle&lt;/TD&gt;&lt;TD PORT="f2"&gt;right&lt;/TD&gt;&lt;/TR&gt;
+</span><span style="color:var(--fg);">  &lt;/TABLE&gt;&gt;</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">;
+</span><span style="color:var(--fg);">      struct2 </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">label=&lt;
+</span><span style="color:var(--fg);">  &lt;TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0"&gt;
+</span><span style="color:var(--fg);">    </span><span style="color:#93a1a1;">&lt;</span><span style="color:#b58900;">TR</span><span style="color:#93a1a1;">&gt;</span><span style="color:var(--fg);">&lt;TD PORT="f0"&gt;one&lt;/TD&gt;</span><span style="color:#93a1a1;">&lt;</span><span style="color:#b58900;">TD</span><span style="color:#93a1a1;">&gt;</span><span style="color:var(--fg);">two&lt;/TD&gt;&lt;/TR&gt;
+</span><span style="color:var(--fg);">  &lt;/TABLE&gt;&gt;</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">;
+</span><span style="color:var(--fg);">      struct3 </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">label=&lt;
+</span><span style="color:var(--fg);">  &lt;TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4"&gt;
+</span><span style="color:var(--fg);">    </span><span style="color:#93a1a1;">&lt;</span><span style="color:#b58900;">TR</span><span style="color:#93a1a1;">&gt;
+</span><span style="color:var(--fg);">      &lt;TD ROWSPAN="3"&gt;hello&lt;BR/&gt;world&lt;/TD&gt;
+</span><span style="color:var(--fg);">      &lt;TD COLSPAN="3"&gt;b&lt;/TD&gt;
+</span><span style="color:var(--fg);">      &lt;TD ROWSPAN="3"&gt;g&lt;/TD&gt;
+</span><span style="color:var(--fg);">      &lt;TD ROWSPAN="3"&gt;h&lt;/TD&gt;
+</span><span style="color:var(--fg);">    &lt;/TR&gt;
+</span><span style="color:var(--fg);">    </span><span style="color:#93a1a1;">&lt;</span><span style="color:#b58900;">TR</span><span style="color:#93a1a1;">&gt;
+</span><span style="color:var(--fg);">      </span><span style="color:#93a1a1;">&lt;</span><span style="color:#b58900;">TD</span><span style="color:#93a1a1;">&gt;</span><span style="color:var(--fg);">c&lt;/TD&gt;&lt;TD PORT="here"&gt;d&lt;/TD&gt;</span><span style="color:#93a1a1;">&lt;</span><span style="color:#b58900;">TD</span><span style="color:#93a1a1;">&gt;</span><span style="color:var(--fg);">e&lt;/TD&gt;
+</span><span style="color:var(--fg);">    &lt;/TR&gt;
+</span><span style="color:var(--fg);">    </span><span style="color:#93a1a1;">&lt;</span><span style="color:#b58900;">TR</span><span style="color:#93a1a1;">&gt;
+</span><span style="color:var(--fg);">      &lt;TD COLSPAN="3"&gt;f&lt;/TD&gt;
+</span><span style="color:var(--fg);">    &lt;/TR&gt;
+</span><span style="color:var(--fg);">  &lt;/TABLE&gt;&gt;</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">;
+</span><span style="color:var(--fg);">      struct1:f1 </span><span style="color:#859900;">-&gt;</span><span style="color:var(--fg);"> struct2:f0;
+</span><span style="color:var(--fg);">      struct1:f2 </span><span style="color:#859900;">-&gt;</span><span style="color:var(--fg);"> struct3:here;
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">}
+</span><span style="color:var(--fg);">  ```
+</span><span style="color:#657b83;">)</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/104d9f0e05417c58dce29ff55b47019eadd8538eed11bf552b03c9803fb8ce5b-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <h3 id="overridden-labels">
+        <a class="header" href="#overridden-labels">
+         Overridden labels
+        </a>
+       </h3>
+       <p>
+        Labels for nodes
+        <code class="hljs">
+         <span style="color:var(--fg);">
+          big
+         </span>
+        </code>
+        and
+        <code class="hljs">
+         <span style="color:var(--fg);">
+          sum
+         </span>
+        </code>
+        are overridden.
+       </p>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#859900;">#import </span><span style="color:#839496;">"</span><span style="color:#2aa198;">@preview/diagraph:0.2.0</span><span style="color:#839496;">"</span><span style="color:var(--fg);">: </span><span style="color:#859900;">*
+</span><span style="color:#859900;">#set page</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">width</span><span style="color:var(--fg);">: </span><span style="color:#b58900;">auto</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">
+</span><span style="color:#b58900;">#raw-render</span><span style="color:#657b83;">(
+</span><span style="color:var(--fg);">  ```
+</span><span style="color:var(--fg);">  digraph </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">    rankdir</span><span style="color:#859900;">=</span><span style="color:var(--fg);">LR
+</span><span style="color:var(--fg);">    </span><span style="color:#859900;">node</span><span style="color:#657b83;">[</span><span style="color:var(--fg);">shape=circle</span><span style="color:#657b83;">]
+</span><span style="color:var(--fg);">    Hmm </span><span style="color:#859900;">-&gt;</span><span style="color:var(--fg);"> a_0
+</span><span style="color:var(--fg);">    Hmm </span><span style="color:#859900;">-&gt;</span><span style="color:var(--fg);"> big
+</span><span style="color:var(--fg);">    a_0 </span><span style="color:#859900;">-&gt; </span><span style="color:#839496;">"</span><span style="color:#2aa198;">a'</span><span style="color:#839496;">" </span><span style="color:#859900;">-&gt;</span><span style="color:var(--fg);"> big </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">style="dashed"</span><span style="color:#657b83;">]
+</span><span style="color:var(--fg);">    big </span><span style="color:#859900;">-&gt;</span><span style="color:var(--fg);"> sum
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">}
+</span><span style="color:var(--fg);">  ```,
+</span><span style="color:var(--fg);">  </span><span style="color:#268bd2;">labels</span><span style="color:var(--fg);">: </span><span style="color:#657b83;">(</span><span style="color:var(--fg);">:
+</span><span style="color:var(--fg);">    big: </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">_some_</span><span style="color:#b58900;">#text</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">2em</span><span style="color:#657b83;">)[</span><span style="color:var(--fg);"> big </span><span style="color:#657b83;">]</span><span style="color:var(--fg);">*text*</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">    sum: </span><span style="color:#2aa198;">$ </span><span style="color:#859900;">sum_</span><span style="color:#cb4b16;">(</span><span style="color:#268bd2;">i</span><span style="color:#859900;">=</span><span style="color:#6c71c4;">0</span><span style="color:#cb4b16;">)</span><span style="color:#859900;">^</span><span style="color:#268bd2;">n </span><span style="color:#6c71c4;">1</span><span style="color:#859900;">/</span><span style="color:#268bd2;">i </span><span style="color:#2aa198;">$</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">)</span><span style="color:var(--fg);">,
+</span><span style="color:#657b83;">)</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/a89c13a3c9aad0509c224ede97b8f1ed14c899049f92e6f23a2effc0bd56de40-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <h2 id="bob-draw">
+        <a class="header" href="#bob-draw">
+         <code class="hljs">
+          <span style="color:var(--fg);">
+           bob-draw
+          </span>
+         </code>
+        </a>
+       </h2>
+       <p>
+        WASM plugin for
+        <a href="https://github.com/ivanceras/svgbob">
+         svgbob
+        </a>
+        to draw easily with ASCII,.
+       </p>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#859900;">#import </span><span style="color:#839496;">"</span><span style="color:#2aa198;">@preview/bob-draw:0.1.0</span><span style="color:#839496;">"</span><span style="color:var(--fg);">: </span><span style="color:#859900;">*
+</span><span style="color:#b58900;">#render</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">```
+</span><span style="color:var(--fg);">         </span><span style="color:#859900;">/</span><span style="color:#dc322f;">\_</span><span style="color:#859900;">/</span><span style="color:#dc322f;">\
+</span><span style="color:var(--fg);">bob </span><span style="color:#859900;">-&gt;  </span><span style="color:#657b83;">(</span><span style="color:var(--fg);"> o.o </span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">         </span><span style="color:#dc322f;">\ </span><span style="color:#839496;">"</span><span style="color:#2aa198;"> /
+</span><span style="color:#2aa198;">  .------/  /
+</span><span style="color:#2aa198;"> (        | |
+</span><span style="color:#2aa198;">  `====== o o
+</span><span style="color:#2aa198;">```)</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/6f2c3c039f98a852450fad73ef9ee68d6e4ddcef39edc2376903cf0aa72606a2-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#859900;">#import </span><span style="color:#839496;">"</span><span style="color:#2aa198;">@preview/bob-draw:0.1.0</span><span style="color:#839496;">"</span><span style="color:var(--fg);">: </span><span style="color:#859900;">*
+</span><span style="color:#859900;">#show</span><span style="color:var(--fg);"> raw.</span><span style="color:#859900;">where</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">lang</span><span style="color:var(--fg);">: </span><span style="color:#839496;">"</span><span style="color:#2aa198;">bob</span><span style="color:#839496;">"</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">: it </span><span style="color:#859900;">=&gt; render</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">it</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">
+</span><span style="color:#b58900;">#render</span><span style="color:#657b83;">(
+</span><span style="color:var(--fg);">    ```
+</span><span style="color:var(--fg);">      </span><span style="color:#6c71c4;">0       3  
+</span><span style="color:var(--fg);">       </span><span style="color:#859900;">*-------* 
+</span><span style="color:var(--fg);">    </span><span style="color:#6c71c4;">1 </span><span style="color:#859900;">/</span><span style="color:var(--fg);">|    </span><span style="color:#6c71c4;">2 </span><span style="color:#859900;">/</span><span style="color:var(--fg);">| 
+</span><span style="color:var(--fg);">     </span><span style="color:#859900;">*-+-----*</span><span style="color:var(--fg);"> | 
+</span><span style="color:var(--fg);">     | |</span><span style="color:#6c71c4;">4</span><span style="color:var(--fg);">    | |</span><span style="color:#6c71c4;">7
+</span><span style="color:var(--fg);">     | </span><span style="color:#859900;">*-----</span><span style="color:var(--fg);">|</span><span style="color:#859900;">-*
+</span><span style="color:var(--fg);">     |</span><span style="color:#859900;">/</span><span style="color:var(--fg);">      |</span><span style="color:#859900;">/
+</span><span style="color:var(--fg);">     </span><span style="color:#859900;">*-------*
+</span><span style="color:var(--fg);">    </span><span style="color:#6c71c4;">5       6
+</span><span style="color:var(--fg);">    ```,
+</span><span style="color:var(--fg);">    </span><span style="color:#268bd2;">width</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">25%</span><span style="color:var(--fg);">,
+</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">```</span><span style="color:#cb4b16;">bob
+</span><span style="color:var(--fg);">"cats:"
+</span><span style="color:var(--fg);"> /\_/\  /\_/\  /\_/\  /\_/\ 
+</span><span style="color:var(--fg);">( o.o )( o.o )( o.o )( o.o )
+</span><span style="color:var(--fg);">```
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">```</span><span style="color:#cb4b16;">bob
+</span><span style="color:var(--fg);">       +10-15V           ___0,047R
+</span><span style="color:var(--fg);">      *---------o-----o-|___|-o--o---------o----o-------.
+</span><span style="color:var(--fg);">    + |         |     |       |  |         |    |       |
+</span><span style="color:var(--fg);">    -===-      _|_    |       | .+.        |    |       |
+</span><span style="color:var(--fg);">    -===-      .-.    |       | | | 2k2    |    |       |
+</span><span style="color:var(--fg);">    -===-    470| +   |       | | |        |    |      _|_
+</span><span style="color:var(--fg);">    - |       uF|     '--.    | '+'       .+.   |      \ / LED
+</span><span style="color:var(--fg);">      +---------o        |6   |7 |8    1k | |   |      -+-
+</span><span style="color:var(--fg);">             ___|___   .-+----+--+--.     | |   |       |
+</span><span style="color:var(--fg);">              -═══-    |            |     '+'   |       |
+</span><span style="color:var(--fg);">                -      |            |1     |  |/  BC    |
+</span><span style="color:var(--fg);">               GND     |            +------o--+   547   |
+</span><span style="color:var(--fg);">                       |            |      |  |`&gt;       |
+</span><span style="color:var(--fg);">                       |            |     ,+.   |       |
+</span><span style="color:var(--fg);">               .-------+            | 220R| |   o----||-+  IRF9Z34
+</span><span style="color:var(--fg);">               |       |            |     | |   |    |+-&gt;
+</span><span style="color:var(--fg);">               |       |  MC34063   |     `+'   |    ||-+
+</span><span style="color:var(--fg);">               |       |            |      |    |       |  BYV29     -12V6
+</span><span style="color:var(--fg);">               |       |            |      '----'       o--|&lt;-o----o--X OUT
+</span><span style="color:var(--fg);"> 6000 micro  - | +     |            |2                  |     |    |
+</span><span style="color:var(--fg);"> Farad, 40V ___|_____  |            |--o                C|    |    |
+</span><span style="color:var(--fg);"> Capacitor  ~ ~ ~ ~ ~  |            | GND         30uH  C|    |   --- 470
+</span><span style="color:var(--fg);">               |       |            |3      1nF         C|    |   ###  uF
+</span><span style="color:var(--fg);">               |       |            |-------||--.       |     |    | +
+</span><span style="color:var(--fg);">               |       '-----+----+-'           |      GND    |   GND
+</span><span style="color:var(--fg);">               |            5|   4|             |             |
+</span><span style="color:var(--fg);">               |             |    '-------------o-------------o
+</span><span style="color:var(--fg);">               |             |                           ___  |
+</span><span style="color:var(--fg);">               `-------------*------/\/\/------------o--|___|-'
+</span><span style="color:var(--fg);">                                     2k              |       1k0
+</span><span style="color:var(--fg);">                                                    .+.
+</span><span style="color:var(--fg);">                                                    | | 5k6 + 3k3
+</span><span style="color:var(--fg);">                                                    | | in Serie
+</span><span style="color:var(--fg);">                                                    '+'
+</span><span style="color:var(--fg);">                                                     |
+</span><span style="color:var(--fg);">                                                    GND
+</span><span style="color:var(--fg);">```</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/850abc33fa97f8b80bbda399475b0e4436d275c03f1ca369187eea9e72948b01-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <h2 id="wavy">
+        <a class="header" href="#wavy">
+         <code class="hljs">
+          <span style="color:var(--fg);">
+           wavy
+          </span>
+         </code>
+        </a>
+       </h2>
+       <h2 id="finite">
+        <a class="header" href="#finite">
+         <code class="hljs">
+          <span style="color:var(--fg);">
+           finite
+          </span>
+         </code>
+        </a>
+       </h2>
+       <p>
+        Finite automata. See the
+        <a href="https://github.com/jneug/typst-finite/blob/main/manual.pdf">
+         manual
+        </a>
+        for a full
+documentation.
+       </p>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#859900;">#import </span><span style="color:#839496;">"</span><span style="color:#2aa198;">@preview/finite:0.3.0</span><span style="color:#839496;">"</span><span style="color:var(--fg);">: automaton
+</span><span style="color:var(--fg);">
+</span><span style="color:#b58900;">#automaton</span><span style="color:#657b83;">((
+</span><span style="color:var(--fg);">  q0: </span><span style="color:#657b83;">(</span><span style="color:var(--fg);">q1:</span><span style="color:#6c71c4;">0</span><span style="color:var(--fg);">, q0:</span><span style="color:#839496;">"</span><span style="color:#2aa198;">0,1</span><span style="color:#839496;">"</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  q1: </span><span style="color:#657b83;">(</span><span style="color:var(--fg);">q0:</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">0</span><span style="color:var(--fg);">,</span><span style="color:#6c71c4;">1</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">, q2:</span><span style="color:#839496;">"</span><span style="color:#2aa198;">0</span><span style="color:#839496;">"</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  q2: </span><span style="color:#657b83;">()</span><span style="color:var(--fg);">,
+</span><span style="color:#657b83;">))</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/9eddd9b18a2df43372188dab692be9e2973fac63f3764683c431a2c0fb8ba873-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+      </main>

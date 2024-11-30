@@ -1,0 +1,55 @@
+<main>
+       <!-- Page table of contents -->
+       <div class="sidetoc">
+        <nav class="pagetoc">
+        </nav>
+       </div>
+       <h1 id="remove-indent-from-nested-lists">
+        <a class="header" href="#remove-indent-from-nested-lists">
+         Remove indent from nested lists
+        </a>
+       </h1>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#586e75;">// author: fenjalien
+</span><span style="color:#859900;">#show</span><span style="color:var(--fg);"> enum.item: it </span><span style="color:#859900;">=&gt; </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">if repr</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">it.body.</span><span style="color:#859900;">func</span><span style="color:#657b83;">()) </span><span style="color:#859900;">== </span><span style="color:#839496;">"</span><span style="color:#2aa198;">sequence</span><span style="color:#839496;">" </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">    </span><span style="color:#859900;">let</span><span style="color:var(--fg);"> children </span><span style="color:#859900;">=</span><span style="color:var(--fg);"> it.body.children
+</span><span style="color:var(--fg);">    </span><span style="color:#859900;">let</span><span style="color:var(--fg);"> index </span><span style="color:#859900;">=</span><span style="color:var(--fg);"> children.</span><span style="color:#859900;">position</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">x </span><span style="color:#859900;">=&gt;</span><span style="color:var(--fg);"> x.</span><span style="color:#859900;">func</span><span style="color:#657b83;">() </span><span style="color:#859900;">==</span><span style="color:var(--fg);"> enum.item</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">    </span><span style="color:#859900;">if</span><span style="color:var(--fg);"> index !</span><span style="color:#859900;">= </span><span style="color:#b58900;">none </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">      enum.</span><span style="color:#859900;">item</span><span style="color:#657b83;">({
+</span><span style="color:var(--fg);">        children.</span><span style="color:#859900;">slice</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">0</span><span style="color:var(--fg);">, index</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">.</span><span style="color:#859900;">join</span><span style="color:#657b83;">()
+</span><span style="color:var(--fg);">        </span><span style="color:#859900;">set enum</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">indent</span><span style="color:var(--fg);">: </span><span style="color:#859900;">-</span><span style="color:#6c71c4;">1.2em</span><span style="color:#657b83;">) </span><span style="color:#586e75;">// Note that this stops an infinitly recursive show rule
+</span><span style="color:var(--fg);">        children.</span><span style="color:#859900;">slice</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">index</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">.</span><span style="color:#859900;">join</span><span style="color:#657b83;">()
+</span><span style="color:var(--fg);">      </span><span style="color:#657b83;">})
+</span><span style="color:var(--fg);">    </span><span style="color:#657b83;">} </span><span style="color:#859900;">else </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">      it
+</span><span style="color:var(--fg);">    </span><span style="color:#657b83;">}
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">} </span><span style="color:#859900;">else </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">    it
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">}
+</span><span style="color:#657b83;">}
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">arst
+</span><span style="color:var(--fg);">+ A
+</span><span style="color:var(--fg);">+ b
+</span><span style="color:var(--fg);">+ c
+</span><span style="color:var(--fg);">  + d
+</span><span style="color:var(--fg);">+ e
+</span><span style="color:var(--fg);">  + f
+</span><span style="color:var(--fg);">+ g
+</span><span style="color:var(--fg);">+ h
+</span><span style="color:var(--fg);">+ i
+</span><span style="color:var(--fg);">+ </span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/39725eefebf4a24de8f643e32c454fc7dff8f4f594ba29c6ca84c098b8983860-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+      </main>

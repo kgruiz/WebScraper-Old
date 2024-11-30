@@ -1,0 +1,128 @@
+<main>
+       <!-- Page table of contents -->
+       <div class="sidetoc">
+        <nav class="pagetoc">
+        </nav>
+       </div>
+       <h1 id="templates">
+        <a class="header" href="#templates">
+         Templates
+        </a>
+       </h1>
+       <h2 id="templates-1">
+        <a class="header" href="#templates-1">
+         Templates
+        </a>
+       </h2>
+       <p>
+        If you want to reuse styling in other files, you can use the
+        <em>
+         template
+        </em>
+        idiom.
+Because
+        <code class="hljs">
+         <span style="color:var(--fg);">
+          set
+         </span>
+        </code>
+        and
+        <code class="hljs">
+         <span style="color:var(--fg);">
+          show
+         </span>
+        </code>
+        rules are only active in their current scope, they
+will not affect content in a file you imported your file into. But functions
+can circumvent this in a predictable way:
+       </p>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#586e75;">// define a function that:
+</span><span style="color:#586e75;">// - takes content
+</span><span style="color:#586e75;">// - applies styling to it
+</span><span style="color:#586e75;">// - returns the styled content
+</span><span style="color:#859900;">#let apply-template</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">body</span><span style="color:#657b83;">) </span><span style="color:#859900;">= </span><span style="color:#657b83;">[
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">#show</span><span style="color:var(--fg);"> heading.</span><span style="color:#859900;">where</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">level</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">1</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">: emph
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">#set heading</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">numbering</span><span style="color:var(--fg);">: </span><span style="color:#839496;">"</span><span style="color:#2aa198;">1.1</span><span style="color:#839496;">"</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">  </span><span style="color:#586e75;">// ...
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">#</span><span style="color:#cb4b16;">body
+</span><span style="color:#657b83;">]</span></code></pre>
+       </div>
+       <p>
+        This is equivalent to:
+       </p>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#586e75;">// we can reduce the number of hashes needed here by using scripting mode
+</span><span style="color:#586e75;">// same as above but we exchanged `[...]` for `{...}` to switch from markup
+</span><span style="color:#586e75;">// into scripting mode
+</span><span style="color:#859900;">#let apply-template</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">body</span><span style="color:#657b83;">) </span><span style="color:#859900;">= </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">show</span><span style="color:var(--fg);"> heading.</span><span style="color:#859900;">where</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">level</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">1</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">: emph
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">set heading</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">numbering</span><span style="color:var(--fg);">: </span><span style="color:#839496;">"</span><span style="color:#2aa198;">1.1</span><span style="color:#839496;">"</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">  </span><span style="color:#586e75;">// ...
+</span><span style="color:var(--fg);">  body
+</span><span style="color:#657b83;">}</span></code></pre>
+       </div>
+       <p>
+        Then in your main file:
+       </p>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#859900;">#import </span><span style="color:#839496;">"</span><span style="color:#2aa198;">template.typ</span><span style="color:#839496;">"</span><span style="color:var(--fg);">: apply</span><span style="color:#859900;">-</span><span style="color:var(--fg);">template
+</span><span style="color:#859900;">#show</span><span style="color:var(--fg);">: apply</span><span style="color:#859900;">-</span><span style="color:var(--fg);">template</span></code></pre>
+       </div>
+       <p>
+        <em>
+         This will apply a "template" function to the rest of your document!
+        </em>
+       </p>
+       <h3 id="passing-arguments">
+        <a class="header" href="#passing-arguments">
+         Passing arguments
+        </a>
+       </h3>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#586e75;">// add optional named arguments
+</span><span style="color:#859900;">#let apply-template</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">body, </span><span style="color:#268bd2;">name</span><span style="color:var(--fg);">: </span><span style="color:#839496;">"</span><span style="color:#2aa198;">My document</span><span style="color:#839496;">"</span><span style="color:#657b83;">) </span><span style="color:#859900;">= </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">show</span><span style="color:var(--fg);"> heading.</span><span style="color:#859900;">where</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">level</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">1</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">: emph
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">set heading</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">numbering</span><span style="color:var(--fg);">: </span><span style="color:#839496;">"</span><span style="color:#2aa198;">1.1</span><span style="color:#839496;">"</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">align</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">center, </span><span style="color:#859900;">text</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">name, </span><span style="color:#268bd2;">size</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">2em</span><span style="color:#657b83;">))
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">  body
+</span><span style="color:#657b83;">}</span></code></pre>
+       </div>
+       <p>
+        Then, in template file:
+       </p>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#859900;">#import </span><span style="color:#839496;">"</span><span style="color:#2aa198;">template.typ</span><span style="color:#839496;">"</span><span style="color:var(--fg);">: apply</span><span style="color:#859900;">-</span><span style="color:var(--fg);">template
+</span><span style="color:var(--fg);">
+</span><span style="color:#586e75;">// `func.with(..)` applies the arguments to the function and returns the new
+</span><span style="color:#586e75;">// function with those defaults applied
+</span><span style="color:#859900;">#show</span><span style="color:var(--fg);">: apply</span><span style="color:#859900;">-</span><span style="color:var(--fg);">template.</span><span style="color:#859900;">with</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">name</span><span style="color:var(--fg);">: </span><span style="color:#839496;">"</span><span style="color:#2aa198;">Report</span><span style="color:#839496;">"</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">
+</span><span style="color:#586e75;">// it is functionally the same as this
+</span><span style="color:#859900;">#let new-template</span><span style="color:#657b83;">(</span><span style="color:#859900;">..</span><span style="color:var(--fg);">args</span><span style="color:#657b83;">) </span><span style="color:#859900;">= apply-template</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">name</span><span style="color:var(--fg);">: </span><span style="color:#839496;">"</span><span style="color:#2aa198;">Report</span><span style="color:#839496;">"</span><span style="color:var(--fg);">, </span><span style="color:#859900;">..</span><span style="color:var(--fg);">args</span><span style="color:#657b83;">)
+</span><span style="color:#859900;">#show</span><span style="color:var(--fg);">: new</span><span style="color:#859900;">-</span><span style="color:var(--fg);">template</span></code></pre>
+       </div>
+       <p>
+        Writing templates is fairly easy if you understand
+        <a href="../scripting/index.html">
+         scripting
+        </a>
+        .
+       </p>
+       <p>
+        See more information about writing templates in
+        <a href="https://typst.app/docs/tutorial/making-a-template/">
+         Official Tutorial
+        </a>
+        .
+       </p>
+       <p>
+        There is no official repository for templates yet, but there are a plenty community ones in
+        <a href="https://github.com/qjcg/awesome-typst?ysclid=lj8pur1am7431908794#general">
+         awesome-typst
+        </a>
+        .
+       </p>
+      </main>

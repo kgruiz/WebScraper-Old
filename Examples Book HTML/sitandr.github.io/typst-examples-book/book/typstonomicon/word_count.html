@@ -1,0 +1,129 @@
+<main>
+       <!-- Page table of contents -->
+       <div class="sidetoc">
+        <nav class="pagetoc">
+        </nav>
+       </div>
+       <h1 id="word-count">
+        <a class="header" href="#word-count">
+         Word count
+        </a>
+       </h1>
+       <div class="warning">
+        This chapter is deprecated now. It will be removed soon.
+       </div>
+       <h2 id="recommended-solution">
+        <a class="header" href="#recommended-solution">
+         Recommended solution
+        </a>
+       </h2>
+       <p>
+        Use
+        <code class="hljs">
+         <span style="color:var(--fg);">
+          wordometr
+         </span>
+        </code>
+        <a href="https://github.com/Jollywatt/typst-wordometer">
+         package
+        </a>
+        :
+       </p>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#859900;">#import </span><span style="color:#839496;">"</span><span style="color:#2aa198;">@preview/wordometer:0.1.0</span><span style="color:#839496;">"</span><span style="color:var(--fg);">: word</span><span style="color:#859900;">-</span><span style="color:var(--fg);">count, total</span><span style="color:#859900;">-</span><span style="color:var(--fg);">words
+</span><span style="color:var(--fg);">
+</span><span style="color:#859900;">#show</span><span style="color:var(--fg);">: word</span><span style="color:#859900;">-</span><span style="color:var(--fg);">count
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">In this document, there are </span><span style="color:#859900;">#</span><span style="color:#cb4b16;">total-words</span><span style="color:var(--fg);"> words all up.
+</span><span style="color:var(--fg);">
+</span><span style="color:#b58900;">#word-count</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">total </span><span style="color:#859900;">=&gt; </span><span style="color:#657b83;">[
+</span><span style="color:var(--fg);">  The number of words in this block is </span><span style="color:#859900;">#</span><span style="color:#cb4b16;">total.words
+</span><span style="color:var(--fg);">  and there are </span><span style="color:#859900;">#</span><span style="color:#cb4b16;">total.characters</span><span style="color:var(--fg);"> letters.
+</span><span style="color:#657b83;">])</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/a36d12209002f93aeaf23d4b21fcd4dcb1f9326f6ad358ad01558f09dede39c2-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <h2 id="just-count-all-words-in-document">
+        <a class="header" href="#just-count-all-words-in-document">
+         Just count
+         <em>
+          all
+         </em>
+         words in document
+        </a>
+       </h2>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#586e75;">// original author: laurmaedje
+</span><span style="color:#859900;">#let</span><span style="color:var(--fg);"> words </span><span style="color:#859900;">= counter</span><span style="color:#657b83;">(</span><span style="color:#839496;">"</span><span style="color:#2aa198;">words</span><span style="color:#839496;">"</span><span style="color:#657b83;">)
+</span><span style="color:#859900;">#show regex</span><span style="color:#657b83;">(</span><span style="color:#839496;">"</span><span style="color:#2aa198;">\p{L}+</span><span style="color:#839496;">"</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">: it </span><span style="color:#859900;">=&gt;</span><span style="color:var(--fg);"> it </span><span style="color:#859900;">+</span><span style="color:var(--fg);"> words.</span><span style="color:#859900;">step</span><span style="color:#657b83;">()
+</span><span style="color:var(--fg);">
+</span><span style="color:#b58900;">== </span><span style="color:#cb4b16;">A heading
+</span><span style="color:#b58900;">#lorem</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">50</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">
+</span><span style="color:#b58900;">=== </span><span style="color:#cb4b16;">Strong chapter
+</span><span style="color:#b58900;">#strong</span><span style="color:#657b83;">(</span><span style="color:#859900;">lorem</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">25</span><span style="color:#657b83;">))
+</span><span style="color:var(--fg);">
+</span><span style="color:#586e75;">// it is ignoring comments
+</span><span style="color:var(--fg);">
+</span><span style="color:#b58900;">#align</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">right</span><span style="color:#657b83;">)[</span><span style="color:var(--fg);">(</span><span style="color:#b58900;">#words.display</span><span style="color:#657b83;">()</span><span style="color:var(--fg);"> words)</span><span style="color:#657b83;">]</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/b32a6f39c86a7719a156fb53625f8ec0d8a5f559e85367107b07b52cc7172e3a-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <h2 id="count-only-some-elements-ignore-others">
+        <a class="header" href="#count-only-some-elements-ignore-others">
+         Count only some elements, ignore others
+        </a>
+       </h2>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#586e75;">// original author: jollywatt
+</span><span style="color:#859900;">#let count-words</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">it</span><span style="color:#657b83;">) </span><span style="color:#859900;">= </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">    </span><span style="color:#859900;">let</span><span style="color:var(--fg);"> fn </span><span style="color:#859900;">= repr</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">it.</span><span style="color:#859900;">func</span><span style="color:#657b83;">())
+</span><span style="color:var(--fg);">    </span><span style="color:#859900;">if</span><span style="color:var(--fg);"> fn </span><span style="color:#859900;">== </span><span style="color:#839496;">"</span><span style="color:#2aa198;">sequence</span><span style="color:#839496;">" </span><span style="color:#657b83;">{</span><span style="color:var(--fg);"> it.children.</span><span style="color:#859900;">map</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">count</span><span style="color:#859900;">-</span><span style="color:var(--fg);">words</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">.</span><span style="color:#859900;">sum</span><span style="color:#657b83;">() }
+</span><span style="color:var(--fg);">    </span><span style="color:#859900;">else if</span><span style="color:var(--fg);"> fn </span><span style="color:#859900;">== </span><span style="color:#839496;">"</span><span style="color:#2aa198;">text</span><span style="color:#839496;">" </span><span style="color:#657b83;">{</span><span style="color:var(--fg);"> it.text.</span><span style="color:#859900;">split</span><span style="color:#657b83;">()</span><span style="color:var(--fg);">.</span><span style="color:#859900;">len</span><span style="color:#657b83;">() }
+</span><span style="color:var(--fg);">    </span><span style="color:#859900;">else if</span><span style="color:var(--fg);"> fn </span><span style="color:#859900;">in </span><span style="color:#657b83;">(</span><span style="color:#839496;">"</span><span style="color:#2aa198;">styled</span><span style="color:#839496;">"</span><span style="color:#657b83;">) { </span><span style="color:#859900;">count-words</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">it.child</span><span style="color:#657b83;">) }
+</span><span style="color:var(--fg);">    </span><span style="color:#859900;">else if</span><span style="color:var(--fg);"> fn </span><span style="color:#859900;">in </span><span style="color:#657b83;">(</span><span style="color:#839496;">"</span><span style="color:#2aa198;">highlight</span><span style="color:#839496;">"</span><span style="color:var(--fg);">, </span><span style="color:#839496;">"</span><span style="color:#2aa198;">item</span><span style="color:#839496;">"</span><span style="color:var(--fg);">, </span><span style="color:#839496;">"</span><span style="color:#2aa198;">strong</span><span style="color:#839496;">"</span><span style="color:var(--fg);">, </span><span style="color:#839496;">"</span><span style="color:#2aa198;">link</span><span style="color:#839496;">"</span><span style="color:#657b83;">) { </span><span style="color:#859900;">count-words</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">it.body</span><span style="color:#657b83;">) }
+</span><span style="color:var(--fg);">    </span><span style="color:#859900;">else if</span><span style="color:var(--fg);"> fn </span><span style="color:#859900;">in </span><span style="color:#657b83;">(</span><span style="color:#839496;">"</span><span style="color:#2aa198;">footnote</span><span style="color:#839496;">"</span><span style="color:var(--fg);">, </span><span style="color:#839496;">"</span><span style="color:#2aa198;">heading</span><span style="color:#839496;">"</span><span style="color:var(--fg);">, </span><span style="color:#839496;">"</span><span style="color:#2aa198;">equation</span><span style="color:#839496;">"</span><span style="color:#657b83;">) { </span><span style="color:#6c71c4;">0 </span><span style="color:#657b83;">}
+</span><span style="color:var(--fg);">    </span><span style="color:#859900;">else </span><span style="color:#657b83;">{ </span><span style="color:#6c71c4;">0 </span><span style="color:#657b83;">}
+</span><span style="color:#657b83;">}
+</span><span style="color:var(--fg);">
+</span><span style="color:#859900;">#show</span><span style="color:var(--fg);">: rest </span><span style="color:#859900;">=&gt; </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">    </span><span style="color:#859900;">let</span><span style="color:var(--fg);"> n </span><span style="color:#859900;">= count-words</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">rest</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">    rest </span><span style="color:#859900;">+ align</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">right, </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">(</span><span style="color:#859900;">#</span><span style="color:#cb4b16;">n</span><span style="color:var(--fg);"> words)</span><span style="color:#657b83;">])
+</span><span style="color:#657b83;">}
+</span><span style="color:var(--fg);">
+</span><span style="color:#b58900;">== </span><span style="color:#cb4b16;">A heading (shouldn't be counted)
+</span><span style="color:#b58900;">#lorem</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">50</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">
+</span><span style="color:#b58900;">=== </span><span style="color:#cb4b16;">Strong chapter
+</span><span style="color:#b58900;">#strong</span><span style="color:#657b83;">(</span><span style="color:#859900;">lorem</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">25</span><span style="color:#657b83;">)) </span><span style="color:#586e75;">// counted too!</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/0ba529d013270ae2cb21618241d5c3562ce4743815a68146fb4d5617dc1c4b22-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+      </main>

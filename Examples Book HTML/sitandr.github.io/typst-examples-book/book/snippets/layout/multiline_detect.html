@@ -1,0 +1,72 @@
+<main>
+       <!-- Page table of contents -->
+       <div class="sidetoc">
+        <nav class="pagetoc">
+        </nav>
+       </div>
+       <h1 id="multiline-detection">
+        <a class="header" href="#multiline-detection">
+         Multiline detection
+        </a>
+       </h1>
+       <p>
+        Detects if figure caption (may be any other element)
+        <em>
+         has more than one line
+        </em>
+        .
+       </p>
+       <p>
+        If the caption is multiline, it makes it left-aligned.
+       </p>
+       <div class="warning">
+        Breaks on manual linebreaks.
+       </div>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#859900;">#show</span><span style="color:var(--fg);"> figure.caption: it </span><span style="color:#859900;">=&gt; </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">layout</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">size </span><span style="color:#859900;">=&gt;</span><span style="color:var(--fg);"> context </span><span style="color:#657b83;">[
+</span><span style="color:var(--fg);">    </span><span style="color:#859900;">#let</span><span style="color:var(--fg);"> text</span><span style="color:#859900;">-</span><span style="color:var(--fg);">size </span><span style="color:#859900;">= measure</span><span style="color:#657b83;">(
+</span><span style="color:var(--fg);">      </span><span style="color:#859900;">..</span><span style="color:var(--fg);">size,
+</span><span style="color:var(--fg);">      it.supplement </span><span style="color:#859900;">+</span><span style="color:var(--fg);"> it.separator </span><span style="color:#859900;">+</span><span style="color:var(--fg);"> it.body,
+</span><span style="color:var(--fg);">    </span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">    </span><span style="color:#859900;">#let</span><span style="color:var(--fg);"> my</span><span style="color:#859900;">-</span><span style="color:var(--fg);">align
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">    </span><span style="color:#859900;">#if</span><span style="color:var(--fg);"> text</span><span style="color:#859900;">-</span><span style="color:var(--fg);">size.width </span><span style="color:#859900;">&lt;</span><span style="color:var(--fg);"> size.width </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">      my</span><span style="color:#859900;">-</span><span style="color:var(--fg);">align </span><span style="color:#859900;">=</span><span style="color:var(--fg);"> center
+</span><span style="color:var(--fg);">    </span><span style="color:#657b83;">} </span><span style="color:#859900;">else </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">      my</span><span style="color:#859900;">-</span><span style="color:var(--fg);">align </span><span style="color:#859900;">=</span><span style="color:var(--fg);"> left
+</span><span style="color:var(--fg);">    </span><span style="color:#657b83;">}
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">    </span><span style="color:#b58900;">#align</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">my</span><span style="color:#859900;">-</span><span style="color:var(--fg);">align, it</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">])
+</span><span style="color:#657b83;">}
+</span><span style="color:var(--fg);">
+</span><span style="color:#b58900;">#figure</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">caption</span><span style="color:var(--fg);">: </span><span style="color:#859900;">lorem</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">6</span><span style="color:#657b83;">))[
+</span><span style="color:var(--fg);">    ```</span><span style="color:#cb4b16;">rust
+</span><span style="color:var(--fg);">    </span><span style="color:#93a1a1;">pub </span><span style="color:#268bd2;">fn </span><span style="color:#b58900;">main</span><span style="color:#657b83;">() {
+</span><span style="color:var(--fg);">        </span><span style="color:#859900;">println!</span><span style="color:#657b83;">(</span><span style="color:#839496;">"</span><span style="color:#2aa198;">Hello, world!</span><span style="color:#839496;">"</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">;
+</span><span style="color:var(--fg);">    </span><span style="color:#657b83;">}
+</span><span style="color:var(--fg);">    ```
+</span><span style="color:#657b83;">]
+</span><span style="color:var(--fg);">
+</span><span style="color:#b58900;">#figure</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">caption</span><span style="color:var(--fg);">: </span><span style="color:#859900;">lorem</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">20</span><span style="color:#657b83;">))[
+</span><span style="color:var(--fg);">    ```</span><span style="color:#cb4b16;">rust
+</span><span style="color:var(--fg);">    </span><span style="color:#93a1a1;">pub </span><span style="color:#268bd2;">fn </span><span style="color:#b58900;">main</span><span style="color:#657b83;">() {
+</span><span style="color:var(--fg);">        </span><span style="color:#859900;">println!</span><span style="color:#657b83;">(</span><span style="color:#839496;">"</span><span style="color:#2aa198;">Hello, world!</span><span style="color:#839496;">"</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">;
+</span><span style="color:var(--fg);">    </span><span style="color:#657b83;">}
+</span><span style="color:var(--fg);">    ```
+</span><span style="color:#657b83;">]</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/8e2a1d9e2e66f654938733a2ed1d9a0dcc771165a60d89c4410f4d970054121c-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+      </main>

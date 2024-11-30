@@ -1,0 +1,222 @@
+<main>
+       <!-- Page table of contents -->
+       <div class="sidetoc">
+        <nav class="pagetoc">
+        </nav>
+       </div>
+       <h1 id="tables-and-grids">
+        <a class="header" href="#tables-and-grids">
+         Tables and grids
+        </a>
+       </h1>
+       <p>
+        While tables are not that necessary to know if you don't plan to use them in your documents, grids may be very useful for
+        <em>
+         document layout
+        </em>
+        . We will use both of them them in the book later.
+       </p>
+       <p>
+        Let's not bother with copying examples from official documentation. Just make sure to skim through it, okay?
+       </p>
+       <h2 id="basic-snippets">
+        <a class="header" href="#basic-snippets">
+         Basic snippets
+        </a>
+       </h2>
+       <h3 id="spreading">
+        <a class="header" href="#spreading">
+         Spreading
+        </a>
+       </h3>
+       <p>
+        Spreading operators (see
+        <a href="../scripting/arguments.html">
+         there
+        </a>
+        ) may be especially useful for the tables:
+       </p>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#859900;">#set text</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">size</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">9pt</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">
+</span><span style="color:#859900;">#let yield_cells</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">n</span><span style="color:#657b83;">) </span><span style="color:#859900;">= </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">for</span><span style="color:var(--fg);"> i </span><span style="color:#859900;">in range</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">0</span><span style="color:var(--fg);">, n </span><span style="color:#859900;">+ </span><span style="color:#6c71c4;">1</span><span style="color:#657b83;">) {
+</span><span style="color:var(--fg);">    </span><span style="color:#859900;">for</span><span style="color:var(--fg);"> j </span><span style="color:#859900;">in range</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">0</span><span style="color:var(--fg);">, n </span><span style="color:#859900;">+ </span><span style="color:#6c71c4;">1</span><span style="color:#657b83;">) {
+</span><span style="color:var(--fg);">      </span><span style="color:#859900;">let</span><span style="color:var(--fg);"> product </span><span style="color:#859900;">= if</span><span style="color:var(--fg);"> i </span><span style="color:#859900;">*</span><span style="color:var(--fg);"> j !</span><span style="color:#859900;">= </span><span style="color:#6c71c4;">0 </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">        </span><span style="color:#586e75;">// math is used for the better look 
+</span><span style="color:var(--fg);">        </span><span style="color:#859900;">if</span><span style="color:var(--fg);"> j </span><span style="color:#859900;">&lt;=</span><span style="color:var(--fg);"> i </span><span style="color:#657b83;">{ </span><span style="color:#2aa198;">$</span><span style="color:#859900;">#</span><span style="color:#657b83;">{</span><span style="color:var(--fg);"> j </span><span style="color:#859900;">*</span><span style="color:var(--fg);"> i </span><span style="color:#657b83;">}</span><span style="color:#2aa198;">$ </span><span style="color:#657b83;">} 
+</span><span style="color:var(--fg);">        </span><span style="color:#859900;">else </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">          </span><span style="color:#586e75;">// upper part of the table
+</span><span style="color:var(--fg);">          </span><span style="color:#859900;">text</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">gray.</span><span style="color:#859900;">darken</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">50%</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">, </span><span style="color:#859900;">str</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">i </span><span style="color:#859900;">*</span><span style="color:var(--fg);"> j</span><span style="color:#657b83;">))
+</span><span style="color:var(--fg);">        </span><span style="color:#657b83;">}
+</span><span style="color:var(--fg);">      </span><span style="color:#657b83;">} </span><span style="color:#859900;">else </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">        </span><span style="color:#859900;">if</span><span style="color:var(--fg);"> i </span><span style="color:#859900;">==</span><span style="color:var(--fg);"> j </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">          </span><span style="color:#586e75;">// the top right corner 
+</span><span style="color:var(--fg);">          </span><span style="color:#2aa198;">$</span><span style="color:#859900;">times</span><span style="color:#2aa198;">$
+</span><span style="color:var(--fg);">        </span><span style="color:#657b83;">} </span><span style="color:#859900;">else </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">          </span><span style="color:#586e75;">// on of them is zero, we are at top/left
+</span><span style="color:var(--fg);">          </span><span style="color:#2aa198;">$</span><span style="color:#859900;">#</span><span style="color:#657b83;">{</span><span style="color:var(--fg);">i </span><span style="color:#859900;">+</span><span style="color:var(--fg);"> j</span><span style="color:#657b83;">}</span><span style="color:#2aa198;">$
+</span><span style="color:var(--fg);">        </span><span style="color:#657b83;">}
+</span><span style="color:var(--fg);">      </span><span style="color:#657b83;">}
+</span><span style="color:var(--fg);">      </span><span style="color:#586e75;">// this is an array, for loops merge them together
+</span><span style="color:var(--fg);">      </span><span style="color:#586e75;">// into one large array of cells
+</span><span style="color:var(--fg);">      </span><span style="color:#657b83;">(
+</span><span style="color:var(--fg);">        table.</span><span style="color:#859900;">cell</span><span style="color:#657b83;">(
+</span><span style="color:var(--fg);">          </span><span style="color:#268bd2;">fill</span><span style="color:var(--fg);">: </span><span style="color:#859900;">if</span><span style="color:var(--fg);"> i </span><span style="color:#859900;">==</span><span style="color:var(--fg);"> j </span><span style="color:#859900;">and</span><span style="color:var(--fg);"> j </span><span style="color:#859900;">== </span><span style="color:#6c71c4;">0 </span><span style="color:#657b83;">{</span><span style="color:var(--fg);"> orange </span><span style="color:#657b83;">} </span><span style="color:#586e75;">// top right corner
+</span><span style="color:var(--fg);">          </span><span style="color:#859900;">else if</span><span style="color:var(--fg);"> i </span><span style="color:#859900;">==</span><span style="color:var(--fg);"> j </span><span style="color:#657b83;">{</span><span style="color:var(--fg);"> yellow </span><span style="color:#657b83;">} </span><span style="color:#586e75;">// the diagonal
+</span><span style="color:var(--fg);">          </span><span style="color:#859900;">else if</span><span style="color:var(--fg);"> i </span><span style="color:#859900;">*</span><span style="color:var(--fg);"> j </span><span style="color:#859900;">== </span><span style="color:#6c71c4;">0 </span><span style="color:#657b83;">{</span><span style="color:var(--fg);"> blue.</span><span style="color:#859900;">lighten</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">50%</span><span style="color:#657b83;">) }</span><span style="color:var(--fg);">, </span><span style="color:#586e75;">// multipliers
+</span><span style="color:var(--fg);">          product,</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">      </span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">    </span><span style="color:#657b83;">}
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">}
+</span><span style="color:#657b83;">}
+</span><span style="color:var(--fg);">
+</span><span style="color:#859900;">#let</span><span style="color:var(--fg);"> n </span><span style="color:#859900;">= </span><span style="color:#6c71c4;">10
+</span><span style="color:#b58900;">#table</span><span style="color:#657b83;">(
+</span><span style="color:var(--fg);">  </span><span style="color:#268bd2;">columns</span><span style="color:var(--fg);">: </span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">0.6cm</span><span style="color:var(--fg);">,</span><span style="color:#657b83;">) </span><span style="color:#859900;">* </span><span style="color:#657b83;">(</span><span style="color:var(--fg);">n </span><span style="color:#859900;">+ </span><span style="color:#6c71c4;">1</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">rows</span><span style="color:var(--fg);">: </span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">0.6cm</span><span style="color:var(--fg);">,</span><span style="color:#657b83;">) </span><span style="color:#859900;">* </span><span style="color:#657b83;">(</span><span style="color:var(--fg);">n </span><span style="color:#859900;">+ </span><span style="color:#6c71c4;">1</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">align</span><span style="color:var(--fg);">: center </span><span style="color:#859900;">+</span><span style="color:var(--fg);"> horizon, </span><span style="color:#268bd2;">inset</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">3pt</span><span style="color:var(--fg);">, </span><span style="color:#859900;">..yield_cells</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">n</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">,
+</span><span style="color:#657b83;">)</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/0640c1d0e5f79bdcb5e60f7675ff1b1eb18810078f5bbbdfaf1c5648b987706e-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <h3 id="highlighting-table-row">
+        <a class="header" href="#highlighting-table-row">
+         Highlighting table row
+        </a>
+       </h3>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#b58900;">#table</span><span style="color:#657b83;">(
+</span><span style="color:var(--fg);">  </span><span style="color:#268bd2;">columns</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">2</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#268bd2;">fill</span><span style="color:var(--fg);">: </span><span style="color:#657b83;">(</span><span style="color:var(--fg);">x, y</span><span style="color:#657b83;">) </span><span style="color:#859900;">=&gt; if</span><span style="color:var(--fg);"> y </span><span style="color:#859900;">== </span><span style="color:#6c71c4;">2 </span><span style="color:#657b83;">{</span><span style="color:var(--fg);"> highlight.fill </span><span style="color:#657b83;">}</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">A</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">B</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">C</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">D</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">E</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">F</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">G</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">H</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">,
+</span><span style="color:#657b83;">)</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/4ff8cbb75f85dbab08a336be31115bcb4cb8ca505799641534d937d444e88082-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <p>
+        For individual cells, use
+       </p>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#b58900;">#table</span><span style="color:#657b83;">(
+</span><span style="color:var(--fg);">  </span><span style="color:#268bd2;">columns</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">2</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">A</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">B</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  table.</span><span style="color:#859900;">cell</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">fill</span><span style="color:var(--fg);">: yellow</span><span style="color:#657b83;">)[</span><span style="color:var(--fg);">C</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, table.</span><span style="color:#859900;">cell</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">fill</span><span style="color:var(--fg);">: yellow</span><span style="color:#657b83;">)[</span><span style="color:var(--fg);">D</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">E</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">F</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">G</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">H</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">,
+</span><span style="color:#657b83;">)</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/07676a86d4643ff83988c0907aa17995b3d1f8fa7b5be4f11959551afd674bc9-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <h3 id="splitting-tables">
+        <a class="header" href="#splitting-tables">
+         Splitting tables
+        </a>
+       </h3>
+       <p>
+        Tables are split between pages automatically.
+       </p>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#859900;">#set page</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">height</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">8em</span><span style="color:#657b83;">)
+</span><span style="color:#859900;">#</span><span style="color:#657b83;">(
+</span><span style="color:#859900;">table</span><span style="color:#657b83;">(
+</span><span style="color:var(--fg);">  </span><span style="color:#268bd2;">columns</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">5</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">Aligner</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">publication</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">Indexing</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">Pairwise alignment</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">Max. read length  (bp)</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">BWA</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">2009</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">BWT-FM</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">Semi-Global</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">125</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">Bowtie</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">2009</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">BWT-FM</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">HD</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">76</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">CloudBurst</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">2009</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">Hashing</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">Landau-Vishkin</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">36</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">GNUMAP</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">2009</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">Hashing</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">NW</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">36</span><span style="color:#657b83;">]
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">)
+</span><span style="color:#657b83;">)</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/34794c27fefc5c307a1dfdc9ad7958c1dcca0ff8fb64962047051c6a216e0ff7-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/34794c27fefc5c307a1dfdc9ad7958c1dcca0ff8fb64962047051c6a216e0ff7-2.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <p>
+        However, if you want to make it breakable inside other element, you'll have to make that element breakable too:
+       </p>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#859900;">#set page</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">height</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">8em</span><span style="color:#657b83;">)
+</span><span style="color:#586e75;">// Without this, the table fails to split upon several pages
+</span><span style="color:#859900;">#show</span><span style="color:var(--fg);"> figure: </span><span style="color:#859900;">set block</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">breakable</span><span style="color:var(--fg);">: </span><span style="color:#b58900;">true</span><span style="color:#657b83;">)
+</span><span style="color:#b58900;">#figure</span><span style="color:#657b83;">(
+</span><span style="color:#859900;">table</span><span style="color:#657b83;">(
+</span><span style="color:var(--fg);">  </span><span style="color:#268bd2;">columns</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">5</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">Aligner</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">publication</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">Indexing</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">Pairwise alignment</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">Max. read length  (bp)</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">BWA</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">2009</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">BWT-FM</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">Semi-Global</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">125</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">Bowtie</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">2009</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">BWT-FM</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">HD</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">76</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">CloudBurst</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">2009</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">Hashing</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">Landau-Vishkin</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">36</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">GNUMAP</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">2009</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">Hashing</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">NW</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">36</span><span style="color:#657b83;">]
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">)
+</span><span style="color:#657b83;">)</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/5be04bf8770a33256599791fb50751bcb24fa5108c13d0e5e2807b675fed00fb-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/5be04bf8770a33256599791fb50751bcb24fa5108c13d0e5e2807b675fed00fb-2.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+      </main>

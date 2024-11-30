@@ -1,0 +1,400 @@
+<main>
+       <!-- Page table of contents -->
+       <div class="sidetoc">
+        <nav class="pagetoc">
+        </nav>
+       </div>
+       <h1 id="tables">
+        <a class="header" href="#tables">
+         Tables
+        </a>
+       </h1>
+       <h2 id="tablex-general-purpose-tables-library">
+        <a class="header" href="#tablex-general-purpose-tables-library">
+         Tablex: general purpose tables library
+        </a>
+       </h2>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#859900;">#import </span><span style="color:#839496;">"</span><span style="color:#2aa198;">@preview/tablex:0.0.7</span><span style="color:#839496;">"</span><span style="color:var(--fg);">: tablex, rowspanx, colspanx
+</span><span style="color:var(--fg);">
+</span><span style="color:#b58900;">#tablex</span><span style="color:#657b83;">(
+</span><span style="color:var(--fg);">  </span><span style="color:#268bd2;">columns</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">4</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#268bd2;">align</span><span style="color:var(--fg);">: center </span><span style="color:#859900;">+</span><span style="color:var(--fg);"> horizon,
+</span><span style="color:var(--fg);">  </span><span style="color:#268bd2;">auto-vlines</span><span style="color:var(--fg);">: </span><span style="color:#b58900;">false</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">  </span><span style="color:#586e75;">// indicate the first two rows are the header
+</span><span style="color:var(--fg);">  </span><span style="color:#586e75;">// (in case we need to eventually
+</span><span style="color:var(--fg);">  </span><span style="color:#586e75;">// enable repeating the header across pages)
+</span><span style="color:var(--fg);">  </span><span style="color:#268bd2;">header-rows</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">2</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">  </span><span style="color:#586e75;">// color the last column's cells
+</span><span style="color:var(--fg);">  </span><span style="color:#586e75;">// based on the written number
+</span><span style="color:var(--fg);">  </span><span style="color:#268bd2;">map-cells</span><span style="color:var(--fg);">: cell </span><span style="color:#859900;">=&gt; </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">    </span><span style="color:#859900;">if</span><span style="color:var(--fg);"> cell.x </span><span style="color:#859900;">== </span><span style="color:#6c71c4;">3 </span><span style="color:#859900;">and</span><span style="color:var(--fg);"> cell.y </span><span style="color:#859900;">&gt; </span><span style="color:#6c71c4;">1 </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">      cell.content </span><span style="color:#859900;">= </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">        </span><span style="color:#859900;">let</span><span style="color:var(--fg);"> value </span><span style="color:#859900;">= int</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">cell.content.text</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">        </span><span style="color:#859900;">let</span><span style="color:var(--fg);"> text</span><span style="color:#859900;">-</span><span style="color:var(--fg);">color </span><span style="color:#859900;">= if</span><span style="color:var(--fg);"> value </span><span style="color:#859900;">&lt; </span><span style="color:#6c71c4;">10 </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">          red.</span><span style="color:#859900;">lighten</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">30%</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">        </span><span style="color:#657b83;">} </span><span style="color:#859900;">else if</span><span style="color:var(--fg);"> value </span><span style="color:#859900;">&lt; </span><span style="color:#6c71c4;">15 </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">          yellow.</span><span style="color:#859900;">darken</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">13%</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">        </span><span style="color:#657b83;">} </span><span style="color:#859900;">else </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">          green
+</span><span style="color:var(--fg);">        </span><span style="color:#657b83;">}
+</span><span style="color:var(--fg);">        </span><span style="color:#859900;">set text</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">text</span><span style="color:#859900;">-</span><span style="color:var(--fg);">color</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">        </span><span style="color:#859900;">strong</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">cell.content</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">      </span><span style="color:#657b83;">}
+</span><span style="color:var(--fg);">    </span><span style="color:#657b83;">}
+</span><span style="color:var(--fg);">    cell
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">}</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">  </span><span style="color:#586e75;">/* --- header --- */
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">rowspanx</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">2</span><span style="color:#657b83;">)[</span><span style="color:var(--fg);">*Username*</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#859900;">colspanx</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">2</span><span style="color:#657b83;">)[</span><span style="color:var(--fg);">*Data*</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">()</span><span style="color:var(--fg);">, </span><span style="color:#859900;">rowspanx</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">2</span><span style="color:#657b83;">)[</span><span style="color:var(--fg);">*Score*</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">()</span><span style="color:var(--fg);">,                 </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">*Location*</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">*Height*</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">()</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#586e75;">/* -------------- */
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">John</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">Second St.</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">180 cm</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">5</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">Wally</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">Third Av.</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">160 cm</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">10</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">Jason</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">Some St.</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">150 cm</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">15</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">Robert</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">123 Av.</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">190 cm</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">20</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">Other</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">Unknown St.</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">170 cm</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">25</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">,
+</span><span style="color:#657b83;">)</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/9283c11489e3997fb302d12c4958a964543f3de172f3f8e21eb739f97ae78ae2-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#859900;">#import </span><span style="color:#839496;">"</span><span style="color:#2aa198;">@preview/tablex:0.0.7</span><span style="color:#839496;">"</span><span style="color:var(--fg);">: tablex, hlinex, vlinex, colspanx, rowspanx
+</span><span style="color:var(--fg);">
+</span><span style="color:#b58900;">#pagebreak</span><span style="color:#657b83;">()
+</span><span style="color:#b58900;">#v</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">80%</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">
+</span><span style="color:#b58900;">#tablex</span><span style="color:#657b83;">(
+</span><span style="color:var(--fg);">  </span><span style="color:#268bd2;">columns</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">4</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#268bd2;">align</span><span style="color:var(--fg);">: center </span><span style="color:#859900;">+</span><span style="color:var(--fg);"> horizon,
+</span><span style="color:var(--fg);">  </span><span style="color:#268bd2;">auto-vlines</span><span style="color:var(--fg);">: </span><span style="color:#b58900;">false</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#268bd2;">repeat-header</span><span style="color:var(--fg);">: </span><span style="color:#b58900;">true</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">  </span><span style="color:#586e75;">/* --- header --- */
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">rowspanx</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">2</span><span style="color:#657b83;">)[</span><span style="color:var(--fg);">*Names*</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#859900;">colspanx</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">2</span><span style="color:#657b83;">)[</span><span style="color:var(--fg);">*Properties*</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">()</span><span style="color:var(--fg);">, </span><span style="color:#859900;">rowspanx</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">2</span><span style="color:#657b83;">)[</span><span style="color:var(--fg);">*Creators*</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">()</span><span style="color:var(--fg);">,                 </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">*Type*</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">*Size*</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">()</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#586e75;">/* -------------- */
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">Machine</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">Steel</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">5 </span><span style="color:#2aa198;">$</span><span style="color:#839496;">"</span><span style="color:#2aa198;">cm</span><span style="color:#839496;">"</span><span style="color:#859900;">^</span><span style="color:#6c71c4;">3</span><span style="color:#2aa198;">$</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">John p&amp; Kate</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">Frog</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">Animal</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">6 </span><span style="color:#2aa198;">$</span><span style="color:#839496;">"</span><span style="color:#2aa198;">cm</span><span style="color:#839496;">"</span><span style="color:#859900;">^</span><span style="color:#6c71c4;">3</span><span style="color:#2aa198;">$</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">Robert</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">Frog</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">Animal</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">6 </span><span style="color:#2aa198;">$</span><span style="color:#839496;">"</span><span style="color:#2aa198;">cm</span><span style="color:#839496;">"</span><span style="color:#859900;">^</span><span style="color:#6c71c4;">3</span><span style="color:#2aa198;">$</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">Robert</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">Frog</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">Animal</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">6 </span><span style="color:#2aa198;">$</span><span style="color:#839496;">"</span><span style="color:#2aa198;">cm</span><span style="color:#839496;">"</span><span style="color:#859900;">^</span><span style="color:#6c71c4;">3</span><span style="color:#2aa198;">$</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">Robert</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">Frog</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">Animal</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">6 </span><span style="color:#2aa198;">$</span><span style="color:#839496;">"</span><span style="color:#2aa198;">cm</span><span style="color:#839496;">"</span><span style="color:#859900;">^</span><span style="color:#6c71c4;">3</span><span style="color:#2aa198;">$</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">Robert</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">Frog</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">Animal</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">6 </span><span style="color:#2aa198;">$</span><span style="color:#839496;">"</span><span style="color:#2aa198;">cm</span><span style="color:#839496;">"</span><span style="color:#859900;">^</span><span style="color:#6c71c4;">3</span><span style="color:#2aa198;">$</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">Robert</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">Frog</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">Animal</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">6 </span><span style="color:#2aa198;">$</span><span style="color:#839496;">"</span><span style="color:#2aa198;">cm</span><span style="color:#839496;">"</span><span style="color:#859900;">^</span><span style="color:#6c71c4;">3</span><span style="color:#2aa198;">$</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">Robert</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">Frog</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">Animal</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">6 </span><span style="color:#2aa198;">$</span><span style="color:#839496;">"</span><span style="color:#2aa198;">cm</span><span style="color:#839496;">"</span><span style="color:#859900;">^</span><span style="color:#6c71c4;">3</span><span style="color:#2aa198;">$</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">Rodbert</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">,
+</span><span style="color:#657b83;">)</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/03fd8d593886849d39370d731f423691b255e47da0a391649235f3f746c25e5c-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/03fd8d593886849d39370d731f423691b255e47da0a391649235f3f746c25e5c-2.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#859900;">#import </span><span style="color:#839496;">"</span><span style="color:#2aa198;">@preview/tablex:0.0.7</span><span style="color:#839496;">"</span><span style="color:var(--fg);">: tablex, gridx, hlinex, vlinex, colspanx, rowspanx
+</span><span style="color:var(--fg);">
+</span><span style="color:#b58900;">#tablex</span><span style="color:#657b83;">(
+</span><span style="color:var(--fg);">  </span><span style="color:#268bd2;">columns</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">4</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#268bd2;">auto-lines</span><span style="color:var(--fg);">: </span><span style="color:#b58900;">false</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">  </span><span style="color:#586e75;">// skip a column here         vv
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">vlinex</span><span style="color:#657b83;">()</span><span style="color:var(--fg);">, </span><span style="color:#859900;">vlinex</span><span style="color:#657b83;">()</span><span style="color:var(--fg);">, </span><span style="color:#859900;">vlinex</span><span style="color:#657b83;">()</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">()</span><span style="color:var(--fg);">, </span><span style="color:#859900;">vlinex</span><span style="color:#657b83;">()</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">colspanx</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">2</span><span style="color:#657b83;">)[</span><span style="color:var(--fg);">a</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">()</span><span style="color:var(--fg);">,  </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">b</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">J</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">c</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#859900;">rowspanx</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">2</span><span style="color:#657b83;">)[</span><span style="color:var(--fg);">d</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">e</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">K</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">f</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">()</span><span style="color:var(--fg);">,             </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">g</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">L</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#586e75;">//   ^^ '()' after the first cell are 100% ignored
+</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">
+</span><span style="color:#b58900;">#tablex</span><span style="color:#657b83;">(
+</span><span style="color:var(--fg);">  </span><span style="color:#268bd2;">columns</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">4</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#268bd2;">auto-vlines</span><span style="color:var(--fg);">: </span><span style="color:#b58900;">false</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">colspanx</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">2</span><span style="color:#657b83;">)[</span><span style="color:var(--fg);">a</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">()</span><span style="color:var(--fg);">,  </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">b</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">J</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">c</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#859900;">rowspanx</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">2</span><span style="color:#657b83;">)[</span><span style="color:var(--fg);">d</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">e</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">K</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">f</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">()</span><span style="color:var(--fg);">,             </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">g</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">L</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">,
+</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">
+</span><span style="color:#b58900;">#gridx</span><span style="color:#657b83;">(
+</span><span style="color:var(--fg);">  </span><span style="color:#268bd2;">columns</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">4</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">()</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">()</span><span style="color:var(--fg);">, </span><span style="color:#859900;">vlinex</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">end</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">2</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">hlinex</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">stroke</span><span style="color:var(--fg);">: yellow </span><span style="color:#859900;">+ </span><span style="color:#6c71c4;">2pt</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">colspanx</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">2</span><span style="color:#657b83;">)[</span><span style="color:var(--fg);">a</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">()</span><span style="color:var(--fg);">,  </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">b</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">J</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">hlinex</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">start</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">0</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">end</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">1</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">stroke</span><span style="color:var(--fg);">: yellow </span><span style="color:#859900;">+ </span><span style="color:#6c71c4;">2pt</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">hlinex</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">start</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">1</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">end</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">2</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">stroke</span><span style="color:var(--fg);">: green </span><span style="color:#859900;">+ </span><span style="color:#6c71c4;">2pt</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">hlinex</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">start</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">2</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">end</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">3</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">stroke</span><span style="color:var(--fg);">: red </span><span style="color:#859900;">+ </span><span style="color:#6c71c4;">2pt</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">hlinex</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">start</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">3</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">end</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">4</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">stroke</span><span style="color:var(--fg);">: blue.</span><span style="color:#859900;">lighten</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">50%</span><span style="color:#657b83;">) </span><span style="color:#859900;">+ </span><span style="color:#6c71c4;">2pt</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">c</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#859900;">rowspanx</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">2</span><span style="color:#657b83;">)[</span><span style="color:var(--fg);">d</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">e</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">K</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">hlinex</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">start</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">2</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">f</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">()</span><span style="color:var(--fg);">,             </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">g</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">L</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">,
+</span><span style="color:#657b83;">)</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/4d25fc4ba39ee99bf9b8c043ab89bc74cf61cad3f4640b3384dad2e69f5f64c8-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#859900;">#import </span><span style="color:#839496;">"</span><span style="color:#2aa198;">@preview/tablex:0.0.7</span><span style="color:#839496;">"</span><span style="color:var(--fg);">: tablex, colspanx, rowspanx
+</span><span style="color:var(--fg);">
+</span><span style="color:#b58900;">#tablex</span><span style="color:#657b83;">(
+</span><span style="color:var(--fg);">  </span><span style="color:#268bd2;">columns</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">3</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#268bd2;">map-hlines</span><span style="color:var(--fg);">: h </span><span style="color:#859900;">=&gt; </span><span style="color:#657b83;">(</span><span style="color:#859900;">..</span><span style="color:var(--fg);">h, stroke: blue</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#268bd2;">map-vlines</span><span style="color:var(--fg);">: v </span><span style="color:#859900;">=&gt; </span><span style="color:#657b83;">(</span><span style="color:#859900;">..</span><span style="color:var(--fg);">v, stroke: green </span><span style="color:#859900;">+ </span><span style="color:#6c71c4;">2pt</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">colspanx</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">2</span><span style="color:#657b83;">)[</span><span style="color:var(--fg);">a</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">()</span><span style="color:var(--fg);">,  </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">b</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">c</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#859900;">rowspanx</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">2</span><span style="color:#657b83;">)[</span><span style="color:var(--fg);">d</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">ed</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">f</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">()</span><span style="color:var(--fg);">,             </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">g</span><span style="color:#657b83;">]
+</span><span style="color:#657b83;">)</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/9f721aa89d44247b880a2d34d64940cce12a782d4888a09b6a031a2918805128-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#859900;">#import </span><span style="color:#839496;">"</span><span style="color:#2aa198;">@preview/tablex:0.0.7</span><span style="color:#839496;">"</span><span style="color:var(--fg);">: tablex, colspanx, rowspanx
+</span><span style="color:var(--fg);">
+</span><span style="color:#b58900;">#tablex</span><span style="color:#657b83;">(
+</span><span style="color:var(--fg);">  </span><span style="color:#268bd2;">columns</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">4</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#268bd2;">auto-vlines</span><span style="color:var(--fg);">: </span><span style="color:#b58900;">true</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">  </span><span style="color:#586e75;">// make all cells italicized
+</span><span style="color:var(--fg);">  </span><span style="color:#268bd2;">map-cells</span><span style="color:var(--fg);">: cell </span><span style="color:#859900;">=&gt; </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">    </span><span style="color:#657b83;">(</span><span style="color:#859900;">..</span><span style="color:var(--fg);">cell, content: </span><span style="color:#859900;">emph</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">cell.content</span><span style="color:#657b83;">))
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">}</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">  </span><span style="color:#586e75;">// add some arbitrary content to entire rows
+</span><span style="color:var(--fg);">  </span><span style="color:#268bd2;">map-rows</span><span style="color:var(--fg);">: </span><span style="color:#657b83;">(</span><span style="color:var(--fg);">row, cells</span><span style="color:#657b83;">) </span><span style="color:#859900;">=&gt;</span><span style="color:var(--fg);"> cells.</span><span style="color:#859900;">map</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">c </span><span style="color:#859900;">=&gt;
+</span><span style="color:var(--fg);">    </span><span style="color:#859900;">if</span><span style="color:var(--fg);"> c </span><span style="color:#859900;">== </span><span style="color:#b58900;">none </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">      c  </span><span style="color:#586e75;">// keeping 'none' is important
+</span><span style="color:var(--fg);">    </span><span style="color:#657b83;">} </span><span style="color:#859900;">else </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">      </span><span style="color:#657b83;">(</span><span style="color:#859900;">..</span><span style="color:var(--fg);">c, content: </span><span style="color:#657b83;">[</span><span style="color:#859900;">#</span><span style="color:#cb4b16;">c.content</span><span style="color:#dc322f;">\ </span><span style="font-weight:bold;color:var(--fg);">*R</span><span style="font-weight:bold;color:#859900;">#</span><span style="font-weight:bold;color:#cb4b16;">row</span><span style="font-weight:bold;color:var(--fg);">*</span><span style="color:#657b83;">])
+</span><span style="color:var(--fg);">    </span><span style="color:#657b83;">}
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">)</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">  </span><span style="color:#586e75;">// color cells based on their columns
+</span><span style="color:var(--fg);">  </span><span style="color:#586e75;">// (using 'fill: (column, row) =&gt; color' also works
+</span><span style="color:var(--fg);">  </span><span style="color:#586e75;">// for this particular purpose)
+</span><span style="color:var(--fg);">  </span><span style="color:#268bd2;">map-cols</span><span style="color:var(--fg);">: </span><span style="color:#657b83;">(</span><span style="color:var(--fg);">col, cells</span><span style="color:#657b83;">) </span><span style="color:#859900;">=&gt;</span><span style="color:var(--fg);"> cells.</span><span style="color:#859900;">map</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">c </span><span style="color:#859900;">=&gt;
+</span><span style="color:var(--fg);">    </span><span style="color:#859900;">if</span><span style="color:var(--fg);"> c </span><span style="color:#859900;">== </span><span style="color:#b58900;">none </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">      c
+</span><span style="color:var(--fg);">    </span><span style="color:#657b83;">} </span><span style="color:#859900;">else </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">      </span><span style="color:#657b83;">(</span><span style="color:#859900;">..</span><span style="color:var(--fg);">c, fill: </span><span style="color:#859900;">if</span><span style="color:var(--fg);"> col </span><span style="color:#859900;">&lt; </span><span style="color:#6c71c4;">2 </span><span style="color:#657b83;">{</span><span style="color:var(--fg);"> blue </span><span style="color:#657b83;">} </span><span style="color:#859900;">else </span><span style="color:#657b83;">{</span><span style="color:var(--fg);"> yellow </span><span style="color:#657b83;">})
+</span><span style="color:var(--fg);">    </span><span style="color:#657b83;">}
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">)</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">colspanx</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">2</span><span style="color:#657b83;">)[</span><span style="color:var(--fg);">a</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">()</span><span style="color:var(--fg);">,  </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">b</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">J</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">c</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#859900;">rowspanx</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">2</span><span style="color:#657b83;">)[</span><span style="color:var(--fg);">dd</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">e</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">K</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">f</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">()</span><span style="color:var(--fg);">,             </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">g</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">L</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">,
+</span><span style="color:#657b83;">)</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/e4aeb7879544c21da12283922f4e3110d740059da77b65d94e34ed39229ffad1-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#859900;">#import </span><span style="color:#839496;">"</span><span style="color:#2aa198;">@preview/tablex:0.0.7</span><span style="color:#839496;">"</span><span style="color:var(--fg);">: gridx
+</span><span style="color:var(--fg);">
+</span><span style="color:#b58900;">#gridx</span><span style="color:#657b83;">(
+</span><span style="color:var(--fg);">  </span><span style="color:#268bd2;">columns</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">3</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#268bd2;">rows</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">6</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#268bd2;">fill</span><span style="color:var(--fg);">: </span><span style="color:#657b83;">(</span><span style="color:var(--fg);">col, row</span><span style="color:#657b83;">) </span><span style="color:#859900;">=&gt; </span><span style="color:#657b83;">(</span><span style="color:var(--fg);">blue, red, green</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">.</span><span style="color:#859900;">at</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">calc.</span><span style="color:#859900;">rem</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">row </span><span style="color:#859900;">+</span><span style="color:var(--fg);"> col </span><span style="color:#859900;">- </span><span style="color:#6c71c4;">1</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">3</span><span style="color:#657b83;">))</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#268bd2;">map-cols</span><span style="color:var(--fg);">: </span><span style="color:#657b83;">(</span><span style="color:var(--fg);">col, cells</span><span style="color:#657b83;">) </span><span style="color:#859900;">=&gt; </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">    </span><span style="color:#859900;">let</span><span style="color:var(--fg);"> last </span><span style="color:#859900;">=</span><span style="color:var(--fg);"> cells.</span><span style="color:#859900;">last</span><span style="color:#657b83;">()
+</span><span style="color:var(--fg);">    last.content </span><span style="color:#859900;">= </span><span style="color:#657b83;">[
+</span><span style="color:var(--fg);">      </span><span style="color:#b58900;">#cells.slice</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">0</span><span style="color:var(--fg);">, cells.</span><span style="color:#859900;">len</span><span style="color:#657b83;">() </span><span style="color:#859900;">- </span><span style="color:#6c71c4;">1</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">.</span><span style="color:#859900;">fold</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">0</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">(</span><span style="color:var(--fg);">acc, c</span><span style="color:#657b83;">) </span><span style="color:#859900;">=&gt; if</span><span style="color:var(--fg);"> c !</span><span style="color:#859900;">= </span><span style="color:#b58900;">none </span><span style="color:#657b83;">{</span><span style="color:var(--fg);"> acc </span><span style="color:#859900;">+ eval</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">c.content.text</span><span style="color:#657b83;">) } </span><span style="color:#859900;">else </span><span style="color:#657b83;">{</span><span style="color:var(--fg);"> acc </span><span style="color:#657b83;">})
+</span><span style="color:var(--fg);">    </span><span style="color:#657b83;">]
+</span><span style="color:var(--fg);">    last.fill </span><span style="color:#859900;">=</span><span style="color:var(--fg);"> aqua
+</span><span style="color:var(--fg);">    cells.</span><span style="color:#859900;">last</span><span style="color:#657b83;">() </span><span style="color:#859900;">=</span><span style="color:var(--fg);"> last
+</span><span style="color:var(--fg);">    cells
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">}</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">0</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">5</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">10</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">1</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">6</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">11</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">2</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">7</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">12</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">3</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">8</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">13</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">4</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">9</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">14</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">s</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">s</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">s</span><span style="color:#657b83;">]
+</span><span style="color:#657b83;">)</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/c67cc9e428f9b21ae2e9c4ba792eacc7391fce70f06375f49d3a5f08234a5a77-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <h2 id="tada-data-manipulation">
+        <a class="header" href="#tada-data-manipulation">
+         Tada: data manipulation
+        </a>
+       </h2>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#859900;">#import </span><span style="color:#839496;">"</span><span style="color:#2aa198;">@preview/tada:0.1.0</span><span style="color:#839496;">"
+</span><span style="color:var(--fg);">
+</span><span style="color:#859900;">#let</span><span style="color:var(--fg);"> column</span><span style="color:#859900;">-</span><span style="color:var(--fg);">data </span><span style="color:#859900;">= </span><span style="color:#657b83;">(
+</span><span style="color:var(--fg);">  name: </span><span style="color:#657b83;">(</span><span style="color:#839496;">"</span><span style="color:#2aa198;">Bread</span><span style="color:#839496;">"</span><span style="color:var(--fg);">, </span><span style="color:#839496;">"</span><span style="color:#2aa198;">Milk</span><span style="color:#839496;">"</span><span style="color:var(--fg);">, </span><span style="color:#839496;">"</span><span style="color:#2aa198;">Eggs</span><span style="color:#839496;">"</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  price: </span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">1.25</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">2.50</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">1.50</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  quantity: </span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">2</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">1</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">3</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">,
+</span><span style="color:#657b83;">)
+</span><span style="color:#859900;">#let</span><span style="color:var(--fg);"> record</span><span style="color:#859900;">-</span><span style="color:var(--fg);">data </span><span style="color:#859900;">= </span><span style="color:#657b83;">(
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">(</span><span style="color:var(--fg);">name: </span><span style="color:#839496;">"</span><span style="color:#2aa198;">Bread</span><span style="color:#839496;">"</span><span style="color:var(--fg);">, price: </span><span style="color:#6c71c4;">1.25</span><span style="color:var(--fg);">, quantity: </span><span style="color:#6c71c4;">2</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">(</span><span style="color:var(--fg);">name: </span><span style="color:#839496;">"</span><span style="color:#2aa198;">Milk</span><span style="color:#839496;">"</span><span style="color:var(--fg);">, price: </span><span style="color:#6c71c4;">2.50</span><span style="color:var(--fg);">, quantity: </span><span style="color:#6c71c4;">1</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">(</span><span style="color:var(--fg);">name: </span><span style="color:#839496;">"</span><span style="color:#2aa198;">Eggs</span><span style="color:#839496;">"</span><span style="color:var(--fg);">, price: </span><span style="color:#6c71c4;">1.50</span><span style="color:var(--fg);">, quantity: </span><span style="color:#6c71c4;">3</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">,
+</span><span style="color:#657b83;">)
+</span><span style="color:#859900;">#let</span><span style="color:var(--fg);"> row</span><span style="color:#859900;">-</span><span style="color:var(--fg);">data </span><span style="color:#859900;">= </span><span style="color:#657b83;">(
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">(</span><span style="color:#839496;">"</span><span style="color:#2aa198;">Bread</span><span style="color:#839496;">"</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">1.25</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">2</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">(</span><span style="color:#839496;">"</span><span style="color:#2aa198;">Milk</span><span style="color:#839496;">"</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">2.50</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">1</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">(</span><span style="color:#839496;">"</span><span style="color:#2aa198;">Eggs</span><span style="color:#839496;">"</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">1.50</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">3</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">,
+</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">
+</span><span style="color:#859900;">#import</span><span style="color:var(--fg);"> tada: TableData, to</span><span style="color:#859900;">-</span><span style="color:var(--fg);">tablex
+</span><span style="color:#859900;">#let</span><span style="color:var(--fg);"> td </span><span style="color:#859900;">= TableData</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">data</span><span style="color:var(--fg);">: column</span><span style="color:#859900;">-</span><span style="color:var(--fg);">data</span><span style="color:#657b83;">)
+</span><span style="color:#586e75;">// Equivalent to:
+</span><span style="color:#859900;">#let</span><span style="color:var(--fg);"> td2 </span><span style="color:#859900;">=</span><span style="color:var(--fg);"> tada.</span><span style="color:#859900;">from-records</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">record</span><span style="color:#859900;">-</span><span style="color:var(--fg);">data</span><span style="color:#657b83;">)
+</span><span style="color:#586e75;">// _Not_ equivalent to (since field names are unknown):
+</span><span style="color:#859900;">#let</span><span style="color:var(--fg);"> td3 </span><span style="color:#859900;">=</span><span style="color:var(--fg);"> tada.</span><span style="color:#859900;">from-rows</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">row</span><span style="color:#859900;">-</span><span style="color:var(--fg);">data</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">
+</span><span style="color:#b58900;">#to-tablex</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">td</span><span style="color:#657b83;">)
+</span><span style="color:#b58900;">#to-tablex</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">td2</span><span style="color:#657b83;">)
+</span><span style="color:#b58900;">#to-tablex</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">td3</span><span style="color:#657b83;">)</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/06c7045a0bb3aad12c70133b4aa55b1cadc17c944d28803e9418a376187afb2d-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <h2 id="tablem-markdown-tables">
+        <a class="header" href="#tablem-markdown-tables">
+         Tablem: markdown tables
+        </a>
+       </h2>
+       <blockquote>
+        <p>
+         See documentation
+         <a href="https://github.com/OrangeX4/typst-tablem">
+          there
+         </a>
+        </p>
+       </blockquote>
+       <p>
+        Render markdown tables in Typst.
+       </p>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#859900;">#import </span><span style="color:#839496;">"</span><span style="color:#2aa198;">@preview/tablem:0.1.0</span><span style="color:#839496;">"</span><span style="color:var(--fg);">: tablem
+</span><span style="color:var(--fg);">
+</span><span style="color:#b58900;">#tablem</span><span style="color:#657b83;">[
+</span><span style="color:var(--fg);">  | </span><span style="font-weight:bold;color:var(--fg);">*Name*</span><span style="color:var(--fg);"> | </span><span style="font-weight:bold;color:var(--fg);">*Location*</span><span style="color:var(--fg);"> | </span><span style="font-weight:bold;color:var(--fg);">*Height*</span><span style="color:var(--fg);"> | </span><span style="font-weight:bold;color:var(--fg);">*Score*</span><span style="color:var(--fg);"> |
+</span><span style="color:var(--fg);">  | </span><span style="color:#cb4b16;">------</span><span style="color:var(--fg);"> | </span><span style="color:#cb4b16;">---------</span><span style="color:var(--fg);">- | </span><span style="color:#cb4b16;">--------</span><span style="color:var(--fg);"> | </span><span style="color:#cb4b16;">------</span><span style="color:var(--fg);">- |
+</span><span style="color:var(--fg);">  | John   | Second St. | 180 cm   |  5      |
+</span><span style="color:var(--fg);">  | Wally  | Third Av.  | 160 cm   |  10     |
+</span><span style="color:#657b83;">]</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/6845ef64c7c12ce5f6616f130172c76974b184e97976e59a3a957c273c9084eb-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <h3 id="custom-render">
+        <a class="header" href="#custom-render">
+         Custom render
+        </a>
+       </h3>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#859900;">#import </span><span style="color:#839496;">"</span><span style="color:#2aa198;">@preview/tablex:0.0.6</span><span style="color:#839496;">"</span><span style="color:var(--fg);">: tablex, hlinex
+</span><span style="color:#859900;">#import </span><span style="color:#839496;">"</span><span style="color:#2aa198;">@preview/tablem:0.1.0</span><span style="color:#839496;">"</span><span style="color:var(--fg);">: tablem
+</span><span style="color:var(--fg);">
+</span><span style="color:#859900;">#let</span><span style="color:var(--fg);"> three</span><span style="color:#859900;">-</span><span style="color:var(--fg);">line</span><span style="color:#859900;">-</span><span style="color:var(--fg);">table </span><span style="color:#859900;">=</span><span style="color:var(--fg);"> tablem.</span><span style="color:#859900;">with</span><span style="color:#657b83;">(
+</span><span style="color:var(--fg);">  </span><span style="color:#268bd2;">render</span><span style="color:var(--fg);">: </span><span style="color:#657b83;">(</span><span style="color:var(--fg);">columns: </span><span style="color:#b58900;">auto</span><span style="color:var(--fg);">, </span><span style="color:#859900;">..</span><span style="color:var(--fg);">args</span><span style="color:#657b83;">) </span><span style="color:#859900;">=&gt; </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">    </span><span style="color:#859900;">tablex</span><span style="color:#657b83;">(
+</span><span style="color:var(--fg);">      </span><span style="color:#268bd2;">columns</span><span style="color:var(--fg);">: columns,
+</span><span style="color:var(--fg);">      </span><span style="color:#268bd2;">auto-lines</span><span style="color:var(--fg);">: </span><span style="color:#b58900;">false</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">      </span><span style="color:#268bd2;">align</span><span style="color:var(--fg);">: center </span><span style="color:#859900;">+</span><span style="color:var(--fg);"> horizon,
+</span><span style="color:var(--fg);">      </span><span style="color:#859900;">hlinex</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">y</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">0</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">      </span><span style="color:#859900;">hlinex</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">y</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">1</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">      </span><span style="color:#859900;">..</span><span style="color:var(--fg);">args,
+</span><span style="color:var(--fg);">      </span><span style="color:#859900;">hlinex</span><span style="color:#657b83;">()</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">    </span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">}
+</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">
+</span><span style="color:#b58900;">#three-line-table</span><span style="color:#657b83;">[
+</span><span style="color:var(--fg);">  | </span><span style="font-weight:bold;color:var(--fg);">*Name*</span><span style="color:var(--fg);"> | </span><span style="font-weight:bold;color:var(--fg);">*Location*</span><span style="color:var(--fg);"> | </span><span style="font-weight:bold;color:var(--fg);">*Height*</span><span style="color:var(--fg);"> | </span><span style="font-weight:bold;color:var(--fg);">*Score*</span><span style="color:var(--fg);"> |
+</span><span style="color:var(--fg);">  | </span><span style="color:#cb4b16;">------</span><span style="color:var(--fg);"> | </span><span style="color:#cb4b16;">---------</span><span style="color:var(--fg);">- | </span><span style="color:#cb4b16;">--------</span><span style="color:var(--fg);"> | </span><span style="color:#cb4b16;">------</span><span style="color:var(--fg);">- |
+</span><span style="color:var(--fg);">  | John   | Second St. | 180 cm   |  5      |
+</span><span style="color:var(--fg);">  | Wally  | Third Av.  | 160 cm   |  10     |
+</span><span style="color:#657b83;">]</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/ebddbdf17a6518755d55af3900eabe9ffb8fa2c0d8b0326518dac03ca1856648-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+      </main>

@@ -1,0 +1,475 @@
+<main>
+       <!-- Page table of contents -->
+       <div class="sidetoc">
+        <nav class="pagetoc">
+        </nav>
+       </div>
+       <h1 id="layouting">
+        <a class="header" href="#layouting">
+         Layouting
+        </a>
+       </h1>
+       <p>
+        General useful things.
+       </p>
+       <h2 id="pinit-relative-place-by-pins">
+        <a class="header" href="#pinit-relative-place-by-pins">
+         Pinit: relative place by pins
+        </a>
+       </h2>
+       <p>
+        The idea of
+        <a href="https://github.com/OrangeX4/typst-pinit">
+         pinit
+        </a>
+        is pinning pins on the normal flow of the text, and then placing the content relative to pins.
+       </p>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#859900;">#import </span><span style="color:#839496;">"</span><span style="color:#2aa198;">@preview/pinit:0.1.3</span><span style="color:#839496;">"</span><span style="color:var(--fg);">: </span><span style="color:#859900;">*
+</span><span style="color:#859900;">#set page</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">height</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">6em</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">width</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">20em</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">
+</span><span style="color:#859900;">#set text</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">size</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">24pt</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">A simple </span><span style="color:#b58900;">#pin</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">1</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">highlighted text</span><span style="color:#b58900;">#pin</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">2</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">.
+</span><span style="color:var(--fg);">
+</span><span style="color:#b58900;">#pinit-highlight</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">1</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">2</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">
+</span><span style="color:#b58900;">#pinit-point-from</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">2</span><span style="color:#657b83;">)[</span><span style="color:var(--fg);">It is simple.</span><span style="color:#657b83;">]</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/b0a3a289ec65a00a9b39e0689578c9c139a65d1d9f379fa1593ba8ea9268af25-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <p>
+        More complex example:
+       </p>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#859900;">#import </span><span style="color:#839496;">"</span><span style="color:#2aa198;">@preview/pinit:0.1.3</span><span style="color:#839496;">"</span><span style="color:var(--fg);">: </span><span style="color:#859900;">*
+</span><span style="color:var(--fg);">
+</span><span style="color:#586e75;">// Pages
+</span><span style="color:#859900;">#set page</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">paper</span><span style="color:var(--fg);">: </span><span style="color:#839496;">"</span><span style="color:#2aa198;">presentation-4-3</span><span style="color:#839496;">"</span><span style="color:#657b83;">)
+</span><span style="color:#859900;">#set text</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">size</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">20pt</span><span style="color:#657b83;">)
+</span><span style="color:#859900;">#show</span><span style="color:var(--fg);"> heading: </span><span style="color:#859900;">set text</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">weight</span><span style="color:var(--fg);">: </span><span style="color:#839496;">"</span><span style="color:#2aa198;">regular</span><span style="color:#839496;">"</span><span style="color:#657b83;">)
+</span><span style="color:#859900;">#show</span><span style="color:var(--fg);"> heading: </span><span style="color:#859900;">set block</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">above</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">1.4em</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">below</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">1em</span><span style="color:#657b83;">)
+</span><span style="color:#859900;">#show</span><span style="color:var(--fg);"> heading.</span><span style="color:#859900;">where</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">level</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">1</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">: </span><span style="color:#859900;">set text</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">size</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">1.5em</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">
+</span><span style="color:#586e75;">// Useful functions
+</span><span style="color:#859900;">#let</span><span style="color:var(--fg);"> crimson </span><span style="color:#859900;">= rgb</span><span style="color:#657b83;">(</span><span style="color:#839496;">"</span><span style="color:#2aa198;">#c00000</span><span style="color:#839496;">"</span><span style="color:#657b83;">)
+</span><span style="color:#859900;">#let greybox</span><span style="color:#657b83;">(</span><span style="color:#859900;">..</span><span style="color:var(--fg);">args, body</span><span style="color:#657b83;">) </span><span style="color:#859900;">= rect</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">fill</span><span style="color:var(--fg);">: </span><span style="color:#859900;">luma</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">95%</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">stroke</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">0.5pt</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">inset</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">0pt</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">outset</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">10pt</span><span style="color:var(--fg);">, </span><span style="color:#859900;">..</span><span style="color:var(--fg);">args, body</span><span style="color:#657b83;">)
+</span><span style="color:#859900;">#let redbold</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">body</span><span style="color:#657b83;">) </span><span style="color:#859900;">= </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">set text</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">fill</span><span style="color:var(--fg);">: crimson, </span><span style="color:#268bd2;">weight</span><span style="color:var(--fg);">: </span><span style="color:#839496;">"</span><span style="color:#2aa198;">bold</span><span style="color:#839496;">"</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">  body
+</span><span style="color:#657b83;">}
+</span><span style="color:#859900;">#let blueit</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">body</span><span style="color:#657b83;">) </span><span style="color:#859900;">= </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">set text</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">fill</span><span style="color:var(--fg);">: blue</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">  body
+</span><span style="color:#657b83;">}
+</span><span style="color:var(--fg);">
+</span><span style="color:#586e75;">// Main body
+</span><span style="color:#b58900;">#block</span><span style="color:#657b83;">[
+</span><span style="color:#b58900;">  = </span><span style="color:#cb4b16;">Asymptotic Notation: </span><span style="color:#2aa198;">$</span><span style="color:#268bd2;">O</span><span style="color:#2aa198;">$
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">  Use </span><span style="color:#b58900;">#pin</span><span style="color:#657b83;">(</span><span style="color:#839496;">"</span><span style="color:#2aa198;">h1</span><span style="color:#839496;">"</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">asymptotic notations</span><span style="color:#b58900;">#pin</span><span style="color:#657b83;">(</span><span style="color:#839496;">"</span><span style="color:#2aa198;">h2</span><span style="color:#839496;">"</span><span style="color:#657b83;">)</span><span style="color:var(--fg);"> to describe asymptotic efficiency of algorithms.
+</span><span style="color:var(--fg);">  (Ignore constant coefficients and lower-order terms.)
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">  </span><span style="color:#b58900;">#greybox</span><span style="color:#657b83;">[
+</span><span style="color:var(--fg);">    Given a function </span><span style="color:#2aa198;">$</span><span style="color:#859900;">g</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">n</span><span style="color:#657b83;">)</span><span style="color:#2aa198;">$</span><span style="color:var(--fg);">, we denote by </span><span style="color:#2aa198;">$</span><span style="color:#859900;">O</span><span style="color:#657b83;">(</span><span style="color:#859900;">g</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">n</span><span style="color:#657b83;">))</span><span style="color:#2aa198;">$</span><span style="color:var(--fg);"> the following </span><span style="font-weight:bold;color:var(--fg);">*set of functions*</span><span style="color:var(--fg);">:
+</span><span style="color:var(--fg);">    </span><span style="color:#b58900;">#redbold</span><span style="color:#657b83;">(</span><span style="color:#2aa198;">$</span><span style="color:var(--fg);">{</span><span style="color:#859900;">f</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">n</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">: </span><span style="color:#839496;">"</span><span style="color:#2aa198;">exists</span><span style="color:#839496;">" </span><span style="color:#268bd2;">c </span><span style="color:#859900;">&gt; </span><span style="color:#6c71c4;">0 </span><span style="color:#839496;">"</span><span style="color:#2aa198;">and</span><span style="color:#839496;">" </span><span style="color:#268bd2;">n</span><span style="color:#859900;">_</span><span style="color:var(--fg);">0 </span><span style="color:#859900;">&gt; </span><span style="color:#6c71c4;">0</span><span style="color:var(--fg);">, </span><span style="color:#839496;">"</span><span style="color:#2aa198;">such that</span><span style="color:#839496;">" </span><span style="color:#859900;">f</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">n</span><span style="color:#657b83;">) </span><span style="color:#cb4b16;">&lt;= </span><span style="color:#268bd2;">c </span><span style="color:#859900;">dot g</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">n</span><span style="color:#657b83;">) </span><span style="color:#839496;">"</span><span style="color:#2aa198;">for all</span><span style="color:#839496;">" </span><span style="color:#268bd2;">n </span><span style="color:#cb4b16;">&gt;= </span><span style="color:#268bd2;">n</span><span style="color:#859900;">_</span><span style="color:var(--fg);">0}</span><span style="color:#2aa198;">$</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">]
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">  </span><span style="color:#b58900;">#pinit-highlight</span><span style="color:#657b83;">(</span><span style="color:#839496;">"</span><span style="color:#2aa198;">h1</span><span style="color:#839496;">"</span><span style="color:var(--fg);">, </span><span style="color:#839496;">"</span><span style="color:#2aa198;">h2</span><span style="color:#839496;">"</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">  </span><span style="color:#2aa198;">$</span><span style="color:#859900;">f</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">n</span><span style="color:#657b83;">) </span><span style="color:#859900;">= O</span><span style="color:#657b83;">(</span><span style="color:#859900;">g</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">n</span><span style="color:#657b83;">))</span><span style="color:#2aa198;">$</span><span style="color:var(--fg);">: </span><span style="color:#b58900;">#pin</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">1</span><span style="color:#657b83;">)</span><span style="color:#2aa198;">$</span><span style="color:#859900;">f</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">n</span><span style="color:#657b83;">)</span><span style="color:#2aa198;">$</span><span style="color:var(--fg);"> is </span><span style="font-weight:bold;color:var(--fg);">*asymptotically smaller*</span><span style="color:var(--fg);"> than </span><span style="color:#2aa198;">$</span><span style="color:#859900;">g</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">n</span><span style="color:#657b83;">)</span><span style="color:#2aa198;">$</span><span style="color:var(--fg);">.</span><span style="color:#b58900;">#pin</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">2</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">  </span><span style="color:#2aa198;">$</span><span style="color:#859900;">f</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">n</span><span style="color:#657b83;">) </span><span style="color:#859900;">redbold</span><span style="color:#657b83;">(</span><span style="color:#859900;">in</span><span style="color:#657b83;">) </span><span style="color:#859900;">O</span><span style="color:#657b83;">(</span><span style="color:#859900;">g</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">n</span><span style="color:#657b83;">))</span><span style="color:#2aa198;">$</span><span style="color:var(--fg);">: </span><span style="color:#2aa198;">$</span><span style="color:#859900;">f</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">n</span><span style="color:#657b83;">)</span><span style="color:#2aa198;">$</span><span style="color:var(--fg);"> is </span><span style="font-weight:bold;color:var(--fg);">*asymptotically* </span><span style="color:#b58900;">#redbold</span><span style="color:#657b83;">[</span><span style="color:var(--fg);">at most</span><span style="color:#657b83;">] </span><span style="color:#2aa198;">$</span><span style="color:#859900;">g</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">n</span><span style="color:#657b83;">)</span><span style="color:#2aa198;">$</span><span style="color:var(--fg);">.
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">  </span><span style="color:#b58900;">#pinit-line</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">stroke</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">3pt </span><span style="color:#859900;">+</span><span style="color:var(--fg);"> crimson, </span><span style="color:#268bd2;">start-dy</span><span style="color:var(--fg);">: </span><span style="color:#859900;">-</span><span style="color:#6c71c4;">0.25em</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">end-dy</span><span style="color:var(--fg);">: </span><span style="color:#859900;">-</span><span style="color:#6c71c4;">0.25em</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">1</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">2</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">  </span><span style="color:#b58900;">#block</span><span style="color:#657b83;">[</span><span style="color:var(--fg);">Insertion Sort as an </span><span style="color:#b58900;">#pin</span><span style="color:#657b83;">(</span><span style="color:#839496;">"</span><span style="color:#2aa198;">r1</span><span style="color:#839496;">"</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">example</span><span style="color:#b58900;">#pin</span><span style="color:#657b83;">(</span><span style="color:#839496;">"</span><span style="color:#2aa198;">r2</span><span style="color:#839496;">"</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">:</span><span style="color:#657b83;">]
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">  - Best Case: </span><span style="color:#2aa198;">$</span><span style="color:#859900;">T</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">n</span><span style="color:#657b83;">) </span><span style="color:#859900;">approx </span><span style="color:#268bd2;">c n </span><span style="color:#859900;">+ </span><span style="color:#268bd2;">c</span><span style="color:#cb4b16;">' </span><span style="color:#268bd2;">n </span><span style="color:#859900;">- </span><span style="color:#268bd2;">c</span><span style="color:#cb4b16;">''</span><span style="color:#2aa198;">$ </span><span style="color:#b58900;">#pin</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">3</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">  - Worst case: </span><span style="color:#2aa198;">$</span><span style="color:#859900;">T</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">n</span><span style="color:#657b83;">) </span><span style="color:#859900;">approx </span><span style="color:#268bd2;">c n </span><span style="color:#859900;">+ </span><span style="color:#cb4b16;">(</span><span style="color:#268bd2;">c</span><span style="color:#cb4b16;">' </span><span style="color:#dc322f;">\/ </span><span style="color:#6c71c4;">2</span><span style="color:#cb4b16;">) </span><span style="color:#268bd2;">n</span><span style="color:#859900;">^</span><span style="color:#6c71c4;">2 </span><span style="color:#859900;">- </span><span style="color:#268bd2;">c</span><span style="color:#cb4b16;">''</span><span style="color:#2aa198;">$ </span><span style="color:#b58900;">#pin</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">4</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">  </span><span style="color:#b58900;">#pinit-rect</span><span style="color:#657b83;">(</span><span style="color:#839496;">"</span><span style="color:#2aa198;">r1</span><span style="color:#839496;">"</span><span style="color:var(--fg);">, </span><span style="color:#839496;">"</span><span style="color:#2aa198;">r2</span><span style="color:#839496;">"</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">  </span><span style="color:#b58900;">#pinit-place</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">3</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">dx</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">15pt</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">dy</span><span style="color:var(--fg);">: </span><span style="color:#859900;">-</span><span style="color:#6c71c4;">15pt</span><span style="color:#657b83;">)[</span><span style="color:#b58900;">#redbold</span><span style="color:#657b83;">[</span><span style="color:#2aa198;">$</span><span style="color:#859900;">T</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">n</span><span style="color:#657b83;">) </span><span style="color:#859900;">= O</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">n</span><span style="color:#657b83;">)</span><span style="color:#2aa198;">$</span><span style="color:#657b83;">]]
+</span><span style="color:var(--fg);">  </span><span style="color:#b58900;">#pinit-place</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">4</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">dx</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">15pt</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">dy</span><span style="color:var(--fg);">: </span><span style="color:#859900;">-</span><span style="color:#6c71c4;">15pt</span><span style="color:#657b83;">)[</span><span style="color:#b58900;">#redbold</span><span style="color:#657b83;">[</span><span style="color:#2aa198;">$</span><span style="color:#859900;">T</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">n</span><span style="color:#657b83;">) </span><span style="color:#859900;">= O</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">n</span><span style="color:#657b83;">)</span><span style="color:#2aa198;">$</span><span style="color:#657b83;">]]
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">  </span><span style="color:#b58900;">#blueit</span><span style="color:#657b83;">[</span><span style="color:var(--fg);">Q: Is </span><span style="color:#2aa198;">$</span><span style="color:#268bd2;">n</span><span style="color:#859900;">^</span><span style="color:#cb4b16;">(</span><span style="color:#6c71c4;">3</span><span style="color:#cb4b16;">) </span><span style="color:#859900;">= O</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">n</span><span style="color:#859900;">^</span><span style="color:#6c71c4;">2</span><span style="color:#657b83;">)</span><span style="color:#2aa198;">$</span><span style="color:#b58900;">#pin</span><span style="color:#657b83;">(</span><span style="color:#839496;">"</span><span style="color:#2aa198;">que</span><span style="color:#839496;">"</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">? How to prove your answer</span><span style="color:#b58900;">#pin</span><span style="color:#657b83;">(</span><span style="color:#839496;">"</span><span style="color:#2aa198;">ans</span><span style="color:#839496;">"</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">?</span><span style="color:#657b83;">]
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">  </span><span style="color:#b58900;">#pinit-point-to</span><span style="color:#657b83;">(</span><span style="color:#839496;">"</span><span style="color:#2aa198;">que</span><span style="color:#839496;">"</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">fill</span><span style="color:var(--fg);">: crimson, </span><span style="color:#859900;">redbold</span><span style="color:#657b83;">[</span><span style="color:var(--fg);">No.</span><span style="color:#657b83;">])
+</span><span style="color:var(--fg);">  </span><span style="color:#b58900;">#pinit-point-from</span><span style="color:#657b83;">(</span><span style="color:#839496;">"</span><span style="color:#2aa198;">ans</span><span style="color:#839496;">"</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">body-dx</span><span style="color:var(--fg);">: </span><span style="color:#859900;">-</span><span style="color:#6c71c4;">150pt</span><span style="color:#657b83;">)[
+</span><span style="color:var(--fg);">    Show that the equation </span><span style="color:#2aa198;">$</span><span style="color:#cb4b16;">(</span><span style="color:#6c71c4;">3</span><span style="color:#859900;">/</span><span style="color:#6c71c4;">2</span><span style="color:#cb4b16;">)</span><span style="color:#859900;">^</span><span style="color:#268bd2;">n </span><span style="color:#cb4b16;">&gt;= </span><span style="color:#268bd2;">c</span><span style="color:#2aa198;">$ </span><span style="color:#dc322f;">\
+</span><span style="color:var(--fg);">    has infinitely many solutions for </span><span style="color:#2aa198;">$</span><span style="color:#268bd2;">n</span><span style="color:#2aa198;">$</span><span style="color:var(--fg);">.
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">]
+</span><span style="color:#657b83;">]</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/4cc4ac1de81450b49f618408d35cd551858a4fcee317859f7f2a5d84482a9612-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <h2 id="margin-notes">
+        <a class="header" href="#margin-notes">
+         Margin notes
+        </a>
+       </h2>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#859900;">#import </span><span style="color:#839496;">"</span><span style="color:#2aa198;">@preview/drafting:0.1.1</span><span style="color:#839496;">"</span><span style="color:var(--fg);">: </span><span style="color:#859900;">*
+</span><span style="color:var(--fg);">
+</span><span style="color:#859900;">#let </span><span style="color:#657b83;">(</span><span style="color:var(--fg);">l</span><span style="color:#859900;">-</span><span style="color:var(--fg);">margin, r</span><span style="color:#859900;">-</span><span style="color:var(--fg);">margin</span><span style="color:#657b83;">) </span><span style="color:#859900;">= </span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">1in</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">2in</span><span style="color:#657b83;">)
+</span><span style="color:#859900;">#set page</span><span style="color:#657b83;">(
+</span><span style="color:var(--fg);">  </span><span style="color:#268bd2;">margin</span><span style="color:var(--fg);">: </span><span style="color:#657b83;">(</span><span style="color:var(--fg);">left: l</span><span style="color:#859900;">-</span><span style="color:var(--fg);">margin, right: r</span><span style="color:#859900;">-</span><span style="color:var(--fg);">margin, rest: </span><span style="color:#6c71c4;">0.1in</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">,
+</span><span style="color:#657b83;">)
+</span><span style="color:#859900;">#set-page-properties</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">margin-left</span><span style="color:var(--fg);">: l</span><span style="color:#859900;">-</span><span style="color:var(--fg);">margin, </span><span style="color:#268bd2;">margin-right</span><span style="color:var(--fg);">: r</span><span style="color:#859900;">-</span><span style="color:var(--fg);">margin</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">
+</span><span style="color:#b58900;">= </span><span style="color:#cb4b16;">Margin Notes
+</span><span style="color:#b58900;">== </span><span style="color:#cb4b16;">Setup
+</span><span style="color:var(--fg);">Unfortunately `typst` doesn't expose margins to calling functions, so you'll need to set them explicitly. This is done using `set-page-properties` </span><span style="font-weight:bold;color:var(--fg);">*before you place any content*</span><span style="color:var(--fg);">:
+</span><span style="color:var(--fg);">
+</span><span style="color:#586e75;">// At the top of your source file
+</span><span style="color:#586e75;">// Of course, you can substitute any margin numbers you prefer
+</span><span style="color:#586e75;">// provided the page margins match what you pass to `set-page-properties`
+</span><span style="color:var(--fg);">
+</span><span style="color:#b58900;">== </span><span style="color:#cb4b16;">The basics
+</span><span style="color:#b58900;">#lorem</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">20</span><span style="color:#657b83;">)
+</span><span style="color:#b58900;">#margin-note</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">side</span><span style="color:var(--fg);">: left</span><span style="color:#657b83;">)[</span><span style="color:var(--fg);">Hello, world!</span><span style="color:#657b83;">]
+</span><span style="color:#b58900;">#lorem</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">10</span><span style="color:#657b83;">)
+</span><span style="color:#b58900;">#margin-note</span><span style="color:#657b83;">[</span><span style="color:var(--fg);">Hello from the other side</span><span style="color:#657b83;">]
+</span><span style="color:var(--fg);">
+</span><span style="color:#b58900;">#lorem</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">25</span><span style="color:#657b83;">)
+</span><span style="color:#b58900;">#margin-note</span><span style="color:#657b83;">[</span><span style="color:var(--fg);">When notes are about to overlap, they're automatically shifted</span><span style="color:#657b83;">]
+</span><span style="color:#b58900;">#margin-note</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">stroke</span><span style="color:var(--fg);">: aqua </span><span style="color:#859900;">+ </span><span style="color:#6c71c4;">3pt</span><span style="color:#657b83;">)[</span><span style="color:var(--fg);">To avoid collision</span><span style="color:#657b83;">]
+</span><span style="color:#b58900;">#lorem</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">25</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">
+</span><span style="color:#859900;">#let</span><span style="color:var(--fg);"> caution</span><span style="color:#859900;">-</span><span style="color:var(--fg);">rect </span><span style="color:#859900;">=</span><span style="color:var(--fg);"> rect.</span><span style="color:#859900;">with</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">inset</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">1em</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">radius</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">0.5em</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">fill</span><span style="color:var(--fg);">: orange.</span><span style="color:#859900;">lighten</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">80%</span><span style="color:#657b83;">))
+</span><span style="color:#b58900;">#inline-note</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">rect</span><span style="color:var(--fg);">: caution</span><span style="color:#859900;">-</span><span style="color:var(--fg);">rect</span><span style="color:#657b83;">)[
+</span><span style="color:var(--fg);">  Be aware that notes will stop automatically avoiding collisions if 4 or more notes
+</span><span style="color:var(--fg);">  overlap. This is because `typst` warns when the layout doesn't resolve after 5 attempts
+</span><span style="color:var(--fg);">  (initial layout + adjustment for each note)
+</span><span style="color:#657b83;">]</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/80c65cf70b8da549afe447ce97f6dc71087cc0654dd85cd4f5e95bea388e3179-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#859900;">#import </span><span style="color:#839496;">"</span><span style="color:#2aa198;">@preview/drafting:0.1.1</span><span style="color:#839496;">"</span><span style="color:var(--fg);">: </span><span style="color:#859900;">*
+</span><span style="color:var(--fg);">
+</span><span style="color:#859900;">#let </span><span style="color:#657b83;">(</span><span style="color:var(--fg);">l</span><span style="color:#859900;">-</span><span style="color:var(--fg);">margin, r</span><span style="color:#859900;">-</span><span style="color:var(--fg);">margin</span><span style="color:#657b83;">) </span><span style="color:#859900;">= </span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">1in</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">2in</span><span style="color:#657b83;">)
+</span><span style="color:#859900;">#set page</span><span style="color:#657b83;">(
+</span><span style="color:var(--fg);">  </span><span style="color:#268bd2;">margin</span><span style="color:var(--fg);">: </span><span style="color:#657b83;">(</span><span style="color:var(--fg);">left: l</span><span style="color:#859900;">-</span><span style="color:var(--fg);">margin, right: r</span><span style="color:#859900;">-</span><span style="color:var(--fg);">margin, rest: </span><span style="color:#6c71c4;">0.1in</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">,
+</span><span style="color:#657b83;">)
+</span><span style="color:#859900;">#set-page-properties</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">margin-left</span><span style="color:var(--fg);">: l</span><span style="color:#859900;">-</span><span style="color:var(--fg);">margin, </span><span style="color:#268bd2;">margin-right</span><span style="color:var(--fg);">: r</span><span style="color:#859900;">-</span><span style="color:var(--fg);">margin</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">
+</span><span style="color:#b58900;">== </span><span style="color:#cb4b16;">Adjusting the default style
+</span><span style="color:var(--fg);">All function defaults are customizable through updating the module state:
+</span><span style="color:var(--fg);">
+</span><span style="color:#b58900;">#lorem</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">4</span><span style="color:#657b83;">) </span><span style="color:#b58900;">#margin-note</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">dy</span><span style="color:var(--fg);">: </span><span style="color:#859900;">-</span><span style="color:#6c71c4;">2em</span><span style="color:#657b83;">)[</span><span style="color:var(--fg);">Default style</span><span style="color:#657b83;">]
+</span><span style="color:#859900;">#set-margin-note-defaults</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">stroke</span><span style="color:var(--fg);">: orange, </span><span style="color:#268bd2;">side</span><span style="color:var(--fg);">: left</span><span style="color:#657b83;">)
+</span><span style="color:#b58900;">#lorem</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">4</span><span style="color:#657b83;">) </span><span style="color:#b58900;">#margin-note</span><span style="color:#657b83;">[</span><span style="color:var(--fg);">Updated style</span><span style="color:#657b83;">]
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">Even deeper customization is possible by overriding the default `rect`:
+</span><span style="color:var(--fg);">
+</span><span style="color:#859900;">#import </span><span style="color:#839496;">"</span><span style="color:#2aa198;">@preview/colorful-boxes:1.1.0</span><span style="color:#839496;">"</span><span style="color:var(--fg);">: stickybox
+</span><span style="color:var(--fg);">
+</span><span style="color:#859900;">#let default-rect</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">stroke</span><span style="color:var(--fg);">: </span><span style="color:#b58900;">none</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">fill</span><span style="color:var(--fg);">: </span><span style="color:#b58900;">none</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">width</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">0pt</span><span style="color:var(--fg);">, content</span><span style="color:#657b83;">) </span><span style="color:#859900;">= </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">stickybox</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">rotation</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">30deg</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">width</span><span style="color:var(--fg);">: width</span><span style="color:#859900;">/</span><span style="color:#6c71c4;">1.5</span><span style="color:var(--fg);">, content</span><span style="color:#657b83;">)
+</span><span style="color:#657b83;">}
+</span><span style="color:#859900;">#set-margin-note-defaults</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">rect</span><span style="color:var(--fg);">: default</span><span style="color:#859900;">-</span><span style="color:var(--fg);">rect, </span><span style="color:#268bd2;">stroke</span><span style="color:var(--fg);">: </span><span style="color:#b58900;">none</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">side</span><span style="color:var(--fg);">: right</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">
+</span><span style="color:#b58900;">#lorem</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">20</span><span style="color:#657b83;">)
+</span><span style="color:#b58900;">#margin-note</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">dy</span><span style="color:var(--fg);">: </span><span style="color:#859900;">-</span><span style="color:#6c71c4;">25pt</span><span style="color:#657b83;">)[</span><span style="color:var(--fg);">Why not use sticky notes in the margin?</span><span style="color:#657b83;">]
+</span><span style="color:var(--fg);">
+</span><span style="color:#586e75;">// Undo changes from last example
+</span><span style="color:#859900;">#set-margin-note-defaults</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">rect</span><span style="color:var(--fg);">: rect, </span><span style="color:#268bd2;">stroke</span><span style="color:var(--fg);">: red</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">
+</span><span style="color:#b58900;">== </span><span style="color:#cb4b16;">Multiple document reviewers
+</span><span style="color:#859900;">#let</span><span style="color:var(--fg);"> reviewer</span><span style="color:#859900;">-</span><span style="color:var(--fg);">a </span><span style="color:#859900;">=</span><span style="color:var(--fg);"> margin</span><span style="color:#859900;">-</span><span style="color:var(--fg);">note.</span><span style="color:#859900;">with</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">stroke</span><span style="color:var(--fg);">: blue</span><span style="color:#657b83;">)
+</span><span style="color:#859900;">#let</span><span style="color:var(--fg);"> reviewer</span><span style="color:#859900;">-</span><span style="color:var(--fg);">b </span><span style="color:#859900;">=</span><span style="color:var(--fg);"> margin</span><span style="color:#859900;">-</span><span style="color:var(--fg);">note.</span><span style="color:#859900;">with</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">stroke</span><span style="color:var(--fg);">: purple</span><span style="color:#657b83;">)
+</span><span style="color:#b58900;">#lorem</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">20</span><span style="color:#657b83;">)
+</span><span style="color:#b58900;">#reviewer-a</span><span style="color:#657b83;">[</span><span style="color:var(--fg);">Comment from reviewer A</span><span style="color:#657b83;">]
+</span><span style="color:#b58900;">#lorem</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">15</span><span style="color:#657b83;">)
+</span><span style="color:#b58900;">#reviewer-b</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">side</span><span style="color:var(--fg);">: left</span><span style="color:#657b83;">)[</span><span style="color:var(--fg);">Comment from reviewer B</span><span style="color:#657b83;">]
+</span><span style="color:var(--fg);">
+</span><span style="color:#b58900;">== </span><span style="color:#cb4b16;">Inline Notes
+</span><span style="color:#b58900;">#lorem</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">10</span><span style="color:#657b83;">)
+</span><span style="color:#b58900;">#inline-note</span><span style="color:#657b83;">[</span><span style="color:var(--fg);">The default inline note will split the paragraph at its location</span><span style="color:#657b83;">]
+</span><span style="color:#b58900;">#lorem</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">10</span><span style="color:#657b83;">)
+</span><span style="color:#586e75;">/*
+</span><span style="color:#586e75;">// Should work, but doesn't? Created an issue in repo.
+</span><span style="color:#586e75;">#inline-note(par-break: false, stroke: (paint: orange, dash: "dashed"))[
+</span><span style="color:#586e75;">  But you can specify `par-break: false` to prevent this
+</span><span style="color:#586e75;">]
+</span><span style="color:#586e75;">*/
+</span><span style="color:#b58900;">#lorem</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">10</span><span style="color:#657b83;">)</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/282de769e728a8bdb9c78c665664b382ecbf59fd7d3c915fab67aae7055e2acb-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#859900;">#import </span><span style="color:#839496;">"</span><span style="color:#2aa198;">@preview/drafting:0.1.1</span><span style="color:#839496;">"</span><span style="color:var(--fg);">: </span><span style="color:#859900;">*
+</span><span style="color:var(--fg);">
+</span><span style="color:#859900;">#let </span><span style="color:#657b83;">(</span><span style="color:var(--fg);">l</span><span style="color:#859900;">-</span><span style="color:var(--fg);">margin, r</span><span style="color:#859900;">-</span><span style="color:var(--fg);">margin</span><span style="color:#657b83;">) </span><span style="color:#859900;">= </span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">1in</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">2in</span><span style="color:#657b83;">)
+</span><span style="color:#859900;">#set page</span><span style="color:#657b83;">(
+</span><span style="color:var(--fg);">  </span><span style="color:#268bd2;">margin</span><span style="color:var(--fg);">: </span><span style="color:#657b83;">(</span><span style="color:var(--fg);">left: l</span><span style="color:#859900;">-</span><span style="color:var(--fg);">margin, right: r</span><span style="color:#859900;">-</span><span style="color:var(--fg);">margin, rest: </span><span style="color:#6c71c4;">0.1in</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">,
+</span><span style="color:#657b83;">)
+</span><span style="color:#859900;">#set-page-properties</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">margin-left</span><span style="color:var(--fg);">: l</span><span style="color:#859900;">-</span><span style="color:var(--fg);">margin, </span><span style="color:#268bd2;">margin-right</span><span style="color:var(--fg);">: r</span><span style="color:#859900;">-</span><span style="color:var(--fg);">margin</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">
+</span><span style="color:#b58900;">== </span><span style="color:#cb4b16;">Hiding notes for print preview
+</span><span style="color:#859900;">#set-margin-note-defaults</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">hidden</span><span style="color:var(--fg);">: </span><span style="color:#b58900;">true</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">
+</span><span style="color:#b58900;">#lorem</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">20</span><span style="color:#657b83;">)
+</span><span style="color:#b58900;">#margin-note</span><span style="color:#657b83;">[</span><span style="color:var(--fg);">This will respect the global "hidden" state</span><span style="color:#657b83;">]
+</span><span style="color:#b58900;">#margin-note</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">hidden</span><span style="color:var(--fg);">: </span><span style="color:#b58900;">false</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">dy</span><span style="color:var(--fg);">: </span><span style="color:#859900;">-</span><span style="color:#6c71c4;">2.5em</span><span style="color:#657b83;">)[</span><span style="color:var(--fg);">This note will never be hidden</span><span style="color:#657b83;">]
+</span><span style="color:var(--fg);">
+</span><span style="color:#b58900;">= </span><span style="color:#cb4b16;">Positioning
+</span><span style="color:#b58900;">== </span><span style="color:#cb4b16;">Precise placement: rule grid
+</span><span style="color:var(--fg);">Need to measure space for fine-tuned positioning? You can use `rule-grid` to cross-hatch
+</span><span style="color:var(--fg);">the page with rule lines:
+</span><span style="color:var(--fg);">
+</span><span style="color:#b58900;">#rule-grid</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">width</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">10cm</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">height</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">3cm</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">spacing</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">20pt</span><span style="color:#657b83;">)
+</span><span style="color:#b58900;">#place</span><span style="color:#657b83;">(
+</span><span style="color:var(--fg);">  </span><span style="color:#268bd2;">dx</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">180pt</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#268bd2;">dy</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">40pt</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">rect</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">fill</span><span style="color:var(--fg);">: white, </span><span style="color:#268bd2;">stroke</span><span style="color:var(--fg);">: red, </span><span style="color:#268bd2;">width</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">1in</span><span style="color:var(--fg);">, </span><span style="color:#839496;">"</span><span style="color:#2aa198;">This will originate at (180pt, 40pt)</span><span style="color:#839496;">"</span><span style="color:#657b83;">)
+</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">
+</span><span style="color:#586e75;">// Optionally specify divisions of the smallest dimension to automatically calculate
+</span><span style="color:#586e75;">// spacing
+</span><span style="color:#b58900;">#rule-grid</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">dx</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">10cm </span><span style="color:#859900;">+ </span><span style="color:#6c71c4;">3em</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">width</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">3cm</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">height</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">1.2cm</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">divisions</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">5</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">square</span><span style="color:var(--fg);">: </span><span style="color:#b58900;">true</span><span style="color:var(--fg);">,  </span><span style="color:#268bd2;">stroke</span><span style="color:var(--fg);">: green</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">
+</span><span style="color:#586e75;">// The rule grid doesn't take up space, so add it explicitly
+</span><span style="color:#b58900;">#v</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">3cm </span><span style="color:#859900;">+ </span><span style="color:#6c71c4;">1em</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">
+</span><span style="color:#b58900;">== </span><span style="color:#cb4b16;">Absolute positioning
+</span><span style="color:var(--fg);">What about absolutely positioning something regardless of margin and relative location? `absolute-place` is your friend. You can put content anywhere:
+</span><span style="color:var(--fg);">
+</span><span style="color:#859900;">#</span><span style="color:#cb4b16;">context</span><span style="color:var(--fg);"> {
+</span><span style="color:var(--fg);">  let (dx, dy) = (25%, here().position().y)
+</span><span style="color:var(--fg);">  let content-str = (
+</span><span style="color:var(--fg);">    "This absolutely-placed box will originate at (" + repr(dx) + ", " + repr(dy) + ")"
+</span><span style="color:var(--fg);">    + " in page coordinates"
+</span><span style="color:var(--fg);">  )
+</span><span style="color:var(--fg);">  absolute-place(
+</span><span style="color:var(--fg);">    dx: dx, dy: dy,
+</span><span style="color:var(--fg);">    rect(
+</span><span style="color:var(--fg);">      fill: green.lighten(60%),
+</span><span style="color:var(--fg);">      radius: 0.5em,
+</span><span style="color:var(--fg);">      width: 2.5in,
+</span><span style="color:var(--fg);">      height: 0.5in,
+</span><span style="color:var(--fg);">      [</span><span style="color:#b58900;">#align</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">center </span><span style="color:#859900;">+</span><span style="color:var(--fg);"> horizon, content</span><span style="color:#859900;">-</span><span style="color:var(--fg);">str</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">]
+</span><span style="color:var(--fg);">    )
+</span><span style="color:var(--fg);">  )
+</span><span style="color:var(--fg);">}
+</span><span style="color:#b58900;">#v</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">1in</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">The "rule-grid" also supports absolute placement at the top-left of the page by passing `relative: false`. This is helpful for "rule"-ing the whole page.</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/212dfc0f37bc9749e459085bb305f46a1db7ab3fbb22760f62ec58e349837d9e-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <h2 id="dropped-capitals">
+        <a class="header" href="#dropped-capitals">
+         Dropped capitals
+        </a>
+       </h2>
+       <blockquote>
+        <p>
+         Get more info
+         <a href="https://github.com/EpicEricEE/typst-plugins/tree/master/droplet">
+          here
+         </a>
+        </p>
+       </blockquote>
+       <h3 id="basic-usage">
+        <a class="header" href="#basic-usage">
+         Basic usage
+        </a>
+       </h3>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#859900;">#import </span><span style="color:#839496;">"</span><span style="color:#2aa198;">@preview/droplet:0.1.0</span><span style="color:#839496;">"</span><span style="color:var(--fg);">: dropcap
+</span><span style="color:var(--fg);">
+</span><span style="color:#b58900;">#dropcap</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">gap</span><span style="color:var(--fg);">: </span><span style="color:#859900;">-</span><span style="color:#6c71c4;">2pt</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">hanging-indent</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">8pt</span><span style="color:#657b83;">)[
+</span><span style="color:var(--fg);">  </span><span style="color:#b58900;">#lorem</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">42</span><span style="color:#657b83;">)
+</span><span style="color:#657b83;">]</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/a9c411d628d90aa8313aa9f0829bfdf43122c4532ad0d9d323a64b989a049d64-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <h3 id="extended-styling">
+        <a class="header" href="#extended-styling">
+         Extended styling
+        </a>
+       </h3>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#859900;">#import </span><span style="color:#839496;">"</span><span style="color:#2aa198;">@preview/droplet:0.1.0</span><span style="color:#839496;">"</span><span style="color:var(--fg);">: dropcap
+</span><span style="color:var(--fg);">
+</span><span style="color:#b58900;">#dropcap</span><span style="color:#657b83;">(
+</span><span style="color:var(--fg);">  </span><span style="color:#268bd2;">height</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">2</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#268bd2;">justify</span><span style="color:var(--fg);">: </span><span style="color:#b58900;">true</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#268bd2;">gap</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">6pt</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#268bd2;">transform</span><span style="color:var(--fg);">: letter </span><span style="color:#859900;">=&gt; style</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">styles </span><span style="color:#859900;">=&gt; </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">    </span><span style="color:#859900;">let</span><span style="color:var(--fg);"> height </span><span style="color:#859900;">= measure</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">letter, styles</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">.height
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">    </span><span style="color:#859900;">grid</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">columns</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">2</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">gutter</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">6pt</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">      </span><span style="color:#859900;">align</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">center </span><span style="color:#859900;">+</span><span style="color:var(--fg);"> horizon, </span><span style="color:#859900;">text</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">blue, letter</span><span style="color:#657b83;">))</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">      </span><span style="color:#586e75;">// Use "place" to ignore the line's height when
+</span><span style="color:var(--fg);">      </span><span style="color:#586e75;">// the font size is calculated later on.
+</span><span style="color:var(--fg);">      </span><span style="color:#859900;">place</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">horizon, </span><span style="color:#859900;">line</span><span style="color:#657b83;">(
+</span><span style="color:var(--fg);">        </span><span style="color:#268bd2;">angle</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">90deg</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">        </span><span style="color:#268bd2;">length</span><span style="color:var(--fg);">: height </span><span style="color:#859900;">+ </span><span style="color:#6c71c4;">6pt</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">        </span><span style="color:#268bd2;">stroke</span><span style="color:var(--fg);">: blue.</span><span style="color:#859900;">lighten</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">40%</span><span style="color:#657b83;">) </span><span style="color:#859900;">+ </span><span style="color:#6c71c4;">1pt
+</span><span style="color:var(--fg);">      </span><span style="color:#657b83;">))</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">    </span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">})
+</span><span style="color:#657b83;">)[
+</span><span style="color:var(--fg);">  </span><span style="color:#b58900;">#lorem</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">42</span><span style="color:#657b83;">)
+</span><span style="color:#657b83;">]</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/50d7ee4ffb1e61856535409373b040d579ab05734f3f304a4dc15f23361fd710-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <h2 id="headings-for-actual-current-chapter">
+        <a class="header" href="#headings-for-actual-current-chapter">
+         Headings for actual current chapter
+        </a>
+       </h2>
+       <blockquote>
+        <p>
+         See
+         <a href="https://github.com/tingerrr/hydra">
+          hydra
+         </a>
+        </p>
+       </blockquote>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#859900;">#import </span><span style="color:#839496;">"</span><span style="color:#2aa198;">@preview/hydra:0.2.0</span><span style="color:#839496;">"</span><span style="color:var(--fg);">: hydra
+</span><span style="color:var(--fg);">
+</span><span style="color:#859900;">#set page</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">header</span><span style="color:var(--fg);">: </span><span style="color:#859900;">hydra</span><span style="color:#657b83;">() </span><span style="color:#859900;">+ line</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">length</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">100%</span><span style="color:#657b83;">))
+</span><span style="color:#859900;">#set heading</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">numbering</span><span style="color:var(--fg);">: </span><span style="color:#839496;">"</span><span style="color:#2aa198;">1.1</span><span style="color:#839496;">"</span><span style="color:#657b83;">)
+</span><span style="color:#859900;">#show</span><span style="color:var(--fg);"> heading.</span><span style="color:#859900;">where</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">level</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">1</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">: it </span><span style="color:#859900;">=&gt; pagebreak</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">weak</span><span style="color:var(--fg);">: </span><span style="color:#b58900;">true</span><span style="color:#657b83;">) </span><span style="color:#859900;">+</span><span style="color:var(--fg);"> it
+</span><span style="color:var(--fg);">
+</span><span style="color:#b58900;">= </span><span style="color:#cb4b16;">Introduction
+</span><span style="color:#b58900;">#lorem</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">750</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">
+</span><span style="color:#b58900;">= </span><span style="color:#cb4b16;">Content
+</span><span style="color:#b58900;">== </span><span style="color:#cb4b16;">First Section
+</span><span style="color:#b58900;">#lorem</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">500</span><span style="color:#657b83;">)
+</span><span style="color:#b58900;">== </span><span style="color:#cb4b16;">Second Section
+</span><span style="color:#b58900;">#lorem</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">250</span><span style="color:#657b83;">)
+</span><span style="color:#b58900;">== </span><span style="color:#cb4b16;">Third Section
+</span><span style="color:#b58900;">#lorem</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">500</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">
+</span><span style="color:#b58900;">= </span><span style="color:#cb4b16;">Annex
+</span><span style="color:#b58900;">#lorem</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">10</span><span style="color:#657b83;">)</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/ab3a07e72c5e19f28936f6d2249c9c5bcd102a27f4af177db63d7715c5c64f33-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/ab3a07e72c5e19f28936f6d2249c9c5bcd102a27f4af177db63d7715c5c64f33-2.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/ab3a07e72c5e19f28936f6d2249c9c5bcd102a27f4af177db63d7715c5c64f33-3.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/ab3a07e72c5e19f28936f6d2249c9c5bcd102a27f4af177db63d7715c5c64f33-4.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/ab3a07e72c5e19f28936f6d2249c9c5bcd102a27f4af177db63d7715c5c64f33-5.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+      </main>

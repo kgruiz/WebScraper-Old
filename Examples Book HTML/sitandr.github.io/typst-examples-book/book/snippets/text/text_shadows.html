@@ -1,0 +1,59 @@
+<main>
+       <!-- Page table of contents -->
+       <div class="sidetoc">
+        <nav class="pagetoc">
+        </nav>
+       </div>
+       <h1 id="fake-italic--text-shadows">
+        <a class="header" href="#fake-italic--text-shadows">
+         Fake italic &amp; Text shadows
+        </a>
+       </h1>
+       <h2 id="skew">
+        <a class="header" href="#skew">
+         Skew
+        </a>
+       </h2>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#586e75;">// author: Enivex
+</span><span style="color:#859900;">#set page</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">width</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">21cm</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">height</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">3cm</span><span style="color:#657b83;">)
+</span><span style="color:#859900;">#set text</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">size</span><span style="color:var(--fg);">:</span><span style="color:#6c71c4;">25pt</span><span style="color:#657b83;">)
+</span><span style="color:#859900;">#let skew</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">angle,</span><span style="color:#268bd2;">vscale</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">1</span><span style="color:var(--fg);">,body</span><span style="color:#657b83;">) </span><span style="color:#859900;">= </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">let </span><span style="color:#657b83;">(</span><span style="color:var(--fg);">a,b,c,d</span><span style="color:#657b83;">)</span><span style="color:#859900;">= </span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">1</span><span style="color:var(--fg);">,vscale</span><span style="color:#859900;">*</span><span style="color:var(--fg);">calc.</span><span style="color:#859900;">tan</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">angle</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">,</span><span style="color:#6c71c4;">0</span><span style="color:var(--fg);">,vscale</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">let</span><span style="color:var(--fg);"> E </span><span style="color:#859900;">= </span><span style="color:#657b83;">(</span><span style="color:var(--fg);">a </span><span style="color:#859900;">+</span><span style="color:var(--fg);"> d</span><span style="color:#657b83;">)</span><span style="color:#859900;">/</span><span style="color:#6c71c4;">2
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">let</span><span style="color:var(--fg);"> F </span><span style="color:#859900;">= </span><span style="color:#657b83;">(</span><span style="color:var(--fg);">a </span><span style="color:#859900;">-</span><span style="color:var(--fg);"> d</span><span style="color:#657b83;">)</span><span style="color:#859900;">/</span><span style="color:#6c71c4;">2
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">let</span><span style="color:var(--fg);"> G </span><span style="color:#859900;">= </span><span style="color:#657b83;">(</span><span style="color:var(--fg);">b </span><span style="color:#859900;">+</span><span style="color:var(--fg);"> c</span><span style="color:#657b83;">)</span><span style="color:#859900;">/</span><span style="color:#6c71c4;">2
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">let</span><span style="color:var(--fg);"> H </span><span style="color:#859900;">= </span><span style="color:#657b83;">(</span><span style="color:var(--fg);">c </span><span style="color:#859900;">-</span><span style="color:var(--fg);"> b</span><span style="color:#657b83;">)</span><span style="color:#859900;">/</span><span style="color:#6c71c4;">2
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">let</span><span style="color:var(--fg);"> Q </span><span style="color:#859900;">=</span><span style="color:var(--fg);"> calc.</span><span style="color:#859900;">sqrt</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">E</span><span style="color:#859900;">*</span><span style="color:var(--fg);">E </span><span style="color:#859900;">+</span><span style="color:var(--fg);"> H</span><span style="color:#859900;">*</span><span style="color:var(--fg);">H</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">let</span><span style="color:var(--fg);"> R </span><span style="color:#859900;">=</span><span style="color:var(--fg);"> calc.</span><span style="color:#859900;">sqrt</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">F</span><span style="color:#859900;">*</span><span style="color:var(--fg);">F </span><span style="color:#859900;">+</span><span style="color:var(--fg);"> G</span><span style="color:#859900;">*</span><span style="color:var(--fg);">G</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">let</span><span style="color:var(--fg);"> sx </span><span style="color:#859900;">=</span><span style="color:var(--fg);"> Q </span><span style="color:#859900;">+</span><span style="color:var(--fg);"> R
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">let</span><span style="color:var(--fg);"> sy </span><span style="color:#859900;">=</span><span style="color:var(--fg);"> Q </span><span style="color:#859900;">-</span><span style="color:var(--fg);"> R
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">let</span><span style="color:var(--fg);"> a1 </span><span style="color:#859900;">=</span><span style="color:var(--fg);"> calc.</span><span style="color:#859900;">atan2</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">F,G</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">let</span><span style="color:var(--fg);"> a2 </span><span style="color:#859900;">=</span><span style="color:var(--fg);"> calc.</span><span style="color:#859900;">atan2</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">E,H</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">let</span><span style="color:var(--fg);"> theta </span><span style="color:#859900;">= </span><span style="color:#657b83;">(</span><span style="color:var(--fg);">a2 </span><span style="color:#859900;">-</span><span style="color:var(--fg);"> a1</span><span style="color:#657b83;">) </span><span style="color:#859900;">/</span><span style="color:#6c71c4;">2
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">let</span><span style="color:var(--fg);"> phi </span><span style="color:#859900;">= </span><span style="color:#657b83;">(</span><span style="color:var(--fg);">a2 </span><span style="color:#859900;">+</span><span style="color:var(--fg);"> a1</span><span style="color:#657b83;">)</span><span style="color:#859900;">/</span><span style="color:#6c71c4;">2
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">set rotate</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">origin</span><span style="color:var(--fg);">: bottom</span><span style="color:#859900;">+</span><span style="color:var(--fg);">center</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">set scale</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">origin</span><span style="color:var(--fg);">: bottom</span><span style="color:#859900;">+</span><span style="color:var(--fg);">center</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">rotate</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">phi,</span><span style="color:#859900;">scale</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">x</span><span style="color:var(--fg);">: sx</span><span style="color:#859900;">*</span><span style="color:#6c71c4;">100%</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">y</span><span style="color:var(--fg);">: sy</span><span style="color:#859900;">*</span><span style="color:#6c71c4;">100%</span><span style="color:var(--fg);">,</span><span style="color:#859900;">rotate</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">theta,body</span><span style="color:#657b83;">)))
+</span><span style="color:#657b83;">}
+</span><span style="color:var(--fg);">
+</span><span style="color:#859900;">#let fake-italic</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">body</span><span style="color:#657b83;">) </span><span style="color:#859900;">= skew</span><span style="color:#657b83;">(</span><span style="color:#859900;">-</span><span style="color:#6c71c4;">12deg</span><span style="color:var(--fg);">,body</span><span style="color:#657b83;">)
+</span><span style="color:#b58900;">#fake-italic</span><span style="color:#657b83;">[</span><span style="color:var(--fg);">This is fake italic text</span><span style="color:#657b83;">]
+</span><span style="color:var(--fg);">
+</span><span style="color:#859900;">#let shadowed</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">body</span><span style="color:#657b83;">) </span><span style="color:#859900;">= box</span><span style="color:#657b83;">(</span><span style="color:#859900;">place</span><span style="color:#657b83;">(</span><span style="color:#859900;">skew</span><span style="color:#657b83;">(</span><span style="color:#859900;">-</span><span style="color:#6c71c4;">50deg</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">vscale</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">0.8</span><span style="color:var(--fg);">, </span><span style="color:#859900;">text</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">fill</span><span style="color:var(--fg);">:</span><span style="color:#859900;">luma</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">200</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">,body</span><span style="color:#657b83;">)))</span><span style="color:#859900;">+place</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">body</span><span style="color:#657b83;">))
+</span><span style="color:#b58900;">#shadowed</span><span style="color:#657b83;">[</span><span style="color:var(--fg);">This is some fancy text with a shadow</span><span style="color:#657b83;">]</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/1c00de41a0643ecf254de80601efa4a043302c1e76aedfbf2458a9e30f1c7fd3-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+      </main>

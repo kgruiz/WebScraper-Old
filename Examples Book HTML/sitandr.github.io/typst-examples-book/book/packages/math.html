@@ -1,0 +1,658 @@
+<main>
+       <!-- Page table of contents -->
+       <div class="sidetoc">
+        <nav class="pagetoc">
+        </nav>
+       </div>
+       <h1 id="math">
+        <a class="header" href="#math">
+         Math
+        </a>
+       </h1>
+       <h2 id="general">
+        <a class="header" href="#general">
+         General
+        </a>
+       </h2>
+       <h3 id="physica">
+        <a class="header" href="#physica">
+         <code class="hljs">
+          <span style="color:var(--fg);">
+           physica
+          </span>
+         </code>
+        </a>
+       </h3>
+       <blockquote>
+        <p>
+         Physica (Latin for
+         <em>
+          natural sciences
+         </em>
+         ) provides utilities that simplify
+otherwise complex and repetitive mathematical expressions in natural sciences.
+        </p>
+       </blockquote>
+       <blockquote>
+        <p>
+         Its
+         <a href="https://github.com/Leedehai/typst-physics/blob/master/physica-manual.pdf">
+          manual
+         </a>
+         provides a full set of demonstrations of how the package could be helpful.
+        </p>
+       </blockquote>
+       <h4 id="common-notations">
+        <a class="header" href="#common-notations">
+         Common notations
+        </a>
+       </h4>
+       <ul>
+        <li>
+         Calculus: differential, ordinary and partial derivatives
+         <ul>
+          <li>
+           Optional function name,
+          </li>
+          <li>
+           Optional order number or an array of thereof,
+          </li>
+          <li>
+           Customizable "d" symbol and product joiner (say, exterior product),
+          </li>
+          <li>
+           Overridable total order calculation,
+          </li>
+         </ul>
+        </li>
+        <li>
+         Vectors and vector fields: div, grad, curl,
+        </li>
+        <li>
+         Taylor expansion,
+        </li>
+        <li>
+         Dirac braket notations,
+        </li>
+        <li>
+         Tensors with abstract index notations,
+        </li>
+        <li>
+         Matrix transpose and dagger (conjugate transpose).
+        </li>
+        <li>
+         Special matrices: determinant, (anti-)diagonal, identity, zero, Jacobian,
+Hessian, etc.
+         <!-- TODO Add rotation and gram matrices in physica:0.9.2 -->
+        </li>
+       </ul>
+       <p>
+        Below is a preview of those notations.
+       </p>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#859900;">#import </span><span style="color:#839496;">"</span><span style="color:#2aa198;">@preview/physica:0.9.1</span><span style="color:#839496;">"</span><span style="color:var(--fg);">: </span><span style="color:#859900;">* </span><span style="color:#586e75;">// Symbol names annotated below
+</span><span style="color:var(--fg);">
+</span><span style="color:#b58900;">#table</span><span style="color:#657b83;">(
+</span><span style="color:var(--fg);">  </span><span style="color:#268bd2;">columns</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">4</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">align</span><span style="color:var(--fg);">: horizon, </span><span style="color:#268bd2;">stroke</span><span style="color:var(--fg);">: </span><span style="color:#b58900;">none</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">gutter</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">1em</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">  </span><span style="color:#586e75;">// vectors: bold, unit, arrow
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">[</span><span style="color:#2aa198;">$ </span><span style="color:#859900;">vb</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">a</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">, </span><span style="color:#859900;">vb</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">e</span><span style="color:#859900;">_</span><span style="color:#268bd2;">i</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">, </span><span style="color:#859900;">vu</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">a</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">, </span><span style="color:#859900;">vu</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">e</span><span style="color:#859900;">_</span><span style="color:#268bd2;">i</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">, </span><span style="color:#859900;">va</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">a</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">, </span><span style="color:#859900;">va</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">e</span><span style="color:#859900;">_</span><span style="color:#268bd2;">i</span><span style="color:#657b83;">) </span><span style="color:#2aa198;">$</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#586e75;">// dprod (dot product), cprod (cross product), iprod (innerproduct)
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">[</span><span style="color:#2aa198;">$ </span><span style="color:#268bd2;">a </span><span style="color:#859900;">dprod </span><span style="color:#268bd2;">b</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">a </span><span style="color:#859900;">cprod </span><span style="color:#268bd2;">b</span><span style="color:var(--fg);">, </span><span style="color:#859900;">iprod</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">a</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">b</span><span style="color:#657b83;">) </span><span style="color:#2aa198;">$</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#586e75;">// laplacian (different from built-in laplace)
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">[</span><span style="color:#2aa198;">$ </span><span style="color:#859900;">dot</span><span style="color:var(--fg);">.</span><span style="color:#859900;">double</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">u</span><span style="color:#657b83;">) </span><span style="color:#859900;">= laplacian </span><span style="color:#268bd2;">u </span><span style="color:#cb4b16;">=: </span><span style="color:#859900;">laplace </span><span style="color:#268bd2;">u </span><span style="color:#2aa198;">$</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#586e75;">// grad, div, curl (vector fields)
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">[</span><span style="color:#2aa198;">$ </span><span style="color:#859900;">grad phi</span><span style="color:var(--fg);">, </span><span style="color:#859900;">div vb</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">E</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">, </span><span style="color:#dc322f;">\ </span><span style="color:#859900;">curl vb</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">B</span><span style="color:#657b83;">) </span><span style="color:#2aa198;">$</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">,
+</span><span style="color:#657b83;">)</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/3be7ef86d6c5f7044a42c69fcf93afccd936eb0fcbe987122702c7dda467480f-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#859900;">#import </span><span style="color:#839496;">"</span><span style="color:#2aa198;">@preview/physica:0.9.1</span><span style="color:#839496;">"</span><span style="color:var(--fg);">: </span><span style="color:#859900;">* </span><span style="color:#586e75;">// Symbol names annotated below
+</span><span style="color:var(--fg);">
+</span><span style="color:#b58900;">#table</span><span style="color:#657b83;">(
+</span><span style="color:var(--fg);">  </span><span style="color:#268bd2;">columns</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">4</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">align</span><span style="color:var(--fg);">: horizon, </span><span style="color:#268bd2;">stroke</span><span style="color:var(--fg);">: </span><span style="color:#b58900;">none</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">gutter</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">1em</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">  </span><span style="color:#586e75;">// Row 1.
+</span><span style="color:var(--fg);">  </span><span style="color:#586e75;">// dd (differential), var (variation), difference
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">[</span><span style="color:#2aa198;">$ </span><span style="color:#859900;">dd</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">f</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">, </span><span style="color:#859900;">var</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">f</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">, </span><span style="color:#859900;">difference</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">f</span><span style="color:#657b83;">) </span><span style="color:#2aa198;">$</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#586e75;">// dd, with an order number or an array thereof
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">[</span><span style="color:#2aa198;">$ </span><span style="color:#859900;">dd</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">x</span><span style="color:var(--fg);">,</span><span style="color:#268bd2;">y</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">, </span><span style="color:#859900;">dd</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">x</span><span style="color:var(--fg);">,</span><span style="color:#268bd2;">y</span><span style="color:var(--fg);">,</span><span style="color:#6c71c4;">2</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">, </span><span style="color:#dc322f;">\ </span><span style="color:#859900;">dd</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">x</span><span style="color:var(--fg);">,</span><span style="color:#268bd2;">y</span><span style="color:var(--fg);">,[</span><span style="color:#6c71c4;">1</span><span style="color:var(--fg);">,</span><span style="color:#268bd2;">n</span><span style="color:var(--fg);">]</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">, </span><span style="color:#859900;">dd</span><span style="color:#657b83;">(</span><span style="color:#859900;">vb</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">x</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">,</span><span style="color:#268bd2;">t</span><span style="color:var(--fg);">,[</span><span style="color:#6c71c4;">3</span><span style="color:var(--fg);">,]</span><span style="color:#657b83;">) </span><span style="color:#2aa198;">$</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#586e75;">// dd, with custom "d" symbol and joiner
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">[</span><span style="color:#2aa198;">$ </span><span style="color:#859900;">dd</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">x</span><span style="color:var(--fg);">,</span><span style="color:#268bd2;">y</span><span style="color:var(--fg);">,</span><span style="color:#268bd2;">p</span><span style="color:var(--fg);">:</span><span style="color:#859900;">and</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">, </span><span style="color:#859900;">dd</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">x</span><span style="color:var(--fg);">,</span><span style="color:#268bd2;">y</span><span style="color:var(--fg);">,</span><span style="color:#268bd2;">d</span><span style="color:var(--fg);">:</span><span style="color:#859900;">Delta</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">, </span><span style="color:#dc322f;">\ </span><span style="color:#859900;">dd</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">x</span><span style="color:var(--fg);">,</span><span style="color:#268bd2;">y</span><span style="color:var(--fg);">,</span><span style="color:#268bd2;">z</span><span style="color:var(--fg);">,[</span><span style="color:#6c71c4;">1</span><span style="color:var(--fg);">,</span><span style="color:#6c71c4;">1</span><span style="color:var(--fg);">,</span><span style="color:#268bd2;">n</span><span style="color:#859900;">+</span><span style="color:#6c71c4;">1</span><span style="color:var(--fg);">],</span><span style="color:#268bd2;">d</span><span style="color:var(--fg);">:</span><span style="color:#268bd2;">d</span><span style="color:var(--fg);">,</span><span style="color:#268bd2;">p</span><span style="color:var(--fg);">:</span><span style="color:#859900;">dot</span><span style="color:#657b83;">) </span><span style="color:#2aa198;">$</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#586e75;">// dv (ordinary derivative), with custom "d" symbol and joiner
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">[</span><span style="color:#2aa198;">$ </span><span style="color:#859900;">dv</span><span style="color:#657b83;">(</span><span style="color:#859900;">phi</span><span style="color:var(--fg);">,</span><span style="color:#268bd2;">t</span><span style="color:var(--fg);">,</span><span style="color:#268bd2;">d</span><span style="color:var(--fg);">:</span><span style="color:#859900;">Delta</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">, </span><span style="color:#859900;">dv</span><span style="color:#657b83;">(</span><span style="color:#859900;">phi</span><span style="color:var(--fg);">,</span><span style="color:#268bd2;">t</span><span style="color:var(--fg);">,</span><span style="color:#268bd2;">d</span><span style="color:var(--fg);">:</span><span style="color:#859900;">upright</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">D</span><span style="color:#657b83;">))</span><span style="color:var(--fg);">, </span><span style="color:#859900;">dv</span><span style="color:#657b83;">(</span><span style="color:#859900;">phi</span><span style="color:var(--fg);">,</span><span style="color:#268bd2;">t</span><span style="color:var(--fg);">,</span><span style="color:#268bd2;">d</span><span style="color:var(--fg);">:</span><span style="color:#859900;">delta</span><span style="color:#657b83;">) </span><span style="color:#2aa198;">$</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">  </span><span style="color:#586e75;">// Row 2.
+</span><span style="color:var(--fg);">  </span><span style="color:#586e75;">// dv, with optional function name and order
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">[</span><span style="color:#2aa198;">$ </span><span style="color:#859900;">dv</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">,</span><span style="color:#268bd2;">t</span><span style="color:#657b83;">) </span><span style="color:#cb4b16;">(</span><span style="color:#859900;">dv</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">x</span><span style="color:var(--fg);">,</span><span style="color:#268bd2;">t</span><span style="color:#657b83;">)</span><span style="color:#cb4b16;">) </span><span style="color:#859900;">= dv</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">x</span><span style="color:var(--fg);">,</span><span style="color:#268bd2;">t</span><span style="color:var(--fg);">,</span><span style="color:#6c71c4;">2</span><span style="color:#657b83;">) </span><span style="color:#2aa198;">$</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#586e75;">// pdv (partial derivative)
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">[</span><span style="color:#2aa198;">$ </span><span style="color:#859900;">pdv</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">f</span><span style="color:var(--fg);">,</span><span style="color:#268bd2;">x</span><span style="color:var(--fg);">,</span><span style="color:#268bd2;">y</span><span style="color:var(--fg);">,</span><span style="color:#6c71c4;">2</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">, </span><span style="color:#859900;">pdv</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">,</span><span style="color:#268bd2;">x</span><span style="color:var(--fg);">,</span><span style="color:#268bd2;">y</span><span style="color:var(--fg);">,[</span><span style="color:#268bd2;">k</span><span style="color:var(--fg);">,]</span><span style="color:#657b83;">) </span><span style="color:#2aa198;">$</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#586e75;">// pdv, with auto-added overridable total
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">[</span><span style="color:#2aa198;">$ </span><span style="color:#859900;">pdv</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">,</span><span style="color:#268bd2;">x</span><span style="color:var(--fg);">,</span><span style="color:#268bd2;">y</span><span style="color:var(--fg);">,[</span><span style="color:#268bd2;">i</span><span style="color:#859900;">+</span><span style="color:#6c71c4;">2</span><span style="color:var(--fg);">,</span><span style="color:#268bd2;">i</span><span style="color:#859900;">+</span><span style="color:#6c71c4;">1</span><span style="color:var(--fg);">]</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">, </span><span style="color:#859900;">pdv</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">,</span><span style="color:#268bd2;">y</span><span style="color:var(--fg);">,</span><span style="color:#268bd2;">x</span><span style="color:var(--fg);">,[</span><span style="color:#268bd2;">i</span><span style="color:#859900;">+</span><span style="color:#6c71c4;">1</span><span style="color:var(--fg);">,</span><span style="color:#268bd2;">i</span><span style="color:#859900;">+</span><span style="color:#6c71c4;">2</span><span style="color:var(--fg);">],</span><span style="color:#859900;">total</span><span style="color:var(--fg);">:</span><span style="color:#6c71c4;">3</span><span style="color:#859900;">+</span><span style="color:#6c71c4;">2</span><span style="color:#268bd2;">i</span><span style="color:#657b83;">) </span><span style="color:#2aa198;">$</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#586e75;">// In a flat form
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">[</span><span style="color:#2aa198;">$ </span><span style="color:#859900;">dv</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">u</span><span style="color:var(--fg);">,</span><span style="color:#268bd2;">x</span><span style="color:var(--fg);">,</span><span style="color:#268bd2;">s</span><span style="color:var(--fg);">:</span><span style="color:#859900;">slash</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">, </span><span style="color:#dc322f;">\ </span><span style="color:#859900;">pdv</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">u</span><span style="color:var(--fg);">,</span><span style="color:#268bd2;">x</span><span style="color:var(--fg);">,</span><span style="color:#268bd2;">y</span><span style="color:var(--fg);">,</span><span style="color:#6c71c4;">2</span><span style="color:var(--fg);">,</span><span style="color:#268bd2;">s</span><span style="color:var(--fg);">:</span><span style="color:#859900;">slash</span><span style="color:#657b83;">) </span><span style="color:#2aa198;">$</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">,
+</span><span style="color:#657b83;">)</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/0835a840454f88ed2e3b98ddfe37d6f8026729812372a6298d86129611f348c3-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <!--
+// TODO Add Order/order once physica:0.9.2 is merged.
+// TODO Demo expval(A, phi) once physica:0.9.2 is merged.
+-->
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#859900;">#import </span><span style="color:#839496;">"</span><span style="color:#2aa198;">@preview/physica:0.9.1</span><span style="color:#839496;">"</span><span style="color:var(--fg);">: </span><span style="color:#859900;">* </span><span style="color:#586e75;">// Symbol names annotated below
+</span><span style="color:var(--fg);">
+</span><span style="color:#b58900;">#table</span><span style="color:#657b83;">(
+</span><span style="color:var(--fg);">  </span><span style="color:#268bd2;">columns</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">3</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">align</span><span style="color:var(--fg);">: horizon, </span><span style="color:#268bd2;">stroke</span><span style="color:var(--fg);">: </span><span style="color:#b58900;">none</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">gutter</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">1em</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">  </span><span style="color:#586e75;">// tensor
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">[</span><span style="color:#2aa198;">$ </span><span style="color:#859900;">tensor</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">T</span><span style="color:var(--fg);">,</span><span style="color:#859900;">+</span><span style="color:#268bd2;">a</span><span style="color:var(--fg);">,</span><span style="color:#859900;">-</span><span style="color:#268bd2;">b</span><span style="color:var(--fg);">,</span><span style="color:#859900;">-</span><span style="color:#268bd2;">c</span><span style="color:#657b83;">) </span><span style="color:#cb4b16;">!= </span><span style="color:#859900;">tensor</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">T</span><span style="color:var(--fg);">,</span><span style="color:#859900;">-</span><span style="color:#268bd2;">b</span><span style="color:var(--fg);">,</span><span style="color:#859900;">-</span><span style="color:#268bd2;">c</span><span style="color:var(--fg);">,</span><span style="color:#859900;">+</span><span style="color:#268bd2;">a</span><span style="color:#657b83;">) </span><span style="color:#cb4b16;">!= </span><span style="color:#859900;">tensor</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">T</span><span style="color:var(--fg);">,</span><span style="color:#859900;">+</span><span style="color:#268bd2;">a</span><span style="color:#cb4b16;">'</span><span style="color:var(--fg);">,</span><span style="color:#859900;">-</span><span style="color:#268bd2;">b</span><span style="color:var(--fg);">,</span><span style="color:#859900;">-</span><span style="color:#268bd2;">c</span><span style="color:#657b83;">) </span><span style="color:#2aa198;">$</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#586e75;">// Set builder notation
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">[</span><span style="color:#2aa198;">$ </span><span style="color:#859900;">Set</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">p</span><span style="color:var(--fg);">, {</span><span style="color:#268bd2;">q</span><span style="color:#859900;">^*</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">p</span><span style="color:var(--fg);">} </span><span style="color:#859900;">= </span><span style="color:#6c71c4;">1</span><span style="color:#657b83;">) </span><span style="color:#2aa198;">$</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#586e75;">// taylorterm (Taylor series term)
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">[</span><span style="color:#2aa198;">$ </span><span style="color:#859900;">taylorterm</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">f</span><span style="color:var(--fg);">,</span><span style="color:#268bd2;">x</span><span style="color:var(--fg);">,</span><span style="color:#268bd2;">x</span><span style="color:#859900;">_</span><span style="color:var(--fg);">0,</span><span style="color:#6c71c4;">1</span><span style="color:#657b83;">) </span><span style="color:#dc322f;">\ </span><span style="color:#859900;">taylorterm</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">f</span><span style="color:var(--fg);">,</span><span style="color:#268bd2;">x</span><span style="color:var(--fg);">,</span><span style="color:#268bd2;">x</span><span style="color:#859900;">_</span><span style="color:var(--fg);">0,</span><span style="color:#cb4b16;">(</span><span style="color:#268bd2;">n</span><span style="color:#859900;">+</span><span style="color:#6c71c4;">1</span><span style="color:#cb4b16;">)</span><span style="color:#657b83;">) </span><span style="color:#2aa198;">$</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">,
+</span><span style="color:#657b83;">)</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/5c08b65761578f38762229692a33e2b05f096aa8fb7859238b1018240f054d10-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#859900;">#import </span><span style="color:#839496;">"</span><span style="color:#2aa198;">@preview/physica:0.9.1</span><span style="color:#839496;">"</span><span style="color:var(--fg);">: </span><span style="color:#859900;">* </span><span style="color:#586e75;">// Symbol names annotated below
+</span><span style="color:var(--fg);">
+</span><span style="color:#b58900;">#table</span><span style="color:#657b83;">(
+</span><span style="color:var(--fg);">  </span><span style="color:#268bd2;">columns</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">3</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">align</span><span style="color:var(--fg);">: horizon, </span><span style="color:#268bd2;">stroke</span><span style="color:var(--fg);">: </span><span style="color:#b58900;">none</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">gutter</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">1em</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">  </span><span style="color:#586e75;">// expval (mean/expectation value), eval (evaluation boundary)
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">[</span><span style="color:#2aa198;">$ </span><span style="color:#859900;">expval</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">X</span><span style="color:#657b83;">) </span><span style="color:#859900;">= eval</span><span style="color:#657b83;">(</span><span style="color:#859900;">f</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">x</span><span style="color:#657b83;">)</span><span style="color:#859900;">/g</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">x</span><span style="color:#657b83;">))</span><span style="color:#859900;">^oo_</span><span style="color:var(--fg);">1 </span><span style="color:#2aa198;">$</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#586e75;">// Dirac braket notations
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">[</span><span style="color:#2aa198;">$
+</span><span style="color:var(--fg);">    </span><span style="color:#859900;">bra</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">u</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">, </span><span style="color:#859900;">braket</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">u</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">, </span><span style="color:#859900;">braket</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">u</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">v</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">, </span><span style="color:#dc322f;">\
+</span><span style="color:var(--fg);">    </span><span style="color:#859900;">ket</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">u</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">, </span><span style="color:#859900;">ketbra</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">u</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">, </span><span style="color:#859900;">ketbra</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">u</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">v</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">, </span><span style="color:#dc322f;">\
+</span><span style="color:var(--fg);">    </span><span style="color:#859900;">mel</span><span style="color:#657b83;">(</span><span style="color:#859900;">phi</span><span style="color:var(--fg);">, </span><span style="color:#859900;">hat</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">p</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">, </span><span style="color:#859900;">psi</span><span style="color:#657b83;">) </span><span style="color:#2aa198;">$</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#586e75;">// Superscript show rules that need to be enabled explicitly.
+</span><span style="color:var(--fg);">  </span><span style="color:#586e75;">// If put in a content block, they only control that block's scope.
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">[
+</span><span style="color:var(--fg);">    </span><span style="color:#859900;">#show</span><span style="color:var(--fg);">: super</span><span style="color:#859900;">-</span><span style="color:var(--fg);">T</span><span style="color:#859900;">-</span><span style="color:var(--fg);">as</span><span style="color:#859900;">-</span><span style="color:var(--fg);">transpose </span><span style="color:#586e75;">// "..^T" just like handwriting
+</span><span style="color:var(--fg);">    </span><span style="color:#859900;">#show</span><span style="color:var(--fg);">: super</span><span style="color:#859900;">-</span><span style="color:var(--fg);">plus</span><span style="color:#859900;">-</span><span style="color:var(--fg);">as</span><span style="color:#859900;">-</span><span style="color:var(--fg);">dagger </span><span style="color:#586e75;">// "..^+" just like handwriting
+</span><span style="color:var(--fg);">    </span><span style="color:#2aa198;">$ </span><span style="color:#859900;">op</span><span style="color:#657b83;">(</span><span style="color:#839496;">"</span><span style="color:#2aa198;">conj</span><span style="color:#839496;">"</span><span style="color:#657b83;">)</span><span style="color:#268bd2;">A</span><span style="color:#859900;">^</span><span style="color:#268bd2;">T </span><span style="color:#859900;">=^</span><span style="color:#839496;">"</span><span style="color:#2aa198;">def</span><span style="color:#839496;">" </span><span style="color:#268bd2;">A</span><span style="color:#859900;">^+ </span><span style="color:#dc322f;">\
+</span><span style="color:var(--fg);">      </span><span style="color:#268bd2;">e</span><span style="color:#859900;">^scripts</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">T</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">e</span><span style="color:#859900;">^scripts</span><span style="color:#657b83;">(</span><span style="color:#859900;">+</span><span style="color:#657b83;">) </span><span style="color:#2aa198;">$ </span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#586e75;">// Override with scripts()
+</span><span style="color:#657b83;">)</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/8965812a9c349892988d61872ff06418581098d15169b775f67b30e3460dd854-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <h4 id="matrices">
+        <a class="header" href="#matrices">
+         Matrices
+        </a>
+       </h4>
+       <p>
+        In addition to Typst's built-in
+        <code class="hljs">
+         <span style="color:var(--fg);">
+          mat()
+         </span>
+        </code>
+        to write a matrix, physica provides a
+number of handy tools to make it even easier.
+       </p>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#859900;">#import </span><span style="color:#839496;">"</span><span style="color:#2aa198;">@preview/physica:0.9.1</span><span style="color:#839496;">"</span><span style="color:var(--fg);">: TT, mdet
+</span><span style="color:var(--fg);">
+</span><span style="color:#2aa198;">$
+</span><span style="color:#586e75;">// Matrix transpose with "TT", though it is recommended to
+</span><span style="color:#586e75;">// use super-T-as-transpose so that "A^T" also works (more on that later).
+</span><span style="color:#268bd2;">A</span><span style="color:#859900;">^TT</span><span style="color:var(--fg);">,
+</span><span style="color:#586e75;">// Determinant with "mdet(...)".
+</span><span style="color:#859900;">det mat</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">a</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">b</span><span style="color:var(--fg);">; </span><span style="color:#268bd2;">c</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">d</span><span style="color:#657b83;">) </span><span style="color:#cb4b16;">:= </span><span style="color:#859900;">mdet</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">a</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">b</span><span style="color:var(--fg);">; </span><span style="color:#268bd2;">c</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">d</span><span style="color:#657b83;">)
+</span><span style="color:#2aa198;">$</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/7eccaa3a0cf838bca4daf9ebf573452506d3ea724086fcda0c9eb4264e66b5d9-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <p>
+        Diagonal matrix
+        <code class="hljs">
+         <span style="color:var(--fg);">
+          dmat(
+         </span>
+         <span style="color:#cb4b16;">
+          ...
+         </span>
+         <span style="color:var(--fg);">
+          )
+         </span>
+        </code>
+        , antidiagonal matrix
+        <code class="hljs">
+         <span style="color:var(--fg);">
+          admat(
+         </span>
+         <span style="color:#cb4b16;">
+          ...
+         </span>
+         <span style="color:var(--fg);">
+          )
+         </span>
+        </code>
+        ,
+identity matrix
+        <code class="hljs">
+         <span style="color:var(--fg);">
+          imat(n)
+         </span>
+        </code>
+        , and zero matrix
+        <code class="hljs">
+         <span style="color:var(--fg);">
+          zmat(n)
+         </span>
+        </code>
+        .
+       </p>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#859900;">#import </span><span style="color:#839496;">"</span><span style="color:#2aa198;">@preview/physica:0.9.1</span><span style="color:#839496;">"</span><span style="color:var(--fg);">: dmat, admat, imat, zmat
+</span><span style="color:var(--fg);">
+</span><span style="color:#2aa198;">$ </span><span style="color:#859900;">dmat</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">1</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">2</span><span style="color:#657b83;">)  </span><span style="color:#859900;">dmat</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">1</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">a</span><span style="color:#859900;">_</span><span style="color:var(--fg);">1, </span><span style="color:#859900;">xi</span><span style="color:var(--fg);">, </span><span style="color:#859900;">fill</span><span style="color:var(--fg);">:</span><span style="color:#6c71c4;">0</span><span style="color:#657b83;">)               </span><span style="color:#859900;">quad
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">admat</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">1</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">2</span><span style="color:#657b83;">) </span><span style="color:#859900;">admat</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">1</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">a</span><span style="color:#859900;">_</span><span style="color:var(--fg);">1, </span><span style="color:#859900;">xi</span><span style="color:var(--fg);">, </span><span style="color:#859900;">fill</span><span style="color:var(--fg);">:</span><span style="color:#859900;">dot</span><span style="color:var(--fg);">, </span><span style="color:#859900;">delim</span><span style="color:var(--fg);">:</span><span style="color:#839496;">"</span><span style="color:#2aa198;">[</span><span style="color:#839496;">"</span><span style="color:#657b83;">) </span><span style="color:#859900;">quad
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">imat</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">2</span><span style="color:#657b83;">)     </span><span style="color:#859900;">imat</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">3</span><span style="color:var(--fg);">, </span><span style="color:#859900;">delim</span><span style="color:var(--fg);">:</span><span style="color:#839496;">"</span><span style="color:#2aa198;">{</span><span style="color:#839496;">"</span><span style="color:var(--fg);">,</span><span style="color:#859900;">fill</span><span style="color:var(--fg);">:</span><span style="color:#859900;">*</span><span style="color:#657b83;">) </span><span style="color:#859900;">quad
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">zmat</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">2</span><span style="color:#657b83;">)     </span><span style="color:#859900;">zmat</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">3</span><span style="color:var(--fg);">, </span><span style="color:#859900;">delim</span><span style="color:var(--fg);">:</span><span style="color:#839496;">"</span><span style="color:#2aa198;">|</span><span style="color:#839496;">"</span><span style="color:#657b83;">) </span><span style="color:#2aa198;">$</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/66bbf5294be293cc58d98de6ca078eb17c58539169325e6b59a6aa78e7a49f62-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <p>
+        Jacobian matrix with
+        <code class="hljs">
+         <span style="color:var(--fg);">
+          jmat(func;
+         </span>
+         <span style="color:#cb4b16;">
+          ...
+         </span>
+         <span style="color:var(--fg);">
+          )
+         </span>
+        </code>
+        or the longer name
+        <code class="hljs">
+         <span style="color:var(--fg);">
+          jacobianmatrix
+         </span>
+        </code>
+        ,
+Hessian matrix with
+        <code class="hljs">
+         <span style="color:var(--fg);">
+          hmat(func;
+         </span>
+         <span style="color:#cb4b16;">
+          ...
+         </span>
+         <span style="color:var(--fg);">
+          )
+         </span>
+        </code>
+        or the longer name
+        <code class="hljs">
+         <span style="color:var(--fg);">
+          hessianmatrix
+         </span>
+        </code>
+        , and
+finally
+        <code class="hljs">
+         <span style="color:var(--fg);">
+          xmat(row, col, func)
+         </span>
+        </code>
+        to build a matrix.
+       </p>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#859900;">#import </span><span style="color:#839496;">"</span><span style="color:#2aa198;">@preview/physica:0.9.1</span><span style="color:#839496;">"</span><span style="color:var(--fg);">: jmat, hmat, xmat
+</span><span style="color:var(--fg);">
+</span><span style="color:#2aa198;">$
+</span><span style="color:#859900;">jmat</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">f</span><span style="color:#859900;">_</span><span style="color:var(--fg);">1,</span><span style="color:#268bd2;">f</span><span style="color:#859900;">_</span><span style="color:var(--fg);">2; </span><span style="color:#268bd2;">x</span><span style="color:var(--fg);">,</span><span style="color:#268bd2;">y</span><span style="color:#657b83;">) </span><span style="color:#859900;">jmat</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">f</span><span style="color:var(--fg);">,</span><span style="color:#268bd2;">g</span><span style="color:var(--fg);">; </span><span style="color:#268bd2;">x</span><span style="color:var(--fg);">,</span><span style="color:#268bd2;">y</span><span style="color:var(--fg);">,</span><span style="color:#268bd2;">z</span><span style="color:var(--fg);">; </span><span style="color:#859900;">delim</span><span style="color:var(--fg);">:</span><span style="color:#839496;">"</span><span style="color:#2aa198;">[</span><span style="color:#839496;">"</span><span style="color:#657b83;">) </span><span style="color:#859900;">quad
+</span><span style="color:#859900;">hmat</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">f</span><span style="color:var(--fg);">; </span><span style="color:#268bd2;">x</span><span style="color:var(--fg);">,</span><span style="color:#268bd2;">y</span><span style="color:#657b83;">)       </span><span style="color:#859900;">hmat</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">; </span><span style="color:#268bd2;">x</span><span style="color:var(--fg);">,</span><span style="color:#268bd2;">y</span><span style="color:var(--fg);">; </span><span style="color:#859900;">big</span><span style="color:var(--fg);">:</span><span style="color:#859900;">#</span><span style="color:#cb4b16;">true</span><span style="color:#657b83;">)      </span><span style="color:#859900;">quad
+</span><span style="color:var(--fg);">
+</span><span style="color:#859900;">#let</span><span style="color:var(--fg);"> elem</span><span style="color:#859900;">-</span><span style="color:var(--fg);">ij </span><span style="color:#859900;">= </span><span style="color:#657b83;">(</span><span style="color:var(--fg);">i,j</span><span style="color:#657b83;">) </span><span style="color:#859900;">=&gt; </span><span style="color:#2aa198;">$</span><span style="color:#268bd2;">g</span><span style="color:#859900;">^</span><span style="color:#cb4b16;">(</span><span style="color:#859900;">#</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">i </span><span style="color:#859900;">- </span><span style="color:#6c71c4;">1</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">#</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">j </span><span style="color:#859900;">- </span><span style="color:#6c71c4;">1</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">) </span><span style="color:#859900;">= </span><span style="color:#b58900;">#calc.pow</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">i,j</span><span style="color:#657b83;">)</span><span style="color:#2aa198;">$
+</span><span style="color:#859900;">xmat</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">2</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">2</span><span style="color:var(--fg);">, </span><span style="color:#859900;">#</span><span style="color:#cb4b16;">elem-ij</span><span style="color:#657b83;">)
+</span><span style="color:#2aa198;">$</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/7cd30cef52b187d17459d7806a94d5ae56118d0f969760bbbaabeb83007e6869-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <h3 id="mitex">
+        <a class="header" href="#mitex">
+         <code class="hljs">
+          <span style="color:var(--fg);">
+           mitex
+          </span>
+         </code>
+        </a>
+       </h3>
+       <blockquote>
+        <p>
+         MiTeX provides LaTeX support powered by WASM in Typst, including real-time rendering of LaTeX math equations.
+You can also use LaTeX syntax to write
+         <code class="hljs">
+          <span style="color:#dc322f;">
+           \r
+          </span>
+          <span style="color:var(--fg);">
+           ef
+          </span>
+         </code>
+         and
+         <code class="hljs">
+          <span style="color:#dc322f;">
+           \l
+          </span>
+          <span style="color:var(--fg);">
+           abel
+          </span>
+         </code>
+         .
+        </p>
+       </blockquote>
+       <blockquote>
+        <p>
+         Please refer to the
+         <a href="https://github.com/mitex-rs/mitex">
+          manual
+         </a>
+         for more details.
+        </p>
+       </blockquote>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#859900;">#import </span><span style="color:#839496;">"</span><span style="color:#2aa198;">@preview/mitex:0.2.4</span><span style="color:#839496;">"</span><span style="color:var(--fg);">: </span><span style="color:#859900;">*
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">Write inline equations like </span><span style="color:#b58900;">#mi</span><span style="color:#657b83;">(</span><span style="color:#839496;">"</span><span style="color:#2aa198;">x</span><span style="color:#839496;">"</span><span style="color:#657b83;">)</span><span style="color:var(--fg);"> or </span><span style="color:#b58900;">#mi</span><span style="color:#657b83;">[</span><span style="color:var(--fg);">y</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">.
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">Also block equations:
+</span><span style="color:var(--fg);">
+</span><span style="color:#b58900;">#mitex</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">`
+</span><span style="color:var(--fg);">  </span><span style="color:#dc322f;">\n</span><span style="color:var(--fg);">ewcommand</span><span style="color:#657b83;">{</span><span style="color:#dc322f;">\f</span><span style="color:#657b83;">}[</span><span style="color:var(--fg);">2</span><span style="color:#657b83;">]{</span><span style="color:var(--fg);">#</span><span style="color:#6c71c4;">1</span><span style="color:#859900;">f</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">#</span><span style="color:#6c71c4;">2</span><span style="color:#657b83;">)}
+</span><span style="color:var(--fg);">  </span><span style="color:#dc322f;">\f\r</span><span style="color:var(--fg);">elax</span><span style="color:#657b83;">{</span><span style="color:var(--fg);">x</span><span style="color:#657b83;">} </span><span style="color:#859900;">= </span><span style="color:#dc322f;">\i</span><span style="color:var(--fg);">nt_</span><span style="color:#657b83;">{</span><span style="color:#859900;">-</span><span style="color:#dc322f;">\i</span><span style="color:var(--fg);">nfty</span><span style="color:#657b83;">}</span><span style="color:var(--fg);">^</span><span style="color:#dc322f;">\i</span><span style="color:var(--fg);">nfty
+</span><span style="color:var(--fg);">    </span><span style="color:#dc322f;">\f\h</span><span style="color:var(--fg);">at</span><span style="color:#dc322f;">\x</span><span style="color:var(--fg);">i</span><span style="color:#dc322f;">\,</span><span style="color:var(--fg);">e^</span><span style="color:#657b83;">{</span><span style="color:#6c71c4;">2 </span><span style="color:#dc322f;">\p</span><span style="color:var(--fg);">i i </span><span style="color:#dc322f;">\x</span><span style="color:var(--fg);">i x</span><span style="color:#657b83;">}
+</span><span style="color:var(--fg);">    </span><span style="color:#dc322f;">\,</span><span style="color:var(--fg);">d</span><span style="color:#dc322f;">\x</span><span style="color:var(--fg);">i
+</span><span style="color:var(--fg);">`</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">Text mode:
+</span><span style="color:var(--fg);">
+</span><span style="color:#b58900;">#mitext</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">`
+</span><span style="color:var(--fg);">  </span><span style="color:#dc322f;">\i</span><span style="color:var(--fg);">ftypst
+</span><span style="color:var(--fg);">    #</span><span style="color:#859900;">set</span><span style="color:var(--fg);"> math.</span><span style="color:#859900;">equation</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">numbering</span><span style="color:var(--fg);">: </span><span style="color:#839496;">"</span><span style="color:#2aa198;">(1)</span><span style="color:#839496;">"</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">supplement</span><span style="color:var(--fg);">: </span><span style="color:#839496;">"</span><span style="color:#2aa198;">equation</span><span style="color:#839496;">"</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">  </span><span style="color:#dc322f;">\f</span><span style="color:var(--fg);">i
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">  An inline equation </span><span style="color:#2aa198;">$</span><span style="color:#268bd2;">x </span><span style="color:#859900;">+ </span><span style="color:#268bd2;">y</span><span style="color:#2aa198;">$ </span><span style="color:#859900;">and</span><span style="color:var(--fg);"> block </span><span style="color:#dc322f;">\e</span><span style="color:var(--fg);">qref</span><span style="color:#657b83;">{</span><span style="color:var(--fg);">eq:pythagoras</span><span style="color:#657b83;">}</span><span style="color:var(--fg);">.
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">  </span><span style="color:#dc322f;">\b</span><span style="color:var(--fg);">egin</span><span style="color:#657b83;">{</span><span style="color:var(--fg);">equation</span><span style="color:#657b83;">}
+</span><span style="color:var(--fg);">    a^</span><span style="color:#6c71c4;">2 </span><span style="color:#859900;">+</span><span style="color:var(--fg);"> b^</span><span style="color:#6c71c4;">2 </span><span style="color:#859900;">=</span><span style="color:var(--fg);"> c^</span><span style="color:#6c71c4;">2 </span><span style="color:#dc322f;">\l</span><span style="color:var(--fg);">abel</span><span style="color:#657b83;">{</span><span style="color:var(--fg);">eq:pythagoras</span><span style="color:#657b83;">}
+</span><span style="color:var(--fg);">  </span><span style="color:#dc322f;">\e</span><span style="color:var(--fg);">nd</span><span style="color:#657b83;">{</span><span style="color:var(--fg);">equation</span><span style="color:#657b83;">}
+</span><span style="color:var(--fg);">`</span><span style="color:#657b83;">)</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/a3ff500a39b6d93d85b223af0aa162a5bfbe93fad3436dba80ee022638ed727a-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <h3 id="i-figured">
+        <a class="header" href="#i-figured">
+         <code class="hljs">
+          <span style="color:var(--fg);">
+           i-figured
+          </span>
+         </code>
+        </a>
+       </h3>
+       <p>
+        Configurable equation numbering per section in Typst.
+There is also figure numbering per section, see more examples in its
+        <a href="https://github.com/RubixDev/typst-i-figured">
+         manual
+        </a>
+        .
+       </p>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#859900;">#import </span><span style="color:#839496;">"</span><span style="color:#2aa198;">@preview/i-figured:0.2.3</span><span style="color:#839496;">"
+</span><span style="color:var(--fg);">
+</span><span style="color:#586e75;">// make sure you have some heading numbering set
+</span><span style="color:#859900;">#set heading</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">numbering</span><span style="color:var(--fg);">: </span><span style="color:#839496;">"</span><span style="color:#2aa198;">1.1</span><span style="color:#839496;">"</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">
+</span><span style="color:#586e75;">// apply the show rules (these can be customized)
+</span><span style="color:#859900;">#show</span><span style="color:var(--fg);"> heading: i</span><span style="color:#859900;">-</span><span style="color:var(--fg);">figured.reset</span><span style="color:#859900;">-</span><span style="color:var(--fg);">counters
+</span><span style="color:#859900;">#show</span><span style="color:var(--fg);"> math.equation: i</span><span style="color:#859900;">-</span><span style="color:var(--fg);">figured.</span><span style="color:#859900;">show-</span><span style="color:var(--fg);">equation.</span><span style="color:#859900;">with</span><span style="color:#657b83;">(
+</span><span style="color:var(--fg);">  </span><span style="color:#268bd2;">level</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">1</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#268bd2;">zero-fill</span><span style="color:var(--fg);">: </span><span style="color:#b58900;">true</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#268bd2;">leading-zero</span><span style="color:var(--fg);">: </span><span style="color:#b58900;">true</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#268bd2;">numbering</span><span style="color:var(--fg);">: </span><span style="color:#839496;">"</span><span style="color:#2aa198;">(1.1)</span><span style="color:#839496;">"</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#268bd2;">prefix</span><span style="color:var(--fg);">: </span><span style="color:#839496;">"</span><span style="color:#2aa198;">eqt:</span><span style="color:#839496;">"</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#268bd2;">only-labeled</span><span style="color:var(--fg);">: </span><span style="color:#b58900;">false</span><span style="color:var(--fg);">,  </span><span style="color:#586e75;">// numbering all block equations implicitly
+</span><span style="color:var(--fg);">  </span><span style="color:#268bd2;">unnumbered-label</span><span style="color:var(--fg);">: </span><span style="color:#839496;">"</span><span style="color:#2aa198;">-</span><span style="color:#839496;">"</span><span style="color:var(--fg);">,
+</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">
+</span><span style="color:#b58900;">= </span><span style="color:#cb4b16;">Introduction
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">You can write inline equations such as </span><span style="color:#2aa198;">$</span><span style="color:#268bd2;">x </span><span style="color:#859900;">+ </span><span style="color:#268bd2;">y</span><span style="color:#2aa198;">$</span><span style="color:var(--fg);">, and numbered block equations like:
+</span><span style="color:var(--fg);">
+</span><span style="color:#2aa198;">$ </span><span style="color:#859900;">phi</span><span style="color:var(--fg);">.</span><span style="color:#859900;">alt </span><span style="color:#cb4b16;">:= (</span><span style="color:#6c71c4;">1 </span><span style="color:#859900;">+ sqrt</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">5</span><span style="color:#657b83;">)</span><span style="color:#cb4b16;">) </span><span style="color:#859900;">/ </span><span style="color:#6c71c4;">2 </span><span style="color:#2aa198;">$ </span><span style="color:#93a1a1;">&lt;</span><span style="color:#b58900;">ratio</span><span style="color:#93a1a1;">&gt;
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">To reference a math equation, please use the `eqt:` prefix. For example, with </span><span style="color:#cb4b16;">@eqt</span><span style="color:var(--fg);">:ratio, we have:
+</span><span style="color:var(--fg);">
+</span><span style="color:#2aa198;">$ </span><span style="color:#268bd2;">F</span><span style="color:#859900;">_</span><span style="color:#268bd2;">n </span><span style="color:#859900;">= floor</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">1 </span><span style="color:#859900;">/ sqrt</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">5</span><span style="color:#657b83;">) </span><span style="color:#859900;">phi</span><span style="color:var(--fg);">.</span><span style="color:#859900;">alt^</span><span style="color:#268bd2;">n</span><span style="color:#657b83;">) </span><span style="color:#2aa198;">$
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">
+</span><span style="color:#b58900;">= </span><span style="color:#cb4b16;">Appdendix
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">Additionally, you can use the </span><span style="color:#93a1a1;">&lt;</span><span style="color:#b58900;">-</span><span style="color:#93a1a1;">&gt;</span><span style="color:var(--fg);"> tag to indicate that a block formula should not be numbered:
+</span><span style="color:var(--fg);">
+</span><span style="color:#2aa198;">$ </span><span style="color:#268bd2;">y </span><span style="color:#859900;">= integral_</span><span style="color:var(--fg);">1</span><span style="color:#859900;">^</span><span style="color:#6c71c4;">2 </span><span style="color:#268bd2;">x</span><span style="color:#859900;">^</span><span style="color:#6c71c4;">2 </span><span style="color:#859900;">dif </span><span style="color:#268bd2;">x </span><span style="color:#2aa198;">$ </span><span style="color:#93a1a1;">&lt;</span><span style="color:#b58900;">-</span><span style="color:#93a1a1;">&gt;
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">Subsequent math equations will continue to be numbered as usual:
+</span><span style="color:var(--fg);">
+</span><span style="color:#2aa198;">$ </span><span style="color:#268bd2;">F</span><span style="color:#859900;">_</span><span style="color:#268bd2;">n </span><span style="color:#859900;">= floor</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">1 </span><span style="color:#859900;">/ sqrt</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">5</span><span style="color:#657b83;">) </span><span style="color:#859900;">phi</span><span style="color:var(--fg);">.</span><span style="color:#859900;">alt^</span><span style="color:#268bd2;">n</span><span style="color:#657b83;">) </span><span style="color:#2aa198;">$</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/b338b679a09371841be9322ac7cee901b6a1415582c3495677833602e344cae0-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <h2 id="theorems">
+        <a class="header" href="#theorems">
+         Theorems
+        </a>
+       </h2>
+       <h3 id="ctheorem">
+        <a class="header" href="#ctheorem">
+         <code class="hljs">
+          <span style="color:var(--fg);">
+           ctheorem
+          </span>
+         </code>
+        </a>
+       </h3>
+       <p>
+        A numbered theorem environment in Typst. See more examples in its
+        <a href="https://github.com/sahasatvik/typst-theorems/blob/main/manual.pdf">
+         manual
+        </a>
+        .
+       </p>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#859900;">#import </span><span style="color:#839496;">"</span><span style="color:#2aa198;">@preview/ctheorems:1.1.0</span><span style="color:#839496;">"</span><span style="color:var(--fg);">: </span><span style="color:#859900;">*
+</span><span style="color:#859900;">#show</span><span style="color:var(--fg);">: thmrules
+</span><span style="color:var(--fg);">
+</span><span style="color:#859900;">#set page</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">width</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">16cm</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">height</span><span style="color:var(--fg);">: </span><span style="color:#b58900;">auto</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">margin</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">1.5cm</span><span style="color:#657b83;">)
+</span><span style="color:#859900;">#set heading</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">numbering</span><span style="color:var(--fg);">: </span><span style="color:#839496;">"</span><span style="color:#2aa198;">1.1</span><span style="color:#839496;">"</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">
+</span><span style="color:#859900;">#let</span><span style="color:var(--fg);"> theorem </span><span style="color:#859900;">= thmbox</span><span style="color:#657b83;">(</span><span style="color:#839496;">"</span><span style="color:#2aa198;">theorem</span><span style="color:#839496;">"</span><span style="color:var(--fg);">, </span><span style="color:#839496;">"</span><span style="color:#2aa198;">Theorem</span><span style="color:#839496;">"</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">fill</span><span style="color:var(--fg);">: </span><span style="color:#859900;">rgb</span><span style="color:#657b83;">(</span><span style="color:#839496;">"</span><span style="color:#2aa198;">#eeffee</span><span style="color:#839496;">"</span><span style="color:#657b83;">))
+</span><span style="color:#859900;">#let</span><span style="color:var(--fg);"> corollary </span><span style="color:#859900;">= thmplain</span><span style="color:#657b83;">(</span><span style="color:#839496;">"</span><span style="color:#2aa198;">corollary</span><span style="color:#839496;">"</span><span style="color:var(--fg);">, </span><span style="color:#839496;">"</span><span style="color:#2aa198;">Corollary</span><span style="color:#839496;">"</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">base</span><span style="color:var(--fg);">: </span><span style="color:#839496;">"</span><span style="color:#2aa198;">theorem</span><span style="color:#839496;">"</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">titlefmt</span><span style="color:var(--fg);">: strong</span><span style="color:#657b83;">)
+</span><span style="color:#859900;">#let</span><span style="color:var(--fg);"> definition </span><span style="color:#859900;">= thmbox</span><span style="color:#657b83;">(</span><span style="color:#839496;">"</span><span style="color:#2aa198;">definition</span><span style="color:#839496;">"</span><span style="color:var(--fg);">, </span><span style="color:#839496;">"</span><span style="color:#2aa198;">Definition</span><span style="color:#839496;">"</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">inset</span><span style="color:var(--fg);">: </span><span style="color:#657b83;">(</span><span style="color:var(--fg);">x: </span><span style="color:#6c71c4;">1.2em</span><span style="color:var(--fg);">, top: </span><span style="color:#6c71c4;">1em</span><span style="color:#657b83;">))
+</span><span style="color:var(--fg);">
+</span><span style="color:#859900;">#let</span><span style="color:var(--fg);"> example </span><span style="color:#859900;">= thmplain</span><span style="color:#657b83;">(</span><span style="color:#839496;">"</span><span style="color:#2aa198;">example</span><span style="color:#839496;">"</span><span style="color:var(--fg);">, </span><span style="color:#839496;">"</span><span style="color:#2aa198;">Example</span><span style="color:#839496;">"</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">.</span><span style="color:#859900;">with</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">numbering</span><span style="color:var(--fg);">: </span><span style="color:#b58900;">none</span><span style="color:#657b83;">)
+</span><span style="color:#859900;">#let</span><span style="color:var(--fg);"> proof </span><span style="color:#859900;">= thmplain</span><span style="color:#657b83;">(
+</span><span style="color:var(--fg);">  </span><span style="color:#839496;">"</span><span style="color:#2aa198;">proof</span><span style="color:#839496;">"</span><span style="color:var(--fg);">, </span><span style="color:#839496;">"</span><span style="color:#2aa198;">Proof</span><span style="color:#839496;">"</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">base</span><span style="color:var(--fg);">: </span><span style="color:#839496;">"</span><span style="color:#2aa198;">theorem</span><span style="color:#839496;">"</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#268bd2;">bodyfmt</span><span style="color:var(--fg);">: body </span><span style="color:#859900;">=&gt; </span><span style="color:#657b83;">[</span><span style="color:#859900;">#</span><span style="color:#cb4b16;">body </span><span style="color:#b58900;">#h</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">1fr</span><span style="color:#657b83;">) </span><span style="color:#2aa198;">$</span><span style="color:#859900;">square</span><span style="color:#2aa198;">$</span><span style="color:#657b83;">]
+</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">.</span><span style="color:#859900;">with</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">numbering</span><span style="color:var(--fg);">: </span><span style="color:#b58900;">none</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">
+</span><span style="color:#b58900;">= </span><span style="color:#cb4b16;">Prime Numbers
+</span><span style="color:#b58900;">#lorem</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">7</span><span style="color:#657b83;">)
+</span><span style="color:#b58900;">#definition</span><span style="color:#657b83;">[</span><span style="color:var(--fg);"> A natural number is called a </span><span style="color:#b58900;">#highlight</span><span style="color:#657b83;">[</span><span style="color:var(--fg);">_prime number_</span><span style="color:#657b83;">]</span><span style="color:var(--fg);"> if </span><span style="color:#cb4b16;">... </span><span style="color:#657b83;">]
+</span><span style="color:#b58900;">#example</span><span style="color:#657b83;">[
+</span><span style="color:var(--fg);">  The numbers </span><span style="color:#2aa198;">$</span><span style="color:#6c71c4;">2</span><span style="color:#2aa198;">$</span><span style="color:var(--fg);">, </span><span style="color:#2aa198;">$</span><span style="color:#6c71c4;">3</span><span style="color:#2aa198;">$</span><span style="color:var(--fg);">, and </span><span style="color:#2aa198;">$</span><span style="color:#6c71c4;">17</span><span style="color:#2aa198;">$</span><span style="color:var(--fg);"> are prime. See </span><span style="color:#cb4b16;">@cor_largest_prime</span><span style="color:var(--fg);"> shows that
+</span><span style="color:var(--fg);">  this list is not exhaustive!
+</span><span style="color:#657b83;">]
+</span><span style="color:#b58900;">#theorem</span><span style="color:#657b83;">(</span><span style="color:#839496;">"</span><span style="color:#2aa198;">Euclid</span><span style="color:#839496;">"</span><span style="color:#657b83;">)[</span><span style="color:var(--fg);">There are infinitely many primes.</span><span style="color:#657b83;">]
+</span><span style="color:#b58900;">#proof</span><span style="color:#657b83;">[
+</span><span style="color:var(--fg);">  Suppose to the contrary that </span><span style="color:#2aa198;">$</span><span style="color:#268bd2;">p</span><span style="color:#859900;">_</span><span style="color:var(--fg);">1, </span><span style="color:#268bd2;">p</span><span style="color:#859900;">_</span><span style="color:var(--fg);">2, </span><span style="color:#859900;">dots</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">p</span><span style="color:#859900;">_</span><span style="color:#268bd2;">n</span><span style="color:#2aa198;">$</span><span style="color:var(--fg);"> is a finite enumeration
+</span><span style="color:var(--fg);">  of all primes. </span><span style="color:#cb4b16;">...</span><span style="color:var(--fg);"> a contradiction.
+</span><span style="color:#657b83;">]
+</span><span style="color:#b58900;">#corollary</span><span style="color:#657b83;">[
+</span><span style="color:var(--fg);">  There is no largest prime number.
+</span><span style="color:#657b83;">] </span><span style="color:#93a1a1;">&lt;</span><span style="color:#b58900;">cor_largest_prime</span><span style="color:#93a1a1;">&gt;
+</span><span style="color:#b58900;">#corollary</span><span style="color:#657b83;">[</span><span style="color:var(--fg);">There are infinitely many composite numbers.</span><span style="color:#657b83;">]</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/54d7817ddc4a8481da09052aa51dc6e4dde19bd85f40173b92750c402b07ff73-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <h3 id="lemmify">
+        <a class="header" href="#lemmify">
+         <code class="hljs">
+          <span style="color:var(--fg);">
+           lemmify
+          </span>
+         </code>
+        </a>
+       </h3>
+       <p>
+        Lemmify is another theorem evironment generator with many selector and numbering
+capabilities. See documentations in its
+        <a href="https://github.com/Marmare314/lemmify">
+         readme
+        </a>
+        .
+       </p>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#859900;">#import </span><span style="color:#839496;">"</span><span style="color:#2aa198;">@preview/lemmify:0.1.5</span><span style="color:#839496;">"</span><span style="color:var(--fg);">: </span><span style="color:#859900;">*
+</span><span style="color:var(--fg);">
+</span><span style="color:#859900;">#let my-thm-style</span><span style="color:#657b83;">(
+</span><span style="color:var(--fg);">  thm</span><span style="color:#859900;">-</span><span style="color:var(--fg);">type, name, number, body
+</span><span style="color:#657b83;">) </span><span style="color:#859900;">= grid</span><span style="color:#657b83;">(
+</span><span style="color:var(--fg);">  </span><span style="color:#268bd2;">columns</span><span style="color:var(--fg);">: </span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">1fr</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">3fr</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#268bd2;">column-gutter</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">1em</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">stack</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">spacing</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">.5em</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:#b58900;">#strong</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">thm</span><span style="color:#859900;">-</span><span style="color:var(--fg);">type</span><span style="color:#657b83;">) </span><span style="color:#859900;">#</span><span style="color:#cb4b16;">number</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#859900;">emph</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">name</span><span style="color:#657b83;">))</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  body
+</span><span style="color:#657b83;">)
+</span><span style="color:#859900;">#let</span><span style="color:var(--fg);"> my</span><span style="color:#859900;">-</span><span style="color:var(--fg);">styling </span><span style="color:#859900;">= </span><span style="color:#657b83;">(</span><span style="color:var(--fg);"> thm</span><span style="color:#859900;">-</span><span style="color:var(--fg);">styling: my</span><span style="color:#859900;">-</span><span style="color:var(--fg);">thm</span><span style="color:#859900;">-</span><span style="color:var(--fg);">style </span><span style="color:#657b83;">)
+</span><span style="color:#859900;">#let </span><span style="color:#657b83;">(
+</span><span style="color:var(--fg);">  definition, theorem, proof, lemma, rules
+</span><span style="color:#657b83;">) </span><span style="color:#859900;">= default-theorems</span><span style="color:#657b83;">(</span><span style="color:#839496;">"</span><span style="color:#2aa198;">thm-group</span><span style="color:#839496;">"</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">lang</span><span style="color:var(--fg);">: </span><span style="color:#839496;">"</span><span style="color:#2aa198;">en</span><span style="color:#839496;">"</span><span style="color:var(--fg);">, </span><span style="color:#859900;">..</span><span style="color:var(--fg);">my</span><span style="color:#859900;">-</span><span style="color:var(--fg);">styling</span><span style="color:#657b83;">)
+</span><span style="color:#859900;">#show</span><span style="color:var(--fg);">: rules
+</span><span style="color:#859900;">#show thm-selector</span><span style="color:#657b83;">(</span><span style="color:#839496;">"</span><span style="color:#2aa198;">thm-group</span><span style="color:#839496;">"</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">: box.</span><span style="color:#859900;">with</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">inset</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">0.8em</span><span style="color:#657b83;">)
+</span><span style="color:#859900;">#show thm-selector</span><span style="color:#657b83;">(</span><span style="color:#839496;">"</span><span style="color:#2aa198;">thm-group</span><span style="color:#839496;">"</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">subgroup</span><span style="color:var(--fg);">: </span><span style="color:#839496;">"</span><span style="color:#2aa198;">theorem</span><span style="color:#839496;">"</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">: it </span><span style="color:#859900;">=&gt; box</span><span style="color:#657b83;">(
+</span><span style="color:var(--fg);">  it, </span><span style="color:#268bd2;">fill</span><span style="color:var(--fg);">: </span><span style="color:#859900;">rgb</span><span style="color:#657b83;">(</span><span style="color:#839496;">"</span><span style="color:#2aa198;">#eeffee</span><span style="color:#839496;">"</span><span style="color:#657b83;">))
+</span><span style="color:var(--fg);">
+</span><span style="color:#859900;">#set heading</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">numbering</span><span style="color:var(--fg);">: </span><span style="color:#839496;">"</span><span style="color:#2aa198;">1.1</span><span style="color:#839496;">"</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">
+</span><span style="color:#b58900;">= </span><span style="color:#cb4b16;">Prime numbers
+</span><span style="color:#b58900;">#lorem</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">7</span><span style="color:#657b83;">) </span><span style="color:#cb4b16;">@proof</span><span style="color:var(--fg);"> and </span><span style="color:#cb4b16;">@thm</span><span style="color:var(--fg);">[theorem]
+</span><span style="color:#b58900;">#definition</span><span style="color:#657b83;">[</span><span style="color:var(--fg);"> A natural number is called a </span><span style="color:#b58900;">#highlight</span><span style="color:#657b83;">[</span><span style="color:var(--fg);">_prime number_</span><span style="color:#657b83;">]</span><span style="color:var(--fg);"> if </span><span style="color:#cb4b16;">... </span><span style="color:#657b83;">]
+</span><span style="color:#b58900;">#theorem</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">name</span><span style="color:var(--fg);">: </span><span style="color:#839496;">"</span><span style="color:#2aa198;">Theorem name</span><span style="color:#839496;">"</span><span style="color:#657b83;">)[</span><span style="color:var(--fg);">There are infinitely many primes.</span><span style="color:#657b83;">]</span><span style="color:#93a1a1;">&lt;</span><span style="color:#b58900;">thm</span><span style="color:#93a1a1;">&gt;
+</span><span style="color:#b58900;">#proof</span><span style="color:#657b83;">[
+</span><span style="color:var(--fg);">  Suppose to the contrary that </span><span style="color:#2aa198;">$</span><span style="color:#268bd2;">p</span><span style="color:#859900;">_</span><span style="color:var(--fg);">1, </span><span style="color:#268bd2;">p</span><span style="color:#859900;">_</span><span style="color:var(--fg);">2, </span><span style="color:#859900;">dots</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">p</span><span style="color:#859900;">_</span><span style="color:#268bd2;">n</span><span style="color:#2aa198;">$</span><span style="color:var(--fg);"> is a finite enumeration
+</span><span style="color:var(--fg);">  of all primes. </span><span style="color:#cb4b16;">... </span><span style="color:#b58900;">#highlight</span><span style="color:#657b83;">[</span><span style="color:var(--fg);">_a contradiction_</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">.</span><span style="color:#657b83;">]</span><span style="color:#93a1a1;">&lt;</span><span style="color:#b58900;">proof</span><span style="color:#93a1a1;">&gt;
+</span><span style="color:#b58900;">#lemma</span><span style="color:#657b83;">[</span><span style="color:var(--fg);">There are infinitely many composite numbers.</span><span style="color:#657b83;">]</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/46b0a27243980ee99b20133dbba1f00d4d819adff6e645ca0749820f5caf3589-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+      </main>

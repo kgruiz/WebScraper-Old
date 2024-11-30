@@ -1,0 +1,106 @@
+<main>
+       <!-- Page table of contents -->
+       <div class="sidetoc">
+        <nav class="pagetoc">
+        </nav>
+       </div>
+       <h1 id="create-zero-level-chapters">
+        <a class="header" href="#create-zero-level-chapters">
+         Create zero-level chapters
+        </a>
+       </h1>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#586e75;">// author: tinger
+</span><span style="color:var(--fg);">
+</span><span style="color:#859900;">#let</span><span style="color:var(--fg);"> chapter </span><span style="color:#859900;">=</span><span style="color:var(--fg);"> figure.</span><span style="color:#859900;">with</span><span style="color:#657b83;">(
+</span><span style="color:var(--fg);">  </span><span style="color:#268bd2;">kind</span><span style="color:var(--fg);">: </span><span style="color:#839496;">"</span><span style="color:#2aa198;">chapter</span><span style="color:#839496;">"</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#586e75;">// same as heading
+</span><span style="color:var(--fg);">  </span><span style="color:#268bd2;">numbering</span><span style="color:var(--fg);">: </span><span style="color:#b58900;">none</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#586e75;">// this cannot use auto to translate this automatically as headings can, auto also means something different for figures
+</span><span style="color:var(--fg);">  </span><span style="color:#268bd2;">supplement</span><span style="color:var(--fg);">: </span><span style="color:#839496;">"</span><span style="color:#2aa198;">Chapter</span><span style="color:#839496;">"</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#586e75;">// empty caption required to be included in outline
+</span><span style="color:var(--fg);">  </span><span style="color:#268bd2;">caption</span><span style="color:var(--fg);">: </span><span style="color:#657b83;">[]</span><span style="color:var(--fg);">,
+</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">
+</span><span style="color:#586e75;">// emulate element function by creating show rule
+</span><span style="color:#859900;">#show</span><span style="color:var(--fg);"> figure.</span><span style="color:#859900;">where</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">kind</span><span style="color:var(--fg);">: </span><span style="color:#839496;">"</span><span style="color:#2aa198;">chapter</span><span style="color:#839496;">"</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">: it </span><span style="color:#859900;">=&gt; </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">set text</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">22pt</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">counter</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">heading</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">.</span><span style="color:#859900;">update</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">0</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">if</span><span style="color:var(--fg);"> it.numbering !</span><span style="color:#859900;">= </span><span style="color:#b58900;">none </span><span style="color:#657b83;">{ </span><span style="color:#859900;">strong</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">it.counter.</span><span style="color:#859900;">display</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">it.numbering</span><span style="color:#657b83;">)) } </span><span style="color:#859900;">+ </span><span style="color:#657b83;">[ ] </span><span style="color:#859900;">+ strong</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">it.body</span><span style="color:#657b83;">)
+</span><span style="color:#657b83;">}
+</span><span style="color:var(--fg);">
+</span><span style="color:#586e75;">// no access to element in outline(indent: it =&gt; ...), so we must do indentation in here instead of outline
+</span><span style="color:#859900;">#show</span><span style="color:var(--fg);"> outline.entry: it </span><span style="color:#859900;">=&gt; </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">if</span><span style="color:var(--fg);"> it.element.</span><span style="color:#859900;">func</span><span style="color:#657b83;">() </span><span style="color:#859900;">==</span><span style="color:var(--fg);"> figure </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">    </span><span style="color:#586e75;">// we're configuring chapter printing here, effectively recreating the default show impl with slight tweaks
+</span><span style="color:var(--fg);">    </span><span style="color:#859900;">let</span><span style="color:var(--fg);"> res </span><span style="color:#859900;">= link</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">it.element.</span><span style="color:#859900;">location</span><span style="color:#657b83;">()</span><span style="color:var(--fg);">, 
+</span><span style="color:var(--fg);">      </span><span style="color:#586e75;">// we must recreate part of the show rule from above once again
+</span><span style="color:var(--fg);">      </span><span style="color:#859900;">if</span><span style="color:var(--fg);"> it.element.numbering !</span><span style="color:#859900;">= </span><span style="color:#b58900;">none </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">        </span><span style="color:#859900;">numbering</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">it.element.numbering, </span><span style="color:#859900;">..</span><span style="color:var(--fg);">it.element.counter.</span><span style="color:#859900;">at</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">it.element.</span><span style="color:#859900;">location</span><span style="color:#657b83;">()))
+</span><span style="color:var(--fg);">      </span><span style="color:#657b83;">} </span><span style="color:#859900;">+ </span><span style="color:#657b83;">[ ] </span><span style="color:#859900;">+</span><span style="color:var(--fg);"> it.element.body
+</span><span style="color:var(--fg);">    </span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">    </span><span style="color:#859900;">if</span><span style="color:var(--fg);"> it.fill !</span><span style="color:#859900;">= </span><span style="color:#b58900;">none </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">      res </span><span style="color:#859900;">+= </span><span style="color:#657b83;">[ ] </span><span style="color:#859900;">+ box</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">width</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">1fr</span><span style="color:var(--fg);">, it.fill</span><span style="color:#657b83;">) </span><span style="color:#859900;">+ </span><span style="color:#657b83;">[ ] 
+</span><span style="color:var(--fg);">    </span><span style="color:#657b83;">} </span><span style="color:#859900;">else </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">      res </span><span style="color:#859900;">+= h</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">1fr</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">    </span><span style="color:#657b83;">}
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">    res </span><span style="color:#859900;">+= link</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">it.element.</span><span style="color:#859900;">location</span><span style="color:#657b83;">()</span><span style="color:var(--fg);">, it.page</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">    </span><span style="color:#859900;">strong</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">res</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">} </span><span style="color:#859900;">else </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">    </span><span style="color:#586e75;">// we're doing indenting here
+</span><span style="color:var(--fg);">    </span><span style="color:#859900;">h</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">1em </span><span style="color:#859900;">*</span><span style="color:var(--fg);"> it.level</span><span style="color:#657b83;">) </span><span style="color:#859900;">+</span><span style="color:var(--fg);"> it
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">}
+</span><span style="color:#657b83;">}
+</span><span style="color:var(--fg);">
+</span><span style="color:#586e75;">// new target selector for default outline
+</span><span style="color:#859900;">#let</span><span style="color:var(--fg);"> chapters</span><span style="color:#859900;">-and-</span><span style="color:var(--fg);">headings </span><span style="color:#859900;">=</span><span style="color:var(--fg);"> figure.</span><span style="color:#859900;">where</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">kind</span><span style="color:var(--fg);">: </span><span style="color:#839496;">"</span><span style="color:#2aa198;">chapter</span><span style="color:#839496;">"</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">outlined</span><span style="color:var(--fg);">: </span><span style="color:#b58900;">true</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">.</span><span style="color:#859900;">or</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">heading.</span><span style="color:#859900;">where</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">outlined</span><span style="color:var(--fg);">: </span><span style="color:#b58900;">true</span><span style="color:#657b83;">))
+</span><span style="color:var(--fg);">
+</span><span style="color:#586e75;">//
+</span><span style="color:#586e75;">// start of actual doc prelude
+</span><span style="color:#586e75;">//
+</span><span style="color:var(--fg);">
+</span><span style="color:#859900;">#set heading</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">numbering</span><span style="color:var(--fg);">: </span><span style="color:#839496;">"</span><span style="color:#2aa198;">1.</span><span style="color:#839496;">"</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">
+</span><span style="color:#586e75;">// can't use set, so we reassign with default args
+</span><span style="color:#859900;">#let</span><span style="color:var(--fg);"> chapter </span><span style="color:#859900;">=</span><span style="color:var(--fg);"> chapter.</span><span style="color:#859900;">with</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">numbering</span><span style="color:var(--fg);">: </span><span style="color:#839496;">"</span><span style="color:#2aa198;">I</span><span style="color:#839496;">"</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">
+</span><span style="color:#586e75;">// an example of a "show rule" for a chapter
+</span><span style="color:#586e75;">// can't use chapter because it's not an element after using .with() anymore
+</span><span style="color:#859900;">#show</span><span style="color:var(--fg);"> figure.</span><span style="color:#859900;">where</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">kind</span><span style="color:var(--fg);">: </span><span style="color:#839496;">"</span><span style="color:#2aa198;">chapter</span><span style="color:#839496;">"</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">: </span><span style="color:#859900;">set text</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">red</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">
+</span><span style="color:#586e75;">//
+</span><span style="color:#586e75;">// start of actual doc
+</span><span style="color:#586e75;">//
+</span><span style="color:var(--fg);">
+</span><span style="color:#586e75;">// as you can see these are not elements like headings, which makes the setup a bit harder
+</span><span style="color:#586e75;">// because the chapters are not headings, the numbering does not include their chapter, but could using a show rule for headings
+</span><span style="color:var(--fg);">
+</span><span style="color:#b58900;">#outline</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">target</span><span style="color:var(--fg);">: chapters</span><span style="color:#859900;">-and-</span><span style="color:var(--fg);">headings</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">
+</span><span style="color:#b58900;">#chapter</span><span style="color:#657b83;">[</span><span style="color:var(--fg);">Chapter</span><span style="color:#657b83;">]
+</span><span style="color:#b58900;">= </span><span style="color:#cb4b16;">Chap Heading
+</span><span style="color:#b58900;">== </span><span style="color:#cb4b16;">Sub Heading
+</span><span style="color:var(--fg);">
+</span><span style="color:#b58900;">#chapter</span><span style="color:#657b83;">[</span><span style="color:var(--fg);">Chapter again</span><span style="color:#657b83;">]
+</span><span style="color:#b58900;">= </span><span style="color:#cb4b16;">Chap Heading
+</span><span style="color:#b58900;">= </span><span style="color:#cb4b16;">Chap Heading
+</span><span style="color:#b58900;">== </span><span style="color:#cb4b16;">Sub Heading
+</span><span style="color:#b58900;">=== </span><span style="color:#cb4b16;">Sub Sub Heading
+</span><span style="color:#b58900;">== </span><span style="color:#cb4b16;">Sub Heading
+</span><span style="color:var(--fg);">
+</span><span style="color:#b58900;">#chapter</span><span style="color:#657b83;">[</span><span style="color:var(--fg);">Chapter yet again</span><span style="color:#657b83;">]</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/0ad0c265008f81fca8694b44d2d9407815cd64a7bb4b10a631aac3370a9d52e1-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+      </main>

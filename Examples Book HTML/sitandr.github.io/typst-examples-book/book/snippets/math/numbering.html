@@ -1,0 +1,163 @@
+<main>
+       <!-- Page table of contents -->
+       <div class="sidetoc">
+        <nav class="pagetoc">
+        </nav>
+       </div>
+       <h1 id="math-numbering">
+        <a class="header" href="#math-numbering">
+         Math Numbering
+        </a>
+       </h1>
+       <h2 id="number-by-current-heading">
+        <a class="header" href="#number-by-current-heading">
+         Number by current heading
+        </a>
+       </h2>
+       <blockquote>
+        <p>
+         See also built-in numbering in
+         <a href="../../packages/math.html#theorems">
+          math package section
+         </a>
+        </p>
+       </blockquote>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#586e75;">/// original author: laurmaedje
+</span><span style="color:#859900;">#set heading</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">numbering</span><span style="color:var(--fg);">: </span><span style="color:#839496;">"</span><span style="color:#2aa198;">1.</span><span style="color:#839496;">"</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">
+</span><span style="color:#586e75;">// reset counter at each chapter
+</span><span style="color:#586e75;">// if you want to change the number of displayed 
+</span><span style="color:#586e75;">// section numbers, change the level there
+</span><span style="color:#859900;">#show</span><span style="color:var(--fg);"> heading.</span><span style="color:#859900;">where</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">level</span><span style="color:var(--fg);">:</span><span style="color:#6c71c4;">1</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">: it </span><span style="color:#859900;">=&gt; </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">counter</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">math.equation</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">.</span><span style="color:#859900;">update</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">0</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">  it
+</span><span style="color:#657b83;">}
+</span><span style="color:var(--fg);">
+</span><span style="color:#859900;">#set</span><span style="color:var(--fg);"> math.</span><span style="color:#859900;">equation</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">numbering</span><span style="color:var(--fg);">: n </span><span style="color:#859900;">=&gt; </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">numbering</span><span style="color:#657b83;">(</span><span style="color:#839496;">"</span><span style="color:#2aa198;">(1.1)</span><span style="color:#839496;">"</span><span style="color:var(--fg);">, </span><span style="color:#859900;">counter</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">heading</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">.</span><span style="color:#859900;">get</span><span style="color:#657b83;">()</span><span style="color:var(--fg);">.</span><span style="color:#859900;">first</span><span style="color:#657b83;">()</span><span style="color:var(--fg);">, n</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">  </span><span style="color:#586e75;">// if you want change the number of number of displayed
+</span><span style="color:var(--fg);">  </span><span style="color:#586e75;">// section numbers, modify it this way:
+</span><span style="color:var(--fg);">  </span><span style="color:#586e75;">/*
+</span><span style="color:#586e75;">  let count = counter(heading).get()
+</span><span style="color:#586e75;">  let h1 = count.first()
+</span><span style="color:#586e75;">  let h2 = count.at(1, default: 0)
+</span><span style="color:#586e75;">  numbering("(1.1.1)", h1, h2, n)
+</span><span style="color:#586e75;">  */
+</span><span style="color:#657b83;">})
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">
+</span><span style="color:#b58900;">= </span><span style="color:#cb4b16;">Section
+</span><span style="color:#b58900;">== </span><span style="color:#cb4b16;">Subsection
+</span><span style="color:var(--fg);">
+</span><span style="color:#2aa198;">$ </span><span style="color:#6c71c4;">5 </span><span style="color:#859900;">+ </span><span style="color:#6c71c4;">3 </span><span style="color:#859900;">= </span><span style="color:#6c71c4;">8 </span><span style="color:#2aa198;">$ </span><span style="color:#93a1a1;">&lt;</span><span style="color:#b58900;">a</span><span style="color:#93a1a1;">&gt;
+</span><span style="color:#2aa198;">$ </span><span style="color:#6c71c4;">5 </span><span style="color:#859900;">+ </span><span style="color:#6c71c4;">3 </span><span style="color:#859900;">= </span><span style="color:#6c71c4;">8 </span><span style="color:#2aa198;">$
+</span><span style="color:var(--fg);">
+</span><span style="color:#b58900;">= </span><span style="color:#cb4b16;">New Section
+</span><span style="color:#b58900;">== </span><span style="color:#cb4b16;">Subsection
+</span><span style="color:#2aa198;">$ </span><span style="color:#6c71c4;">5 </span><span style="color:#859900;">+ </span><span style="color:#6c71c4;">3 </span><span style="color:#859900;">= </span><span style="color:#6c71c4;">8 </span><span style="color:#2aa198;">$
+</span><span style="color:#b58900;">== </span><span style="color:#cb4b16;">Subsection
+</span><span style="color:#2aa198;">$ </span><span style="color:#6c71c4;">5 </span><span style="color:#859900;">+ </span><span style="color:#6c71c4;">3 </span><span style="color:#859900;">= </span><span style="color:#6c71c4;">8 </span><span style="color:#2aa198;">$ </span><span style="color:#93a1a1;">&lt;</span><span style="color:#b58900;">b</span><span style="color:#93a1a1;">&gt;
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">Mentioning </span><span style="color:#cb4b16;">@a</span><span style="color:var(--fg);"> and </span><span style="color:#cb4b16;">@b</span><span style="color:var(--fg);">.</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/9662902bb463e350d7a9bdf94e143bbaab8245da34eee4a426d2263d44511d1f-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <h2 id="number-only-labeled-equations">
+        <a class="header" href="#number-only-labeled-equations">
+         Number only labeled equations
+        </a>
+       </h2>
+       <h3 id="simple-code">
+        <a class="header" href="#simple-code">
+         Simple code
+        </a>
+       </h3>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#586e75;">// author: shampoohere
+</span><span style="color:#859900;">#show</span><span style="color:var(--fg);"> math.equation:it </span><span style="color:#859900;">=&gt; </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">if</span><span style="color:var(--fg);"> it.</span><span style="color:#859900;">fields</span><span style="color:#657b83;">()</span><span style="color:var(--fg);">.</span><span style="color:#859900;">keys</span><span style="color:#657b83;">()</span><span style="color:var(--fg);">.</span><span style="color:#859900;">contains</span><span style="color:#657b83;">(</span><span style="color:#839496;">"</span><span style="color:#2aa198;">label</span><span style="color:#839496;">"</span><span style="color:#657b83;">){
+</span><span style="color:var(--fg);">    math.</span><span style="color:#859900;">equation</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">block</span><span style="color:var(--fg);">: </span><span style="color:#b58900;">true</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">numbering</span><span style="color:var(--fg);">: </span><span style="color:#839496;">"</span><span style="color:#2aa198;">(1)</span><span style="color:#839496;">"</span><span style="color:var(--fg);">, it</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">    </span><span style="color:#586e75;">// Don't forget to change your numbering style in `numbering`
+</span><span style="color:var(--fg);">    </span><span style="color:#586e75;">// to the one you actually want to use.
+</span><span style="color:var(--fg);">    </span><span style="color:#586e75;">//
+</span><span style="color:var(--fg);">    </span><span style="color:#586e75;">// Note that you don't need to #set the numbering now.
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">} </span><span style="color:#859900;">else </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">    it
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">}
+</span><span style="color:#657b83;">}
+</span><span style="color:var(--fg);">
+</span><span style="color:#2aa198;">$ </span><span style="color:#859900;">sum_</span><span style="color:#268bd2;">x</span><span style="color:#859900;">^</span><span style="color:#6c71c4;">2 </span><span style="color:#2aa198;">$
+</span><span style="color:#2aa198;">$ </span><span style="color:#859900;">dif/</span><span style="color:#cb4b16;">(</span><span style="color:#859900;">dif </span><span style="color:#268bd2;">x</span><span style="color:#cb4b16;">)(</span><span style="color:#859900;">A</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">t</span><span style="color:#657b83;">)</span><span style="color:#859900;">+B</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">x</span><span style="color:#657b83;">)</span><span style="color:#cb4b16;">)</span><span style="color:#859900;">=dif/</span><span style="color:#cb4b16;">(</span><span style="color:#859900;">dif </span><span style="color:#268bd2;">x</span><span style="color:#cb4b16;">)</span><span style="color:#859900;">A</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">t</span><span style="color:#657b83;">)</span><span style="color:#859900;">+dif/</span><span style="color:#cb4b16;">(</span><span style="color:#859900;">dif </span><span style="color:#268bd2;">x</span><span style="color:#cb4b16;">)</span><span style="color:#859900;">B</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">t</span><span style="color:#657b83;">) </span><span style="color:#2aa198;">$ </span><span style="color:#93a1a1;">&lt;</span><span style="color:#b58900;">ep-2</span><span style="color:#93a1a1;">&gt;
+</span><span style="color:#2aa198;">$ </span><span style="color:#859900;">sum_</span><span style="color:#268bd2;">x</span><span style="color:#859900;">^</span><span style="color:#6c71c4;">2 </span><span style="color:#2aa198;">$
+</span><span style="color:#2aa198;">$ </span><span style="color:#859900;">dif/</span><span style="color:#cb4b16;">(</span><span style="color:#859900;">dif </span><span style="color:#268bd2;">x</span><span style="color:#cb4b16;">)(</span><span style="color:#859900;">A</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">t</span><span style="color:#657b83;">)</span><span style="color:#859900;">+B</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">x</span><span style="color:#657b83;">)</span><span style="color:#cb4b16;">)</span><span style="color:#859900;">=dif/</span><span style="color:#cb4b16;">(</span><span style="color:#859900;">dif </span><span style="color:#268bd2;">x</span><span style="color:#cb4b16;">)</span><span style="color:#859900;">A</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">t</span><span style="color:#657b83;">)</span><span style="color:#859900;">+dif/</span><span style="color:#cb4b16;">(</span><span style="color:#859900;">dif </span><span style="color:#268bd2;">x</span><span style="color:#cb4b16;">)</span><span style="color:#859900;">B</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">t</span><span style="color:#657b83;">) </span><span style="color:#2aa198;">$ </span><span style="color:#93a1a1;">&lt;</span><span style="color:#b58900;">ep-3</span><span style="color:#93a1a1;">&gt;</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/84052f83d0e2e2c330ef041c254dfb7c735526fc7f47cdb14ecc46961f66fee3-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <h3 id="make-the-hacked-references-clickable-again">
+        <a class="header" href="#make-the-hacked-references-clickable-again">
+         Make the hacked references clickable again
+        </a>
+       </h3>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#586e75;">// author: gijsleb
+</span><span style="color:#859900;">#show</span><span style="color:var(--fg);"> math.equation:it </span><span style="color:#859900;">=&gt; </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">if</span><span style="color:var(--fg);"> it.</span><span style="color:#859900;">has</span><span style="color:#657b83;">(</span><span style="color:#839496;">"</span><span style="color:#2aa198;">label</span><span style="color:#839496;">"</span><span style="color:#657b83;">) {
+</span><span style="color:var(--fg);">    </span><span style="color:#586e75;">// Don't forget to change your numbering style in `numbering`
+</span><span style="color:var(--fg);">    </span><span style="color:#586e75;">// to the one you actually want to use.
+</span><span style="color:var(--fg);">    math.</span><span style="color:#859900;">equation</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">block</span><span style="color:var(--fg);">: </span><span style="color:#b58900;">true</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">numbering</span><span style="color:var(--fg);">: </span><span style="color:#839496;">"</span><span style="color:#2aa198;">(1)</span><span style="color:#839496;">"</span><span style="color:var(--fg);">, it</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">} </span><span style="color:#859900;">else </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">    it
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">}
+</span><span style="color:#657b83;">}
+</span><span style="color:var(--fg);">
+</span><span style="color:#859900;">#show</span><span style="color:var(--fg);"> ref: it </span><span style="color:#859900;">=&gt; </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">let</span><span style="color:var(--fg);"> el </span><span style="color:#859900;">=</span><span style="color:var(--fg);"> it.element
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">if</span><span style="color:var(--fg);"> el !</span><span style="color:#859900;">= </span><span style="color:#b58900;">none </span><span style="color:#859900;">and</span><span style="color:var(--fg);"> el.</span><span style="color:#859900;">func</span><span style="color:#657b83;">() </span><span style="color:#859900;">==</span><span style="color:var(--fg);"> math.equation </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">    </span><span style="color:#859900;">link</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">el.</span><span style="color:#859900;">location</span><span style="color:#657b83;">()</span><span style="color:var(--fg);">, </span><span style="color:#859900;">numbering</span><span style="color:#657b83;">(
+</span><span style="color:var(--fg);">      </span><span style="color:#586e75;">// don't forget to change the numbering according to the one
+</span><span style="color:var(--fg);">      </span><span style="color:#586e75;">// you are actually using (e.g. section numbering)
+</span><span style="color:var(--fg);">      </span><span style="color:#839496;">"</span><span style="color:#2aa198;">(1)</span><span style="color:#839496;">"</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">      </span><span style="color:#859900;">counter</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">math.equation</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">.</span><span style="color:#859900;">at</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">el.</span><span style="color:#859900;">location</span><span style="color:#657b83;">())</span><span style="color:var(--fg);">.</span><span style="color:#859900;">at</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">0</span><span style="color:#657b83;">) </span><span style="color:#859900;">+ </span><span style="color:#6c71c4;">1
+</span><span style="color:var(--fg);">    </span><span style="color:#657b83;">))
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">} </span><span style="color:#859900;">else </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">    it
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">}
+</span><span style="color:#657b83;">}
+</span><span style="color:var(--fg);">
+</span><span style="color:#2aa198;">$ </span><span style="color:#859900;">sum_</span><span style="color:#268bd2;">x</span><span style="color:#859900;">^</span><span style="color:#6c71c4;">2 </span><span style="color:#2aa198;">$
+</span><span style="color:#2aa198;">$ </span><span style="color:#859900;">dif/</span><span style="color:#cb4b16;">(</span><span style="color:#859900;">dif </span><span style="color:#268bd2;">x</span><span style="color:#cb4b16;">)(</span><span style="color:#859900;">A</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">t</span><span style="color:#657b83;">)</span><span style="color:#859900;">+B</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">x</span><span style="color:#657b83;">)</span><span style="color:#cb4b16;">)</span><span style="color:#859900;">=dif/</span><span style="color:#cb4b16;">(</span><span style="color:#859900;">dif </span><span style="color:#268bd2;">x</span><span style="color:#cb4b16;">)</span><span style="color:#859900;">A</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">t</span><span style="color:#657b83;">)</span><span style="color:#859900;">+dif/</span><span style="color:#cb4b16;">(</span><span style="color:#859900;">dif </span><span style="color:#268bd2;">x</span><span style="color:#cb4b16;">)</span><span style="color:#859900;">B</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">t</span><span style="color:#657b83;">) </span><span style="color:#2aa198;">$ </span><span style="color:#93a1a1;">&lt;</span><span style="color:#b58900;">ep-2</span><span style="color:#93a1a1;">&gt;
+</span><span style="color:#2aa198;">$ </span><span style="color:#859900;">sum_</span><span style="color:#268bd2;">x</span><span style="color:#859900;">^</span><span style="color:#6c71c4;">2 </span><span style="color:#2aa198;">$
+</span><span style="color:#2aa198;">$ </span><span style="color:#859900;">dif/</span><span style="color:#cb4b16;">(</span><span style="color:#859900;">dif </span><span style="color:#268bd2;">x</span><span style="color:#cb4b16;">)(</span><span style="color:#859900;">A</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">t</span><span style="color:#657b83;">)</span><span style="color:#859900;">+B</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">x</span><span style="color:#657b83;">)</span><span style="color:#cb4b16;">)</span><span style="color:#859900;">=dif/</span><span style="color:#cb4b16;">(</span><span style="color:#859900;">dif </span><span style="color:#268bd2;">x</span><span style="color:#cb4b16;">)</span><span style="color:#859900;">A</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">t</span><span style="color:#657b83;">)</span><span style="color:#859900;">+dif/</span><span style="color:#cb4b16;">(</span><span style="color:#859900;">dif </span><span style="color:#268bd2;">x</span><span style="color:#cb4b16;">)</span><span style="color:#859900;">B</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">t</span><span style="color:#657b83;">) </span><span style="color:#2aa198;">$ </span><span style="color:#93a1a1;">&lt;</span><span style="color:#b58900;">ep-3</span><span style="color:#93a1a1;">&gt;
+</span><span style="color:var(--fg);">In </span><span style="color:#cb4b16;">@ep-2</span><span style="color:var(--fg);"> and </span><span style="color:#cb4b16;">@ep-3</span><span style="color:var(--fg);"> we see equations</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/c17ccdb8d65b5aa0d0e58b1fba75c67bfc162400ba86ad64f37aa038ad6d8887-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+      </main>

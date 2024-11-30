@@ -1,0 +1,283 @@
+<main>
+       <!-- Page table of contents -->
+       <div class="sidetoc">
+        <nav class="pagetoc">
+        </nav>
+       </div>
+       <h1 id="breakpoints-on-broken-blocks">
+        <a class="header" href="#breakpoints-on-broken-blocks">
+         Breakpoints on broken blocks
+        </a>
+       </h1>
+       <h3 id="implementation-with-table-headers--footers">
+        <a class="header" href="#implementation-with-table-headers--footers">
+         Implementation with table headers &amp; footers
+        </a>
+       </h3>
+       <p>
+        See a demo project (more comments, I stripped some of them)
+        <a href="https://typst.app/project/r-yQHF952iFnPme9BWbRu3">
+         there
+        </a>
+        .
+       </p>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#586e75;">/// author: wrzian
+</span><span style="color:var(--fg);">
+</span><span style="color:#586e75;">// Underlying counter and zig-zag functions
+</span><span style="color:#859900;">#let counter-family</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">id</span><span style="color:#657b83;">) </span><span style="color:#859900;">= </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">let</span><span style="color:var(--fg);"> parent </span><span style="color:#859900;">= counter</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">id</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">let parent-step</span><span style="color:#657b83;">() </span><span style="color:#859900;">=</span><span style="color:var(--fg);"> parent.</span><span style="color:#859900;">step</span><span style="color:#657b83;">()
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">let get-child</span><span style="color:#657b83;">() </span><span style="color:#859900;">= counter</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">id </span><span style="color:#859900;">+ str</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">parent.</span><span style="color:#859900;">get</span><span style="color:#657b83;">()</span><span style="color:var(--fg);">.</span><span style="color:#859900;">at</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">0</span><span style="color:#657b83;">)))
+</span><span style="color:var(--fg);">  return </span><span style="color:#657b83;">(</span><span style="color:var(--fg);">parent</span><span style="color:#859900;">-</span><span style="color:var(--fg);">step, get</span><span style="color:#859900;">-</span><span style="color:var(--fg);">child</span><span style="color:#657b83;">)
+</span><span style="color:#657b83;">}
+</span><span style="color:var(--fg);">
+</span><span style="color:#586e75;">// A fun zig-zag line!
+</span><span style="color:#859900;">#let zig-zag</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">fill</span><span style="color:var(--fg);">: black, </span><span style="color:#268bd2;">rough-width</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">6pt</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">height</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">4pt</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">thick</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">1pt</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">angle</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">0deg</span><span style="color:#657b83;">) </span><span style="color:#859900;">= </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">layout</span><span style="color:#657b83;">((</span><span style="color:var(--fg);">size</span><span style="color:#657b83;">) </span><span style="color:#859900;">=&gt; </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">    </span><span style="color:#586e75;">// Use layout to get the size and measure our horizontal distance
+</span><span style="color:var(--fg);">    </span><span style="color:#586e75;">// Then get the per-zigzag width with some maths.
+</span><span style="color:var(--fg);">    </span><span style="color:#859900;">let</span><span style="color:var(--fg);"> count </span><span style="color:#859900;">= int</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">calc.</span><span style="color:#859900;">round</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">size.width </span><span style="color:#859900;">/</span><span style="color:var(--fg);"> rough</span><span style="color:#859900;">-</span><span style="color:var(--fg);">width</span><span style="color:#657b83;">))
+</span><span style="color:var(--fg);">    </span><span style="color:#586e75;">// Need to add extra thickness since we join with `h(-thick)`
+</span><span style="color:var(--fg);">    </span><span style="color:#859900;">let</span><span style="color:var(--fg);"> width </span><span style="color:#859900;">=</span><span style="color:var(--fg);"> thick </span><span style="color:#859900;">+ </span><span style="color:#657b83;">(</span><span style="color:var(--fg);">size.width </span><span style="color:#859900;">-</span><span style="color:var(--fg);"> thick</span><span style="color:#657b83;">) </span><span style="color:#859900;">/</span><span style="color:var(--fg);"> count
+</span><span style="color:var(--fg);">    </span><span style="color:#586e75;">// One zig and one zag:
+</span><span style="color:var(--fg);">    </span><span style="color:#859900;">let</span><span style="color:var(--fg);"> zig</span><span style="color:#859900;">-and-</span><span style="color:var(--fg);">zag </span><span style="color:#859900;">= </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">      </span><span style="color:#859900;">let</span><span style="color:var(--fg);"> line</span><span style="color:#859900;">-</span><span style="color:var(--fg);">stroke </span><span style="color:#859900;">= stroke</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">thickness</span><span style="color:var(--fg);">: thick, </span><span style="color:#268bd2;">cap</span><span style="color:var(--fg);">: </span><span style="color:#839496;">"</span><span style="color:#2aa198;">round</span><span style="color:#839496;">"</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">paint</span><span style="color:var(--fg);">: fill</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">      </span><span style="color:#859900;">let</span><span style="color:var(--fg);"> top</span><span style="color:#859900;">-</span><span style="color:var(--fg);">left </span><span style="color:#859900;">= </span><span style="color:#657b83;">(</span><span style="color:var(--fg);">thick</span><span style="color:#859900;">/</span><span style="color:#6c71c4;">2</span><span style="color:var(--fg);">, thick</span><span style="color:#859900;">/</span><span style="color:#6c71c4;">2</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">      </span><span style="color:#859900;">let</span><span style="color:var(--fg);"> bottom</span><span style="color:#859900;">-</span><span style="color:var(--fg);">mid </span><span style="color:#859900;">= </span><span style="color:#657b83;">(</span><span style="color:var(--fg);">width</span><span style="color:#859900;">/</span><span style="color:#6c71c4;">2</span><span style="color:var(--fg);">, height </span><span style="color:#859900;">-</span><span style="color:var(--fg);"> thick</span><span style="color:#859900;">/</span><span style="color:#6c71c4;">2</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">      </span><span style="color:#859900;">let</span><span style="color:var(--fg);"> top</span><span style="color:#859900;">-</span><span style="color:var(--fg);">right </span><span style="color:#859900;">= </span><span style="color:#657b83;">(</span><span style="color:var(--fg);">width </span><span style="color:#859900;">-</span><span style="color:var(--fg);"> thick</span><span style="color:#859900;">/</span><span style="color:#6c71c4;">2</span><span style="color:var(--fg);">, thick</span><span style="color:#859900;">/</span><span style="color:#6c71c4;">2</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">      </span><span style="color:#859900;">let</span><span style="color:var(--fg);"> zig </span><span style="color:#859900;">= line</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">stroke</span><span style="color:var(--fg);">: line</span><span style="color:#859900;">-</span><span style="color:var(--fg);">stroke, </span><span style="color:#268bd2;">start</span><span style="color:var(--fg);">: top</span><span style="color:#859900;">-</span><span style="color:var(--fg);">left, </span><span style="color:#268bd2;">end</span><span style="color:var(--fg);">: bottom</span><span style="color:#859900;">-</span><span style="color:var(--fg);">mid</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">      </span><span style="color:#859900;">let</span><span style="color:var(--fg);"> zag </span><span style="color:#859900;">= line</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">stroke</span><span style="color:var(--fg);">: line</span><span style="color:#859900;">-</span><span style="color:var(--fg);">stroke, </span><span style="color:#268bd2;">start</span><span style="color:var(--fg);">: bottom</span><span style="color:#859900;">-</span><span style="color:var(--fg);">mid, </span><span style="color:#268bd2;">end</span><span style="color:var(--fg);">: top</span><span style="color:#859900;">-</span><span style="color:var(--fg);">right</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">      </span><span style="color:#859900;">box</span><span style="color:#657b83;">(</span><span style="color:#859900;">place</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">zig</span><span style="color:#657b83;">) </span><span style="color:#859900;">+ place</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">zag</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">width</span><span style="color:var(--fg);">: width, </span><span style="color:#268bd2;">height</span><span style="color:var(--fg);">: height, </span><span style="color:#268bd2;">clip</span><span style="color:var(--fg);">: </span><span style="color:#b58900;">true</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">    </span><span style="color:#657b83;">}
+</span><span style="color:var(--fg);">    </span><span style="color:#859900;">let</span><span style="color:var(--fg);"> zig</span><span style="color:#859900;">-</span><span style="color:var(--fg);">zags </span><span style="color:#859900;">= </span><span style="color:#657b83;">((</span><span style="color:var(--fg);">zig</span><span style="color:#859900;">-and-</span><span style="color:var(--fg);">zag,</span><span style="color:#657b83;">) </span><span style="color:#859900;">*</span><span style="color:var(--fg);"> count</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">.</span><span style="color:#859900;">join</span><span style="color:#657b83;">(</span><span style="color:#859900;">h</span><span style="color:#657b83;">(</span><span style="color:#859900;">-</span><span style="color:var(--fg);">thick</span><span style="color:#657b83;">))
+</span><span style="color:var(--fg);">    </span><span style="color:#859900;">rotate</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">zig</span><span style="color:#859900;">-</span><span style="color:var(--fg);">zags, angle</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">})
+</span><span style="color:#657b83;">}
+</span><span style="color:var(--fg);">
+</span><span style="color:#586e75;">// ---- Define split-box ---- //
+</span><span style="color:var(--fg);">
+</span><span style="color:#586e75;">// Customizable options for a split-box border:
+</span><span style="color:#859900;">#let</span><span style="color:var(--fg);"> default</span><span style="color:#859900;">-</span><span style="color:var(--fg);">border </span><span style="color:#859900;">= </span><span style="color:#657b83;">(
+</span><span style="color:var(--fg);">  </span><span style="color:#586e75;">// The starting and ending lines
+</span><span style="color:var(--fg);">  above: </span><span style="color:#859900;">line</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">length</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">100%</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  below: </span><span style="color:#859900;">line</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">length</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">100%</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#586e75;">// Lines to put between the box over multiple pages
+</span><span style="color:var(--fg);">  btwn</span><span style="color:#859900;">-</span><span style="color:var(--fg);">above: </span><span style="color:#859900;">line</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">length</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">100%</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">stroke</span><span style="color:var(--fg);">: </span><span style="color:#657b83;">(</span><span style="color:var(--fg);">dash:</span><span style="color:#839496;">"</span><span style="color:#2aa198;">dotted</span><span style="color:#839496;">"</span><span style="color:#657b83;">))</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  btwn</span><span style="color:#859900;">-</span><span style="color:var(--fg);">below: </span><span style="color:#859900;">line</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">length</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">100%</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">stroke</span><span style="color:var(--fg);">: </span><span style="color:#657b83;">(</span><span style="color:var(--fg);">dash:</span><span style="color:#839496;">"</span><span style="color:#2aa198;">dotted</span><span style="color:#839496;">"</span><span style="color:#657b83;">))</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#586e75;">// Left/right lines
+</span><span style="color:var(--fg);">  </span><span style="color:#586e75;">// These *must* use `grid.vline()`, otherwise you will get an error.
+</span><span style="color:var(--fg);">  </span><span style="color:#586e75;">// To remove the lines, set them to: `grid.vline(stroke: none)`.
+</span><span style="color:var(--fg);">  </span><span style="color:#586e75;">// You could probably configure this better with a rowspan, but I'm lazy.
+</span><span style="color:var(--fg);">  left: grid.</span><span style="color:#859900;">vline</span><span style="color:#657b83;">()</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  right: grid.</span><span style="color:#859900;">vline</span><span style="color:#657b83;">()</span><span style="color:var(--fg);">,
+</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">
+</span><span style="color:#586e75;">// Create a box for content which spans multiple pages/columns and
+</span><span style="color:#586e75;">// has custom borders above and below the column-break.
+</span><span style="color:#859900;">#let split-box</span><span style="color:#657b83;">(
+</span><span style="color:var(--fg);">  </span><span style="color:#586e75;">// Set the border dictionary, see `default-border` above for options
+</span><span style="color:var(--fg);">  </span><span style="color:#268bd2;">border</span><span style="color:var(--fg);">: default</span><span style="color:#859900;">-</span><span style="color:var(--fg);">border,
+</span><span style="color:var(--fg);">  </span><span style="color:#586e75;">// The cell to place content in, this should resolve to a `grid.cell`
+</span><span style="color:var(--fg);">  </span><span style="color:#268bd2;">cell</span><span style="color:var(--fg);">: grid.cell.</span><span style="color:#859900;">with</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">inset</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">5pt</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#586e75;">// The last positional arg or args are your actual content
+</span><span style="color:var(--fg);">  </span><span style="color:#586e75;">// Any extra named args will be sent to the underlying grid when called
+</span><span style="color:var(--fg);">  </span><span style="color:#586e75;">// This is useful for fill, align, etc.
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">..</span><span style="color:var(--fg);">args
+</span><span style="color:#657b83;">) </span><span style="color:#859900;">= </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">  </span><span style="color:#586e75;">// See `utils.typ` for more info.
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">let </span><span style="color:#657b83;">(</span><span style="color:var(--fg);">parent</span><span style="color:#859900;">-</span><span style="color:var(--fg);">step, get</span><span style="color:#859900;">-</span><span style="color:var(--fg);">child</span><span style="color:#657b83;">) </span><span style="color:#859900;">= counter-family</span><span style="color:#657b83;">(</span><span style="color:#839496;">"</span><span style="color:#2aa198;">split-box-unique-counter-string</span><span style="color:#839496;">"</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">parent-step</span><span style="color:#657b83;">() </span><span style="color:#586e75;">// Place the parent counter once.
+</span><span style="color:var(--fg);">  </span><span style="color:#586e75;">// Keep track of each time the header is placed on a page.
+</span><span style="color:var(--fg);">  </span><span style="color:#586e75;">// Then check if we're at the first placement (for header) or the last (footer)
+</span><span style="color:var(--fg);">  </span><span style="color:#586e75;">// If not, we'll use the 'between' forms of the  border lines.
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">let</span><span style="color:var(--fg);"> border</span><span style="color:#859900;">-</span><span style="color:var(--fg);">above </span><span style="color:#859900;">=</span><span style="color:var(--fg);"> context </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">    </span><span style="color:#859900;">let</span><span style="color:var(--fg);"> header</span><span style="color:#859900;">-</span><span style="color:var(--fg);">count </span><span style="color:#859900;">= get-child</span><span style="color:#657b83;">()
+</span><span style="color:var(--fg);">    header</span><span style="color:#859900;">-</span><span style="color:var(--fg);">count.</span><span style="color:#859900;">step</span><span style="color:#657b83;">()
+</span><span style="color:var(--fg);">    context </span><span style="color:#859900;">if</span><span style="color:var(--fg);"> header</span><span style="color:#859900;">-</span><span style="color:var(--fg);">count.</span><span style="color:#859900;">get</span><span style="color:#657b83;">() </span><span style="color:#859900;">== </span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">1</span><span style="color:var(--fg);">,</span><span style="color:#657b83;">) {</span><span style="color:var(--fg);"> border.above </span><span style="color:#657b83;">} </span><span style="color:#859900;">else </span><span style="color:#657b83;">{</span><span style="color:var(--fg);"> border.btwn</span><span style="color:#859900;">-</span><span style="color:var(--fg);">above </span><span style="color:#657b83;">}
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">}
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">let</span><span style="color:var(--fg);"> border</span><span style="color:#859900;">-</span><span style="color:var(--fg);">below </span><span style="color:#859900;">=</span><span style="color:var(--fg);"> context </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">    </span><span style="color:#859900;">let</span><span style="color:var(--fg);"> header</span><span style="color:#859900;">-</span><span style="color:var(--fg);">count </span><span style="color:#859900;">= get-child</span><span style="color:#657b83;">()
+</span><span style="color:var(--fg);">    </span><span style="color:#859900;">if</span><span style="color:var(--fg);"> header</span><span style="color:#859900;">-</span><span style="color:var(--fg);">count.</span><span style="color:#859900;">get</span><span style="color:#657b83;">() </span><span style="color:#859900;">==</span><span style="color:var(--fg);"> header</span><span style="color:#859900;">-</span><span style="color:var(--fg);">count.</span><span style="color:#859900;">final</span><span style="color:#657b83;">() {</span><span style="color:var(--fg);"> border.below </span><span style="color:#657b83;">} </span><span style="color:#859900;">else </span><span style="color:#657b83;">{</span><span style="color:var(--fg);"> border.btwn</span><span style="color:#859900;">-</span><span style="color:var(--fg);">below </span><span style="color:#657b83;">}
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">}
+</span><span style="color:var(--fg);">  </span><span style="color:#586e75;">// Place the grid!
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">grid</span><span style="color:#657b83;">(
+</span><span style="color:var(--fg);">    </span><span style="color:#859900;">..</span><span style="color:var(--fg);">args.</span><span style="color:#859900;">named</span><span style="color:#657b83;">()</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">    </span><span style="color:#268bd2;">columns</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">3</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">    border.left,
+</span><span style="color:var(--fg);">    grid.</span><span style="color:#859900;">header</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">border</span><span style="color:#859900;">-</span><span style="color:var(--fg);">above , </span><span style="color:#268bd2;">repeat</span><span style="color:var(--fg);">: </span><span style="color:#b58900;">true</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">    </span><span style="color:#859900;">..</span><span style="color:var(--fg);">args.</span><span style="color:#859900;">pos</span><span style="color:#657b83;">()</span><span style="color:var(--fg);">.</span><span style="color:#859900;">map</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">cell</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">    grid.</span><span style="color:#859900;">footer</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">border</span><span style="color:#859900;">-</span><span style="color:var(--fg);">below, </span><span style="color:#268bd2;">repeat</span><span style="color:var(--fg);">: </span><span style="color:#b58900;">true</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">    border.right,
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">)
+</span><span style="color:#657b83;">}
+</span><span style="color:var(--fg);">
+</span><span style="color:#586e75;">// ---- Examples ---- //
+</span><span style="color:var(--fg);">
+</span><span style="color:#859900;">#set page</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">width</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">7.2in</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">height</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">3in</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">columns</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">6</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">
+</span><span style="color:#586e75;">// Tada!
+</span><span style="color:#b58900;">#split-box</span><span style="color:#657b83;">[
+</span><span style="color:var(--fg);">  </span><span style="color:#b58900;">#lorem</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">20</span><span style="color:#657b83;">)
+</span><span style="color:#657b83;">]
+</span><span style="color:var(--fg);">
+</span><span style="color:#586e75;">// And here's a fun example:
+</span><span style="color:var(--fg);">
+</span><span style="color:#859900;">#let</span><span style="color:var(--fg);"> fun</span><span style="color:#859900;">-</span><span style="color:var(--fg);">border </span><span style="color:#859900;">= </span><span style="color:#657b83;">(
+</span><span style="color:var(--fg);">  </span><span style="color:#586e75;">// gradients!
+</span><span style="color:var(--fg);">  above: </span><span style="color:#859900;">line</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">length</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">100%</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">stroke</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">2pt </span><span style="color:#859900;">+</span><span style="color:var(--fg);"> gradient.</span><span style="color:#859900;">linear</span><span style="color:#657b83;">(</span><span style="color:#859900;">..</span><span style="color:var(--fg);">color.map.rainbow</span><span style="color:#657b83;">))</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  below: </span><span style="color:#859900;">line</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">length</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">100%</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">stroke</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">2pt </span><span style="color:#859900;">+</span><span style="color:var(--fg);"> gradient.</span><span style="color:#859900;">linear</span><span style="color:#657b83;">(</span><span style="color:#859900;">..</span><span style="color:var(--fg);">color.map.rainbow, </span><span style="color:#268bd2;">angle</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">180deg</span><span style="color:#657b83;">))</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#586e75;">// zig-zags!
+</span><span style="color:var(--fg);">  btwn</span><span style="color:#859900;">-</span><span style="color:var(--fg);">above: </span><span style="color:#859900;">move</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">dy</span><span style="color:var(--fg);">: </span><span style="color:#859900;">+</span><span style="color:#6c71c4;">2pt</span><span style="color:var(--fg);">, </span><span style="color:#859900;">zig-zag</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">fill</span><span style="color:var(--fg);">: blue, </span><span style="color:#268bd2;">angle</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">3deg</span><span style="color:#657b83;">))</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  btwn</span><span style="color:#859900;">-</span><span style="color:var(--fg);">below: </span><span style="color:#859900;">move</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">dy</span><span style="color:var(--fg);">: </span><span style="color:#859900;">-</span><span style="color:#6c71c4;">2pt</span><span style="color:var(--fg);">, </span><span style="color:#859900;">zig-zag</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">fill</span><span style="color:var(--fg);">: orange, </span><span style="color:#268bd2;">angle</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">177deg</span><span style="color:#657b83;">))</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  left: grid.</span><span style="color:#859900;">vline</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">stroke</span><span style="color:var(--fg);">: </span><span style="color:#657b83;">(</span><span style="color:var(--fg);">cap: </span><span style="color:#839496;">"</span><span style="color:#2aa198;">round</span><span style="color:#839496;">"</span><span style="color:var(--fg);">, paint: purple</span><span style="color:#657b83;">))</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  right: grid.</span><span style="color:#859900;">vline</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">stroke</span><span style="color:var(--fg);">: </span><span style="color:#657b83;">(</span><span style="color:var(--fg);">cap: </span><span style="color:#839496;">"</span><span style="color:#2aa198;">round</span><span style="color:#839496;">"</span><span style="color:var(--fg);">, paint: purple</span><span style="color:#657b83;">))</span><span style="color:var(--fg);">,
+</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">
+</span><span style="color:#b58900;">#split-box</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">border</span><span style="color:var(--fg);">: fun</span><span style="color:#859900;">-</span><span style="color:var(--fg);">border</span><span style="color:#657b83;">)[
+</span><span style="color:var(--fg);">  </span><span style="color:#b58900;">#lorem</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">25</span><span style="color:#657b83;">)
+</span><span style="color:#657b83;">]
+</span><span style="color:var(--fg);">
+</span><span style="color:#586e75;">// And some more tame friends:
+</span><span style="color:var(--fg);">
+</span><span style="color:#b58900;">#split-box</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">border</span><span style="color:var(--fg);">: </span><span style="color:#657b83;">(
+</span><span style="color:var(--fg);">  above: </span><span style="color:#859900;">move</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">dy</span><span style="color:var(--fg);">: </span><span style="color:#859900;">-</span><span style="color:#6c71c4;">0.5pt</span><span style="color:var(--fg);">, </span><span style="color:#859900;">line</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">length</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">100%</span><span style="color:#657b83;">))</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  below: </span><span style="color:#859900;">move</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">dy</span><span style="color:var(--fg);">: </span><span style="color:#859900;">+</span><span style="color:#6c71c4;">0.5pt</span><span style="color:var(--fg);">, </span><span style="color:#859900;">line</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">length</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">100%</span><span style="color:#657b83;">))</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#586e75;">// zig-zags!
+</span><span style="color:var(--fg);">  btwn</span><span style="color:#859900;">-</span><span style="color:var(--fg);">above: </span><span style="color:#859900;">move</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">dy</span><span style="color:var(--fg);">: </span><span style="color:#859900;">-</span><span style="color:#6c71c4;">1.1pt</span><span style="color:var(--fg);">, </span><span style="color:#859900;">zig-zag</span><span style="color:#657b83;">())</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  btwn</span><span style="color:#859900;">-</span><span style="color:var(--fg);">below: </span><span style="color:#859900;">move</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">dy</span><span style="color:var(--fg);">: </span><span style="color:#859900;">+</span><span style="color:#6c71c4;">1.1pt</span><span style="color:var(--fg);">, </span><span style="color:#859900;">zig-zag</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">angle</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">180deg</span><span style="color:#657b83;">))</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  left: grid.</span><span style="color:#859900;">vline</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">stroke</span><span style="color:var(--fg);">: </span><span style="color:#657b83;">(</span><span style="color:var(--fg);">cap: </span><span style="color:#839496;">"</span><span style="color:#2aa198;">round</span><span style="color:#839496;">"</span><span style="color:#657b83;">))</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  right: grid.</span><span style="color:#859900;">vline</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">stroke</span><span style="color:var(--fg);">: </span><span style="color:#657b83;">(</span><span style="color:var(--fg);">cap: </span><span style="color:#839496;">"</span><span style="color:#2aa198;">round</span><span style="color:#839496;">"</span><span style="color:#657b83;">))</span><span style="color:var(--fg);">,
+</span><span style="color:#657b83;">))[
+</span><span style="color:var(--fg);">  </span><span style="color:#b58900;">#lorem</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">10</span><span style="color:#657b83;">)
+</span><span style="color:#657b83;">]
+</span><span style="color:var(--fg);">
+</span><span style="color:#b58900;">#split-box</span><span style="color:#657b83;">(
+</span><span style="color:var(--fg);">  </span><span style="color:#268bd2;">border</span><span style="color:var(--fg);">: </span><span style="color:#657b83;">(
+</span><span style="color:var(--fg);">    above: </span><span style="color:#859900;">line</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">length</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">100%</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">stroke</span><span style="color:var(--fg);">: </span><span style="color:#859900;">luma</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">50%</span><span style="color:#657b83;">))</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">    below: </span><span style="color:#859900;">line</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">length</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">100%</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">stroke</span><span style="color:var(--fg);">: </span><span style="color:#859900;">luma</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">50%</span><span style="color:#657b83;">))</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">    btwn</span><span style="color:#859900;">-</span><span style="color:var(--fg);">above: </span><span style="color:#859900;">line</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">length</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">100%</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">stroke</span><span style="color:var(--fg);">: </span><span style="color:#657b83;">(</span><span style="color:var(--fg);">dash: </span><span style="color:#839496;">"</span><span style="color:#2aa198;">dashed</span><span style="color:#839496;">"</span><span style="color:var(--fg);">, paint: </span><span style="color:#859900;">luma</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">50%</span><span style="color:#657b83;">)))</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">    btwn</span><span style="color:#859900;">-</span><span style="color:var(--fg);">below: </span><span style="color:#859900;">line</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">length</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">100%</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">stroke</span><span style="color:var(--fg);">: </span><span style="color:#657b83;">(</span><span style="color:var(--fg);">dash: </span><span style="color:#839496;">"</span><span style="color:#2aa198;">dashed</span><span style="color:#839496;">"</span><span style="color:var(--fg);">, paint: </span><span style="color:#859900;">luma</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">50%</span><span style="color:#657b83;">)))</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">    left: grid.</span><span style="color:#859900;">vline</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">stroke</span><span style="color:var(--fg);">: </span><span style="color:#b58900;">none</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">    right: grid.</span><span style="color:#859900;">vline</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">stroke</span><span style="color:var(--fg);">: </span><span style="color:#b58900;">none</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">)</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#268bd2;">cell</span><span style="color:var(--fg);">: grid.cell.</span><span style="color:#859900;">with</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">inset</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">5pt</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">fill</span><span style="color:var(--fg);">: color.yellow.</span><span style="color:#859900;">saturate</span><span style="color:#657b83;">(</span><span style="color:#859900;">-</span><span style="color:#6c71c4;">85%</span><span style="color:#657b83;">))
+</span><span style="color:#657b83;">)[
+</span><span style="color:var(--fg);">  </span><span style="color:#b58900;">#lorem</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">20</span><span style="color:#657b83;">)
+</span><span style="color:#657b83;">]
+</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/52bd37f3e860317c6a162bb4a1ea8275ac73dede79a9e50c5201b4d1fd59c323-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <h3 id="implementation-via-headers-footers-and-stated">
+        <a class="header" href="#implementation-via-headers-footers-and-stated">
+         Implementation via headers, footers and stated
+        </a>
+       </h3>
+       <div class="warning">
+        Limitations:
+        <strong>
+         works only with one-column layout and one break
+        </strong>
+        .
+       </div>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#859900;">#let countBoundaries</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">loc, fromHeader</span><span style="color:#657b83;">) </span><span style="color:#859900;">= </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">let</span><span style="color:var(--fg);"> startSelector </span><span style="color:#859900;">= selector</span><span style="color:#657b83;">(</span><span style="color:#859900;">label</span><span style="color:#657b83;">(</span><span style="color:#839496;">"</span><span style="color:#2aa198;">boundary-start</span><span style="color:#839496;">"</span><span style="color:#657b83;">))
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">let</span><span style="color:var(--fg);"> endSelector </span><span style="color:#859900;">= selector</span><span style="color:#657b83;">(</span><span style="color:#859900;">label</span><span style="color:#657b83;">(</span><span style="color:#839496;">"</span><span style="color:#2aa198;">boundary-end</span><span style="color:#839496;">"</span><span style="color:#657b83;">))
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">if</span><span style="color:var(--fg);"> fromHeader </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">    </span><span style="color:#586e75;">// Count down from the top of the page
+</span><span style="color:var(--fg);">    startSelector </span><span style="color:#859900;">=</span><span style="color:var(--fg);"> startSelector.</span><span style="color:#859900;">after</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">loc</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">    endSelector </span><span style="color:#859900;">=</span><span style="color:var(--fg);"> endSelector.</span><span style="color:#859900;">after</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">loc</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">} </span><span style="color:#859900;">else </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">    </span><span style="color:#586e75;">// Count up from the bottom of the page
+</span><span style="color:var(--fg);">    startSelector </span><span style="color:#859900;">=</span><span style="color:var(--fg);"> startSelector.</span><span style="color:#859900;">before</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">loc</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">    endSelector </span><span style="color:#859900;">=</span><span style="color:var(--fg);"> endSelector.</span><span style="color:#859900;">before</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">loc</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">}
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">let</span><span style="color:var(--fg);"> startMarkers </span><span style="color:#859900;">= query</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">startSelector</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">let</span><span style="color:var(--fg);"> endMarkers </span><span style="color:#859900;">= query</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">endSelector</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">let</span><span style="color:var(--fg);"> currentPage </span><span style="color:#859900;">=</span><span style="color:var(--fg);"> loc.</span><span style="color:#859900;">position</span><span style="color:#657b83;">()</span><span style="color:var(--fg);">.page
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">let</span><span style="color:var(--fg);"> pageStartMarkers </span><span style="color:#859900;">=</span><span style="color:var(--fg);"> startMarkers.</span><span style="color:#859900;">filter</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">elem </span><span style="color:#859900;">=&gt;
+</span><span style="color:var(--fg);">    elem.</span><span style="color:#859900;">location</span><span style="color:#657b83;">()</span><span style="color:var(--fg);">.</span><span style="color:#859900;">position</span><span style="color:#657b83;">()</span><span style="color:var(--fg);">.page </span><span style="color:#859900;">==</span><span style="color:var(--fg);"> currentPage</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">let</span><span style="color:var(--fg);"> pageEndMarkers </span><span style="color:#859900;">=</span><span style="color:var(--fg);"> endMarkers.</span><span style="color:#859900;">filter</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">elem </span><span style="color:#859900;">=&gt;
+</span><span style="color:var(--fg);">    elem.</span><span style="color:#859900;">location</span><span style="color:#657b83;">()</span><span style="color:var(--fg);">.</span><span style="color:#859900;">position</span><span style="color:#657b83;">()</span><span style="color:var(--fg);">.page </span><span style="color:#859900;">==</span><span style="color:var(--fg);"> currentPage</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">(</span><span style="color:var(--fg);">start: pageStartMarkers.</span><span style="color:#859900;">len</span><span style="color:#657b83;">()</span><span style="color:var(--fg);">, end: pageEndMarkers.</span><span style="color:#859900;">len</span><span style="color:#657b83;">())
+</span><span style="color:#657b83;">}
+</span><span style="color:var(--fg);">
+</span><span style="color:#859900;">#set page</span><span style="color:#657b83;">(
+</span><span style="color:var(--fg);">  </span><span style="color:#268bd2;">margin</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">2em</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#586e75;">// ... other page setup here ...
+</span><span style="color:var(--fg);">  </span><span style="color:#268bd2;">header</span><span style="color:var(--fg);">: context </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">    </span><span style="color:#859900;">let</span><span style="color:var(--fg);"> boundaryCount </span><span style="color:#859900;">= countBoundaries</span><span style="color:#657b83;">(</span><span style="color:#859900;">here</span><span style="color:#657b83;">()</span><span style="color:var(--fg);">, </span><span style="color:#b58900;">true</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">    </span><span style="color:#859900;">if</span><span style="color:var(--fg);"> boundaryCount.end </span><span style="color:#859900;">&gt;</span><span style="color:var(--fg);"> boundaryCount.start </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">      </span><span style="color:#586e75;">// Decorate this header with an opening decoration
+</span><span style="color:var(--fg);">      </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">Block break top: </span><span style="color:#2aa198;">$</span><span style="color:#cb4b16;">--&gt;</span><span style="color:#2aa198;">$</span><span style="color:#657b83;">]
+</span><span style="color:var(--fg);">    </span><span style="color:#657b83;">}
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">}</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#268bd2;">footer</span><span style="color:var(--fg);">: context </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">    </span><span style="color:#859900;">let</span><span style="color:var(--fg);"> boundaryCount </span><span style="color:#859900;">= countBoundaries</span><span style="color:#657b83;">(</span><span style="color:#859900;">here</span><span style="color:#657b83;">()</span><span style="color:var(--fg);">, </span><span style="color:#b58900;">false</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">    </span><span style="color:#859900;">if</span><span style="color:var(--fg);"> boundaryCount.start </span><span style="color:#859900;">&gt;</span><span style="color:var(--fg);"> boundaryCount.end </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">      </span><span style="color:#586e75;">// Decorate this footer with a closing decoration
+</span><span style="color:var(--fg);">      </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">Block break end: </span><span style="color:#2aa198;">$</span><span style="color:#cb4b16;">&lt;--</span><span style="color:#2aa198;">$</span><span style="color:#657b83;">]
+</span><span style="color:var(--fg);">    </span><span style="color:#657b83;">}
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">}
+</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">
+</span><span style="color:#859900;">#let breakable-block</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">body</span><span style="color:#657b83;">) </span><span style="color:#859900;">= block</span><span style="color:#657b83;">({
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">[
+</span><span style="color:var(--fg);">    </span><span style="color:#b58900;">#metadata</span><span style="color:#657b83;">(</span><span style="color:#839496;">"</span><span style="color:#2aa198;">boundary</span><span style="color:#839496;">"</span><span style="color:#657b83;">) </span><span style="color:#93a1a1;">&lt;</span><span style="color:#b58900;">boundary-start</span><span style="color:#93a1a1;">&gt;
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">]
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">stack</span><span style="color:#657b83;">(
+</span><span style="color:var(--fg);">    </span><span style="color:#586e75;">// Breakable list content goes here
+</span><span style="color:var(--fg);">    body
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">[
+</span><span style="color:var(--fg);">    </span><span style="color:#b58900;">#metadata</span><span style="color:#657b83;">(</span><span style="color:#839496;">"</span><span style="color:#2aa198;">boundary</span><span style="color:#839496;">"</span><span style="color:#657b83;">) </span><span style="color:#93a1a1;">&lt;</span><span style="color:#b58900;">boundary-end</span><span style="color:#93a1a1;">&gt;
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">]
+</span><span style="color:#657b83;">})
+</span><span style="color:var(--fg);">
+</span><span style="color:#859900;">#set page</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">height</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">10em</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">
+</span><span style="color:#b58900;">#breakable-block</span><span style="color:#657b83;">[
+</span><span style="color:var(--fg);">    </span><span style="color:#859900;">#</span><span style="color:#657b83;">([</span><span style="color:var(--fg);">Something </span><span style="color:#dc322f;">\ </span><span style="color:#657b83;">]</span><span style="color:#859900;">*</span><span style="color:#6c71c4;">10</span><span style="color:#657b83;">)
+</span><span style="color:#657b83;">]</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/b5c4a13157c5e42b879173a5b11ec49526bdaec107c979e90572aa38aadb424f-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/b5c4a13157c5e42b879173a5b11ec49526bdaec107c979e90572aa38aadb424f-2.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+      </main>

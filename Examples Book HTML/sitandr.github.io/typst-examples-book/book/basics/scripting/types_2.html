@@ -1,0 +1,229 @@
+<main>
+       <!-- Page table of contents -->
+       <div class="sidetoc">
+        <nav class="pagetoc">
+        </nav>
+       </div>
+       <h1 id="types-part-ii">
+        <a class="header" href="#types-part-ii">
+         Types, part II
+        </a>
+       </h1>
+       <p>
+        In Typst, most of things are
+        <strong>
+         immutable
+        </strong>
+        . You can't change content, you can just create new using this one (for example, using addition).
+       </p>
+       <p>
+        Immutability is very important for Typst since it tries to be
+        <em>
+         as pure language as possible
+        </em>
+        . Functions do nothing outside of returning some value.
+       </p>
+       <p>
+        However, purity is partly "broken" by these types. They are
+        <em>
+         super-useful
+        </em>
+        and not adding them would make Typst much pain.
+       </p>
+       <p>
+        However, using them adds complexity.
+       </p>
+       <h2 id="arrays-array">
+        <a class="header" href="#arrays-array">
+         Arrays (
+         <code class="hljs">
+          <span style="color:var(--fg);">
+           array
+          </span>
+         </code>
+         )
+        </a>
+       </h2>
+       <blockquote>
+        <p>
+         <a href="https://typst.app/docs/reference/foundations/array/">
+          Link to Reference
+         </a>
+         .
+        </p>
+       </blockquote>
+       <p>
+        Mutable object that stores data with their indices.
+       </p>
+       <h3 id="working-with-indices">
+        <a class="header" href="#working-with-indices">
+         Working with indices
+        </a>
+       </h3>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#859900;">#let</span><span style="color:var(--fg);"> values </span><span style="color:#859900;">= </span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">1</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">7</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">4</span><span style="color:var(--fg);">, </span><span style="color:#859900;">-</span><span style="color:#6c71c4;">3</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">2</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">
+</span><span style="color:#586e75;">// take value at index 0
+</span><span style="color:#b58900;">#values.at</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">0</span><span style="color:#657b83;">) </span><span style="color:#dc322f;">\
+</span><span style="color:#586e75;">// set value at 0 to 3
+</span><span style="color:#859900;">#</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">values.</span><span style="color:#859900;">at</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">0</span><span style="color:#657b83;">) </span><span style="color:#859900;">= </span><span style="color:#6c71c4;">3</span><span style="color:#657b83;">)
+</span><span style="color:#586e75;">// negative index =&gt; start from the back
+</span><span style="color:#b58900;">#values.at</span><span style="color:#657b83;">(</span><span style="color:#859900;">-</span><span style="color:#6c71c4;">1</span><span style="color:#657b83;">) </span><span style="color:#dc322f;">\
+</span><span style="color:#586e75;">// add index of something that is even
+</span><span style="color:#b58900;">#values.find</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">calc.even</span><span style="color:#657b83;">)</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/0374c20b28fbf2b2d15bc32e5428f7f5121ea9d673d96de3274a0c6d988d5fb5-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <h3 id="iterating-methods">
+        <a class="header" href="#iterating-methods">
+         Iterating methods
+        </a>
+       </h3>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#859900;">#let</span><span style="color:var(--fg);"> values </span><span style="color:#859900;">= </span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">1</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">7</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">4</span><span style="color:var(--fg);">, </span><span style="color:#859900;">-</span><span style="color:#6c71c4;">3</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">2</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">
+</span><span style="color:#586e75;">// leave only what is odd
+</span><span style="color:#b58900;">#values.filter</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">calc.odd</span><span style="color:#657b83;">) </span><span style="color:#dc322f;">\
+</span><span style="color:#586e75;">// create new list of absolute values of list values
+</span><span style="color:#b58900;">#values.map</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">calc.abs</span><span style="color:#657b83;">) </span><span style="color:#dc322f;">\
+</span><span style="color:#586e75;">// reverse
+</span><span style="color:#b58900;">#values.rev</span><span style="color:#657b83;">() </span><span style="color:#dc322f;">\
+</span><span style="color:#586e75;">// convert array of arrays to flat array
+</span><span style="color:#859900;">#</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">1</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">2</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">3</span><span style="color:#657b83;">))</span><span style="color:var(--fg);">.</span><span style="color:#859900;">flatten</span><span style="color:#657b83;">() </span><span style="color:#dc322f;">\
+</span><span style="color:#586e75;">// join array of string to string
+</span><span style="color:#859900;">#</span><span style="color:#657b83;">((</span><span style="color:#839496;">"</span><span style="color:#2aa198;">A</span><span style="color:#839496;">"</span><span style="color:var(--fg);">, </span><span style="color:#839496;">"</span><span style="color:#2aa198;">B</span><span style="color:#839496;">"</span><span style="color:var(--fg);">, </span><span style="color:#839496;">"</span><span style="color:#2aa198;">C</span><span style="color:#839496;">"</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);"> .</span><span style="color:#859900;">join</span><span style="color:#657b83;">(</span><span style="color:#839496;">"</span><span style="color:#2aa198;">, </span><span style="color:#839496;">"</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">last</span><span style="color:var(--fg);">: </span><span style="color:#839496;">"</span><span style="color:#2aa198;"> and </span><span style="color:#839496;">"</span><span style="color:#657b83;">))</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/684400186916f8f16a2d7edb151b7f5023c7e4c010b23a2c6566f0bd7a224061-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <h3 id="list-operations">
+        <a class="header" href="#list-operations">
+         List operations
+        </a>
+       </h3>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#586e75;">// sum of lists:
+</span><span style="color:#859900;">#</span><span style="color:#657b83;">((</span><span style="color:#6c71c4;">1</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">2</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">3</span><span style="color:#657b83;">) </span><span style="color:#859900;">+ </span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">4</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">5</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">6</span><span style="color:#657b83;">))
+</span><span style="color:var(--fg);">
+</span><span style="color:#586e75;">// list product:
+</span><span style="color:#859900;">#</span><span style="color:#657b83;">((</span><span style="color:#6c71c4;">1</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">2</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">3</span><span style="color:#657b83;">) </span><span style="color:#859900;">* </span><span style="color:#6c71c4;">4</span><span style="color:#657b83;">)</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/abe2d311638b351e0938be0e432f10265ca81a69a9ed7d2e6f88f656c60dfc65-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <h3 id="empty-list">
+        <a class="header" href="#empty-list">
+         Empty list
+        </a>
+       </h3>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#859900;">#</span><span style="color:#657b83;">() </span><span style="color:#dc322f;">\ </span><span style="color:#586e75;">// this is an empty list
+</span><span style="color:#859900;">#</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">1</span><span style="color:var(--fg);">,</span><span style="color:#657b83;">) </span><span style="color:#dc322f;">\  </span><span style="color:#586e75;">// this is a list with one element
+</span><span style="color:var(--fg);">BAD: </span><span style="color:#859900;">#</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">1</span><span style="color:#657b83;">) </span><span style="color:#586e75;">// this is just an element, not a list!</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/da4f77f8784462ca5c4f73862e58420695916064d56921e4adef7a7e37d5a532-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <h2 id="dictionaries-dict">
+        <a class="header" href="#dictionaries-dict">
+         Dictionaries (
+         <code class="hljs">
+          <span style="color:var(--fg);">
+           dict
+          </span>
+         </code>
+         )
+        </a>
+       </h2>
+       <blockquote>
+        <p>
+         <a href="https://typst.app/docs/reference/foundations/dictionary/">
+          Link to Reference
+         </a>
+         .
+        </p>
+       </blockquote>
+       <p>
+        Dictionaries are objects that store a string "key" and a value, associated with that key.
+       </p>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#859900;">#let</span><span style="color:var(--fg);"> dict </span><span style="color:#859900;">= </span><span style="color:#657b83;">(
+</span><span style="color:var(--fg);">  name: </span><span style="color:#839496;">"</span><span style="color:#2aa198;">Typst</span><span style="color:#839496;">"</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  born: </span><span style="color:#6c71c4;">2019</span><span style="color:var(--fg);">,
+</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">
+</span><span style="color:#859900;">#</span><span style="color:#cb4b16;">dict.name </span><span style="color:#dc322f;">\
+</span><span style="color:#859900;">#</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">dict.launch </span><span style="color:#859900;">= </span><span style="color:#6c71c4;">20</span><span style="color:#657b83;">)
+</span><span style="color:#b58900;">#dict.len</span><span style="color:#657b83;">() </span><span style="color:#dc322f;">\
+</span><span style="color:#b58900;">#dict.keys</span><span style="color:#657b83;">() </span><span style="color:#dc322f;">\
+</span><span style="color:#b58900;">#dict.values</span><span style="color:#657b83;">() </span><span style="color:#dc322f;">\
+</span><span style="color:#b58900;">#dict.at</span><span style="color:#657b83;">(</span><span style="color:#839496;">"</span><span style="color:#2aa198;">born</span><span style="color:#839496;">"</span><span style="color:#657b83;">) </span><span style="color:#dc322f;">\
+</span><span style="color:#b58900;">#dict.insert</span><span style="color:#657b83;">(</span><span style="color:#839496;">"</span><span style="color:#2aa198;">city</span><span style="color:#839496;">"</span><span style="color:var(--fg);">, </span><span style="color:#839496;">"</span><span style="color:#2aa198;">Berlin </span><span style="color:#839496;">"</span><span style="color:#657b83;">)
+</span><span style="color:#859900;">#</span><span style="color:#657b83;">(</span><span style="color:#839496;">"</span><span style="color:#2aa198;">name</span><span style="color:#839496;">" </span><span style="color:#859900;">in</span><span style="color:var(--fg);"> dict</span><span style="color:#657b83;">)</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/638ada64eb36af0b1891def1b2c0a2cc97a14d87987df8c16f5f3872244553d6-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <h3 id="empty-dictionary">
+        <a class="header" href="#empty-dictionary">
+         Empty dictionary
+        </a>
+       </h3>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:var(--fg);">This is an empty list: </span><span style="color:#859900;">#</span><span style="color:#657b83;">() </span><span style="color:#dc322f;">\
+</span><span style="color:var(--fg);">This is an empty dict: </span><span style="color:#859900;">#</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">:</span><span style="color:#657b83;">)</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/6ef41801d46f0b7256bb6913482fde054c811a1850ecae3a446660eb6d1c8850-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+      </main>

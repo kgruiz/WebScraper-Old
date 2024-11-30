@@ -1,0 +1,47 @@
+\title{sitandr.github.io/typst-examples-book/book/snippets/gradients}
+
+\section{\texorpdfstring{\hyperref[color--gradients]{Color \&
+Gradients}}{Color \& Gradients}}\label{color--gradients}
+
+\subsection{\texorpdfstring{\hyperref[gradients]{Gradients}}{Gradients}}\label{gradients}
+
+Gradients may be very cool for presentations or just a pretty look.
+
+\begin{verbatim}
+/// author: frozolotl
+#set page(paper: "presentation-16-9", margin: 0pt)
+#set text(fill: white, font: "Inter")
+
+#let grad = gradient.linear(rgb("#953afa"), rgb("#c61a22"), angle: 135deg)
+
+#place(horizon + left, image(width: 60%, "../img/landscape.png"))
+
+#place(top, polygon(
+  (0%, 0%),
+  (70%, 0%),
+  (70%, 25%),
+  (0%, 29%),
+  fill: white,
+))
+#place(bottom, polygon(
+  (0%, 100%),
+  (100%, 100%),
+  (100%, 30%),
+  (60%, 30% + 60% * 4%),
+  (60%, 60%),
+  (0%, 64%),
+  fill: grad,
+))
+
+#place(top + right, block(inset: 7pt, image(height: 19%, "../img/tub.png")))
+
+#place(bottom, block(inset: 40pt)[
+  #text(size: 30pt)[
+    Presentation Title
+  ]
+
+  #text(size: 16pt)[#lorem(20) | #datetime.today().display()]
+])
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/19558fb55cdd5c8f8193724d92b54b1258ca8ee3d4d4c9e7077fc50d11e1a79d-1.svg}}

@@ -1,0 +1,350 @@
+<main>
+       <!-- Page table of contents -->
+       <div class="sidetoc">
+        <nav class="pagetoc">
+        </nav>
+       </div>
+       <h1 id="states">
+        <a class="header" href="#states">
+         States
+        </a>
+       </h1>
+       <div class="warning">
+        This section is outdated. It may be still useful, but it is strongly recommended to study new context system (using the reference).
+       </div>
+       <p>
+        Before we start something practical, it is important to understand states in general.
+       </p>
+       <p>
+        Here is a good explanation of why do we
+        <em>
+         need
+        </em>
+        them:
+        <a href="https://typst.app/docs/reference/meta/state/">
+         Official Reference about states
+        </a>
+        . It is highly recommended to read it first.
+       </p>
+       <p>
+        So instead of
+       </p>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#859900;">#let</span><span style="color:var(--fg);"> x </span><span style="color:#859900;">= </span><span style="color:#6c71c4;">0
+</span><span style="color:#859900;">#let compute</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">expr</span><span style="color:#657b83;">) </span><span style="color:#859900;">= </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">  </span><span style="color:#586e75;">// eval evaluates string as Typst code
+</span><span style="color:var(--fg);">  </span><span style="color:#586e75;">// to calculate new x value
+</span><span style="color:var(--fg);">  x </span><span style="color:#859900;">= eval</span><span style="color:#657b83;">(
+</span><span style="color:var(--fg);">    expr.</span><span style="color:#859900;">replace</span><span style="color:#657b83;">(</span><span style="color:#839496;">"</span><span style="color:#2aa198;">x</span><span style="color:#839496;">"</span><span style="color:var(--fg);">, </span><span style="color:#859900;">str</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">x</span><span style="color:#657b83;">))
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">New value is </span><span style="color:#859900;">#</span><span style="color:#cb4b16;">x</span><span style="color:var(--fg);">.</span><span style="color:#657b83;">]
+</span><span style="color:#657b83;">}
+</span><span style="color:var(--fg);">
+</span><span style="color:#b58900;">#compute</span><span style="color:#657b83;">(</span><span style="color:#839496;">"</span><span style="color:#2aa198;">10</span><span style="color:#839496;">"</span><span style="color:#657b83;">) </span><span style="color:#dc322f;">\
+</span><span style="color:#b58900;">#compute</span><span style="color:#657b83;">(</span><span style="color:#839496;">"</span><span style="color:#2aa198;">x + 3</span><span style="color:#839496;">"</span><span style="color:#657b83;">) </span><span style="color:#dc322f;">\
+</span><span style="color:#b58900;">#compute</span><span style="color:#657b83;">(</span><span style="color:#839496;">"</span><span style="color:#2aa198;">x * 2</span><span style="color:#839496;">"</span><span style="color:#657b83;">) </span><span style="color:#dc322f;">\
+</span><span style="color:#b58900;">#compute</span><span style="color:#657b83;">(</span><span style="color:#839496;">"</span><span style="color:#2aa198;">x - 5</span><span style="color:#839496;">"</span><span style="color:#657b83;">)</span></code></pre>
+       </div>
+       <p>
+        <strong>
+         THIS DOES NOT COMPILE:
+        </strong>
+        Variables from outside the function are read-only and cannot be modified
+       </p>
+       <p>
+        Instead, you should write
+       </p>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#859900;">#let</span><span style="color:var(--fg);"> s </span><span style="color:#859900;">= state</span><span style="color:#657b83;">(</span><span style="color:#839496;">"</span><span style="color:#2aa198;">x</span><span style="color:#839496;">"</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">0</span><span style="color:#657b83;">)
+</span><span style="color:#859900;">#let compute</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">expr</span><span style="color:#657b83;">) </span><span style="color:#859900;">= </span><span style="color:#657b83;">[
+</span><span style="color:var(--fg);">  </span><span style="color:#586e75;">// updates x current state with this function
+</span><span style="color:var(--fg);">  </span><span style="color:#b58900;">#s.update</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">x </span><span style="color:#859900;">=&gt;
+</span><span style="color:var(--fg);">    </span><span style="color:#859900;">eval</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">expr.</span><span style="color:#859900;">replace</span><span style="color:#657b83;">(</span><span style="color:#839496;">"</span><span style="color:#2aa198;">x</span><span style="color:#839496;">"</span><span style="color:var(--fg);">, </span><span style="color:#859900;">str</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">x</span><span style="color:#657b83;">)))
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">  </span><span style="color:#586e75;">// and displays it
+</span><span style="color:var(--fg);">  New value is </span><span style="color:#859900;">#</span><span style="color:#cb4b16;">context</span><span style="color:var(--fg);"> s.get().
+</span><span style="color:#657b83;">]
+</span><span style="color:var(--fg);">
+</span><span style="color:#b58900;">#compute</span><span style="color:#657b83;">(</span><span style="color:#839496;">"</span><span style="color:#2aa198;">10</span><span style="color:#839496;">"</span><span style="color:#657b83;">) </span><span style="color:#dc322f;">\
+</span><span style="color:#b58900;">#compute</span><span style="color:#657b83;">(</span><span style="color:#839496;">"</span><span style="color:#2aa198;">x + 3</span><span style="color:#839496;">"</span><span style="color:#657b83;">) </span><span style="color:#dc322f;">\
+</span><span style="color:#b58900;">#compute</span><span style="color:#657b83;">(</span><span style="color:#839496;">"</span><span style="color:#2aa198;">x * 2</span><span style="color:#839496;">"</span><span style="color:#657b83;">) </span><span style="color:#dc322f;">\
+</span><span style="color:#b58900;">#compute</span><span style="color:#657b83;">(</span><span style="color:#839496;">"</span><span style="color:#2aa198;">x - 5</span><span style="color:#839496;">"</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">The computations will be made </span><span style="font-style:italic;color:var(--fg);">_in order_</span><span style="color:var(--fg);"> they are </span><span style="font-style:italic;color:var(--fg);">_located_</span><span style="color:var(--fg);"> in the document. So if you create computations first, but put them in the document later</span><span style="color:#cb4b16;">...</span><span style="color:var(--fg);"> See yourself:
+</span><span style="color:var(--fg);">
+</span><span style="color:#859900;">#let</span><span style="color:var(--fg);"> more </span><span style="color:#859900;">= </span><span style="color:#657b83;">[
+</span><span style="color:var(--fg);">  </span><span style="color:#b58900;">#compute</span><span style="color:#657b83;">(</span><span style="color:#839496;">"</span><span style="color:#2aa198;">x * 2</span><span style="color:#839496;">"</span><span style="color:#657b83;">) </span><span style="color:#dc322f;">\
+</span><span style="color:var(--fg);">  </span><span style="color:#b58900;">#compute</span><span style="color:#657b83;">(</span><span style="color:#839496;">"</span><span style="color:#2aa198;">x - 5</span><span style="color:#839496;">"</span><span style="color:#657b83;">)
+</span><span style="color:#657b83;">]
+</span><span style="color:var(--fg);">
+</span><span style="color:#b58900;">#compute</span><span style="color:#657b83;">(</span><span style="color:#839496;">"</span><span style="color:#2aa198;">10</span><span style="color:#839496;">"</span><span style="color:#657b83;">) </span><span style="color:#dc322f;">\
+</span><span style="color:#b58900;">#compute</span><span style="color:#657b83;">(</span><span style="color:#839496;">"</span><span style="color:#2aa198;">x + 3</span><span style="color:#839496;">"</span><span style="color:#657b83;">) </span><span style="color:#dc322f;">\
+</span><span style="color:#859900;">#</span><span style="color:#cb4b16;">more</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/9a88397d1a9b5a44b1a3a218894595121bd4c5ec875df2b960638f2925060334-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <h2 id="context-magic">
+        <a class="header" href="#context-magic">
+         Context magic
+        </a>
+       </h2>
+       <p>
+        So what does this magic
+        <code class="hljs">
+         <span style="color:var(--fg);">
+          context s.get()
+         </span>
+        </code>
+        mean?
+       </p>
+       <blockquote>
+        <p>
+         <a href="https://typst.app/docs/reference/context/">
+          Context in Reference
+         </a>
+        </p>
+       </blockquote>
+       <p>
+        In short, it specifies what part of your code (or markup) can
+        <em>
+         depend on states outside
+        </em>
+        . This context-expression is packed then as one object, and it is evaluated on layout stage.
+       </p>
+       <p>
+        That means it is impossible to look from "normal" code at whatever is inside the
+        <code class="hljs">
+         <span style="color:var(--fg);">
+          context
+         </span>
+        </code>
+        . This is a black box that would be known
+        <em>
+         only after putting it into the document
+        </em>
+        .
+       </p>
+       <p>
+        We will discuss
+        <code class="hljs">
+         <span style="color:var(--fg);">
+          context
+         </span>
+        </code>
+        features later.
+       </p>
+       <h2 id="operations-with-states">
+        <a class="header" href="#operations-with-states">
+         Operations with states
+        </a>
+       </h2>
+       <h3 id="creating-new-state">
+        <a class="header" href="#creating-new-state">
+         Creating new state
+        </a>
+       </h3>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#859900;">#let</span><span style="color:var(--fg);"> x </span><span style="color:#859900;">= state</span><span style="color:#657b83;">(</span><span style="color:#839496;">"</span><span style="color:#2aa198;">state-id</span><span style="color:#839496;">"</span><span style="color:#657b83;">)
+</span><span style="color:#859900;">#let</span><span style="color:var(--fg);"> y </span><span style="color:#859900;">= state</span><span style="color:#657b83;">(</span><span style="color:#839496;">"</span><span style="color:#2aa198;">state-id</span><span style="color:#839496;">"</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">2</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">
+</span><span style="color:#859900;">#</span><span style="color:#cb4b16;">x</span><span style="color:var(--fg);">, </span><span style="color:#859900;">#</span><span style="color:#cb4b16;">y
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">State is </span><span style="color:#859900;">#</span><span style="color:#cb4b16;">context</span><span style="color:var(--fg);"> x.get() </span><span style="color:#dc322f;">\ </span><span style="color:#586e75;">// the same as
+</span><span style="color:#859900;">#</span><span style="color:#cb4b16;">context</span><span style="color:var(--fg);"> [State is </span><span style="color:#b58900;">#y.get</span><span style="color:#657b83;">()</span><span style="color:var(--fg);">] </span><span style="color:#dc322f;">\ </span><span style="color:#586e75;">// the same as
+</span><span style="color:#859900;">#</span><span style="color:#cb4b16;">context</span><span style="color:var(--fg);"> {"State is" + str(y.get())}</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/4a52375bdeea2b7ca31dc51740563d01b3678f817dd6bc8c349d0714c2ac503f-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <h3 id="update">
+        <a class="header" href="#update">
+         Update
+        </a>
+       </h3>
+       <p>
+        Updating is
+        <em>
+         a content
+        </em>
+        that is an instruction. That instruction tells compiler that in this place of document the state
+        <em>
+         should be updated
+        </em>
+        .
+       </p>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#859900;">#let</span><span style="color:var(--fg);"> x </span><span style="color:#859900;">= state</span><span style="color:#657b83;">(</span><span style="color:#839496;">"</span><span style="color:#2aa198;">x</span><span style="color:#839496;">"</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">0</span><span style="color:#657b83;">)
+</span><span style="color:#859900;">#</span><span style="color:#cb4b16;">context</span><span style="color:var(--fg);"> x.get() </span><span style="color:#dc322f;">\
+</span><span style="color:#859900;">#let</span><span style="color:var(--fg);"> _ </span><span style="color:#859900;">=</span><span style="color:var(--fg);"> x.</span><span style="color:#859900;">update</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">3</span><span style="color:#657b83;">)
+</span><span style="color:#586e75;">// nothing happens, we don't put `update` into the document flow
+</span><span style="color:#859900;">#</span><span style="color:#cb4b16;">context</span><span style="color:var(--fg);"> x.get()
+</span><span style="color:var(--fg);">
+</span><span style="color:#b58900;">#repr</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">x.</span><span style="color:#859900;">update</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">3</span><span style="color:#657b83;">)) </span><span style="color:#586e75;">// this is how that content looks \
+</span><span style="color:var(--fg);">
+</span><span style="color:#859900;">#</span><span style="color:#cb4b16;">context</span><span style="color:var(--fg);"> x.update(3)
+</span><span style="color:#859900;">#</span><span style="color:#cb4b16;">context</span><span style="color:var(--fg);"> x.get() </span><span style="color:#586e75;">// Finally!</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/3732a9c7bca8c4faedf9b024e09e647a65222c8244e9f3235a6057dfebc0a511-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <p>
+        Here we can see one of
+        <em>
+         important
+         <code class="hljs">
+          <span style="color:var(--fg);">
+           context
+          </span>
+         </code>
+         traits
+        </em>
+        : it "sees" states from outside, but can't see how they change inside it:
+       </p>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#859900;">#let</span><span style="color:var(--fg);"> x </span><span style="color:#859900;">= state</span><span style="color:#657b83;">(</span><span style="color:#839496;">"</span><span style="color:#2aa198;">x</span><span style="color:#839496;">"</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">0</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">
+</span><span style="color:#859900;">#</span><span style="color:#cb4b16;">context</span><span style="color:var(--fg);"> {
+</span><span style="color:var(--fg);">  x.update(3)
+</span><span style="color:var(--fg);">  str(x.get())
+</span><span style="color:var(--fg);">}</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/78e500b80cb85e086a81302e2ce3dad88cb4304d4685b88e3f59111bc71f6748-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <h3 id="id-collision">
+        <a class="header" href="#id-collision">
+         ID collision
+        </a>
+       </h3>
+       <p>
+        <em>
+         TLDR;
+         <strong>
+          Never allow colliding states.
+         </strong>
+        </em>
+       </p>
+       <div class="warning">
+        States are described by their id-s, if they are the same, the code will break.
+       </div>
+       <p>
+        So, if you write functions or loops that are used several times,
+        <em>
+         be careful
+        </em>
+        !
+       </p>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#859900;">#let f</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">x</span><span style="color:#657b83;">) </span><span style="color:#859900;">= </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">  </span><span style="color:#586e75;">// return new state…
+</span><span style="color:var(--fg);">  </span><span style="color:#586e75;">// …but their id-s are the same!
+</span><span style="color:var(--fg);">  </span><span style="color:#586e75;">// so it will always be the same state!
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">let</span><span style="color:var(--fg);"> y </span><span style="color:#859900;">= state</span><span style="color:#657b83;">(</span><span style="color:#839496;">"</span><span style="color:#2aa198;">x</span><span style="color:#839496;">"</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">0</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">  y.</span><span style="color:#859900;">update</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">y </span><span style="color:#859900;">=&gt;</span><span style="color:var(--fg);"> y </span><span style="color:#859900;">+</span><span style="color:var(--fg);"> x</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">  context y.</span><span style="color:#859900;">get</span><span style="color:#657b83;">()
+</span><span style="color:#657b83;">}
+</span><span style="color:var(--fg);">
+</span><span style="color:#859900;">#let</span><span style="color:var(--fg);"> a </span><span style="color:#859900;">= f</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">2</span><span style="color:#657b83;">)
+</span><span style="color:#859900;">#let</span><span style="color:var(--fg);"> b </span><span style="color:#859900;">= f</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">3</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">
+</span><span style="color:#859900;">#</span><span style="color:#cb4b16;">a</span><span style="color:var(--fg);">, </span><span style="color:#859900;">#</span><span style="color:#cb4b16;">b </span><span style="color:#dc322f;">\
+</span><span style="color:#b58900;">#raw</span><span style="color:#657b83;">(</span><span style="color:#859900;">repr</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">a</span><span style="color:#657b83;">) </span><span style="color:#859900;">+ </span><span style="color:#839496;">"</span><span style="color:#2aa198;">\n</span><span style="color:#839496;">" </span><span style="color:#859900;">+ repr</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">b</span><span style="color:#657b83;">))</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/31a3e88747ed09ae6078bd3caf986f0e6ba744e055d0889d92bfa23941e7e451-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <p>
+        However, this
+        <em>
+         may seem
+        </em>
+        okay:
+       </p>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#586e75;">// locations in code are different!
+</span><span style="color:#859900;">#let</span><span style="color:var(--fg);"> x </span><span style="color:#859900;">= state</span><span style="color:#657b83;">(</span><span style="color:#839496;">"</span><span style="color:#2aa198;">state-id</span><span style="color:#839496;">"</span><span style="color:#657b83;">)
+</span><span style="color:#859900;">#let</span><span style="color:var(--fg);"> y </span><span style="color:#859900;">= state</span><span style="color:#657b83;">(</span><span style="color:#839496;">"</span><span style="color:#2aa198;">state-id</span><span style="color:#839496;">"</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">2</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">
+</span><span style="color:#859900;">#</span><span style="color:#cb4b16;">x</span><span style="color:var(--fg);">, </span><span style="color:#859900;">#</span><span style="color:#cb4b16;">y</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/1901e1449942d821c66f53bd6bc5fda10d63591aa45346fdf88bcbc3f2ab3425-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <p>
+        But in fact, it
+        <em>
+         isn't
+        </em>
+        :
+       </p>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#859900;">#let</span><span style="color:var(--fg);"> x </span><span style="color:#859900;">= state</span><span style="color:#657b83;">(</span><span style="color:#839496;">"</span><span style="color:#2aa198;">state-id</span><span style="color:#839496;">"</span><span style="color:#657b83;">)
+</span><span style="color:#859900;">#let</span><span style="color:var(--fg);"> y </span><span style="color:#859900;">= state</span><span style="color:#657b83;">(</span><span style="color:#839496;">"</span><span style="color:#2aa198;">state-id</span><span style="color:#839496;">"</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">2</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">
+</span><span style="color:#859900;">#</span><span style="color:#cb4b16;">context</span><span style="color:var(--fg);"> [</span><span style="color:#b58900;">#x.get</span><span style="color:#657b83;">()</span><span style="color:var(--fg);">; </span><span style="color:#b58900;">#y.get</span><span style="color:#657b83;">()</span><span style="color:var(--fg);">]
+</span><span style="color:var(--fg);">
+</span><span style="color:#b58900;">#x.update</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">3</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">
+</span><span style="color:#859900;">#</span><span style="color:#cb4b16;">context</span><span style="color:var(--fg);"> [</span><span style="color:#b58900;">#x.get</span><span style="color:#657b83;">()</span><span style="color:var(--fg);">; </span><span style="color:#b58900;">#y.get</span><span style="color:#657b83;">()</span><span style="color:var(--fg);">]</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/9185a298f9bcf8c519fa85481b9272e6ef3a00c117a0904d0509920a6abef8b2-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+      </main>

@@ -1,0 +1,190 @@
+<main>
+       <!-- Page table of contents -->
+       <div class="sidetoc">
+        <nav class="pagetoc">
+        </nav>
+       </div>
+       <h1 id="numbering">
+        <a class="header" href="#numbering">
+         Numbering
+        </a>
+       </h1>
+       <h2 id="individual-heading-without-numbering">
+        <a class="header" href="#individual-heading-without-numbering">
+         Individual heading without numbering
+        </a>
+       </h2>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#859900;">#let numless</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">it</span><span style="color:#657b83;">) </span><span style="color:#859900;">= </span><span style="color:#657b83;">{</span><span style="color:#859900;">set heading</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">numbering</span><span style="color:var(--fg);">: </span><span style="color:#b58900;">none</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">; it </span><span style="color:#657b83;">}
+</span><span style="color:var(--fg);">
+</span><span style="color:#b58900;">= </span><span style="color:#cb4b16;">Heading
+</span><span style="color:#b58900;">#numless</span><span style="color:#657b83;">[</span><span style="color:var(--fg);">=No numbering heading</span><span style="color:#657b83;">]</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/e04f844b270049702ac72dff7bfadf5963cdb2bc8a541e81b685124fbb61c48e-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <h2 id="clean-numbering">
+        <a class="header" href="#clean-numbering">
+         "Clean" numbering
+        </a>
+       </h2>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#586e75;">// original author: tromboneher
+</span><span style="color:var(--fg);">
+</span><span style="color:#586e75;">// Number sections according to a number of schemes, omitting previous leading elements.
+</span><span style="color:#586e75;">// For example, where the numbering pattern "A.I.1." would produce:
+</span><span style="color:#586e75;">//
+</span><span style="color:#586e75;">// A. A part of the story
+</span><span style="color:#586e75;">//   A.I. A chapter
+</span><span style="color:#586e75;">//   A.II. Another chapter
+</span><span style="color:#586e75;">//     A.II.1. A section
+</span><span style="color:#586e75;">//       A.II.1.a. A subsection
+</span><span style="color:#586e75;">//       A.II.1.b. Another subsection
+</span><span style="color:#586e75;">//     A.II.2. Another section
+</span><span style="color:#586e75;">// B. Another part of the story
+</span><span style="color:#586e75;">//   B.I. A chapter in the second part
+</span><span style="color:#586e75;">//   B.II. Another chapter in the second part
+</span><span style="color:#586e75;">//
+</span><span style="color:#586e75;">// clean_numbering("A.", "I.", "1.a.") would produce:
+</span><span style="color:#586e75;">//
+</span><span style="color:#586e75;">// A. A part of the story
+</span><span style="color:#586e75;">//   I. A chapter
+</span><span style="color:#586e75;">//   II. Another chapter
+</span><span style="color:#586e75;">//     1. A section
+</span><span style="color:#586e75;">//       1.a. A subsection
+</span><span style="color:#586e75;">//       1.b. Another subsection
+</span><span style="color:#586e75;">//     2. Another section
+</span><span style="color:#586e75;">// B. Another part of the story
+</span><span style="color:#586e75;">//   I. A chapter in the second part
+</span><span style="color:#586e75;">//   II. Another chapter in the second part
+</span><span style="color:#586e75;">//
+</span><span style="color:#859900;">#let clean_numbering</span><span style="color:#657b83;">(</span><span style="color:#859900;">..</span><span style="color:var(--fg);">schemes</span><span style="color:#657b83;">) </span><span style="color:#859900;">= </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">(</span><span style="color:#859900;">..</span><span style="color:var(--fg);">nums</span><span style="color:#657b83;">) </span><span style="color:#859900;">=&gt; </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">    </span><span style="color:#859900;">let </span><span style="color:#657b83;">(</span><span style="color:var(--fg);">section, </span><span style="color:#859900;">..</span><span style="color:var(--fg);">subsections</span><span style="color:#657b83;">) </span><span style="color:#859900;">=</span><span style="color:var(--fg);"> nums.</span><span style="color:#859900;">pos</span><span style="color:#657b83;">()
+</span><span style="color:var(--fg);">    </span><span style="color:#859900;">let </span><span style="color:#657b83;">(</span><span style="color:var(--fg);">section_scheme, </span><span style="color:#859900;">..</span><span style="color:var(--fg);">subschemes</span><span style="color:#657b83;">) </span><span style="color:#859900;">=</span><span style="color:var(--fg);"> schemes.</span><span style="color:#859900;">pos</span><span style="color:#657b83;">()
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">    </span><span style="color:#859900;">if</span><span style="color:var(--fg);"> subsections.</span><span style="color:#859900;">len</span><span style="color:#657b83;">() </span><span style="color:#859900;">== </span><span style="color:#6c71c4;">0 </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">      </span><span style="color:#859900;">numbering</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">section_scheme, section</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">    </span><span style="color:#657b83;">} </span><span style="color:#859900;">else if</span><span style="color:var(--fg);"> subschemes.</span><span style="color:#859900;">len</span><span style="color:#657b83;">() </span><span style="color:#859900;">== </span><span style="color:#6c71c4;">0 </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">      </span><span style="color:#859900;">numbering</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">section_scheme, </span><span style="color:#859900;">..</span><span style="color:var(--fg);">nums.</span><span style="color:#859900;">pos</span><span style="color:#657b83;">())
+</span><span style="color:var(--fg);">    </span><span style="color:#657b83;">}
+</span><span style="color:var(--fg);">    </span><span style="color:#859900;">else </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">      </span><span style="color:#859900;">clean_numbering</span><span style="color:#657b83;">(</span><span style="color:#859900;">..</span><span style="color:var(--fg);">subschemes</span><span style="color:#657b83;">)(</span><span style="color:#859900;">..</span><span style="color:var(--fg);">subsections</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">    </span><span style="color:#657b83;">}
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">}
+</span><span style="color:#657b83;">}
+</span><span style="color:var(--fg);">
+</span><span style="color:#859900;">#set heading</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">numbering</span><span style="color:var(--fg);">: </span><span style="color:#859900;">clean_numbering</span><span style="color:#657b83;">(</span><span style="color:#839496;">"</span><span style="color:#2aa198;">A.</span><span style="color:#839496;">"</span><span style="color:var(--fg);">, </span><span style="color:#839496;">"</span><span style="color:#2aa198;">I.</span><span style="color:#839496;">"</span><span style="color:var(--fg);">, </span><span style="color:#839496;">"</span><span style="color:#2aa198;">1.a.</span><span style="color:#839496;">"</span><span style="color:#657b83;">))
+</span><span style="color:var(--fg);">
+</span><span style="color:#b58900;">= </span><span style="color:#cb4b16;">Part
+</span><span style="color:#b58900;">== </span><span style="color:#cb4b16;">Chapter
+</span><span style="color:#b58900;">== </span><span style="color:#cb4b16;">Another chapter
+</span><span style="color:#b58900;">=== </span><span style="color:#cb4b16;">Section
+</span><span style="color:#b58900;">==== </span><span style="color:#cb4b16;">Subsection
+</span><span style="color:#b58900;">==== </span><span style="color:#cb4b16;">Another subsection
+</span><span style="color:#b58900;">= </span><span style="color:#cb4b16;">Another part of the story
+</span><span style="color:#b58900;">== </span><span style="color:#cb4b16;">A chapter in the second part
+</span><span style="color:#b58900;">== </span><span style="color:#cb4b16;">Another chapter in the second part</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/4e29319442704545bf58d12448745836598c12f59162d3199aaad21c752e4483-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <h2 id="math-numbering">
+        <a class="header" href="#math-numbering">
+         Math numbering
+        </a>
+       </h2>
+       <p>
+        See
+        <a href="./math/numbering.html">
+         there
+        </a>
+        .
+       </p>
+       <h2 id="numbering-each-paragraph">
+        <a class="header" href="#numbering-each-paragraph">
+         Numbering each paragraph
+        </a>
+       </h2>
+       <div class="warning">
+        By the 0.12 version of Typst, this should be replaced with good native solution.
+        <div>
+         <div style="margin-bottom: 0.5em">
+          <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#586e75;">// original author: roehlichA
+</span><span style="color:#586e75;">// Legal formatting of enumeration
+</span><span style="color:#859900;">#show</span><span style="color:var(--fg);"> enum: it </span><span style="color:#859900;">=&gt;</span><span style="color:var(--fg);"> context </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">  </span><span style="color:#586e75;">// Retrieve the last heading so we know what level to step at
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">let</span><span style="color:var(--fg);"> headings </span><span style="color:#859900;">= query</span><span style="color:#657b83;">(</span><span style="color:#859900;">selector</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">heading</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">.</span><span style="color:#859900;">before</span><span style="color:#657b83;">(</span><span style="color:#859900;">here</span><span style="color:#657b83;">()))
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">let</span><span style="color:var(--fg);"> last </span><span style="color:#859900;">=</span><span style="color:var(--fg);"> headings.</span><span style="color:#859900;">at</span><span style="color:#657b83;">(</span><span style="color:#859900;">-</span><span style="color:#6c71c4;">1</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">  </span><span style="color:#586e75;">// Combine the output items
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">let</span><span style="color:var(--fg);"> output </span><span style="color:#859900;">= </span><span style="color:#657b83;">()
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">for</span><span style="color:var(--fg);"> item </span><span style="color:#859900;">in</span><span style="color:var(--fg);"> it.children </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">    output.</span><span style="color:#859900;">push</span><span style="color:#657b83;">([
+</span><span style="color:var(--fg);">      </span><span style="color:#859900;">#</span><span style="color:#cb4b16;">context</span><span style="color:var(--fg);">{
+</span><span style="color:var(--fg);">        counter(heading).step(level: last.level + 1)
+</span><span style="color:var(--fg);">      }
+</span><span style="color:var(--fg);">      </span><span style="color:#859900;">#</span><span style="color:#cb4b16;">context</span><span style="color:var(--fg);"> {
+</span><span style="color:var(--fg);">        counter(heading).display() 
+</span><span style="color:var(--fg);">      }
+</span><span style="color:var(--fg);">    </span><span style="color:#657b83;">])
+</span><span style="color:var(--fg);">    output.</span><span style="color:#859900;">push</span><span style="color:#657b83;">([
+</span><span style="color:var(--fg);">      </span><span style="color:#b58900;">#text</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">item.body</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">      </span><span style="color:#b58900;">#parbreak</span><span style="color:#657b83;">()
+</span><span style="color:var(--fg);">    </span><span style="color:#657b83;">])
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">}
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">  </span><span style="color:#586e75;">// Display in a grid
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">grid</span><span style="color:#657b83;">(
+</span><span style="color:var(--fg);">    </span><span style="color:#268bd2;">columns</span><span style="color:var(--fg);">: </span><span style="color:#657b83;">(</span><span style="color:#b58900;">auto</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">1fr</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">    </span><span style="color:#268bd2;">column-gutter</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">1em</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">    </span><span style="color:#268bd2;">row-gutter</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">1em</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">    </span><span style="color:#859900;">..</span><span style="color:var(--fg);">output
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">
+</span><span style="color:#657b83;">}
+</span><span style="color:var(--fg);">
+</span><span style="color:#859900;">#set heading</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">numbering</span><span style="color:var(--fg);">: </span><span style="color:#839496;">"</span><span style="color:#2aa198;">1.</span><span style="color:#839496;">"</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">
+</span><span style="color:#b58900;">= </span><span style="color:#cb4b16;">Some heading
+</span><span style="color:var(--fg);">+ Paragraph
+</span><span style="color:#b58900;">= </span><span style="color:#cb4b16;">Other
+</span><span style="color:var(--fg);">+ Paragraphs here are preceded with a number so they can be referenced directly.
+</span><span style="color:var(--fg);">+ </span><span style="font-style:italic;color:var(--fg);">_</span><span style="font-style:italic;color:#b58900;">#lorem</span><span style="font-style:italic;color:#657b83;">(</span><span style="font-style:italic;color:#6c71c4;">100</span><span style="font-style:italic;color:#657b83;">)</span><span style="font-style:italic;color:var(--fg);">_
+</span><span style="color:var(--fg);">+ </span><span style="font-style:italic;color:var(--fg);">_</span><span style="font-style:italic;color:#b58900;">#lorem</span><span style="font-style:italic;color:#657b83;">(</span><span style="font-style:italic;color:#6c71c4;">100</span><span style="font-style:italic;color:#657b83;">)</span><span style="font-style:italic;color:var(--fg);">_
+</span><span style="color:var(--fg);">
+</span><span style="color:#b58900;">== </span><span style="color:#cb4b16;">A subheading
+</span><span style="color:var(--fg);">+ Paragraphs are also numbered correctly in subheadings.
+</span><span style="color:var(--fg);">+ </span><span style="font-style:italic;color:var(--fg);">_</span><span style="font-style:italic;color:#b58900;">#lorem</span><span style="font-style:italic;color:#657b83;">(</span><span style="font-style:italic;color:#6c71c4;">50</span><span style="font-style:italic;color:#657b83;">)</span><span style="font-style:italic;color:var(--fg);">_
+</span><span style="color:var(--fg);">+ </span><span style="font-style:italic;color:var(--fg);">_</span><span style="font-style:italic;color:#b58900;">#lorem</span><span style="font-style:italic;color:#657b83;">(</span><span style="font-style:italic;color:#6c71c4;">50</span><span style="font-style:italic;color:#657b83;">)</span><span style="font-style:italic;color:var(--fg);">_</span></code></pre>
+          <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+           <img align="middle" alt="Rendered image" src="typst-img/8d5603f93334c1d0fd7391811f90b161d4ff8c7eb81100dc152caac5c6d13daf-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+          </div>
+         </div>
+        </div>
+       </div>
+      </main>

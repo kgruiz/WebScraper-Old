@@ -1,0 +1,43 @@
+<main>
+       <!-- Page table of contents -->
+       <div class="sidetoc">
+        <nav class="pagetoc">
+        </nav>
+       </div>
+       <h1 id="try--catch">
+        <a class="header" href="#try--catch">
+         Try &amp; Catch
+        </a>
+       </h1>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#586e75;">// author: laurmaedje
+</span><span style="color:#586e75;">// Renders an image or a placeholder if it doesn't exist.
+</span><span style="color:#586e75;">// Don’t try this at home, kids!
+</span><span style="color:#859900;">#let maybe-image</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">path, </span><span style="color:#859900;">..</span><span style="color:var(--fg);">args</span><span style="color:#657b83;">) </span><span style="color:#859900;">=</span><span style="color:var(--fg);"> context </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">let</span><span style="color:var(--fg);"> path</span><span style="color:#859900;">-</span><span style="color:var(--fg);">label </span><span style="color:#859900;">= label</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">path</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">   </span><span style="color:#859900;">let</span><span style="color:var(--fg);"> first</span><span style="color:#859900;">-</span><span style="color:var(--fg);">time </span><span style="color:#859900;">= query</span><span style="color:#657b83;">((</span><span style="color:var(--fg);">context </span><span style="color:#657b83;">{})</span><span style="color:var(--fg);">.</span><span style="color:#859900;">func</span><span style="color:#657b83;">())</span><span style="color:var(--fg);">.</span><span style="color:#859900;">len</span><span style="color:#657b83;">() </span><span style="color:#859900;">== </span><span style="color:#6c71c4;">0
+</span><span style="color:var(--fg);">   </span><span style="color:#859900;">if</span><span style="color:var(--fg);"> first</span><span style="color:#859900;">-</span><span style="color:var(--fg);">time </span><span style="color:#859900;">or query</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">path</span><span style="color:#859900;">-</span><span style="color:var(--fg);">label</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">.</span><span style="color:#859900;">len</span><span style="color:#657b83;">() </span><span style="color:#859900;">&gt; </span><span style="color:#6c71c4;">0 </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">    </span><span style="color:#657b83;">[</span><span style="color:#b58900;">#image</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">path, </span><span style="color:#859900;">..</span><span style="color:var(--fg);">args</span><span style="color:#657b83;">)</span><span style="color:#859900;">#</span><span style="color:#cb4b16;">path-label</span><span style="color:#657b83;">]
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">} </span><span style="color:#859900;">else </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">    </span><span style="color:#859900;">rect</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">width</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">50%</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">height</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">5em</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">fill</span><span style="color:var(--fg);">: </span><span style="color:#859900;">luma</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">235</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">stroke</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">1pt</span><span style="color:#657b83;">)[
+</span><span style="color:var(--fg);">      </span><span style="color:#859900;">#set align</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">center </span><span style="color:#859900;">+</span><span style="color:var(--fg);"> horizon</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">      Could not find </span><span style="color:#b58900;">#raw</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">path</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">    </span><span style="color:#657b83;">]
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">}
+</span><span style="color:#657b83;">}
+</span><span style="color:var(--fg);">
+</span><span style="color:#b58900;">#maybe-image</span><span style="color:#657b83;">(</span><span style="color:#839496;">"</span><span style="color:#2aa198;">../tiger.jpg</span><span style="color:#839496;">"</span><span style="color:#657b83;">)
+</span><span style="color:#b58900;">#maybe-image</span><span style="color:#657b83;">(</span><span style="color:#839496;">"</span><span style="color:#2aa198;">../tiger1.jpg</span><span style="color:#839496;">"</span><span style="color:#657b83;">)</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/ee71afd2e954c4ab04385fb359baa63b3c6852718ae7b0d63948cf9180d50e89-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+      </main>

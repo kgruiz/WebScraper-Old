@@ -1,0 +1,30 @@
+\title{sitandr.github.io/typst-examples-book/book/typstonomicon/original_image}
+
+\section{\texorpdfstring{\hyperref[image-with-original-size]{Image with
+original
+size}}{Image with original size}}\label{image-with-original-size}
+
+This function renders image with the size it "naturally" has.
+
+\textbf{Note: starting from v0.11} , Typst tries using default image
+size when width and height are \texttt{\ }{\texttt{\ auto\ }}\texttt{\ }
+. It only uses container\textquotesingle s size if the image
+doesn\textquotesingle t fit. So this code is more like a legacy, but
+still may be useful.
+
+This works because measure conceptually places the image onto a page
+with infinite size and then the image defaults to 1pt per pixel instead
+of becoming infinitely larger itself.
+
+\begin{verbatim}
+// author: laurmaedje
+#let natural-image(..args) = style(styles => {
+  let (width, height) = measure(image(..args), styles)
+  image(..args, width: width, height: height)
+})
+
+#image("../tiger.jpg")
+#natural-image("../tiger.jpg")
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/59503efa7e4aa0d37418ed3d0cb2c0c123268fae37cdcd54f8f7eb06b556e05d-1.svg}}

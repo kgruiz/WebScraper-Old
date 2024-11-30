@@ -1,7 +1,7 @@
 import json
 import os
 from typing import List
-from urllib.parse import urljoin, urlparse
+from urllib.parse import urljoin, urlparse, urlunparse
 
 import requests
 from bs4 import BeautifulSoup
@@ -15,6 +15,17 @@ def OutputJson(urlList: list, fileName: str):
     with open(fileName, "w") as file:
 
         json.dump(urlList, file, indent=2)
+
+
+def ResolveRelativePathWithoutFragment(currentUrl: str, relativePath: str):
+
+    resolvedPath = urljoin(currentUrl, relativePath)
+
+    parsedUrl = urlparse(resolvedPath)
+
+    urlWithoutFragment = urlunparse(parsedUrl._replace(fragment=""))
+
+    return urlWithoutFragment
 
 
 def GetUrls(
@@ -59,7 +70,10 @@ def GetUrls(
             os.makedirs(dirPath)
 
         # Save the HTML content to a file
-        filename = os.path.join(dirPath, f"{pathParts[-1] or 'index'}.html")
+        filename = os.path.join(
+            dirPath,
+            f"{pathParts[-1] if pathParts[-1].endswith('.html') else pathParts[-1] + '.html'}",
+        )
         with open(filename, "w") as file:
             file.write(BeautifulSoup.prettify(soup))
             file.write("\n<!-- All hrefs on this page -->\n")
@@ -114,8 +128,6 @@ def GetUrls(
 
                 links = newLinks
 
-                # raise SystemExit
-
             if maxPage == urlParts[-3]:
 
                 if not all(char.isdigit() or char == "." for char in urlParts[-1]):
@@ -128,15 +140,7 @@ def GetUrls(
 
         link = link.get("href")
 
-        if link.startswith("#"):
-            continue
-
-        if "#" in link:
-            link = link.split("#")[0]
-
-        if "https" not in link:
-            if rf"{baseUrl}{link[1:]}" not in addedUrls:
-                link = rf"{baseUrl}/{link[1:]}"
+        link = ResolveRelativePathWithoutFragment(currentUrl=url, relativePath=link)
 
         if any(word in link for word in excludeWords):
             continue

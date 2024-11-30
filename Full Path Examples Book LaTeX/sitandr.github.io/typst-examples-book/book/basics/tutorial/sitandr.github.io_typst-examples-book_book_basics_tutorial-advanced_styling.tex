@@ -1,0 +1,234 @@
+\title{sitandr.github.io/typst-examples-book/book/basics/tutorial/advanced_styling}
+
+\section{\texorpdfstring{\hyperref[advanced-styling]{Advanced
+styling}}{Advanced styling}}\label{advanced-styling}
+
+\subsection{\texorpdfstring{\hyperref[the-show-rule]{The
+\texttt{\ }{\texttt{\ show\ }}\texttt{\ }
+rule}}{The   show   rule}}\label{the-show-rule}
+
+\begin{verbatim}
+Advanced styling comes with another rule. The _`show` rule_.
+
+Now please compare the source code and the output.
+
+#show "Be careful": strong[Play]
+
+This is a very powerful thing, sometimes even too powerful.
+Be careful with it.
+
+#show "it is holding me hostage": text(green)[I'm fine]
+
+Wait, what? I told you "Be careful!", not "Play!".
+
+Help, it is holding me hostage.
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/8a9ac38769d4ac7b42a2755047d0cd5a6404ad26e9e7f5b72b6984fa67abadf9-1.svg}}
+
+\subsection{\texorpdfstring{\hyperref[now-a-bit-more-serious]{Now a bit
+more serious}}{Now a bit more serious}}\label{now-a-bit-more-serious}
+
+\begin{verbatim}
+Show rule is a powerful thing that takes a _selector_
+and what to apply to it. After that it will apply to
+all elements it can find.
+
+It may be extremely useful like that:
+
+#show emph: set text(blue)
+
+Now if I want to _emphasize_ something,
+it will be both _emphasized_ and _blue_.
+Isn't that cool?
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/657acaf5c4ca684408bbc6fe0dec4c74b9fa58d24805ec975be1382aa7bf959c-1.svg}}
+
+\subsection{\texorpdfstring{\hyperref[about-syntax]{About
+syntax}}{About syntax}}\label{about-syntax}
+
+\begin{verbatim}
+Sometimes show rules may be confusing. They may seem very diverse, but in fact they all are quite the same! So
+
+// actually, this is the same as
+// redify = text.with(red)
+// `with` creates a new function with this argument already set
+#let redify(string) = text(red, string)
+
+// and this is the same as
+// framify = rect.with(stroke: orange)
+#let framify(object) = rect(object, stroke: orange)
+
+// set default color of text blue for all following text
+#show: set text(blue)
+
+Blue text.
+
+// wrap everything into a frame
+#show: framify
+
+Framed text.
+
+// it's the same, just creating new function that calls framify
+#show: a => framify(a)
+
+Double-framed.
+
+// apply function to `the`
+#show "the": redify
+// set text color for all the headings
+#show heading: set text(purple)
+
+= Conclusion
+
+All these rules do basically the same!
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/2dfcde68345d3fa276b99a1f308343118c6eeae09fd106389a8fc488d7244ebb-1.svg}}
+
+\subsection{\texorpdfstring{\hyperref[blocks]{Blocks}}{Blocks}}\label{blocks}
+
+One of the most important usages is that you can set up all spacing
+using blocks. Like every element with text contains text that can be set
+up, every \emph{block element} contains blocks:
+
+\begin{verbatim}
+Text before
+= Heading
+Text after
+
+#show heading: set block(spacing: 0.5em)
+
+Text before
+= Heading
+Text after
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/7891207932d0918c88b5804b3a7ee051ce5dda93081f8999eb0f7ebaee48400a-1.svg}}
+
+\subsection{\texorpdfstring{\hyperref[selector]{Selector}}{Selector}}\label{selector}
+
+\begin{verbatim}
+So show rule can accept _selectors_.
+
+There are lots of different selector types,
+for example
+
+- element functions
+- strings
+- regular expressions
+- field filters
+
+Let's see example of the latter:
+
+#show heading.where(level: 1): set align(center)
+
+= Title
+== Small title
+
+Of course, you can set align by hand,
+no need to use show rules
+(but they are very handy!):
+
+#align(center)[== Centered small title]
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/f41f337dd75b55211dd8d16e2682132c1ffb1ef19f774ba6cafc94cae090ec75-1.svg}}
+
+\subsection{\texorpdfstring{\hyperref[custom-formatting]{Custom
+formatting}}{Custom formatting}}\label{custom-formatting}
+
+\begin{verbatim}
+Let's try now writing custom functions.
+It is very easy, see yourself:
+
+// "it" is a heading, we take it and output things in braces
+#show heading: it => {
+  // center it
+  set align(center)
+  // set size and weight
+  set text(12pt, weight: "regular")
+  // see more about blocks and boxes
+  // in corresponding chapter
+  block(smallcaps(it.body))
+}
+
+= Smallcaps heading
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/a5c37bce3cf9a077a4eb62a4d95f89584b5ef8acee279b81de6019d0e5768ba0-1.svg}}
+
+\subsection{\texorpdfstring{\hyperref[setting-spacing]{Setting
+spacing}}{Setting spacing}}\label{setting-spacing}
+
+TODO: explain block spacing for common elements
+
+\subsection{\texorpdfstring{\hyperref[formatting-to-get-an-article-look]{Formatting
+to get an "article
+look"}}{Formatting to get an "article look"}}\label{formatting-to-get-an-article-look}
+
+\begin{verbatim}
+#set page(
+  // Header is that small thing on top
+  header: align(
+    right + horizon,
+    [Some header there]
+  ),
+  height: 12cm
+)
+
+#align(center, text(17pt)[
+  *Important title*
+])
+
+#grid(
+  columns: (1fr, 1fr),
+  align(center)[
+    Some author \
+    Some Institute \
+    #link("mailto:some@mail.edu")
+  ],
+  align(center)[
+    Another author \
+    Another Institute \
+    #link("mailto:another@mail.edu")
+  ]
+)
+
+Now let's split text into two columns:
+
+#show: rest => columns(2, rest)
+
+#show heading.where(
+  level: 1
+): it => block(width: 100%)[
+  #set align(center)
+  #set text(12pt, weight: "regular")
+  #smallcaps(it.body)
+]
+
+#show heading.where(
+  level: 2
+): it => text(
+  size: 11pt,
+  weight: "regular",
+  style: "italic",
+  it.body + [.],
+)
+
+// Now let's fill it with words:
+
+= Heading
+== Small heading
+#lorem(10)
+== Second subchapter
+#lorem(10)
+= Second heading
+#lorem(40)
+
+== Second subchapter
+#lorem(40)
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/76ee0cca809299df178ec9d94371c01031d1808a700b39deac5245dd6b83157f-1.svg}}

@@ -1,0 +1,151 @@
+<main>
+       <!-- Page table of contents -->
+       <div class="sidetoc">
+        <nav class="pagetoc">
+        </nav>
+       </div>
+       <h1 id="setting-limits">
+        <a class="header" href="#setting-limits">
+         Setting limits
+        </a>
+       </h1>
+       <p>
+        Sometimes we want to change how the default attaching should work.
+       </p>
+       <h2 id="limits">
+        <a class="header" href="#limits">
+         Limits
+        </a>
+       </h2>
+       <p>
+        For example, in many countries it is common to write definite integrals with limits below and above.
+To set this, use
+        <code class="hljs">
+         <span style="color:var(--fg);">
+          limits
+         </span>
+        </code>
+        function:
+       </p>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#2aa198;">$
+</span><span style="color:#859900;">integral_</span><span style="color:#268bd2;">a</span><span style="color:#859900;">^</span><span style="color:#268bd2;">b</span><span style="color:#dc322f;">\
+</span><span style="color:#859900;">limits</span><span style="color:#657b83;">(</span><span style="color:#859900;">integral</span><span style="color:#657b83;">)</span><span style="color:#859900;">_</span><span style="color:#268bd2;">a</span><span style="color:#859900;">^</span><span style="color:#268bd2;">b
+</span><span style="color:#2aa198;">$</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/ade8f85a6178d42d58769da477afa5349a3db9df3075a3d5f8e4a6b546c3d43e-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <p>
+        You can set this by default using
+        <code class="hljs">
+         <span style="color:var(--fg);">
+          show
+         </span>
+        </code>
+        rule:
+       </p>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#859900;">#show</span><span style="color:var(--fg);"> math.integral: math.limits
+</span><span style="color:var(--fg);">
+</span><span style="color:#2aa198;">$
+</span><span style="color:#859900;">integral_</span><span style="color:#268bd2;">a</span><span style="color:#859900;">^</span><span style="color:#268bd2;">b
+</span><span style="color:#2aa198;">$
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">This is inline equation: </span><span style="color:#2aa198;">$</span><span style="color:#859900;">integral_</span><span style="color:#268bd2;">a</span><span style="color:#859900;">^</span><span style="color:#268bd2;">b</span><span style="color:#2aa198;">$</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/e0011edccf76468c3d77a7502ce1dc001c82bfd9d590b258d8c8453d056bc966-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <h2 id="only-display-mode">
+        <a class="header" href="#only-display-mode">
+         Only display mode
+        </a>
+       </h2>
+       <p>
+        Notice that this will also affect inline equations. To enable limits for display math only, use
+        <code class="hljs">
+         <span style="color:var(--fg);">
+          limits(inline: false)
+         </span>
+        </code>
+        :
+       </p>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#859900;">#show</span><span style="color:var(--fg);"> math.integral: math.limits.</span><span style="color:#859900;">with</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">inline</span><span style="color:var(--fg);">: </span><span style="color:#b58900;">false</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">
+</span><span style="color:#2aa198;">$
+</span><span style="color:#859900;">integral_</span><span style="color:#268bd2;">a</span><span style="color:#859900;">^</span><span style="color:#268bd2;">b
+</span><span style="color:#2aa198;">$
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">This is inline equation: </span><span style="color:#2aa198;">$</span><span style="color:#859900;">integral_</span><span style="color:#268bd2;">a</span><span style="color:#859900;">^</span><span style="color:#268bd2;">b</span><span style="color:#2aa198;">$</span><span style="color:var(--fg);">.</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/d37f1132cdf338670e131079a57ae724a7dfcb102f3125dad712173fbf115bcd-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <p>
+        Of course, it is possible to move them back as bottom attachments:
+       </p>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#2aa198;">$
+</span><span style="color:#859900;">sum_</span><span style="color:#268bd2;">a</span><span style="color:#859900;">^</span><span style="color:#268bd2;">b</span><span style="color:var(--fg);">, </span><span style="color:#859900;">scripts</span><span style="color:#657b83;">(</span><span style="color:#859900;">sum</span><span style="color:#657b83;">)</span><span style="color:#859900;">_</span><span style="color:#268bd2;">a</span><span style="color:#859900;">^</span><span style="color:#268bd2;">b
+</span><span style="color:#2aa198;">$</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/7134a72120f7217b1f11438e166fa7e53f3a9287fa4c9079019181a6e16affb8-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <h2 id="operations">
+        <a class="header" href="#operations">
+         Operations
+        </a>
+       </h2>
+       <p>
+        The same scheme works for operations. By default, they are attached to the bottom and top:
+       </p>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#2aa198;">$</span><span style="color:#268bd2;">a </span><span style="color:#859900;">=_</span><span style="color:#839496;">"</span><span style="color:#2aa198;">By lemme 1</span><span style="color:#839496;">" </span><span style="color:#268bd2;">b</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">a </span><span style="color:#859900;">scripts</span><span style="color:#657b83;">(</span><span style="color:#859900;">=</span><span style="color:#657b83;">)</span><span style="color:#859900;">_+ </span><span style="color:#268bd2;">b</span><span style="color:#2aa198;">$</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/98d790005c43aa666b392f8a35f1e9564ff315aaf9881ceb309e53bd5db542b1-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+      </main>

@@ -1,0 +1,132 @@
+\title{sitandr.github.io/typst-examples-book/book/basics/must_know/place}
+
+\section{\texorpdfstring{\hyperref[placing-moving-scale--hide]{Placing,
+Moving, Scale \&
+Hide}}{Placing, Moving, Scale \& Hide}}\label{placing-moving-scale--hide}
+
+This is \textbf{a very important section} if you want to do arbitrary
+things with layout, create custom elements and hacking a way around
+current Typst limitations.
+
+TODO: WIP, add text and better examples
+
+\section{\texorpdfstring{\hyperref[place]{Place}}{Place}}\label{place}
+
+\emph{Ignore layout} , just put some object somehow relative to parent
+and current position. The placed object \emph{will not} affect layouting
+
+\begin{quote}
+Link to \href{https://typst.app/docs/reference/layout/place/}{reference}
+\end{quote}
+
+\begin{verbatim}
+#set page(height: 60pt)
+Hello, world!
+
+#place(
+  top + right, // place at the page right and top
+  square(
+    width: 20pt,
+    stroke: 2pt + blue
+  ),
+)
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/e0d4c250d0f288e1a110ebddcb06149e0acd11b626a0ccb0ca9feb1c1d7be359-1.svg}}
+
+\subsubsection{\texorpdfstring{\hyperref[basic-floating-with-place]{Basic
+floating with
+place}}{Basic floating with place}}\label{basic-floating-with-place}
+
+\begin{verbatim}
+#set page(height: 150pt)
+#let note(where, body) = place(
+  center + where,
+  float: true,
+  clearance: 6pt,
+  rect(body),
+)
+
+#lorem(10)
+#note(bottom)[Bottom 1]
+#note(bottom)[Bottom 2]
+#lorem(40)
+#note(top)[Top]
+#lorem(10)
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/b770cfef024690b5fc7ab82458797d6cfab0c5cc8f52078ecf2d61be17c13acc-1.svg}}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/b770cfef024690b5fc7ab82458797d6cfab0c5cc8f52078ecf2d61be17c13acc-2.svg}}
+
+\subsubsection{\texorpdfstring{\hyperref[dx-dy]{dx,
+dy}}{dx, dy}}\label{dx-dy}
+
+Manually change position by
+\texttt{\ }{\texttt{\ (dx,\ dy)\ }}\texttt{\ } relative to intended.
+
+\begin{verbatim}
+#set page(height: 100pt)
+#for i in range(16) {
+  let amount = i * 4pt
+  place(center, dx: amount - 32pt, dy: amount)[A]
+}
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/12464f1a2cfe81fb04623033345f3f88ff598af5dc77de378b9d7cf88fc1d5b3-1.svg}}
+
+\section{\texorpdfstring{\hyperref[move]{Move}}{Move}}\label{move}
+
+\begin{quote}
+Link to \href{https://typst.app/docs/reference/layout/move/}{reference}
+\end{quote}
+
+\begin{verbatim}
+#rect(inset: 0pt, move(
+  dx: 6pt, dy: 6pt,
+  rect(
+    inset: 8pt,
+    fill: white,
+    stroke: black,
+    [Abra cadabra]
+  )
+))
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/3292aebf7b633a2d9574027f50867d723d80850e046a101b9df5ab5143eb8a8d-1.svg}}
+
+\section{\texorpdfstring{\hyperref[scale]{Scale}}{Scale}}\label{scale}
+
+Scale content \emph{without affecting the layout} .
+
+\begin{quote}
+Link to \href{https://typst.app/docs/reference/layout/scale/}{reference}
+\end{quote}
+
+\begin{verbatim}
+#scale(x: -100%)[This is mirrored.]
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/401c8cd6f306771a3b12432c3c51e097a3ec1d12656c131c0043a12c4c1c3a0e-1.svg}}
+
+\begin{verbatim}
+A#box(scale(75%)[A])A \
+B#box(scale(75%, origin: bottom + left)[B])B
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/204b55690645eb6cc623c8d2d74b5521d72e4ba38d58ea40ea5e2d4354a01836-1.svg}}
+
+\section{\texorpdfstring{\hyperref[hide]{Hide}}{Hide}}\label{hide}
+
+Don\textquotesingle t show content, but leave empty space there.
+
+\begin{quote}
+Link to \href{https://typst.app/docs/reference/layout/hide/}{reference}
+\end{quote}
+
+\begin{verbatim}
+Hello Jane \
+#hide[Hello] Joe
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/610672d5e43baa3ce94fe61f8d6dd0307e405c785639359c6a9e84bdd66884ad-1.svg}}

@@ -1,0 +1,276 @@
+<main>
+       <!-- Page table of contents -->
+       <div class="sidetoc">
+        <nav class="pagetoc">
+        </nav>
+       </div>
+       <h1 id="braces-brackets-and-default">
+        <a class="header" href="#braces-brackets-and-default">
+         Braces, brackets and default
+        </a>
+       </h1>
+       <h2 id="square-brackets">
+        <a class="header" href="#square-brackets">
+         Square brackets
+        </a>
+       </h2>
+       <p>
+        You may remember that square brackets convert everything inside to
+        <em>
+         content
+        </em>
+        .
+       </p>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#859900;">#let</span><span style="color:var(--fg);"> v </span><span style="color:#859900;">= </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">Some text, </span><span style="font-style:italic;color:var(--fg);">_markup_</span><span style="color:var(--fg);"> and other </span><span style="color:#b58900;">#strong</span><span style="color:#657b83;">[</span><span style="color:var(--fg);">functions</span><span style="color:#657b83;">]]
+</span><span style="color:#859900;">#</span><span style="color:#cb4b16;">v</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/5ba617daa8d4c166d96a0abbba02d6502fe7fde1ded460afa78682993295142d-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <p>
+        We may use same for functions bodies:
+       </p>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#859900;">#let f</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">name</span><span style="color:#657b83;">) </span><span style="color:#859900;">= </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">Hello, </span><span style="color:#859900;">#</span><span style="color:#cb4b16;">name</span><span style="color:#657b83;">]
+</span><span style="color:#b58900;">#f</span><span style="color:#657b83;">[</span><span style="color:var(--fg);">World</span><span style="color:#657b83;">] </span><span style="color:#586e75;">// also don't forget we can use it to pass content!</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/4545deeee45655ee6666feb4773416cd075fe7522cbfd80d0847c615c6c5f30a-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <p>
+        <strong>
+         Important:
+        </strong>
+        It is very hard to convert
+        <em>
+         content
+        </em>
+        to
+        <em>
+         plain text
+        </em>
+        , as
+        <em>
+         content
+        </em>
+        may contain
+        <em>
+         anything
+        </em>
+        ! Sp be careful when passing and storing content in variables.
+       </p>
+       <h2 id="braces">
+        <a class="header" href="#braces">
+         Braces
+        </a>
+       </h2>
+       <p>
+        However, we often want to use code inside functions.
+That's when we use
+        <code class="hljs">
+         <span style="color:var(--fg);">
+          {}
+         </span>
+        </code>
+        :
+       </p>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#859900;">#let f</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">name</span><span style="color:#657b83;">) </span><span style="color:#859900;">= </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">  </span><span style="color:#586e75;">// this is code mode
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">  </span><span style="color:#586e75;">// First part of our output
+</span><span style="color:var(--fg);">  </span><span style="color:#839496;">"</span><span style="color:#2aa198;">Hello, </span><span style="color:#839496;">"
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">  </span><span style="color:#586e75;">// we check if name is empty, and if it is,
+</span><span style="color:var(--fg);">  </span><span style="color:#586e75;">// insert placeholder
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">if</span><span style="color:var(--fg);"> name </span><span style="color:#859900;">== </span><span style="color:#839496;">"" </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">      </span><span style="color:#839496;">"</span><span style="color:#2aa198;">anonym</span><span style="color:#839496;">"
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">} </span><span style="color:#859900;">else </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">      name
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">}
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">  </span><span style="color:#586e75;">// finish sentence
+</span><span style="color:var(--fg);">  </span><span style="color:#839496;">"</span><span style="color:#2aa198;">!</span><span style="color:#839496;">"
+</span><span style="color:#657b83;">}
+</span><span style="color:var(--fg);">
+</span><span style="color:#b58900;">#f</span><span style="color:#657b83;">(</span><span style="color:#839496;">""</span><span style="color:#657b83;">)
+</span><span style="color:#b58900;">#f</span><span style="color:#657b83;">(</span><span style="color:#839496;">"</span><span style="color:#2aa198;">Joe</span><span style="color:#839496;">"</span><span style="color:#657b83;">)
+</span><span style="color:#b58900;">#f</span><span style="color:#657b83;">(</span><span style="color:#839496;">"</span><span style="color:#2aa198;">world</span><span style="color:#839496;">"</span><span style="color:#657b83;">)</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/f2bc6aebef06f213c9a8e740266a96e424318d953c09cffba6c5811375e91395-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <h2 id="scopes">
+        <a class="header" href="#scopes">
+         Scopes
+        </a>
+       </h2>
+       <p>
+        <strong>
+         This is a very important thing to remember
+        </strong>
+        .
+       </p>
+       <p>
+        <em>
+         You can't use variables outside of scopes they are defined (unless it is file root, then you can import them)
+        </em>
+        .
+        <em>
+         Set and show rules affect things in their scope only.
+        </em>
+       </p>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#859900;">#</span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">let</span><span style="color:var(--fg);"> a </span><span style="color:#859900;">= </span><span style="color:#6c71c4;">3</span><span style="color:var(--fg);">;
+</span><span style="color:#657b83;">}
+</span><span style="color:#586e75;">// can't use "a" there.
+</span><span style="color:var(--fg);">
+</span><span style="color:#859900;">#</span><span style="color:#657b83;">[
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">#show </span><span style="color:#839496;">"</span><span style="color:#2aa198;">true</span><span style="color:#839496;">"</span><span style="color:var(--fg);">: </span><span style="color:#839496;">"</span><span style="color:#2aa198;">false</span><span style="color:#839496;">"
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">  This is true.
+</span><span style="color:#657b83;">]
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">This is true.</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/c25d356831eeea19bb243b87c0f32d062c7086a55b4ee432e41b388d626f875b-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <h2 id="return">
+        <a class="header" href="#return">
+         Return
+        </a>
+       </h2>
+       <p>
+        <strong>
+         Important
+        </strong>
+        : by default braces return anything that "returns" into them. For example,
+       </p>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#859900;">#let change_world</span><span style="color:#657b83;">() </span><span style="color:#859900;">= </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">  </span><span style="color:#586e75;">// some code there changing everything in the world
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">str</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">4e7</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">  </span><span style="color:#586e75;">// another code changing the world
+</span><span style="color:#657b83;">}
+</span><span style="color:var(--fg);">
+</span><span style="color:#859900;">#let g</span><span style="color:#657b83;">() </span><span style="color:#859900;">= </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">  </span><span style="color:#839496;">"</span><span style="color:#2aa198;">Hahaha, I will change the world now! </span><span style="color:#839496;">"
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">change_world</span><span style="color:#657b83;">()
+</span><span style="color:var(--fg);">  </span><span style="color:#839496;">"</span><span style="color:#2aa198;"> So here is my long evil monologue...</span><span style="color:#839496;">"
+</span><span style="color:#657b83;">}
+</span><span style="color:var(--fg);">
+</span><span style="color:#b58900;">#g</span><span style="color:#657b83;">()</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/160d9672bd7abc64ea61943d1bfcbd1b06dc70f87be5e5cf9c411fe4ee6d2a44-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <p>
+        To avoid returning everything, return only what you want explicitly, otherwise everything will be joined:
+       </p>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#859900;">#let f</span><span style="color:#657b83;">() </span><span style="color:#859900;">= </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">  </span><span style="color:#839496;">"</span><span style="color:#2aa198;">Some long text</span><span style="color:#839496;">"
+</span><span style="color:var(--fg);">  </span><span style="color:#586e75;">// Crazy numbers
+</span><span style="color:var(--fg);">  </span><span style="color:#839496;">"</span><span style="color:#2aa198;">2e7</span><span style="color:#839496;">"
+</span><span style="color:var(--fg);">  return </span><span style="color:#b58900;">none
+</span><span style="color:#657b83;">}
+</span><span style="color:var(--fg);">
+</span><span style="color:#586e75;">// Returns nothing
+</span><span style="color:#b58900;">#f</span><span style="color:#657b83;">()</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/14c935733a8c91165ee4ebe8246efb841207feeaa0309e36a1cde2888acffb10-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <h2 id="default-values">
+        <a class="header" href="#default-values">
+         Default values
+        </a>
+       </h2>
+       <p>
+        What we made just now was inventing "default values".
+       </p>
+       <p>
+        They are very common in styling, so there is a special syntax for them:
+       </p>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#859900;">#let f</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">name</span><span style="color:var(--fg);">: </span><span style="color:#839496;">"</span><span style="color:#2aa198;">anonym</span><span style="color:#839496;">"</span><span style="color:#657b83;">) </span><span style="color:#859900;">= </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">Hello, </span><span style="color:#859900;">#</span><span style="color:#cb4b16;">name</span><span style="color:var(--fg);">!</span><span style="color:#657b83;">]
+</span><span style="color:var(--fg);">
+</span><span style="color:#b58900;">#f</span><span style="color:#657b83;">()
+</span><span style="color:#b58900;">#f</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">name</span><span style="color:var(--fg);">: </span><span style="color:#839496;">"</span><span style="color:#2aa198;">Joe</span><span style="color:#839496;">"</span><span style="color:#657b83;">)
+</span><span style="color:#b58900;">#f</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">name</span><span style="color:var(--fg);">: </span><span style="color:#839496;">"</span><span style="color:#2aa198;">world</span><span style="color:#839496;">"</span><span style="color:#657b83;">)</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/e9730d0d1f30ec9f2404179560ae4a4b19dd788b1afc2f6b956fb32268439cb6-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <p>
+        You may have noticed that the argument became
+        <em>
+         named
+        </em>
+        now.
+In Typst, named argument is an argument
+        <em>
+         that has default value
+        </em>
+        .
+       </p>
+      </main>

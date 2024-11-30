@@ -1,0 +1,271 @@
+<main>
+       <!-- Page table of contents -->
+       <div class="sidetoc">
+        <nav class="pagetoc">
+        </nav>
+       </div>
+       <h1 id="physics">
+        <a class="header" href="#physics">
+         Physics
+        </a>
+       </h1>
+       <h2 id="physica">
+        <a class="header" href="#physica">
+         <code class="hljs">
+          <span style="color:var(--fg);">
+           physica
+          </span>
+         </code>
+        </a>
+       </h2>
+       <blockquote>
+        <p>
+         Physica (Latin for
+         <em>
+          natural sciences
+         </em>
+         ) provides utilities that simplify
+otherwise complex and repetitive mathematical expressions in natural sciences.
+        </p>
+       </blockquote>
+       <blockquote>
+        <p>
+         Its
+         <a href="https://github.com/Leedehai/typst-physics/blob/master/physica-manual.pdf">
+          manual
+         </a>
+         provides a full set of demonstrations of how the package could be helpful.
+        </p>
+       </blockquote>
+       <h3 id="mathematical-physics">
+        <a class="header" href="#mathematical-physics">
+         Mathematical physics
+        </a>
+       </h3>
+       <p>
+        The
+        <a href="./math.html#common-notations">
+         packages/math.md
+        </a>
+        page has more examples on its
+math capabilities. Below is a preview that may be of particular interest in the
+domain of physics:
+       </p>
+       <ul>
+        <li>
+         Calculus: differential, ordinary and partial derivatives
+         <ul>
+          <li>
+           Optional function name,
+          </li>
+          <li>
+           Optional order number or array of order numbers,
+          </li>
+          <li>
+           Customizable "d" symbol and product joiner (say, exterior product),
+          </li>
+          <li>
+           Overridable total order calculation,
+          </li>
+         </ul>
+        </li>
+        <li>
+         Vectors and vector fields: div, grad, curl,
+        </li>
+        <li>
+         Taylor expansion,
+        </li>
+        <li>
+         Dirac braket notations,
+        </li>
+        <li>
+         Tensors with abstract index notations,
+        </li>
+        <li>
+         Matrix transpose and dagger (conjugate transpose).
+        </li>
+        <li>
+         Special matrices: determinant, (anti-)diagonal, identity, zero, Jacobian,
+Hessian, etc.
+         <!-- TODO Add rotation and gram matrices in physica:0.9.2 -->
+        </li>
+       </ul>
+       <p>
+        A partial glimpse:
+       </p>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#859900;">#import </span><span style="color:#839496;">"</span><span style="color:#2aa198;">@preview/physica:0.9.1</span><span style="color:#839496;">"</span><span style="color:var(--fg);">: </span><span style="color:#859900;">*
+</span><span style="color:#859900;">#show</span><span style="color:var(--fg);">: super</span><span style="color:#859900;">-</span><span style="color:var(--fg);">T</span><span style="color:#859900;">-</span><span style="color:var(--fg);">as</span><span style="color:#859900;">-</span><span style="color:var(--fg);">transpose </span><span style="color:#586e75;">// put in a #[...] to limit its scope...
+</span><span style="color:#859900;">#show</span><span style="color:var(--fg);">: super</span><span style="color:#859900;">-</span><span style="color:var(--fg);">plus</span><span style="color:#859900;">-</span><span style="color:var(--fg);">as</span><span style="color:#859900;">-</span><span style="color:var(--fg);">dagger </span><span style="color:#586e75;">// ...or use scripts() to manually override
+</span><span style="color:var(--fg);">
+</span><span style="color:#2aa198;">$ </span><span style="color:#859900;">dd</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">x</span><span style="color:var(--fg);">,</span><span style="color:#268bd2;">y</span><span style="color:var(--fg);">,</span><span style="color:#6c71c4;">2</span><span style="color:#657b83;">) </span><span style="color:#859900;">quad dv</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">f</span><span style="color:var(--fg);">,</span><span style="color:#268bd2;">x</span><span style="color:var(--fg);">,</span><span style="color:#268bd2;">d</span><span style="color:var(--fg);">:</span><span style="color:#859900;">Delta</span><span style="color:#657b83;">)      </span><span style="color:#859900;">quad pdv</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">,</span><span style="color:#268bd2;">x</span><span style="color:var(--fg);">,</span><span style="color:#268bd2;">y</span><span style="color:var(--fg);">,[</span><span style="color:#6c71c4;">2</span><span style="color:#268bd2;">i</span><span style="color:#859900;">+</span><span style="color:#6c71c4;">1</span><span style="color:var(--fg);">,</span><span style="color:#6c71c4;">2</span><span style="color:#859900;">+</span><span style="color:#268bd2;">i</span><span style="color:var(--fg);">]</span><span style="color:#657b83;">) </span><span style="color:#859900;">quad
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">vb</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">a</span><span style="color:#657b83;">) </span><span style="color:#859900;">va</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">a</span><span style="color:#657b83;">) </span><span style="color:#859900;">vu</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">a</span><span style="color:#859900;">_</span><span style="color:#268bd2;">i</span><span style="color:#657b83;">)  </span><span style="color:#859900;">quad mat</span><span style="color:#657b83;">(</span><span style="color:#859900;">laplacian</span><span style="color:var(--fg);">, </span><span style="color:#859900;">div</span><span style="color:var(--fg);">; </span><span style="color:#859900;">grad</span><span style="color:var(--fg);">, </span><span style="color:#859900;">curl</span><span style="color:#657b83;">)     </span><span style="color:#859900;">quad
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">tensor</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">T</span><span style="color:var(--fg);">,</span><span style="color:#859900;">+</span><span style="color:#268bd2;">a</span><span style="color:var(--fg);">,</span><span style="color:#859900;">-</span><span style="color:#268bd2;">b</span><span style="color:var(--fg);">,</span><span style="color:#859900;">+</span><span style="color:#268bd2;">c</span><span style="color:#657b83;">)   </span><span style="color:#859900;">quad ket</span><span style="color:#657b83;">(</span><span style="color:#859900;">phi</span><span style="color:#657b83;">)  </span><span style="color:#859900;">quad </span><span style="color:#268bd2;">A</span><span style="color:#859900;">^+ </span><span style="color:#268bd2;">e</span><span style="color:#859900;">^scripts</span><span style="color:#657b83;">(</span><span style="color:#859900;">+</span><span style="color:#657b83;">) </span><span style="color:#268bd2;">A</span><span style="color:#859900;">^</span><span style="color:#268bd2;">T </span><span style="color:#859900;">integral^</span><span style="color:#268bd2;">T </span><span style="color:#2aa198;">$</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/fa8a12d2904a08958d4f83d69dda6bb38308b431055a25790d286a250e364c6c-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <h3 id="isotopes">
+        <a class="header" href="#isotopes">
+         Isotopes
+        </a>
+       </h3>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#859900;">#import </span><span style="color:#839496;">"</span><span style="color:#2aa198;">@preview/physica:0.9.1</span><span style="color:#839496;">"</span><span style="color:var(--fg);">: isotope
+</span><span style="color:var(--fg);">
+</span><span style="color:#586e75;">// a: mass number A
+</span><span style="color:#586e75;">// z: the atomic number Z
+</span><span style="color:#2aa198;">$
+</span><span style="color:#859900;">isotope</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">I</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">a</span><span style="color:var(--fg);">:</span><span style="color:#6c71c4;">127</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">, </span><span style="color:#859900;">quad isotope</span><span style="color:#657b83;">(</span><span style="color:#839496;">"</span><span style="color:#2aa198;">Fe</span><span style="color:#839496;">"</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">z</span><span style="color:var(--fg);">:</span><span style="color:#6c71c4;">26</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">, </span><span style="color:#859900;">quad
+</span><span style="color:#859900;">isotope</span><span style="color:#657b83;">(</span><span style="color:#839496;">"</span><span style="color:#2aa198;">Tl</span><span style="color:#839496;">"</span><span style="color:var(--fg);">,</span><span style="color:#268bd2;">a</span><span style="color:var(--fg);">:</span><span style="color:#6c71c4;">207</span><span style="color:var(--fg);">,</span><span style="color:#268bd2;">z</span><span style="color:var(--fg);">:</span><span style="color:#6c71c4;">81</span><span style="color:#657b83;">) </span><span style="color:#cb4b16;">--&gt; </span><span style="color:#859900;">isotope</span><span style="color:#657b83;">(</span><span style="color:#839496;">"</span><span style="color:#2aa198;">Pb</span><span style="color:#839496;">"</span><span style="color:var(--fg);">,</span><span style="color:#268bd2;">a</span><span style="color:var(--fg);">:</span><span style="color:#6c71c4;">207</span><span style="color:var(--fg);">,</span><span style="color:#268bd2;">z</span><span style="color:var(--fg);">:</span><span style="color:#6c71c4;">82</span><span style="color:#657b83;">) </span><span style="color:#859900;">+ isotope</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">e</span><span style="color:var(--fg);">,</span><span style="color:#268bd2;">a</span><span style="color:var(--fg);">:</span><span style="color:#6c71c4;">0</span><span style="color:var(--fg);">,</span><span style="color:#268bd2;">z</span><span style="color:var(--fg);">:</span><span style="color:#859900;">-</span><span style="color:#6c71c4;">1</span><span style="color:#657b83;">)
+</span><span style="color:#2aa198;">$</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/b290d801c6760a41e50520401d9e72cb63a8691aa136308cbad87349e7e436f0-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <h3 id="reduced-planck-constant-hbar">
+        <a class="header" href="#reduced-planck-constant-hbar">
+         Reduced Planck constant (hbar)
+        </a>
+       </h3>
+       <p>
+        In the default font, the Typst built-in symbol
+        <code class="hljs">
+         <span style="color:var(--fg);">
+          planck.reduce
+         </span>
+        </code>
+        looks a bit off:
+on letter "h" there is a slash instead of a horizontal bar, contrary to the
+symbol's colloquial name "h-bar". This package offers
+        <code class="hljs">
+         <span style="color:var(--fg);">
+          hbar
+         </span>
+        </code>
+        to render the
+symbol in the familiar form⁠. Contrast:
+       </p>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#859900;">#import </span><span style="color:#839496;">"</span><span style="color:#2aa198;">@preview/physica:0.9.1</span><span style="color:#839496;">"</span><span style="color:var(--fg);">: hbar
+</span><span style="color:var(--fg);">
+</span><span style="color:#2aa198;">$ </span><span style="color:#268bd2;">E </span><span style="color:#859900;">= planck</span><span style="color:var(--fg);">.</span><span style="color:#859900;">reduce omega </span><span style="color:#cb4b16;">=&gt; </span><span style="color:#268bd2;">E </span><span style="color:#859900;">= hbar omega</span><span style="color:var(--fg);">, </span><span style="color:#859900;">wide
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">frac</span><span style="color:#657b83;">(</span><span style="color:#859900;">planck</span><span style="color:var(--fg);">.</span><span style="color:#859900;">reduce^</span><span style="color:#6c71c4;">2</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">2</span><span style="color:#268bd2;">m</span><span style="color:#657b83;">) </span><span style="color:#cb4b16;">=&gt; </span><span style="color:#859900;">frac</span><span style="color:#657b83;">(</span><span style="color:#859900;">hbar^</span><span style="color:#6c71c4;">2</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">2</span><span style="color:#268bd2;">m</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">, </span><span style="color:#859900;">wide
+</span><span style="color:var(--fg);">  </span><span style="color:#cb4b16;">(</span><span style="color:#859900;">pi </span><span style="color:#268bd2;">G</span><span style="color:#859900;">^</span><span style="color:#6c71c4;">2</span><span style="color:#cb4b16;">) </span><span style="color:#859900;">/ </span><span style="color:#cb4b16;">(</span><span style="color:#859900;">planck</span><span style="color:var(--fg);">.</span><span style="color:#859900;">reduce </span><span style="color:#268bd2;">c</span><span style="color:#859900;">^</span><span style="color:#6c71c4;">4</span><span style="color:#cb4b16;">) =&gt; (</span><span style="color:#859900;">pi </span><span style="color:#268bd2;">G</span><span style="color:#859900;">^</span><span style="color:#6c71c4;">2</span><span style="color:#cb4b16;">) </span><span style="color:#859900;">/ </span><span style="color:#cb4b16;">(</span><span style="color:#859900;">hbar </span><span style="color:#268bd2;">c</span><span style="color:#859900;">^</span><span style="color:#6c71c4;">4</span><span style="color:#cb4b16;">)</span><span style="color:var(--fg);">, </span><span style="color:#859900;">wide
+</span><span style="color:var(--fg);">  </span><span style="color:#268bd2;">e</span><span style="color:#859900;">^</span><span style="color:#cb4b16;">(</span><span style="color:#859900;">frac</span><span style="color:#657b83;">(</span><span style="color:#859900;">i</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">p x </span><span style="color:#859900;">- </span><span style="color:#268bd2;">E t</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">, </span><span style="color:#859900;">planck</span><span style="color:var(--fg);">.</span><span style="color:#859900;">reduce</span><span style="color:#657b83;">)</span><span style="color:#cb4b16;">) =&gt; </span><span style="color:#268bd2;">e</span><span style="color:#859900;">^</span><span style="color:#cb4b16;">(</span><span style="color:#859900;">frac</span><span style="color:#657b83;">(</span><span style="color:#859900;">i</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">p x </span><span style="color:#859900;">- </span><span style="color:#268bd2;">E t</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">, </span><span style="color:#859900;">hbar</span><span style="color:#657b83;">)</span><span style="color:#cb4b16;">) </span><span style="color:#2aa198;">$</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/efab3b0486d1cddc3388248c4100e1cc919088cdb93f3e072001547c40005f01-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <h2 id="quill-quantum-diagrams">
+        <a class="header" href="#quill-quantum-diagrams">
+         <code class="hljs">
+          <span style="color:var(--fg);">
+           quill
+          </span>
+         </code>
+         : quantum diagrams
+        </a>
+       </h2>
+       <blockquote>
+        <p>
+         See
+         <a href="https://github.com/Mc-Zen/quill/tree/main">
+          documentation
+         </a>
+         .
+        </p>
+       </blockquote>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#859900;">#import </span><span style="color:#839496;">"</span><span style="color:#2aa198;">@preview/quill:0.2.0</span><span style="color:#839496;">"</span><span style="color:var(--fg);">: </span><span style="color:#859900;">*
+</span><span style="color:#b58900;">#quantum-circuit</span><span style="color:#657b83;">(
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">lstick</span><span style="color:#657b83;">(</span><span style="color:#2aa198;">$</span><span style="color:var(--fg);">|</span><span style="color:#6c71c4;">0</span><span style="color:var(--fg);">〉</span><span style="color:#2aa198;">$</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">, </span><span style="color:#859900;">gate</span><span style="color:#657b83;">(</span><span style="color:#2aa198;">$</span><span style="color:#268bd2;">H</span><span style="color:#2aa198;">$</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">, </span><span style="color:#859900;">ctrl</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">1</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">, </span><span style="color:#859900;">rstick</span><span style="color:#657b83;">(</span><span style="color:#2aa198;">$</span><span style="color:#cb4b16;">(</span><span style="color:var(--fg);">|</span><span style="color:#6c71c4;">00</span><span style="color:var(--fg);">〉</span><span style="color:#859900;">+</span><span style="color:var(--fg);">|</span><span style="color:#6c71c4;">11</span><span style="color:var(--fg);">〉</span><span style="color:#cb4b16;">)</span><span style="color:#859900;">/</span><span style="color:var(--fg);">√</span><span style="color:#6c71c4;">2</span><span style="color:#2aa198;">$</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">n</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">2</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:#dc322f;">\ </span><span style="color:#657b83;">]</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">lstick</span><span style="color:#657b83;">(</span><span style="color:#2aa198;">$</span><span style="color:var(--fg);">|</span><span style="color:#6c71c4;">0</span><span style="color:var(--fg);">〉</span><span style="color:#2aa198;">$</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">1</span><span style="color:var(--fg);">, </span><span style="color:#859900;">targ</span><span style="color:#657b83;">()</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">1
+</span><span style="color:#657b83;">)</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/bd14c65cd60e1efc4d15ae7234e364c6d5740a168e2cb275743ed1fbcc9483eb-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#859900;">#import </span><span style="color:#839496;">"</span><span style="color:#2aa198;">@preview/quill:0.2.0</span><span style="color:#839496;">"</span><span style="color:var(--fg);">: </span><span style="color:#859900;">*
+</span><span style="color:var(--fg);">
+</span><span style="color:#859900;">#let</span><span style="color:var(--fg);"> ancillas </span><span style="color:#859900;">= </span><span style="color:#657b83;">(</span><span style="color:#859900;">setwire</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">0</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">5</span><span style="color:var(--fg);">, </span><span style="color:#859900;">lstick</span><span style="color:#657b83;">(</span><span style="color:#2aa198;">$</span><span style="color:var(--fg);">|</span><span style="color:#6c71c4;">0</span><span style="color:var(--fg);">〉</span><span style="color:#2aa198;">$</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">, </span><span style="color:#859900;">setwire</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">1</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">, </span><span style="color:#859900;">targ</span><span style="color:#657b83;">()</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">2</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:#dc322f;">\ </span><span style="color:#657b83;">]</span><span style="color:var(--fg);">,
+</span><span style="color:#859900;">setwire</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">0</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">5</span><span style="color:var(--fg);">, </span><span style="color:#859900;">lstick</span><span style="color:#657b83;">(</span><span style="color:#2aa198;">$</span><span style="color:var(--fg);">|</span><span style="color:#6c71c4;">0</span><span style="color:var(--fg);">〉</span><span style="color:#2aa198;">$</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">, </span><span style="color:#859900;">setwire</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">1</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">1</span><span style="color:var(--fg);">, </span><span style="color:#859900;">targ</span><span style="color:#657b83;">()</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">1</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">
+</span><span style="color:#b58900;">#quantum-circuit</span><span style="color:#657b83;">(
+</span><span style="color:var(--fg);">  </span><span style="color:#268bd2;">scale-factor</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">80%</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">lstick</span><span style="color:#657b83;">(</span><span style="color:#2aa198;">$</span><span style="color:var(--fg);">|</span><span style="color:#268bd2;">ψ</span><span style="color:var(--fg);">〉</span><span style="color:#2aa198;">$</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">1</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">10pt</span><span style="color:var(--fg);">, </span><span style="color:#859900;">ctrl</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">3</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">, </span><span style="color:#859900;">ctrl</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">6</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">, </span><span style="color:#2aa198;">$</span><span style="color:#268bd2;">H</span><span style="color:#2aa198;">$</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">1</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">15pt</span><span style="color:var(--fg);">, 
+</span><span style="color:var(--fg);">    </span><span style="color:#859900;">ctrl</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">1</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">, </span><span style="color:#859900;">ctrl</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">2</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">1</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:#dc322f;">\ </span><span style="color:#657b83;">]</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">..</span><span style="color:var(--fg);">ancillas, </span><span style="color:#657b83;">[</span><span style="color:#dc322f;">\ </span><span style="color:#657b83;">]</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">lstick</span><span style="color:#657b83;">(</span><span style="color:#2aa198;">$</span><span style="color:var(--fg);">|</span><span style="color:#6c71c4;">0</span><span style="color:var(--fg);">〉</span><span style="color:#2aa198;">$</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">1</span><span style="color:var(--fg);">, </span><span style="color:#859900;">targ</span><span style="color:#657b83;">()</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">1</span><span style="color:var(--fg);">, </span><span style="color:#2aa198;">$</span><span style="color:#268bd2;">H</span><span style="color:#2aa198;">$</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">1</span><span style="color:var(--fg);">, </span><span style="color:#859900;">ctrl</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">1</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">, </span><span style="color:#859900;">ctrl</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">2</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">, 
+</span><span style="color:var(--fg);">    </span><span style="color:#6c71c4;">1</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:#dc322f;">\ </span><span style="color:#657b83;">]</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">..</span><span style="color:var(--fg);">ancillas, </span><span style="color:#657b83;">[</span><span style="color:#dc322f;">\ </span><span style="color:#657b83;">]</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">lstick</span><span style="color:#657b83;">(</span><span style="color:#2aa198;">$</span><span style="color:var(--fg);">|</span><span style="color:#6c71c4;">0</span><span style="color:var(--fg);">〉</span><span style="color:#2aa198;">$</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">2</span><span style="color:var(--fg);">, </span><span style="color:#859900;">targ</span><span style="color:#657b83;">()</span><span style="color:var(--fg);">,  </span><span style="color:#2aa198;">$</span><span style="color:#268bd2;">H</span><span style="color:#2aa198;">$</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">1</span><span style="color:var(--fg);">, </span><span style="color:#859900;">ctrl</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">1</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">, </span><span style="color:#859900;">ctrl</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">2</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">, 
+</span><span style="color:var(--fg);">    </span><span style="color:#6c71c4;">1</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:#dc322f;">\ </span><span style="color:#657b83;">]</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">..</span><span style="color:var(--fg);">ancillas
+</span><span style="color:#657b83;">)</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/597640923e31369199c6e7158de9094a2c94f2c5dae6ced72c6b83b1067fa8e4-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#859900;">#import </span><span style="color:#839496;">"</span><span style="color:#2aa198;">@preview/quill:0.2.0</span><span style="color:#839496;">"</span><span style="color:var(--fg);">: </span><span style="color:#859900;">*
+</span><span style="color:var(--fg);">
+</span><span style="color:#b58900;">#quantum-circuit</span><span style="color:#657b83;">(
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">lstick</span><span style="color:#657b83;">(</span><span style="color:#2aa198;">$</span><span style="color:var(--fg);">|</span><span style="color:#859900;">psi</span><span style="color:var(--fg);">〉</span><span style="color:#2aa198;">$</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">,  </span><span style="color:#859900;">ctrl</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">1</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">, </span><span style="color:#859900;">gate</span><span style="color:#657b83;">(</span><span style="color:#2aa198;">$</span><span style="color:#268bd2;">H</span><span style="color:#2aa198;">$</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">1</span><span style="color:var(--fg);">, </span><span style="color:#859900;">ctrl</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">2</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">, </span><span style="color:#859900;">meter</span><span style="color:#657b83;">()</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:#dc322f;">\ </span><span style="color:#657b83;">]</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">lstick</span><span style="color:#657b83;">(</span><span style="color:#2aa198;">$</span><span style="color:var(--fg);">|</span><span style="color:#859900;">beta_</span><span style="color:var(--fg);">00〉</span><span style="color:#2aa198;">$</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">n</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">2</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">, </span><span style="color:#859900;">targ</span><span style="color:#657b83;">()</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">1</span><span style="color:var(--fg);">, </span><span style="color:#859900;">ctrl</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">1</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">1</span><span style="color:var(--fg);">, </span><span style="color:#859900;">meter</span><span style="color:#657b83;">()</span><span style="color:var(--fg);">, </span><span style="color:#657b83;">[</span><span style="color:#dc322f;">\ </span><span style="color:#657b83;">]</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#6c71c4;">3</span><span style="color:var(--fg);">, </span><span style="color:#859900;">gate</span><span style="color:#657b83;">(</span><span style="color:#2aa198;">$</span><span style="color:#268bd2;">X</span><span style="color:#2aa198;">$</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">, </span><span style="color:#859900;">gate</span><span style="color:#657b83;">(</span><span style="color:#2aa198;">$</span><span style="color:#268bd2;">Z</span><span style="color:#2aa198;">$</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">,  </span><span style="color:#859900;">midstick</span><span style="color:#657b83;">(</span><span style="color:#2aa198;">$</span><span style="color:var(--fg);">|</span><span style="color:#859900;">psi</span><span style="color:var(--fg);">〉</span><span style="color:#2aa198;">$</span><span style="color:#657b83;">)
+</span><span style="color:#657b83;">)</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/cc71bc052c7a80c702289f780ee42a168c1491076dd5934408373895ca95c35e-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+      </main>

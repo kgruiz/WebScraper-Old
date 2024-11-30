@@ -1,0 +1,418 @@
+<main>
+       <!-- Page table of contents -->
+       <div class="sidetoc">
+        <nav class="pagetoc">
+        </nav>
+       </div>
+       <h1 id="conditions--loops">
+        <a class="header" href="#conditions--loops">
+         Conditions &amp; loops
+        </a>
+       </h1>
+       <h2 id="conditions">
+        <a class="header" href="#conditions">
+         Conditions
+        </a>
+       </h2>
+       <blockquote>
+        <p>
+         See
+         <a href="https://typst.app/docs/reference/scripting/#conditionals">
+          official documentation
+         </a>
+         .
+        </p>
+       </blockquote>
+       <p>
+        In Typst, you can use
+        <code class="hljs">
+         <span style="color:var(--fg);">
+          if-else
+         </span>
+        </code>
+        statements.
+This is especially useful inside function bodies to vary behavior depending on arguments types or many other things.
+       </p>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#859900;">#if </span><span style="color:#6c71c4;">1 </span><span style="color:#859900;">&lt; </span><span style="color:#6c71c4;">2 </span><span style="color:#657b83;">[
+</span><span style="color:var(--fg);">  This is shown
+</span><span style="color:#657b83;">] </span><span style="color:#859900;">else </span><span style="color:#657b83;">[
+</span><span style="color:var(--fg);">  This is not.
+</span><span style="color:#657b83;">]</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/2e914defa3353d6fd42ed58c37a97aedcc2237cfe20228f0cc0d223dfff4619a-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <p>
+        Of course,
+        <code class="hljs">
+         <span style="color:var(--fg);">
+          else
+         </span>
+        </code>
+        is unnecessary:
+       </p>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#859900;">#let</span><span style="color:var(--fg);"> a </span><span style="color:#859900;">= </span><span style="color:#6c71c4;">3
+</span><span style="color:var(--fg);">
+</span><span style="color:#859900;">#if</span><span style="color:var(--fg);"> a </span><span style="color:#859900;">&lt; </span><span style="color:#6c71c4;">4 </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">  a </span><span style="color:#859900;">= </span><span style="color:#6c71c4;">5
+</span><span style="color:#657b83;">}
+</span><span style="color:var(--fg);">
+</span><span style="color:#859900;">#</span><span style="color:#cb4b16;">a</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/a7264774be154606a44d829d31edae18bf686262ccea66de9ed97fa20c720bd8-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <p>
+        You can also use
+        <code class="hljs">
+         <span style="color:var(--fg);">
+          else if
+         </span>
+        </code>
+        statement (known as
+        <code class="hljs">
+         <span style="color:var(--fg);">
+          elif
+         </span>
+        </code>
+        in Python):
+       </p>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#859900;">#let</span><span style="color:var(--fg);"> a </span><span style="color:#859900;">= </span><span style="color:#6c71c4;">5
+</span><span style="color:var(--fg);">
+</span><span style="color:#859900;">#if</span><span style="color:var(--fg);"> a </span><span style="color:#859900;">&lt; </span><span style="color:#6c71c4;">4 </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">  a </span><span style="color:#859900;">= </span><span style="color:#6c71c4;">5
+</span><span style="color:#657b83;">} </span><span style="color:#859900;">else if</span><span style="color:var(--fg);"> a </span><span style="color:#859900;">&lt; </span><span style="color:#6c71c4;">6 </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">  a </span><span style="color:#859900;">= -</span><span style="color:#6c71c4;">3
+</span><span style="color:#657b83;">}
+</span><span style="color:var(--fg);">
+</span><span style="color:#859900;">#</span><span style="color:#cb4b16;">a</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/9f65678fc26af2d197d979e1b0a5295ed64037ee00c30fa28c9c417a2c7dc308-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <h3 id="booleans">
+        <a class="header" href="#booleans">
+         Booleans
+        </a>
+       </h3>
+       <p>
+        <code class="hljs">
+         <span style="color:var(--fg);">
+          if, else if, else
+         </span>
+        </code>
+        accept
+        <em>
+         only boolean
+        </em>
+        values as a switch.
+You can combine booleans as described in
+        <a href="./types.html#boolean-bool">
+         types section
+        </a>
+        :
+       </p>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#859900;">#let</span><span style="color:var(--fg);"> a </span><span style="color:#859900;">= </span><span style="color:#6c71c4;">5
+</span><span style="color:var(--fg);">
+</span><span style="color:#859900;">#if </span><span style="color:#657b83;">(</span><span style="color:var(--fg);">a </span><span style="color:#859900;">&gt; </span><span style="color:#6c71c4;">1 </span><span style="color:#859900;">and</span><span style="color:var(--fg);"> a </span><span style="color:#859900;">&lt;= </span><span style="color:#6c71c4;">4</span><span style="color:#657b83;">) </span><span style="color:#859900;">or</span><span style="color:var(--fg);"> a </span><span style="color:#859900;">== </span><span style="color:#6c71c4;">5 </span><span style="color:#657b83;">[
+</span><span style="color:var(--fg);">    `a` matches the condition
+</span><span style="color:#657b83;">]</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/21d3a48404d4e0c59bc0fccb114fdeac7384189db0020247796f44b0e9a7c362-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <h2 id="loops">
+        <a class="header" href="#loops">
+         Loops
+        </a>
+       </h2>
+       <blockquote>
+        <p>
+         See
+         <a href="https://typst.app/docs/reference/scripting/#loops">
+          official documentation
+         </a>
+         .
+        </p>
+       </blockquote>
+       <p>
+        There are two kinds of loops:
+        <code class="hljs">
+         <span style="color:var(--fg);">
+          while
+         </span>
+        </code>
+        and
+        <code class="hljs">
+         <span style="color:var(--fg);">
+          for
+         </span>
+        </code>
+        . While repeats body while the condition is met:
+       </p>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#859900;">#let</span><span style="color:var(--fg);"> a </span><span style="color:#859900;">= </span><span style="color:#6c71c4;">3
+</span><span style="color:var(--fg);">
+</span><span style="color:#859900;">#while</span><span style="color:var(--fg);"> a </span><span style="color:#859900;">&lt; </span><span style="color:#6c71c4;">100 </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">    a </span><span style="color:#859900;">*= </span><span style="color:#6c71c4;">2
+</span><span style="color:var(--fg);">    </span><span style="color:#859900;">str</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">a</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">    </span><span style="color:#839496;">" "
+</span><span style="color:#657b83;">}</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/ece06c012663616cac05b0f365bd02ea5607dcddfaa0249963088ceff797c100-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <p>
+        <code class="hljs">
+         <span style="color:var(--fg);">
+          for
+         </span>
+        </code>
+        iterates over all elements of sequence. The sequence may be an
+        <code class="hljs">
+         <span style="color:var(--fg);">
+          array
+         </span>
+        </code>
+        ,
+        <code class="hljs">
+         <span style="color:var(--fg);">
+          string
+         </span>
+        </code>
+        or
+        <code class="hljs">
+         <span style="color:var(--fg);">
+          dictionary
+         </span>
+        </code>
+        (
+        <code class="hljs">
+         <span style="color:var(--fg);">
+          for
+         </span>
+        </code>
+        iterates over its
+        <em>
+         key-value pairs
+        </em>
+        ).
+       </p>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#859900;">#for</span><span style="color:var(--fg);"> c </span><span style="color:#859900;">in </span><span style="color:#839496;">"</span><span style="color:#2aa198;">ABC</span><span style="color:#839496;">" </span><span style="color:#657b83;">[
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">#</span><span style="color:#cb4b16;">c</span><span style="color:var(--fg);"> is a letter.
+</span><span style="color:#657b83;">]</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/9e70091e4c1f276d548f8200329298bf6b98946c331ca4630fec8313d5a91eff-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <p>
+        To iterate to all numbers from
+        <code class="hljs">
+         <span style="color:var(--fg);">
+          a
+         </span>
+        </code>
+        to
+        <code class="hljs">
+         <span style="color:var(--fg);">
+          b
+         </span>
+        </code>
+        , use
+        <code class="hljs">
+         <span style="color:var(--fg);">
+          range(a, b+1)
+         </span>
+        </code>
+        :
+       </p>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#859900;">#let</span><span style="color:var(--fg);"> s </span><span style="color:#859900;">= </span><span style="color:#6c71c4;">0
+</span><span style="color:var(--fg);">
+</span><span style="color:#859900;">#for</span><span style="color:var(--fg);"> i </span><span style="color:#859900;">in range</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">3</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">6</span><span style="color:#657b83;">) {
+</span><span style="color:var(--fg);">    s </span><span style="color:#859900;">+=</span><span style="color:var(--fg);"> i
+</span><span style="color:var(--fg);">    </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">Number </span><span style="color:#859900;">#</span><span style="color:#cb4b16;">i</span><span style="color:var(--fg);"> is added to sum. Now sum is </span><span style="color:#859900;">#</span><span style="color:#cb4b16;">s</span><span style="color:var(--fg);">.</span><span style="color:#657b83;">]
+</span><span style="color:#657b83;">}</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/1e3d95ee79d7bc6989e40ff1e27c0ef6e3b152a1e5f8a0df5b2819621e0e299f-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <p>
+        Because range is end-exclusive this is equal to
+       </p>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#859900;">#let</span><span style="color:var(--fg);"> s </span><span style="color:#859900;">= </span><span style="color:#6c71c4;">0
+</span><span style="color:var(--fg);">
+</span><span style="color:#859900;">#for</span><span style="color:var(--fg);"> i </span><span style="color:#859900;">in </span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">3</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">4</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">5</span><span style="color:#657b83;">) {
+</span><span style="color:var(--fg);">    s </span><span style="color:#859900;">+=</span><span style="color:var(--fg);"> i
+</span><span style="color:var(--fg);">    </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">Number </span><span style="color:#859900;">#</span><span style="color:#cb4b16;">i</span><span style="color:var(--fg);"> is added to sum. Now sum is </span><span style="color:#859900;">#</span><span style="color:#cb4b16;">s</span><span style="color:var(--fg);">.</span><span style="color:#657b83;">]
+</span><span style="color:#657b83;">}</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/6158d29261339f8f285d592deff8992ca129ce32264abcdcf6734ac44cf558a4-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#859900;">#let</span><span style="color:var(--fg);"> people </span><span style="color:#859900;">= </span><span style="color:#657b83;">(</span><span style="color:var(--fg);">Alice: </span><span style="color:#6c71c4;">3</span><span style="color:var(--fg);">, Bob: </span><span style="color:#6c71c4;">5</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">
+</span><span style="color:#859900;">#for </span><span style="color:#657b83;">(</span><span style="color:var(--fg);">name, value</span><span style="color:#657b83;">) </span><span style="color:#859900;">in</span><span style="color:var(--fg);"> people </span><span style="color:#657b83;">[
+</span><span style="color:var(--fg);">    </span><span style="color:#859900;">#</span><span style="color:#cb4b16;">name</span><span style="color:var(--fg);"> has </span><span style="color:#859900;">#</span><span style="color:#cb4b16;">value</span><span style="color:var(--fg);"> apples.
+</span><span style="color:#657b83;">]</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/50ff0963afe8c9ec5a0562d518431b63d5dd3810525f55f084f812452b11eb21-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <h3 id="break-and-continue">
+        <a class="header" href="#break-and-continue">
+         Break and continue
+        </a>
+       </h3>
+       <p>
+        Inside loops can be used
+        <code class="hljs">
+         <span style="color:var(--fg);">
+          break
+         </span>
+        </code>
+        and
+        <code class="hljs">
+         <span style="color:var(--fg);">
+          continue
+         </span>
+        </code>
+        commands.
+        <code class="hljs">
+         <span style="color:var(--fg);">
+          break
+         </span>
+        </code>
+        breaks loop, jumping outside.
+        <code class="hljs">
+         <span style="color:var(--fg);">
+          continue
+         </span>
+        </code>
+        jumps to next loop iteration.
+       </p>
+       <p>
+        See the difference on these examples:
+       </p>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#859900;">#for</span><span style="color:var(--fg);"> letter </span><span style="color:#859900;">in </span><span style="color:#839496;">"</span><span style="color:#2aa198;">abc nope</span><span style="color:#839496;">" </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">if</span><span style="color:var(--fg);"> letter </span><span style="color:#859900;">== </span><span style="color:#839496;">" " </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">    </span><span style="color:#586e75;">// stop when there is space
+</span><span style="color:var(--fg);">    </span><span style="color:#859900;">break
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">}
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">  letter
+</span><span style="color:#657b83;">}</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/a744551cab635d3ab70d9bf4258bb5fc26fe384f8e9f487ad0b8eee986ffe581-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#859900;">#for</span><span style="color:var(--fg);"> letter </span><span style="color:#859900;">in </span><span style="color:#839496;">"</span><span style="color:#2aa198;">abc nope</span><span style="color:#839496;">" </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">if</span><span style="color:var(--fg);"> letter </span><span style="color:#859900;">== </span><span style="color:#839496;">" " </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">    </span><span style="color:#586e75;">// skip the space
+</span><span style="color:var(--fg);">    continue
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">}
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">  letter
+</span><span style="color:#657b83;">}</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/bbb719820f986e52fbf64306536766ecbfd7264d29429a5c62d1bd648a4754c5-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+      </main>

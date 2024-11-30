@@ -210,11 +210,7 @@ def CombineDirs(dirName: str, addFullName: bool = False) -> None:
 
     currentDir = currentPath[: currentPath.rfind("/")]
 
-    print(currentDir)
-
     outDir = os.path.join(currentDir, outDir)
-
-    print(outDir)
 
     os.makedirs(outDir, exist_ok=True)
 

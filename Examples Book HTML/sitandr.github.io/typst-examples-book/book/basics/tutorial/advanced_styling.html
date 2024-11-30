@@ -1,0 +1,325 @@
+<main>
+       <!-- Page table of contents -->
+       <div class="sidetoc">
+        <nav class="pagetoc">
+        </nav>
+       </div>
+       <h1 id="advanced-styling">
+        <a class="header" href="#advanced-styling">
+         Advanced styling
+        </a>
+       </h1>
+       <h2 id="the-show-rule">
+        <a class="header" href="#the-show-rule">
+         The
+         <code class="hljs">
+          <span style="color:var(--fg);">
+           show
+          </span>
+         </code>
+         rule
+        </a>
+       </h2>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:var(--fg);">Advanced styling comes with another rule. The </span><span style="font-style:italic;color:var(--fg);">_`show` rule_</span><span style="color:var(--fg);">.
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">Now please compare the source code and the output.
+</span><span style="color:var(--fg);">
+</span><span style="color:#859900;">#show </span><span style="color:#839496;">"</span><span style="color:#2aa198;">Be careful</span><span style="color:#839496;">"</span><span style="color:var(--fg);">: </span><span style="color:#859900;">strong</span><span style="color:#657b83;">[</span><span style="color:var(--fg);">Play</span><span style="color:#657b83;">]
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">This is a very powerful thing, sometimes even too powerful.
+</span><span style="color:var(--fg);">Be careful with it.
+</span><span style="color:var(--fg);">
+</span><span style="color:#859900;">#show </span><span style="color:#839496;">"</span><span style="color:#2aa198;">it is holding me hostage</span><span style="color:#839496;">"</span><span style="color:var(--fg);">: </span><span style="color:#859900;">text</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">green</span><span style="color:#657b83;">)[</span><span style="color:var(--fg);">I'm fine</span><span style="color:#657b83;">]
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">Wait, what? I told you "Be careful!", not "Play!".
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">Help, it is holding me hostage.</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/8a9ac38769d4ac7b42a2755047d0cd5a6404ad26e9e7f5b72b6984fa67abadf9-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <h2 id="now-a-bit-more-serious">
+        <a class="header" href="#now-a-bit-more-serious">
+         Now a bit more serious
+        </a>
+       </h2>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:var(--fg);">Show rule is a powerful thing that takes a </span><span style="font-style:italic;color:var(--fg);">_selector_
+</span><span style="color:var(--fg);">and what to apply to it. After that it will apply to
+</span><span style="color:var(--fg);">all elements it can find.
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">It may be extremely useful like that:
+</span><span style="color:var(--fg);">
+</span><span style="color:#859900;">#show</span><span style="color:var(--fg);"> emph: </span><span style="color:#859900;">set text</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">blue</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">Now if I want to </span><span style="font-style:italic;color:var(--fg);">_emphasize_</span><span style="color:var(--fg);"> something,
+</span><span style="color:var(--fg);">it will be both </span><span style="font-style:italic;color:var(--fg);">_emphasized_</span><span style="color:var(--fg);"> and </span><span style="font-style:italic;color:var(--fg);">_blue_</span><span style="color:var(--fg);">.
+</span><span style="color:var(--fg);">Isn't that cool?</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/657acaf5c4ca684408bbc6fe0dec4c74b9fa58d24805ec975be1382aa7bf959c-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <h2 id="about-syntax">
+        <a class="header" href="#about-syntax">
+         About syntax
+        </a>
+       </h2>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:var(--fg);">Sometimes show rules may be confusing. They may seem very diverse, but in fact they all are quite the same! So
+</span><span style="color:var(--fg);">
+</span><span style="color:#586e75;">// actually, this is the same as
+</span><span style="color:#586e75;">// redify = text.with(red)
+</span><span style="color:#586e75;">// `with` creates a new function with this argument already set
+</span><span style="color:#859900;">#let redify</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">string</span><span style="color:#657b83;">) </span><span style="color:#859900;">= text</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">red, string</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">
+</span><span style="color:#586e75;">// and this is the same as
+</span><span style="color:#586e75;">// framify = rect.with(stroke: orange)
+</span><span style="color:#859900;">#let framify</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">object</span><span style="color:#657b83;">) </span><span style="color:#859900;">= rect</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">object, </span><span style="color:#268bd2;">stroke</span><span style="color:var(--fg);">: orange</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">
+</span><span style="color:#586e75;">// set default color of text blue for all following text
+</span><span style="color:#859900;">#show</span><span style="color:var(--fg);">: </span><span style="color:#859900;">set text</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">blue</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">Blue text.
+</span><span style="color:var(--fg);">
+</span><span style="color:#586e75;">// wrap everything into a frame
+</span><span style="color:#859900;">#show</span><span style="color:var(--fg);">: framify
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">Framed text.
+</span><span style="color:var(--fg);">
+</span><span style="color:#586e75;">// it's the same, just creating new function that calls framify
+</span><span style="color:#859900;">#show</span><span style="color:var(--fg);">: a </span><span style="color:#859900;">=&gt; framify</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">a</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">Double-framed.
+</span><span style="color:var(--fg);">
+</span><span style="color:#586e75;">// apply function to `the`
+</span><span style="color:#859900;">#show </span><span style="color:#839496;">"</span><span style="color:#2aa198;">the</span><span style="color:#839496;">"</span><span style="color:var(--fg);">: redify
+</span><span style="color:#586e75;">// set text color for all the headings
+</span><span style="color:#859900;">#show</span><span style="color:var(--fg);"> heading: </span><span style="color:#859900;">set text</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">purple</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">
+</span><span style="color:#b58900;">= </span><span style="color:#cb4b16;">Conclusion
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">All these rules do basically the same!</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/2dfcde68345d3fa276b99a1f308343118c6eeae09fd106389a8fc488d7244ebb-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <h2 id="blocks">
+        <a class="header" href="#blocks">
+         Blocks
+        </a>
+       </h2>
+       <p>
+        One of the most important usages is that you can set up all spacing using blocks. Like every element with text contains text that can be set up, every
+        <em>
+         block element
+        </em>
+        contains blocks:
+       </p>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:var(--fg);">Text before
+</span><span style="color:#b58900;">= </span><span style="color:#cb4b16;">Heading
+</span><span style="color:var(--fg);">Text after
+</span><span style="color:var(--fg);">
+</span><span style="color:#859900;">#show</span><span style="color:var(--fg);"> heading: </span><span style="color:#859900;">set block</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">spacing</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">0.5em</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">Text before
+</span><span style="color:#b58900;">= </span><span style="color:#cb4b16;">Heading
+</span><span style="color:var(--fg);">Text after</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/7891207932d0918c88b5804b3a7ee051ce5dda93081f8999eb0f7ebaee48400a-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <h2 id="selector">
+        <a class="header" href="#selector">
+         Selector
+        </a>
+       </h2>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:var(--fg);">So show rule can accept </span><span style="font-style:italic;color:var(--fg);">_selectors_</span><span style="color:var(--fg);">.
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">There are lots of different selector types,
+</span><span style="color:var(--fg);">for example
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">- element functions
+</span><span style="color:var(--fg);">- strings
+</span><span style="color:var(--fg);">- regular expressions
+</span><span style="color:var(--fg);">- field filters
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">Let's see example of the latter:
+</span><span style="color:var(--fg);">
+</span><span style="color:#859900;">#show</span><span style="color:var(--fg);"> heading.</span><span style="color:#859900;">where</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">level</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">1</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">: </span><span style="color:#859900;">set align</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">center</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">
+</span><span style="color:#b58900;">= </span><span style="color:#cb4b16;">Title
+</span><span style="color:#b58900;">== </span><span style="color:#cb4b16;">Small title
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">Of course, you can set align by hand,
+</span><span style="color:var(--fg);">no need to use show rules
+</span><span style="color:var(--fg);">(but they are very handy!):
+</span><span style="color:var(--fg);">
+</span><span style="color:#b58900;">#align</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">center</span><span style="color:#657b83;">)[</span><span style="color:var(--fg);">== Centered small title</span><span style="color:#657b83;">]</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/f41f337dd75b55211dd8d16e2682132c1ffb1ef19f774ba6cafc94cae090ec75-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <h2 id="custom-formatting">
+        <a class="header" href="#custom-formatting">
+         Custom formatting
+        </a>
+       </h2>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:var(--fg);">Let's try now writing custom functions.
+</span><span style="color:var(--fg);">It is very easy, see yourself:
+</span><span style="color:var(--fg);">
+</span><span style="color:#586e75;">// "it" is a heading, we take it and output things in braces
+</span><span style="color:#859900;">#show</span><span style="color:var(--fg);"> heading: it </span><span style="color:#859900;">=&gt; </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">  </span><span style="color:#586e75;">// center it
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">set align</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">center</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">  </span><span style="color:#586e75;">// set size and weight
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">set text</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">12pt</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">weight</span><span style="color:var(--fg);">: </span><span style="color:#839496;">"</span><span style="color:#2aa198;">regular</span><span style="color:#839496;">"</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">  </span><span style="color:#586e75;">// see more about blocks and boxes
+</span><span style="color:var(--fg);">  </span><span style="color:#586e75;">// in corresponding chapter
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">block</span><span style="color:#657b83;">(</span><span style="color:#859900;">smallcaps</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">it.body</span><span style="color:#657b83;">))
+</span><span style="color:#657b83;">}
+</span><span style="color:var(--fg);">
+</span><span style="color:#b58900;">= </span><span style="color:#cb4b16;">Smallcaps heading
+</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/a5c37bce3cf9a077a4eb62a4d95f89584b5ef8acee279b81de6019d0e5768ba0-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <h2 id="setting-spacing">
+        <a class="header" href="#setting-spacing">
+         Setting spacing
+        </a>
+       </h2>
+       <p>
+        TODO: explain block spacing for common elements
+       </p>
+       <h2 id="formatting-to-get-an-article-look">
+        <a class="header" href="#formatting-to-get-an-article-look">
+         Formatting to get an "article look"
+        </a>
+       </h2>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#859900;">#set page</span><span style="color:#657b83;">(
+</span><span style="color:var(--fg);">  </span><span style="color:#586e75;">// Header is that small thing on top
+</span><span style="color:var(--fg);">  </span><span style="color:#268bd2;">header</span><span style="color:var(--fg);">: </span><span style="color:#859900;">align</span><span style="color:#657b83;">(
+</span><span style="color:var(--fg);">    right </span><span style="color:#859900;">+</span><span style="color:var(--fg);"> horizon,
+</span><span style="color:var(--fg);">    </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">Some header there</span><span style="color:#657b83;">]
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">)</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#268bd2;">height</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">12cm
+</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">
+</span><span style="color:#b58900;">#align</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">center, </span><span style="color:#859900;">text</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">17pt</span><span style="color:#657b83;">)[
+</span><span style="color:var(--fg);">  </span><span style="font-weight:bold;color:var(--fg);">*Important title*
+</span><span style="color:#657b83;">])
+</span><span style="color:var(--fg);">
+</span><span style="color:#b58900;">#grid</span><span style="color:#657b83;">(
+</span><span style="color:var(--fg);">  </span><span style="color:#268bd2;">columns</span><span style="color:var(--fg);">: </span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">1fr</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">1fr</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">align</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">center</span><span style="color:#657b83;">)[
+</span><span style="color:var(--fg);">    Some author </span><span style="color:#dc322f;">\
+</span><span style="color:var(--fg);">    Some Institute </span><span style="color:#dc322f;">\
+</span><span style="color:var(--fg);">    </span><span style="color:#b58900;">#link</span><span style="color:#657b83;">(</span><span style="color:#839496;">"</span><span style="color:#2aa198;">mailto:some@mail.edu</span><span style="color:#839496;">"</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">]</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">align</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">center</span><span style="color:#657b83;">)[
+</span><span style="color:var(--fg);">    Another author </span><span style="color:#dc322f;">\
+</span><span style="color:var(--fg);">    Another Institute </span><span style="color:#dc322f;">\
+</span><span style="color:var(--fg);">    </span><span style="color:#b58900;">#link</span><span style="color:#657b83;">(</span><span style="color:#839496;">"</span><span style="color:#2aa198;">mailto:another@mail.edu</span><span style="color:#839496;">"</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">]
+</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">Now let's split text into two columns:
+</span><span style="color:var(--fg);">
+</span><span style="color:#859900;">#show</span><span style="color:var(--fg);">: rest </span><span style="color:#859900;">=&gt; columns</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">2</span><span style="color:var(--fg);">, rest</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">
+</span><span style="color:#859900;">#show</span><span style="color:var(--fg);"> heading.</span><span style="color:#859900;">where</span><span style="color:#657b83;">(
+</span><span style="color:var(--fg);">  </span><span style="color:#268bd2;">level</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">1
+</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">: it </span><span style="color:#859900;">=&gt; block</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">width</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">100%</span><span style="color:#657b83;">)[
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">#set align</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">center</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">#set text</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">12pt</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">weight</span><span style="color:var(--fg);">: </span><span style="color:#839496;">"</span><span style="color:#2aa198;">regular</span><span style="color:#839496;">"</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">  </span><span style="color:#b58900;">#smallcaps</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">it.body</span><span style="color:#657b83;">)
+</span><span style="color:#657b83;">]
+</span><span style="color:var(--fg);">
+</span><span style="color:#859900;">#show</span><span style="color:var(--fg);"> heading.</span><span style="color:#859900;">where</span><span style="color:#657b83;">(
+</span><span style="color:var(--fg);">  </span><span style="color:#268bd2;">level</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">2
+</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">: it </span><span style="color:#859900;">=&gt; text</span><span style="color:#657b83;">(
+</span><span style="color:var(--fg);">  </span><span style="color:#268bd2;">size</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">11pt</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#268bd2;">weight</span><span style="color:var(--fg);">: </span><span style="color:#839496;">"</span><span style="color:#2aa198;">regular</span><span style="color:#839496;">"</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#268bd2;">style</span><span style="color:var(--fg);">: </span><span style="color:#839496;">"</span><span style="color:#2aa198;">italic</span><span style="color:#839496;">"</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  it.body </span><span style="color:#859900;">+ </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">.</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">,
+</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">
+</span><span style="color:#586e75;">// Now let's fill it with words:
+</span><span style="color:var(--fg);">
+</span><span style="color:#b58900;">= </span><span style="color:#cb4b16;">Heading
+</span><span style="color:#b58900;">== </span><span style="color:#cb4b16;">Small heading
+</span><span style="color:#b58900;">#lorem</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">10</span><span style="color:#657b83;">)
+</span><span style="color:#b58900;">== </span><span style="color:#cb4b16;">Second subchapter
+</span><span style="color:#b58900;">#lorem</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">10</span><span style="color:#657b83;">)
+</span><span style="color:#b58900;">= </span><span style="color:#cb4b16;">Second heading
+</span><span style="color:#b58900;">#lorem</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">40</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">
+</span><span style="color:#b58900;">== </span><span style="color:#cb4b16;">Second subchapter
+</span><span style="color:#b58900;">#lorem</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">40</span><span style="color:#657b83;">)</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/76ee0cca809299df178ec9d94371c01031d1808a700b39deac5245dd6b83157f-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+      </main>

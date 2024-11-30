@@ -1,0 +1,110 @@
+<main>
+       <!-- Page table of contents -->
+       <div class="sidetoc">
+        <nav class="pagetoc">
+        </nav>
+       </div>
+       <h1 id="counting-words">
+        <a class="header" href="#counting-words">
+         Counting words
+        </a>
+       </h1>
+       <h2 id="wordometr">
+        <a class="header" href="#wordometr">
+         Wordometr
+        </a>
+       </h2>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#859900;">#import </span><span style="color:#839496;">"</span><span style="color:#2aa198;">@preview/wordometer:0.1.0</span><span style="color:#839496;">"</span><span style="color:var(--fg);">: word</span><span style="color:#859900;">-</span><span style="color:var(--fg);">count, total</span><span style="color:#859900;">-</span><span style="color:var(--fg);">words
+</span><span style="color:var(--fg);">
+</span><span style="color:#859900;">#show</span><span style="color:var(--fg);">: word</span><span style="color:#859900;">-</span><span style="color:var(--fg);">count
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">In this document, there are </span><span style="color:#859900;">#</span><span style="color:#cb4b16;">total-words</span><span style="color:var(--fg);"> words all up.
+</span><span style="color:var(--fg);">
+</span><span style="color:#b58900;">#word-count</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">total </span><span style="color:#859900;">=&gt; </span><span style="color:#657b83;">[
+</span><span style="color:var(--fg);">  The number of words in this block is </span><span style="color:#859900;">#</span><span style="color:#cb4b16;">total.words
+</span><span style="color:var(--fg);">  and there are </span><span style="color:#859900;">#</span><span style="color:#cb4b16;">total.characters</span><span style="color:var(--fg);"> letters.
+</span><span style="color:#657b83;">])</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/a36d12209002f93aeaf23d4b21fcd4dcb1f9326f6ad358ad01558f09dede39c2-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <h3 id="excluding-elements">
+        <a class="header" href="#excluding-elements">
+         Excluding elements
+        </a>
+       </h3>
+       <p>
+        You can exclude elements by name (e.g.,
+        <code class="hljs">
+         <span style="color:var(--fg);">
+          "caption"
+         </span>
+        </code>
+        ), function (e.g.,
+        <code class="hljs">
+         <span style="color:var(--fg);">
+          figure.caption
+         </span>
+        </code>
+        ), where-selector (e.g.,
+        <code class="hljs">
+         <span style="color:var(--fg);">
+          raw.where(block: true)
+         </span>
+        </code>
+        ), or
+        <code class="hljs">
+         <span style="color:var(--fg);">
+          label
+         </span>
+        </code>
+        (e.g.,
+        <code class="hljs">
+         <span style="color:#93a1a1;">
+          &lt;
+         </span>
+         <span style="color:#b58900;">
+          no-wc
+         </span>
+         <span style="color:#93a1a1;">
+          &gt;
+         </span>
+        </code>
+        ).
+       </p>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#859900;">#import </span><span style="color:#839496;">"</span><span style="color:#2aa198;">@preview/wordometer:0.1.0</span><span style="color:#839496;">"</span><span style="color:var(--fg);">: word</span><span style="color:#859900;">-</span><span style="color:var(--fg);">count, total</span><span style="color:#859900;">-</span><span style="color:var(--fg);">words
+</span><span style="color:var(--fg);">
+</span><span style="color:#859900;">#show</span><span style="color:var(--fg);">: word</span><span style="color:#859900;">-</span><span style="color:var(--fg);">count.</span><span style="color:#859900;">with</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">exclude</span><span style="color:var(--fg);">: </span><span style="color:#657b83;">(</span><span style="color:var(--fg);">heading.</span><span style="color:#859900;">where</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">level</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">1</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">, strike</span><span style="color:#657b83;">))
+</span><span style="color:var(--fg);">
+</span><span style="color:#b58900;">= </span><span style="color:#cb4b16;">This Heading Doesn't Count
+</span><span style="color:#b58900;">== </span><span style="color:#cb4b16;">But I do!
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">In this document </span><span style="color:#b58900;">#strike</span><span style="color:#657b83;">[</span><span style="color:var(--fg);">(excluding me)</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, there are </span><span style="color:#859900;">#</span><span style="color:#cb4b16;">total-words</span><span style="color:var(--fg);"> words all up.
+</span><span style="color:var(--fg);">
+</span><span style="color:#b58900;">#word-count</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">total </span><span style="color:#859900;">=&gt; </span><span style="color:#657b83;">[
+</span><span style="color:var(--fg);">  You can exclude elements by label, too.
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">#</span><span style="color:#657b83;">[</span><span style="color:var(--fg);">That was </span><span style="color:#859900;">#</span><span style="color:#cb4b16;">total-words</span><span style="color:var(--fg);">, excluding this sentence!</span><span style="color:#657b83;">] </span><span style="color:#93a1a1;">&lt;</span><span style="color:#b58900;">no-wc</span><span style="color:#93a1a1;">&gt;
+</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">exclude</span><span style="color:var(--fg);">: </span><span style="color:#93a1a1;">&lt;</span><span style="color:#b58900;">no-wc</span><span style="color:#93a1a1;">&gt;</span><span style="color:#657b83;">)</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/0e46f8aa570972e4f8a92bfa4b8f7b86b6374d632fa27bd043c102b683d70f96-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+      </main>

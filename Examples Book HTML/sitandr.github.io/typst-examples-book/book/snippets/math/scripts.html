@@ -1,0 +1,54 @@
+<main>
+       <!-- Page table of contents -->
+       <div class="sidetoc">
+        <nav class="pagetoc">
+        </nav>
+       </div>
+       <h1 id="scripts">
+        <a class="header" href="#scripts">
+         Scripts
+        </a>
+       </h1>
+       <blockquote>
+        <p>
+         To set scripts and limits see
+         <a href="../../basics/math/limits.html">
+          Typst Basics section
+         </a>
+        </p>
+       </blockquote>
+       <h2 id="make-every-character-upright-when-used-in-subscript">
+        <a class="header" href="#make-every-character-upright-when-used-in-subscript">
+         Make every character upright when used in subscript
+        </a>
+       </h2>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#586e75;">// author: emilyyyylime
+</span><span style="color:var(--fg);">
+</span><span style="color:#2aa198;">$</span><span style="color:#268bd2;">f</span><span style="color:#859900;">_</span><span style="color:#268bd2;">a</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">f</span><span style="color:#859900;">_</span><span style="color:#268bd2;">b</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">f</span><span style="color:#859900;">^</span><span style="color:#268bd2;">a</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">f</span><span style="color:#859900;">_italic</span><span style="color:#657b83;">(</span><span style="color:#839496;">"</span><span style="color:#2aa198;">word</span><span style="color:#839496;">"</span><span style="color:#657b83;">)</span><span style="color:#2aa198;">$
+</span><span style="color:#859900;">#show</span><span style="color:var(--fg);"> math.attach: it </span><span style="color:#859900;">=&gt; </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">import</span><span style="color:var(--fg);"> math: </span><span style="color:#859900;">*
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">if</span><span style="color:var(--fg);"> it.b !</span><span style="color:#859900;">= </span><span style="color:#b58900;">none </span><span style="color:#859900;">and</span><span style="color:var(--fg);"> it.b.</span><span style="color:#859900;">func</span><span style="color:#657b83;">()</span><span style="color:var(--fg);"> !</span><span style="color:#859900;">= upright</span><span style="color:#657b83;">[]</span><span style="color:var(--fg);">.</span><span style="color:#859900;">func</span><span style="color:#657b83;">() </span><span style="color:#859900;">and</span><span style="color:var(--fg);"> it.b.</span><span style="color:#859900;">has</span><span style="color:#657b83;">(</span><span style="color:#839496;">"</span><span style="color:#2aa198;">text</span><span style="color:#839496;">"</span><span style="color:#657b83;">) </span><span style="color:#859900;">and</span><span style="color:var(--fg);"> it.b.text.</span><span style="color:#859900;">len</span><span style="color:#657b83;">() </span><span style="color:#859900;">== </span><span style="color:#6c71c4;">1 </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">    </span><span style="color:#859900;">let</span><span style="color:var(--fg);"> args </span><span style="color:#859900;">=</span><span style="color:var(--fg);"> it.</span><span style="color:#859900;">fields</span><span style="color:#657b83;">()
+</span><span style="color:var(--fg);">    </span><span style="color:#859900;">let</span><span style="color:var(--fg);"> _ </span><span style="color:#859900;">=</span><span style="color:var(--fg);"> args.</span><span style="color:#859900;">remove</span><span style="color:#657b83;">(</span><span style="color:#839496;">"</span><span style="color:#2aa198;">base</span><span style="color:#839496;">"</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">    </span><span style="color:#859900;">let</span><span style="color:var(--fg);"> _ </span><span style="color:#859900;">=</span><span style="color:var(--fg);"> args.</span><span style="color:#859900;">remove</span><span style="color:#657b83;">(</span><span style="color:#839496;">"</span><span style="color:#2aa198;">b</span><span style="color:#839496;">"</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">    </span><span style="color:#859900;">attach</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">it.base, </span><span style="color:#268bd2;">b</span><span style="color:var(--fg);">: </span><span style="color:#859900;">upright</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">it.b</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">, </span><span style="color:#859900;">..</span><span style="color:var(--fg);">args</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">} </span><span style="color:#859900;">else </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">    it
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">}
+</span><span style="color:#657b83;">}
+</span><span style="color:var(--fg);">
+</span><span style="color:#2aa198;">$</span><span style="color:#268bd2;">f</span><span style="color:#859900;">_</span><span style="color:#268bd2;">a</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">f</span><span style="color:#859900;">_</span><span style="color:#268bd2;">b</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">f</span><span style="color:#859900;">^</span><span style="color:#268bd2;">a</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">f</span><span style="color:#859900;">_italic</span><span style="color:#657b83;">(</span><span style="color:#839496;">"</span><span style="color:#2aa198;">word</span><span style="color:#839496;">"</span><span style="color:#657b83;">)</span><span style="color:#2aa198;">$</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/40b68a1d7f5aeb1c498431996be1b140b3d217ba5b0230b6b73e6fefe64d45cd-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+      </main>

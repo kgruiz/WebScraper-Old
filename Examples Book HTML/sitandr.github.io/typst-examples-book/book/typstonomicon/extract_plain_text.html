@@ -1,0 +1,101 @@
+<main>
+       <!-- Page table of contents -->
+       <div class="sidetoc">
+        <nav class="pagetoc">
+        </nav>
+       </div>
+       <h1 id="extracting-plain-text">
+        <a class="header" href="#extracting-plain-text">
+         Extracting plain text
+        </a>
+       </h1>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#586e75;">// original author: ntjess
+</span><span style="color:#859900;">#let stringify-by-func</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">it</span><span style="color:#657b83;">) </span><span style="color:#859900;">= </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">let</span><span style="color:var(--fg);"> func </span><span style="color:#859900;">=</span><span style="color:var(--fg);"> it.</span><span style="color:#859900;">func</span><span style="color:#657b83;">()
+</span><span style="color:var(--fg);">  return </span><span style="color:#859900;">if</span><span style="color:var(--fg);"> func </span><span style="color:#859900;">in </span><span style="color:#657b83;">(</span><span style="color:var(--fg);">parbreak, pagebreak, linebreak</span><span style="color:#657b83;">) {
+</span><span style="color:var(--fg);">    </span><span style="color:#839496;">"</span><span style="color:#2aa198;">\n</span><span style="color:#839496;">"
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">} </span><span style="color:#859900;">else if</span><span style="color:var(--fg);"> func </span><span style="color:#859900;">==</span><span style="color:var(--fg);"> smartquote </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">    </span><span style="color:#859900;">if</span><span style="color:var(--fg);"> it.double </span><span style="color:#657b83;">{ </span><span style="color:#839496;">"</span><span style="color:#2aa198;">\</span><span style="color:#839496;">""</span><span style="color:#2aa198;"> } else { </span><span style="color:#839496;">"</span><span style="color:var(--fg);">'</span><span style="color:#839496;">"</span><span style="color:#2aa198;"> } // </span><span style="color:#839496;">"
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">} </span><span style="color:#859900;">else if</span><span style="color:var(--fg);"> it.</span><span style="color:#859900;">fields</span><span style="color:#657b83;">() </span><span style="color:#859900;">== </span><span style="color:#657b83;">(</span><span style="color:var(--fg);">:</span><span style="color:#657b83;">) {
+</span><span style="color:var(--fg);">    </span><span style="color:#586e75;">// a fieldless element is either specially represented (and caught earlier) or doesn't have text
+</span><span style="color:var(--fg);">    </span><span style="color:#839496;">""
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">} </span><span style="color:#859900;">else </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">    </span><span style="color:#859900;">panic</span><span style="color:#657b83;">(</span><span style="color:#839496;">"</span><span style="color:#2aa198;">Not sure how to handle type `</span><span style="color:#839496;">" </span><span style="color:#859900;">+ repr</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">func</span><span style="color:#657b83;">) </span><span style="color:#859900;">+ </span><span style="color:#839496;">"</span><span style="color:#2aa198;">`</span><span style="color:#839496;">"</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">}
+</span><span style="color:#657b83;">}
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">#</span><span style="color:#859900;">let plain-text</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">it</span><span style="color:#657b83;">) </span><span style="color:#859900;">= </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">  return </span><span style="color:#859900;">if type</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">it</span><span style="color:#657b83;">) </span><span style="color:#859900;">==</span><span style="color:var(--fg);"> str </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">    it
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">} </span><span style="color:#859900;">else if</span><span style="color:var(--fg);"> it </span><span style="color:#859900;">== </span><span style="color:#657b83;">[ ] {
+</span><span style="color:var(--fg);">    </span><span style="color:#839496;">" "
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">} </span><span style="color:#859900;">else if</span><span style="color:var(--fg);"> it.</span><span style="color:#859900;">has</span><span style="color:#657b83;">(</span><span style="color:#839496;">"</span><span style="color:#2aa198;">children</span><span style="color:#839496;">"</span><span style="color:#657b83;">) {
+</span><span style="color:var(--fg);">    it.children.</span><span style="color:#859900;">map</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">plain</span><span style="color:#859900;">-</span><span style="color:var(--fg);">text</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">.</span><span style="color:#859900;">join</span><span style="color:#657b83;">()
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">} </span><span style="color:#859900;">else if</span><span style="color:var(--fg);"> it.</span><span style="color:#859900;">has</span><span style="color:#657b83;">(</span><span style="color:#839496;">"</span><span style="color:#2aa198;">body</span><span style="color:#839496;">"</span><span style="color:#657b83;">) {
+</span><span style="color:var(--fg);">    </span><span style="color:#859900;">plain-text</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">it.body</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">} </span><span style="color:#859900;">else if</span><span style="color:var(--fg);"> it.</span><span style="color:#859900;">has</span><span style="color:#657b83;">(</span><span style="color:#839496;">"</span><span style="color:#2aa198;">text</span><span style="color:#839496;">"</span><span style="color:#657b83;">) {
+</span><span style="color:var(--fg);">    </span><span style="color:#859900;">if type</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">it.text</span><span style="color:#657b83;">) </span><span style="color:#859900;">== </span><span style="color:#839496;">"</span><span style="color:#2aa198;">string</span><span style="color:#839496;">" </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">      it.text
+</span><span style="color:var(--fg);">    </span><span style="color:#657b83;">} </span><span style="color:#859900;">else </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">      </span><span style="color:#859900;">plain-text</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">it.text</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">    </span><span style="color:#657b83;">}
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">} </span><span style="color:#859900;">else </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">    </span><span style="color:#586e75;">// remove this to ignore all other non-text elements
+</span><span style="color:var(--fg);">    </span><span style="color:#859900;">stringify-by-func</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">it</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">}
+</span><span style="color:#657b83;">}
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">#</span><span style="color:#859900;">plain-text</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">`raw inline text`</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">#</span><span style="color:#859900;">plain-text</span><span style="color:#657b83;">(</span><span style="color:#859900;">highlight</span><span style="color:#657b83;">[</span><span style="color:var(--fg);">Highlighted text</span><span style="color:#657b83;">])
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">#</span><span style="color:#859900;">plain-text</span><span style="color:#657b83;">[</span><span style="color:var(--fg);">List
+</span><span style="color:var(--fg);">  - With
+</span><span style="color:var(--fg);">  - Some
+</span><span style="color:var(--fg);">  - Elements
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">  + And
+</span><span style="color:var(--fg);">  + Enumerated
+</span><span style="color:var(--fg);">  + Too
+</span><span style="color:#657b83;">]
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">#</span><span style="color:#859900;">plain-text</span><span style="color:#657b83;">(</span><span style="color:#859900;">underline</span><span style="color:#657b83;">[</span><span style="color:var(--fg);">Underlined</span><span style="color:#657b83;">])
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">#</span><span style="color:#859900;">plain-text</span><span style="color:#657b83;">(</span><span style="color:#2aa198;">$</span><span style="color:#859900;">sin</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">x </span><span style="color:#859900;">+ </span><span style="color:#268bd2;">y</span><span style="color:#657b83;">)</span><span style="color:#2aa198;">$</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">#</span><span style="color:#859900;">for</span><span style="color:var(--fg);"> el </span><span style="color:#859900;">in </span><span style="color:#657b83;">(
+</span><span style="color:var(--fg);">  circle,
+</span><span style="color:var(--fg);">  rect,
+</span><span style="color:var(--fg);">  ellipse,
+</span><span style="color:var(--fg);">  block,
+</span><span style="color:var(--fg);">  box,
+</span><span style="color:var(--fg);">  par,
+</span><span style="color:var(--fg);">  raw.</span><span style="color:#859900;">with</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">block</span><span style="color:var(--fg);">: </span><span style="color:#b58900;">true</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  raw.</span><span style="color:#859900;">with</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">block</span><span style="color:var(--fg);">: </span><span style="color:#b58900;">false</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  heading,
+</span><span style="color:#657b83;">) {
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">plain-text</span><span style="color:#657b83;">(</span><span style="color:#859900;">el</span><span style="color:#657b83;">(</span><span style="color:#859900;">repr</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">el</span><span style="color:#657b83;">)))
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">linebreak</span><span style="color:#657b83;">()
+</span><span style="color:#657b83;">}
+</span><span style="color:var(--fg);">
+</span><span style="color:#586e75;">// Some empty elements
+</span><span style="color:var(--fg);">#</span><span style="color:#859900;">plain-text</span><span style="color:#657b83;">(</span><span style="color:#859900;">circle</span><span style="color:#657b83;">())
+</span><span style="color:var(--fg);">#</span><span style="color:#859900;">plain-text</span><span style="color:#657b83;">(</span><span style="color:#859900;">line</span><span style="color:#657b83;">())
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">#</span><span style="color:#859900;">for</span><span style="color:var(--fg);"> spacer </span><span style="color:#859900;">in </span><span style="color:#657b83;">(</span><span style="color:var(--fg);">linebreak, pagebreak, parbreak</span><span style="color:#657b83;">) {
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">plain-text</span><span style="color:#657b83;">(</span><span style="color:#859900;">spacer</span><span style="color:#657b83;">())
+</span><span style="color:#657b83;">}</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/bcf07a5cddbcf3f046484609e01f9a05df81807d05391d590bf8c8e96b324d1b-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+      </main>

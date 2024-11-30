@@ -1,0 +1,46 @@
+\title{sitandr.github.io/typst-examples-book/book/packages/headers}
+
+\section{\texorpdfstring{\hyperref[headers]{Headers}}{Headers}}\label{headers}
+
+\subsection{\texorpdfstring{\hyperref[hydra-contextual-headers]{\texttt{\ }{\texttt{\ hydra\ }}\texttt{\ }
+: Contextual
+headers}}{  hydra   : Contextual headers}}\label{hydra-contextual-headers}
+
+We have discussed in \texttt{\ }{\texttt{\ Typst\ Basics\ }}\texttt{\ }
+how to get current heading with
+\texttt{\ }{\texttt{\ query(selector(heading).before(here()))\ }}\texttt{\ }
+for headers. However, this works badly for nested headings with
+numbering and similar things. For these cases there is
+\texttt{\ }{\texttt{\ hydra\ }}\texttt{\ } :
+
+\begin{verbatim}
+#import "@preview/hydra:0.5.1": hydra
+
+#set page(height: 10 * 20pt, margin: (y: 4em), numbering: "1", header: context {
+  if calc.odd(here().page()) {
+    align(right, emph(hydra(1)))
+  } else {
+    align(left, emph(hydra(2)))
+  }
+  line(length: 100%)
+})
+#set heading(numbering: "1.1")
+#show heading.where(level: 1): it => pagebreak(weak: true) + it
+
+= Introduction
+#lorem(50)
+
+= Content
+== First Section
+#lorem(50)
+== Second Section
+#lorem(100)
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/1a1e2d4655c80e3b0cd9cd7db25c191054aac7ff69aa9cf7cda6935041b614ae-1.svg}}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/1a1e2d4655c80e3b0cd9cd7db25c191054aac7ff69aa9cf7cda6935041b614ae-2.svg}}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/1a1e2d4655c80e3b0cd9cd7db25c191054aac7ff69aa9cf7cda6935041b614ae-3.svg}}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/1a1e2d4655c80e3b0cd9cd7db25c191054aac7ff69aa9cf7cda6935041b614ae-4.svg}}

@@ -1,0 +1,123 @@
+<main>
+       <!-- Page table of contents -->
+       <div class="sidetoc">
+        <nav class="pagetoc">
+        </nav>
+       </div>
+       <h1 id="query">
+        <a class="header" href="#query">
+         Query
+        </a>
+       </h1>
+       <div class="warning">
+        This section is outdated. It may be still useful, but it is strongly recommended to study new context system (using the reference).
+       </div>
+       <blockquote>
+        <p>
+         Link
+         <a href="https://typst.app/docs/reference/meta/query/">
+          there
+         </a>
+        </p>
+       </blockquote>
+       <p>
+        Query is a thing that allows you getting location by
+        <em>
+         selector
+        </em>
+        (this is the same thing we used in show rules).
+       </p>
+       <p>
+        That enables "time travel", getting information about document from its parts and so on.
+        <em>
+         That is a way to violate Typst's purity.
+        </em>
+       </p>
+       <p>
+        It is currently one of the
+        <em>
+         the darkest magics currently existing in Typst
+        </em>
+        . It gives you great powers, but with great power comes great responsibility.
+       </p>
+       <h2 id="time-travel">
+        <a class="header" href="#time-travel">
+         Time travel
+        </a>
+       </h2>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#859900;">#let</span><span style="color:var(--fg);"> s </span><span style="color:#859900;">= state</span><span style="color:#657b83;">(</span><span style="color:#839496;">"</span><span style="color:#2aa198;">x</span><span style="color:#839496;">"</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">0</span><span style="color:#657b83;">)
+</span><span style="color:#859900;">#let compute</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">expr</span><span style="color:#657b83;">) </span><span style="color:#859900;">= </span><span style="color:#657b83;">[
+</span><span style="color:var(--fg);">  </span><span style="color:#b58900;">#s.update</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">x </span><span style="color:#859900;">=&gt;
+</span><span style="color:var(--fg);">    </span><span style="color:#859900;">eval</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">expr.</span><span style="color:#859900;">replace</span><span style="color:#657b83;">(</span><span style="color:#839496;">"</span><span style="color:#2aa198;">x</span><span style="color:#839496;">"</span><span style="color:var(--fg);">, </span><span style="color:#859900;">str</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">x</span><span style="color:#657b83;">)))
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">  New value is </span><span style="color:#b58900;">#s.display</span><span style="color:#657b83;">()</span><span style="color:var(--fg);">.
+</span><span style="color:#657b83;">]
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">Value at `&lt;here&gt;` is
+</span><span style="color:#859900;">#</span><span style="color:#cb4b16;">context</span><span style="color:var(--fg);"> s.at(
+</span><span style="color:var(--fg);">  query(</span><span style="color:#93a1a1;">&lt;</span><span style="color:#b58900;">here</span><span style="color:#93a1a1;">&gt;</span><span style="color:var(--fg);">)
+</span><span style="color:var(--fg);">    .first()
+</span><span style="color:var(--fg);">    .location()
+</span><span style="color:var(--fg);">)
+</span><span style="color:var(--fg);">
+</span><span style="color:#b58900;">#compute</span><span style="color:#657b83;">(</span><span style="color:#839496;">"</span><span style="color:#2aa198;">10</span><span style="color:#839496;">"</span><span style="color:#657b83;">) </span><span style="color:#dc322f;">\
+</span><span style="color:#b58900;">#compute</span><span style="color:#657b83;">(</span><span style="color:#839496;">"</span><span style="color:#2aa198;">x + 3</span><span style="color:#839496;">"</span><span style="color:#657b83;">) </span><span style="color:#dc322f;">\
+</span><span style="font-weight:bold;color:var(--fg);">*Here.* </span><span style="color:#93a1a1;">&lt;</span><span style="color:#b58900;">here</span><span style="color:#93a1a1;">&gt; </span><span style="color:#dc322f;">\
+</span><span style="color:#b58900;">#compute</span><span style="color:#657b83;">(</span><span style="color:#839496;">"</span><span style="color:#2aa198;">x * 2</span><span style="color:#839496;">"</span><span style="color:#657b83;">) </span><span style="color:#dc322f;">\
+</span><span style="color:#b58900;">#compute</span><span style="color:#657b83;">(</span><span style="color:#839496;">"</span><span style="color:#2aa198;">x - 5</span><span style="color:#839496;">"</span><span style="color:#657b83;">)</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/130940aa5ae2ceb3364ef655c84cf8e7d2178210851b8fb20e6c0c3345c3ace7-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <h2 id="getting-nearest-chapter">
+        <a class="header" href="#getting-nearest-chapter">
+         Getting nearest chapter
+        </a>
+       </h2>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#859900;">#set page</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">header</span><span style="color:var(--fg);">: context </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">let</span><span style="color:var(--fg);"> elems </span><span style="color:#859900;">= query</span><span style="color:#657b83;">(
+</span><span style="color:var(--fg);">    </span><span style="color:#859900;">selector</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">heading</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">.</span><span style="color:#859900;">before</span><span style="color:#657b83;">(</span><span style="color:#859900;">here</span><span style="color:#657b83;">())</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">    </span><span style="color:#859900;">here</span><span style="color:#657b83;">()</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">let</span><span style="color:var(--fg);"> academy </span><span style="color:#859900;">= smallcaps</span><span style="color:#657b83;">[
+</span><span style="color:var(--fg);">    Typst Academy
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">]
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">if</span><span style="color:var(--fg);"> elems </span><span style="color:#859900;">== </span><span style="color:#657b83;">() {
+</span><span style="color:var(--fg);">    </span><span style="color:#859900;">align</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">right, academy</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">} </span><span style="color:#859900;">else </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">    </span><span style="color:#859900;">let</span><span style="color:var(--fg);"> body </span><span style="color:#859900;">=</span><span style="color:var(--fg);"> elems.</span><span style="color:#859900;">last</span><span style="color:#657b83;">()</span><span style="color:var(--fg);">.body
+</span><span style="color:var(--fg);">    academy </span><span style="color:#859900;">+ h</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">1fr</span><span style="color:#657b83;">) </span><span style="color:#859900;">+ emph</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">body</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">}
+</span><span style="color:#657b83;">})
+</span><span style="color:var(--fg);">
+</span><span style="color:#b58900;">= </span><span style="color:#cb4b16;">Introduction
+</span><span style="color:#b58900;">#lorem</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">23</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">
+</span><span style="color:#b58900;">= </span><span style="color:#cb4b16;">Background
+</span><span style="color:#b58900;">#lorem</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">30</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">
+</span><span style="color:#b58900;">= </span><span style="color:#cb4b16;">Analysis
+</span><span style="color:#b58900;">#lorem</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">15</span><span style="color:#657b83;">)</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/b4d0562911dd308b0d9cbc36ad20ba6ed91fc3c3da5b6259eb6721f3a53a18e3-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+      </main>

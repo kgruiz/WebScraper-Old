@@ -1,0 +1,59 @@
+\title{sitandr.github.io/typst-examples-book/book/packages/index}
+
+\section{\texorpdfstring{\hyperref[packages]{Packages}}{Packages}}\label{packages}
+
+Once the \href{https://typst.app/universe}{Typst Universe} was launched,
+this chapter has become almost redundant. The Universe is actually a
+very cool place to look for packages.
+
+However, there are still some cool examples of interesting package
+usage.
+
+\subsection{\texorpdfstring{\hyperref[general]{General}}{General}}\label{general}
+
+Typst has packages, but, unlike LaTeX, you need to remember:
+
+\begin{itemize}
+\tightlist
+\item
+  You need them only for some specialized tasks, basic formatting
+  \emph{can be totally done without them} .
+\item
+  Packages are much lighter and much easier "installed" than LaTeX ones.
+\item
+  Packages are just plain Typst files (and sometimes plugins), so you
+  can easily write your own!
+\end{itemize}
+
+To use mighty package, just write, like this:
+
+\begin{verbatim}
+#import "@preview/cetz:0.1.2": canvas, plot
+
+#canvas(length: 1cm, {
+  plot.plot(size: (8, 6),
+    x-tick-step: none,
+    x-ticks: ((-calc.pi, $-pi$), (0, $0$), (calc.pi, $pi$)),
+    y-tick-step: 1,
+    {
+      plot.add(
+        style: plot.palette.blue,
+        domain: (-calc.pi, calc.pi), x => calc.sin(x * 1rad))
+      plot.add(
+        hypograph: true,
+        style: plot.palette.blue,
+        domain: (-calc.pi, calc.pi), x => calc.cos(x * 1rad))
+      plot.add(
+        hypograph: true,
+        style: plot.palette.blue,
+        domain: (-calc.pi, calc.pi), x => calc.cos((x + calc.pi) * 1rad))
+    })
+})
+\end{verbatim}
+
+\pandocbounded{\includesvg[keepaspectratio]{typst-img/29d7015ed96122fa3fb663929c1ac58d25340995423c82456ab8815811373979-1.svg}}
+
+\subsection{\texorpdfstring{\hyperref[contributing]{Contributing}}{Contributing}}\label{contributing}
+
+If you are author of a package or just want to make a fair overview,
+feel free to make issues/PR-s!

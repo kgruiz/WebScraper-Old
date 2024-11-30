@@ -1,0 +1,401 @@
+<main>
+       <!-- Page table of contents -->
+       <div class="sidetoc">
+        <nav class="pagetoc">
+        </nav>
+       </div>
+       <h1 id="types-part-i">
+        <a class="header" href="#types-part-i">
+         Types, part I
+        </a>
+       </h1>
+       <p>
+        Each value in Typst has a type. You don't have to specify it, but it is important.
+       </p>
+       <h2 id="content-content">
+        <a class="header" href="#content-content">
+         Content (
+         <code class="hljs">
+          <span style="color:var(--fg);">
+           content
+          </span>
+         </code>
+         )
+        </a>
+       </h2>
+       <blockquote>
+        <p>
+         <a href="https://typst.app/docs/reference/foundations/content/">
+          Link to Reference
+         </a>
+         .
+        </p>
+       </blockquote>
+       <p>
+        We have already seen it. A type that represents what is displayed in document.
+       </p>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#859900;">#let</span><span style="color:var(--fg);"> c </span><span style="color:#859900;">= </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">It is </span><span style="font-style:italic;color:var(--fg);">_content_</span><span style="color:var(--fg);">!</span><span style="color:#657b83;">]
+</span><span style="color:var(--fg);">
+</span><span style="color:#586e75;">// Check type of c
+</span><span style="color:#859900;">#</span><span style="color:#657b83;">(</span><span style="color:#859900;">type</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">c</span><span style="color:#657b83;">) </span><span style="color:#859900;">==</span><span style="color:var(--fg);"> content</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">
+</span><span style="color:#859900;">#</span><span style="color:#cb4b16;">c
+</span><span style="color:var(--fg);">
+</span><span style="color:#586e75;">// repr gives an "inner representation" of value
+</span><span style="color:#b58900;">#repr</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">c</span><span style="color:#657b83;">)</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/21fd80460de8e8a377a9ef2046a27232ad88924070509ccf8647c9135c9c2fe3-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <p>
+        <strong>
+         Important:
+        </strong>
+        It is very hard to convert
+        <em>
+         content
+        </em>
+        to
+        <em>
+         plain text
+        </em>
+        , as
+        <em>
+         content
+        </em>
+        may contain
+        <em>
+         anything
+        </em>
+        ! So be careful when passing and storing content in variables.
+       </p>
+       <h2 id="none-none">
+        <a class="header" href="#none-none">
+         None (
+         <code class="hljs">
+          <span style="color:var(--fg);">
+           none
+          </span>
+         </code>
+         )
+        </a>
+       </h2>
+       <p>
+        Nothing. Also known as
+        <code class="hljs">
+         <span style="color:var(--fg);">
+          null
+         </span>
+        </code>
+        in other languages. It isn't displayed, converts to empty content.
+       </p>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#859900;">#</span><span style="color:#cb4b16;">none
+</span><span style="color:#b58900;">#repr</span><span style="color:#657b83;">(</span><span style="color:#b58900;">none</span><span style="color:#657b83;">)</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/c4100c1d1df8fc0a51bd99945d9bac3c5aa67de19b8f872fd33fd9068bb2507b-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <h2 id="string-str">
+        <a class="header" href="#string-str">
+         String (
+         <code class="hljs">
+          <span style="color:var(--fg);">
+           str
+          </span>
+         </code>
+         )
+        </a>
+       </h2>
+       <blockquote>
+        <p>
+         <a href="https://typst.app/docs/reference/foundations/str/">
+          Link to Reference
+         </a>
+         .
+        </p>
+       </blockquote>
+       <p>
+        String contains only plain text and no formatting. Just some chars. That allows us to work with chars:
+       </p>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#859900;">#let</span><span style="color:var(--fg);"> s </span><span style="color:#859900;">= </span><span style="color:#839496;">"</span><span style="color:#2aa198;">Some large string. There could be escape sentences: \n,
+</span><span style="color:#2aa198;"> line breaks, and even unicode codes: \u{1251}</span><span style="color:#839496;">"
+</span><span style="color:#859900;">#</span><span style="color:#cb4b16;">s </span><span style="color:#dc322f;">\
+</span><span style="color:#b58900;">#type</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">s</span><span style="color:#657b83;">) </span><span style="color:#dc322f;">\
+</span><span style="color:var(--fg);">`repr`: </span><span style="color:#b58900;">#repr</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">s</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">
+</span><span style="color:#859900;">#let</span><span style="color:var(--fg);"> s </span><span style="color:#859900;">= </span><span style="color:#839496;">"</span><span style="color:#2aa198;">another small string</span><span style="color:#839496;">"
+</span><span style="color:#b58900;">#s.replace</span><span style="color:#657b83;">(</span><span style="color:#839496;">"</span><span style="color:#2aa198;">a</span><span style="color:#839496;">"</span><span style="color:var(--fg);">, sym.alpha</span><span style="color:#657b83;">) </span><span style="color:#dc322f;">\
+</span><span style="color:#b58900;">#s.split</span><span style="color:#657b83;">(</span><span style="color:#839496;">" "</span><span style="color:#657b83;">) </span><span style="color:#586e75;">// split by space</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/b797f9c4a540fcf1429bec801d0b334e7d88dc9ccd10e3b7b859f451e269f30f-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <p>
+        You can convert other types to their string representation using this type's constructor (e.g. convert number to string):
+       </p>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#b58900;">#str</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">5</span><span style="color:#657b83;">) </span><span style="color:#586e75;">// string, can be worked with as string</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/ab4d4a5d93533525f7f9b2cc8378b79f1561904f3c5d5f6d2ec4bdc448669cb5-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <h2 id="boolean-bool">
+        <a class="header" href="#boolean-bool">
+         Boolean (
+         <code class="hljs">
+          <span style="color:var(--fg);">
+           bool
+          </span>
+         </code>
+         )
+        </a>
+       </h2>
+       <blockquote>
+        <p>
+         <a href="https://typst.app/docs/reference/foundations/bool/">
+          Link to Reference
+         </a>
+         .
+        </p>
+       </blockquote>
+       <p>
+        true/false. Used in
+        <code class="hljs">
+         <span style="color:var(--fg);">
+          if
+         </span>
+        </code>
+        and many others
+       </p>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#859900;">#let</span><span style="color:var(--fg);"> b </span><span style="color:#859900;">= </span><span style="color:#b58900;">false
+</span><span style="color:#859900;">#</span><span style="color:#cb4b16;">b </span><span style="color:#dc322f;">\
+</span><span style="color:#b58900;">#repr</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">b</span><span style="color:#657b83;">) </span><span style="color:#dc322f;">\
+</span><span style="color:#859900;">#</span><span style="color:#657b83;">(</span><span style="color:#b58900;">true </span><span style="color:#859900;">and not </span><span style="color:#b58900;">true </span><span style="color:#859900;">or </span><span style="color:#b58900;">true</span><span style="color:#657b83;">)</span><span style="color:var(--fg);"> = </span><span style="color:#859900;">#</span><span style="color:#657b83;">((</span><span style="color:#b58900;">true </span><span style="color:#859900;">and </span><span style="color:#657b83;">(</span><span style="color:#859900;">not </span><span style="color:#b58900;">true</span><span style="color:#657b83;">)) </span><span style="color:#859900;">or </span><span style="color:#b58900;">true</span><span style="color:#657b83;">) </span><span style="color:#dc322f;">\
+</span><span style="color:#859900;">#if </span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">4 </span><span style="color:#859900;">&gt; </span><span style="color:#6c71c4;">3</span><span style="color:#657b83;">) {
+</span><span style="color:var(--fg);">  </span><span style="color:#839496;">"</span><span style="color:#2aa198;">4 is more than 3</span><span style="color:#839496;">"
+</span><span style="color:#657b83;">}</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/e848d78e220ca8cf3b6c323a99d5d963e529aad36857f0e6753c56c02984a616-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <h2 id="integer-int">
+        <a class="header" href="#integer-int">
+         Integer (
+         <code class="hljs">
+          <span style="color:var(--fg);">
+           int
+          </span>
+         </code>
+         )
+        </a>
+       </h2>
+       <blockquote>
+        <p>
+         <a href="https://typst.app/docs/reference/foundations/int/">
+          Link to Reference
+         </a>
+         .
+        </p>
+       </blockquote>
+       <p>
+        A whole number.
+       </p>
+       <p>
+        The number can also be specified as hexadecimal, octal, or binary by starting it with a zero followed by either x, o, or b.
+       </p>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#859900;">#let</span><span style="color:var(--fg);"> n </span><span style="color:#859900;">= </span><span style="color:#6c71c4;">5
+</span><span style="color:#859900;">#</span><span style="color:#cb4b16;">n </span><span style="color:#dc322f;">\
+</span><span style="color:#859900;">#</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">n </span><span style="color:#859900;">+= </span><span style="color:#6c71c4;">1</span><span style="color:#657b83;">) </span><span style="color:#dc322f;">\
+</span><span style="color:#859900;">#</span><span style="color:#cb4b16;">n </span><span style="color:#dc322f;">\
+</span><span style="color:#b58900;">#calc.pow</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">2</span><span style="color:var(--fg);">, n</span><span style="color:#657b83;">) </span><span style="color:#dc322f;">\
+</span><span style="color:#b58900;">#type</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">n</span><span style="color:#657b83;">) </span><span style="color:#dc322f;">\
+</span><span style="color:#b58900;">#repr</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">n</span><span style="color:#657b83;">)</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/6f1c9e02393e14aa23add33d0e6dc2b596ee97a0d425cd3edb3e2b912c6ef6b0-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#859900;">#</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">1 </span><span style="color:#859900;">+ </span><span style="color:#6c71c4;">2</span><span style="color:#657b83;">) </span><span style="color:#dc322f;">\
+</span><span style="color:#859900;">#</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">2 </span><span style="color:#859900;">- </span><span style="color:#6c71c4;">5</span><span style="color:#657b83;">) </span><span style="color:#dc322f;">\
+</span><span style="color:#859900;">#</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">3 </span><span style="color:#859900;">+ </span><span style="color:#6c71c4;">4 </span><span style="color:#859900;">&lt; </span><span style="color:#6c71c4;">8</span><span style="color:#657b83;">)</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/e610f15659cb6b64c3516be48740b54e6caf3d933919004157ba64b757389ba5-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#859900;">#</span><span style="color:#6c71c4;">0xff </span><span style="color:#dc322f;">\
+</span><span style="color:#859900;">#</span><span style="color:#6c71c4;">0o10 </span><span style="color:#dc322f;">\
+</span><span style="color:#859900;">#</span><span style="color:#6c71c4;">0b1001</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/1446dba05ee6f8006884c280ff32e31ede8425d4847445e97cae5dfcde1efe7f-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <p>
+        You can convert a value to an integer with this type's constructor (e.g. convert string to int).
+       </p>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#b58900;">#int</span><span style="color:#657b83;">(</span><span style="color:#b58900;">false</span><span style="color:#657b83;">) </span><span style="color:#dc322f;">\
+</span><span style="color:#b58900;">#int</span><span style="color:#657b83;">(</span><span style="color:#b58900;">true</span><span style="color:#657b83;">) </span><span style="color:#dc322f;">\
+</span><span style="color:#b58900;">#int</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">2.7</span><span style="color:#657b83;">) </span><span style="color:#dc322f;">\
+</span><span style="color:#859900;">#</span><span style="color:#657b83;">(</span><span style="color:#859900;">int</span><span style="color:#657b83;">(</span><span style="color:#839496;">"</span><span style="color:#2aa198;">27</span><span style="color:#839496;">"</span><span style="color:#657b83;">) </span><span style="color:#859900;">+ int</span><span style="color:#657b83;">(</span><span style="color:#839496;">"</span><span style="color:#2aa198;">4</span><span style="color:#839496;">"</span><span style="color:#657b83;">))</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/b44779a87fd984d317ec4d1aed732c0ebdc6220fd4764e407f77fedd139c0d8c-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <h2 id="float-float">
+        <a class="header" href="#float-float">
+         Float (
+         <code class="hljs">
+          <span style="color:var(--fg);">
+           float
+          </span>
+         </code>
+         )
+        </a>
+       </h2>
+       <blockquote>
+        <p>
+         <a href="https://typst.app/docs/reference/foundations/float/">
+          Link to Reference
+         </a>
+         .
+        </p>
+       </blockquote>
+       <p>
+        Works the same way as integer, but can store floating point numbers.
+However, precision may be lost.
+       </p>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#859900;">#let</span><span style="color:var(--fg);"> n </span><span style="color:#859900;">= </span><span style="color:#6c71c4;">5.0
+</span><span style="color:var(--fg);">
+</span><span style="color:#586e75;">// You can mix floats and integers, 
+</span><span style="color:#586e75;">// they will be implicitly converted
+</span><span style="color:#859900;">#</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">n </span><span style="color:#859900;">+= </span><span style="color:#6c71c4;">1</span><span style="color:#657b83;">) </span><span style="color:#dc322f;">\
+</span><span style="color:#b58900;">#calc.pow</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">2</span><span style="color:var(--fg);">, n</span><span style="color:#657b83;">) </span><span style="color:#dc322f;">\
+</span><span style="color:#859900;">#</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">0.2 </span><span style="color:#859900;">+ </span><span style="color:#6c71c4;">0.1</span><span style="color:#657b83;">) </span><span style="color:#dc322f;">\
+</span><span style="color:#b58900;">#type</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">n</span><span style="color:#657b83;">) </span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/21cafe751ec803dd9598c871b283a29bc3c6b2e302f0f9bd78edc17330b45616-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#859900;">#</span><span style="color:#6c71c4;">3.14 </span><span style="color:#dc322f;">\
+</span><span style="color:#859900;">#</span><span style="color:#6c71c4;">1e4 </span><span style="color:#dc322f;">\
+</span><span style="color:#859900;">#</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">10 </span><span style="color:#859900;">/ </span><span style="color:#6c71c4;">4</span><span style="color:#657b83;">)</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/05bd400096c1df5a954fda0897f3c1756c9f99f73503d32d992b3222667a45cd-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <p>
+        You can convert a value to a float with this type's constructor (e.g. convert string to float).
+       </p>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#b58900;">#float</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">40%</span><span style="color:#657b83;">) </span><span style="color:#dc322f;">\
+</span><span style="color:#b58900;">#float</span><span style="color:#657b83;">(</span><span style="color:#839496;">"</span><span style="color:#2aa198;">2.7</span><span style="color:#839496;">"</span><span style="color:#657b83;">) </span><span style="color:#dc322f;">\
+</span><span style="color:#b58900;">#float</span><span style="color:#657b83;">(</span><span style="color:#839496;">"</span><span style="color:#2aa198;">1e5</span><span style="color:#839496;">"</span><span style="color:#657b83;">)</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/f50a22cbea42fded97ab8340f0939e786e5c1cdb5ea531cd4b35b1f732947b7f-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+      </main>

@@ -1,0 +1,193 @@
+<main>
+       <!-- Page table of contents -->
+       <div class="sidetoc">
+        <nav class="pagetoc">
+        </nav>
+       </div>
+       <h1 id="project-structure">
+        <a class="header" href="#project-structure">
+         Project structure
+        </a>
+       </h1>
+       <h2 id="large-document">
+        <a class="header" href="#large-document">
+         Large document
+        </a>
+       </h2>
+       <p>
+        Once the document becomes large enough, it becomes harder to navigate it. If you haven't reached that size yet, you can ignore that section.
+       </p>
+       <p>
+        For managing that I would recommend splitting your document into
+        <em>
+         chapters
+        </em>
+        . It is just a way to work with this, but once you understand how it works, you can do anything you want.
+       </p>
+       <p>
+        Let's say you have two chapters, then the recommended structure will look like this:
+       </p>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#859900;">#import </span><span style="color:#839496;">"</span><span style="color:#2aa198;">@preview/treet:0.1.1</span><span style="color:#839496;">"</span><span style="color:var(--fg);">: </span><span style="color:#859900;">*
+</span><span style="color:var(--fg);">
+</span><span style="color:#859900;">#show</span><span style="color:var(--fg);"> list: tree</span><span style="color:#859900;">-</span><span style="color:var(--fg);">list
+</span><span style="color:#859900;">#set par</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">leading</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">0.8em</span><span style="color:#657b83;">)
+</span><span style="color:#859900;">#show</span><span style="color:var(--fg);"> list: </span><span style="color:#859900;">set text</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">font</span><span style="color:var(--fg);">: </span><span style="color:#839496;">"</span><span style="color:#2aa198;">DejaVu Sans Mono</span><span style="color:#839496;">"</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">size</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">0.8em</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">- chapters/
+</span><span style="color:var(--fg);">  - chapter_1.typ
+</span><span style="color:var(--fg);">  - chapter_2.typ
+</span><span style="color:var(--fg);">- main.typ 👁 </span><span style="color:#b58900;">#text</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">gray</span><span style="color:#657b83;">)[</span><span style="color:var(--fg);">← document entry point</span><span style="color:#657b83;">]
+</span><span style="color:var(--fg);">- template.typ</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/291489e71b40beea77872ad05adb609349872e9a11fc3a9c3f2008c88e37c9d5-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <div class="info">
+        The exact file names are up to you.
+       </div>
+       <p>
+        Let's see what to put in each of these files.
+       </p>
+       <h3 id="template">
+        <a class="header" href="#template">
+         Template
+        </a>
+       </h3>
+       <p>
+        In the "template" file goes
+        <em>
+         all useful functions and variables
+        </em>
+        you will use across the chapters. If you have your own template or want to write one, you can write it there.
+       </p>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#586e75;">// template.typ
+</span><span style="color:var(--fg);">
+</span><span style="color:#859900;">#let</span><span style="color:var(--fg);"> template </span><span style="color:#859900;">=</span><span style="color:var(--fg);"> doc </span><span style="color:#859900;">=&gt; </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">    </span><span style="color:#859900;">set page</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">header</span><span style="color:var(--fg);">: </span><span style="color:#839496;">"</span><span style="color:#2aa198;">My super document</span><span style="color:#839496;">"</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">    </span><span style="color:#859900;">show </span><span style="color:#839496;">"</span><span style="color:#2aa198;">physics</span><span style="color:#839496;">"</span><span style="color:var(--fg);">: </span><span style="color:#839496;">"</span><span style="color:#2aa198;">magic</span><span style="color:#839496;">"
+</span><span style="color:var(--fg);">    doc
+</span><span style="color:#657b83;">}
+</span><span style="color:var(--fg);">
+</span><span style="color:#859900;">#let</span><span style="color:var(--fg);"> info</span><span style="color:#859900;">-</span><span style="color:var(--fg);">block </span><span style="color:#859900;">=</span><span style="color:var(--fg);"> block.</span><span style="color:#859900;">with</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">stroke</span><span style="color:var(--fg);">: blue, </span><span style="color:#268bd2;">fill</span><span style="color:var(--fg);">: blue.</span><span style="color:#859900;">lighten</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">70%</span><span style="color:#657b83;">))
+</span><span style="color:#859900;">#let</span><span style="color:var(--fg);"> author </span><span style="color:#859900;">= </span><span style="color:#839496;">"</span><span style="color:#2aa198;">@sitandr</span><span style="color:#839496;">"</span></code></pre>
+       </div>
+       <h3 id="main">
+        <a class="header" href="#main">
+         Main
+        </a>
+       </h3>
+       <p>
+        <strong>
+         This file should be compiled
+        </strong>
+        to get the whole compiled document.
+       </p>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#586e75;">// main.typ
+</span><span style="color:var(--fg);">
+</span><span style="color:#859900;">#import </span><span style="color:#839496;">"</span><span style="color:#2aa198;">template.typ</span><span style="color:#839496;">"</span><span style="color:var(--fg);">: </span><span style="color:#859900;">*
+</span><span style="color:#586e75;">// if you have a template
+</span><span style="color:#859900;">#show</span><span style="color:var(--fg);">: template
+</span><span style="color:var(--fg);">
+</span><span style="color:#b58900;">= </span><span style="color:#cb4b16;">This is the document title
+</span><span style="color:var(--fg);">
+</span><span style="color:#586e75;">// some additional formatting
+</span><span style="color:var(--fg);">
+</span><span style="color:#859900;">#show</span><span style="color:var(--fg);"> emph: </span><span style="color:#859900;">set text</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">blue</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">
+</span><span style="color:#586e75;">// but don't define functions or variables there!
+</span><span style="color:#586e75;">// chapters will not see it
+</span><span style="color:var(--fg);">
+</span><span style="color:#586e75;">// Now the chapters themselves as some Typst content
+</span><span style="color:#859900;">#include</span><span style="color:#657b83;">(</span><span style="color:#839496;">"</span><span style="color:#2aa198;">chapters/chapter_1.typ</span><span style="color:#839496;">"</span><span style="color:#657b83;">)
+</span><span style="color:#859900;">#include</span><span style="color:#657b83;">(</span><span style="color:#839496;">"</span><span style="color:#2aa198;">chapters/chapter_1.typ</span><span style="color:#839496;">"</span><span style="color:#657b83;">)</span></code></pre>
+       </div>
+       <h3 id="chapter">
+        <a class="header" href="#chapter">
+         Chapter
+        </a>
+       </h3>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#586e75;">// chapter_1.typ
+</span><span style="color:var(--fg);">
+</span><span style="color:#859900;">#import </span><span style="color:#839496;">"</span><span style="color:#2aa198;">../template.typ</span><span style="color:#839496;">"</span><span style="color:var(--fg);">: </span><span style="color:#859900;">*
+</span><span style="color:var(--fg);">
+</span><span style="color:var(--fg);">That's just content with </span><span style="font-style:italic;color:var(--fg);">_styling_</span><span style="color:var(--fg);"> and blocks:
+</span><span style="color:var(--fg);">
+</span><span style="color:#b58900;">#infoblock</span><span style="color:#657b83;">[</span><span style="color:var(--fg);">Some information</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">.
+</span><span style="color:var(--fg);">
+</span><span style="color:#586e75;">// just any content you want to include in the document</span></code></pre>
+       </div>
+       <h2 id="notes">
+        <a class="header" href="#notes">
+         Notes
+        </a>
+       </h2>
+       <p>
+        Note that modules in Typst can see only what they created themselves or imported. Anything else is invisible for them. That's why you need
+        <code class="hljs">
+         <span style="color:var(--fg);">
+          template.typ
+         </span>
+        </code>
+        file to define all functions within.
+       </p>
+       <p>
+        That means chapters
+        <em>
+         don't see each other either
+        </em>
+        , only what is in the template.
+       </p>
+       <h2 id="cyclic-imports">
+        <a class="header" href="#cyclic-imports">
+         Cyclic imports
+        </a>
+       </h2>
+       <p>
+        <strong>
+         Important:
+        </strong>
+        Typst
+        <em>
+         forbids
+        </em>
+        cyclic imports. That means you can't import
+        <code class="hljs">
+         <span style="color:var(--fg);">
+          chapter_1
+         </span>
+        </code>
+        from
+        <code class="hljs">
+         <span style="color:var(--fg);">
+          chapter_2
+         </span>
+        </code>
+        and
+        <code class="hljs">
+         <span style="color:var(--fg);">
+          chapter_2
+         </span>
+        </code>
+        from
+        <code class="hljs">
+         <span style="color:var(--fg);">
+          chapter_1
+         </span>
+        </code>
+        at the same time!
+       </p>
+       <p>
+        But the good news is that you can always create some other file to import variable from.
+       </p>
+      </main>

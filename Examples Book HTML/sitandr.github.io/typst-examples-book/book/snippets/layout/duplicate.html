@@ -1,0 +1,100 @@
+<main>
+       <!-- Page table of contents -->
+       <div class="sidetoc">
+        <nav class="pagetoc">
+        </nav>
+       </div>
+       <h1 id="duplicate-content">
+        <a class="header" href="#duplicate-content">
+         Duplicate content
+        </a>
+       </h1>
+       <div class="warning">
+        Notice that this implementation will mess up with labels and similar things.
+    For complex cases see one below.
+       </div>
+       ```typ
+#set page(paper: "a4", flipped: true)
+#show: body =&gt; grid(
+  columns: (1fr, 1fr),
+  column-gutter: 1cm,
+  body, body,
+)
+#lorem(200)
+```
+       <h2 id="advanced">
+        <a class="header" href="#advanced">
+         Advanced
+        </a>
+       </h2>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#586e75;">/// author: frozolotl
+</span><span style="color:#859900;">#set page</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">paper</span><span style="color:var(--fg);">: </span><span style="color:#839496;">"</span><span style="color:#2aa198;">a4</span><span style="color:#839496;">"</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">flipped</span><span style="color:var(--fg);">: </span><span style="color:#b58900;">true</span><span style="color:#657b83;">)
+</span><span style="color:#859900;">#set heading</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">numbering</span><span style="color:var(--fg);">: </span><span style="color:#839496;">"</span><span style="color:#2aa198;">1.1</span><span style="color:#839496;">"</span><span style="color:#657b83;">)
+</span><span style="color:#859900;">#show</span><span style="color:var(--fg);"> ref: it </span><span style="color:#859900;">=&gt; </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">if</span><span style="color:var(--fg);"> it.element !</span><span style="color:#859900;">= </span><span style="color:#b58900;">none </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">    it
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">} </span><span style="color:#859900;">else </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">    </span><span style="color:#859900;">let</span><span style="color:var(--fg);"> targets </span><span style="color:#859900;">= query</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">it.target, it.</span><span style="color:#859900;">location</span><span style="color:#657b83;">())
+</span><span style="color:var(--fg);">    </span><span style="color:#859900;">if</span><span style="color:var(--fg);"> targets.</span><span style="color:#859900;">len</span><span style="color:#657b83;">() </span><span style="color:#859900;">== </span><span style="color:#6c71c4;">2 </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">      </span><span style="color:#859900;">let</span><span style="color:var(--fg);"> target </span><span style="color:#859900;">=</span><span style="color:var(--fg);"> targets.</span><span style="color:#859900;">first</span><span style="color:#657b83;">()
+</span><span style="color:var(--fg);">      </span><span style="color:#859900;">if</span><span style="color:var(--fg);"> target.</span><span style="color:#859900;">func</span><span style="color:#657b83;">() </span><span style="color:#859900;">==</span><span style="color:var(--fg);"> heading </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">        </span><span style="color:#859900;">let</span><span style="color:var(--fg);"> num </span><span style="color:#859900;">= numbering</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">target.numbering, </span><span style="color:#859900;">..counter</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">heading</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">.</span><span style="color:#859900;">at</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">target.</span><span style="color:#859900;">location</span><span style="color:#657b83;">()))
+</span><span style="color:var(--fg);">        </span><span style="color:#657b83;">[</span><span style="color:#859900;">#</span><span style="color:#cb4b16;">target.supplement </span><span style="color:#859900;">#</span><span style="color:#cb4b16;">num</span><span style="color:#657b83;">]
+</span><span style="color:var(--fg);">      </span><span style="color:#657b83;">} </span><span style="color:#859900;">else if</span><span style="color:var(--fg);"> target.</span><span style="color:#859900;">func</span><span style="color:#657b83;">() </span><span style="color:#859900;">==</span><span style="color:var(--fg);"> figure </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">        </span><span style="color:#859900;">let</span><span style="color:var(--fg);"> num </span><span style="color:#859900;">= numbering</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">target.numbering, </span><span style="color:#859900;">..</span><span style="color:var(--fg);">target.counter.</span><span style="color:#859900;">at</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">target.</span><span style="color:#859900;">location</span><span style="color:#657b83;">()))
+</span><span style="color:var(--fg);">        </span><span style="color:#657b83;">[</span><span style="color:#859900;">#</span><span style="color:#cb4b16;">target.supplement </span><span style="color:#859900;">#</span><span style="color:#cb4b16;">num</span><span style="color:#657b83;">]
+</span><span style="color:var(--fg);">      </span><span style="color:#657b83;">} </span><span style="color:#859900;">else </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">        it
+</span><span style="color:var(--fg);">      </span><span style="color:#657b83;">}
+</span><span style="color:var(--fg);">    </span><span style="color:#657b83;">} </span><span style="color:#859900;">else </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">      it
+</span><span style="color:var(--fg);">    </span><span style="color:#657b83;">}
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">}
+</span><span style="color:#657b83;">}
+</span><span style="color:#859900;">#show</span><span style="color:var(--fg);"> link: it </span><span style="color:#859900;">=&gt;</span><span style="color:var(--fg);"> context </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">let</span><span style="color:var(--fg);"> dest </span><span style="color:#859900;">= query</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">it.dest</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">if</span><span style="color:var(--fg);"> dest.</span><span style="color:#859900;">len</span><span style="color:#657b83;">() </span><span style="color:#859900;">== </span><span style="color:#6c71c4;">2 </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">    </span><span style="color:#859900;">link</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">dest.</span><span style="color:#859900;">first</span><span style="color:#657b83;">()</span><span style="color:var(--fg);">.</span><span style="color:#859900;">location</span><span style="color:#657b83;">()</span><span style="color:var(--fg);">, it.body</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">} </span><span style="color:#859900;">else </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">    it
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">}
+</span><span style="color:#657b83;">}
+</span><span style="color:#859900;">#show</span><span style="color:var(--fg);">: body </span><span style="color:#859900;">=&gt;</span><span style="color:var(--fg);"> context </span><span style="color:#859900;">grid</span><span style="color:#657b83;">(
+</span><span style="color:var(--fg);">  </span><span style="color:#268bd2;">columns</span><span style="color:var(--fg);">: </span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">1fr</span><span style="color:var(--fg);">, </span><span style="color:#6c71c4;">1fr</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  </span><span style="color:#268bd2;">column-gutter</span><span style="color:var(--fg);">: </span><span style="color:#6c71c4;">1cm</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">  body,
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">    </span><span style="color:#859900;">let reset-counter</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">kind</span><span style="color:#657b83;">) </span><span style="color:#859900;">= counter</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">kind</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">.</span><span style="color:#859900;">update</span><span style="color:#657b83;">(</span><span style="color:#859900;">counter</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">kind</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">.</span><span style="color:#859900;">get</span><span style="color:#657b83;">())
+</span><span style="color:var(--fg);">    </span><span style="color:#859900;">reset-counter</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">heading</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">    </span><span style="color:#859900;">reset-counter</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">figure.</span><span style="color:#859900;">where</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">kind</span><span style="color:var(--fg);">: image</span><span style="color:#657b83;">))
+</span><span style="color:var(--fg);">    </span><span style="color:#859900;">reset-counter</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">figure.</span><span style="color:#859900;">where</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">kind</span><span style="color:var(--fg);">: raw</span><span style="color:#657b83;">))
+</span><span style="color:var(--fg);">    </span><span style="color:#859900;">set heading</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">outlined</span><span style="color:var(--fg);">: </span><span style="color:#b58900;">false</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">    </span><span style="color:#859900;">set figure</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">outlined</span><span style="color:var(--fg);">: </span><span style="color:#b58900;">false</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">    body
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">}</span><span style="color:var(--fg);">,
+</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">
+</span><span style="color:#b58900;">#outline</span><span style="color:#657b83;">()
+</span><span style="color:var(--fg);">
+</span><span style="color:#b58900;">= </span><span style="color:#cb4b16;">Foo </span><span style="color:#93a1a1;">&lt;</span><span style="color:#b58900;">foo</span><span style="color:#93a1a1;">&gt;
+</span><span style="color:var(--fg);">See </span><span style="color:#cb4b16;">@foo</span><span style="color:var(--fg);"> and </span><span style="color:#cb4b16;">@foobar</span><span style="color:var(--fg);">.
+</span><span style="color:var(--fg);">
+</span><span style="color:#b58900;">#figure</span><span style="color:#657b83;">(</span><span style="color:#859900;">rect</span><span style="color:#657b83;">[</span><span style="color:var(--fg);">This is an image</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">caption</span><span style="color:var(--fg);">: </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">Foobar</span><span style="color:#657b83;">]</span><span style="color:var(--fg);">, </span><span style="color:#268bd2;">kind</span><span style="color:var(--fg);">: raw</span><span style="color:#657b83;">) </span><span style="color:#93a1a1;">&lt;</span><span style="color:#b58900;">foobar</span><span style="color:#93a1a1;">&gt;
+</span><span style="color:var(--fg);">
+</span><span style="color:#b58900;">== </span><span style="color:#cb4b16;">Bar
+</span><span style="color:#b58900;">== </span><span style="color:#cb4b16;">Baz
+</span><span style="color:#b58900;">#link</span><span style="color:#657b83;">(</span><span style="color:#93a1a1;">&lt;</span><span style="color:#b58900;">foo</span><span style="color:#93a1a1;">&gt;</span><span style="color:#657b83;">)[</span><span style="color:var(--fg);">Click to visit Foo</span><span style="color:#657b83;">]</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/2fdcc2778a936608ed868521793f59311ac54d43e226639db3ab14c6ca37c75f-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+      </main>

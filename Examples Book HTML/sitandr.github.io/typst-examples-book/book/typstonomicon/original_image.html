@@ -1,0 +1,51 @@
+<main>
+       <!-- Page table of contents -->
+       <div class="sidetoc">
+        <nav class="pagetoc">
+        </nav>
+       </div>
+       <h1 id="image-with-original-size">
+        <a class="header" href="#image-with-original-size">
+         Image with original size
+        </a>
+       </h1>
+       <p>
+        This function renders image with the size it "naturally" has.
+       </p>
+       <p>
+        <strong>
+         Note: starting from v0.11
+        </strong>
+        , Typst tries using default image size when width and height are
+        <code class="hljs">
+         <span style="color:var(--fg);">
+          auto
+         </span>
+        </code>
+        . It only uses container's size if the image doesn't fit. So this code is more like a legacy, but still may be useful.
+       </p>
+       <p>
+        This works because measure conceptually places the image onto a page with infinite size and then the image defaults to 1pt per pixel instead of becoming infinitely larger itself.
+       </p>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#586e75;">// author: laurmaedje
+</span><span style="color:#859900;">#let natural-image</span><span style="color:#657b83;">(</span><span style="color:#859900;">..</span><span style="color:var(--fg);">args</span><span style="color:#657b83;">) </span><span style="color:#859900;">= style</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">styles </span><span style="color:#859900;">=&gt; </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">let </span><span style="color:#657b83;">(</span><span style="color:var(--fg);">width, height</span><span style="color:#657b83;">) </span><span style="color:#859900;">= measure</span><span style="color:#657b83;">(</span><span style="color:#859900;">image</span><span style="color:#657b83;">(</span><span style="color:#859900;">..</span><span style="color:var(--fg);">args</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">, styles</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">image</span><span style="color:#657b83;">(</span><span style="color:#859900;">..</span><span style="color:var(--fg);">args, </span><span style="color:#268bd2;">width</span><span style="color:var(--fg);">: width, </span><span style="color:#268bd2;">height</span><span style="color:var(--fg);">: height</span><span style="color:#657b83;">)
+</span><span style="color:#657b83;">})
+</span><span style="color:var(--fg);">
+</span><span style="color:#b58900;">#image</span><span style="color:#657b83;">(</span><span style="color:#839496;">"</span><span style="color:#2aa198;">../tiger.jpg</span><span style="color:#839496;">"</span><span style="color:#657b83;">)
+</span><span style="color:#b58900;">#natural-image</span><span style="color:#657b83;">(</span><span style="color:#839496;">"</span><span style="color:#2aa198;">../tiger.jpg</span><span style="color:#839496;">"</span><span style="color:#657b83;">)</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/59503efa7e4aa0d37418ed3d0cb2c0c123268fae37cdcd54f8f7eb06b556e05d-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+      </main>

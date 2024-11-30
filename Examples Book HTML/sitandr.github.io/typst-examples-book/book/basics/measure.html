@@ -1,0 +1,236 @@
+<main>
+       <!-- Page table of contents -->
+       <div class="sidetoc">
+        <nav class="pagetoc">
+        </nav>
+       </div>
+       <h1 id="measure-layout">
+        <a class="header" href="#measure-layout">
+         Measure, Layout
+        </a>
+       </h1>
+       <div class="warning">
+        This section is outdated. It may be still useful, but it is strongly recommended to study new context system (using the reference).
+       </div>
+       <h2 id="style--measure">
+        <a class="header" href="#style--measure">
+         Style &amp; Measure
+        </a>
+       </h2>
+       <blockquote>
+        <p>
+         Style
+         <a href="https://typst.app/docs/reference/foundations/style/">
+          documentation
+         </a>
+         .
+        </p>
+       </blockquote>
+       <blockquote>
+        <p>
+         Measure
+         <a href="https://typst.app/docs/reference/layout/measure/">
+          documentation
+         </a>
+         .
+        </p>
+       </blockquote>
+       <p>
+        <code class="hljs">
+         <span style="color:var(--fg);">
+          measure
+         </span>
+        </code>
+        returns
+        <em>
+         the element size
+        </em>
+        . This command is extremely helpful when doing custom layout with
+        <code class="hljs">
+         <span style="color:var(--fg);">
+          place
+         </span>
+        </code>
+        .
+       </p>
+       <p>
+        However, there is a catch. Element size depends on styles, applied to this element.
+       </p>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#859900;">#let</span><span style="color:var(--fg);"> content </span><span style="color:#859900;">= </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">Hello!</span><span style="color:#657b83;">]
+</span><span style="color:#859900;">#</span><span style="color:#cb4b16;">content
+</span><span style="color:#859900;">#set text</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">14pt</span><span style="color:#657b83;">)
+</span><span style="color:#859900;">#</span><span style="color:#cb4b16;">content</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/00a6cbbc650947c03f34564786b0645eee60396f288d26333c591ff9059cc369-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <p>
+        So if we will set the big text size for some part of our text, to measure the element's size,
+we have to know
+        <em>
+         where the element is located
+        </em>
+        . Without knowing it, we can't tell what styles should be applied.
+       </p>
+       <p>
+        So we need a scheme similar to
+        <code class="hljs">
+         <span style="color:var(--fg);">
+          locate
+         </span>
+        </code>
+        .
+       </p>
+       <p>
+        This is what
+        <code class="hljs">
+         <span style="color:var(--fg);">
+          styles
+         </span>
+        </code>
+        function is used for. It is
+        <em>
+         a content
+        </em>
+        , which, when located in document, calls a function inside on
+        <em>
+         current styles
+        </em>
+        .
+       </p>
+       <p>
+        Now, when we got fixed
+        <code class="hljs">
+         <span style="color:var(--fg);">
+          styles
+         </span>
+        </code>
+        , we can get the element's size using
+        <code class="hljs">
+         <span style="color:var(--fg);">
+          measure
+         </span>
+        </code>
+        :
+       </p>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#859900;">#let thing</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">body</span><span style="color:#657b83;">) </span><span style="color:#859900;">= style</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">styles </span><span style="color:#859900;">=&gt; </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">let</span><span style="color:var(--fg);"> size </span><span style="color:#859900;">= measure</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">body, styles</span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">Width of "</span><span style="color:#859900;">#</span><span style="color:#cb4b16;">body</span><span style="color:var(--fg);">" is </span><span style="color:#859900;">#</span><span style="color:#cb4b16;">size.width</span><span style="color:#657b83;">]
+</span><span style="color:#657b83;">})
+</span><span style="color:var(--fg);">
+</span><span style="color:#b58900;">#thing</span><span style="color:#657b83;">[</span><span style="color:var(--fg);">Hey</span><span style="color:#657b83;">] </span><span style="color:#dc322f;">\
+</span><span style="color:#b58900;">#thing</span><span style="color:#657b83;">[</span><span style="color:var(--fg);">Welcome</span><span style="color:#657b83;">]</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/5afe1855072b4ee8e343e5b5aa79affae5b17bc89738ffbe93dac245576cdd04-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <h1 id="layout">
+        <a class="header" href="#layout">
+         Layout
+        </a>
+       </h1>
+       <p>
+        Layout is similar to
+        <code class="hljs">
+         <span style="color:var(--fg);">
+          measure
+         </span>
+        </code>
+        , but it returns current scope
+        <strong>
+         parent size
+        </strong>
+        .
+       </p>
+       <p>
+        If you are putting elements in block, that will be block's size. If you are just putting right on the page, that will be page's size.
+       </p>
+       <p>
+        As parent's size depends on it's place in document, it uses the similar scheme to
+        <code class="hljs">
+         <span style="color:var(--fg);">
+          locate
+         </span>
+        </code>
+        and
+        <code class="hljs">
+         <span style="color:var(--fg);">
+          style
+         </span>
+        </code>
+        :
+       </p>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#b58900;">#layout</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">size </span><span style="color:#859900;">=&gt; </span><span style="color:#657b83;">{
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">let</span><span style="color:var(--fg);"> half </span><span style="color:#859900;">= </span><span style="color:#6c71c4;">50% </span><span style="color:#859900;">*</span><span style="color:var(--fg);"> size.width
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">[</span><span style="color:var(--fg);">Half a page is </span><span style="color:#859900;">#</span><span style="color:#cb4b16;">half</span><span style="color:var(--fg);"> wide.</span><span style="color:#657b83;">]
+</span><span style="color:#657b83;">})</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/c68a166f6e6b1b3229fd56478ae302dbeb39c882e229c69d4c6ebb6c9c528985-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+       <p>
+        It may be extremely useful to combine
+        <code class="hljs">
+         <span style="color:var(--fg);">
+          layout
+         </span>
+        </code>
+        with
+        <code class="hljs">
+         <span style="color:var(--fg);">
+          measure
+         </span>
+        </code>
+        , to get width of things that depend on parent's size:
+       </p>
+       <div style="margin-bottom: 0.5em">
+        <pre style="margin: 0"><code class="language-typ hljs"><span style="color:#859900;">#let</span><span style="color:var(--fg);"> text </span><span style="color:#859900;">= lorem</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">30</span><span style="color:#657b83;">)
+</span><span style="color:#b58900;">#layout</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">size </span><span style="color:#859900;">=&gt; style</span><span style="color:#657b83;">(</span><span style="color:var(--fg);">styles </span><span style="color:#859900;">=&gt; </span><span style="color:#657b83;">[
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">#let </span><span style="color:#657b83;">(</span><span style="color:var(--fg);">height,</span><span style="color:#657b83;">) </span><span style="color:#859900;">= measure</span><span style="color:#657b83;">(
+</span><span style="color:var(--fg);">    </span><span style="color:#859900;">block</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">width</span><span style="color:var(--fg);">: size.width, text</span><span style="color:#657b83;">)</span><span style="color:var(--fg);">,
+</span><span style="color:var(--fg);">    styles,
+</span><span style="color:var(--fg);">  </span><span style="color:#657b83;">)
+</span><span style="color:var(--fg);">  This text is </span><span style="color:#859900;">#</span><span style="color:#cb4b16;">height</span><span style="color:var(--fg);"> high with
+</span><span style="color:var(--fg);">  the current page width: </span><span style="color:#dc322f;">\
+</span><span style="color:var(--fg);">  </span><span style="color:#859900;">#</span><span style="color:#cb4b16;">text
+</span><span style="color:#657b83;">]))</span></code></pre>
+        <div style="
+                        text-align: center;
+                        padding: 0.5em;
+                        background: var(--quote-bg);
+                        ">
+         <img align="middle" alt="Rendered image" src="typst-img/93167dc0b22b02fe27aa92c6b03c2281665b4352624364a19c63f61a488aa75a-1.svg" style="
+                        background: white;
+                        max-width: 500pt;
+                        width: 100%;
+                    "/>
+        </div>
+       </div>
+      </main>
