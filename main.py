@@ -4,15 +4,16 @@ import time
 
 from tqdm import tqdm
 
-from DirStructure import DirStructureFromURLList, OutputJsonWalk, PrintJsonWalk
-from Downloader import LoadUrlsFromJson, SavePageAsPdf
-from HTMLtoLatex import (
+from Converter import (
     CombineDirs,
     CombineFiles,
     FlattenDir,
     GroupFilesByExtension,
     HtmlDirToLatex,
+    HtmlDirToMarkdown,
 )
+from DirStructure import DirStructureFromURLList, OutputJsonWalk, PrintJsonWalk
+from Downloader import LoadUrlsFromJson, SavePageAsPdf
 from Scraper import GetUrls, OutputJson
 
 
@@ -258,9 +259,9 @@ if __name__ == "__main__":
 
     # GroupFilesByExtension(dirPath="Package List LaTeX", ext=".tex")
     # GroupFilesByExtension(dirPath="Examples Book LaTeX", ext=".tex")
-    GroupFilesByExtension(dirPath="C Examples Book LaTeX", ext=".tex")
+    # GroupFilesByExtension(dirPath="C Examples Book LaTeX", ext=".tex")
     # HtmlDirToLatex(htmlDir="Docs HTML", latexDir="Docs LaTeX")
 
-    PrintJsonWalk(walkGen=os.walk("Combined Examples Book LaTeX"), fileSize=True)
+    raise SystemExit
 
     # main()

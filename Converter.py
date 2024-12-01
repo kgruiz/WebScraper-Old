@@ -6,6 +6,7 @@ from math import ceil
 from pathlib import Path
 from typing import List, Optional
 
+import html2text
 import pypandoc
 from tqdm import tqdm
 
@@ -90,8 +91,6 @@ def HtmlDirToLatex(htmlDir: str, latexDir: str, fileNameFull: bool = False) -> d
     )
 
     dirStructure = os.walk(top=htmlDir)
-
-    i = 0
 
     with tqdm(total=totalFiles, desc="Converting HTML to LaTeX") as bar:
 
@@ -351,6 +350,82 @@ def CombineFiles(
                 groupNum=groupNumber,
                 outDir=outDir,
             )
+
+
+def HTMLToMarkdown(htmlFile: str, outFile: str) -> None:
+
+    with open(htmlFile, "r") as file:
+
+        htmlContent = file.read()
+
+    htmlConverter = html2text.HTML2Text()
+    htmlConverter.ignore_links = False
+    mdContent = htmlConverter.handle(htmlContent)
+
+    with open(outFile, "r") as file:
+
+        file.write(mdContent)
+
+
+def HtmlDirToMarkdown(
+    htmlDir: str, markdownDir: str, fileNameFull: bool = False
+) -> None:
+    """
+    Convert all HTML files in a directory to Markdown format using HTMLToMarkdown and HtmlRemoveSections.
+
+    Parameters
+    ----------
+    htmlDir : str
+        The directory containing HTML files.
+    markdownDir : str
+        The directory where Markdown files will be saved.
+    fileNameFull : bool, optional
+        Whether to use the full file name, by default False.
+    """
+    if htmlDir[-1] != "/":
+        htmlDir += "/"
+
+    os.makedirs(markdownDir, exist_ok=True)
+
+    dirStructure = os.walk(top=htmlDir)
+
+    totalFiles = sum(
+        1 for _, _, files in dirStructure for file in files if file.endswith(".html")
+    )
+
+    dirStructure = os.walk(top=htmlDir)
+
+    with tqdm(total=totalFiles, desc="Converting HTML to Markdown") as bar:
+        for root, dirs, files in dirStructure:
+            for fileName in files:
+                if fileName.endswith(".html"):
+                    bar.set_postfix_str(f"{root.split('/')[-1]}/{fileName}", True)
+
+                    baseName = fileName.split(".html")[0]
+
+                    markdownOutputDir = os.path.join(
+                        markdownDir, root.replace(htmlDir, "")
+                    )
+                    os.makedirs(markdownOutputDir, exist_ok=True)
+
+                    htmlFilePath = os.path.join(root, fileName)
+                    markdownOutputPath = os.path.join(
+                        markdownOutputDir, f"{baseName}.md"
+                    )
+
+                    if fileNameFull:
+                        fullFileName = f"{root.replace(htmlDir, '').replace('/', '_')}-{baseName}.md"
+                        markdownOutputPath = os.path.join(
+                            markdownOutputDir, fullFileName
+                        )
+
+                    # Call HtmlRemoveSections before conversion
+                    HtmlRemoveSections(htmlFilePath=htmlFilePath)
+
+                    # Call HTMLToMarkdown for conversion
+                    HTMLToMarkdown(htmlFile=htmlFilePath, outFile=markdownOutputPath)
+
+                    bar.update()
 
 
 def GroupFilesByExtension(
