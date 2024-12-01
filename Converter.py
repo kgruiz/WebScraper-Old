@@ -362,7 +362,7 @@ def HTMLToMarkdown(htmlFile: str, outFile: str) -> None:
     htmlConverter.ignore_links = False
     mdContent = htmlConverter.handle(htmlContent)
 
-    with open(outFile, "r") as file:
+    with open(outFile, "w") as file:
 
         file.write(mdContent)
 
@@ -428,10 +428,134 @@ def HtmlDirToMarkdown(
                     bar.update()
 
 
+def MarkdownToTypst(filePath: Path, outPath: Path) -> None:
+
+    with filePath.open("r") as file:
+
+        content = file.read()
+
+    minLevel = 1
+    maxLevel = 6
+
+    for headingLevel in range(minLevel, maxLevel + 1):
+
+        headingPattern = rf"^{'#' * headingLevel} "
+
+        content = re.sub(
+            pattern=headingPattern,
+            repl=rf"{'=' * headingLevel} ",
+            string=content,
+            flags=re.MULTILINE,
+        )
+
+    functionStartLinePattern = r"(^\s*#[a-zA-Z].*)"
+
+    matches = re.finditer(
+        pattern=functionStartLinePattern,
+        string=content,
+        flags=re.MULTILINE,
+    )
+
+    functionRanges = []
+
+    for match in matches:
+        functionStartLine = match.group(1)
+
+        openingParenth = functionStartLine.count("(")
+        openingCurly = functionStartLine.count("{")
+
+        closingParenth = functionStartLine.count(")")
+        closingCurly = functionStartLine.count("}")
+
+        if openingParenth != closingParenth or openingCurly != closingCurly:
+            charIndex = match.end()
+
+            while openingParenth != closingParenth or openingCurly != closingCurly:
+                if charIndex >= len(content):
+                    break  # Prevent IndexError
+                char = content[charIndex]
+
+                if char == "(":
+                    openingParenth += 1
+                elif char == ")":
+                    closingParenth += 1
+                elif char == "{":
+                    openingCurly += 1
+                elif char == "}":
+                    closingCurly += 1
+
+                charIndex += 1
+
+            nextNewline = content.find("\n", charIndex)
+
+            if nextNewline != -1:
+
+                charIndex = nextNewline + 1
+
+            functionRanges.append((match.start(), charIndex))
+
+    bulletPattern = r"^(\s*)\*(\s\S)"
+
+    content = re.sub(
+        pattern=bulletPattern,
+        repl=rf"\1-\2",
+        string=content,
+        flags=re.MULTILINE,
+    )
+
+    italicPattern = r"(?<!\*)\*(?!\s)([^\*\s][^\*]*[^\*\s])\*(?!\*)"
+    boldPattern = r"\*\*(.+?)\*\*"
+
+    newContent = ""
+    lastIndex = 0
+
+    for start, end in functionRanges:
+        # Apply substitutions outside function ranges
+        outside = content[lastIndex:start]
+        outside = re.sub(
+            pattern=italicPattern,
+            repl=rf"_\1_",
+            string=outside,
+            flags=re.MULTILINE | re.DOTALL,
+        )
+        outside = re.sub(
+            pattern=boldPattern,
+            repl=rf"*\1*",
+            string=outside,
+            flags=re.MULTILINE | re.DOTALL,
+        )
+        newContent += outside
+        # Add function range without substitutions
+        newContent += content[start:end]
+        lastIndex = end
+    # Apply substitutions to the remaining content after the last function range
+    outside = content[lastIndex:]
+    outside = re.sub(
+        pattern=italicPattern,
+        repl=rf"_\1_",
+        string=outside,
+        flags=re.MULTILINE | re.DOTALL,
+    )
+    outside = re.sub(
+        pattern=boldPattern,
+        repl=rf"*\1*",
+        string=outside,
+        flags=re.MULTILINE | re.DOTALL,
+    )
+    newContent += outside
+
+    content = newContent
+
+    with outPath.open("w") as file:
+
+        file.write(content)
+
+
 def GroupFilesByExtension(
     dirPath: str,
     ext: str,
     groupedFileName: Optional[str] = None,
+    groupAll: bool = False,
 ):
     """
     Recursively groups all files with a specified extension within a directory and its subdirectories
@@ -489,102 +613,183 @@ def GroupFilesByExtension(
     # Normalize the extension
     normalizedExt = ext.lower().lstrip(".")
 
-    # Define the root output directory
-    outputRoot = dirPathPath.parent / f"Combined {dirPathPath.name}"
-    outputRoot.mkdir(parents=True, exist_ok=True)
-
-    # Gather all subdirectories using os.walk (bottom-up to handle deletions)
-    allDirs = [root for root, dirs, files in os.walk(dirPathPath, topdown=False)]
-
     groupedFiles = set()
 
-    # Initialize tqdm with total directories for better progress tracking
-    with tqdm(total=len(allDirs), desc="Processing directories", unit="dir") as bar:
-        for root in allDirs:
-            currentDirPath = Path(root)
-            relativePath = currentDirPath.relative_to(dirPathPath)
-            outputDirPath = outputRoot / relativePath
-            outputDirPath.mkdir(parents=True, exist_ok=True)
+    if groupAll:
 
-            # Filter files with the specified extension
-            filteredFiles = [
-                f
-                for f in os.listdir(currentDirPath)
-                if f.lower().endswith(f".{normalizedExt}")
-                and (currentDirPath / f).is_file()
-            ]
+        def HeadingFromPath(filePath: Path, baseDir: Path, ext: str) -> str:
 
-            if not filteredFiles:
-                # No matching files, skip to next directory
+            relativePath = filePath.relative_to(baseDir)
+            pathStr = relativePath.as_posix()
+
+            if ext == ".tex":
+
+                return rf"\section{{{pathStr}}}"
+
+            elif ext == ".md":
+
+                return rf"# **{pathStr}**"
+
+            else:
+
+                return rf"## {pathStr}"
+
+        numFiles = sum(
+            1
+            for entry in dirPathPath.rglob("*")
+            if not entry.is_file() or entry.suffix != ext
+        )
+
+        with tqdm(total=numFiles, desc="Reading files", unit="file") as bar:
+
+            files: List[tuple[Path, str]] = []
+
+            for entry in dirPathPath.rglob("*"):
+
+                if not entry.is_file() or entry.suffix != ext:
+
+                    continue
+
+                with entry.open("r") as file:
+
+                    fileContent = file.read()
+
+                files.append((entry, fileContent))
+
+                bar.update()
+
+        with tqdm(total=len(files), desc="Writing Grouped File", unit="file") as bar:
+
+            if groupedFileName:
+
+                groupedName = groupedFileName
+
+            else:
+
+                groupedName = f"{dirPathPath.name}.{normalizedExt}"
+
+            outDir = Path(dirPathPath.parent, f"Combined {dirPathPath.name}")
+
+            outDir.mkdir(parents=True, exist_ok=True)
+
+            groupedFile = Path(outDir, groupedName)
+
+            with groupedFile.open("w") as file:
+
+                file.write(
+                    f"\n\n{HeadingFromPath(filePath=dirPathPath, baseDir=dirPathPath.parent, ext=ext)}\n\n"
+                )
+
+                for filePath, fileContent in files:
+
+                    file.write(
+                        f"\n\n{HeadingFromPath(filePath=filePath, baseDir=dirPathPath, ext=ext)}\n\n"
+                    )
+
+                    file.write(fileContent)
+
+                    bar.update()
+
+    else:
+
+        # Define the root output directory
+        outputRoot = dirPathPath / f"Combined {dirPathPath.name}"
+        outputRoot.mkdir(parents=True, exist_ok=True)
+
+        # Gather all subdirectories using os.walk (bottom-up to handle deletions)
+        allDirs = [root for root, dirs, files in os.walk(dirPathPath, topdown=False)]
+
+        # Initialize tqdm with total directories for better progress tracking
+        with tqdm(total=len(allDirs), desc="Processing directories", unit="dir") as bar:
+            for root in allDirs:
+                currentDirPath = Path(root)
+                relativePath = currentDirPath.relative_to(dirPathPath)
+                outputDirPath = outputRoot / relativePath
+                outputDirPath.mkdir(parents=True, exist_ok=True)
+
+                # Filter files with the specified extension
+                filteredFiles = [
+                    f
+                    for f in os.listdir(currentDirPath)
+                    if f.lower().endswith(f".{normalizedExt}")
+                    and (currentDirPath / f).is_file()
+                ]
+
+                if not filteredFiles:
+                    # No matching files, skip to next directory
+                    bar.update(1)
+                    continue
+
+                # Determine the name of the grouped file
+                if groupedFileName:
+                    groupedName = groupedFileName
+                else:
+                    groupedName = f"{currentDirPath.name}.{normalizedExt}"
+
+                groupedFilePath = outputDirPath / groupedName
+
+                try:
+                    with groupedFilePath.open("w", encoding="utf-8") as outfile:
+
+                        if groupedFilePath in groupedFiles:
+
+                            raise Exception(f"File {groupedFilePath} already exists")
+
+                        else:
+
+                            groupedFiles.add(groupedFilePath)
+
+                        for fileName in filteredFiles:
+                            filePath = currentDirPath / fileName
+                            try:
+                                with filePath.open("r", encoding="utf-8") as infile:
+                                    content = infile.read()
+
+                                    # Prepare the title line with relative path from parent of dirPath
+                                    # This goes back one more directory level
+                                    relativeFilePath = filePath.relative_to(
+                                        dirPathPath.parent
+                                    )
+                                    if normalizedExt == "tex":
+                                        # LaTeX formatted title
+                                        titleLine = f"\\section{{{relativeFilePath}}}\n"
+                                    else:
+                                        # Plain text title
+                                        titleLine = f"Path: {relativeFilePath}\n"
+
+                                    # Write the title and content to the grouped file
+                                    outfile.write(titleLine)
+                                    outfile.write(content)
+                                    outfile.write(
+                                        "\n\n"
+                                    )  # Optional: Add spacing between files
+                            except Exception as fileErr:
+                                # Update tqdm postfix with file read error
+                                bar.set_postfix(
+                                    file_error=f"Error reading {filePath.name}"
+                                )
+                        # Reset postfix after successful processing
+                        bar.set_postfix(file_error="")
+                except Exception as groupErr:
+                    # Update tqdm postfix with grouped file write error
+                    bar.set_postfix(group_error=f"Error writing {groupedFilePath.name}")
+                    bar.update(1)
+                    continue  # Skip further processing for this directory
+
+                # Update the progress bar
                 bar.update(1)
+
+        allDirs = [
+            Path(root) for root, dirs, files in os.walk(outputRoot, topdown=False)
+        ]
+
+        for root in allDirs:
+
+            if root == outputRoot:
+
                 continue
 
-            # Determine the name of the grouped file
-            if groupedFileName:
-                groupedName = groupedFileName
-            else:
-                groupedName = f"{currentDirPath.name}.{normalizedExt}"
-
-            groupedFilePath = outputDirPath / groupedName
-
-            try:
-                with groupedFilePath.open("w", encoding="utf-8") as outfile:
-
-                    if groupedFilePath in groupedFiles:
-
-                        raise Exception(f"File {groupedFilePath} already exists")
-
-                    else:
-
-                        groupedFiles.add(groupedFilePath)
-
-                    for fileName in filteredFiles:
-                        filePath = currentDirPath / fileName
-                        try:
-                            with filePath.open("r", encoding="utf-8") as infile:
-                                content = infile.read()
-
-                                # Prepare the title line with relative path from parent of dirPath
-                                # This goes back one more directory level
-                                relativeFilePath = filePath.relative_to(
-                                    dirPathPath.parent
-                                )
-                                if normalizedExt == "tex":
-                                    # LaTeX formatted title
-                                    titleLine = f"\\section{{{relativeFilePath}}}\n"
-                                else:
-                                    # Plain text title
-                                    titleLine = f"Path: {relativeFilePath}\n"
-
-                                # Write the title and content to the grouped file
-                                outfile.write(titleLine)
-                                outfile.write(content)
-                                outfile.write(
-                                    "\n\n"
-                                )  # Optional: Add spacing between files
-                        except Exception as fileErr:
-                            # Update tqdm postfix with file read error
-                            bar.set_postfix(file_error=f"Error reading {filePath.name}")
-                    # Reset postfix after successful processing
-                    bar.set_postfix(file_error="")
-            except Exception as groupErr:
-                # Update tqdm postfix with grouped file write error
-                bar.set_postfix(group_error=f"Error writing {groupedFilePath.name}")
-                bar.update(1)
-                continue  # Skip further processing for this directory
-
-            # Update the progress bar
-            bar.update(1)
-
-    allDirs = [Path(root) for root, dirs, files in os.walk(outputRoot, topdown=False)]
-
-    for root in allDirs:
-
-        if root == outputRoot:
-
-            continue
-
-        DelEmptyGroupedDir(dirPath=root, groupedFiles=groupedFiles)
+            DelEmptyGroupedDir(dirPath=root, groupedFiles=groupedFiles)
 
     # Final description update to indicate completion
     with tqdm(total=0) as finalBar:

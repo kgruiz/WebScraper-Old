@@ -1,6 +1,7 @@
 import argparse
 import os
 import time
+from pathlib import *
 
 from tqdm import tqdm
 
@@ -11,6 +12,7 @@ from Converter import (
     GroupFilesByExtension,
     HtmlDirToLatex,
     HtmlDirToMarkdown,
+    MarkdownToTypst,
 )
 from DirStructure import DirStructureFromURLList, OutputJsonWalk, PrintJsonWalk
 from Downloader import LoadUrlsFromJson, SavePageAsPdf
@@ -261,6 +263,73 @@ if __name__ == "__main__":
     # GroupFilesByExtension(dirPath="Examples Book LaTeX", ext=".tex")
     # GroupFilesByExtension(dirPath="C Examples Book LaTeX", ext=".tex")
     # HtmlDirToLatex(htmlDir="Docs HTML", latexDir="Docs LaTeX")
+
+    # startDirPath = Path(f".")
+
+    # for item in startDirPath.rglob("*"):
+
+    #     if item.is_dir():
+
+    #         if "HTML" in item.name and "Universe" not in item.name:
+
+    #             htmlDir = item.resolve()
+
+    #             mkPath = htmlDir.parent / f"{htmlDir.parent.name} Markdown"
+
+    #             mkPath.mkdir(parents=True, exist_ok=True)
+
+    #             HtmlDirToMarkdown(
+    #                 htmlDir=htmlDir.as_posix(), markdownDir=mkPath.as_posix()
+    #             )
+
+    startDirPath = Path(f".")
+
+    dirNames = [
+        Path("Examples Book/Examples Book Markdown"),
+        Path("Package List/Package List Markdown"),
+        Path("Typst Docs/Typst Docs Markdown"),
+    ]
+
+    # for item in dirNames:
+
+    #     if item.is_dir():
+
+    #         mdDir = item.resolve()
+
+    #         GroupFilesByExtension(dirPath=mdDir, groupAll=True, ext=".md")
+
+    dirNames = [
+        Path("Examples Book/Combined Examples Book Markdown"),
+        Path("Package List/Combined Package List Markdown"),
+        Path("Typst Docs/Combined Typst Docs Markdown"),
+    ]
+
+    for directory in dirNames:
+
+        directory = directory.resolve()
+
+        mdPath = list(directory.iterdir())[0]
+
+        typstFileName = Path(f'{directory.name.replace("Markdown", "Typst")}.typ')
+        typstOutputDir = Path(
+            directory.parent, directory.name.replace("Markdown", "Typst")
+        )
+
+        typstOutputDir.mkdir(parents=True, exist_ok=True)
+
+        typstOutputFilePath = Path(typstOutputDir, typstFileName)
+
+        MarkdownToTypst(filePath=mdPath, outPath=typstOutputFilePath)
+
+    for directory in dirNames:
+
+        combinedName = f"Combined {directory.name}"
+
+        combinedDir = Path(directory.parent, combinedName)
+
+        if combinedDir.exists():
+
+            PrintJsonWalk(walkGen=os.walk(combinedDir), fileSize=True)
 
     raise SystemExit
 
