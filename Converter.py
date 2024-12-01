@@ -546,6 +546,57 @@ def MarkdownToTypst(filePath: Path, outPath: Path) -> None:
 
     content = newContent
 
+    # inlinePattern = r"((?<!\\)(\[[^\]]+\]\([^)]+\)|https?://[^\s)]+))"
+
+    # referenceUsagePattern = r"((?<!\\)\[[^\]]+\]\[[^\]]+\])"
+
+    # referenceDefinitionPattern = r"(^\s*\[[^\]]+\]:\s*\S+(?:\s+\"[^\"]+\")?$)"
+
+    # imagePattern = r"((?<!\\)!\[[^\]]*\]\([^)]+\))"
+
+    # imageAsLinkPattern = r"((?<!\\)\[!\[[^\]]*\]\([^)]+\)\]\([^)]+\))"
+
+    # for pattern in [
+    #     inlinePattern,
+    #     referenceUsagePattern,
+    #     imagePattern,
+    #     imageAsLinkPattern,
+    # ]:
+
+    #     for match in re.finditer(pattern=pattern, string=content, flags=re.DOTALL):
+
+    #         isWithinFunctionRange = any(
+    #             start <= match.start() < end or start < match.end() <= end
+    #             for start, end in functionRanges
+    #         )
+
+    #         if not isWithinFunctionRange:
+
+    #             content = (
+    #                 content[: match.start()]
+    #                 + r"/*"
+    #                 + match.group(1)
+    #                 + r"*/"
+    #                 + content[match.end() :]
+    #             )
+
+    # for match in re.finditer(pattern=referenceDefinitionPattern, string=content):
+
+    #     isWithinFunctionRange = any(
+    #         start <= match.start() < end or start < match.end() <= end
+    #         for start, end in functionRanges
+    #     )
+
+    #     if not isWithinFunctionRange:
+
+    #         content = (
+    #             content[: match.start()]
+    #             + r"/*"
+    #             + match.group(1)
+    #             + r"*/"
+    #             + content[match.end() :]
+    #         )
+
     with outPath.open("w") as file:
 
         file.write(content)
