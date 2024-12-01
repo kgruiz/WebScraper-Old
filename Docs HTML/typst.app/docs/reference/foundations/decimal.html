@@ -1,0 +1,507 @@
+<main>
+    <ul aria-label="Breadcrumbs" class="breadcrumbs">
+     <li class="root">
+      <a href="/docs">
+       <img alt="Docs" height="16" src="/assets/icons/16-docs-dark.svg" width="16"/>
+      </a>
+     </li>
+     <li aria-hidden="true">
+      <img alt="" height="16" src="/assets/icons/16-arrow-right.svg" width="16"/>
+     </li>
+     <li>
+      <a href="/docs/reference/">
+       Reference
+      </a>
+     </li>
+     <li aria-hidden="true">
+      <img alt="" height="16" src="/assets/icons/16-arrow-right.svg" width="16"/>
+     </li>
+     <li>
+      <a href="/docs/reference/foundations/">
+       Foundations
+      </a>
+     </li>
+     <li aria-hidden="true">
+      <img alt="" height="16" src="/assets/icons/16-arrow-right.svg" width="16"/>
+     </li>
+     <li>
+      <a href="/docs/reference/foundations/decimal/">
+       Decimal
+      </a>
+     </li>
+    </ul>
+    <h1 id="summary">
+     <span class="pill pill-obj">
+      decimal
+     </span>
+    </h1>
+    <p>
+     A fixed-point decimal number type.
+    </p>
+    <p>
+     This type should be used for precise arithmetic operations on numbers represented in base 10. A typical use case is representing currency.
+    </p>
+    <h2 id="example">
+     Example
+    </h2>
+    <div class="previewed-code">
+     <pre><code>Decimal: <span class="typ-punct">#</span><span class="typ-punct">(</span><span class="typ-func">decimal</span><span class="typ-punct">(</span><span class="typ-str">"0.1"</span><span class="typ-punct">)</span> <span class="typ-op">+</span> <span class="typ-func">decimal</span><span class="typ-punct">(</span><span class="typ-str">"0.2"</span><span class="typ-punct">)</span><span class="typ-punct">)</span> <span class="typ-escape">\</span>
+Float: <span class="typ-punct">#</span><span class="typ-punct">(</span><span class="typ-num">0.1</span> <span class="typ-op">+</span> <span class="typ-num">0.2</span><span class="typ-punct">)</span>
+</code></pre>
+     <div class="preview">
+      <img alt="Preview" height="103/" src="/assets/docs/W31Kvh6BvfIgTgIeq2uIEQAAAAAAAAAA.png" width="480"/>
+     </div>
+    </div>
+    <h2 id="construction-and-casts">
+     Construction and casts
+    </h2>
+    <p>
+     To create a decimal number, use the
+     <code>
+      <span class="typ-func">
+       decimal
+      </span>
+      <span class="typ-punct">
+       (
+      </span>
+      string
+      <span class="typ-punct">
+       )
+      </span>
+     </code>
+     constructor, such as in
+     <code>
+      <span class="typ-func">
+       decimal
+      </span>
+      <span class="typ-punct">
+       (
+      </span>
+      <span class="typ-str">
+       "3.141592653"
+      </span>
+      <span class="typ-punct">
+       )
+      </span>
+     </code>
+     <strong>
+      (note the double quotes!)
+     </strong>
+     . This constructor preserves all given fractional digits, provided they are representable as per the limits specified below (otherwise, an error is raised).
+    </p>
+    <p>
+     You can also convert any
+     <a href="/docs/reference/foundations/int/">
+      integer
+     </a>
+     to a decimal with the
+     <code>
+      <span class="typ-func">
+       decimal
+      </span>
+      <span class="typ-punct">
+       (
+      </span>
+      int
+      <span class="typ-punct">
+       )
+      </span>
+     </code>
+     constructor, e.g.
+     <code>
+      <span class="typ-func">
+       decimal
+      </span>
+      <span class="typ-punct">
+       (
+      </span>
+      <span class="typ-num">
+       59
+      </span>
+      <span class="typ-punct">
+       )
+      </span>
+     </code>
+     . However, note that constructing a decimal from a
+     <a href="/docs/reference/foundations/float/">
+      floating-point number
+     </a>
+     , while supported,
+     <strong>
+      is an imprecise conversion and therefore discouraged.
+     </strong>
+     A warning will be raised if Typst detects that there was an accidental
+     <code>
+      float
+     </code>
+     to
+     <code>
+      decimal
+     </code>
+     cast through its constructor, e.g. if writing
+     <code>
+      <span class="typ-func">
+       decimal
+      </span>
+      <span class="typ-punct">
+       (
+      </span>
+      <span class="typ-num">
+       3.14
+      </span>
+      <span class="typ-punct">
+       )
+      </span>
+     </code>
+     (note the lack of double quotes, indicating this is an accidental
+     <code>
+      float
+     </code>
+     cast and therefore imprecise). It is recommended to use strings for constant decimal values instead (e.g.
+     <code>
+      <span class="typ-func">
+       decimal
+      </span>
+      <span class="typ-punct">
+       (
+      </span>
+      <span class="typ-str">
+       "3.14"
+      </span>
+      <span class="typ-punct">
+       )
+      </span>
+     </code>
+     ).
+    </p>
+    <p>
+     The precision of a
+     <code>
+      float
+     </code>
+     to
+     <code>
+      decimal
+     </code>
+     cast can be slightly improved by rounding the result to 15 digits with
+     <a href="/docs/reference/foundations/calc/#functions-round">
+      <code>
+       calc.round
+      </code>
+     </a>
+     , but there are still no precision guarantees for that kind of conversion.
+    </p>
+    <h2 id="operations">
+     Operations
+    </h2>
+    <p>
+     Basic arithmetic operations are supported on two decimals and on pairs of decimals and integers.
+    </p>
+    <p>
+     Built-in operations between
+     <code>
+      float
+     </code>
+     and
+     <code>
+      decimal
+     </code>
+     are not supported in order to guard against accidental loss of precision. They will raise an error instead.
+    </p>
+    <p>
+     Certain
+     <code>
+      calc
+     </code>
+     functions, such as trigonometric functions and power between two real numbers, are also only supported for
+     <code>
+      float
+     </code>
+     (although raising
+     <code>
+      decimal
+     </code>
+     to integer exponents is supported). You can opt into potentially imprecise operations with the
+     <code>
+      <span class="typ-func">
+       float
+      </span>
+      <span class="typ-punct">
+       (
+      </span>
+      decimal
+      <span class="typ-punct">
+       )
+      </span>
+     </code>
+     constructor, which casts the
+     <code>
+      decimal
+     </code>
+     number into a
+     <code>
+      float
+     </code>
+     , allowing for operations without precision guarantees.
+    </p>
+    <h2 id="displaying-decimals">
+     Displaying decimals
+    </h2>
+    <p>
+     To display a decimal, simply insert the value into the document. To only display a certain number of digits,
+     <a href="/docs/reference/foundations/calc/#functions-round">
+      round
+     </a>
+     the decimal first. Localized formatting of decimals and other numbers is not yet supported, but planned for the future.
+    </p>
+    <p>
+     You can convert decimals to strings using the
+     <a href="/docs/reference/foundations/str/" title="`str`">
+      <code>
+       str
+      </code>
+     </a>
+     constructor. This way, you can post-process the displayed representation, e.g. to replace the period with a comma (as a stand-in for proper built-in localization to languages that use the comma).
+    </p>
+    <h2 id="precision-and-limits">
+     Precision and limits
+    </h2>
+    <p>
+     A
+     <code>
+      decimal
+     </code>
+     number has a limit of 28 to 29 significant base-10 digits. This includes the sum of digits before and after the decimal point. As such, numbers with more fractional digits have a smaller range. The maximum and minimum
+     <code>
+      decimal
+     </code>
+     numbers have a value of
+     <code>
+      <span class="typ-num">
+       79228162514264337593543950335
+      </span>
+     </code>
+     and
+     <code>
+      <span class="typ-op">
+       -
+      </span>
+      <span class="typ-num">
+       79228162514264337593543950335
+      </span>
+     </code>
+     respectively. In contrast with
+     <a href="/docs/reference/foundations/float/" title="`float`">
+      <code>
+       float
+      </code>
+     </a>
+     , this type does not support infinity or NaN, so overflowing or underflowing operations will raise an error.
+    </p>
+    <p>
+     Typical operations between
+     <code>
+      decimal
+     </code>
+     numbers, such as addition, multiplication, and
+     <a href="/docs/reference/foundations/calc/#functions-pow">
+      power
+     </a>
+     to an integer, will be highly precise due to their fixed-point representation. Note, however, that multiplication and division may not preserve all digits in some edge cases: while they are considered precise, digits past the limits specified above are rounded off and lost, so some loss of precision beyond the maximum representable digits is possible. Note that this behavior can be observed not only when dividing, but also when multiplying by numbers between 0 and 1, as both operations can push a number's fractional digits beyond the limits described above, leading to rounding. When those two operations do not surpass the digit limits, they are fully precise.
+    </p>
+    <h2 id="constructor">
+     Constructor
+     <small>
+      <div class="tooltip-context">
+       <svg aria-labelledby=":R38n9a:-label" height="12" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 12 12" width="12">
+        <title id=":R38n9a:-label">
+         Question mark
+        </title>
+        <use href="/assets/icons/12-tooltip.svg#icon">
+        </use>
+       </svg>
+       <div aria-hidden="true" id="constructor-constructor-tooltip" role="tooltip" tabindex="-1">
+        If a type has a constructor, you can call it like a function to create a new value of the type.
+       </div>
+      </div>
+     </small>
+    </h2>
+    <p>
+     Converts a value to a
+     <code>
+      decimal
+     </code>
+     .
+    </p>
+    <p>
+     It is recommended to use a string to construct the decimal number, or an
+     <a href="/docs/reference/foundations/int/">
+      integer
+     </a>
+     (if desired). The string must contain a number in the format
+     <code>
+      <span class="typ-str">
+       "3.14159"
+      </span>
+     </code>
+     (or
+     <code>
+      <span class="typ-str">
+       "-3.141519"
+      </span>
+     </code>
+     for negative numbers). The fractional digits are fully preserved; if that's not possible due to the limit of significant digits (around 28 to 29) having been reached, an error is raised as the given decimal number wouldn't be representable.
+    </p>
+    <p>
+     While this constructor can be used with
+     <a href="/docs/reference/foundations/float/">
+      floating-point numbers
+     </a>
+     to cast them to
+     <code>
+      decimal
+     </code>
+     , doing so is
+     <strong>
+      discouraged
+     </strong>
+     as
+     <strong>
+      this cast is inherently imprecise.
+     </strong>
+     It is easy to accidentally perform this cast by writing
+     <code>
+      <span class="typ-func">
+       decimal
+      </span>
+      <span class="typ-punct">
+       (
+      </span>
+      <span class="typ-num">
+       1.234
+      </span>
+      <span class="typ-punct">
+       )
+      </span>
+     </code>
+     (note the lack of double quotes), which is why Typst will emit a warning in that case. Please write
+     <code>
+      <span class="typ-func">
+       decimal
+      </span>
+      <span class="typ-punct">
+       (
+      </span>
+      <span class="typ-str">
+       "1.234"
+      </span>
+      <span class="typ-punct">
+       )
+      </span>
+     </code>
+     instead for that particular case (initialization of a constant decimal). Also note that floats that are NaN or infinite cannot be cast to decimals and will raise an error.
+    </p>
+    <div class="code code-definition single-arg">
+     <span class="typ-func">
+      decimal
+     </span>
+     (
+     <div class="arguments">
+      <span class="overview-param">
+       <a class="pill pill-num" href="/docs/reference/foundations/int/">
+        int
+       </a>
+       <a class="pill pill-num" href="/docs/reference/foundations/float/">
+        float
+       </a>
+       <a class="pill pill-str" href="/docs/reference/foundations/str/">
+        str
+       </a>
+      </span>
+     </div>
+     )
+     <!-- -->
+     -&gt;
+     <a class="pill pill-obj" href="/docs/reference/foundations/decimal/">
+      decimal
+     </a>
+    </div>
+    <div class="previewed-code">
+     <pre><code><span class="typ-func">#</span><span class="typ-func">decimal</span><span class="typ-punct">(</span><span class="typ-str">"1.222222222222222"</span><span class="typ-punct">)</span>
+</code></pre>
+     <div class="preview">
+      <img alt="Preview" height="74/" src="/assets/docs/RfqlB85Q5lIVeebJq7RlmgAAAAAAAAAA.png" width="480"/>
+     </div>
+    </div>
+    <h4 id="constructor-value">
+     <code>
+      value
+     </code>
+     <div class="additional-info">
+      <div>
+       <a class="pill pill-num" href="/docs/reference/foundations/int/">
+        int
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-num" href="/docs/reference/foundations/float/">
+        float
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-str" href="/docs/reference/foundations/str/">
+        str
+       </a>
+      </div>
+      <small>
+       Required
+      </small>
+      <small>
+       <span aria-describedby="constructor-value-positional-tooltip">
+        Positional
+       </span>
+       <div class="tooltip-context">
+        <svg aria-labelledby=":Rcsf79a:-label" height="12" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 12 12" width="12">
+         <title id=":Rcsf79a:-label">
+          Question mark
+         </title>
+         <use href="/assets/icons/12-tooltip.svg#icon">
+         </use>
+        </svg>
+        <div aria-hidden="true" id="constructor-value-positional-tooltip" role="tooltip" tabindex="-1">
+         Positional parameters are specified in order, without names.
+        </div>
+       </div>
+      </small>
+     </div>
+    </h4>
+    <p>
+     The value that should be converted to a decimal.
+    </p>
+    <div class="page-end-buttons">
+     <a class="previous" href="/docs/reference/foundations/datetime/">
+      <img alt="â" src="/assets/icons/16-arrow-right.svg"/>
+      <div>
+       <span class="page-title">
+        Datetime
+       </span>
+       <span class="hint">
+        Previous page
+       </span>
+      </div>
+     </a>
+     <a class="next" href="/docs/reference/foundations/dictionary/">
+      <img alt="â" src="/assets/icons/16-arrow-right.svg"/>
+      <div>
+       <span class="page-title">
+        Dictionary
+       </span>
+       <span class="hint">
+        Next page
+       </span>
+      </div>
+     </a>
+    </div>
+   </main>

@@ -1,0 +1,522 @@
+\title{typst.app/docs/reference/introspection/counter}
+
+\begin{itemize}
+\tightlist
+\item
+  \href{/docs}{\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-docs-dark.svg}}
+\item
+  \includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-arrow-right.svg}
+\item
+  \href{/docs/reference/}{Reference}
+\item
+  \includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-arrow-right.svg}
+\item
+  \href{/docs/reference/introspection/}{Introspection}
+\item
+  \includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-arrow-right.svg}
+\item
+  \href{/docs/reference/introspection/counter/}{Counter}
+\end{itemize}
+
+\section{\texorpdfstring{{ counter }}{ counter }}\label{summary}
+
+Counts through pages, elements, and more.
+
+With the counter function, you can access and modify counters for pages,
+headings, figures, and more. Moreover, you can define custom counters
+for other things you want to count.
+
+Since counters change throughout the course of the document, their
+current value is \emph{contextual.} It is recommended to read the
+chapter on \href{/docs/reference/context/}{context} before continuing
+here.
+
+\subsection{Accessing a counter}\label{accessing}
+
+To access the raw value of a counter, we can use the
+\href{/docs/reference/introspection/counter/\#definitions-get}{\texttt{\ get\ }}
+function. This function returns an
+\href{/docs/reference/foundations/array/}{array} : Counters can have
+multiple levels (in the case of headings for sections, subsections, and
+so on), and each item in the array corresponds to one level.
+
+\begin{verbatim}
+#set heading(numbering: "1.")
+
+= Introduction
+Raw value of heading counter is
+#context counter(heading).get()
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/jqVSznl_yGBcNN9ecF8OVAAAAAAAAAAA.png}
+
+\subsection{Displaying a counter}\label{displaying}
+
+Often, we want to display the value of a counter in a more
+human-readable way. To do that, we can call the
+\href{/docs/reference/introspection/counter/\#definitions-display}{\texttt{\ display\ }}
+function on the counter. This function retrieves the current counter
+value and formats it either with a provided or with an automatically
+inferred \href{/docs/reference/model/numbering/}{numbering} .
+
+\begin{verbatim}
+#set heading(numbering: "1.")
+
+= Introduction
+Some text here.
+
+= Background
+The current value is: #context {
+  counter(heading).display()
+}
+
+Or in roman numerals: #context {
+  counter(heading).display("I")
+}
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/7EUi61p1PXmzQyka_2NqiAAAAAAAAAAA.png}
+
+\subsection{Modifying a counter}\label{modifying}
+
+To modify a counter, you can use the \texttt{\ step\ } and
+\texttt{\ update\ } methods:
+
+\begin{itemize}
+\item
+  The \texttt{\ step\ } method increases the value of the counter by
+  one. Because counters can have multiple levels , it optionally takes a
+  \texttt{\ level\ } argument. If given, the counter steps at the given
+  depth.
+\item
+  The \texttt{\ update\ } method allows you to arbitrarily modify the
+  counter. In its basic form, you give it an integer (or an array for
+  multiple levels). For more flexibility, you can instead also give it a
+  function that receives the current value and returns a new value.
+\end{itemize}
+
+The heading counter is stepped before the heading is displayed, so
+\texttt{\ Analysis\ } gets the number seven even though the counter is
+at six after the second update.
+
+\begin{verbatim}
+#set heading(numbering: "1.")
+
+= Introduction
+#counter(heading).step()
+
+= Background
+#counter(heading).update(3)
+#counter(heading).update(n => n * 2)
+
+= Analysis
+Let's skip 7.1.
+#counter(heading).step(level: 2)
+
+== Analysis
+Still at #context {
+  counter(heading).display()
+}
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/EOYqv5YWVpmiQyBJoYpqQAAAAAAAAAAA.png}
+
+\subsection{Page counter}\label{page-counter}
+
+The page counter is special. It is automatically stepped at each
+pagebreak. But like other counters, you can also step it manually. For
+example, you could have Roman page numbers for your preface, then switch
+to Arabic page numbers for your main content and reset the page counter
+to one.
+
+\begin{verbatim}
+#set page(numbering: "(i)")
+
+= Preface
+The preface is numbered with
+roman numerals.
+
+#set page(numbering: "1 / 1")
+#counter(page).update(1)
+
+= Main text
+Here, the counter is reset to one.
+We also display both the current
+page and total number of pages in
+Arabic numbers.
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/PDCorO6nPZEoa3HjHUVgRwAAAAAAAAAA.png}
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/PDCorO6nPZEoa3HjHUVgRwAAAAAAAAAB.png}
+
+\subsection{Custom counters}\label{custom-counters}
+
+To define your own counter, call the \texttt{\ counter\ } function with
+a string as a key. This key identifies the counter globally.
+
+\begin{verbatim}
+#let mine = counter("mycounter")
+#context mine.display() \
+#mine.step()
+#context mine.display() \
+#mine.update(c => c * 3)
+#context mine.display()
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/CxXLMyCvJp2FnmacPN3WUgAAAAAAAAAA.png}
+
+\subsection{How to step}\label{how-to-step}
+
+When you define and use a custom counter, in general, you should first
+step the counter and then display it. This way, the stepping behaviour
+of a counter can depend on the element it is stepped for. If you were
+writing a counter for, let\textquotesingle s say, theorems, your
+theorem\textquotesingle s definition would thus first include the
+counter step and only then display the counter and the
+theorem\textquotesingle s contents.
+
+\begin{verbatim}
+#let c = counter("theorem")
+#let theorem(it) = block[
+  #c.step()
+  *Theorem #context c.display():*
+  #it
+]
+
+#theorem[$1 = 1$]
+#theorem[$2 < 3$]
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/af6Y7nOR_IldvYHIWDmkIQAAAAAAAAAA.png}
+
+The rationale behind this is best explained on the example of the
+heading counter: An update to the heading counter depends on the
+heading\textquotesingle s level. By stepping directly before the
+heading, we can correctly step from \texttt{\ 1\ } to \texttt{\ 1.1\ }
+when encountering a level 2 heading. If we were to step after the
+heading, we wouldn\textquotesingle t know what to step to.
+
+Because counters should always be stepped before the elements they
+count, they always start at zero. This way, they are at one for the
+first display (which happens after the first step).
+
+\subsection{Time travel}\label{time-travel}
+
+Counters can travel through time! You can find out the final value of
+the counter before it is reached and even determine what the value was
+at any particular location in the document.
+
+\begin{verbatim}
+#let mine = counter("mycounter")
+
+= Values
+#context [
+  Value here: #mine.get() \
+  At intro: #mine.at(<intro>) \
+  Final value: #mine.final()
+]
+
+#mine.update(n => n + 3)
+
+= Introduction <intro>
+#lorem(10)
+
+#mine.step()
+#mine.step()
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/wodRGpSsJgDZtfsMk_GNgwAAAAAAAAAA.png}
+
+\subsection{Other kinds of state}\label{other-state}
+
+The \texttt{\ counter\ } type is closely related to
+\href{/docs/reference/introspection/state/}{state} type. Read its
+documentation for more details on state management in Typst and why it
+doesn\textquotesingle t just use normal variables for counters.
+
+\subsection{\texorpdfstring{Constructor
+{}}{Constructor }}\label{constructor}
+
+\phantomsection\label{constructor-constructor-tooltip}
+If a type has a constructor, you can call it like a function to create a
+new value of the type.
+
+Create a new counter identified by a key.
+
+{ counter } (
+
+{ \href{/docs/reference/foundations/str/}{str}
+\href{/docs/reference/foundations/label/}{label}
+\href{/docs/reference/foundations/selector/}{selector}
+\href{/docs/reference/introspection/location/}{location}
+\href{/docs/reference/foundations/function/}{function} }
+
+) -\textgreater{} \href{/docs/reference/introspection/counter/}{counter}
+
+\paragraph{\texorpdfstring{\texttt{\ key\ }}{ key }}\label{constructor-key}
+
+\href{/docs/reference/foundations/str/}{str} {or}
+\href{/docs/reference/foundations/label/}{label} {or}
+\href{/docs/reference/foundations/selector/}{selector} {or}
+\href{/docs/reference/introspection/location/}{location} {or}
+\href{/docs/reference/foundations/function/}{function}
+
+{Required} {{ Positional }}
+
+\phantomsection\label{constructor-key-positional-tooltip}
+Positional parameters are specified in order, without names.
+
+The key that identifies this counter.
+
+\begin{itemize}
+\tightlist
+\item
+  If it is a string, creates a custom counter that is only affected by
+  manual updates,
+\item
+  If it is the \href{/docs/reference/layout/page/}{\texttt{\ page\ }}
+  function, counts through pages,
+\item
+  If it is a \href{/docs/reference/foundations/selector/}{selector} ,
+  counts through elements that matches with the selector. For example,
+
+  \begin{itemize}
+  \tightlist
+  \item
+    provide an element function: counts elements of that type,
+  \item
+    provide a
+    \href{/docs/reference/foundations/label/}{\texttt{\ }{\texttt{\ \textless{}label\textgreater{}\ }}\texttt{\ }}
+    : counts elements with that label.
+  \end{itemize}
+\end{itemize}
+
+\subsection{\texorpdfstring{{ Definitions
+}}{ Definitions }}\label{definitions}
+
+\phantomsection\label{definitions-tooltip}
+Functions and types and can have associated definitions. These are
+accessed by specifying the function or type, followed by a period, and
+then the definition\textquotesingle s name.
+
+\subsubsection{\texorpdfstring{\texttt{\ get\ } {{ Contextual
+}}}{ get   Contextual }}\label{definitions-get}
+
+\phantomsection\label{definitions-get-contextual-tooltip}
+Contextual functions can only be used when the context is known
+
+Retrieves the value of the counter at the current location. Always
+returns an array of integers, even if the counter has just one number.
+
+This is equivalent to
+\texttt{\ counter\ }{\texttt{\ .\ }}\texttt{\ }{\texttt{\ at\ }}\texttt{\ }{\texttt{\ (\ }}\texttt{\ }{\texttt{\ here\ }}\texttt{\ }{\texttt{\ (\ }}\texttt{\ }{\texttt{\ )\ }}\texttt{\ }{\texttt{\ )\ }}\texttt{\ }
+.
+
+self { . } { get } (
+
+) -\textgreater{} \href{/docs/reference/foundations/int/}{int}
+\href{/docs/reference/foundations/array/}{array}
+
+\subsubsection{\texorpdfstring{\texttt{\ display\ } {{ Contextual
+}}}{ display   Contextual }}\label{definitions-display}
+
+\phantomsection\label{definitions-display-contextual-tooltip}
+Contextual functions can only be used when the context is known
+
+Displays the current value of the counter with a numbering and returns
+the formatted output.
+
+\emph{Compatibility:} For compatibility with Typst 0.10 and lower, this
+function also works without an established context. Then, it will create
+opaque contextual content rather than directly returning the output of
+the numbering. This behaviour will be removed in a future release.
+
+self { . } { display } (
+
+{ \href{/docs/reference/foundations/auto/}{auto}
+\href{/docs/reference/foundations/str/}{str}
+\href{/docs/reference/foundations/function/}{function} , } {
+\hyperref[definitions-display-parameters-both]{both :}
+\href{/docs/reference/foundations/bool/}{bool} , }
+
+) -\textgreater{} { any }
+
+\paragraph{\texorpdfstring{\texttt{\ numbering\ }}{ numbering }}\label{definitions-display-numbering}
+
+\href{/docs/reference/foundations/auto/}{auto} {or}
+\href{/docs/reference/foundations/str/}{str} {or}
+\href{/docs/reference/foundations/function/}{function}
+
+{{ Positional }}
+
+\phantomsection\label{definitions-display-numbering-positional-tooltip}
+Positional parameters are specified in order, without names.
+
+A \href{/docs/reference/model/numbering/}{numbering pattern or a
+function} , which specifies how to display the counter. If given a
+function, that function receives each number of the counter as a
+separate argument. If the amount of numbers varies, e.g. for the heading
+argument, you can use an
+\href{/docs/reference/foundations/arguments/}{argument sink} .
+
+If this is omitted or set to \texttt{\ }{\texttt{\ auto\ }}\texttt{\ } ,
+displays the counter with the numbering style for the counted element or
+with the pattern \texttt{\ }{\texttt{\ "1.1"\ }}\texttt{\ } if no such
+style exists.
+
+Default: \texttt{\ }{\texttt{\ auto\ }}\texttt{\ }
+
+\paragraph{\texorpdfstring{\texttt{\ both\ }}{ both }}\label{definitions-display-both}
+
+\href{/docs/reference/foundations/bool/}{bool}
+
+If enabled, displays the current and final top-level count together.
+Both can be styled through a single numbering pattern. This is used by
+the page numbering property to display the current and total number of
+pages when a pattern like \texttt{\ }{\texttt{\ "1\ /\ 1"\ }}\texttt{\ }
+is given.
+
+Default: \texttt{\ }{\texttt{\ false\ }}\texttt{\ }
+
+\subsubsection{\texorpdfstring{\texttt{\ at\ } {{ Contextual
+}}}{ at   Contextual }}\label{definitions-at}
+
+\phantomsection\label{definitions-at-contextual-tooltip}
+Contextual functions can only be used when the context is known
+
+Retrieves the value of the counter at the given location. Always returns
+an array of integers, even if the counter has just one number.
+
+The \texttt{\ selector\ } must match exactly one element in the
+document. The most useful kinds of selectors for this are
+\href{/docs/reference/foundations/label/}{labels} and
+\href{/docs/reference/introspection/location/}{locations} .
+
+\emph{Compatibility:} For compatibility with Typst 0.10 and lower, this
+function also works without a known context if the \texttt{\ selector\ }
+is a location. This behaviour will be removed in a future release.
+
+self { . } { at } (
+
+{ \href{/docs/reference/foundations/label/}{label}
+\href{/docs/reference/foundations/selector/}{selector}
+\href{/docs/reference/introspection/location/}{location}
+\href{/docs/reference/foundations/function/}{function} }
+
+) -\textgreater{} \href{/docs/reference/foundations/int/}{int}
+\href{/docs/reference/foundations/array/}{array}
+
+\paragraph{\texorpdfstring{\texttt{\ selector\ }}{ selector }}\label{definitions-at-selector}
+
+\href{/docs/reference/foundations/label/}{label} {or}
+\href{/docs/reference/foundations/selector/}{selector} {or}
+\href{/docs/reference/introspection/location/}{location} {or}
+\href{/docs/reference/foundations/function/}{function}
+
+{Required} {{ Positional }}
+
+\phantomsection\label{definitions-at-selector-positional-tooltip}
+Positional parameters are specified in order, without names.
+
+The place at which the counter\textquotesingle s value should be
+retrieved.
+
+\subsubsection{\texorpdfstring{\texttt{\ final\ } {{ Contextual
+}}}{ final   Contextual }}\label{definitions-final}
+
+\phantomsection\label{definitions-final-contextual-tooltip}
+Contextual functions can only be used when the context is known
+
+Retrieves the value of the counter at the end of the document. Always
+returns an array of integers, even if the counter has just one number.
+
+self { . } { final } (
+
+{ \href{/docs/reference/foundations/none/}{none}
+\href{/docs/reference/introspection/location/}{location} }
+
+) -\textgreater{} \href{/docs/reference/foundations/int/}{int}
+\href{/docs/reference/foundations/array/}{array}
+
+\paragraph{\texorpdfstring{\texttt{\ location\ }}{ location }}\label{definitions-final-location}
+
+\href{/docs/reference/foundations/none/}{none} {or}
+\href{/docs/reference/introspection/location/}{location}
+
+{{ Positional }}
+
+\phantomsection\label{definitions-final-location-positional-tooltip}
+Positional parameters are specified in order, without names.
+
+\emph{Compatibility:} This argument is deprecated. It only exists for
+compatibility with Typst 0.10 and lower and shouldn\textquotesingle t be
+used anymore.
+
+Default: \texttt{\ }{\texttt{\ none\ }}\texttt{\ }
+
+\subsubsection{\texorpdfstring{\texttt{\ step\ }}{ step }}\label{definitions-step}
+
+Increases the value of the counter by one.
+
+The update will be in effect at the position where the returned content
+is inserted into the document. If you don\textquotesingle t put the
+output into the document, nothing happens! This would be the case, for
+example, if you write
+\texttt{\ }{\texttt{\ let\ }}\texttt{\ \_\ }{\texttt{\ =\ }}\texttt{\ }{\texttt{\ counter\ }}\texttt{\ }{\texttt{\ (\ }}\texttt{\ page\ }{\texttt{\ )\ }}\texttt{\ }{\texttt{\ .\ }}\texttt{\ }{\texttt{\ step\ }}\texttt{\ }{\texttt{\ (\ }}\texttt{\ }{\texttt{\ )\ }}\texttt{\ }
+. Counter updates are always applied in layout order and in that case,
+Typst wouldn\textquotesingle t know when to step the counter.
+
+self { . } { step } (
+
+{ \hyperref[definitions-step-parameters-level]{level :}
+\href{/docs/reference/foundations/int/}{int} }
+
+) -\textgreater{} \href{/docs/reference/foundations/content/}{content}
+
+\paragraph{\texorpdfstring{\texttt{\ level\ }}{ level }}\label{definitions-step-level}
+
+\href{/docs/reference/foundations/int/}{int}
+
+The depth at which to step the counter. Defaults to
+\texttt{\ }{\texttt{\ 1\ }}\texttt{\ } .
+
+Default: \texttt{\ }{\texttt{\ 1\ }}\texttt{\ }
+
+\subsubsection{\texorpdfstring{\texttt{\ update\ }}{ update }}\label{definitions-update}
+
+Updates the value of the counter.
+
+Just like with \texttt{\ step\ } , the update only occurs if you put the
+resulting content into the document.
+
+self { . } { update } (
+
+{ \href{/docs/reference/foundations/int/}{int}
+\href{/docs/reference/foundations/array/}{array}
+\href{/docs/reference/foundations/function/}{function} }
+
+) -\textgreater{} \href{/docs/reference/foundations/content/}{content}
+
+\paragraph{\texorpdfstring{\texttt{\ update\ }}{ update }}\label{definitions-update-update}
+
+\href{/docs/reference/foundations/int/}{int} {or}
+\href{/docs/reference/foundations/array/}{array} {or}
+\href{/docs/reference/foundations/function/}{function}
+
+{Required} {{ Positional }}
+
+\phantomsection\label{definitions-update-update-positional-tooltip}
+Positional parameters are specified in order, without names.
+
+If given an integer or array of integers, sets the counter to that
+value. If given a function, that function receives the previous counter
+value (with each number as a separate argument) and has to return the
+new value (integer or array).
+
+\href{/docs/reference/introspection/}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-arrow-right.svg}}}
+
+{ Introspection } { Previous page }
+
+\href{/docs/reference/introspection/here/}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-arrow-right.svg}}}
+
+{ Here } { Next page }

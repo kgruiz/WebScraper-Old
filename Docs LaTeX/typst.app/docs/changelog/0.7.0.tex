@@ -1,0 +1,438 @@
+\title{typst.app/docs/changelog/0.7.0}
+
+\begin{itemize}
+\tightlist
+\item
+  \href{/docs}{\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-docs-dark.svg}}
+\item
+  \includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-arrow-right.svg}
+\item
+  \href{/docs/changelog/}{Changelog}
+\item
+  \includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-arrow-right.svg}
+\item
+  \href{/docs/changelog/0.7.0/}{0.7.0}
+\end{itemize}
+
+\section{Version 0.7.0 (August 7,
+2023)}\label{version-0.7.0-august-7-2023}
+
+\subsection{Text and Layout}\label{text-and-layout}
+
+\begin{itemize}
+\tightlist
+\item
+  Added support for floating figures through the
+  \href{/docs/reference/model/figure/\#parameters-placement}{\texttt{\ placement\ }}
+  argument on the figure function
+\item
+  Added support for arbitrary floating content through the
+  \href{/docs/reference/layout/place/\#parameters-float}{\texttt{\ float\ }}
+  argument on the place function
+\item
+  Added support for loading \texttt{\ .sublime-syntax\ } files as
+  highlighting
+  \href{/docs/reference/text/raw/\#parameters-syntaxes}{syntaxes} for
+  raw blocks
+\item
+  Added support for loading \texttt{\ .tmTheme\ } files as highlighting
+  \href{/docs/reference/text/raw/\#parameters-theme}{themes} for raw
+  blocks
+\item
+  Added \emph{bounds} option to
+  \href{/docs/reference/text/text/\#parameters-top-edge}{\texttt{\ top-edge\ }}
+  and
+  \href{/docs/reference/text/text/\#parameters-bottom-edge}{\texttt{\ bottom-edge\ }}
+  arguments of text function for tight bounding boxes
+\item
+  Removed nonsensical top- and bottom-edge options, e.g. \emph{ascender}
+  for the bottom edge \textbf{(Breaking change)}
+\item
+  Added
+  \href{/docs/reference/text/text/\#parameters-script}{\texttt{\ script\ }}
+  argument to text function
+\item
+  Added
+  \href{/docs/reference/text/smartquote/\#parameters-alternative}{\texttt{\ alternative\ }}
+  argument to smart quote function
+\item
+  Added basic i18n for Japanese
+\item
+  Added hyphenation support for \texttt{\ nb\ } and \texttt{\ nn\ }
+  language codes in addition to \texttt{\ no\ }
+\item
+  Fixed positioning of \href{/docs/reference/layout/place/}{placed
+  elements} in containers
+\item
+  Fixed overflowing containers due to optimized line breaks
+\end{itemize}
+
+\subsection{Export}\label{export}
+
+\begin{itemize}
+\tightlist
+\item
+  Greatly improved export of SVG images to PDF. Many thanks to
+  \href{https://github.com/LaurenzV}{@LaurenzV} for their work on this.
+\item
+  Added support for the alpha channel of RGBA colors in PDF export
+\item
+  Fixed a bug with PPI (pixels per inch) for PNG export
+\end{itemize}
+
+\subsection{Math}\label{math}
+
+\begin{itemize}
+\tightlist
+\item
+  Improved layout of primes (e.g. in
+  \texttt{\ }{\texttt{\ \$\ }}\texttt{\ a\ }{\texttt{\ \textquotesingle{}\ }}\texttt{\ }{\texttt{\ \_\ }}\texttt{\ 1\ }{\texttt{\ \$\ }}\texttt{\ }
+  )
+\item
+  Improved display of multi-primes (e.g. in
+  \texttt{\ }{\texttt{\ \$\ }}\texttt{\ a\ }{\texttt{\ \textquotesingle{}\ }}\texttt{\ }{\texttt{\ \textquotesingle{}\ }}\texttt{\ }{\texttt{\ \$\ }}\texttt{\ }
+  )
+\item
+  Improved layout of
+  \href{/docs/reference/math/roots/\#functions-root}{roots}
+\item
+  Changed relations to show attachments as
+  \href{/docs/reference/math/attach/\#functions-limits}{limits} by
+  default (e.g. in
+  \texttt{\ }{\texttt{\ \$\ }}\texttt{\ a\ }{\texttt{\ -\textgreater{}\ }}\texttt{\ }{\texttt{\ \^{}\ }}\texttt{\ x\ b\ }{\texttt{\ \$\ }}\texttt{\ }
+  )
+\item
+  Large operators and delimiters are now always vertically centered
+\item
+  \href{/docs/reference/layout/box/}{Boxes} in equations now sit on the
+  baseline instead of being vertically centered by default. Notably,
+  this does not affect \href{/docs/reference/layout/block/}{blocks}
+  because they are not inline elements.
+\item
+  Added support for
+  \href{/docs/reference/layout/h/\#parameters-weak}{weak spacing}
+\item
+  Added support for OpenType character variants
+\item
+  Added support for customizing the
+  \href{/docs/reference/math/class/}{math class} of content
+\item
+  Fixed spacing around \texttt{\ .\ } , \texttt{\ \textbackslash{}/\ } ,
+  and \texttt{\ ...\ }
+\item
+  Fixed spacing between closing delimiters and large operators
+\item
+  Fixed a bug with math font weight selection
+\item
+  Symbols and Operators \textbf{(Breaking changes)}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Added \texttt{\ id\ } , \texttt{\ im\ } , and \texttt{\ tr\ } text
+    \href{/docs/reference/math/op/}{operators}
+  \item
+    Renamed \texttt{\ ident\ } to \texttt{\ equiv\ } with alias
+    \texttt{\ eq.triple\ } and removed \texttt{\ ident.strict\ } in
+    favor of \texttt{\ eq.quad\ }
+  \item
+    Renamed \texttt{\ ast.sq\ } to \texttt{\ ast.square\ } and
+    \texttt{\ integral.sq\ } to \texttt{\ integral.square\ }
+  \item
+    Renamed \texttt{\ .eqq\ } modifier to \texttt{\ .equiv\ } (and
+    \texttt{\ .neqq\ } to \texttt{\ .nequiv\ } ) for \texttt{\ tilde\ }
+    , \texttt{\ gt\ } , \texttt{\ lt\ } , \texttt{\ prec\ } , and
+    \texttt{\ succ\ }
+  \item
+    Added \texttt{\ emptyset\ } as alias for \texttt{\ nothing\ }
+  \item
+    Added \texttt{\ lt.curly\ } and \texttt{\ gt.curly\ } as aliases for
+    \texttt{\ prec\ } and \texttt{\ succ\ }
+  \item
+    Added \texttt{\ aleph\ } , \texttt{\ beth\ } , and
+    \texttt{\ gimmel\ } as alias for \texttt{\ alef\ } ,
+    \texttt{\ bet\ } , and \texttt{\ gimel\ }
+  \end{itemize}
+\end{itemize}
+
+\subsection{Scripting}\label{scripting}
+
+\begin{itemize}
+\tightlist
+\item
+  Fields
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Added \texttt{\ abs\ } and \texttt{\ em\ } field to
+    \href{/docs/reference/layout/length/}{lengths}
+  \item
+    Added \texttt{\ ratio\ } and \texttt{\ length\ } field to
+    \href{/docs/reference/layout/relative/}{relative lengths}
+  \item
+    Added \texttt{\ x\ } and \texttt{\ y\ } field to
+    \href{/docs/reference/layout/align/\#parameters-alignment}{2d
+    alignments}
+  \item
+    Added \texttt{\ paint\ } , \texttt{\ thickness\ } , \texttt{\ cap\ }
+    , \texttt{\ join\ } , \texttt{\ dash\ } , and
+    \texttt{\ miter-limit\ } field to
+    \href{/docs/reference/visualize/stroke/}{strokes}
+  \end{itemize}
+\item
+  Accessor and utility methods
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Added
+    \href{/docs/reference/foundations/array/\#definitions-dedup}{\texttt{\ dedup\ }}
+    method to arrays
+  \item
+    Added \texttt{\ pt\ } , \texttt{\ mm\ } , \texttt{\ cm\ } , and
+    \texttt{\ inches\ } method to
+    \href{/docs/reference/layout/length/}{lengths}
+  \item
+    Added \texttt{\ deg\ } and \texttt{\ rad\ } method to
+    \href{/docs/reference/layout/angle/}{angles}
+  \item
+    Added \texttt{\ kind\ } , \texttt{\ hex\ } , \texttt{\ rgba\ } ,
+    \texttt{\ cmyk\ } , and \texttt{\ luma\ } method to
+    \href{/docs/reference/visualize/color/}{colors}
+  \item
+    Added \texttt{\ axis\ } , \texttt{\ start\ } , \texttt{\ end\ } ,
+    and \texttt{\ inv\ } method to
+    \href{/docs/reference/layout/stack/\#parameters-dir}{directions}
+  \item
+    Added \texttt{\ axis\ } and \texttt{\ inv\ } method to
+    \href{/docs/reference/layout/align/\#parameters-alignment}{alignments}
+  \item
+    Added \texttt{\ inv\ } method to
+    \href{/docs/reference/layout/align/\#parameters-alignment}{2d
+    alignments}
+  \item
+    Added \texttt{\ start\ } argument to
+    \href{/docs/reference/foundations/array/\#definitions-enumerate}{\texttt{\ enumerate\ }}
+    method on arrays
+  \end{itemize}
+\item
+  Added
+  \href{/docs/reference/visualize/color/\#definitions-mix}{\texttt{\ color.mix\ }}
+  function
+\item
+  Added \texttt{\ mode\ } and \texttt{\ scope\ } arguments to
+  \href{/docs/reference/foundations/eval/}{\texttt{\ eval\ }} function
+\item
+  Added \href{/docs/reference/foundations/bytes/}{\texttt{\ bytes\ }}
+  type for holding large byte buffers
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Added
+    \href{/docs/reference/data-loading/read/\#parameters-encoding}{\texttt{\ encoding\ }}
+    argument to read function to read a file as bytes instead of a
+    string
+  \item
+    Added
+    \href{/docs/reference/visualize/image/\#definitions-decode}{\texttt{\ image.decode\ }}
+    function for decoding an image directly from a string or bytes
+  \item
+    Added \href{/docs/reference/foundations/bytes/}{\texttt{\ bytes\ }}
+    function for converting a string or an array of integers to bytes
+  \item
+    Added \href{/docs/reference/foundations/array/}{\texttt{\ array\ }}
+    function for converting bytes to an array of integers
+  \item
+    Added support for converting bytes to a string with the
+    \href{/docs/reference/foundations/str/}{\texttt{\ str\ }} function
+  \end{itemize}
+\end{itemize}
+
+\subsection{Tooling and Diagnostics}\label{tooling-and-diagnostics}
+
+\begin{itemize}
+\tightlist
+\item
+  Added support for compiler warnings
+\item
+  Added warning when compilation does not converge within five attempts
+  due to intense use of introspection features
+\item
+  Added warnings for empty emphasis ( \texttt{\ \_\_\ } and
+  \texttt{\ **\ } )
+\item
+  Improved error message for invalid field assignments
+\item
+  Improved error message after single \texttt{\ \#\ }
+\item
+  Improved error message when a keyword is used where an identifier is
+  expected
+\item
+  Fixed parameter autocompletion for functions that are in modules
+\item
+  Import autocompletion now only shows the latest package version until
+  a colon is typed
+\item
+  Fixed autocompletion for dictionary key containing a space
+\item
+  Fixed autocompletion for \texttt{\ for\ } loops
+\end{itemize}
+
+\subsection{Command line interface}\label{command-line-interface}
+
+\begin{itemize}
+\tightlist
+\item
+  Added \texttt{\ typst\ query\ } subcommand to execute a
+  \href{/docs/reference/introspection/query/\#command-line-queries}{query}
+  on the command line
+\item
+  The \texttt{\ -\/-root\ } and \texttt{\ -\/-font-paths\ } arguments
+  cannot appear in front of the command anymore \textbf{(Breaking
+  change)}
+\item
+  Local and cached packages are now stored in directories of the form
+  \texttt{\ \{namespace\}/\{name\}/\{version\}\ } instead of
+  \texttt{\ \{namespace\}/\{name\}-\{version\}\ } \textbf{(Breaking
+  change)}
+\item
+  Now prioritizes explicitly given fonts (via
+  \texttt{\ -\/-font-paths\ } ) over system and embedded fonts when both
+  exist
+\item
+  Fixed \texttt{\ typst\ watch\ } not working with some text editors
+\item
+  Fixed displayed compilation time (now includes export)
+\end{itemize}
+
+\subsection{Miscellaneous
+Improvements}\label{miscellaneous-improvements}
+
+\begin{itemize}
+\tightlist
+\item
+  Added
+  \href{/docs/reference/model/heading/\#parameters-bookmarked}{\texttt{\ bookmarked\ }}
+  argument to heading to control whether a heading becomes part of the
+  PDF outline
+\item
+  Added
+  \href{/docs/reference/model/figure/\#definitions-caption-position}{\texttt{\ caption-pos\ }}
+  argument to control the position of a figure\textquotesingle s caption
+\item
+  Added
+  \href{/docs/reference/introspection/metadata/}{\texttt{\ metadata\ }}
+  function for exposing an arbitrary value to the introspection system
+\item
+  Fixed that a
+  \href{/docs/reference/introspection/state/}{\texttt{\ state\ }} was
+  identified by the pair \texttt{\ (key,\ init)\ } instead of just its
+  \texttt{\ key\ }
+\item
+  Improved indent logic of
+  \href{/docs/reference/model/enum/}{enumerations} . Instead of
+  requiring at least as much indent as the end of the marker, they now
+  require only one more space indent than the start of the marker. As a
+  result, even long markers like \texttt{\ 12.\ } work with just 2
+  spaces of indent.
+\item
+  Fixed bug with indent logic of
+  \href{/docs/reference/text/raw/}{\texttt{\ raw\ }} blocks
+\item
+  Fixed a parsing bug with dictionaries
+\end{itemize}
+
+\subsection{Development}\label{development}
+
+\begin{itemize}
+\tightlist
+\item
+  Extracted parser and syntax tree into \texttt{\ typst-syntax\ } crate
+\item
+  The \texttt{\ World::today\ } implementation of Typst dependents may
+  need fixing if they have the same
+  \href{https://github.com/typst/typst/issues/1842}{bug} that the CLI
+  world had
+\end{itemize}
+
+\subsection{Contributors}\label{contributors}
+
+Thanks to everyone who contributed to this release!
+
+\begin{itemize}
+\tightlist
+\item
+  \href{https://github.com/damaxwell}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/918465?s=64&v=4}}
+\item
+  \href{https://github.com/bluebear94}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/2975203?s=64&v=4}}
+\item
+  \href{https://github.com/PgBiel}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/9021226?s=64&v=4}}
+\item
+  \href{https://github.com/Beiri22}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/8210233?s=64&v=4}}
+\item
+  \href{https://github.com/Dherse}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/9665250?s=64&v=4}}
+\item
+  \href{https://github.com/LaurenzV}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/47084093?s=64&v=4}}
+\item
+  \href{https://github.com/Mafii}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/10061519?s=64&v=4}}
+\item
+  \href{https://github.com/adriandelgado}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/11708972?s=64&v=4}}
+\item
+  \href{https://github.com/lolstork}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/137357423?s=64&v=4}}
+\item
+  \href{https://github.com/AlistairKeiller}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/43255248?s=64&v=4}}
+\item
+  \href{https://github.com/DVDTSB}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/66365801?s=64&v=4}}
+\item
+  \href{https://github.com/Enter-tainer}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/25521218?s=64&v=4}}
+\item
+  \href{https://github.com/EpicEricEE}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/7191192?s=64&v=4}}
+\item
+  \href{https://github.com/Liamolucko}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/43807659?s=64&v=4}}
+\item
+  \href{https://github.com/LingMan}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/18645382?s=64&v=4}}
+\item
+  \href{https://github.com/MDLC01}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/57839069?s=64&v=4}}
+\item
+  \href{https://github.com/Myriad-Dreamin}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/35292584?s=64&v=4}}
+\item
+  \href{https://github.com/StrangeGirlMurph}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/62220780?s=64&v=4}}
+\item
+  \href{https://github.com/T0mstone}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/39707032?s=64&v=4}}
+\item
+  \href{https://github.com/TheLukeGuy}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/64972126?s=64&v=4}}
+\item
+  \href{https://github.com/antonWetzel}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/59712243?s=64&v=4}}
+\item
+  \href{https://github.com/epbuennig}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/103939966?s=64&v=4}}
+\item
+  \href{https://github.com/kg583}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/41345727?s=64&v=4}}
+\item
+  \href{https://github.com/lynn}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/16232127?s=64&v=4}}
+\item
+  \href{https://github.com/mattfbacon}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/58113890?s=64&v=4}}
+\item
+  \href{https://github.com/mavaddat}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/5055400?s=64&v=4}}
+\item
+  \href{https://github.com/neunenak}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/311545?s=64&v=4}}
+\item
+  \href{https://github.com/pineapplehunter}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/8869894?s=64&v=4}}
+\item
+  \href{https://github.com/raphCode}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/15750438?s=64&v=4}}
+\item
+  \href{https://github.com/sitandr}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/60141933?s=64&v=4}}
+\item
+  \href{https://github.com/sudormrfbin}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/23398472?s=64&v=4}}
+\item
+  \href{https://github.com/tretre91}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/63788850?s=64&v=4}}
+\end{itemize}
+
+\href{/docs/changelog/0.8.0/}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-arrow-right.svg}}}
+
+{ 0.8.0 } { Previous page }
+
+\href{/docs/changelog/0.6.0/}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-arrow-right.svg}}}
+
+{ 0.6.0 } { Next page }

@@ -1,0 +1,141 @@
+\title{typst.app/docs/reference/layout/columns}
+
+\begin{itemize}
+\tightlist
+\item
+  \href{/docs}{\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-docs-dark.svg}}
+\item
+  \includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-arrow-right.svg}
+\item
+  \href{/docs/reference/}{Reference}
+\item
+  \includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-arrow-right.svg}
+\item
+  \href{/docs/reference/layout/}{Layout}
+\item
+  \includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-arrow-right.svg}
+\item
+  \href{/docs/reference/layout/columns/}{Columns}
+\end{itemize}
+
+\section{\texorpdfstring{\texttt{\ columns\ } {{ Element
+}}}{ columns   Element }}\label{summary}
+
+\phantomsection\label{element-tooltip}
+Element functions can be customized with \texttt{\ set\ } and
+\texttt{\ show\ } rules.
+
+Separates a region into multiple equally sized columns.
+
+The \texttt{\ column\ } function lets you separate the interior of any
+container into multiple columns. It will currently not balance the
+height of the columns. Instead, the columns will take up the height of
+their container or the remaining height on the page. Support for
+balanced columns is planned for the future.
+
+\subsection{Page-level columns}\label{page-level}
+
+If you need to insert columns across your whole document, use the
+\texttt{\ page\ } function\textquotesingle s
+\href{/docs/reference/layout/page/\#parameters-columns}{\texttt{\ columns\ }
+parameter} instead. This will create the columns directly at the
+page-level rather than wrapping all of your content in a layout
+container. As a result, things like
+\href{/docs/reference/layout/pagebreak/}{pagebreaks} ,
+\href{/docs/reference/model/footnote/}{footnotes} , and
+\href{/docs/reference/model/par/\#definitions-line}{line numbers} will
+continue to work as expected. For more information, also read the
+\href{/docs/guides/page-setup-guide/\#columns}{relevant part of the page
+setup guide} .
+
+\subsection{Breaking out of columns}\label{breaking-out}
+
+To temporarily break out of columns (e.g. for a paper\textquotesingle s
+title), use parent-scoped floating placement:
+
+\begin{verbatim}
+#set page(columns: 2, height: 150pt)
+
+#place(
+  top + center,
+  scope: "parent",
+  float: true,
+  text(1.4em, weight: "bold")[
+    My document
+  ],
+)
+
+#lorem(40)
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/qNRmHdtNgs8qpE-RUR-XyQAAAAAAAAAA.png}
+
+\subsection{\texorpdfstring{{ Parameters
+}}{ Parameters }}\label{parameters}
+
+\phantomsection\label{parameters-tooltip}
+Parameters are the inputs to a function. They are specified in
+parentheses after the function name.
+
+{ columns } (
+
+{ \hyperref[parameters-count]{}
+\href{/docs/reference/foundations/int/}{int} , } {
+\hyperref[parameters-gutter]{gutter :}
+\href{/docs/reference/layout/relative/}{relative} , } {
+\href{/docs/reference/foundations/content/}{content} , }
+
+) -\textgreater{} \href{/docs/reference/foundations/content/}{content}
+
+\subsubsection{\texorpdfstring{\texttt{\ count\ }}{ count }}\label{parameters-count}
+
+\href{/docs/reference/foundations/int/}{int}
+
+{{ Positional }}
+
+\phantomsection\label{parameters-count-positional-tooltip}
+Positional parameters are specified in order, without names.
+
+{{ Settable }}
+
+\phantomsection\label{parameters-count-settable-tooltip}
+Settable parameters can be customized for all following uses of the
+function with a \texttt{\ set\ } rule.
+
+The number of columns.
+
+Default: \texttt{\ }{\texttt{\ 2\ }}\texttt{\ }
+
+\subsubsection{\texorpdfstring{\texttt{\ gutter\ }}{ gutter }}\label{parameters-gutter}
+
+\href{/docs/reference/layout/relative/}{relative}
+
+{{ Settable }}
+
+\phantomsection\label{parameters-gutter-settable-tooltip}
+Settable parameters can be customized for all following uses of the
+function with a \texttt{\ set\ } rule.
+
+The size of the gutter space between each column.
+
+Default:
+\texttt{\ }{\texttt{\ 4\%\ }}\texttt{\ }{\texttt{\ +\ }}\texttt{\ }{\texttt{\ 0pt\ }}\texttt{\ }
+
+\subsubsection{\texorpdfstring{\texttt{\ body\ }}{ body }}\label{parameters-body}
+
+\href{/docs/reference/foundations/content/}{content}
+
+{Required} {{ Positional }}
+
+\phantomsection\label{parameters-body-positional-tooltip}
+Positional parameters are specified in order, without names.
+
+The content that should be layouted into the columns.
+
+\href{/docs/reference/layout/colbreak/}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-arrow-right.svg}}}
+
+{ Column Break } { Previous page }
+
+\href{/docs/reference/layout/direction/}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-arrow-right.svg}}}
+
+{ Direction } { Next page }

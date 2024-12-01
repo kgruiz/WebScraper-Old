@@ -1,0 +1,390 @@
+<main>
+    <ul aria-label="Breadcrumbs" class="breadcrumbs">
+     <li class="root">
+      <a href="/docs">
+       <img alt="Docs" height="16" src="/assets/icons/16-docs-dark.svg" width="16"/>
+      </a>
+     </li>
+     <li aria-hidden="true">
+      <img alt="" height="16" src="/assets/icons/16-arrow-right.svg" width="16"/>
+     </li>
+     <li>
+      <a href="/docs/reference/">
+       Reference
+      </a>
+     </li>
+     <li aria-hidden="true">
+      <img alt="" height="16" src="/assets/icons/16-arrow-right.svg" width="16"/>
+     </li>
+     <li>
+      <a href="/docs/reference/styling/">
+       Styling
+      </a>
+     </li>
+    </ul>
+    <h1>
+     Styling
+    </h1>
+    <p>
+     Typst includes a flexible styling system that automatically applies styling of your choice to your document. With
+     <em>
+      set rules,
+     </em>
+     you can configure basic properties of elements. This way, you create most common styles. However, there might not be a built-in property for everything you wish to do. For this reason, Typst further supports
+     <em>
+      show rules
+     </em>
+     that can completely redefine the appearance of elements.
+    </p>
+    <h2 id="set-rules">
+     Set rules
+    </h2>
+    <p>
+     With set rules, you can customize the appearance of elements. They are written as a
+     <a href="/docs/reference/foundations/function/">
+      function call
+     </a>
+     to an
+     <a href="/docs/reference/foundations/function/#element-functions">
+      element function
+     </a>
+     preceded by the
+     <code>
+      <span class="typ-key">
+       set
+      </span>
+     </code>
+     keyword (or
+     <code>
+      <span class="typ-key">
+       #
+      </span>
+      <span class="typ-key">
+       set
+      </span>
+     </code>
+     in markup). Only optional parameters of that function can be provided to the set rule. Refer to each function's documentation to see which parameters are optional. In the example below, we use two set rules to change the
+     <a href="/docs/reference/text/text/#parameters-font">
+      font family
+     </a>
+     and
+     <a href="/docs/reference/model/heading/#parameters-numbering">
+      heading numbering
+     </a>
+     .
+    </p>
+    <div class="previewed-code">
+     <pre><code><span class="typ-key">#</span><span class="typ-key">set</span> <span class="typ-func">heading</span><span class="typ-punct">(</span>numbering<span class="typ-punct">:</span> <span class="typ-str">"I."</span><span class="typ-punct">)</span>
+<span class="typ-key">#</span><span class="typ-key">set</span> <span class="typ-func">text</span><span class="typ-punct">(</span>
+  font<span class="typ-punct">:</span> <span class="typ-str">"New Computer Modern"</span>
+<span class="typ-punct">)</span>
+
+<span class="typ-heading">= Introduction</span>
+With set rules, you can style
+your document.
+</code></pre>
+     <div class="preview">
+      <img alt="Preview" height="142/" src="/assets/docs/nW0VZeyhJmtpweEOjJR_fgAAAAAAAAAA.png" width="480"/>
+     </div>
+    </div>
+    <p>
+     A top level set rule stays in effect until the end of the file. When nested inside of a block, it is only in effect until the end of that block. With a block, you can thus restrict the effect of a rule to a particular segment of your document. Below, we use a content block to scope the list styling to one particular list.
+    </p>
+    <div class="previewed-code">
+     <pre><code>This list is affected: <span class="typ-punct">#</span><span class="typ-punct">[</span>
+  <span class="typ-key">#</span><span class="typ-key">set</span> <span class="typ-func">list</span><span class="typ-punct">(</span>marker<span class="typ-punct">:</span> <span class="typ-punct">[</span><span class="typ-escape">--</span><span class="typ-punct">]</span><span class="typ-punct">)</span>
+  <span class="typ-marker">-</span> Dash
+<span class="typ-punct">]</span>
+
+This one is not:
+<span class="typ-marker">-</span> Bullet
+</code></pre>
+     <div class="preview">
+      <img alt="Preview" height="173/" src="/assets/docs/6ckQbXFff1zDBcdWezXxpgAAAAAAAAAA.png" width="480"/>
+     </div>
+    </div>
+    <p>
+     Sometimes, you'll want to apply a set rule conditionally. For this, you can use a
+     <em>
+      set-if
+     </em>
+     rule.
+    </p>
+    <div class="previewed-code">
+     <pre><code><span class="typ-key">#</span><span class="typ-key">let</span> <span class="typ-func">task</span><span class="typ-punct">(</span>body<span class="typ-punct">,</span> critical<span class="typ-punct">:</span> <span class="typ-key">false</span><span class="typ-punct">)</span> <span class="typ-op">=</span> <span class="typ-punct">{</span>
+  <span class="typ-key">set</span> <span class="typ-func">text</span><span class="typ-punct">(</span>red<span class="typ-punct">)</span> <span class="typ-key">if</span> critical
+  <span class="typ-punct">[</span><span class="typ-marker">-</span> <span class="typ-pol">#</span><span class="typ-pol">body</span><span class="typ-punct">]</span>
+<span class="typ-punct">}</span>
+
+<span class="typ-func">#</span><span class="typ-func">task</span><span class="typ-punct">(</span>critical<span class="typ-punct">:</span> <span class="typ-key">true</span><span class="typ-punct">)</span><span class="typ-punct">[</span>Food today?<span class="typ-punct">]</span>
+<span class="typ-func">#</span><span class="typ-func">task</span><span class="typ-punct">(</span>critical<span class="typ-punct">:</span> <span class="typ-key">false</span><span class="typ-punct">)</span><span class="typ-punct">[</span>Work deadline<span class="typ-punct">]</span>
+</code></pre>
+     <div class="preview">
+      <img alt="Preview" height="103/" src="/assets/docs/_UlmqEOdrmM6d-OQ9TsAXwAAAAAAAAAA.png" width="480"/>
+     </div>
+    </div>
+    <h2 id="show-rules">
+     Show rules
+    </h2>
+    <p>
+     With show rules, you can deeply customize the look of a type of element. The most basic form of show rule is a
+     <em>
+      show-set rule.
+     </em>
+     Such a rule is written as the
+     <code>
+      <span class="typ-key">
+       show
+      </span>
+     </code>
+     keyword followed by a
+     <a href="/docs/reference/foundations/selector/" title="selector">
+      selector
+     </a>
+     , a colon and then a set rule. The most basic form of selector is an
+     <a href="/docs/reference/foundations/function/#element-functions">
+      element function
+     </a>
+     . This lets the set rule only apply to the selected element. In the example below, headings become dark blue while all other text stays black.
+    </p>
+    <div class="previewed-code">
+     <pre><code><span class="typ-key">#</span><span class="typ-key">show</span> <span class="typ-func">heading</span><span class="typ-punct">:</span> <span class="typ-key">set</span> <span class="typ-func">text</span><span class="typ-punct">(</span>navy<span class="typ-punct">)</span>
+
+<span class="typ-heading">= This is navy-blue</span>
+But this stays black.
+</code></pre>
+     <div class="preview">
+      <img alt="Preview" height="111/" src="/assets/docs/DS2Pe3XVhhMMVWT9eUfjSQAAAAAAAAAA.png" width="480"/>
+     </div>
+    </div>
+    <p>
+     With show-set rules you can mix and match properties from different functions to achieve many different effects. But they still limit you to what is predefined in Typst. For maximum flexibility, you can instead write a show rule that defines how to format an element from scratch. To write such a show rule, replace the set rule after the colon with an arbitrary
+     <a href="/docs/reference/foundations/function/" title="function">
+      function
+     </a>
+     . This function receives the element in question and can return arbitrary content. The available
+     <a href="/docs/reference/scripting/#fields">
+      fields
+     </a>
+     on the element passed to the function again match the parameters of the respective element function. Below, we define a show rule that formats headings for a fantasy encyclopedia.
+    </p>
+    <div class="previewed-code">
+     <pre><code><span class="typ-key">#</span><span class="typ-key">set</span> <span class="typ-func">heading</span><span class="typ-punct">(</span>numbering<span class="typ-punct">:</span> <span class="typ-str">"(I)"</span><span class="typ-punct">)</span>
+<span class="typ-key">#</span><span class="typ-key">show</span> <span class="typ-func">heading</span><span class="typ-punct">:</span> it <span class="typ-op">=&gt;</span> <span class="typ-punct">[</span>
+  <span class="typ-key">#</span><span class="typ-key">set</span> <span class="typ-func">align</span><span class="typ-punct">(</span>center<span class="typ-punct">)</span>
+  <span class="typ-key">#</span><span class="typ-key">set</span> <span class="typ-func">text</span><span class="typ-punct">(</span>font<span class="typ-punct">:</span> <span class="typ-str">"Inria Serif"</span><span class="typ-punct">)</span>
+  <span class="typ-escape">\~</span> <span class="typ-func">#</span><span class="typ-func">emph</span><span class="typ-punct">(</span>it<span class="typ-punct">.</span>body<span class="typ-punct">)</span>
+     <span class="typ-func">#</span><span class="typ-func">counter</span><span class="typ-punct">(</span>heading<span class="typ-punct">)</span><span class="typ-punct">.</span><span class="typ-func">display</span><span class="typ-punct">(</span>
+       it<span class="typ-punct">.</span>numbering
+     <span class="typ-punct">)</span> <span class="typ-escape">\~</span>
+<span class="typ-punct">]</span>
+
+<span class="typ-heading">= Dragon</span>
+With a base health of 15, the
+dragon is the most powerful
+creature.
+
+<span class="typ-heading">= Manticore</span>
+While less powerful than the
+dragon, the manticore gets
+extra style points.
+</code></pre>
+     <div class="preview">
+      <img alt="Preview" height="299/" src="/assets/docs/YrvkqpSwoILjuqAerzw9CAAAAAAAAAAA.png" width="480"/>
+     </div>
+    </div>
+    <p>
+     Like set rules, show rules are in effect until the end of the current block or file.
+    </p>
+    <p>
+     Instead of a function, the right-hand side of a show rule can also take a literal string or content block that should be directly substituted for the element. And apart from a function, the left-hand side of a show rule can also take a number of other
+     <em>
+      selectors
+     </em>
+     that define what to apply the transformation to:
+    </p>
+    <ul>
+     <li>
+      <p>
+       <strong>
+        Everything:
+       </strong>
+       <code>
+        <span class="typ-key">
+         show
+        </span>
+        <span class="typ-punct">
+         :
+        </span>
+        rest
+        <span class="typ-op">
+         =&gt;
+        </span>
+        ..
+       </code>
+       <br/>
+       Transform everything after the show rule. This is useful to apply a more complex layout to your whole document without wrapping everything in a giant function call.
+      </p>
+     </li>
+     <li>
+      <p>
+       <strong>
+        Text:
+       </strong>
+       <code>
+        <span class="typ-key">
+         show
+        </span>
+        <span class="typ-str">
+         "Text"
+        </span>
+        <span class="typ-punct">
+         :
+        </span>
+        ..
+       </code>
+       <br/>
+       Style, transform or replace text.
+      </p>
+     </li>
+     <li>
+      <p>
+       <strong>
+        Regex:
+       </strong>
+       <code>
+        <span class="typ-key">
+         show
+        </span>
+        <span class="typ-func">
+         regex
+        </span>
+        <span class="typ-punct">
+         (
+        </span>
+        <span class="typ-str">
+         "\w+"
+        </span>
+        <span class="typ-punct">
+         )
+        </span>
+        <span class="typ-punct">
+         :
+        </span>
+        ..
+       </code>
+       <br/>
+       Select and transform text with a regular expression for even more flexibility. See the documentation of the
+       <a href="/docs/reference/foundations/regex/">
+        <code>
+         regex
+        </code>
+        type
+       </a>
+       for details.
+      </p>
+     </li>
+     <li>
+      <p>
+       <strong>
+        Function with fields:
+       </strong>
+       <code>
+        <span class="typ-key">
+         show
+        </span>
+        heading
+        <span class="typ-punct">
+         .
+        </span>
+        <span class="typ-func">
+         where
+        </span>
+        <span class="typ-punct">
+         (
+        </span>
+        level
+        <span class="typ-punct">
+         :
+        </span>
+        <span class="typ-num">
+         1
+        </span>
+        <span class="typ-punct">
+         )
+        </span>
+        <span class="typ-punct">
+         :
+        </span>
+        ..
+       </code>
+       <br/>
+       Transform only elements that have the specified fields. For example, you might want to only change the style of level-1 headings.
+      </p>
+     </li>
+     <li>
+      <p>
+       <strong>
+        Label:
+       </strong>
+       <code>
+        <span class="typ-key">
+         show
+        </span>
+        <span class="typ-label">
+         &lt;intro&gt;
+        </span>
+        <span class="typ-punct">
+         :
+        </span>
+        ..
+       </code>
+       <br/>
+       Select and transform elements that have the specified label. See the documentation of the
+       <a href="/docs/reference/foundations/label/">
+        <code>
+         label
+        </code>
+        type
+       </a>
+       for more details.
+      </p>
+     </li>
+    </ul>
+    <div class="previewed-code">
+     <pre><code><span class="typ-key">#</span><span class="typ-key">show</span> <span class="typ-str">"Project"</span><span class="typ-punct">:</span> <span class="typ-func">smallcaps</span>
+<span class="typ-key">#</span><span class="typ-key">show</span> <span class="typ-str">"badly"</span><span class="typ-punct">:</span> <span class="typ-str">"great"</span>
+
+We started Project in 2019
+and are still working on it.
+Project is progressing badly.
+</code></pre>
+     <div class="preview">
+      <img alt="Preview" height="103/" src="/assets/docs/NBzIViTspdnPhsbo3WGDLAAAAAAAAAAA.png" width="480"/>
+     </div>
+    </div>
+    <div class="page-end-buttons">
+     <a class="previous" href="/docs/reference/syntax/">
+      <img alt="â" src="/assets/icons/16-arrow-right.svg"/>
+      <div>
+       <span class="page-title">
+        Syntax
+       </span>
+       <span class="hint">
+        Previous page
+       </span>
+      </div>
+     </a>
+     <a class="next" href="/docs/reference/scripting/">
+      <img alt="â" src="/assets/icons/16-arrow-right.svg"/>
+      <div>
+       <span class="page-title">
+        Scripting
+       </span>
+       <span class="hint">
+        Next page
+       </span>
+      </div>
+     </a>
+    </div>
+   </main>

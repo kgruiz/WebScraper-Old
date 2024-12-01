@@ -1,0 +1,822 @@
+\title{typst.app/docs/reference/visualize/gradient}
+
+\begin{itemize}
+\tightlist
+\item
+  \href{/docs}{\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-docs-dark.svg}}
+\item
+  \includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-arrow-right.svg}
+\item
+  \href{/docs/reference/}{Reference}
+\item
+  \includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-arrow-right.svg}
+\item
+  \href{/docs/reference/visualize/}{Visualize}
+\item
+  \includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-arrow-right.svg}
+\item
+  \href{/docs/reference/visualize/gradient/}{Gradient}
+\end{itemize}
+
+\section{\texorpdfstring{{ gradient }}{ gradient }}\label{summary}
+
+A color gradient.
+
+Typst supports linear gradients through the
+\href{/docs/reference/visualize/gradient/\#definitions-linear}{\texttt{\ gradient.linear\ }
+function} , radial gradients through the
+\href{/docs/reference/visualize/gradient/\#definitions-radial}{\texttt{\ gradient.radial\ }
+function} , and conic gradients through the
+\href{/docs/reference/visualize/gradient/\#definitions-conic}{\texttt{\ gradient.conic\ }
+function} .
+
+A gradient can be used for the following purposes:
+
+\begin{itemize}
+\tightlist
+\item
+  As a fill to paint the interior of a shape:
+  \texttt{\ }{\texttt{\ rect\ }}\texttt{\ }{\texttt{\ (\ }}\texttt{\ fill\ }{\texttt{\ :\ }}\texttt{\ gradient\ }{\texttt{\ .\ }}\texttt{\ }{\texttt{\ linear\ }}\texttt{\ }{\texttt{\ (\ }}\texttt{\ }{\texttt{\ ..\ }}\texttt{\ }{\texttt{\ )\ }}\texttt{\ }{\texttt{\ )\ }}\texttt{\ }
+\item
+  As a stroke to paint the outline of a shape:
+  \texttt{\ }{\texttt{\ rect\ }}\texttt{\ }{\texttt{\ (\ }}\texttt{\ stroke\ }{\texttt{\ :\ }}\texttt{\ }{\texttt{\ 1pt\ }}\texttt{\ }{\texttt{\ +\ }}\texttt{\ gradient\ }{\texttt{\ .\ }}\texttt{\ }{\texttt{\ linear\ }}\texttt{\ }{\texttt{\ (\ }}\texttt{\ }{\texttt{\ ..\ }}\texttt{\ }{\texttt{\ )\ }}\texttt{\ }{\texttt{\ )\ }}\texttt{\ }
+\item
+  As the fill of text:
+  \texttt{\ }{\texttt{\ set\ }}\texttt{\ }{\texttt{\ text\ }}\texttt{\ }{\texttt{\ (\ }}\texttt{\ fill\ }{\texttt{\ :\ }}\texttt{\ gradient\ }{\texttt{\ .\ }}\texttt{\ }{\texttt{\ linear\ }}\texttt{\ }{\texttt{\ (\ }}\texttt{\ }{\texttt{\ ..\ }}\texttt{\ }{\texttt{\ )\ }}\texttt{\ }{\texttt{\ )\ }}\texttt{\ }
+\item
+  As a color map you can
+  \href{/docs/reference/visualize/gradient/\#definitions-sample}{sample}
+  from:
+  \texttt{\ gradient\ }{\texttt{\ .\ }}\texttt{\ }{\texttt{\ linear\ }}\texttt{\ }{\texttt{\ (\ }}\texttt{\ }{\texttt{\ ..\ }}\texttt{\ }{\texttt{\ )\ }}\texttt{\ }{\texttt{\ .\ }}\texttt{\ }{\texttt{\ sample\ }}\texttt{\ }{\texttt{\ (\ }}\texttt{\ }{\texttt{\ 50\%\ }}\texttt{\ }{\texttt{\ )\ }}\texttt{\ }
+\end{itemize}
+
+\subsection{Examples}\label{examples}
+
+\begin{verbatim}
+#stack(
+  dir: ltr,
+  spacing: 1fr,
+  square(fill: gradient.linear(..color.map.rainbow)),
+  square(fill: gradient.radial(..color.map.rainbow)),
+  square(fill: gradient.conic(..color.map.rainbow)),
+)
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/_ynuy5GKkV7ADtX87C9EiAAAAAAAAAAA.png}
+
+Gradients are also supported on text, but only when setting the
+\href{/docs/reference/visualize/gradient/\#definitions-relative}{relativeness}
+to either \texttt{\ }{\texttt{\ auto\ }}\texttt{\ } (the default value)
+or \texttt{\ }{\texttt{\ "parent"\ }}\texttt{\ } . To create
+word-by-word or glyph-by-glyph gradients, you can wrap the words or
+characters of your text in \href{/docs/reference/layout/box/}{boxes}
+manually or through a \href{/docs/reference/styling/\#show-rules}{show
+rule} .
+
+\begin{verbatim}
+#set text(fill: gradient.linear(red, blue))
+#let rainbow(content) = {
+  set text(fill: gradient.linear(..color.map.rainbow))
+  box(content)
+}
+
+This is a gradient on text, but with a #rainbow[twist]!
+\end{verbatim}
+
+\includegraphics[width=4.85417in,height=\textheight,keepaspectratio]{/assets/docs/ch0LALUCwuQoVDnxrE_UZwAAAAAAAAAA.png}
+
+\subsection{Stops}\label{stops}
+
+A gradient is composed of a series of stops. Each of these stops has a
+color and an offset. The offset is a
+\href{/docs/reference/layout/ratio/}{ratio} between
+\texttt{\ }{\texttt{\ 0\%\ }}\texttt{\ } and
+\texttt{\ }{\texttt{\ 100\%\ }}\texttt{\ } or an angle between
+\texttt{\ }{\texttt{\ 0deg\ }}\texttt{\ } and
+\texttt{\ }{\texttt{\ 360deg\ }}\texttt{\ } . The offset is a relative
+position that determines how far along the gradient the stop is located.
+The stop\textquotesingle s color is the color of the gradient at that
+position. You can choose to omit the offsets when defining a gradient.
+In this case, Typst will space all stops evenly.
+
+\subsection{Relativeness}\label{relativeness}
+
+The location of the \texttt{\ }{\texttt{\ 0\%\ }}\texttt{\ } and
+\texttt{\ }{\texttt{\ 100\%\ }}\texttt{\ } stops depends on the
+dimensions of a container. This container can either be the shape that
+it is being painted on, or the closest surrounding container. This is
+controlled by the \texttt{\ relative\ } argument of a gradient
+constructor. By default, gradients are relative to the shape they are
+being painted on, unless the gradient is applied on text, in which case
+they are relative to the closest ancestor container.
+
+Typst determines the ancestor container as follows:
+
+\begin{itemize}
+\tightlist
+\item
+  For shapes that are placed at the root/top level of the document, the
+  closest ancestor is the page itself.
+\item
+  For other shapes, the ancestor is the innermost
+  \href{/docs/reference/layout/block/}{\texttt{\ block\ }} or
+  \href{/docs/reference/layout/box/}{\texttt{\ box\ }} that contains the
+  shape. This includes the boxes and blocks that are implicitly created
+  by show rules and elements. For example, a
+  \href{/docs/reference/layout/rotate/}{\texttt{\ rotate\ }} will not
+  affect the parent of a gradient, but a
+  \href{/docs/reference/layout/grid/}{\texttt{\ grid\ }} will.
+\end{itemize}
+
+\subsection{Color spaces and
+interpolation}\label{color-spaces-and-interpolation}
+
+Gradients can be interpolated in any color space. By default, gradients
+are interpolated in the
+\href{/docs/reference/visualize/color/\#definitions-oklab}{Oklab} color
+space, which is a
+\href{https://programmingdesignsystems.com/color/perceptually-uniform-color-spaces/index.html}{perceptually
+uniform} color space. This means that the gradient will be perceived as
+having a smooth progression of colors. This is particularly useful for
+data visualization.
+
+However, you can choose to interpolate the gradient in any supported
+color space you want, but beware that some color spaces are not suitable
+for perceptually interpolating between colors. Consult the table below
+when choosing an interpolation space.
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Color space & Perceptually uniform? \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\href{/docs/reference/visualize/color/\#definitions-oklab}{Oklab} &
+\emph{Yes} \\
+\href{/docs/reference/visualize/color/\#definitions-oklch}{Oklch} &
+\emph{Yes} \\
+\href{/docs/reference/visualize/color/\#definitions-rgb}{sRGB} &
+\emph{No} \\
+\href{/docs/reference/visualize/color/\#definitions-linear-rgb}{linear-RGB}
+& \emph{Yes} \\
+\href{/docs/reference/visualize/color/\#definitions-cmyk}{CMYK} &
+\emph{No} \\
+\href{/docs/reference/visualize/color/\#definitions-luma}{Grayscale} &
+\emph{Yes} \\
+\href{/docs/reference/visualize/color/\#definitions-hsl}{HSL} &
+\emph{No} \\
+\href{/docs/reference/visualize/color/\#definitions-hsv}{HSV} &
+\emph{No} \\
+\end{longtable}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/hDyhl3_sixunf7X8Ctx-hAAAAAAAAAAA.png}
+
+\subsection{Direction}\label{direction}
+
+Some gradients are sensitive to direction. For example, a linear
+gradient has an angle that determines its direction. Typst uses a
+clockwise angle, with 0Â° being from left to right, 90Â° from top to
+bottom, 180Â° from right to left, and 270Â° from bottom to top.
+
+\begin{verbatim}
+#stack(
+  dir: ltr,
+  spacing: 1fr,
+  square(fill: gradient.linear(red, blue, angle: 0deg)),
+  square(fill: gradient.linear(red, blue, angle: 90deg)),
+  square(fill: gradient.linear(red, blue, angle: 180deg)),
+  square(fill: gradient.linear(red, blue, angle: 270deg)),
+)
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/cXgxeaTP2ci7NL16a3rB_gAAAAAAAAAA.png}
+
+\subsection{Presets}\label{presets}
+
+Typst predefines color maps that you can use with your gradients. See
+the
+\href{/docs/reference/visualize/color/\#predefined-color-maps}{\texttt{\ color\ }}
+documentation for more details.
+
+\subsection{Note on file sizes}\label{note-on-file-sizes}
+
+Gradients can be quite large, especially if they have many stops. This
+is because gradients are stored as a list of colors and offsets, which
+can take up a lot of space. If you are concerned about file sizes, you
+should consider the following:
+
+\begin{itemize}
+\tightlist
+\item
+  SVG gradients are currently inefficiently encoded. This will be
+  improved in the future.
+\item
+  PDF gradients in the
+  \href{/docs/reference/visualize/color/\#definitions-oklab}{\texttt{\ color.oklab\ }}
+  ,
+  \href{/docs/reference/visualize/color/\#definitions-hsv}{\texttt{\ color.hsv\ }}
+  ,
+  \href{/docs/reference/visualize/color/\#definitions-hsl}{\texttt{\ color.hsl\ }}
+  , and
+  \href{/docs/reference/visualize/color/\#definitions-oklch}{\texttt{\ color.oklch\ }}
+  color spaces are stored as a list of
+  \href{/docs/reference/visualize/color/\#definitions-rgb}{\texttt{\ color.rgb\ }}
+  colors with extra stops in between. This avoids needing to encode
+  these color spaces in your PDF file, but it does add extra stops to
+  your gradient, which can increase the file size.
+\end{itemize}
+
+\subsection{\texorpdfstring{{ Definitions
+}}{ Definitions }}\label{definitions}
+
+\phantomsection\label{definitions-tooltip}
+Functions and types and can have associated definitions. These are
+accessed by specifying the function or type, followed by a period, and
+then the definition\textquotesingle s name.
+
+\subsubsection{\texorpdfstring{\texttt{\ linear\ }}{ linear }}\label{definitions-linear}
+
+Creates a new linear gradient, in which colors transition along a
+straight line.
+
+gradient { . } { linear } (
+
+{ \hyperref[definitions-linear-parameters-stops]{..}
+\href{/docs/reference/visualize/color/}{color}
+\href{/docs/reference/foundations/array/}{array} , } {
+\hyperref[definitions-linear-parameters-space]{space :} { any } , } {
+\hyperref[definitions-linear-parameters-relative]{relative :}
+\href{/docs/reference/foundations/auto/}{auto}
+\href{/docs/reference/foundations/str/}{str} , } {
+\href{/docs/reference/layout/direction/}{direction} , } {
+\href{/docs/reference/layout/angle/}{angle} , }
+
+) -\textgreater{} \href{/docs/reference/visualize/gradient/}{gradient}
+
+\begin{verbatim}
+#rect(
+  width: 100%,
+  height: 20pt,
+  fill: gradient.linear(
+    ..color.map.viridis,
+  ),
+)
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/3vCVaADmPcUqYOLma4-wcgAAAAAAAAAA.png}
+
+\paragraph{\texorpdfstring{\texttt{\ stops\ }}{ stops }}\label{definitions-linear-stops}
+
+\href{/docs/reference/visualize/color/}{color} {or}
+\href{/docs/reference/foundations/array/}{array}
+
+{Required} {{ Positional }}
+
+\phantomsection\label{definitions-linear-stops-positional-tooltip}
+Positional parameters are specified in order, without names.
+
+{{ Variadic }}
+
+\phantomsection\label{definitions-linear-stops-variadic-tooltip}
+Variadic parameters can be specified multiple times.
+
+The color \hyperref[stops]{stops} of the gradient.
+
+\paragraph{\texorpdfstring{\texttt{\ space\ }}{ space }}\label{definitions-linear-space}
+
+{ any }
+
+The color space in which to interpolate the gradient.
+
+Defaults to a perceptually uniform color space called
+\href{/docs/reference/visualize/color/\#definitions-oklab}{Oklab} .
+
+Default: \texttt{\ oklab\ }
+
+\paragraph{\texorpdfstring{\texttt{\ relative\ }}{ relative }}\label{definitions-linear-relative}
+
+\href{/docs/reference/foundations/auto/}{auto} {or}
+\href{/docs/reference/foundations/str/}{str}
+
+The \hyperref[relativeness]{relative placement} of the gradient.
+
+For an element placed at the root/top level of the document, the parent
+is the page itself. For other elements, the parent is the innermost
+block, box, column, grid, or stack that contains the element.
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Variant & Details \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\texttt{\ "\ self\ "\ } & The gradient is relative to itself (its own
+bounding box). \\
+\texttt{\ "\ parent\ "\ } & The gradient is relative to its parent (the
+parent\textquotesingle s bounding box). \\
+\end{longtable}
+
+Default: \texttt{\ }{\texttt{\ auto\ }}\texttt{\ }
+
+\paragraph{\texorpdfstring{\texttt{\ dir\ }}{ dir }}\label{definitions-linear-dir}
+
+\href{/docs/reference/layout/direction/}{direction}
+
+{{ Positional }}
+
+\phantomsection\label{definitions-linear-dir-positional-tooltip}
+Positional parameters are specified in order, without names.
+
+The direction of the gradient.
+
+Default: \texttt{\ ltr\ }
+
+\paragraph{\texorpdfstring{\texttt{\ angle\ }}{ angle }}\label{definitions-linear-angle}
+
+\href{/docs/reference/layout/angle/}{angle}
+
+{Required} {{ Positional }}
+
+\phantomsection\label{definitions-linear-angle-positional-tooltip}
+Positional parameters are specified in order, without names.
+
+The angle of the gradient.
+
+\subsubsection{\texorpdfstring{\texttt{\ radial\ }}{ radial }}\label{definitions-radial}
+
+Creates a new radial gradient, in which colors radiate away from an
+origin.
+
+The gradient is defined by two circles: the focal circle and the end
+circle. The focal circle is a circle with center
+\texttt{\ focal-center\ } and radius \texttt{\ focal-radius\ } , that
+defines the points at which the gradient starts and has the color of the
+first stop. The end circle is a circle with center \texttt{\ center\ }
+and radius \texttt{\ radius\ } , that defines the points at which the
+gradient ends and has the color of the last stop. The gradient is then
+interpolated between these two circles.
+
+Using these four values, also called the focal point for the starting
+circle and the center and radius for the end circle, we can define a
+gradient with more interesting properties than a basic radial gradient.
+
+gradient { . } { radial } (
+
+{ \hyperref[definitions-radial-parameters-stops]{..}
+\href{/docs/reference/visualize/color/}{color}
+\href{/docs/reference/foundations/array/}{array} , } {
+\hyperref[definitions-radial-parameters-space]{space :} { any } , } {
+\hyperref[definitions-radial-parameters-relative]{relative :}
+\href{/docs/reference/foundations/auto/}{auto}
+\href{/docs/reference/foundations/str/}{str} , } {
+\hyperref[definitions-radial-parameters-center]{center :}
+\href{/docs/reference/foundations/array/}{array} , } {
+\hyperref[definitions-radial-parameters-radius]{radius :}
+\href{/docs/reference/layout/ratio/}{ratio} , } {
+\hyperref[definitions-radial-parameters-focal-center]{focal-center :}
+\href{/docs/reference/foundations/auto/}{auto}
+\href{/docs/reference/foundations/array/}{array} , } {
+\hyperref[definitions-radial-parameters-focal-radius]{focal-radius :}
+\href{/docs/reference/layout/ratio/}{ratio} , }
+
+) -\textgreater{} \href{/docs/reference/visualize/gradient/}{gradient}
+
+\begin{verbatim}
+#stack(
+  dir: ltr,
+  spacing: 1fr,
+  circle(fill: gradient.radial(
+    ..color.map.viridis,
+  )),
+  circle(fill: gradient.radial(
+    ..color.map.viridis,
+    focal-center: (10%, 40%),
+    focal-radius: 5%,
+  )),
+)
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/IfkE7bIcLhrH24l0nk0sIQAAAAAAAAAA.png}
+
+\paragraph{\texorpdfstring{\texttt{\ stops\ }}{ stops }}\label{definitions-radial-stops}
+
+\href{/docs/reference/visualize/color/}{color} {or}
+\href{/docs/reference/foundations/array/}{array}
+
+{Required} {{ Positional }}
+
+\phantomsection\label{definitions-radial-stops-positional-tooltip}
+Positional parameters are specified in order, without names.
+
+{{ Variadic }}
+
+\phantomsection\label{definitions-radial-stops-variadic-tooltip}
+Variadic parameters can be specified multiple times.
+
+The color \hyperref[stops]{stops} of the gradient.
+
+\paragraph{\texorpdfstring{\texttt{\ space\ }}{ space }}\label{definitions-radial-space}
+
+{ any }
+
+The color space in which to interpolate the gradient.
+
+Defaults to a perceptually uniform color space called
+\href{/docs/reference/visualize/color/\#definitions-oklab}{Oklab} .
+
+Default: \texttt{\ oklab\ }
+
+\paragraph{\texorpdfstring{\texttt{\ relative\ }}{ relative }}\label{definitions-radial-relative}
+
+\href{/docs/reference/foundations/auto/}{auto} {or}
+\href{/docs/reference/foundations/str/}{str}
+
+The \hyperref[relativeness]{relative placement} of the gradient.
+
+For an element placed at the root/top level of the document, the parent
+is the page itself. For other elements, the parent is the innermost
+block, box, column, grid, or stack that contains the element.
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Variant & Details \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\texttt{\ "\ self\ "\ } & The gradient is relative to itself (its own
+bounding box). \\
+\texttt{\ "\ parent\ "\ } & The gradient is relative to its parent (the
+parent\textquotesingle s bounding box). \\
+\end{longtable}
+
+Default: \texttt{\ }{\texttt{\ auto\ }}\texttt{\ }
+
+\paragraph{\texorpdfstring{\texttt{\ center\ }}{ center }}\label{definitions-radial-center}
+
+\href{/docs/reference/foundations/array/}{array}
+
+The center of the end circle of the gradient.
+
+A value of
+\texttt{\ }{\texttt{\ (\ }}\texttt{\ }{\texttt{\ 50\%\ }}\texttt{\ }{\texttt{\ ,\ }}\texttt{\ }{\texttt{\ 50\%\ }}\texttt{\ }{\texttt{\ )\ }}\texttt{\ }
+means that the end circle is centered inside of its container.
+
+Default:
+\texttt{\ }{\texttt{\ (\ }}\texttt{\ }{\texttt{\ 50\%\ }}\texttt{\ }{\texttt{\ ,\ }}\texttt{\ }{\texttt{\ 50\%\ }}\texttt{\ }{\texttt{\ )\ }}\texttt{\ }
+
+\paragraph{\texorpdfstring{\texttt{\ radius\ }}{ radius }}\label{definitions-radial-radius}
+
+\href{/docs/reference/layout/ratio/}{ratio}
+
+The radius of the end circle of the gradient.
+
+By default, it is set to \texttt{\ }{\texttt{\ 50\%\ }}\texttt{\ } . The
+ending radius must be bigger than the focal radius.
+
+Default: \texttt{\ }{\texttt{\ 50\%\ }}\texttt{\ }
+
+\paragraph{\texorpdfstring{\texttt{\ focal-center\ }}{ focal-center }}\label{definitions-radial-focal-center}
+
+\href{/docs/reference/foundations/auto/}{auto} {or}
+\href{/docs/reference/foundations/array/}{array}
+
+The center of the focal circle of the gradient.
+
+The focal center must be inside of the end circle.
+
+A value of
+\texttt{\ }{\texttt{\ (\ }}\texttt{\ }{\texttt{\ 50\%\ }}\texttt{\ }{\texttt{\ ,\ }}\texttt{\ }{\texttt{\ 50\%\ }}\texttt{\ }{\texttt{\ )\ }}\texttt{\ }
+means that the focal circle is centered inside of its container.
+
+By default it is set to the same as the center of the last circle.
+
+Default: \texttt{\ }{\texttt{\ auto\ }}\texttt{\ }
+
+\paragraph{\texorpdfstring{\texttt{\ focal-radius\ }}{ focal-radius }}\label{definitions-radial-focal-radius}
+
+\href{/docs/reference/layout/ratio/}{ratio}
+
+The radius of the focal circle of the gradient.
+
+The focal center must be inside of the end circle.
+
+By default, it is set to \texttt{\ }{\texttt{\ 0\%\ }}\texttt{\ } . The
+focal radius must be smaller than the ending radius`.
+
+Default: \texttt{\ }{\texttt{\ 0\%\ }}\texttt{\ }
+
+\subsubsection{\texorpdfstring{\texttt{\ conic\ }}{ conic }}\label{definitions-conic}
+
+Creates a new conic gradient, in which colors change radially around a
+center point.
+
+You can control the center point of the gradient by using the
+\texttt{\ center\ } argument. By default, the center point is the center
+of the shape.
+
+gradient { . } { conic } (
+
+{ \hyperref[definitions-conic-parameters-stops]{..}
+\href{/docs/reference/visualize/color/}{color}
+\href{/docs/reference/foundations/array/}{array} , } {
+\hyperref[definitions-conic-parameters-angle]{angle :}
+\href{/docs/reference/layout/angle/}{angle} , } {
+\hyperref[definitions-conic-parameters-space]{space :} { any } , } {
+\hyperref[definitions-conic-parameters-relative]{relative :}
+\href{/docs/reference/foundations/auto/}{auto}
+\href{/docs/reference/foundations/str/}{str} , } {
+\hyperref[definitions-conic-parameters-center]{center :}
+\href{/docs/reference/foundations/array/}{array} , }
+
+) -\textgreater{} \href{/docs/reference/visualize/gradient/}{gradient}
+
+\begin{verbatim}
+#stack(
+  dir: ltr,
+  spacing: 1fr,
+  circle(fill: gradient.conic(
+    ..color.map.viridis,
+  )),
+  circle(fill: gradient.conic(
+    ..color.map.viridis,
+    center: (20%, 30%),
+  )),
+)
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/Mqmcewscuekk2Rsln7oKygAAAAAAAAAA.png}
+
+\paragraph{\texorpdfstring{\texttt{\ stops\ }}{ stops }}\label{definitions-conic-stops}
+
+\href{/docs/reference/visualize/color/}{color} {or}
+\href{/docs/reference/foundations/array/}{array}
+
+{Required} {{ Positional }}
+
+\phantomsection\label{definitions-conic-stops-positional-tooltip}
+Positional parameters are specified in order, without names.
+
+{{ Variadic }}
+
+\phantomsection\label{definitions-conic-stops-variadic-tooltip}
+Variadic parameters can be specified multiple times.
+
+The color \hyperref[stops]{stops} of the gradient.
+
+\paragraph{\texorpdfstring{\texttt{\ angle\ }}{ angle }}\label{definitions-conic-angle}
+
+\href{/docs/reference/layout/angle/}{angle}
+
+The angle of the gradient.
+
+Default: \texttt{\ }{\texttt{\ 0deg\ }}\texttt{\ }
+
+\paragraph{\texorpdfstring{\texttt{\ space\ }}{ space }}\label{definitions-conic-space}
+
+{ any }
+
+The color space in which to interpolate the gradient.
+
+Defaults to a perceptually uniform color space called
+\href{/docs/reference/visualize/color/\#definitions-oklab}{Oklab} .
+
+Default: \texttt{\ oklab\ }
+
+\paragraph{\texorpdfstring{\texttt{\ relative\ }}{ relative }}\label{definitions-conic-relative}
+
+\href{/docs/reference/foundations/auto/}{auto} {or}
+\href{/docs/reference/foundations/str/}{str}
+
+The \hyperref[relativeness]{relative placement} of the gradient.
+
+For an element placed at the root/top level of the document, the parent
+is the page itself. For other elements, the parent is the innermost
+block, box, column, grid, or stack that contains the element.
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Variant & Details \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\texttt{\ "\ self\ "\ } & The gradient is relative to itself (its own
+bounding box). \\
+\texttt{\ "\ parent\ "\ } & The gradient is relative to its parent (the
+parent\textquotesingle s bounding box). \\
+\end{longtable}
+
+Default: \texttt{\ }{\texttt{\ auto\ }}\texttt{\ }
+
+\paragraph{\texorpdfstring{\texttt{\ center\ }}{ center }}\label{definitions-conic-center}
+
+\href{/docs/reference/foundations/array/}{array}
+
+The center of the last circle of the gradient.
+
+A value of
+\texttt{\ }{\texttt{\ (\ }}\texttt{\ }{\texttt{\ 50\%\ }}\texttt{\ }{\texttt{\ ,\ }}\texttt{\ }{\texttt{\ 50\%\ }}\texttt{\ }{\texttt{\ )\ }}\texttt{\ }
+means that the end circle is centered inside of its container.
+
+Default:
+\texttt{\ }{\texttt{\ (\ }}\texttt{\ }{\texttt{\ 50\%\ }}\texttt{\ }{\texttt{\ ,\ }}\texttt{\ }{\texttt{\ 50\%\ }}\texttt{\ }{\texttt{\ )\ }}\texttt{\ }
+
+\subsubsection{\texorpdfstring{\texttt{\ sharp\ }}{ sharp }}\label{definitions-sharp}
+
+Creates a sharp version of this gradient.
+
+Sharp gradients have discrete jumps between colors, instead of a smooth
+transition. They are particularly useful for creating color lists for a
+preset gradient.
+
+self { . } { sharp } (
+
+{ \href{/docs/reference/foundations/int/}{int} , } {
+\hyperref[definitions-sharp-parameters-smoothness]{smoothness :}
+\href{/docs/reference/layout/ratio/}{ratio} , }
+
+) -\textgreater{} \href{/docs/reference/visualize/gradient/}{gradient}
+
+\begin{verbatim}
+#set rect(width: 100%, height: 20pt)
+#let grad = gradient.linear(..color.map.rainbow)
+#rect(fill: grad)
+#rect(fill: grad.sharp(5))
+#rect(fill: grad.sharp(5, smoothness: 20%))
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/k1IrJvVHW9DTjXfwHdfh_QAAAAAAAAAA.png}
+
+\paragraph{\texorpdfstring{\texttt{\ steps\ }}{ steps }}\label{definitions-sharp-steps}
+
+\href{/docs/reference/foundations/int/}{int}
+
+{Required} {{ Positional }}
+
+\phantomsection\label{definitions-sharp-steps-positional-tooltip}
+Positional parameters are specified in order, without names.
+
+The number of stops in the gradient.
+
+\paragraph{\texorpdfstring{\texttt{\ smoothness\ }}{ smoothness }}\label{definitions-sharp-smoothness}
+
+\href{/docs/reference/layout/ratio/}{ratio}
+
+How much to smooth the gradient.
+
+Default: \texttt{\ }{\texttt{\ 0\%\ }}\texttt{\ }
+
+\subsubsection{\texorpdfstring{\texttt{\ repeat\ }}{ repeat }}\label{definitions-repeat}
+
+Repeats this gradient a given number of times, optionally mirroring it
+at each repetition.
+
+self { . } { repeat } (
+
+{ \href{/docs/reference/foundations/int/}{int} , } {
+\hyperref[definitions-repeat-parameters-mirror]{mirror :}
+\href{/docs/reference/foundations/bool/}{bool} , }
+
+) -\textgreater{} \href{/docs/reference/visualize/gradient/}{gradient}
+
+\begin{verbatim}
+#circle(
+  radius: 40pt,
+  fill: gradient
+    .radial(aqua, white)
+    .repeat(4),
+)
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/ydbGAMwgwvGMCJpfMs1wAAAAAAAAAAAA.png}
+
+\paragraph{\texorpdfstring{\texttt{\ repetitions\ }}{ repetitions }}\label{definitions-repeat-repetitions}
+
+\href{/docs/reference/foundations/int/}{int}
+
+{Required} {{ Positional }}
+
+\phantomsection\label{definitions-repeat-repetitions-positional-tooltip}
+Positional parameters are specified in order, without names.
+
+The number of times to repeat the gradient.
+
+\paragraph{\texorpdfstring{\texttt{\ mirror\ }}{ mirror }}\label{definitions-repeat-mirror}
+
+\href{/docs/reference/foundations/bool/}{bool}
+
+Whether to mirror the gradient at each repetition.
+
+Default: \texttt{\ }{\texttt{\ false\ }}\texttt{\ }
+
+\subsubsection{\texorpdfstring{\texttt{\ kind\ }}{ kind }}\label{definitions-kind}
+
+Returns the kind of this gradient.
+
+self { . } { kind } (
+
+) -\textgreater{} \href{/docs/reference/foundations/function/}{function}
+
+\subsubsection{\texorpdfstring{\texttt{\ stops\ }}{ stops }}\label{definitions-stops}
+
+Returns the stops of this gradient.
+
+self { . } { stops } (
+
+) -\textgreater{} \href{/docs/reference/foundations/array/}{array}
+
+\subsubsection{\texorpdfstring{\texttt{\ space\ }}{ space }}\label{definitions-space}
+
+Returns the mixing space of this gradient.
+
+self { . } { space } (
+
+) -\textgreater{} { any }
+
+\subsubsection{\texorpdfstring{\texttt{\ relative\ }}{ relative }}\label{definitions-relative}
+
+Returns the relative placement of this gradient.
+
+self { . } { relative } (
+
+) -\textgreater{} \href{/docs/reference/foundations/auto/}{auto}
+
+\subsubsection{\texorpdfstring{\texttt{\ angle\ }}{ angle }}\label{definitions-angle}
+
+Returns the angle of this gradient.
+
+self { . } { angle } (
+
+) -\textgreater{} \href{/docs/reference/foundations/none/}{none}
+\href{/docs/reference/layout/angle/}{angle}
+
+\subsubsection{\texorpdfstring{\texttt{\ sample\ }}{ sample }}\label{definitions-sample}
+
+Sample the gradient at a given position.
+
+The position is either a position along the gradient (a
+\href{/docs/reference/layout/ratio/}{ratio} between
+\texttt{\ }{\texttt{\ 0\%\ }}\texttt{\ } and
+\texttt{\ }{\texttt{\ 100\%\ }}\texttt{\ } ) or an
+\href{/docs/reference/layout/angle/}{angle} . Any value outside of this
+range will be clamped.
+
+self { . } { sample } (
+
+{ \href{/docs/reference/layout/angle/}{angle}
+\href{/docs/reference/layout/ratio/}{ratio} }
+
+) -\textgreater{} \href{/docs/reference/visualize/color/}{color}
+
+\paragraph{\texorpdfstring{\texttt{\ t\ }}{ t }}\label{definitions-sample-t}
+
+\href{/docs/reference/layout/angle/}{angle} {or}
+\href{/docs/reference/layout/ratio/}{ratio}
+
+{Required} {{ Positional }}
+
+\phantomsection\label{definitions-sample-t-positional-tooltip}
+Positional parameters are specified in order, without names.
+
+The position at which to sample the gradient.
+
+\subsubsection{\texorpdfstring{\texttt{\ samples\ }}{ samples }}\label{definitions-samples}
+
+Samples the gradient at multiple positions at once and returns the
+results as an array.
+
+self { . } { samples } (
+
+{ \hyperref[definitions-samples-parameters-ts]{..}
+\href{/docs/reference/layout/angle/}{angle}
+\href{/docs/reference/layout/ratio/}{ratio} }
+
+) -\textgreater{} \href{/docs/reference/foundations/array/}{array}
+
+\paragraph{\texorpdfstring{\texttt{\ ts\ }}{ ts }}\label{definitions-samples-ts}
+
+\href{/docs/reference/layout/angle/}{angle} {or}
+\href{/docs/reference/layout/ratio/}{ratio}
+
+{Required} {{ Positional }}
+
+\phantomsection\label{definitions-samples-ts-positional-tooltip}
+Positional parameters are specified in order, without names.
+
+{{ Variadic }}
+
+\phantomsection\label{definitions-samples-ts-variadic-tooltip}
+Variadic parameters can be specified multiple times.
+
+The positions at which to sample the gradient.
+
+\href{/docs/reference/visualize/ellipse/}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-arrow-right.svg}}}
+
+{ Ellipse } { Previous page }
+
+\href{/docs/reference/visualize/image/}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-arrow-right.svg}}}
+
+{ Image } { Next page }

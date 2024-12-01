@@ -1,0 +1,401 @@
+\title{typst.app/docs/tutorial/writing-in-typst}
+
+\begin{itemize}
+\tightlist
+\item
+  \href{/docs}{\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-docs-dark.svg}}
+\item
+  \includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-arrow-right.svg}
+\item
+  \href{/docs/tutorial/}{Tutorial}
+\item
+  \includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-arrow-right.svg}
+\item
+  \href{/docs/tutorial/writing-in-typst/}{Writing in Typst}
+\end{itemize}
+
+\section{Writing in Typst}\label{writing-in-typst}
+
+Let\textquotesingle s get started! Suppose you got assigned to write a
+technical report for university. It will contain prose, maths, headings,
+and figures. To get started, you create a new project on the Typst app.
+You\textquotesingle ll be taken to the editor where you see two panels:
+A source panel where you compose your document and a preview panel where
+you see the rendered document.
+
+\pandocbounded{\includegraphics[keepaspectratio]{/assets/docs/1-writing-app.png}}
+
+You already have a good angle for your report in mind. So
+let\textquotesingle s start by writing the introduction. Enter some text
+in the editor panel. You\textquotesingle ll notice that the text
+immediately appears on the previewed page.
+
+\begin{verbatim}
+In this report, we will explore the
+various factors that influence fluid
+dynamics in glaciers and how they
+contribute to the formation and
+behaviour of these natural structures.
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/ePl1U-2a7w8qkmb3CLl_oAAAAAAAAAAA.png}
+
+\emph{Throughout this tutorial, we\textquotesingle ll show code examples
+like this one. Just like in the app, the first panel contains markup and
+the second panel shows a preview. We shrunk the page to fit the examples
+so you can see what\textquotesingle s going on.}
+
+The next step is to add a heading and emphasize some text. Typst uses
+simple markup for the most common formatting tasks. To add a heading,
+enter the \texttt{\ =\ } character and to emphasize some text with
+italics, enclose it in
+\texttt{\ }{\texttt{\ \_underscores\_\ }}\texttt{\ } .
+
+\begin{verbatim}
+= Introduction
+In this report, we will explore the
+various factors that influence _fluid
+dynamics_ in glaciers and how they
+contribute to the formation and
+behaviour of these natural structures.
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/p75v-z7QqVChplB2N8HZfwAAAAAAAAAA.png}
+
+That was easy! To add a new paragraph, just add a blank line in between
+two lines of text. If that paragraph needs a subheading, produce it by
+typing \texttt{\ ==\ } instead of \texttt{\ =\ } . The number of
+\texttt{\ =\ } characters determines the nesting level of the heading.
+
+Now we want to list a few of the circumstances that influence glacier
+dynamics. To do that, we use a numbered list. For each item of the list,
+we type a \texttt{\ +\ } character at the beginning of the line. Typst
+will automatically number the items.
+
+\begin{verbatim}
++ The climate
++ The topography
++ The geology
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/U3IHQbhSNQ8ndkXIv_gPrgAAAAAAAAAA.png}
+
+If we wanted to add a bulleted list, we would use the \texttt{\ -\ }
+character instead of the \texttt{\ +\ } character. We can also nest
+lists: For example, we can add a sub-list to the first item of the list
+above by indenting it.
+
+\begin{verbatim}
++ The climate
+  - Temperature
+  - Precipitation
++ The topography
++ The geology
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/xmS-BPiM_gDHkWk9_uhE_gAAAAAAAAAA.png}
+
+\subsection{Adding a figure}\label{figure}
+
+You think that your report would benefit from a figure.
+Let\textquotesingle s add one. Typst supports images in the formats PNG,
+JPEG, GIF, and SVG. To add an image file to your project, first open the
+\emph{file panel} by clicking the box icon in the left sidebar. Here,
+you can see a list of all files in your project. Currently, there is
+only one: The main Typst file you are writing in. To upload another
+file, click the button with the arrow in the top-right corner. This
+opens the upload dialog, in which you can pick files to upload from your
+computer. Select an image file for your report.
+
+\pandocbounded{\includegraphics[keepaspectratio]{/assets/docs/1-writing-upload.png}}
+
+We have seen before that specific symbols (called \emph{markup} ) have
+specific meaning in Typst. We can use \texttt{\ =\ } , \texttt{\ -\ } ,
+\texttt{\ +\ } , and \texttt{\ \_\ } to create headings, lists and
+emphasized text, respectively. However, having a special symbol for
+everything we want to insert into our document would soon become cryptic
+and unwieldy. For this reason, Typst reserves markup symbols only for
+the most common things. Everything else is inserted with
+\emph{functions.} For our image to show up on the page, we use
+Typst\textquotesingle s
+\href{/docs/reference/visualize/image/}{\texttt{\ image\ }} function.
+
+\begin{verbatim}
+#image("glacier.jpg")
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/KwKlYCVb2uFZqZ8abt3-ggAAAAAAAAAA.png}
+
+In general, a function produces some output for a set of
+\emph{arguments} . When you \emph{call} a function within markup, you
+provide the arguments and Typst inserts the result (the
+function\textquotesingle s \emph{return value} ) into the document. In
+our case, the \texttt{\ image\ } function takes one argument: The path
+to the image file. To call a function in markup, we first need to type
+the \texttt{\ \#\ } character, immediately followed by the name of the
+function. Then, we enclose the arguments in parentheses. Typst
+recognizes many different data types within argument lists. Our file
+path is a short \href{/docs/reference/foundations/str/}{string of text}
+, so we need to enclose it in double quotes.
+
+The inserted image uses the whole width of the page. To change that,
+pass the \texttt{\ width\ } argument to the \texttt{\ image\ } function.
+This is a \emph{named} argument and therefore specified as a
+\texttt{\ name:\ value\ } pair. If there are multiple arguments, they
+are separated by commas, so we first need to put a comma behind the
+path.
+
+\begin{verbatim}
+#image("glacier.jpg", width: 70%)
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/lpadKIOzcEsf_MGoSeZghAAAAAAAAAAA.png}
+
+The \texttt{\ width\ } argument is a
+\href{/docs/reference/layout/relative/}{relative length} . In our case,
+we specified a percentage, determining that the image shall take up
+\texttt{\ }{\texttt{\ 70\%\ }}\texttt{\ } of the page\textquotesingle s
+width. We also could have specified an absolute value like
+\texttt{\ }{\texttt{\ 1cm\ }}\texttt{\ } or
+\texttt{\ }{\texttt{\ 0.7in\ }}\texttt{\ } .
+
+Just like text, the image is now aligned at the left side of the page by
+default. It\textquotesingle s also lacking a caption.
+Let\textquotesingle s fix that by using the
+\href{/docs/reference/model/figure/}{figure} function. This function
+takes the figure\textquotesingle s contents as a positional argument and
+an optional caption as a named argument.
+
+Within the argument list of the \texttt{\ figure\ } function, Typst is
+already in code mode. This means, you now have to remove the hash before
+the image function call. The hash is only needed directly in markup (to
+disambiguate text from function calls).
+
+The caption consists of arbitrary markup. To give markup to a function,
+we enclose it in square brackets. This construct is called a
+\emph{content block.}
+
+\begin{verbatim}
+#figure(
+  image("glacier.jpg", width: 70%),
+  caption: [
+    _Glaciers_ form an important part
+    of the earth's climate system.
+  ],
+)
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/v5OnReUO8fD5Rfj2aJZVyQAAAAAAAAAA.png}
+
+You continue to write your report and now want to reference the figure.
+To do that, first attach a label to figure. A label uniquely identifies
+an element in your document. Add one after the figure by enclosing some
+name in angle brackets. You can then reference the figure in your text
+by writing an \texttt{\ }{\texttt{\ @\ }}\texttt{\ } symbol followed by
+that name. Headings and equations can also be labelled to make them
+referenceable.
+
+\begin{verbatim}
+Glaciers as the one shown in
+@glaciers will cease to exist if
+we don't take action soon!
+
+#figure(
+  image("glacier.jpg", width: 70%),
+  caption: [
+    _Glaciers_ form an important part
+    of the earth's climate system.
+  ],
+) <glaciers>
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/cwZ12iQ39B4L-_wQwhO2TAAAAAAAAAAA.png}
+
+So far, we\textquotesingle ve passed content blocks (markup in square
+brackets) and strings (text in double quotes) to our functions. Both
+seem to contain text. What\textquotesingle s the difference?
+
+A content block can contain text, but also any other kind of markup,
+function calls, and more, whereas a string is really just a
+\emph{sequence of characters} and nothing else.
+
+For example, the image function expects a path to an image file. It
+would not make sense to pass, e.g., a paragraph of text or another image
+as the image\textquotesingle s path parameter. That\textquotesingle s
+why only strings are allowed here. On the contrary, strings work
+wherever content is expected because text is a valid kind of content.
+
+\subsection{Adding a bibliography}\label{bibliography}
+
+As you write up your report, you need to back up some of your claims.
+You can add a bibliography to your document with the
+\href{/docs/reference/model/bibliography/}{\texttt{\ bibliography\ }}
+function. This function expects a path to a bibliography file.
+
+Typst\textquotesingle s native bibliography format is
+\href{https://github.com/typst/hayagriva/blob/main/docs/file-format.md}{Hayagriva}
+, but for compatibility you can also use BibLaTeX files. As your
+classmate has already done a literature survey and sent you a
+\texttt{\ .bib\ } file, you\textquotesingle ll use that one. Upload the
+file through the file panel to access it in Typst.
+
+Once the document contains a bibliography, you can start citing from it.
+Citations use the same syntax as references to a label. As soon as you
+cite a source for the first time, it will appear in the bibliography
+section of your document. Typst supports different citation and
+bibliography styles. Consult the
+\href{/docs/reference/model/bibliography/\#parameters-style}{reference}
+for more details.
+
+\begin{verbatim}
+= Methods
+We follow the glacier melting models
+established in @glacier-melt.
+
+#bibliography("works.bib")
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/QGPHT14ksdea0r_8vy01WAAAAAAAAAAA.png}
+
+\subsection{Maths}\label{maths}
+
+After fleshing out the methods section, you move on to the meat of the
+document: Your equations. Typst has built-in mathematical typesetting
+and uses its own math notation. Let\textquotesingle s start with a
+simple equation. We wrap it in \texttt{\ \$\ } signs to let Typst know
+it should expect a mathematical expression:
+
+\begin{verbatim}
+The equation $Q = rho A v + C$
+defines the glacial flow rate.
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/_u5BjLoMFBZU2zg1OWULdgAAAAAAAAAA.png}
+
+The equation is typeset inline, on the same line as the surrounding
+text. If you want to have it on its own line instead, you should insert
+a single space at its start and end:
+
+\begin{verbatim}
+The flow rate of a glacier is
+defined by the following equation:
+
+$ Q = rho A v + C $
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/GXI0mvGOqqSC165iRTK-QwAAAAAAAAAA.png}
+
+We can see that Typst displayed the single letters \texttt{\ Q\ } ,
+\texttt{\ A\ } , \texttt{\ v\ } , and \texttt{\ C\ } as-is, while it
+translated \texttt{\ rho\ } into a Greek letter. Math mode will always
+show single letters verbatim. Multiple letters, however, are interpreted
+as symbols, variables, or function names. To imply a multiplication
+between single letters, put spaces between them.
+
+If you want to have a variable that consists of multiple letters, you
+can enclose it in quotes:
+
+\begin{verbatim}
+The flow rate of a glacier is given
+by the following equation:
+
+$ Q = rho A v + "time offset" $
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/JSaojGBiKH-FLbIYqeWSgAAAAAAAAAAA.png}
+
+You\textquotesingle ll also need a sum formula in your paper. We can use
+the \texttt{\ sum\ } symbol and then specify the range of the summation
+in sub- and superscripts:
+
+\begin{verbatim}
+Total displaced soil by glacial flow:
+
+$ 7.32 beta +
+  sum_(i=0)^nabla Q_i / 2 $
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/rTDyTGxJlXKPRHJub3ALRgAAAAAAAAAA.png}
+
+To add a subscript to a symbol or variable, type a \texttt{\ \_\ }
+character and then the subscript. Similarly, use the \texttt{\ \^{}\ }
+character for a superscript. If your sub- or superscript consists of
+multiple things, you must enclose them in round parentheses.
+
+The above example also showed us how to insert fractions: Simply put a
+\texttt{\ /\ } character between the numerator and the denominator and
+Typst will automatically turn it into a fraction. Parentheses are
+smartly resolved, so you can enter your expression as you would into a
+calculator and Typst will replace parenthesized sub-expressions with the
+appropriate notation.
+
+\begin{verbatim}
+Total displaced soil by glacial flow:
+
+$ 7.32 beta +
+  sum_(i=0)^nabla
+    (Q_i (a_i - epsilon)) / 2 $
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/HgeB2Bx5Lh3a5NPfF6WEdwAAAAAAAAAA.png}
+
+Not all math constructs have special syntax. Instead, we use functions,
+just like the \texttt{\ image\ } function we have seen before. For
+example, to insert a column vector, we can use the
+\href{/docs/reference/math/vec/}{\texttt{\ vec\ }} function. Within math
+mode, function calls don\textquotesingle t need to start with the
+\texttt{\ \#\ } character.
+
+\begin{verbatim}
+$ v := vec(x_1, x_2, x_3) $
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/nj0pMnkuoX2t5FZ3_x6YKwAAAAAAAAAA.png}
+
+Some functions are only available within math mode. For example, the
+\href{/docs/reference/math/variants/\#functions-cal}{\texttt{\ cal\ }}
+function is used to typeset calligraphic letters commonly used for sets.
+The \href{/docs/reference/math/}{math section of the reference} provides
+a complete list of all functions that math mode makes available.
+
+One more thing: Many symbols, such as the arrow, have a lot of variants.
+You can select among these variants by appending a dot and a modifier
+name to a symbol\textquotesingle s name:
+
+\begin{verbatim}
+$ a arrow.squiggly b $
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/0GgQitNz41j-75F3FS6iAwAAAAAAAAAA.png}
+
+This notation is also available in markup mode, but the symbol name must
+be preceded with \texttt{\ \#sym.\ } there. See the
+\href{/docs/reference/symbols/sym/}{symbols section} for a list of all
+available symbols.
+
+\subsection{Review}\label{review}
+
+You have now seen how to write a basic document in Typst. You learned
+how to emphasize text, write lists, insert images, align content, and
+typeset mathematical expressions. You also learned about
+Typst\textquotesingle s functions. There are many more kinds of content
+that Typst lets you insert into your document, such as
+\href{/docs/reference/model/table/}{tables} ,
+\href{/docs/reference/visualize/}{shapes} , and
+\href{/docs/reference/text/raw/}{code blocks} . You can peruse the
+\href{/docs/reference/}{reference} to learn more about these and other
+features.
+
+For the moment, you have completed writing your report. You have already
+saved a PDF by clicking on the download button in the top right corner.
+However, you think the report could look a bit less plain. In the next
+section, we\textquotesingle ll learn how to customize the look of our
+document.
+
+\href{/docs/tutorial/}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-arrow-right.svg}}}
+
+{ Tutorial } { Previous page }
+
+\href{/docs/tutorial/formatting/}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-arrow-right.svg}}}
+
+{ Formatting } { Next page }

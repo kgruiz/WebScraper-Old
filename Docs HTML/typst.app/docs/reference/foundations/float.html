@@ -1,0 +1,746 @@
+<main>
+    <ul aria-label="Breadcrumbs" class="breadcrumbs">
+     <li class="root">
+      <a href="/docs">
+       <img alt="Docs" height="16" src="/assets/icons/16-docs-dark.svg" width="16"/>
+      </a>
+     </li>
+     <li aria-hidden="true">
+      <img alt="" height="16" src="/assets/icons/16-arrow-right.svg" width="16"/>
+     </li>
+     <li>
+      <a href="/docs/reference/">
+       Reference
+      </a>
+     </li>
+     <li aria-hidden="true">
+      <img alt="" height="16" src="/assets/icons/16-arrow-right.svg" width="16"/>
+     </li>
+     <li>
+      <a href="/docs/reference/foundations/">
+       Foundations
+      </a>
+     </li>
+     <li aria-hidden="true">
+      <img alt="" height="16" src="/assets/icons/16-arrow-right.svg" width="16"/>
+     </li>
+     <li>
+      <a href="/docs/reference/foundations/float/">
+       Float
+      </a>
+     </li>
+    </ul>
+    <h1 id="summary">
+     <span class="pill pill-num">
+      float
+     </span>
+    </h1>
+    <p>
+     A floating-point number.
+    </p>
+    <p>
+     A limited-precision representation of a real number. Typst uses 64 bits to store floats. Wherever a float is expected, you can also pass an
+     <a href="/docs/reference/foundations/int/">
+      integer
+     </a>
+     .
+    </p>
+    <p>
+     You can convert a value to a float with this type's constructor.
+    </p>
+    <p>
+     NaN and positive infinity are available as
+     <code>
+      float
+      <span class="typ-punct">
+       .
+      </span>
+      nan
+     </code>
+     and
+     <code>
+      float
+      <span class="typ-punct">
+       .
+      </span>
+      inf
+     </code>
+     respectively.
+    </p>
+    <h2 id="example">
+     Example
+    </h2>
+    <div class="previewed-code">
+     <pre><code><span class="typ-num">#</span><span class="typ-num">3.14</span> <span class="typ-escape">\</span>
+<span class="typ-num">#</span><span class="typ-num">1e4</span> <span class="typ-escape">\</span>
+<span class="typ-punct">#</span><span class="typ-punct">(</span><span class="typ-num">10</span> <span class="typ-op">/</span> <span class="typ-num">4</span><span class="typ-punct">)</span>
+</code></pre>
+     <div class="preview">
+      <img alt="Preview" height="132/" src="/assets/docs/Oh7PyPKhSHHcwVH4CSb0KwAAAAAAAAAA.png" width="480"/>
+     </div>
+    </div>
+    <h2 id="constructor">
+     Constructor
+     <small>
+      <div class="tooltip-context">
+       <svg aria-labelledby=":R38n9a:-label" height="12" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 12 12" width="12">
+        <title id=":R38n9a:-label">
+         Question mark
+        </title>
+        <use href="/assets/icons/12-tooltip.svg#icon">
+        </use>
+       </svg>
+       <div aria-hidden="true" id="constructor-constructor-tooltip" role="tooltip" tabindex="-1">
+        If a type has a constructor, you can call it like a function to create a new value of the type.
+       </div>
+      </div>
+     </small>
+    </h2>
+    <p>
+     Converts a value to a float.
+    </p>
+    <ul>
+     <li>
+      Booleans are converted to
+      <code>
+       0.0
+      </code>
+      or
+      <code>
+       1.0
+      </code>
+      .
+     </li>
+     <li>
+      Integers are converted to the closest 64-bit float. For integers with absolute value less than
+      <code>
+       calc
+       <span class="typ-punct">
+        .
+       </span>
+       <span class="typ-func">
+        pow
+       </span>
+       <span class="typ-punct">
+        (
+       </span>
+       <span class="typ-num">
+        2
+       </span>
+       <span class="typ-punct">
+        ,
+       </span>
+       <span class="typ-num">
+        53
+       </span>
+       <span class="typ-punct">
+        )
+       </span>
+      </code>
+      , this conversion is exact.
+     </li>
+     <li>
+      Ratios are divided by 100%.
+     </li>
+     <li>
+      Strings are parsed in base 10 to the closest 64-bit float. Exponential notation is supported.
+     </li>
+    </ul>
+    <div class="code code-definition single-arg">
+     <span class="typ-func">
+      float
+     </span>
+     (
+     <div class="arguments">
+      <span class="overview-param">
+       <a class="pill pill-bool" href="/docs/reference/foundations/bool/">
+        bool
+       </a>
+       <a class="pill pill-num" href="/docs/reference/foundations/int/">
+        int
+       </a>
+       <a class="pill pill-num" href="/docs/reference/foundations/float/">
+        float
+       </a>
+       <a class="pill pill-num" href="/docs/reference/layout/ratio/">
+        ratio
+       </a>
+       <a class="pill pill-str" href="/docs/reference/foundations/str/">
+        str
+       </a>
+       <a class="pill pill-obj" href="/docs/reference/foundations/decimal/">
+        decimal
+       </a>
+      </span>
+     </div>
+     )
+     <!-- -->
+     -&gt;
+     <a class="pill pill-num" href="/docs/reference/foundations/float/">
+      float
+     </a>
+    </div>
+    <div class="previewed-code">
+     <pre><code><span class="typ-func">#</span><span class="typ-func">float</span><span class="typ-punct">(</span><span class="typ-key">false</span><span class="typ-punct">)</span> <span class="typ-escape">\</span>
+<span class="typ-func">#</span><span class="typ-func">float</span><span class="typ-punct">(</span><span class="typ-key">true</span><span class="typ-punct">)</span> <span class="typ-escape">\</span>
+<span class="typ-func">#</span><span class="typ-func">float</span><span class="typ-punct">(</span><span class="typ-num">4</span><span class="typ-punct">)</span> <span class="typ-escape">\</span>
+<span class="typ-func">#</span><span class="typ-func">float</span><span class="typ-punct">(</span><span class="typ-num">40%</span><span class="typ-punct">)</span> <span class="typ-escape">\</span>
+<span class="typ-func">#</span><span class="typ-func">float</span><span class="typ-punct">(</span><span class="typ-str">"2.7"</span><span class="typ-punct">)</span> <span class="typ-escape">\</span>
+<span class="typ-func">#</span><span class="typ-func">float</span><span class="typ-punct">(</span><span class="typ-str">"1e5"</span><span class="typ-punct">)</span>
+</code></pre>
+     <div class="preview">
+      <img alt="Preview" height="218/" src="/assets/docs/PMa-HqZaL4--FN_1I0OHagAAAAAAAAAA.png" width="480"/>
+     </div>
+    </div>
+    <h4 id="constructor-value">
+     <code>
+      value
+     </code>
+     <div class="additional-info">
+      <div>
+       <a class="pill pill-bool" href="/docs/reference/foundations/bool/">
+        bool
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-num" href="/docs/reference/foundations/int/">
+        int
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-num" href="/docs/reference/foundations/float/">
+        float
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-num" href="/docs/reference/layout/ratio/">
+        ratio
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-str" href="/docs/reference/foundations/str/">
+        str
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-obj" href="/docs/reference/foundations/decimal/">
+        decimal
+       </a>
+      </div>
+      <small>
+       Required
+      </small>
+      <small>
+       <span aria-describedby="constructor-value-positional-tooltip">
+        Positional
+       </span>
+       <div class="tooltip-context">
+        <svg aria-labelledby=":Rcsf79a:-label" height="12" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 12 12" width="12">
+         <title id=":Rcsf79a:-label">
+          Question mark
+         </title>
+         <use href="/assets/icons/12-tooltip.svg#icon">
+         </use>
+        </svg>
+        <div aria-hidden="true" id="constructor-value-positional-tooltip" role="tooltip" tabindex="-1">
+         Positional parameters are specified in order, without names.
+        </div>
+       </div>
+      </small>
+     </div>
+    </h4>
+    <p>
+     The value that should be converted to a float.
+    </p>
+    <h2 id="definitions">
+     <span aria-describedby="definitions-tooltip">
+      Definitions
+     </span>
+     <div class="tooltip-context">
+      <svg aria-labelledby=":Rcp9a:-label" height="12" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 12 12" width="12">
+       <title id=":Rcp9a:-label">
+        Question mark
+       </title>
+       <use href="/assets/icons/12-tooltip.svg#icon">
+       </use>
+      </svg>
+      <div aria-hidden="true" id="definitions-tooltip" role="tooltip" tabindex="-1">
+       Functions and types and can have associated definitions. These are accessed by specifying the function or type, followed by a period, and then the definition's name.
+      </div>
+     </div>
+    </h2>
+    <h3 class="scoped-function" id="definitions-is-nan">
+     <code>
+      is-nan
+     </code>
+    </h3>
+    <p>
+     Checks if a float is not a number.
+    </p>
+    <p>
+     In IEEE 754, more than one bit pattern represents a NaN. This function returns
+     <code>
+      true
+     </code>
+     if the float is any of those bit patterns.
+    </p>
+    <div class="code code-definition single-arg">
+     self
+     <span class="typ-punct">
+      .
+     </span>
+     <span class="typ-func">
+      is-nan
+     </span>
+     (
+     <div class="arguments">
+     </div>
+     )
+     <!-- -->
+     -&gt;
+     <a class="pill pill-bool" href="/docs/reference/foundations/bool/">
+      bool
+     </a>
+    </div>
+    <div class="previewed-code">
+     <pre><code><span class="typ-pol">#</span><span class="typ-pol">float</span><span class="typ-punct">.</span><span class="typ-func">is-nan</span><span class="typ-punct">(</span><span class="typ-num">0</span><span class="typ-punct">)</span> <span class="typ-escape">\</span>
+<span class="typ-pol">#</span><span class="typ-pol">float</span><span class="typ-punct">.</span><span class="typ-func">is-nan</span><span class="typ-punct">(</span><span class="typ-num">1</span><span class="typ-punct">)</span> <span class="typ-escape">\</span>
+<span class="typ-pol">#</span><span class="typ-pol">float</span><span class="typ-punct">.</span><span class="typ-func">is-nan</span><span class="typ-punct">(</span>float<span class="typ-punct">.</span>nan<span class="typ-punct">)</span>
+</code></pre>
+     <div class="preview">
+      <img alt="Preview" height="129/" src="/assets/docs/9jd8hxPcunH7CdCSXWd1dwAAAAAAAAAA.png" width="480"/>
+     </div>
+    </div>
+    <h3 class="scoped-function" id="definitions-is-infinite">
+     <code>
+      is-infinite
+     </code>
+    </h3>
+    <p>
+     Checks if a float is infinite.
+    </p>
+    <p>
+     Floats can represent positive infinity and negative infinity. This function returns
+     <code>
+      <span class="typ-key">
+       true
+      </span>
+     </code>
+     if the float is an infinity.
+    </p>
+    <div class="code code-definition single-arg">
+     self
+     <span class="typ-punct">
+      .
+     </span>
+     <span class="typ-func">
+      is-infinite
+     </span>
+     (
+     <div class="arguments">
+     </div>
+     )
+     <!-- -->
+     -&gt;
+     <a class="pill pill-bool" href="/docs/reference/foundations/bool/">
+      bool
+     </a>
+    </div>
+    <div class="previewed-code">
+     <pre><code><span class="typ-pol">#</span><span class="typ-pol">float</span><span class="typ-punct">.</span><span class="typ-func">is-infinite</span><span class="typ-punct">(</span><span class="typ-num">0</span><span class="typ-punct">)</span> <span class="typ-escape">\</span>
+<span class="typ-pol">#</span><span class="typ-pol">float</span><span class="typ-punct">.</span><span class="typ-func">is-infinite</span><span class="typ-punct">(</span><span class="typ-num">1</span><span class="typ-punct">)</span> <span class="typ-escape">\</span>
+<span class="typ-pol">#</span><span class="typ-pol">float</span><span class="typ-punct">.</span><span class="typ-func">is-infinite</span><span class="typ-punct">(</span>float<span class="typ-punct">.</span>inf<span class="typ-punct">)</span>
+</code></pre>
+     <div class="preview">
+      <img alt="Preview" height="129/" src="/assets/docs/AIoKhvpoq-xeueiSPD9O7gAAAAAAAAAA.png" width="480"/>
+     </div>
+    </div>
+    <h3 class="scoped-function" id="definitions-signum">
+     <code>
+      signum
+     </code>
+    </h3>
+    <p>
+     Calculates the sign of a floating point number.
+    </p>
+    <ul>
+     <li>
+      If the number is positive (including
+      <code>
+       <span class="typ-op">
+        +
+       </span>
+       <span class="typ-num">
+        0.0
+       </span>
+      </code>
+      ), returns
+      <code>
+       <span class="typ-num">
+        1.0
+       </span>
+      </code>
+      .
+     </li>
+     <li>
+      If the number is negative (including
+      <code>
+       <span class="typ-op">
+        -
+       </span>
+       <span class="typ-num">
+        0.0
+       </span>
+      </code>
+      ), returns
+      <code>
+       <span class="typ-op">
+        -
+       </span>
+       <span class="typ-num">
+        1.0
+       </span>
+      </code>
+      .
+     </li>
+     <li>
+      If the number is NaN, returns
+      <code>
+       float
+       <span class="typ-punct">
+        .
+       </span>
+       nan
+      </code>
+      .
+     </li>
+    </ul>
+    <div class="code code-definition single-arg">
+     self
+     <span class="typ-punct">
+      .
+     </span>
+     <span class="typ-func">
+      signum
+     </span>
+     (
+     <div class="arguments">
+     </div>
+     )
+     <!-- -->
+     -&gt;
+     <a class="pill pill-num" href="/docs/reference/foundations/float/">
+      float
+     </a>
+    </div>
+    <div class="previewed-code">
+     <pre><code><span class="typ-punct">#</span><span class="typ-punct">(</span><span class="typ-num">5.0</span><span class="typ-punct">)</span><span class="typ-punct">.</span><span class="typ-func">signum</span><span class="typ-punct">(</span><span class="typ-punct">)</span> <span class="typ-escape">\</span>
+<span class="typ-punct">#</span><span class="typ-punct">(</span><span class="typ-op">-</span><span class="typ-num">5.0</span><span class="typ-punct">)</span><span class="typ-punct">.</span><span class="typ-func">signum</span><span class="typ-punct">(</span><span class="typ-punct">)</span> <span class="typ-escape">\</span>
+<span class="typ-punct">#</span><span class="typ-punct">(</span><span class="typ-num">0.0</span><span class="typ-punct">)</span><span class="typ-punct">.</span><span class="typ-func">signum</span><span class="typ-punct">(</span><span class="typ-punct">)</span> <span class="typ-escape">\</span>
+<span class="typ-pol">#</span><span class="typ-pol">float</span><span class="typ-punct">.</span><span class="typ-pol">nan</span><span class="typ-punct">.</span><span class="typ-func">signum</span><span class="typ-punct">(</span><span class="typ-punct">)</span>
+</code></pre>
+     <div class="preview">
+      <img alt="Preview" height="161/" src="/assets/docs/HHp-pldXJoLbqAEsg_2mmQAAAAAAAAAA.png" width="480"/>
+     </div>
+    </div>
+    <h3 class="scoped-function" id="definitions-from-bytes">
+     <code>
+      from-bytes
+     </code>
+    </h3>
+    <p>
+     Converts bytes to a float.
+    </p>
+    <div class="code code-definition">
+     float
+     <span class="typ-punct">
+      .
+     </span>
+     <span class="typ-func">
+      from-bytes
+     </span>
+     (
+     <div class="arguments">
+      <span class="overview-param">
+       <a class="pill pill-obj" href="/docs/reference/foundations/bytes/">
+        bytes
+       </a>
+       ,
+      </span>
+      <span class="overview-param">
+       <a href="#definitions-from-bytes-parameters-endian">
+        endian
+        <!-- -->
+        :
+       </a>
+       <a class="pill pill-str" href="/docs/reference/foundations/str/">
+        str
+       </a>
+       ,
+      </span>
+     </div>
+     )
+     <!-- -->
+     -&gt;
+     <a class="pill pill-num" href="/docs/reference/foundations/float/">
+      float
+     </a>
+    </div>
+    <div class="previewed-code">
+     <pre><code><span class="typ-pol">#</span><span class="typ-pol">float</span><span class="typ-punct">.</span><span class="typ-func">from-bytes</span><span class="typ-punct">(</span><span class="typ-func">bytes</span><span class="typ-punct">(</span><span class="typ-punct">(</span><span class="typ-num">0</span><span class="typ-punct">,</span> <span class="typ-num">0</span><span class="typ-punct">,</span> <span class="typ-num">0</span><span class="typ-punct">,</span> <span class="typ-num">0</span><span class="typ-punct">,</span> <span class="typ-num">0</span><span class="typ-punct">,</span> <span class="typ-num">0</span><span class="typ-punct">,</span> <span class="typ-num">240</span><span class="typ-punct">,</span> <span class="typ-num">63</span><span class="typ-punct">)</span><span class="typ-punct">)</span><span class="typ-punct">)</span> <span class="typ-escape">\</span>
+<span class="typ-pol">#</span><span class="typ-pol">float</span><span class="typ-punct">.</span><span class="typ-func">from-bytes</span><span class="typ-punct">(</span><span class="typ-func">bytes</span><span class="typ-punct">(</span><span class="typ-punct">(</span><span class="typ-num">63</span><span class="typ-punct">,</span> <span class="typ-num">240</span><span class="typ-punct">,</span> <span class="typ-num">0</span><span class="typ-punct">,</span> <span class="typ-num">0</span><span class="typ-punct">,</span> <span class="typ-num">0</span><span class="typ-punct">,</span> <span class="typ-num">0</span><span class="typ-punct">,</span> <span class="typ-num">0</span><span class="typ-punct">,</span> <span class="typ-num">0</span><span class="typ-punct">)</span><span class="typ-punct">)</span><span class="typ-punct">,</span> endian<span class="typ-punct">:</span> <span class="typ-str">"big"</span><span class="typ-punct">)</span>
+</code></pre>
+     <div class="preview">
+      <img alt="Preview" height="103/" src="/assets/docs/TbCinqru71JKOm73kOJYdwAAAAAAAAAA.png" width="480"/>
+     </div>
+    </div>
+    <h4 id="definitions-from-bytes-bytes">
+     <code>
+      bytes
+     </code>
+     <div class="additional-info">
+      <div>
+       <a class="pill pill-obj" href="/docs/reference/foundations/bytes/">
+        bytes
+       </a>
+      </div>
+      <small>
+       Required
+      </small>
+      <small>
+       <span aria-describedby="definitions-from-bytes-bytes-positional-tooltip">
+        Positional
+       </span>
+       <div class="tooltip-context">
+        <svg aria-labelledby=":Rpon999a:-label" height="12" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 12 12" width="12">
+         <title id=":Rpon999a:-label">
+          Question mark
+         </title>
+         <use href="/assets/icons/12-tooltip.svg#icon">
+         </use>
+        </svg>
+        <div aria-hidden="true" id="definitions-from-bytes-bytes-positional-tooltip" role="tooltip" tabindex="-1">
+         Positional parameters are specified in order, without names.
+        </div>
+       </div>
+      </small>
+     </div>
+    </h4>
+    <p>
+     The bytes that should be converted to a float.
+    </p>
+    <p>
+     Must be of length exactly 8 so that the result fits into a 64-bit float.
+    </p>
+    <h4 id="definitions-from-bytes-endian">
+     <code>
+      endian
+     </code>
+     <div class="additional-info">
+      <div>
+       <a class="pill pill-str" href="/docs/reference/foundations/str/">
+        str
+       </a>
+      </div>
+     </div>
+    </h4>
+    <p>
+     The endianness of the conversion.
+    </p>
+    <table>
+     <thead>
+      <tr>
+       <th>
+        Variant
+       </th>
+       <th>
+        Details
+       </th>
+      </tr>
+     </thead>
+     <tbody>
+      <tr>
+       <td>
+        <code class="typ-str">
+         "
+         <!-- -->
+         big
+         <!-- -->
+         "
+        </code>
+       </td>
+       <td>
+        <p>
+         Big-endian byte order: The highest-value byte is at the beginning of the bytes.
+        </p>
+       </td>
+      </tr>
+      <tr>
+       <td>
+        <code class="typ-str">
+         "
+         <!-- -->
+         little
+         <!-- -->
+         "
+        </code>
+       </td>
+       <td>
+        <p>
+         Little-endian byte order: The lowest-value byte is at the beginning of the bytes.
+        </p>
+       </td>
+      </tr>
+     </tbody>
+    </table>
+    <p>
+     Default:
+     <code>
+      <span class="typ-str">
+       "little"
+      </span>
+     </code>
+    </p>
+    <h3 class="scoped-function" id="definitions-to-bytes">
+     <code>
+      to-bytes
+     </code>
+    </h3>
+    <p>
+     Converts a float to bytes.
+    </p>
+    <div class="code code-definition single-arg">
+     self
+     <span class="typ-punct">
+      .
+     </span>
+     <span class="typ-func">
+      to-bytes
+     </span>
+     (
+     <div class="arguments">
+      <span class="overview-param">
+       <a href="#definitions-to-bytes-parameters-endian">
+        endian
+        <!-- -->
+        :
+       </a>
+       <a class="pill pill-str" href="/docs/reference/foundations/str/">
+        str
+       </a>
+      </span>
+     </div>
+     )
+     <!-- -->
+     -&gt;
+     <a class="pill pill-obj" href="/docs/reference/foundations/bytes/">
+      bytes
+     </a>
+    </div>
+    <div class="previewed-code">
+     <pre><code><span class="typ-func">#</span><span class="typ-func">array</span><span class="typ-punct">(</span><span class="typ-num">1.0</span><span class="typ-punct">.</span><span class="typ-func">to-bytes</span><span class="typ-punct">(</span>endian<span class="typ-punct">:</span> <span class="typ-str">"big"</span><span class="typ-punct">)</span><span class="typ-punct">)</span> <span class="typ-escape">\</span>
+<span class="typ-func">#</span><span class="typ-func">array</span><span class="typ-punct">(</span><span class="typ-num">1.0</span><span class="typ-punct">.</span><span class="typ-func">to-bytes</span><span class="typ-punct">(</span><span class="typ-punct">)</span><span class="typ-punct">)</span>
+</code></pre>
+     <div class="preview">
+      <img alt="Preview" height="101/" src="/assets/docs/oyz50tHIOoQRj_5WM6JIbAAAAAAAAAAA.png" width="480"/>
+     </div>
+    </div>
+    <h4 id="definitions-to-bytes-endian">
+     <code>
+      endian
+     </code>
+     <div class="additional-info">
+      <div>
+       <a class="pill pill-str" href="/docs/reference/foundations/str/">
+        str
+       </a>
+      </div>
+     </div>
+    </h4>
+    <p>
+     The endianness of the conversion.
+    </p>
+    <table>
+     <thead>
+      <tr>
+       <th>
+        Variant
+       </th>
+       <th>
+        Details
+       </th>
+      </tr>
+     </thead>
+     <tbody>
+      <tr>
+       <td>
+        <code class="typ-str">
+         "
+         <!-- -->
+         big
+         <!-- -->
+         "
+        </code>
+       </td>
+       <td>
+        <p>
+         Big-endian byte order: The highest-value byte is at the beginning of the bytes.
+        </p>
+       </td>
+      </tr>
+      <tr>
+       <td>
+        <code class="typ-str">
+         "
+         <!-- -->
+         little
+         <!-- -->
+         "
+        </code>
+       </td>
+       <td>
+        <p>
+         Little-endian byte order: The lowest-value byte is at the beginning of the bytes.
+        </p>
+       </td>
+      </tr>
+     </tbody>
+    </table>
+    <p>
+     Default:
+     <code>
+      <span class="typ-str">
+       "little"
+      </span>
+     </code>
+    </p>
+    <div class="page-end-buttons">
+     <a class="previous" href="/docs/reference/foundations/eval/">
+      <img alt="â" src="/assets/icons/16-arrow-right.svg"/>
+      <div>
+       <span class="page-title">
+        Evaluate
+       </span>
+       <span class="hint">
+        Previous page
+       </span>
+      </div>
+     </a>
+     <a class="next" href="/docs/reference/foundations/function/">
+      <img alt="â" src="/assets/icons/16-arrow-right.svg"/>
+      <div>
+       <span class="page-title">
+        Function
+       </span>
+       <span class="hint">
+        Next page
+       </span>
+      </div>
+     </a>
+    </div>
+   </main>

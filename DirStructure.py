@@ -88,27 +88,86 @@ def DirStructureFromURLList(urlList: List[str]):
     return WalkGen(tree)
 
 
-def PrintJsonWalk(walkGen):
+def PrintJsonWalk(walkGen, fileSize: bool = False):
     """
-    Print the directory walk as a JSON-formatted string.
+    Print the directory walk as a JSON-formatted string, including cumulative directory sizes.
 
     Parameters
     ----------
     walkGen : generator
         The directory walk generator.
+    fileSize : bool, optional
+        If True, include the size of each file with appropriate units, by default False.
     """
+
     result = []
+    sizeMap = {}
 
     for root, dirs, files in walkGen:
+        totalSize = 0
 
-        result.append({"root": root, "directories": dirs, "files": files})
+        if fileSize:
+            filesWithSize = []
+
+            for file in files:
+                filePath = os.path.join(root, file)
+                try:
+                    sizeBytes = os.path.getsize(filePath)
+                    totalSize += sizeBytes
+
+                    if sizeBytes < 1024:
+                        size = f"{sizeBytes} B"
+                    elif sizeBytes < 1024**2:
+                        size = f"{round(sizeBytes / 1024, 2)} KB"
+                    elif sizeBytes < 1024**3:
+                        size = f"{round(sizeBytes / (1024 ** 2), 2)} MB"
+                    else:
+                        size = f"{round(sizeBytes / (1024 ** 3), 2)} GB"
+
+                    filesWithSize.append({"name": file, "size": size})
+                except OSError:
+                    filesWithSize.append({"name": file, "size": None})
+
+            # Calculate cumulative size from subdirectories
+            for dir in dirs:
+                subdirPath = os.path.join(root, dir)
+                totalSize += sizeMap.get(subdirPath, 0)
+
+            # Format totalSize with appropriate units
+            if totalSize < 1024:
+                totalSizeFormatted = f"{totalSize} B"
+            elif totalSize < 1024**2:
+                totalSizeFormatted = f"{round(totalSize / 1024, 2)} KB"
+            elif totalSize < 1024**3:
+                totalSizeFormatted = f"{round(totalSize / (1024 ** 2), 2)} MB"
+            else:
+                totalSizeFormatted = f"{round(totalSize / (1024 ** 3), 2)} GB"
+
+            sizeMap[root] = totalSize
+            result.append(
+                {
+                    "root": root,
+                    "directories": dirs,
+                    "files": filesWithSize,
+                    "totalSize": totalSizeFormatted,
+                }
+            )
+        else:
+            result.append(
+                {
+                    "root": root,
+                    "directories": dirs,
+                    "files": files,
+                    "totalSize": totalSize,
+                }
+            )
 
     print(json.dumps(result, indent=4))
 
 
-def OutputJsonWalk(walkGen, fileName: str):
+def OutputJsonWalk(walkGen, fileName: str, fileSize: bool = False):
     """
-    Output the directory walk as a JSON file.
+    Output the directory walk as a JSON file, including cumulative directory sizes.
 
     Parameters
     ----------
@@ -116,11 +175,71 @@ def OutputJsonWalk(walkGen, fileName: str):
         The directory walk generator.
     fileName : str
         The name of the output JSON file.
+    fileSize : bool, optional
+        If True, include the size of each file with appropriate units, by default False.
     """
+
     result = []
+    sizeMap = {}
 
     for root, dirs, files in walkGen:
-        result.append({"root": root, "directories": dirs, "files": files})
+        totalSize = 0
+
+        if fileSize:
+            filesWithSize = []
+
+            for file in files:
+                filePath = os.path.join(root, file)
+                try:
+                    sizeBytes = os.path.getsize(filePath)
+                    totalSize += sizeBytes
+
+                    if sizeBytes < 1024:
+                        size = f"{sizeBytes} B"
+                    elif sizeBytes < 1024**2:
+                        size = f"{round(sizeBytes / 1024, 2)} KB"
+                    elif sizeBytes < 1024**3:
+                        size = f"{round(sizeBytes / (1024 ** 2), 2)} MB"
+                    else:
+                        size = f"{round(sizeBytes / (1024 ** 3), 2)} GB"
+
+                    filesWithSize.append({"name": file, "size": size})
+                except OSError:
+                    filesWithSize.append({"name": file, "size": None})
+
+            # Calculate cumulative size from subdirectories
+            for dir in dirs:
+                subdirPath = os.path.join(root, dir)
+                totalSize += sizeMap.get(subdirPath, 0)
+
+            # Format totalSize with appropriate units
+            if totalSize < 1024:
+                totalSizeFormatted = f"{totalSize} B"
+            elif totalSize < 1024**2:
+                totalSizeFormatted = f"{round(totalSize / 1024, 2)} KB"
+            elif totalSize < 1024**3:
+                totalSizeFormatted = f"{round(totalSize / (1024 ** 2), 2)} MB"
+            else:
+                totalSizeFormatted = f"{round(totalSize / (1024 ** 3), 2)} GB"
+
+            sizeMap[root] = totalSize
+            result.append(
+                {
+                    "root": root,
+                    "directories": dirs,
+                    "files": filesWithSize,
+                    "totalSize": totalSizeFormatted,
+                }
+            )
+        else:
+            result.append(
+                {
+                    "root": root,
+                    "directories": dirs,
+                    "files": files,
+                    "totalSize": totalSize,
+                }
+            )
 
     with open(fileName, "w") as file:
         json.dump(result, file, indent=4)

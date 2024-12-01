@@ -1,0 +1,608 @@
+<main>
+    <ul aria-label="Breadcrumbs" class="breadcrumbs">
+     <li class="root">
+      <a href="/docs">
+       <img alt="Docs" height="16" src="/assets/icons/16-docs-dark.svg" width="16"/>
+      </a>
+     </li>
+     <li aria-hidden="true">
+      <img alt="" height="16" src="/assets/icons/16-arrow-right.svg" width="16"/>
+     </li>
+     <li>
+      <a href="/docs/tutorial/">
+       Tutorial
+      </a>
+     </li>
+     <li aria-hidden="true">
+      <img alt="" height="16" src="/assets/icons/16-arrow-right.svg" width="16"/>
+     </li>
+     <li>
+      <a href="/docs/tutorial/advanced-styling/">
+       Advanced Styling
+      </a>
+     </li>
+    </ul>
+    <h1>
+     Advanced Styling
+    </h1>
+    <p>
+     In the previous two chapters of this tutorial, you have learned how to write a document in Typst and how to change its formatting. The report you wrote throughout the last two chapters got a straight A and your supervisor wants to base a conference paper on it! The report will of course have to comply with the conference's style guide. Let's see how we can achieve that.
+    </p>
+    <p>
+     Before we start, let's create a team, invite your supervisor and add them to the team. You can do this by going back to the app dashboard with the back icon in the top left corner of the editor. Then, choose the plus icon in the left toolbar and create a team. Finally, click on the new team and go to its settings by clicking 'manage team' next to the team name. Now you can invite your supervisor by email.
+    </p>
+    <p>
+     <img alt="The team settings" src="/assets/docs/3-advanced-team-settings.png"/>
+    </p>
+    <p>
+     Next, move your project into the team: Open it, going to its settings by choosing the gear icon in the left toolbar and selecting your new team from the owners dropdown. Don't forget to save your changes!
+    </p>
+    <p>
+     Now, your supervisor can also edit the project and you can both see the changes in real time. You can join our
+     <a href="https://discord.gg/2uDybryKPe">
+      Discord server
+     </a>
+     to find other users and try teams with them!
+    </p>
+    <h2 id="guidelines">
+     The conference guidelines
+    </h2>
+    <p>
+     The layout guidelines are available on the conference website. Let's take a look at them:
+    </p>
+    <ul>
+     <li>
+      The font should be an 11pt serif font
+     </li>
+     <li>
+      The title should be in 17pt and bold
+     </li>
+     <li>
+      The paper contains a single-column abstract and two-column main text
+     </li>
+     <li>
+      The abstract should be centered
+     </li>
+     <li>
+      The main text should be justified
+     </li>
+     <li>
+      First level section headings should be 13pt, centered, and rendered in small capitals
+     </li>
+     <li>
+      Second level headings are run-ins, italicized and have the same size as the body text
+     </li>
+     <li>
+      Finally, the pages should be US letter sized, numbered in the center of the footer and the top right corner of each page should contain the title of the paper
+     </li>
+    </ul>
+    <p>
+     We already know how to do many of these things, but for some of them, we'll need to learn some new tricks.
+    </p>
+    <h2 id="set-rules">
+     Writing the right set rules
+    </h2>
+    <p>
+     Let's start by writing some set rules for the document.
+    </p>
+    <div class="previewed-code">
+     <pre><code><span class="typ-key">#</span><span class="typ-key">set</span> <span class="typ-func">page</span><span class="typ-punct">(</span>
+  paper<span class="typ-punct">:</span> <span class="typ-str">"us-letter"</span><span class="typ-punct">,</span>
+  header<span class="typ-punct">:</span> <span class="typ-func">align</span><span class="typ-punct">(</span>right<span class="typ-punct">)</span><span class="typ-punct">[</span>
+    A fluid dynamic model for
+    glacier flow
+  <span class="typ-punct">]</span><span class="typ-punct">,</span>
+  numbering<span class="typ-punct">:</span> <span class="typ-str">"1"</span><span class="typ-punct">,</span>
+<span class="typ-punct">)</span>
+<span class="typ-key">#</span><span class="typ-key">set</span> <span class="typ-func">par</span><span class="typ-punct">(</span>justify<span class="typ-punct">:</span> <span class="typ-key">true</span><span class="typ-punct">)</span>
+<span class="typ-key">#</span><span class="typ-key">set</span> <span class="typ-func">text</span><span class="typ-punct">(</span>
+  font<span class="typ-punct">:</span> <span class="typ-str">"Libertinus Serif"</span><span class="typ-punct">,</span>
+  size<span class="typ-punct">:</span> <span class="typ-num">11pt</span><span class="typ-punct">,</span>
+<span class="typ-punct">)</span>
+
+<span class="typ-func">#</span><span class="typ-func">lorem</span><span class="typ-punct">(</span><span class="typ-num">600</span><span class="typ-punct">)</span>
+</code></pre>
+     <div class="preview">
+      <img alt="Preview" height="1584/" src="/assets/docs/p6Vtj1ockTIzscSwa5_kewAAAAAAAAAA.png" width="1224"/>
+     </div>
+    </div>
+    <p>
+     You are already familiar with most of what is going on here. We set the text size to
+     <code>
+      <span class="typ-num">
+       11pt
+      </span>
+     </code>
+     and the font to Libertinus Serif. We also enable paragraph justification and set the page size to US letter.
+    </p>
+    <p>
+     The
+     <code>
+      header
+     </code>
+     argument is new: With it, we can provide content to fill the top margin of every page. In the header, we specify our paper's title as requested by the conference style guide. We use the
+     <code>
+      align
+     </code>
+     function to align the text to the right.
+    </p>
+    <p>
+     Last but not least is the
+     <code>
+      numbering
+     </code>
+     argument. Here, we can provide a
+     <a href="/docs/reference/model/numbering/">
+      numbering pattern
+     </a>
+     that defines how to number the pages. By setting into to
+     <code>
+      <span class="typ-str">
+       "1"
+      </span>
+     </code>
+     , Typst only displays the bare page number. Setting it to
+     <code>
+      <span class="typ-str">
+       "(1/1)"
+      </span>
+     </code>
+     would have displayed the current page and total number of pages surrounded by parentheses. And we could even have provided a completely custom function here to format things to our liking.
+    </p>
+    <h2 id="title-and-abstract">
+     Creating a title and abstract
+    </h2>
+    <p>
+     Now, let's add a title and an abstract. We'll start with the title. We center align it and increase its font weight by enclosing it in
+     <code>
+      <span class="typ-strong">
+       *stars*
+      </span>
+     </code>
+     .
+    </p>
+    <div class="previewed-code">
+     <pre><code><span class="typ-func">#</span><span class="typ-func">align</span><span class="typ-punct">(</span>center<span class="typ-punct">,</span> <span class="typ-func">text</span><span class="typ-punct">(</span><span class="typ-num">17pt</span><span class="typ-punct">)</span><span class="typ-punct">[</span>
+  <span class="typ-strong">*A fluid dynamic model
+  for glacier flow*</span>
+<span class="typ-punct">]</span><span class="typ-punct">)</span>
+</code></pre>
+     <div class="preview">
+      <img alt="Preview" height="186/" src="/assets/docs/EYkMw9AAwHWkDqrGblkKBgAAAAAAAAAA.png" width="600"/>
+     </div>
+    </div>
+    <p>
+     This looks right. We used the
+     <code>
+      text
+     </code>
+     function to override the previous text set rule locally, increasing the size to 17pt for the function's argument. Let's also add the author list: Since we are writing this paper together with our supervisor, we'll add our own and their name.
+    </p>
+    <div class="previewed-code">
+     <pre><code><span class="typ-func">#</span><span class="typ-func">grid</span><span class="typ-punct">(</span>
+  columns<span class="typ-punct">:</span> <span class="typ-punct">(</span><span class="typ-num">1fr</span><span class="typ-punct">,</span> <span class="typ-num">1fr</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+  <span class="typ-func">align</span><span class="typ-punct">(</span>center<span class="typ-punct">)</span><span class="typ-punct">[</span>
+    Therese Tungsten <span class="typ-escape">\</span>
+    Artos Institute <span class="typ-escape">\</span>
+    <span class="typ-func">#</span><span class="typ-func">link</span><span class="typ-punct">(</span><span class="typ-str">"mailto:tung@artos.edu"</span><span class="typ-punct">)</span>
+  <span class="typ-punct">]</span><span class="typ-punct">,</span>
+  <span class="typ-func">align</span><span class="typ-punct">(</span>center<span class="typ-punct">)</span><span class="typ-punct">[</span>
+    Dr. John Doe <span class="typ-escape">\</span>
+    Artos Institute <span class="typ-escape">\</span>
+    <span class="typ-func">#</span><span class="typ-func">link</span><span class="typ-punct">(</span><span class="typ-str">"mailto:doe@artos.edu"</span><span class="typ-punct">)</span>
+  <span class="typ-punct">]</span>
+<span class="typ-punct">)</span>
+</code></pre>
+     <div class="preview">
+      <img alt="Preview" height="299/" src="/assets/docs/Iwl_3LT7ijX6dcpL71YOWAAAAAAAAAAA.png" width="600"/>
+     </div>
+    </div>
+    <p>
+     The two author blocks are laid out next to each other. We use the
+     <a href="/docs/reference/layout/grid/" title="`grid`">
+      <code>
+       grid
+      </code>
+     </a>
+     function to create this layout. With a grid, we can control exactly how large each column is and which content goes into which cell. The
+     <code>
+      columns
+     </code>
+     argument takes an array of
+     <a href="/docs/reference/layout/relative/">
+      relative lengths
+     </a>
+     or
+     <a href="/docs/reference/layout/fraction/">
+      fractions
+     </a>
+     . In this case, we passed it two equal fractional sizes, telling it to split the available space into two equal columns. We then passed two content arguments to the grid function. The first with our own details, and the second with our supervisors'. We again use the
+     <code>
+      align
+     </code>
+     function to center the content within the column. The grid takes an arbitrary number of content arguments specifying the cells. Rows are added automatically, but they can also be manually sized with the
+     <code>
+      rows
+     </code>
+     argument.
+    </p>
+    <p>
+     Now, let's add the abstract. Remember that the conference wants the abstract to be set ragged and centered.
+    </p>
+    <div class="previewed-code">
+     <pre><code><span class="typ-escape">...</span>
+
+<span class="typ-func">#</span><span class="typ-func">align</span><span class="typ-punct">(</span>center<span class="typ-punct">)</span><span class="typ-punct">[</span>
+  <span class="typ-key">#</span><span class="typ-key">set</span> <span class="typ-func">par</span><span class="typ-punct">(</span>justify<span class="typ-punct">:</span> <span class="typ-key">false</span><span class="typ-punct">)</span>
+  <span class="typ-strong">*Abstract*</span> <span class="typ-escape">\</span>
+  <span class="typ-func">#</span><span class="typ-func">lorem</span><span class="typ-punct">(</span><span class="typ-num">80</span><span class="typ-punct">)</span>
+<span class="typ-punct">]</span>
+</code></pre>
+     <div class="preview">
+      <img alt="Preview" height="635/" src="/assets/docs/4IdrVTeq86rbgvB-RNog6gAAAAAAAAAA.png" width="1224"/>
+     </div>
+    </div>
+    <p>
+     Well done! One notable thing is that we used a set rule within the content argument of
+     <code>
+      align
+     </code>
+     to turn off justification for the abstract. This does not affect the remainder of the document even though it was specified after the first set rule because content blocks
+     <em>
+      scope
+     </em>
+     styling. Anything set within a content block will only affect the content within that block.
+    </p>
+    <p>
+     Another tweak could be to save the paper title in a variable, so that we do not have to type it twice, for header and title. We can do that with the
+     <code>
+      <span class="typ-key">
+       let
+      </span>
+     </code>
+     keyword:
+    </p>
+    <div class="previewed-code">
+     <pre><code><span class="typ-key">#</span><span class="typ-key">let</span> title <span class="typ-op">=</span> <span class="typ-punct">[</span>
+  A fluid dynamic model
+  for glacier flow
+<span class="typ-punct">]</span>
+
+<span class="typ-escape">...</span>
+
+<span class="typ-key">#</span><span class="typ-key">set</span> <span class="typ-func">page</span><span class="typ-punct">(</span>
+  header<span class="typ-punct">:</span> <span class="typ-func">align</span><span class="typ-punct">(</span>
+    right <span class="typ-op">+</span> horizon<span class="typ-punct">,</span>
+    title
+  <span class="typ-punct">)</span><span class="typ-punct">,</span>
+  <span class="typ-op">..</span><span class="typ-punct">.</span>
+<span class="typ-punct">)</span>
+
+<span class="typ-func">#</span><span class="typ-func">align</span><span class="typ-punct">(</span>center<span class="typ-punct">,</span> <span class="typ-func">text</span><span class="typ-punct">(</span><span class="typ-num">17pt</span><span class="typ-punct">)</span><span class="typ-punct">[</span>
+  <span class="typ-strong">*<span class="typ-pol">#</span><span class="typ-pol">title</span>*</span>
+<span class="typ-punct">]</span><span class="typ-punct">)</span>
+
+<span class="typ-escape">...</span>
+
+</code></pre>
+     <div class="preview">
+      <img alt="Preview" height="1584/" src="/assets/docs/ZKsZ2Eei-RUgPTLeJrMEYgAAAAAAAAAA.png" width="1224"/>
+     </div>
+    </div>
+    <p>
+     After we bound the content to the
+     <code>
+      title
+     </code>
+     variable, we can use it in functions and also within markup (prefixed by
+     <code>
+      #
+     </code>
+     , like functions). This way, if we decide on another title, we can easily change it in one place.
+    </p>
+    <h2 id="columns-and-headings">
+     Adding columns and headings
+    </h2>
+    <p>
+     The paper above unfortunately looks like a wall of lead. To fix that, let's add some headings and switch our paper to a two-column layout. Fortunately, that's easy to do: We just need to amend our
+     <code>
+      page
+     </code>
+     set rule with the
+     <code>
+      columns
+     </code>
+     argument.
+    </p>
+    <p>
+     By adding
+     <code>
+      columns:
+      <span class="typ-num">
+       2
+      </span>
+     </code>
+     to the argument list, we have wrapped the whole document in two columns. However, that would also affect the title and authors overview. To keep them spanning the whole page, we can wrap them in a function call to
+     <a href="/docs/reference/layout/place/">
+      <code>
+       place
+      </code>
+     </a>
+     . Place expects an alignment and the content it should place as positional arguments. Using the named
+     <code>
+      scope
+     </code>
+     argument, we can decide if the items should be placed relative to the current column or its parent (the page). There is one more thing to configure: If no other arguments are provided,
+     <code>
+      place
+     </code>
+     takes its content out of the flow of the document and positions it over the other content without affecting the layout of other content in its container:
+    </p>
+    <div class="previewed-code">
+     <pre><code><span class="typ-func">#</span><span class="typ-func">place</span><span class="typ-punct">(</span>
+  top <span class="typ-op">+</span> center<span class="typ-punct">,</span>
+  <span class="typ-func">rect</span><span class="typ-punct">(</span>fill<span class="typ-punct">:</span> black<span class="typ-punct">)</span><span class="typ-punct">,</span>
+<span class="typ-punct">)</span>
+<span class="typ-func">#</span><span class="typ-func">lorem</span><span class="typ-punct">(</span><span class="typ-num">30</span><span class="typ-punct">)</span>
+</code></pre>
+     <div class="preview">
+      <img alt="Preview" height="190/" src="/assets/docs/30s7cU9X36lW286rJXE3RwAAAAAAAAAA.png" width="480"/>
+     </div>
+    </div>
+    <p>
+     If we hadn't used
+     <code>
+      place
+     </code>
+     here, the square would be in its own line, but here it overlaps the few lines of text following it. Likewise, that text acts like as if there was no square. To change this behavior, we can pass the argument
+     <code>
+      float:
+      <span class="typ-key">
+       true
+      </span>
+     </code>
+     to ensure that the space taken up by the placed item at the top or bottom of the page is not occupied by any other content.
+    </p>
+    <div class="previewed-code">
+     <pre><code><span class="typ-key">#</span><span class="typ-key">set</span> <span class="typ-func">page</span><span class="typ-punct">(</span>
+  paper<span class="typ-punct">:</span> <span class="typ-str">"us-letter"</span><span class="typ-punct">,</span>
+  header<span class="typ-punct">:</span> <span class="typ-func">align</span><span class="typ-punct">(</span>
+    right <span class="typ-op">+</span> horizon<span class="typ-punct">,</span>
+    title
+  <span class="typ-punct">)</span><span class="typ-punct">,</span>
+  numbering<span class="typ-punct">:</span> <span class="typ-str">"1"</span><span class="typ-punct">,</span>
+  columns<span class="typ-punct">:</span> <span class="typ-num">2</span><span class="typ-punct">,</span>
+<span class="typ-punct">)</span>
+
+<span class="typ-func">#</span><span class="typ-func">place</span><span class="typ-punct">(</span>
+  top <span class="typ-op">+</span> center<span class="typ-punct">,</span>
+  float<span class="typ-punct">:</span> <span class="typ-key">true</span><span class="typ-punct">,</span>
+  scope<span class="typ-punct">:</span> <span class="typ-str">"parent"</span><span class="typ-punct">,</span>
+  clearance<span class="typ-punct">:</span> <span class="typ-num">2em</span><span class="typ-punct">,</span>
+<span class="typ-punct">)</span><span class="typ-punct">[</span>
+  <span class="typ-escape">...</span>
+
+  <span class="typ-func">#</span><span class="typ-func">par</span><span class="typ-punct">(</span>justify<span class="typ-punct">:</span> <span class="typ-key">false</span><span class="typ-punct">)</span><span class="typ-punct">[</span>
+    <span class="typ-strong">*Abstract*</span> <span class="typ-escape">\</span>
+    <span class="typ-func">#</span><span class="typ-func">lorem</span><span class="typ-punct">(</span><span class="typ-num">80</span><span class="typ-punct">)</span>
+  <span class="typ-punct">]</span>
+<span class="typ-punct">]</span>
+
+<span class="typ-heading">= Introduction</span>
+<span class="typ-func">#</span><span class="typ-func">lorem</span><span class="typ-punct">(</span><span class="typ-num">300</span><span class="typ-punct">)</span>
+
+<span class="typ-heading">= Related Work</span>
+<span class="typ-func">#</span><span class="typ-func">lorem</span><span class="typ-punct">(</span><span class="typ-num">200</span><span class="typ-punct">)</span>
+</code></pre>
+     <div class="preview">
+      <img alt="Preview" height="1584/" src="/assets/docs/dAJVP8paZmMvnK23cMA_0AAAAAAAAAAA.png" width="1224"/>
+     </div>
+    </div>
+    <p>
+     In this example, we also used the
+     <code>
+      clearance
+     </code>
+     argument of the
+     <code>
+      place
+     </code>
+     function to provide the space between it and the body instead of using the
+     <a href="/docs/reference/layout/v/">
+      <code>
+       v
+      </code>
+     </a>
+     function. We can also remove the explicit
+     <code>
+      <span class="typ-func">
+       align
+      </span>
+      <span class="typ-punct">
+       (
+      </span>
+      center
+      <span class="typ-punct">
+       ,
+      </span>
+      <span class="typ-op">
+       ..
+      </span>
+      <span class="typ-punct">
+       )
+      </span>
+     </code>
+     calls around the various parts since they inherit the center alignment from the placement.
+    </p>
+    <p>
+     Now there is only one thing left to do: Style our headings. We need to make them centered and use small capitals. Because the
+     <code>
+      heading
+     </code>
+     function does not offer a way to set any of that, we need to write our own heading show rule.
+    </p>
+    <div class="previewed-code">
+     <pre><code><span class="typ-key">#</span><span class="typ-key">show</span> <span class="typ-func">heading</span><span class="typ-punct">:</span> it <span class="typ-op">=&gt;</span> <span class="typ-punct">[</span>
+  <span class="typ-key">#</span><span class="typ-key">set</span> <span class="typ-func">align</span><span class="typ-punct">(</span>center<span class="typ-punct">)</span>
+  <span class="typ-key">#</span><span class="typ-key">set</span> <span class="typ-func">text</span><span class="typ-punct">(</span><span class="typ-num">13pt</span><span class="typ-punct">,</span> weight<span class="typ-punct">:</span> <span class="typ-str">"regular"</span><span class="typ-punct">)</span>
+  <span class="typ-func">#</span><span class="typ-func">block</span><span class="typ-punct">(</span><span class="typ-func">smallcaps</span><span class="typ-punct">(</span>it<span class="typ-punct">.</span>body<span class="typ-punct">)</span><span class="typ-punct">)</span>
+<span class="typ-punct">]</span>
+
+<span class="typ-escape">...</span>
+</code></pre>
+     <div class="preview">
+      <img alt="Preview" height="540/" src="/assets/docs/ZJxJWdUySZNKlj1_Vn1NWgAAAAAAAAAA.png" width="530"/>
+     </div>
+    </div>
+    <p>
+     This looks great! We used a show rule that applies to all headings. We give it a function that gets passed the heading as a parameter. That parameter can be used as content but it also has some fields like
+     <code>
+      title
+     </code>
+     ,
+     <code>
+      numbers
+     </code>
+     , and
+     <code>
+      level
+     </code>
+     from which we can compose a custom look. Here, we are center-aligning, setting the font weight to
+     <code>
+      <span class="typ-str">
+       "regular"
+      </span>
+     </code>
+     because headings are bold by default, and use the
+     <a href="/docs/reference/text/smallcaps/" title="`smallcaps`">
+      <code>
+       smallcaps
+      </code>
+     </a>
+     function to render the heading's title in small capitals.
+    </p>
+    <p>
+     The only remaining problem is that all headings look the same now. The "Motivation" and "Problem Statement" subsections ought to be italic run in headers, but right now, they look indistinguishable from the section headings. We can fix that by using a
+     <code>
+      where
+     </code>
+     selector on our set rule: This is a
+     <a href="/docs/reference/scripting/#methods">
+      method
+     </a>
+     we can call on headings (and other elements) that allows us to filter them by their level. We can use it to differentiate between section and subsection headings:
+    </p>
+    <div class="previewed-code">
+     <pre><code><span class="typ-key">#</span><span class="typ-key">show</span> heading<span class="typ-punct">.</span><span class="typ-func">where</span><span class="typ-punct">(</span>
+  level<span class="typ-punct">:</span> <span class="typ-num">1</span>
+<span class="typ-punct">)</span><span class="typ-punct">:</span> it <span class="typ-op">=&gt;</span> <span class="typ-func">block</span><span class="typ-punct">(</span>width<span class="typ-punct">:</span> <span class="typ-num">100%</span><span class="typ-punct">)</span><span class="typ-punct">[</span>
+  <span class="typ-key">#</span><span class="typ-key">set</span> <span class="typ-func">align</span><span class="typ-punct">(</span>center<span class="typ-punct">)</span>
+  <span class="typ-key">#</span><span class="typ-key">set</span> <span class="typ-func">text</span><span class="typ-punct">(</span><span class="typ-num">13pt</span><span class="typ-punct">,</span> weight<span class="typ-punct">:</span> <span class="typ-str">"regular"</span><span class="typ-punct">)</span>
+  <span class="typ-func">#</span><span class="typ-func">smallcaps</span><span class="typ-punct">(</span>it<span class="typ-punct">.</span>body<span class="typ-punct">)</span>
+<span class="typ-punct">]</span>
+
+<span class="typ-key">#</span><span class="typ-key">show</span> heading<span class="typ-punct">.</span><span class="typ-func">where</span><span class="typ-punct">(</span>
+  level<span class="typ-punct">:</span> <span class="typ-num">2</span>
+<span class="typ-punct">)</span><span class="typ-punct">:</span> it <span class="typ-op">=&gt;</span> <span class="typ-func">text</span><span class="typ-punct">(</span>
+  size<span class="typ-punct">:</span> <span class="typ-num">11pt</span><span class="typ-punct">,</span>
+  weight<span class="typ-punct">:</span> <span class="typ-str">"regular"</span><span class="typ-punct">,</span>
+  style<span class="typ-punct">:</span> <span class="typ-str">"italic"</span><span class="typ-punct">,</span>
+  it<span class="typ-punct">.</span>body <span class="typ-op">+</span> <span class="typ-punct">[</span>.<span class="typ-punct">]</span><span class="typ-punct">,</span>
+<span class="typ-punct">)</span>
+</code></pre>
+     <div class="preview">
+      <img alt="Preview" height="490/" src="/assets/docs/eBNymJDskGFkYVAXkF9cuAAAAAAAAAAA.png" width="530"/>
+     </div>
+    </div>
+    <p>
+     This looks great! We wrote two show rules that each selectively apply to the first and second level headings. We used a
+     <code>
+      where
+     </code>
+     selector to filter the headings by their level. We then rendered the subsection headings as run-ins. We also automatically add a period to the end of the subsection headings.
+    </p>
+    <p>
+     Let's review the conference's style guide:
+    </p>
+    <ul>
+     <li>
+      The font should be an 11pt serif font â
+     </li>
+     <li>
+      The title should be in 17pt and bold â
+     </li>
+     <li>
+      The paper contains a single-column abstract and two-column main text â
+     </li>
+     <li>
+      The abstract should be centered â
+     </li>
+     <li>
+      The main text should be justified â
+     </li>
+     <li>
+      First level section headings should be centered, rendered in small caps and in 13pt â
+     </li>
+     <li>
+      Second level headings are run-ins, italicized and have the same size as the body text â
+     </li>
+     <li>
+      Finally, the pages should be US letter sized, numbered in the center and the top right corner of each page should contain the title of the paper â
+     </li>
+    </ul>
+    <p>
+     We are now in compliance with all of these styles and can submit the paper to the conference! The finished paper looks like this:
+    </p>
+    <p>
+     <img alt="The finished paper" src="/assets/docs/3-advanced-paper.png" style="box-shadow:0 4px 12px rgb(89 85 101 / 20%);width:500px;max-width:100%;display:block;margin:24px auto"/>
+    </p>
+    <h2 id="review">
+     Review
+    </h2>
+    <p>
+     You have now learned how to create headers and footers, how to use functions and scopes to locally override styles, how to create more complex layouts with the
+     <a href="/docs/reference/layout/grid/" title="`grid`">
+      <code>
+       grid
+      </code>
+     </a>
+     function and how to write show rules for individual functions, and the whole document. You also learned how to use the
+     <a href="/docs/reference/styling/#show-rules">
+      <code>
+       where
+      </code>
+      selector
+     </a>
+     to filter the headings by their level.
+    </p>
+    <p>
+     The paper was a great success! You've met a lot of like-minded researchers at the conference and are planning a project which you hope to publish at the same venue next year. You'll need to write a new paper using the same style guide though, so maybe now you want to create a time-saving template for you and your team?
+    </p>
+    <p>
+     In the next section, we will learn how to create templates that can be reused in multiple documents. This is a more advanced topic, so feel free to come back to it later if you don't feel up to it right now.
+    </p>
+    <div class="page-end-buttons">
+     <a class="previous" href="/docs/tutorial/formatting/">
+      <img alt="â" src="/assets/icons/16-arrow-right.svg"/>
+      <div>
+       <span class="page-title">
+        Formatting
+       </span>
+       <span class="hint">
+        Previous page
+       </span>
+      </div>
+     </a>
+     <a class="next" href="/docs/tutorial/making-a-template/">
+      <img alt="â" src="/assets/icons/16-arrow-right.svg"/>
+      <div>
+       <span class="page-title">
+        Making a Template
+       </span>
+       <span class="hint">
+        Next page
+       </span>
+      </div>
+     </a>
+    </div>
+   </main>

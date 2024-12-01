@@ -1,0 +1,240 @@
+<main>
+    <ul aria-label="Breadcrumbs" class="breadcrumbs">
+     <li class="root">
+      <a href="/docs">
+       <img alt="Docs" height="16" src="/assets/icons/16-docs-dark.svg" width="16"/>
+      </a>
+     </li>
+     <li aria-hidden="true">
+      <img alt="" height="16" src="/assets/icons/16-arrow-right.svg" width="16"/>
+     </li>
+     <li>
+      <a href="/docs/reference/">
+       Reference
+      </a>
+     </li>
+     <li aria-hidden="true">
+      <img alt="" height="16" src="/assets/icons/16-arrow-right.svg" width="16"/>
+     </li>
+     <li>
+      <a href="/docs/reference/foundations/">
+       Foundations
+      </a>
+     </li>
+     <li aria-hidden="true">
+      <img alt="" height="16" src="/assets/icons/16-arrow-right.svg" width="16"/>
+     </li>
+     <li>
+      <a href="/docs/reference/foundations/regex/">
+       Regex
+      </a>
+     </li>
+    </ul>
+    <h1 id="summary">
+     <span class="pill pill-obj">
+      regex
+     </span>
+    </h1>
+    <p>
+     A regular expression.
+    </p>
+    <p>
+     Can be used as a
+     <a href="/docs/reference/styling/#show-rules">
+      show rule selector
+     </a>
+     and with
+     <a href="/docs/reference/foundations/str/">
+      string methods
+     </a>
+     like
+     <code>
+      find
+     </code>
+     ,
+     <code>
+      split
+     </code>
+     , and
+     <code>
+      replace
+     </code>
+     .
+    </p>
+    <p>
+     <a href="https://docs.rs/regex/latest/regex/#syntax">
+      See here
+     </a>
+     for a specification of the supported syntax.
+    </p>
+    <h2 id="example">
+     Example
+    </h2>
+    <div class="previewed-code">
+     <pre><code><span class="typ-comment">// Works with string methods.</span>
+<span class="typ-str">#</span><span class="typ-str">"a,b;c"</span><span class="typ-punct">.</span><span class="typ-func">split</span><span class="typ-punct">(</span><span class="typ-func">regex</span><span class="typ-punct">(</span><span class="typ-str">"[,;]"</span><span class="typ-punct">)</span><span class="typ-punct">)</span>
+
+<span class="typ-comment">// Works with show rules.</span>
+<span class="typ-key">#</span><span class="typ-key">show</span> <span class="typ-func">regex</span><span class="typ-punct">(</span><span class="typ-str">"\d+"</span><span class="typ-punct">)</span><span class="typ-punct">:</span> <span class="typ-key">set</span> <span class="typ-func">text</span><span class="typ-punct">(</span>red<span class="typ-punct">)</span>
+
+The numbers 1 to 10.
+</code></pre>
+     <div class="preview">
+      <img alt="Preview" height="114/" src="/assets/docs/UtfXJAklKdjyBZ3HmRwY-AAAAAAAAAAA.png" width="480"/>
+     </div>
+    </div>
+    <h2 id="constructor">
+     Constructor
+     <small>
+      <div class="tooltip-context">
+       <svg aria-labelledby=":R38n9a:-label" height="12" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 12 12" width="12">
+        <title id=":R38n9a:-label">
+         Question mark
+        </title>
+        <use href="/assets/icons/12-tooltip.svg#icon">
+        </use>
+       </svg>
+       <div aria-hidden="true" id="constructor-constructor-tooltip" role="tooltip" tabindex="-1">
+        If a type has a constructor, you can call it like a function to create a new value of the type.
+       </div>
+      </div>
+     </small>
+    </h2>
+    <p>
+     Create a regular expression from a string.
+    </p>
+    <div class="code code-definition single-arg">
+     <span class="typ-func">
+      regex
+     </span>
+     (
+     <div class="arguments">
+      <span class="overview-param">
+       <a class="pill pill-str" href="/docs/reference/foundations/str/">
+        str
+       </a>
+      </span>
+     </div>
+     )
+     <!-- -->
+     -&gt;
+     <a class="pill pill-obj" href="/docs/reference/foundations/regex/">
+      regex
+     </a>
+    </div>
+    <h4 id="constructor-regex">
+     <code>
+      regex
+     </code>
+     <div class="additional-info">
+      <div>
+       <a class="pill pill-str" href="/docs/reference/foundations/str/">
+        str
+       </a>
+      </div>
+      <small>
+       Required
+      </small>
+      <small>
+       <span aria-describedby="constructor-regex-positional-tooltip">
+        Positional
+       </span>
+       <div class="tooltip-context">
+        <svg aria-labelledby=":Rcsf79a:-label" height="12" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 12 12" width="12">
+         <title id=":Rcsf79a:-label">
+          Question mark
+         </title>
+         <use href="/assets/icons/12-tooltip.svg#icon">
+         </use>
+        </svg>
+        <div aria-hidden="true" id="constructor-regex-positional-tooltip" role="tooltip" tabindex="-1">
+         Positional parameters are specified in order, without names.
+        </div>
+       </div>
+      </small>
+     </div>
+    </h4>
+    <p>
+     The regular expression as a string.
+    </p>
+    <p>
+     Most regex escape sequences just work because they are not valid Typst escape sequences. To produce regex escape sequences that are also valid in Typst (e.g.
+     <code>
+      <span class="typ-escape">
+       \\
+      </span>
+     </code>
+     ), you need to escape twice. Thus, to match a verbatim backslash, you would need to write
+     <code>
+      <span class="typ-func">
+       regex
+      </span>
+      <span class="typ-punct">
+       (
+      </span>
+      <span class="typ-str">
+       "\\\\"
+      </span>
+      <span class="typ-punct">
+       )
+      </span>
+     </code>
+     .
+    </p>
+    <p>
+     If you need many escape sequences, you can also create a raw element and extract its text to use it for your regular expressions:
+    </p>
+    <details class="folding-example">
+     <summary>
+      <img alt="" height="16" src="/assets/icons/16-arrow-right.svg" width="16"/>
+      View example
+     </summary>
+     <div class="folding">
+      <p>
+       <code>
+        <span class="typ-func">
+         regex
+        </span>
+        <span class="typ-punct">
+         (
+        </span>
+        <span class="typ-raw">
+         `\d+\.\d+\.\d+`
+        </span>
+        <span class="typ-punct">
+         .
+        </span>
+        text
+        <span class="typ-punct">
+         )
+        </span>
+       </code>
+       .
+      </p>
+     </div>
+    </details>
+    <div class="page-end-buttons">
+     <a class="previous" href="/docs/reference/foundations/plugin/">
+      <img alt="â" src="/assets/icons/16-arrow-right.svg"/>
+      <div>
+       <span class="page-title">
+        Plugin
+       </span>
+       <span class="hint">
+        Previous page
+       </span>
+      </div>
+     </a>
+     <a class="next" href="/docs/reference/foundations/repr/">
+      <img alt="â" src="/assets/icons/16-arrow-right.svg"/>
+      <div>
+       <span class="page-title">
+        Representation
+       </span>
+       <span class="hint">
+        Next page
+       </span>
+      </div>
+     </a>
+    </div>
+   </main>

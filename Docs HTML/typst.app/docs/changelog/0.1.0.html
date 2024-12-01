@@ -1,0 +1,506 @@
+<main>
+    <ul aria-label="Breadcrumbs" class="breadcrumbs">
+     <li class="root">
+      <a href="/docs">
+       <img alt="Docs" height="16" src="/assets/icons/16-docs-dark.svg" width="16"/>
+      </a>
+     </li>
+     <li aria-hidden="true">
+      <img alt="" height="16" src="/assets/icons/16-arrow-right.svg" width="16"/>
+     </li>
+     <li>
+      <a href="/docs/changelog/">
+       Changelog
+      </a>
+     </li>
+     <li aria-hidden="true">
+      <img alt="" height="16" src="/assets/icons/16-arrow-right.svg" width="16"/>
+     </li>
+     <li>
+      <a href="/docs/changelog/0.1.0/">
+       0.1.0
+      </a>
+     </li>
+    </ul>
+    <h1>
+     Version 0.1.0 (April 04, 2023)
+    </h1>
+    <h2 id="breaking-changes">
+     Breaking changes
+    </h2>
+    <ul>
+     <li>
+      When using the CLI, you now have to use subcommands:
+      <ul>
+       <li>
+        <code>
+         typst compile file.typ
+        </code>
+        or
+        <code>
+         typst c file.typ
+        </code>
+        to create a PDF
+       </li>
+       <li>
+        <code>
+         typst watch file.typ
+        </code>
+        or
+        <code>
+         typst w file.typ
+        </code>
+        to compile and watch
+       </li>
+       <li>
+        <code>
+         typst fonts
+        </code>
+        to list all fonts
+       </li>
+      </ul>
+     </li>
+     <li>
+      Manual counters now start at zero. Read the "How to step" section
+      <a href="/docs/reference/introspection/counter/">
+       here
+      </a>
+      for more details
+     </li>
+     <li>
+      The
+      <a href="/docs/reference/model/bibliography/#parameters-style">
+       bibliography styles
+      </a>
+      <code>
+       <span class="typ-str">
+        "author-date"
+       </span>
+      </code>
+      and
+      <code>
+       <span class="typ-str">
+        "author-title"
+       </span>
+      </code>
+      were renamed to
+      <code>
+       <span class="typ-str">
+        "chicago-author-date"
+       </span>
+      </code>
+      and
+      <code>
+       <span class="typ-str">
+        "chicago-author-title"
+       </span>
+      </code>
+     </li>
+    </ul>
+    <h2 id="figure-improvements">
+     Figure improvements
+    </h2>
+    <ul>
+     <li>
+      Figures now automatically detect their content and adapt their behavior. Figures containing tables, for instance, are automatically prefixed with "Table X" and have a separate counter
+     </li>
+     <li>
+      The figure's supplement (e.g. "Figure" or "Table") can now be customized
+     </li>
+     <li>
+      In addition, figures can now be completely customized because the show rule gives access to the automatically resolved kind, supplement, and counter
+     </li>
+    </ul>
+    <h2 id="bibliography-improvements">
+     Bibliography improvements
+    </h2>
+    <ul>
+     <li>
+      The
+      <a href="/docs/reference/model/bibliography/" title="`bibliography`">
+       <code>
+        bibliography
+       </code>
+      </a>
+      now also accepts multiple bibliography paths (as an array)
+     </li>
+     <li>
+      Parsing of BibLaTeX files is now more permissive (accepts non-numeric edition, pages, volumes, dates, and Jabref-style comments; fixed abbreviation parsing)
+     </li>
+     <li>
+      Labels and references can now include
+      <code>
+       :
+      </code>
+      and
+      <code>
+       .
+      </code>
+      except at the end
+     </li>
+     <li>
+      Fixed APA bibliography ordering
+     </li>
+    </ul>
+    <h2 id="drawing-additions">
+     Drawing additions
+    </h2>
+    <ul>
+     <li>
+      Added
+      <a href="/docs/reference/visualize/polygon/" title="`polygon`">
+       <code>
+        polygon
+       </code>
+      </a>
+      function for drawing polygons
+     </li>
+     <li>
+      Added support for clipping in
+      <a href="/docs/reference/layout/box/#parameters-clip">
+       boxes
+      </a>
+      and
+      <a href="/docs/reference/layout/block/#parameters-clip">
+       blocks
+      </a>
+     </li>
+    </ul>
+    <h2 id="command-line-interface">
+     Command line interface
+    </h2>
+    <ul>
+     <li>
+      Now returns with non-zero status code if there is an error
+     </li>
+     <li>
+      Now watches the root directory instead of the current one
+     </li>
+     <li>
+      Now puts the PDF file next to input file by default
+     </li>
+     <li>
+      Now accepts more kinds of input files (e.g.
+      <code>
+       /dev/stdin
+      </code>
+      )
+     </li>
+     <li>
+      Added
+      <code>
+       --open
+      </code>
+      flag to directly open the PDF
+     </li>
+    </ul>
+    <h2 id="miscellaneous-improvements">
+     Miscellaneous improvements
+    </h2>
+    <ul>
+     <li>
+      Added
+      <a href="/docs/reference/data-loading/yaml/" title="`yaml`">
+       <code>
+        yaml
+       </code>
+      </a>
+      function to load data from YAML files
+     </li>
+     <li>
+      Added basic i18n for a few more languages (IT, RU, ZH, FR, PT)
+     </li>
+     <li>
+      Added numbering support for Hebrew
+     </li>
+     <li>
+      Added support for
+      <a href="/docs/reference/foundations/int/">
+       integers
+      </a>
+      with base 2, 8, and 16
+     </li>
+     <li>
+      Added symbols for double bracket and laplace operator
+     </li>
+     <li>
+      The
+      <a href="/docs/reference/model/link/" title="`link`">
+       <code>
+        link
+       </code>
+      </a>
+      function now accepts
+      <a href="/docs/reference/foundations/label/">
+       labels
+      </a>
+     </li>
+     <li>
+      The link syntax now allows more characters
+     </li>
+     <li>
+      Improved justification of Japanese and Chinese text
+     </li>
+     <li>
+      Calculation functions behave more consistently w.r.t to non-real results
+     </li>
+     <li>
+      Replaced deprecated angle brackets
+     </li>
+     <li>
+      Reduced maximum function call depth from 256 to 64
+     </li>
+     <li>
+      Fixed
+      <a href="/docs/reference/model/par/#parameters-first-line-indent">
+       <code>
+        first-line-indent
+       </code>
+      </a>
+      being not applied when a paragraph starts with styled text
+     </li>
+     <li>
+      Fixed extraneous spacing in unary operators in equations
+     </li>
+     <li>
+      Fixed block spacing, e.g. in
+      <code>
+       <span class="typ-func">
+        block
+       </span>
+       <span class="typ-punct">
+        (
+       </span>
+       above
+       <span class="typ-punct">
+        :
+       </span>
+       <span class="typ-num">
+        1cm
+       </span>
+       <span class="typ-punct">
+        ,
+       </span>
+       below
+       <span class="typ-punct">
+        :
+       </span>
+       <span class="typ-num">
+        1cm
+       </span>
+       <span class="typ-punct">
+        ,
+       </span>
+       <span class="typ-op">
+        ..
+       </span>
+       <span class="typ-punct">
+        )
+       </span>
+      </code>
+     </li>
+     <li>
+      Fixed styling of text operators in math
+     </li>
+     <li>
+      Fixed invalid parsing of language tag in raw block with a single backtick
+     </li>
+     <li>
+      Fixed bugs with displaying counters and state
+     </li>
+     <li>
+      Fixed crash related to page counter
+     </li>
+     <li>
+      Fixed crash when
+      <a href="/docs/reference/symbols/symbol/" title="`symbol`">
+       <code>
+        symbol
+       </code>
+      </a>
+      function was called without arguments
+     </li>
+     <li>
+      Fixed crash in bibliography generation
+     </li>
+     <li>
+      Fixed access to label of certain content elements
+     </li>
+     <li>
+      Fixed line number in error message for CSV parsing
+     </li>
+     <li>
+      Fixed invalid autocompletion after certain markup elements
+     </li>
+    </ul>
+    <h2 id="contributors">
+     Contributors
+    </h2>
+    Thanks to everyone who contributed to this release!
+    <ul class="contribs">
+     <li>
+      <a href="https://github.com/Dherse" target="_blank">
+       <img alt="GitHub avatar of Dherse" crossorigin="anonymous" height="64" src="https://avatars.githubusercontent.com/u/9665250?s=64&amp;v=4" title="@Dherse made 7 contributions" width="64"/>
+      </a>
+     </li>
+     <li>
+      <a href="https://github.com/barvirm" target="_blank">
+       <img alt="GitHub avatar of barvirm" crossorigin="anonymous" height="64" src="https://avatars.githubusercontent.com/u/15948420?s=64&amp;v=4" title="@barvirm made 6 contributions" width="64"/>
+      </a>
+     </li>
+     <li>
+      <a href="https://github.com/HarmoGlace" target="_blank">
+       <img alt="GitHub avatar of HarmoGlace" crossorigin="anonymous" height="64" src="https://avatars.githubusercontent.com/u/23212967?s=64&amp;v=4" title="@HarmoGlace made 3 contributions" width="64"/>
+      </a>
+     </li>
+     <li>
+      <a href="https://github.com/figsoda" target="_blank">
+       <img alt="GitHub avatar of figsoda" crossorigin="anonymous" height="64" src="https://avatars.githubusercontent.com/u/40620903?s=64&amp;v=4" title="@figsoda made 2 contributions" width="64"/>
+      </a>
+     </li>
+     <li>
+      <a href="https://github.com/frozolotl" target="_blank">
+       <img alt="GitHub avatar of frozolotl" crossorigin="anonymous" height="64" src="https://avatars.githubusercontent.com/u/44589151?s=64&amp;v=4" title="@frozolotl made 2 contributions" width="64"/>
+      </a>
+     </li>
+     <li>
+      <a href="https://github.com/johannes-wolf" target="_blank">
+       <img alt="GitHub avatar of johannes-wolf" crossorigin="anonymous" height="64" src="https://avatars.githubusercontent.com/u/519002?s=64&amp;v=4" title="@johannes-wolf made 2 contributions" width="64"/>
+      </a>
+     </li>
+     <li>
+      <a href="https://github.com/naim94a" target="_blank">
+       <img alt="GitHub avatar of naim94a" crossorigin="anonymous" height="64" src="https://avatars.githubusercontent.com/u/227396?s=64&amp;v=4" title="@naim94a made 2 contributions" width="64"/>
+      </a>
+     </li>
+     <li>
+      <a href="https://github.com/CGMossa" target="_blank">
+       <img alt="GitHub avatar of CGMossa" crossorigin="anonymous" height="64" src="https://avatars.githubusercontent.com/u/1063624?s=64&amp;v=4" title="@CGMossa made 1 contribution" width="64"/>
+      </a>
+     </li>
+     <li>
+      <a href="https://github.com/FilipAndersson245" target="_blank">
+       <img alt="GitHub avatar of FilipAndersson245" crossorigin="anonymous" height="64" src="https://avatars.githubusercontent.com/u/17986183?s=64&amp;v=4" title="@FilipAndersson245 made 1 contribution" width="64"/>
+      </a>
+     </li>
+     <li>
+      <a href="https://github.com/GabrielDertoni" target="_blank">
+       <img alt="GitHub avatar of GabrielDertoni" crossorigin="anonymous" height="64" src="https://avatars.githubusercontent.com/u/13651052?s=64&amp;v=4" title="@GabrielDertoni made 1 contribution" width="64"/>
+      </a>
+     </li>
+     <li>
+      <a href="https://github.com/P-Andersson" target="_blank">
+       <img alt="GitHub avatar of P-Andersson" crossorigin="anonymous" height="64" src="https://avatars.githubusercontent.com/u/17784951?s=64&amp;v=4" title="@P-Andersson made 1 contribution" width="64"/>
+      </a>
+     </li>
+     <li>
+      <a href="https://github.com/SekoiaTree" target="_blank">
+       <img alt="GitHub avatar of SekoiaTree" crossorigin="anonymous" height="64" src="https://avatars.githubusercontent.com/u/51149447?s=64&amp;v=4" title="@SekoiaTree made 1 contribution" width="64"/>
+      </a>
+     </li>
+     <li>
+      <a href="https://github.com/asayers" target="_blank">
+       <img alt="GitHub avatar of asayers" crossorigin="anonymous" height="64" src="https://avatars.githubusercontent.com/u/877109?s=64&amp;v=4" title="@asayers made 1 contribution" width="64"/>
+      </a>
+     </li>
+     <li>
+      <a href="https://github.com/birktj" target="_blank">
+       <img alt="GitHub avatar of birktj" crossorigin="anonymous" height="64" src="https://avatars.githubusercontent.com/u/2932651?s=64&amp;v=4" title="@birktj made 1 contribution" width="64"/>
+      </a>
+     </li>
+     <li>
+      <a href="https://github.com/frungl" target="_blank">
+       <img alt="GitHub avatar of frungl" crossorigin="anonymous" height="64" src="https://avatars.githubusercontent.com/u/82895777?s=64&amp;v=4" title="@frungl made 1 contribution" width="64"/>
+      </a>
+     </li>
+     <li>
+      <a href="https://github.com/jinhao-huang" target="_blank">
+       <img alt="GitHub avatar of jinhao-huang" crossorigin="anonymous" height="64" src="https://avatars.githubusercontent.com/u/80573215?s=64&amp;v=4" title="@jinhao-huang made 1 contribution" width="64"/>
+      </a>
+     </li>
+     <li>
+      <a href="https://github.com/loewenheim" target="_blank">
+       <img alt="GitHub avatar of loewenheim" crossorigin="anonymous" height="64" src="https://avatars.githubusercontent.com/u/7622248?s=64&amp;v=4" title="@loewenheim made 1 contribution" width="64"/>
+      </a>
+     </li>
+     <li>
+      <a href="https://github.com/lvignoli" target="_blank">
+       <img alt="GitHub avatar of lvignoli" crossorigin="anonymous" height="64" src="https://avatars.githubusercontent.com/u/97944962?s=64&amp;v=4" title="@lvignoli made 1 contribution" width="64"/>
+      </a>
+     </li>
+     <li>
+      <a href="https://github.com/lxndio" target="_blank">
+       <img alt="GitHub avatar of lxndio" crossorigin="anonymous" height="64" src="https://avatars.githubusercontent.com/u/1679267?s=64&amp;v=4" title="@lxndio made 1 contribution" width="64"/>
+      </a>
+     </li>
+     <li>
+      <a href="https://github.com/marcoradocchia" target="_blank">
+       <img alt="GitHub avatar of marcoradocchia" crossorigin="anonymous" height="64" src="https://avatars.githubusercontent.com/u/74802223?s=64&amp;v=4" title="@marcoradocchia made 1 contribution" width="64"/>
+      </a>
+     </li>
+     <li>
+      <a href="https://github.com/mateusfccp" target="_blank">
+       <img alt="GitHub avatar of mateusfccp" crossorigin="anonymous" height="64" src="https://avatars.githubusercontent.com/u/4605213?s=64&amp;v=4" title="@mateusfccp made 1 contribution" width="64"/>
+      </a>
+     </li>
+     <li>
+      <a href="https://github.com/ollelogdahl" target="_blank">
+       <img alt="GitHub avatar of ollelogdahl" crossorigin="anonymous" height="64" src="https://avatars.githubusercontent.com/u/37961475?s=64&amp;v=4" title="@ollelogdahl made 1 contribution" width="64"/>
+      </a>
+     </li>
+     <li>
+      <a href="https://github.com/samlich" target="_blank">
+       <img alt="GitHub avatar of samlich" crossorigin="anonymous" height="64" src="https://avatars.githubusercontent.com/u/1349989?s=64&amp;v=4" title="@samlich made 1 contribution" width="64"/>
+      </a>
+     </li>
+     <li>
+      <a href="https://github.com/user202729" target="_blank">
+       <img alt="GitHub avatar of user202729" crossorigin="anonymous" height="64" src="https://avatars.githubusercontent.com/u/25191436?s=64&amp;v=4" title="@user202729 made 1 contribution" width="64"/>
+      </a>
+     </li>
+     <li>
+      <a href="https://github.com/utilForever" target="_blank">
+       <img alt="GitHub avatar of utilForever" crossorigin="anonymous" height="64" src="https://avatars.githubusercontent.com/u/5622661?s=64&amp;v=4" title="@utilForever made 1 contribution" width="64"/>
+      </a>
+     </li>
+     <li>
+      <a href="https://github.com/wrenger" target="_blank">
+       <img alt="GitHub avatar of wrenger" crossorigin="anonymous" height="64" src="https://avatars.githubusercontent.com/u/20145354?s=64&amp;v=4" title="@wrenger made 1 contribution" width="64"/>
+      </a>
+     </li>
+     <li>
+      <a href="https://github.com/yichenchong" target="_blank">
+       <img alt="GitHub avatar of yichenchong" crossorigin="anonymous" height="64" src="https://avatars.githubusercontent.com/u/40590448?s=64&amp;v=4" title="@yichenchong made 1 contribution" width="64"/>
+      </a>
+     </li>
+     <li>
+      <a href="https://github.com/zrr1999" target="_blank">
+       <img alt="GitHub avatar of zrr1999" crossorigin="anonymous" height="64" src="https://avatars.githubusercontent.com/u/46243324?s=64&amp;v=4" title="@zrr1999 made 1 contribution" width="64"/>
+      </a>
+     </li>
+    </ul>
+    <div class="page-end-buttons">
+     <a class="previous" href="/docs/changelog/0.2.0/">
+      <img alt="â" src="/assets/icons/16-arrow-right.svg"/>
+      <div>
+       <span class="page-title">
+        0.2.0
+       </span>
+       <span class="hint">
+        Previous page
+       </span>
+      </div>
+     </a>
+     <a class="next" href="/docs/changelog/earlier/">
+      <img alt="â" src="/assets/icons/16-arrow-right.svg"/>
+      <div>
+       <span class="page-title">
+        Earlier
+       </span>
+       <span class="hint">
+        Next page
+       </span>
+      </div>
+     </a>
+    </div>
+   </main>

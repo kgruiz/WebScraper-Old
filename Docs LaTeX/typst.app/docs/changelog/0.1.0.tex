@@ -1,0 +1,248 @@
+\title{typst.app/docs/changelog/0.1.0}
+
+\begin{itemize}
+\tightlist
+\item
+  \href{/docs}{\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-docs-dark.svg}}
+\item
+  \includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-arrow-right.svg}
+\item
+  \href{/docs/changelog/}{Changelog}
+\item
+  \includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-arrow-right.svg}
+\item
+  \href{/docs/changelog/0.1.0/}{0.1.0}
+\end{itemize}
+
+\section{Version 0.1.0 (April 04,
+2023)}\label{version-0.1.0-april-04-2023}
+
+\subsection{Breaking changes}\label{breaking-changes}
+
+\begin{itemize}
+\tightlist
+\item
+  When using the CLI, you now have to use subcommands:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \texttt{\ typst\ compile\ file.typ\ } or
+    \texttt{\ typst\ c\ file.typ\ } to create a PDF
+  \item
+    \texttt{\ typst\ watch\ file.typ\ } or
+    \texttt{\ typst\ w\ file.typ\ } to compile and watch
+  \item
+    \texttt{\ typst\ fonts\ } to list all fonts
+  \end{itemize}
+\item
+  Manual counters now start at zero. Read the "How to step" section
+  \href{/docs/reference/introspection/counter/}{here} for more details
+\item
+  The
+  \href{/docs/reference/model/bibliography/\#parameters-style}{bibliography
+  styles} \texttt{\ }{\texttt{\ "author-date"\ }}\texttt{\ } and
+  \texttt{\ }{\texttt{\ "author-title"\ }}\texttt{\ } were renamed to
+  \texttt{\ }{\texttt{\ "chicago-author-date"\ }}\texttt{\ } and
+  \texttt{\ }{\texttt{\ "chicago-author-title"\ }}\texttt{\ }
+\end{itemize}
+
+\subsection{Figure improvements}\label{figure-improvements}
+
+\begin{itemize}
+\tightlist
+\item
+  Figures now automatically detect their content and adapt their
+  behavior. Figures containing tables, for instance, are automatically
+  prefixed with "Table X" and have a separate counter
+\item
+  The figure\textquotesingle s supplement (e.g. "Figure" or "Table") can
+  now be customized
+\item
+  In addition, figures can now be completely customized because the show
+  rule gives access to the automatically resolved kind, supplement, and
+  counter
+\end{itemize}
+
+\subsection{Bibliography improvements}\label{bibliography-improvements}
+
+\begin{itemize}
+\tightlist
+\item
+  The
+  \href{/docs/reference/model/bibliography/}{\texttt{\ bibliography\ }}
+  now also accepts multiple bibliography paths (as an array)
+\item
+  Parsing of BibLaTeX files is now more permissive (accepts non-numeric
+  edition, pages, volumes, dates, and Jabref-style comments; fixed
+  abbreviation parsing)
+\item
+  Labels and references can now include \texttt{\ :\ } and
+  \texttt{\ .\ } except at the end
+\item
+  Fixed APA bibliography ordering
+\end{itemize}
+
+\subsection{Drawing additions}\label{drawing-additions}
+
+\begin{itemize}
+\tightlist
+\item
+  Added \href{/docs/reference/visualize/polygon/}{\texttt{\ polygon\ }}
+  function for drawing polygons
+\item
+  Added support for clipping in
+  \href{/docs/reference/layout/box/\#parameters-clip}{boxes} and
+  \href{/docs/reference/layout/block/\#parameters-clip}{blocks}
+\end{itemize}
+
+\subsection{Command line interface}\label{command-line-interface}
+
+\begin{itemize}
+\tightlist
+\item
+  Now returns with non-zero status code if there is an error
+\item
+  Now watches the root directory instead of the current one
+\item
+  Now puts the PDF file next to input file by default
+\item
+  Now accepts more kinds of input files (e.g. \texttt{\ /dev/stdin\ } )
+\item
+  Added \texttt{\ -\/-open\ } flag to directly open the PDF
+\end{itemize}
+
+\subsection{Miscellaneous
+improvements}\label{miscellaneous-improvements}
+
+\begin{itemize}
+\tightlist
+\item
+  Added \href{/docs/reference/data-loading/yaml/}{\texttt{\ yaml\ }}
+  function to load data from YAML files
+\item
+  Added basic i18n for a few more languages (IT, RU, ZH, FR, PT)
+\item
+  Added numbering support for Hebrew
+\item
+  Added support for \href{/docs/reference/foundations/int/}{integers}
+  with base 2, 8, and 16
+\item
+  Added symbols for double bracket and laplace operator
+\item
+  The \href{/docs/reference/model/link/}{\texttt{\ link\ }} function now
+  accepts \href{/docs/reference/foundations/label/}{labels}
+\item
+  The link syntax now allows more characters
+\item
+  Improved justification of Japanese and Chinese text
+\item
+  Calculation functions behave more consistently w.r.t to non-real
+  results
+\item
+  Replaced deprecated angle brackets
+\item
+  Reduced maximum function call depth from 256 to 64
+\item
+  Fixed
+  \href{/docs/reference/model/par/\#parameters-first-line-indent}{\texttt{\ first-line-indent\ }}
+  being not applied when a paragraph starts with styled text
+\item
+  Fixed extraneous spacing in unary operators in equations
+\item
+  Fixed block spacing, e.g. in
+  \texttt{\ }{\texttt{\ block\ }}\texttt{\ }{\texttt{\ (\ }}\texttt{\ above\ }{\texttt{\ :\ }}\texttt{\ }{\texttt{\ 1cm\ }}\texttt{\ }{\texttt{\ ,\ }}\texttt{\ below\ }{\texttt{\ :\ }}\texttt{\ }{\texttt{\ 1cm\ }}\texttt{\ }{\texttt{\ ,\ }}\texttt{\ }{\texttt{\ ..\ }}\texttt{\ }{\texttt{\ )\ }}\texttt{\ }
+\item
+  Fixed styling of text operators in math
+\item
+  Fixed invalid parsing of language tag in raw block with a single
+  backtick
+\item
+  Fixed bugs with displaying counters and state
+\item
+  Fixed crash related to page counter
+\item
+  Fixed crash when
+  \href{/docs/reference/symbols/symbol/}{\texttt{\ symbol\ }} function
+  was called without arguments
+\item
+  Fixed crash in bibliography generation
+\item
+  Fixed access to label of certain content elements
+\item
+  Fixed line number in error message for CSV parsing
+\item
+  Fixed invalid autocompletion after certain markup elements
+\end{itemize}
+
+\subsection{Contributors}\label{contributors}
+
+Thanks to everyone who contributed to this release!
+
+\begin{itemize}
+\tightlist
+\item
+  \href{https://github.com/Dherse}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/9665250?s=64&v=4}}
+\item
+  \href{https://github.com/barvirm}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/15948420?s=64&v=4}}
+\item
+  \href{https://github.com/HarmoGlace}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/23212967?s=64&v=4}}
+\item
+  \href{https://github.com/figsoda}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/40620903?s=64&v=4}}
+\item
+  \href{https://github.com/frozolotl}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/44589151?s=64&v=4}}
+\item
+  \href{https://github.com/johannes-wolf}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/519002?s=64&v=4}}
+\item
+  \href{https://github.com/naim94a}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/227396?s=64&v=4}}
+\item
+  \href{https://github.com/CGMossa}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/1063624?s=64&v=4}}
+\item
+  \href{https://github.com/FilipAndersson245}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/17986183?s=64&v=4}}
+\item
+  \href{https://github.com/GabrielDertoni}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/13651052?s=64&v=4}}
+\item
+  \href{https://github.com/P-Andersson}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/17784951?s=64&v=4}}
+\item
+  \href{https://github.com/SekoiaTree}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/51149447?s=64&v=4}}
+\item
+  \href{https://github.com/asayers}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/877109?s=64&v=4}}
+\item
+  \href{https://github.com/birktj}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/2932651?s=64&v=4}}
+\item
+  \href{https://github.com/frungl}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/82895777?s=64&v=4}}
+\item
+  \href{https://github.com/jinhao-huang}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/80573215?s=64&v=4}}
+\item
+  \href{https://github.com/loewenheim}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/7622248?s=64&v=4}}
+\item
+  \href{https://github.com/lvignoli}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/97944962?s=64&v=4}}
+\item
+  \href{https://github.com/lxndio}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/1679267?s=64&v=4}}
+\item
+  \href{https://github.com/marcoradocchia}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/74802223?s=64&v=4}}
+\item
+  \href{https://github.com/mateusfccp}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/4605213?s=64&v=4}}
+\item
+  \href{https://github.com/ollelogdahl}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/37961475?s=64&v=4}}
+\item
+  \href{https://github.com/samlich}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/1349989?s=64&v=4}}
+\item
+  \href{https://github.com/user202729}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/25191436?s=64&v=4}}
+\item
+  \href{https://github.com/utilForever}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/5622661?s=64&v=4}}
+\item
+  \href{https://github.com/wrenger}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/20145354?s=64&v=4}}
+\item
+  \href{https://github.com/yichenchong}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/40590448?s=64&v=4}}
+\item
+  \href{https://github.com/zrr1999}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/46243324?s=64&v=4}}
+\end{itemize}
+
+\href{/docs/changelog/0.2.0/}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-arrow-right.svg}}}
+
+{ 0.2.0 } { Previous page }
+
+\href{/docs/changelog/earlier/}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-arrow-right.svg}}}
+
+{ Earlier } { Next page }

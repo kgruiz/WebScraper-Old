@@ -1,0 +1,932 @@
+<main>
+    <ul aria-label="Breadcrumbs" class="breadcrumbs">
+     <li class="root">
+      <a href="/docs">
+       <img alt="Docs" height="16" src="/assets/icons/16-docs-dark.svg" width="16"/>
+      </a>
+     </li>
+     <li aria-hidden="true">
+      <img alt="" height="16" src="/assets/icons/16-arrow-right.svg" width="16"/>
+     </li>
+     <li>
+      <a href="/docs/reference/">
+       Reference
+      </a>
+     </li>
+     <li aria-hidden="true">
+      <img alt="" height="16" src="/assets/icons/16-arrow-right.svg" width="16"/>
+     </li>
+     <li>
+      <a href="/docs/reference/foundations/">
+       Foundations
+      </a>
+     </li>
+     <li aria-hidden="true">
+      <img alt="" height="16" src="/assets/icons/16-arrow-right.svg" width="16"/>
+     </li>
+     <li>
+      <a href="/docs/reference/foundations/selector/">
+       Selector
+      </a>
+     </li>
+    </ul>
+    <h1 id="summary">
+     <span class="pill pill-obj">
+      selector
+     </span>
+    </h1>
+    <p>
+     A filter for selecting elements within the document.
+    </p>
+    <p>
+     You can construct a selector in the following ways:
+    </p>
+    <ul>
+     <li>
+      you can use an element
+      <a href="/docs/reference/foundations/function/" title="function">
+       function
+      </a>
+     </li>
+     <li>
+      you can filter for an element function with
+      <a href="/docs/reference/foundations/function/#definitions-where">
+       specific fields
+      </a>
+     </li>
+     <li>
+      you can use a
+      <a href="/docs/reference/foundations/str/">
+       string
+      </a>
+      or
+      <a href="/docs/reference/foundations/regex/">
+       regular expression
+      </a>
+     </li>
+     <li>
+      you can use a
+      <a href="/docs/reference/foundations/label/">
+       <code>
+        <span class="typ-label">
+         &lt;label&gt;
+        </span>
+       </code>
+      </a>
+     </li>
+     <li>
+      you can use a
+      <a href="/docs/reference/introspection/location/" title="`location`">
+       <code>
+        location
+       </code>
+      </a>
+     </li>
+     <li>
+      call the
+      <a href="/docs/reference/foundations/selector/" title="`selector`">
+       <code>
+        selector
+       </code>
+      </a>
+      constructor to convert any of the above types into a selector value and use the methods below to refine it
+     </li>
+    </ul>
+    <p>
+     Selectors are used to
+     <a href="/docs/reference/styling/#show-rules">
+      apply styling rules
+     </a>
+     to elements. You can also use selectors to
+     <a href="/docs/reference/introspection/query/" title="query">
+      query
+     </a>
+     the document for certain types of elements.
+    </p>
+    <p>
+     Furthermore, you can pass a selector to several of Typst's built-in functions to configure their behaviour. One such example is the
+     <a href="/docs/reference/model/outline/" title="outline">
+      outline
+     </a>
+     where it can be used to change which elements are listed within the outline.
+    </p>
+    <p>
+     Multiple selectors can be combined using the methods shown below. However, not all kinds of selectors are supported in all places, at the moment.
+    </p>
+    <h2 id="example">
+     Example
+    </h2>
+    <div class="previewed-code">
+     <pre><code><span class="typ-key">#</span><span class="typ-key">context</span> <span class="typ-func">query</span><span class="typ-punct">(</span>
+  heading<span class="typ-punct">.</span><span class="typ-func">where</span><span class="typ-punct">(</span>level<span class="typ-punct">:</span> <span class="typ-num">1</span><span class="typ-punct">)</span>
+    <span class="typ-punct">.</span><span class="typ-func">or</span><span class="typ-punct">(</span>heading<span class="typ-punct">.</span><span class="typ-func">where</span><span class="typ-punct">(</span>level<span class="typ-punct">:</span> <span class="typ-num">2</span><span class="typ-punct">)</span><span class="typ-punct">)</span>
+<span class="typ-punct">)</span>
+
+<span class="typ-heading">= This will be found</span>
+<span class="typ-heading">== So will this</span>
+<span class="typ-heading">=== But this will not.</span>
+</code></pre>
+     <div class="preview">
+      <img alt="Preview" height="798/" src="/assets/docs/SW-2iLP1LIGQ0ITsB7LGEQAAAAAAAAAA.png" width="480"/>
+     </div>
+    </div>
+    <h2 id="constructor">
+     Constructor
+     <small>
+      <div class="tooltip-context">
+       <svg aria-labelledby=":R38n9a:-label" height="12" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 12 12" width="12">
+        <title id=":R38n9a:-label">
+         Question mark
+        </title>
+        <use href="/assets/icons/12-tooltip.svg#icon">
+        </use>
+       </svg>
+       <div aria-hidden="true" id="constructor-constructor-tooltip" role="tooltip" tabindex="-1">
+        If a type has a constructor, you can call it like a function to create a new value of the type.
+       </div>
+      </div>
+     </small>
+    </h2>
+    <p>
+     Turns a value into a selector. The following values are accepted:
+    </p>
+    <ul>
+     <li>
+      An element function like a
+      <code>
+       heading
+      </code>
+      or
+      <code>
+       figure
+      </code>
+      .
+     </li>
+     <li>
+      A
+      <code>
+       <span class="typ-label">
+        &lt;label&gt;
+       </span>
+      </code>
+      .
+     </li>
+     <li>
+      A more complex selector like
+      <code>
+       heading
+       <span class="typ-punct">
+        .
+       </span>
+       <span class="typ-func">
+        where
+       </span>
+       <span class="typ-punct">
+        (
+       </span>
+       level
+       <span class="typ-punct">
+        :
+       </span>
+       <span class="typ-num">
+        1
+       </span>
+       <span class="typ-punct">
+        )
+       </span>
+      </code>
+      .
+     </li>
+    </ul>
+    <div class="code code-definition single-arg">
+     <span class="typ-func">
+      selector
+     </span>
+     (
+     <div class="arguments">
+      <span class="overview-param">
+       <a class="pill pill-str" href="/docs/reference/foundations/str/">
+        str
+       </a>
+       <a class="pill pill-obj" href="/docs/reference/foundations/regex/">
+        regex
+       </a>
+       <a class="pill pill-lbl" href="/docs/reference/foundations/label/">
+        label
+       </a>
+       <a class="pill pill-obj" href="/docs/reference/foundations/selector/">
+        selector
+       </a>
+       <a class="pill pill-obj" href="/docs/reference/introspection/location/">
+        location
+       </a>
+       <a class="pill pill-obj" href="/docs/reference/foundations/function/">
+        function
+       </a>
+      </span>
+     </div>
+     )
+     <!-- -->
+     -&gt;
+     <a class="pill pill-obj" href="/docs/reference/foundations/selector/">
+      selector
+     </a>
+    </div>
+    <h4 id="constructor-target">
+     <code>
+      target
+     </code>
+     <div class="additional-info">
+      <div>
+       <a class="pill pill-str" href="/docs/reference/foundations/str/">
+        str
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-obj" href="/docs/reference/foundations/regex/">
+        regex
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-lbl" href="/docs/reference/foundations/label/">
+        label
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-obj" href="/docs/reference/foundations/selector/">
+        selector
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-obj" href="/docs/reference/introspection/location/">
+        location
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-obj" href="/docs/reference/foundations/function/">
+        function
+       </a>
+      </div>
+      <small>
+       Required
+      </small>
+      <small>
+       <span aria-describedby="constructor-target-positional-tooltip">
+        Positional
+       </span>
+       <div class="tooltip-context">
+        <svg aria-labelledby=":Rcsf79a:-label" height="12" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 12 12" width="12">
+         <title id=":Rcsf79a:-label">
+          Question mark
+         </title>
+         <use href="/assets/icons/12-tooltip.svg#icon">
+         </use>
+        </svg>
+        <div aria-hidden="true" id="constructor-target-positional-tooltip" role="tooltip" tabindex="-1">
+         Positional parameters are specified in order, without names.
+        </div>
+       </div>
+      </small>
+     </div>
+    </h4>
+    <p>
+     Can be an element function like a
+     <code>
+      heading
+     </code>
+     or
+     <code>
+      figure
+     </code>
+     , a
+     <code>
+      <span class="typ-label">
+       &lt;label&gt;
+      </span>
+     </code>
+     or a more complex selector like
+     <code>
+      heading
+      <span class="typ-punct">
+       .
+      </span>
+      <span class="typ-func">
+       where
+      </span>
+      <span class="typ-punct">
+       (
+      </span>
+      level
+      <span class="typ-punct">
+       :
+      </span>
+      <span class="typ-num">
+       1
+      </span>
+      <span class="typ-punct">
+       )
+      </span>
+     </code>
+     .
+    </p>
+    <h2 id="definitions">
+     <span aria-describedby="definitions-tooltip">
+      Definitions
+     </span>
+     <div class="tooltip-context">
+      <svg aria-labelledby=":Rcp9a:-label" height="12" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 12 12" width="12">
+       <title id=":Rcp9a:-label">
+        Question mark
+       </title>
+       <use href="/assets/icons/12-tooltip.svg#icon">
+       </use>
+      </svg>
+      <div aria-hidden="true" id="definitions-tooltip" role="tooltip" tabindex="-1">
+       Functions and types and can have associated definitions. These are accessed by specifying the function or type, followed by a period, and then the definition's name.
+      </div>
+     </div>
+    </h2>
+    <h3 class="scoped-function" id="definitions-or">
+     <code>
+      or
+     </code>
+    </h3>
+    <p>
+     Selects all elements that match this or any of the other selectors.
+    </p>
+    <div class="code code-definition single-arg">
+     self
+     <span class="typ-punct">
+      .
+     </span>
+     <span class="typ-func">
+      or
+     </span>
+     (
+     <div class="arguments">
+      <span class="overview-param">
+       <a href="#definitions-or-parameters-others">
+        ..
+       </a>
+       <a class="pill pill-str" href="/docs/reference/foundations/str/">
+        str
+       </a>
+       <a class="pill pill-obj" href="/docs/reference/foundations/regex/">
+        regex
+       </a>
+       <a class="pill pill-lbl" href="/docs/reference/foundations/label/">
+        label
+       </a>
+       <a class="pill pill-obj" href="/docs/reference/foundations/selector/">
+        selector
+       </a>
+       <a class="pill pill-obj" href="/docs/reference/introspection/location/">
+        location
+       </a>
+       <a class="pill pill-obj" href="/docs/reference/foundations/function/">
+        function
+       </a>
+      </span>
+     </div>
+     )
+     <!-- -->
+     -&gt;
+     <a class="pill pill-obj" href="/docs/reference/foundations/selector/">
+      selector
+     </a>
+    </div>
+    <h4 id="definitions-or-others">
+     <code>
+      others
+     </code>
+     <div class="additional-info">
+      <div>
+       <a class="pill pill-str" href="/docs/reference/foundations/str/">
+        str
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-obj" href="/docs/reference/foundations/regex/">
+        regex
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-lbl" href="/docs/reference/foundations/label/">
+        label
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-obj" href="/docs/reference/foundations/selector/">
+        selector
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-obj" href="/docs/reference/introspection/location/">
+        location
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-obj" href="/docs/reference/foundations/function/">
+        function
+       </a>
+      </div>
+      <small>
+       Required
+      </small>
+      <small>
+       <span aria-describedby="definitions-or-others-positional-tooltip">
+        Positional
+       </span>
+       <div class="tooltip-context">
+        <svg aria-labelledby=":Rcsf399a:-label" height="12" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 12 12" width="12">
+         <title id=":Rcsf399a:-label">
+          Question mark
+         </title>
+         <use href="/assets/icons/12-tooltip.svg#icon">
+         </use>
+        </svg>
+        <div aria-hidden="true" id="definitions-or-others-positional-tooltip" role="tooltip" tabindex="-1">
+         Positional parameters are specified in order, without names.
+        </div>
+       </div>
+      </small>
+      <small>
+       <span aria-describedby="definitions-or-others-variadic-tooltip">
+        Variadic
+       </span>
+       <div class="tooltip-context">
+        <svg aria-labelledby=":Rdcf399a:-label" height="12" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 12 12" width="12">
+         <title id=":Rdcf399a:-label">
+          Question mark
+         </title>
+         <use href="/assets/icons/12-tooltip.svg#icon">
+         </use>
+        </svg>
+        <div aria-hidden="true" id="definitions-or-others-variadic-tooltip" role="tooltip" tabindex="-1">
+         Variadic parameters can be specified multiple times.
+        </div>
+       </div>
+      </small>
+     </div>
+    </h4>
+    <p>
+     The other selectors to match on.
+    </p>
+    <h3 class="scoped-function" id="definitions-and">
+     <code>
+      and
+     </code>
+    </h3>
+    <p>
+     Selects all elements that match this and all of the other selectors.
+    </p>
+    <div class="code code-definition single-arg">
+     self
+     <span class="typ-punct">
+      .
+     </span>
+     <span class="typ-func">
+      and
+     </span>
+     (
+     <div class="arguments">
+      <span class="overview-param">
+       <a href="#definitions-and-parameters-others">
+        ..
+       </a>
+       <a class="pill pill-str" href="/docs/reference/foundations/str/">
+        str
+       </a>
+       <a class="pill pill-obj" href="/docs/reference/foundations/regex/">
+        regex
+       </a>
+       <a class="pill pill-lbl" href="/docs/reference/foundations/label/">
+        label
+       </a>
+       <a class="pill pill-obj" href="/docs/reference/foundations/selector/">
+        selector
+       </a>
+       <a class="pill pill-obj" href="/docs/reference/introspection/location/">
+        location
+       </a>
+       <a class="pill pill-obj" href="/docs/reference/foundations/function/">
+        function
+       </a>
+      </span>
+     </div>
+     )
+     <!-- -->
+     -&gt;
+     <a class="pill pill-obj" href="/docs/reference/foundations/selector/">
+      selector
+     </a>
+    </div>
+    <h4 id="definitions-and-others">
+     <code>
+      others
+     </code>
+     <div class="additional-info">
+      <div>
+       <a class="pill pill-str" href="/docs/reference/foundations/str/">
+        str
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-obj" href="/docs/reference/foundations/regex/">
+        regex
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-lbl" href="/docs/reference/foundations/label/">
+        label
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-obj" href="/docs/reference/foundations/selector/">
+        selector
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-obj" href="/docs/reference/introspection/location/">
+        location
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-obj" href="/docs/reference/foundations/function/">
+        function
+       </a>
+      </div>
+      <small>
+       Required
+      </small>
+      <small>
+       <span aria-describedby="definitions-and-others-positional-tooltip">
+        Positional
+       </span>
+       <div class="tooltip-context">
+        <svg aria-labelledby=":Rcsf599a:-label" height="12" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 12 12" width="12">
+         <title id=":Rcsf599a:-label">
+          Question mark
+         </title>
+         <use href="/assets/icons/12-tooltip.svg#icon">
+         </use>
+        </svg>
+        <div aria-hidden="true" id="definitions-and-others-positional-tooltip" role="tooltip" tabindex="-1">
+         Positional parameters are specified in order, without names.
+        </div>
+       </div>
+      </small>
+      <small>
+       <span aria-describedby="definitions-and-others-variadic-tooltip">
+        Variadic
+       </span>
+       <div class="tooltip-context">
+        <svg aria-labelledby=":Rdcf599a:-label" height="12" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 12 12" width="12">
+         <title id=":Rdcf599a:-label">
+          Question mark
+         </title>
+         <use href="/assets/icons/12-tooltip.svg#icon">
+         </use>
+        </svg>
+        <div aria-hidden="true" id="definitions-and-others-variadic-tooltip" role="tooltip" tabindex="-1">
+         Variadic parameters can be specified multiple times.
+        </div>
+       </div>
+      </small>
+     </div>
+    </h4>
+    <p>
+     The other selectors to match on.
+    </p>
+    <h3 class="scoped-function" id="definitions-before">
+     <code>
+      before
+     </code>
+    </h3>
+    <p>
+     Returns a modified selector that will only match elements that occur before the first match of
+     <code>
+      end
+     </code>
+     .
+    </p>
+    <div class="code code-definition">
+     self
+     <span class="typ-punct">
+      .
+     </span>
+     <span class="typ-func">
+      before
+     </span>
+     (
+     <div class="arguments">
+      <span class="overview-param">
+       <a class="pill pill-lbl" href="/docs/reference/foundations/label/">
+        label
+       </a>
+       <a class="pill pill-obj" href="/docs/reference/foundations/selector/">
+        selector
+       </a>
+       <a class="pill pill-obj" href="/docs/reference/introspection/location/">
+        location
+       </a>
+       <a class="pill pill-obj" href="/docs/reference/foundations/function/">
+        function
+       </a>
+       ,
+      </span>
+      <span class="overview-param">
+       <a href="#definitions-before-parameters-inclusive">
+        inclusive
+        <!-- -->
+        :
+       </a>
+       <a class="pill pill-bool" href="/docs/reference/foundations/bool/">
+        bool
+       </a>
+       ,
+      </span>
+     </div>
+     )
+     <!-- -->
+     -&gt;
+     <a class="pill pill-obj" href="/docs/reference/foundations/selector/">
+      selector
+     </a>
+    </div>
+    <h4 id="definitions-before-end">
+     <code>
+      end
+     </code>
+     <div class="additional-info">
+      <div>
+       <a class="pill pill-lbl" href="/docs/reference/foundations/label/">
+        label
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-obj" href="/docs/reference/foundations/selector/">
+        selector
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-obj" href="/docs/reference/introspection/location/">
+        location
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-obj" href="/docs/reference/foundations/function/">
+        function
+       </a>
+      </div>
+      <small>
+       Required
+      </small>
+      <small>
+       <span aria-describedby="definitions-before-end-positional-tooltip">
+        Positional
+       </span>
+       <div class="tooltip-context">
+        <svg aria-labelledby=":Rpon799a:-label" height="12" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 12 12" width="12">
+         <title id=":Rpon799a:-label">
+          Question mark
+         </title>
+         <use href="/assets/icons/12-tooltip.svg#icon">
+         </use>
+        </svg>
+        <div aria-hidden="true" id="definitions-before-end-positional-tooltip" role="tooltip" tabindex="-1">
+         Positional parameters are specified in order, without names.
+        </div>
+       </div>
+      </small>
+     </div>
+    </h4>
+    <p>
+     The original selection will end at the first match of
+     <code>
+      end
+     </code>
+     .
+    </p>
+    <h4 id="definitions-before-inclusive">
+     <code>
+      inclusive
+     </code>
+     <div class="additional-info">
+      <div>
+       <a class="pill pill-bool" href="/docs/reference/foundations/bool/">
+        bool
+       </a>
+      </div>
+     </div>
+    </h4>
+    <p>
+     Whether
+     <code>
+      end
+     </code>
+     itself should match or not. This is only relevant if both selectors match the same type of element. Defaults to
+     <code>
+      <span class="typ-key">
+       true
+      </span>
+     </code>
+     .
+    </p>
+    <p>
+     Default:
+     <code>
+      <span class="typ-key">
+       true
+      </span>
+     </code>
+    </p>
+    <h3 class="scoped-function" id="definitions-after">
+     <code>
+      after
+     </code>
+    </h3>
+    <p>
+     Returns a modified selector that will only match elements that occur after the first match of
+     <code>
+      start
+     </code>
+     .
+    </p>
+    <div class="code code-definition">
+     self
+     <span class="typ-punct">
+      .
+     </span>
+     <span class="typ-func">
+      after
+     </span>
+     (
+     <div class="arguments">
+      <span class="overview-param">
+       <a class="pill pill-lbl" href="/docs/reference/foundations/label/">
+        label
+       </a>
+       <a class="pill pill-obj" href="/docs/reference/foundations/selector/">
+        selector
+       </a>
+       <a class="pill pill-obj" href="/docs/reference/introspection/location/">
+        location
+       </a>
+       <a class="pill pill-obj" href="/docs/reference/foundations/function/">
+        function
+       </a>
+       ,
+      </span>
+      <span class="overview-param">
+       <a href="#definitions-after-parameters-inclusive">
+        inclusive
+        <!-- -->
+        :
+       </a>
+       <a class="pill pill-bool" href="/docs/reference/foundations/bool/">
+        bool
+       </a>
+       ,
+      </span>
+     </div>
+     )
+     <!-- -->
+     -&gt;
+     <a class="pill pill-obj" href="/docs/reference/foundations/selector/">
+      selector
+     </a>
+    </div>
+    <h4 id="definitions-after-start">
+     <code>
+      start
+     </code>
+     <div class="additional-info">
+      <div>
+       <a class="pill pill-lbl" href="/docs/reference/foundations/label/">
+        label
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-obj" href="/docs/reference/foundations/selector/">
+        selector
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-obj" href="/docs/reference/introspection/location/">
+        location
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-obj" href="/docs/reference/foundations/function/">
+        function
+       </a>
+      </div>
+      <small>
+       Required
+      </small>
+      <small>
+       <span aria-describedby="definitions-after-start-positional-tooltip">
+        Positional
+       </span>
+       <div class="tooltip-context">
+        <svg aria-labelledby=":Rpon999a:-label" height="12" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 12 12" width="12">
+         <title id=":Rpon999a:-label">
+          Question mark
+         </title>
+         <use href="/assets/icons/12-tooltip.svg#icon">
+         </use>
+        </svg>
+        <div aria-hidden="true" id="definitions-after-start-positional-tooltip" role="tooltip" tabindex="-1">
+         Positional parameters are specified in order, without names.
+        </div>
+       </div>
+      </small>
+     </div>
+    </h4>
+    <p>
+     The original selection will start at the first match of
+     <code>
+      start
+     </code>
+     .
+    </p>
+    <h4 id="definitions-after-inclusive">
+     <code>
+      inclusive
+     </code>
+     <div class="additional-info">
+      <div>
+       <a class="pill pill-bool" href="/docs/reference/foundations/bool/">
+        bool
+       </a>
+      </div>
+     </div>
+    </h4>
+    <p>
+     Whether
+     <code>
+      start
+     </code>
+     itself should match or not. This is only relevant if both selectors match the same type of element. Defaults to
+     <code>
+      <span class="typ-key">
+       true
+      </span>
+     </code>
+     .
+    </p>
+    <p>
+     Default:
+     <code>
+      <span class="typ-key">
+       true
+      </span>
+     </code>
+    </p>
+    <div class="page-end-buttons">
+     <a class="previous" href="/docs/reference/foundations/repr/">
+      <img alt="â" src="/assets/icons/16-arrow-right.svg"/>
+      <div>
+       <span class="page-title">
+        Representation
+       </span>
+       <span class="hint">
+        Previous page
+       </span>
+      </div>
+     </a>
+     <a class="next" href="/docs/reference/foundations/str/">
+      <img alt="â" src="/assets/icons/16-arrow-right.svg"/>
+      <div>
+       <span class="page-title">
+        String
+       </span>
+       <span class="hint">
+        Next page
+       </span>
+      </div>
+     </a>
+    </div>
+   </main>

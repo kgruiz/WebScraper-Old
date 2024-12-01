@@ -1,0 +1,969 @@
+<main>
+    <ul aria-label="Breadcrumbs" class="breadcrumbs">
+     <li class="root">
+      <a href="/docs">
+       <img alt="Docs" height="16" src="/assets/icons/16-docs-dark.svg" width="16"/>
+      </a>
+     </li>
+     <li aria-hidden="true">
+      <img alt="" height="16" src="/assets/icons/16-arrow-right.svg" width="16"/>
+     </li>
+     <li>
+      <a href="/docs/reference/">
+       Reference
+      </a>
+     </li>
+     <li aria-hidden="true">
+      <img alt="" height="16" src="/assets/icons/16-arrow-right.svg" width="16"/>
+     </li>
+     <li>
+      <a href="/docs/reference/introspection/">
+       Introspection
+      </a>
+     </li>
+     <li aria-hidden="true">
+      <img alt="" height="16" src="/assets/icons/16-arrow-right.svg" width="16"/>
+     </li>
+     <li>
+      <a href="/docs/reference/introspection/state/">
+       State
+      </a>
+     </li>
+    </ul>
+    <h1 id="summary">
+     <span class="pill pill-obj">
+      state
+     </span>
+    </h1>
+    <p>
+     Manages stateful parts of your document.
+    </p>
+    <p>
+     Let's say you have some computations in your document and want to remember the result of your last computation to use it in the next one. You might try something similar to the code below and expect it to output 10, 13, 26, and 21. However this
+     <strong>
+      does not work
+     </strong>
+     in Typst. If you test this code, you will see that Typst complains with the following error message:
+     <em>
+      Variables from outside the function are read-only and cannot be modified.
+     </em>
+    </p>
+    <pre><code><span class="typ-comment">// This doesn't work!</span>
+<span class="typ-key">#</span><span class="typ-key">let</span> x <span class="typ-op">=</span> <span class="typ-num">0</span>
+<span class="typ-key">#</span><span class="typ-key">let</span> <span class="typ-func">compute</span><span class="typ-punct">(</span>expr<span class="typ-punct">)</span> <span class="typ-op">=</span> <span class="typ-punct">{</span>
+  x <span class="typ-op">=</span> <span class="typ-func">eval</span><span class="typ-punct">(</span>
+    expr<span class="typ-punct">.</span><span class="typ-func">replace</span><span class="typ-punct">(</span><span class="typ-str">"x"</span><span class="typ-punct">,</span> <span class="typ-func">str</span><span class="typ-punct">(</span>x<span class="typ-punct">)</span><span class="typ-punct">)</span>
+  <span class="typ-punct">)</span>
+  <span class="typ-punct">[</span>New value is <span class="typ-pol">#</span><span class="typ-pol">x</span>. <span class="typ-punct">]</span>
+<span class="typ-punct">}</span>
+
+<span class="typ-func">#</span><span class="typ-func">compute</span><span class="typ-punct">(</span><span class="typ-str">"10"</span><span class="typ-punct">)</span> <span class="typ-escape">\</span>
+<span class="typ-func">#</span><span class="typ-func">compute</span><span class="typ-punct">(</span><span class="typ-str">"x + 3"</span><span class="typ-punct">)</span> <span class="typ-escape">\</span>
+<span class="typ-func">#</span><span class="typ-func">compute</span><span class="typ-punct">(</span><span class="typ-str">"x * 2"</span><span class="typ-punct">)</span> <span class="typ-escape">\</span>
+<span class="typ-func">#</span><span class="typ-func">compute</span><span class="typ-punct">(</span><span class="typ-str">"x - 5"</span><span class="typ-punct">)</span>
+</code></pre>
+    <h2 id="state-and-markup">
+     State and document markup
+    </h2>
+    <p>
+     Why does it do that? Because, in general, this kind of computation with side effects is problematic in document markup and Typst is upfront about that. For the results to make sense, the computation must proceed in the same order in which the results will be laid out in the document. In our simple example, that's the case, but in general it might not be.
+    </p>
+    <p>
+     Let's look at a slightly different, but similar kind of state: The heading numbering. We want to increase the heading counter at each heading. Easy enough, right? Just add one. Well, it's not that simple. Consider the following example:
+    </p>
+    <div class="previewed-code">
+     <pre><code><span class="typ-key">#</span><span class="typ-key">set</span> <span class="typ-func">heading</span><span class="typ-punct">(</span>numbering<span class="typ-punct">:</span> <span class="typ-str">"1."</span><span class="typ-punct">)</span>
+<span class="typ-key">#</span><span class="typ-key">let</span> <span class="typ-func">template</span><span class="typ-punct">(</span>body<span class="typ-punct">)</span> <span class="typ-op">=</span> <span class="typ-punct">[</span>
+  <span class="typ-heading">= Outline</span>
+  <span class="typ-escape">...</span>
+  <span class="typ-pol">#</span><span class="typ-pol">body</span>
+<span class="typ-punct">]</span>
+
+<span class="typ-key">#</span><span class="typ-key">show</span><span class="typ-punct">:</span> <span class="typ-func">template</span>
+
+<span class="typ-heading">= Introduction</span>
+<span class="typ-escape">...</span>
+</code></pre>
+     <div class="preview">
+      <img alt="Preview" height="201/" src="/assets/docs/OC8Yphz4-mFQhH6Mm9lwwAAAAAAAAAAA.png" width="480"/>
+     </div>
+    </div>
+    <p>
+     Here, Typst first processes the body of the document after the show rule, sees the
+     <code>
+      Introduction
+     </code>
+     heading, then passes the resulting content to the
+     <code>
+      template
+     </code>
+     function and only then sees the
+     <code>
+      Outline
+     </code>
+     . Just counting up would number the
+     <code>
+      Introduction
+     </code>
+     with
+     <code>
+      1
+     </code>
+     and the
+     <code>
+      Outline
+     </code>
+     with
+     <code>
+      2
+     </code>
+     .
+    </p>
+    <h2 id="state-in-typst">
+     Managing state in Typst
+    </h2>
+    <p>
+     So what do we do instead? We use Typst's state management system. Calling the
+     <code>
+      state
+     </code>
+     function with an identifying string key and an optional initial value gives you a state value which exposes a few functions. The two most important ones are
+     <code>
+      get
+     </code>
+     and
+     <code>
+      update
+     </code>
+     :
+    </p>
+    <ul>
+     <li>
+      <p>
+       The
+       <a href="/docs/reference/introspection/state/#definitions-get">
+        <code>
+         get
+        </code>
+       </a>
+       function retrieves the current value of the state. Because the value can vary over the course of the document, it is a
+       <em>
+        contextual
+       </em>
+       function that can only be used when
+       <a href="/docs/reference/context/">
+        context
+       </a>
+       is available.
+      </p>
+     </li>
+     <li>
+      <p>
+       The
+       <a href="/docs/reference/introspection/state/#definitions-update">
+        <code>
+         update
+        </code>
+       </a>
+       function modifies the state. You can give it any value. If given a non-function value, it sets the state to that value. If given a function, that function receives the previous state and has to return the new state.
+      </p>
+     </li>
+    </ul>
+    <p>
+     Our initial example would now look like this:
+    </p>
+    <div class="previewed-code">
+     <pre><code><span class="typ-key">#</span><span class="typ-key">let</span> s <span class="typ-op">=</span> <span class="typ-func">state</span><span class="typ-punct">(</span><span class="typ-str">"x"</span><span class="typ-punct">,</span> <span class="typ-num">0</span><span class="typ-punct">)</span>
+<span class="typ-key">#</span><span class="typ-key">let</span> <span class="typ-func">compute</span><span class="typ-punct">(</span>expr<span class="typ-punct">)</span> <span class="typ-op">=</span> <span class="typ-punct">[</span>
+  <span class="typ-pol">#</span><span class="typ-pol">s</span><span class="typ-punct">.</span><span class="typ-func">update</span><span class="typ-punct">(</span>x <span class="typ-op">=&gt;</span>
+    <span class="typ-func">eval</span><span class="typ-punct">(</span>expr<span class="typ-punct">.</span><span class="typ-func">replace</span><span class="typ-punct">(</span><span class="typ-str">"x"</span><span class="typ-punct">,</span> <span class="typ-func">str</span><span class="typ-punct">(</span>x<span class="typ-punct">)</span><span class="typ-punct">)</span><span class="typ-punct">)</span>
+  <span class="typ-punct">)</span>
+  New value is <span class="typ-key">#</span><span class="typ-key">context</span> s<span class="typ-punct">.</span><span class="typ-func">get</span><span class="typ-punct">(</span><span class="typ-punct">)</span>.
+<span class="typ-punct">]</span>
+
+<span class="typ-func">#</span><span class="typ-func">compute</span><span class="typ-punct">(</span><span class="typ-str">"10"</span><span class="typ-punct">)</span> <span class="typ-escape">\</span>
+<span class="typ-func">#</span><span class="typ-func">compute</span><span class="typ-punct">(</span><span class="typ-str">"x + 3"</span><span class="typ-punct">)</span> <span class="typ-escape">\</span>
+<span class="typ-func">#</span><span class="typ-func">compute</span><span class="typ-punct">(</span><span class="typ-str">"x * 2"</span><span class="typ-punct">)</span> <span class="typ-escape">\</span>
+<span class="typ-func">#</span><span class="typ-func">compute</span><span class="typ-punct">(</span><span class="typ-str">"x - 5"</span><span class="typ-punct">)</span>
+</code></pre>
+     <div class="preview">
+      <img alt="Preview" height="161/" src="/assets/docs/TvB3cSxy6XwQVp0EXZ9-ewAAAAAAAAAA.png" width="480"/>
+     </div>
+    </div>
+    <p>
+     State managed by Typst is always updated in layout order, not in evaluation order. The
+     <code>
+      update
+     </code>
+     method returns content and its effect occurs at the position where the returned content is inserted into the document.
+    </p>
+    <p>
+     As a result, we can now also store some of the computations in variables, but they still show the correct results:
+    </p>
+    <div class="previewed-code">
+     <pre><code><span class="typ-escape">...</span>
+
+<span class="typ-key">#</span><span class="typ-key">let</span> more <span class="typ-op">=</span> <span class="typ-punct">[</span>
+  <span class="typ-func">#</span><span class="typ-func">compute</span><span class="typ-punct">(</span><span class="typ-str">"x * 2"</span><span class="typ-punct">)</span> <span class="typ-escape">\</span>
+  <span class="typ-func">#</span><span class="typ-func">compute</span><span class="typ-punct">(</span><span class="typ-str">"x - 5"</span><span class="typ-punct">)</span>
+<span class="typ-punct">]</span>
+
+<span class="typ-func">#</span><span class="typ-func">compute</span><span class="typ-punct">(</span><span class="typ-str">"10"</span><span class="typ-punct">)</span> <span class="typ-escape">\</span>
+<span class="typ-func">#</span><span class="typ-func">compute</span><span class="typ-punct">(</span><span class="typ-str">"x + 3"</span><span class="typ-punct">)</span> <span class="typ-escape">\</span>
+<span class="typ-pol">#</span><span class="typ-pol">more</span>
+</code></pre>
+     <div class="preview">
+      <img alt="Preview" height="161/" src="/assets/docs/leSHwxlkl8fBohZKt4lM4AAAAAAAAAAA.png" width="480"/>
+     </div>
+    </div>
+    <p>
+     This example is of course a bit silly, but in practice this is often exactly what you want! A good example are heading counters, which is why Typst's
+     <a href="/docs/reference/introspection/counter/">
+      counting system
+     </a>
+     is very similar to its state system.
+    </p>
+    <h2 id="time-travel">
+     Time Travel
+    </h2>
+    <p>
+     By using Typst's state management system you also get time travel capabilities! We can find out what the value of the state will be at any position in the document from anywhere else. In particular, the
+     <code>
+      at
+     </code>
+     method gives us the value of the state at any particular location and the
+     <code>
+      final
+     </code>
+     methods gives us the value of the state at the end of the document.
+    </p>
+    <div class="previewed-code">
+     <pre><code><span class="typ-escape">...</span>
+
+Value at <span class="typ-raw">`&lt;here&gt;`</span> is
+<span class="typ-key">#</span><span class="typ-key">context</span> s<span class="typ-punct">.</span><span class="typ-func">at</span><span class="typ-punct">(</span><span class="typ-label">&lt;here&gt;</span><span class="typ-punct">)</span>
+
+<span class="typ-func">#</span><span class="typ-func">compute</span><span class="typ-punct">(</span><span class="typ-str">"10"</span><span class="typ-punct">)</span> <span class="typ-escape">\</span>
+<span class="typ-func">#</span><span class="typ-func">compute</span><span class="typ-punct">(</span><span class="typ-str">"x + 3"</span><span class="typ-punct">)</span> <span class="typ-escape">\</span>
+<span class="typ-strong">*Here.*</span> <span class="typ-label">&lt;here&gt;</span> <span class="typ-escape">\</span>
+<span class="typ-func">#</span><span class="typ-func">compute</span><span class="typ-punct">(</span><span class="typ-str">"x * 2"</span><span class="typ-punct">)</span> <span class="typ-escape">\</span>
+<span class="typ-func">#</span><span class="typ-func">compute</span><span class="typ-punct">(</span><span class="typ-str">"x - 5"</span><span class="typ-punct">)</span>
+</code></pre>
+     <div class="preview">
+      <img alt="Preview" height="230/" src="/assets/docs/FSbY2IZskPNKeQtPqbjroAAAAAAAAAAA.png" width="480"/>
+     </div>
+    </div>
+    <h2 id="caution">
+     A word of caution
+    </h2>
+    <p>
+     To resolve the values of all states, Typst evaluates parts of your code multiple times. However, there is no guarantee that your state manipulation can actually be completely resolved.
+    </p>
+    <p>
+     For instance, if you generate state updates depending on the final value of a state, the results might never converge. The example below illustrates this. We initialize our state with
+     <code>
+      1
+     </code>
+     and then update it to its own final value plus 1. So it should be
+     <code>
+      2
+     </code>
+     , but then its final value is
+     <code>
+      2
+     </code>
+     , so it should be
+     <code>
+      3
+     </code>
+     , and so on. This example displays a finite value because Typst simply gives up after a few attempts.
+    </p>
+    <div class="previewed-code">
+     <pre><code><span class="typ-comment">// This is bad!</span>
+<span class="typ-key">#</span><span class="typ-key">let</span> s <span class="typ-op">=</span> <span class="typ-func">state</span><span class="typ-punct">(</span><span class="typ-str">"x"</span><span class="typ-punct">,</span> <span class="typ-num">1</span><span class="typ-punct">)</span>
+<span class="typ-key">#</span><span class="typ-key">context</span> s<span class="typ-punct">.</span><span class="typ-func">update</span><span class="typ-punct">(</span>s<span class="typ-punct">.</span><span class="typ-func">final</span><span class="typ-punct">(</span><span class="typ-punct">)</span> <span class="typ-op">+</span> <span class="typ-num">1</span><span class="typ-punct">)</span>
+<span class="typ-key">#</span><span class="typ-key">context</span> s<span class="typ-punct">.</span><span class="typ-func">get</span><span class="typ-punct">(</span><span class="typ-punct">)</span>
+</code></pre>
+     <div class="preview">
+      <img alt="Preview" height="74/" src="/assets/docs/4ABrNAaHVbvzCF9JEmUebAAAAAAAAAAA.png" width="480"/>
+     </div>
+    </div>
+    <p>
+     In general, you should try not to generate state updates from within context expressions. If possible, try to express your updates as non-contextual values or functions that compute the new value from the previous value. Sometimes, it cannot be helped, but in those cases it is up to you to ensure that the result converges.
+    </p>
+    <h2 id="constructor">
+     Constructor
+     <small>
+      <div class="tooltip-context">
+       <svg aria-labelledby=":R38n9a:-label" height="12" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 12 12" width="12">
+        <title id=":R38n9a:-label">
+         Question mark
+        </title>
+        <use href="/assets/icons/12-tooltip.svg#icon">
+        </use>
+       </svg>
+       <div aria-hidden="true" id="constructor-constructor-tooltip" role="tooltip" tabindex="-1">
+        If a type has a constructor, you can call it like a function to create a new value of the type.
+       </div>
+      </div>
+     </small>
+    </h2>
+    <p>
+     Create a new state identified by a key.
+    </p>
+    <div class="code code-definition">
+     <span class="typ-func">
+      state
+     </span>
+     (
+     <div class="arguments">
+      <span class="overview-param">
+       <a class="pill pill-str" href="/docs/reference/foundations/str/">
+        str
+       </a>
+       ,
+      </span>
+      <span class="overview-param">
+       <span class="pill pill-obj">
+        any
+       </span>
+       ,
+      </span>
+     </div>
+     )
+     <!-- -->
+     -&gt;
+     <a class="pill pill-obj" href="/docs/reference/introspection/state/">
+      state
+     </a>
+    </div>
+    <h4 id="constructor-key">
+     <code>
+      key
+     </code>
+     <div class="additional-info">
+      <div>
+       <a class="pill pill-str" href="/docs/reference/foundations/str/">
+        str
+       </a>
+      </div>
+      <small>
+       Required
+      </small>
+      <small>
+       <span aria-describedby="constructor-key-positional-tooltip">
+        Positional
+       </span>
+       <div class="tooltip-context">
+        <svg aria-labelledby=":Rpon79a:-label" height="12" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 12 12" width="12">
+         <title id=":Rpon79a:-label">
+          Question mark
+         </title>
+         <use href="/assets/icons/12-tooltip.svg#icon">
+         </use>
+        </svg>
+        <div aria-hidden="true" id="constructor-key-positional-tooltip" role="tooltip" tabindex="-1">
+         Positional parameters are specified in order, without names.
+        </div>
+       </div>
+      </small>
+     </div>
+    </h4>
+    <p>
+     The key that identifies this state.
+    </p>
+    <h4 id="constructor-init">
+     <code>
+      init
+     </code>
+     <div class="additional-info">
+      <div>
+       <span class="pill pill-obj">
+        any
+       </span>
+      </div>
+      <small>
+       <span aria-describedby="constructor-init-positional-tooltip">
+        Positional
+       </span>
+       <div class="tooltip-context">
+        <svg aria-labelledby=":Rpor79a:-label" height="12" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 12 12" width="12">
+         <title id=":Rpor79a:-label">
+          Question mark
+         </title>
+         <use href="/assets/icons/12-tooltip.svg#icon">
+         </use>
+        </svg>
+        <div aria-hidden="true" id="constructor-init-positional-tooltip" role="tooltip" tabindex="-1">
+         Positional parameters are specified in order, without names.
+        </div>
+       </div>
+      </small>
+     </div>
+    </h4>
+    <p>
+     The initial value of the state.
+    </p>
+    <p>
+     Default:
+     <code>
+      <span class="typ-key">
+       none
+      </span>
+     </code>
+    </p>
+    <h2 id="definitions">
+     <span aria-describedby="definitions-tooltip">
+      Definitions
+     </span>
+     <div class="tooltip-context">
+      <svg aria-labelledby=":Rcp9a:-label" height="12" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 12 12" width="12">
+       <title id=":Rcp9a:-label">
+        Question mark
+       </title>
+       <use href="/assets/icons/12-tooltip.svg#icon">
+       </use>
+      </svg>
+      <div aria-hidden="true" id="definitions-tooltip" role="tooltip" tabindex="-1">
+       Functions and types and can have associated definitions. These are accessed by specifying the function or type, followed by a period, and then the definition's name.
+      </div>
+     </div>
+    </h2>
+    <h3 class="scoped-function" id="definitions-get">
+     <code>
+      get
+     </code>
+     <small>
+      <span aria-describedby="definitions-get-contextual-tooltip">
+       Contextual
+      </span>
+      <div class="tooltip-context">
+       <svg aria-labelledby=":R3cj99a:-label" height="12" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 12 12" width="12">
+        <title id=":R3cj99a:-label">
+         Question mark
+        </title>
+        <use href="/assets/icons/12-tooltip.svg#icon">
+        </use>
+       </svg>
+       <div aria-hidden="true" id="definitions-get-contextual-tooltip" role="tooltip" tabindex="-1">
+        Contextual functions can only be used when the context is known
+       </div>
+      </div>
+     </small>
+    </h3>
+    <p>
+     Retrieves the value of the state at the current location.
+    </p>
+    <p>
+     This is equivalent to
+     <code>
+      state
+      <span class="typ-punct">
+       .
+      </span>
+      <span class="typ-func">
+       at
+      </span>
+      <span class="typ-punct">
+       (
+      </span>
+      <span class="typ-func">
+       here
+      </span>
+      <span class="typ-punct">
+       (
+      </span>
+      <span class="typ-punct">
+       )
+      </span>
+      <span class="typ-punct">
+       )
+      </span>
+     </code>
+     .
+    </p>
+    <div class="code code-definition single-arg">
+     self
+     <span class="typ-punct">
+      .
+     </span>
+     <span class="typ-func">
+      get
+     </span>
+     (
+     <div class="arguments">
+     </div>
+     )
+     <!-- -->
+     -&gt;
+     <span class="pill pill-obj">
+      any
+     </span>
+    </div>
+    <h3 class="scoped-function" id="definitions-at">
+     <code>
+      at
+     </code>
+     <small>
+      <span aria-describedby="definitions-at-contextual-tooltip">
+       Contextual
+      </span>
+      <div class="tooltip-context">
+       <svg aria-labelledby=":R3cl99a:-label" height="12" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 12 12" width="12">
+        <title id=":R3cl99a:-label">
+         Question mark
+        </title>
+        <use href="/assets/icons/12-tooltip.svg#icon">
+        </use>
+       </svg>
+       <div aria-hidden="true" id="definitions-at-contextual-tooltip" role="tooltip" tabindex="-1">
+        Contextual functions can only be used when the context is known
+       </div>
+      </div>
+     </small>
+    </h3>
+    <p>
+     Retrieves the value of the state at the given selector's unique match.
+    </p>
+    <p>
+     The
+     <code>
+      selector
+     </code>
+     must match exactly one element in the document. The most useful kinds of selectors for this are
+     <a href="/docs/reference/foundations/label/">
+      labels
+     </a>
+     and
+     <a href="/docs/reference/introspection/location/">
+      locations
+     </a>
+     .
+    </p>
+    <p>
+     <em>
+      Compatibility:
+     </em>
+     For compatibility with Typst 0.10 and lower, this function also works without a known context if the
+     <code>
+      selector
+     </code>
+     is a location. This behaviour will be removed in a future release.
+    </p>
+    <div class="code code-definition single-arg">
+     self
+     <span class="typ-punct">
+      .
+     </span>
+     <span class="typ-func">
+      at
+     </span>
+     (
+     <div class="arguments">
+      <span class="overview-param">
+       <a class="pill pill-lbl" href="/docs/reference/foundations/label/">
+        label
+       </a>
+       <a class="pill pill-obj" href="/docs/reference/foundations/selector/">
+        selector
+       </a>
+       <a class="pill pill-obj" href="/docs/reference/introspection/location/">
+        location
+       </a>
+       <a class="pill pill-obj" href="/docs/reference/foundations/function/">
+        function
+       </a>
+      </span>
+     </div>
+     )
+     <!-- -->
+     -&gt;
+     <span class="pill pill-obj">
+      any
+     </span>
+    </div>
+    <h4 id="definitions-at-selector">
+     <code>
+      selector
+     </code>
+     <div class="additional-info">
+      <div>
+       <a class="pill pill-lbl" href="/docs/reference/foundations/label/">
+        label
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-obj" href="/docs/reference/foundations/selector/">
+        selector
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-obj" href="/docs/reference/introspection/location/">
+        location
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-obj" href="/docs/reference/foundations/function/">
+        function
+       </a>
+      </div>
+      <small>
+       Required
+      </small>
+      <small>
+       <span aria-describedby="definitions-at-selector-positional-tooltip">
+        Positional
+       </span>
+       <div class="tooltip-context">
+        <svg aria-labelledby=":Rcsf599a:-label" height="12" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 12 12" width="12">
+         <title id=":Rcsf599a:-label">
+          Question mark
+         </title>
+         <use href="/assets/icons/12-tooltip.svg#icon">
+         </use>
+        </svg>
+        <div aria-hidden="true" id="definitions-at-selector-positional-tooltip" role="tooltip" tabindex="-1">
+         Positional parameters are specified in order, without names.
+        </div>
+       </div>
+      </small>
+     </div>
+    </h4>
+    <p>
+     The place at which the state's value should be retrieved.
+    </p>
+    <h3 class="scoped-function" id="definitions-final">
+     <code>
+      final
+     </code>
+     <small>
+      <span aria-describedby="definitions-final-contextual-tooltip">
+       Contextual
+      </span>
+      <div class="tooltip-context">
+       <svg aria-labelledby=":R3cn99a:-label" height="12" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 12 12" width="12">
+        <title id=":R3cn99a:-label">
+         Question mark
+        </title>
+        <use href="/assets/icons/12-tooltip.svg#icon">
+        </use>
+       </svg>
+       <div aria-hidden="true" id="definitions-final-contextual-tooltip" role="tooltip" tabindex="-1">
+        Contextual functions can only be used when the context is known
+       </div>
+      </div>
+     </small>
+    </h3>
+    <p>
+     Retrieves the value of the state at the end of the document.
+    </p>
+    <div class="code code-definition single-arg">
+     self
+     <span class="typ-punct">
+      .
+     </span>
+     <span class="typ-func">
+      final
+     </span>
+     (
+     <div class="arguments">
+      <span class="overview-param">
+       <a class="pill pill-kw" href="/docs/reference/foundations/none/">
+        none
+       </a>
+       <a class="pill pill-obj" href="/docs/reference/introspection/location/">
+        location
+       </a>
+      </span>
+     </div>
+     )
+     <!-- -->
+     -&gt;
+     <span class="pill pill-obj">
+      any
+     </span>
+    </div>
+    <h4 id="definitions-final-location">
+     <code>
+      location
+     </code>
+     <div class="additional-info">
+      <div>
+       <a class="pill pill-kw" href="/docs/reference/foundations/none/">
+        none
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-obj" href="/docs/reference/introspection/location/">
+        location
+       </a>
+      </div>
+      <small>
+       <span aria-describedby="definitions-final-location-positional-tooltip">
+        Positional
+       </span>
+       <div class="tooltip-context">
+        <svg aria-labelledby=":Rcsf799a:-label" height="12" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 12 12" width="12">
+         <title id=":Rcsf799a:-label">
+          Question mark
+         </title>
+         <use href="/assets/icons/12-tooltip.svg#icon">
+         </use>
+        </svg>
+        <div aria-hidden="true" id="definitions-final-location-positional-tooltip" role="tooltip" tabindex="-1">
+         Positional parameters are specified in order, without names.
+        </div>
+       </div>
+      </small>
+     </div>
+    </h4>
+    <p>
+     <em>
+      Compatibility:
+     </em>
+     This argument is deprecated. It only exists for compatibility with Typst 0.10 and lower and shouldn't be used anymore.
+    </p>
+    <p>
+     Default:
+     <code>
+      <span class="typ-key">
+       none
+      </span>
+     </code>
+    </p>
+    <h3 class="scoped-function" id="definitions-update">
+     <code>
+      update
+     </code>
+    </h3>
+    <p>
+     Update the value of the state.
+    </p>
+    <p>
+     The update will be in effect at the position where the returned content is inserted into the document. If you don't put the output into the document, nothing happens! This would be the case, for example, if you write
+     <code>
+      <span class="typ-key">
+       let
+      </span>
+      _
+      <span class="typ-op">
+       =
+      </span>
+      <span class="typ-func">
+       state
+      </span>
+      <span class="typ-punct">
+       (
+      </span>
+      <span class="typ-str">
+       "key"
+      </span>
+      <span class="typ-punct">
+       )
+      </span>
+      <span class="typ-punct">
+       .
+      </span>
+      <span class="typ-func">
+       update
+      </span>
+      <span class="typ-punct">
+       (
+      </span>
+      <span class="typ-num">
+       7
+      </span>
+      <span class="typ-punct">
+       )
+      </span>
+     </code>
+     . State updates are always applied in layout order and in that case, Typst wouldn't know when to update the state.
+    </p>
+    <div class="code code-definition single-arg">
+     self
+     <span class="typ-punct">
+      .
+     </span>
+     <span class="typ-func">
+      update
+     </span>
+     (
+     <div class="arguments">
+      <span class="overview-param">
+       <span class="pill pill-obj">
+        any
+       </span>
+       <a class="pill pill-obj" href="/docs/reference/foundations/function/">
+        function
+       </a>
+      </span>
+     </div>
+     )
+     <!-- -->
+     -&gt;
+     <a class="pill pill-con" href="/docs/reference/foundations/content/">
+      content
+     </a>
+    </div>
+    <h4 id="definitions-update-update">
+     <code>
+      update
+     </code>
+     <div class="additional-info">
+      <div>
+       <span class="pill pill-obj">
+        any
+       </span>
+       <small>
+        or
+       </small>
+       <a class="pill pill-obj" href="/docs/reference/foundations/function/">
+        function
+       </a>
+      </div>
+      <small>
+       Required
+      </small>
+      <small>
+       <span aria-describedby="definitions-update-update-positional-tooltip">
+        Positional
+       </span>
+       <div class="tooltip-context">
+        <svg aria-labelledby=":Rcsf999a:-label" height="12" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 12 12" width="12">
+         <title id=":Rcsf999a:-label">
+          Question mark
+         </title>
+         <use href="/assets/icons/12-tooltip.svg#icon">
+         </use>
+        </svg>
+        <div aria-hidden="true" id="definitions-update-update-positional-tooltip" role="tooltip" tabindex="-1">
+         Positional parameters are specified in order, without names.
+        </div>
+       </div>
+      </small>
+     </div>
+    </h4>
+    <p>
+     If given a non function-value, sets the state to that value. If given a function, that function receives the previous state and has to return the new state.
+    </p>
+    <h3 class="scoped-function" id="definitions-display">
+     <code>
+      display
+     </code>
+    </h3>
+    <p>
+     Displays the current value of the state.
+    </p>
+    <p>
+     <strong>
+      Deprecation planned:
+     </strong>
+     Use
+     <a href="/docs/reference/introspection/state/#definitions-get">
+      <code>
+       get
+      </code>
+     </a>
+     instead.
+    </p>
+    <div class="code code-definition single-arg">
+     self
+     <span class="typ-punct">
+      .
+     </span>
+     <span class="typ-func">
+      display
+     </span>
+     (
+     <div class="arguments">
+      <span class="overview-param">
+       <a class="pill pill-kw" href="/docs/reference/foundations/none/">
+        none
+       </a>
+       <a class="pill pill-obj" href="/docs/reference/foundations/function/">
+        function
+       </a>
+      </span>
+     </div>
+     )
+     <!-- -->
+     -&gt;
+     <a class="pill pill-con" href="/docs/reference/foundations/content/">
+      content
+     </a>
+    </div>
+    <h4 id="definitions-display-func">
+     <code>
+      func
+     </code>
+     <div class="additional-info">
+      <div>
+       <a class="pill pill-kw" href="/docs/reference/foundations/none/">
+        none
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-obj" href="/docs/reference/foundations/function/">
+        function
+       </a>
+      </div>
+      <small>
+       <span aria-describedby="definitions-display-func-positional-tooltip">
+        Positional
+       </span>
+       <div class="tooltip-context">
+        <svg aria-labelledby=":Rcsfb99a:-label" height="12" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 12 12" width="12">
+         <title id=":Rcsfb99a:-label">
+          Question mark
+         </title>
+         <use href="/assets/icons/12-tooltip.svg#icon">
+         </use>
+        </svg>
+        <div aria-hidden="true" id="definitions-display-func-positional-tooltip" role="tooltip" tabindex="-1">
+         Positional parameters are specified in order, without names.
+        </div>
+       </div>
+      </small>
+     </div>
+    </h4>
+    <p>
+     A function which receives the value of the state and can return arbitrary content which is then displayed. If this is omitted, the value is directly displayed.
+    </p>
+    <p>
+     Default:
+     <code>
+      <span class="typ-key">
+       none
+      </span>
+     </code>
+    </p>
+    <div class="page-end-buttons">
+     <a class="previous" href="/docs/reference/introspection/query/">
+      <img alt="â" src="/assets/icons/16-arrow-right.svg"/>
+      <div>
+       <span class="page-title">
+        Query
+       </span>
+       <span class="hint">
+        Previous page
+       </span>
+      </div>
+     </a>
+     <a class="next" href="/docs/reference/data-loading/">
+      <img alt="â" src="/assets/icons/16-arrow-right.svg"/>
+      <div>
+       <span class="page-title">
+        Data Loading
+       </span>
+       <span class="hint">
+        Next page
+       </span>
+      </div>
+     </a>
+    </div>
+   </main>

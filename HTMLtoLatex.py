@@ -1,7 +1,10 @@
 import json
 import os
 import re
-from typing import List
+import shutil
+from math import ceil
+from pathlib import Path
+from typing import List, Optional
 
 import pypandoc
 from tqdm import tqdm
@@ -348,3 +351,167 @@ def CombineFiles(
                 groupNum=groupNumber,
                 outDir=outDir,
             )
+
+
+def GroupFilesByExtension(
+    dirPath: str,
+    ext: str,
+    groupedFileName: Optional[str] = None,
+):
+    """
+    Recursively groups all files with a specified extension within a directory and its subdirectories
+    into new combined files. Each combined file is named either using the provided `groupedFileName`
+    or defaults to `{parentDirName}.{ext}`. Additionally, each file's content in the grouped file is
+    preceded by a title line indicating the original file's relative path from the parent of `dirPath`.
+    If the extension is `.tex`, the title line is formatted in LaTeX.
+
+    After grouping, if a directory's only content is the grouped file, the directory is deleted and
+    the grouped file is moved up one directory level.
+
+    Parameters:
+        dirPath (str): The path to the root directory to process.
+        ext (str): The file extension to filter by (e.g., 'txt', 'py', 'tex').
+        groupedFileName (Optional[str]): Optional name for the grouped files. If not provided,
+            files will be named as `{parentDirName}.{ext}`.
+
+    Raises:
+        ValueError: If the provided `dirPath` is not a valid directory.
+    """
+
+    def DelEmptyGroupedDir(dirPath: str, groupedFiles: set) -> None:
+
+        dirPath = Path(dirPath)
+        dirEntries = list(dirPath.iterdir())
+
+        if len(dirEntries) == 1:
+
+            entry = dirEntries[0]
+
+            if not entry.is_dir() and entry in groupedFiles:
+
+                parentDir = dirPath.parent
+                newPath = parentDir / entry.name
+                entry.rename(newPath)
+
+            dirEntries = list(dirPath.iterdir())
+
+            if len(dirEntries) != 0:
+
+                raise Exception(
+                    f"Unexpected file(s) {dirEntries} still found in {dirPath}"
+                )
+
+            else:
+
+                dirPath.rmdir()
+
+    # Resolve the directory path
+    dirPathPath = Path(dirPath).resolve()
+
+    if not dirPathPath.is_dir():
+        raise ValueError(f"The path {dirPathPath} is not a valid directory.")
+
+    # Normalize the extension
+    normalizedExt = ext.lower().lstrip(".")
+
+    # Define the root output directory
+    outputRoot = dirPathPath.parent / f"Combined {dirPathPath.name}"
+    outputRoot.mkdir(parents=True, exist_ok=True)
+
+    # Gather all subdirectories using os.walk (bottom-up to handle deletions)
+    allDirs = [root for root, dirs, files in os.walk(dirPathPath, topdown=False)]
+
+    groupedFiles = set()
+
+    # Initialize tqdm with total directories for better progress tracking
+    with tqdm(total=len(allDirs), desc="Processing directories", unit="dir") as bar:
+        for root in allDirs:
+            currentDirPath = Path(root)
+            relativePath = currentDirPath.relative_to(dirPathPath)
+            outputDirPath = outputRoot / relativePath
+            outputDirPath.mkdir(parents=True, exist_ok=True)
+
+            # Filter files with the specified extension
+            filteredFiles = [
+                f
+                for f in os.listdir(currentDirPath)
+                if f.lower().endswith(f".{normalizedExt}")
+                and (currentDirPath / f).is_file()
+            ]
+
+            if not filteredFiles:
+                # No matching files, skip to next directory
+                bar.update(1)
+                continue
+
+            # Determine the name of the grouped file
+            if groupedFileName:
+                groupedName = groupedFileName
+            else:
+                groupedName = f"{currentDirPath.name}.{normalizedExt}"
+
+            groupedFilePath = outputDirPath / groupedName
+
+            try:
+                with groupedFilePath.open("w", encoding="utf-8") as outfile:
+
+                    if groupedFilePath in groupedFiles:
+
+                        raise Exception(f"File {groupedFilePath} already exists")
+
+                    else:
+
+                        groupedFiles.add(groupedFilePath)
+
+                    for fileName in filteredFiles:
+                        filePath = currentDirPath / fileName
+                        try:
+                            with filePath.open("r", encoding="utf-8") as infile:
+                                content = infile.read()
+
+                                # Prepare the title line with relative path from parent of dirPath
+                                # This goes back one more directory level
+                                relativeFilePath = filePath.relative_to(
+                                    dirPathPath.parent
+                                )
+                                if normalizedExt == "tex":
+                                    # LaTeX formatted title
+                                    titleLine = f"\\section{{{relativeFilePath}}}\n"
+                                else:
+                                    # Plain text title
+                                    titleLine = f"Path: {relativeFilePath}\n"
+
+                                # Write the title and content to the grouped file
+                                outfile.write(titleLine)
+                                outfile.write(content)
+                                outfile.write(
+                                    "\n\n"
+                                )  # Optional: Add spacing between files
+                        except Exception as fileErr:
+                            # Update tqdm postfix with file read error
+                            bar.set_postfix(file_error=f"Error reading {filePath.name}")
+                    # Reset postfix after successful processing
+                    bar.set_postfix(file_error="")
+            except Exception as groupErr:
+                # Update tqdm postfix with grouped file write error
+                bar.set_postfix(group_error=f"Error writing {groupedFilePath.name}")
+                bar.update(1)
+                continue  # Skip further processing for this directory
+
+            # Update the progress bar
+            bar.update(1)
+
+    allDirs = [Path(root) for root, dirs, files in os.walk(outputRoot, topdown=False)]
+
+    for root in allDirs:
+
+        if root == outputRoot:
+
+            continue
+
+        DelEmptyGroupedDir(dirPath=root, groupedFiles=groupedFiles)
+
+    # Final description update to indicate completion
+    with tqdm(total=0) as finalBar:
+        finalBar.set_description("Grouping completed")
+        finalBar.refresh()

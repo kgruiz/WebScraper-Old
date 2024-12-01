@@ -1,0 +1,494 @@
+\title{typst.app/docs/reference/foundations/datetime}
+
+\begin{itemize}
+\tightlist
+\item
+  \href{/docs}{\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-docs-dark.svg}}
+\item
+  \includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-arrow-right.svg}
+\item
+  \href{/docs/reference/}{Reference}
+\item
+  \includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-arrow-right.svg}
+\item
+  \href{/docs/reference/foundations/}{Foundations}
+\item
+  \includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-arrow-right.svg}
+\item
+  \href{/docs/reference/foundations/datetime/}{Datetime}
+\end{itemize}
+
+\section{\texorpdfstring{{ datetime }}{ datetime }}\label{summary}
+
+Represents a date, a time, or a combination of both.
+
+Can be created by either specifying a custom datetime using this
+type\textquotesingle s constructor function or getting the current date
+with
+\href{/docs/reference/foundations/datetime/\#definitions-today}{\texttt{\ datetime.today\ }}
+.
+
+\subsection{Example}\label{example}
+
+\begin{verbatim}
+#let date = datetime(
+  year: 2020,
+  month: 10,
+  day: 4,
+)
+
+#date.display() \
+#date.display(
+  "y:[year repr:last_two]"
+)
+
+#let time = datetime(
+  hour: 18,
+  minute: 2,
+  second: 23,
+)
+
+#time.display() \
+#time.display(
+  "h:[hour repr:12][period]"
+)
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/aJRkqg11vpsxBq0NzqAo0gAAAAAAAAAA.png}
+
+\subsection{Datetime and Duration}\label{datetime-and-duration}
+
+You can get a \href{/docs/reference/foundations/duration/}{duration} by
+subtracting two datetime:
+
+\begin{verbatim}
+#let first-of-march = datetime(day: 1, month: 3, year: 2024)
+#let first-of-jan = datetime(day: 1, month: 1, year: 2024)
+#let distance = first-of-march - first-of-jan
+#distance.hours()
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/xJIPnvV5Iiw8osdkiAUb_AAAAAAAAAAA.png}
+
+You can also add/subtract a datetime and a duration to retrieve a new,
+offset datetime:
+
+\begin{verbatim}
+#let date = datetime(day: 1, month: 3, year: 2024)
+#let two-days = duration(days: 2)
+#let two-days-earlier = date - two-days
+#let two-days-later = date + two-days
+
+#date.display() \
+#two-days-earlier.display() \
+#two-days-later.display()
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/R-BPj6xQMFasAxM1n3h_iwAAAAAAAAAA.png}
+
+\subsection{Format}\label{format}
+
+You can specify a customized formatting using the
+\href{/docs/reference/foundations/datetime/\#definitions-display}{\texttt{\ display\ }}
+method. The format of a datetime is specified by providing
+\emph{components} with a specified number of \emph{modifiers} . A
+component represents a certain part of the datetime that you want to
+display, and with the help of modifiers you can define how you want to
+display that component. In order to display a component, you wrap the
+name of the component in square brackets (e.g. \texttt{\ {[}year{]}\ }
+will display the year). In order to add modifiers, you add a space after
+the component name followed by the name of the modifier, a colon and the
+value of the modifier (e.g. \texttt{\ {[}month\ repr:short{]}\ } will
+display the short representation of the month).
+
+The possible combination of components and their respective modifiers is
+as follows:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ year\ } : Displays the year of the datetime.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \texttt{\ padding\ } : Can be either \texttt{\ zero\ } ,
+    \texttt{\ space\ } or \texttt{\ none\ } . Specifies how the year is
+    padded.
+  \item
+    \texttt{\ repr\ } Can be either \texttt{\ full\ } in which case the
+    full year is displayed or \texttt{\ last\_two\ } in which case only
+    the last two digits are displayed.
+  \item
+    \texttt{\ sign\ } : Can be either \texttt{\ automatic\ } or
+    \texttt{\ mandatory\ } . Specifies when the sign should be
+    displayed.
+  \end{itemize}
+\item
+  \texttt{\ month\ } : Displays the month of the datetime.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \texttt{\ padding\ } : Can be either \texttt{\ zero\ } ,
+    \texttt{\ space\ } or \texttt{\ none\ } . Specifies how the month is
+    padded.
+  \item
+    \texttt{\ repr\ } : Can be either \texttt{\ numerical\ } ,
+    \texttt{\ long\ } or \texttt{\ short\ } . Specifies if the month
+    should be displayed as a number or a word. Unfortunately, when
+    choosing the word representation, it can currently only display the
+    English version. In the future, it is planned to support
+    localization.
+  \end{itemize}
+\item
+  \texttt{\ day\ } : Displays the day of the datetime.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \texttt{\ padding\ } : Can be either \texttt{\ zero\ } ,
+    \texttt{\ space\ } or \texttt{\ none\ } . Specifies how the day is
+    padded.
+  \end{itemize}
+\item
+  \texttt{\ week\_number\ } : Displays the week number of the datetime.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \texttt{\ padding\ } : Can be either \texttt{\ zero\ } ,
+    \texttt{\ space\ } or \texttt{\ none\ } . Specifies how the week
+    number is padded.
+  \item
+    \texttt{\ repr\ } : Can be either \texttt{\ ISO\ } ,
+    \texttt{\ sunday\ } or \texttt{\ monday\ } . In the case of
+    \texttt{\ ISO\ } , week numbers are between 1 and 53, while the
+    other ones are between 0 and 53.
+  \end{itemize}
+\item
+  \texttt{\ weekday\ } : Displays the weekday of the date.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \texttt{\ repr\ } Can be either \texttt{\ long\ } ,
+    \texttt{\ short\ } , \texttt{\ sunday\ } or \texttt{\ monday\ } . In
+    the case of \texttt{\ long\ } and \texttt{\ short\ } , the
+    corresponding English name will be displayed (same as for the month,
+    other languages are currently not supported). In the case of
+    \texttt{\ sunday\ } and \texttt{\ monday\ } , the numerical value
+    will be displayed (assuming Sunday and Monday as the first day of
+    the week, respectively).
+  \item
+    \texttt{\ one\_indexed\ } : Can be either \texttt{\ true\ } or
+    \texttt{\ false\ } . Defines whether the numerical representation of
+    the week starts with 0 or 1.
+  \end{itemize}
+\item
+  \texttt{\ hour\ } : Displays the hour of the date.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \texttt{\ padding\ } : Can be either \texttt{\ zero\ } ,
+    \texttt{\ space\ } or \texttt{\ none\ } . Specifies how the hour is
+    padded.
+  \item
+    \texttt{\ repr\ } : Can be either \texttt{\ 24\ } or \texttt{\ 12\ }
+    . Changes whether the hour is displayed in the 24-hour or 12-hour
+    format.
+  \end{itemize}
+\item
+  \texttt{\ period\ } : The AM/PM part of the hour
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \texttt{\ case\ } : Can be \texttt{\ lower\ } to display it in lower
+    case and \texttt{\ upper\ } to display it in upper case.
+  \end{itemize}
+\item
+  \texttt{\ minute\ } : Displays the minute of the date.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \texttt{\ padding\ } : Can be either \texttt{\ zero\ } ,
+    \texttt{\ space\ } or \texttt{\ none\ } . Specifies how the minute
+    is padded.
+  \end{itemize}
+\item
+  \texttt{\ second\ } : Displays the second of the date.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \texttt{\ padding\ } : Can be either \texttt{\ zero\ } ,
+    \texttt{\ space\ } or \texttt{\ none\ } . Specifies how the second
+    is padded.
+  \end{itemize}
+\end{itemize}
+
+Keep in mind that not always all components can be used. For example, if
+you create a new datetime with
+\texttt{\ }{\texttt{\ datetime\ }}\texttt{\ }{\texttt{\ (\ }}\texttt{\ year\ }{\texttt{\ :\ }}\texttt{\ }{\texttt{\ 2023\ }}\texttt{\ }{\texttt{\ ,\ }}\texttt{\ month\ }{\texttt{\ :\ }}\texttt{\ }{\texttt{\ 10\ }}\texttt{\ }{\texttt{\ ,\ }}\texttt{\ day\ }{\texttt{\ :\ }}\texttt{\ }{\texttt{\ 13\ }}\texttt{\ }{\texttt{\ )\ }}\texttt{\ }
+, it will be stored as a plain date internally, meaning that you cannot
+use components such as \texttt{\ hour\ } or \texttt{\ minute\ } , which
+would only work on datetimes that have a specified time.
+
+\subsection{\texorpdfstring{Constructor
+{}}{Constructor }}\label{constructor}
+
+\phantomsection\label{constructor-constructor-tooltip}
+If a type has a constructor, you can call it like a function to create a
+new value of the type.
+
+Creates a new datetime.
+
+You can specify the
+\href{/docs/reference/foundations/datetime/}{datetime} using a year,
+month, day, hour, minute, and second.
+
+\emph{Note} : Depending on which components of the datetime you specify,
+Typst will store it in one of the following three ways:
+
+\begin{itemize}
+\tightlist
+\item
+  If you specify year, month and day, Typst will store just a date.
+\item
+  If you specify hour, minute and second, Typst will store just a time.
+\item
+  If you specify all of year, month, day, hour, minute and second, Typst
+  will store a full datetime.
+\end{itemize}
+
+Depending on how it is stored, the
+\href{/docs/reference/foundations/datetime/\#definitions-display}{\texttt{\ display\ }}
+method will choose a different formatting by default.
+
+{ datetime } (
+
+{ \hyperref[constructor-parameters-year]{year :}
+\href{/docs/reference/foundations/int/}{int} , } {
+\hyperref[constructor-parameters-month]{month :}
+\href{/docs/reference/foundations/int/}{int} , } {
+\hyperref[constructor-parameters-day]{day :}
+\href{/docs/reference/foundations/int/}{int} , } {
+\hyperref[constructor-parameters-hour]{hour :}
+\href{/docs/reference/foundations/int/}{int} , } {
+\hyperref[constructor-parameters-minute]{minute :}
+\href{/docs/reference/foundations/int/}{int} , } {
+\hyperref[constructor-parameters-second]{second :}
+\href{/docs/reference/foundations/int/}{int} , }
+
+) -\textgreater{} \href{/docs/reference/foundations/datetime/}{datetime}
+
+\begin{verbatim}
+#datetime(
+  year: 2012,
+  month: 8,
+  day: 3,
+).display()
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/6mpnNRypNysjXvXstSouiwAAAAAAAAAA.png}
+
+\paragraph{\texorpdfstring{\texttt{\ year\ }}{ year }}\label{constructor-year}
+
+\href{/docs/reference/foundations/int/}{int}
+
+The year of the datetime.
+
+\paragraph{\texorpdfstring{\texttt{\ month\ }}{ month }}\label{constructor-month}
+
+\href{/docs/reference/foundations/int/}{int}
+
+The month of the datetime.
+
+\paragraph{\texorpdfstring{\texttt{\ day\ }}{ day }}\label{constructor-day}
+
+\href{/docs/reference/foundations/int/}{int}
+
+The day of the datetime.
+
+\paragraph{\texorpdfstring{\texttt{\ hour\ }}{ hour }}\label{constructor-hour}
+
+\href{/docs/reference/foundations/int/}{int}
+
+The hour of the datetime.
+
+\paragraph{\texorpdfstring{\texttt{\ minute\ }}{ minute }}\label{constructor-minute}
+
+\href{/docs/reference/foundations/int/}{int}
+
+The minute of the datetime.
+
+\paragraph{\texorpdfstring{\texttt{\ second\ }}{ second }}\label{constructor-second}
+
+\href{/docs/reference/foundations/int/}{int}
+
+The second of the datetime.
+
+\subsection{\texorpdfstring{{ Definitions
+}}{ Definitions }}\label{definitions}
+
+\phantomsection\label{definitions-tooltip}
+Functions and types and can have associated definitions. These are
+accessed by specifying the function or type, followed by a period, and
+then the definition\textquotesingle s name.
+
+\subsubsection{\texorpdfstring{\texttt{\ today\ }}{ today }}\label{definitions-today}
+
+Returns the current date.
+
+datetime { . } { today } (
+
+{ \hyperref[definitions-today-parameters-offset]{offset :}
+\href{/docs/reference/foundations/auto/}{auto}
+\href{/docs/reference/foundations/int/}{int} }
+
+) -\textgreater{} \href{/docs/reference/foundations/datetime/}{datetime}
+
+\begin{verbatim}
+Today's date is
+#datetime.today().display().
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/SOSDKByfy_YbHbk7NejgOQAAAAAAAAAA.png}
+
+\paragraph{\texorpdfstring{\texttt{\ offset\ }}{ offset }}\label{definitions-today-offset}
+
+\href{/docs/reference/foundations/auto/}{auto} {or}
+\href{/docs/reference/foundations/int/}{int}
+
+An offset to apply to the current UTC date. If set to
+\texttt{\ }{\texttt{\ auto\ }}\texttt{\ } , the offset will be the local
+offset.
+
+Default: \texttt{\ }{\texttt{\ auto\ }}\texttt{\ }
+
+\subsubsection{\texorpdfstring{\texttt{\ display\ }}{ display }}\label{definitions-display}
+
+Displays the datetime in a specified format.
+
+Depending on whether you have defined just a date, a time or both, the
+default format will be different. If you specified a date, it will be
+\texttt{\ {[}year{]}-{[}month{]}-{[}day{]}\ } . If you specified a time,
+it will be \texttt{\ {[}hour{]}:{[}minute{]}:{[}second{]}\ } . In the
+case of a datetime, it will be
+\texttt{\ {[}year{]}-{[}month{]}-{[}day{]}\ {[}hour{]}:{[}minute{]}:{[}second{]}\ }
+.
+
+See the \href{/docs/reference/foundations/datetime/\#format}{format
+syntax} for more information.
+
+self { . } { display } (
+
+{ \href{/docs/reference/foundations/auto/}{auto}
+\href{/docs/reference/foundations/str/}{str} }
+
+) -\textgreater{} \href{/docs/reference/foundations/str/}{str}
+
+\paragraph{\texorpdfstring{\texttt{\ pattern\ }}{ pattern }}\label{definitions-display-pattern}
+
+\href{/docs/reference/foundations/auto/}{auto} {or}
+\href{/docs/reference/foundations/str/}{str}
+
+{{ Positional }}
+
+\phantomsection\label{definitions-display-pattern-positional-tooltip}
+Positional parameters are specified in order, without names.
+
+The format used to display the datetime.
+
+Default: \texttt{\ }{\texttt{\ auto\ }}\texttt{\ }
+
+\subsubsection{\texorpdfstring{\texttt{\ year\ }}{ year }}\label{definitions-year}
+
+The year if it was specified, or
+\texttt{\ }{\texttt{\ none\ }}\texttt{\ } for times without a date.
+
+self { . } { year } (
+
+) -\textgreater{} \href{/docs/reference/foundations/none/}{none}
+\href{/docs/reference/foundations/int/}{int}
+
+\subsubsection{\texorpdfstring{\texttt{\ month\ }}{ month }}\label{definitions-month}
+
+The month if it was specified, or
+\texttt{\ }{\texttt{\ none\ }}\texttt{\ } for times without a date.
+
+self { . } { month } (
+
+) -\textgreater{} \href{/docs/reference/foundations/none/}{none}
+\href{/docs/reference/foundations/int/}{int}
+
+\subsubsection{\texorpdfstring{\texttt{\ weekday\ }}{ weekday }}\label{definitions-weekday}
+
+The weekday (counting Monday as 1) or
+\texttt{\ }{\texttt{\ none\ }}\texttt{\ } for times without a date.
+
+self { . } { weekday } (
+
+) -\textgreater{} \href{/docs/reference/foundations/none/}{none}
+\href{/docs/reference/foundations/int/}{int}
+
+\subsubsection{\texorpdfstring{\texttt{\ day\ }}{ day }}\label{definitions-day}
+
+The day if it was specified, or
+\texttt{\ }{\texttt{\ none\ }}\texttt{\ } for times without a date.
+
+self { . } { day } (
+
+) -\textgreater{} \href{/docs/reference/foundations/none/}{none}
+\href{/docs/reference/foundations/int/}{int}
+
+\subsubsection{\texorpdfstring{\texttt{\ hour\ }}{ hour }}\label{definitions-hour}
+
+The hour if it was specified, or
+\texttt{\ }{\texttt{\ none\ }}\texttt{\ } for dates without a time.
+
+self { . } { hour } (
+
+) -\textgreater{} \href{/docs/reference/foundations/none/}{none}
+\href{/docs/reference/foundations/int/}{int}
+
+\subsubsection{\texorpdfstring{\texttt{\ minute\ }}{ minute }}\label{definitions-minute}
+
+The minute if it was specified, or
+\texttt{\ }{\texttt{\ none\ }}\texttt{\ } for dates without a time.
+
+self { . } { minute } (
+
+) -\textgreater{} \href{/docs/reference/foundations/none/}{none}
+\href{/docs/reference/foundations/int/}{int}
+
+\subsubsection{\texorpdfstring{\texttt{\ second\ }}{ second }}\label{definitions-second}
+
+The second if it was specified, or
+\texttt{\ }{\texttt{\ none\ }}\texttt{\ } for dates without a time.
+
+self { . } { second } (
+
+) -\textgreater{} \href{/docs/reference/foundations/none/}{none}
+\href{/docs/reference/foundations/int/}{int}
+
+\subsubsection{\texorpdfstring{\texttt{\ ordinal\ }}{ ordinal }}\label{definitions-ordinal}
+
+The ordinal (day of the year), or
+\texttt{\ }{\texttt{\ none\ }}\texttt{\ } for times without a date.
+
+self { . } { ordinal } (
+
+) -\textgreater{} \href{/docs/reference/foundations/none/}{none}
+\href{/docs/reference/foundations/int/}{int}
+
+\href{/docs/reference/foundations/content/}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-arrow-right.svg}}}
+
+{ Content } { Previous page }
+
+\href{/docs/reference/foundations/decimal/}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-arrow-right.svg}}}
+
+{ Decimal } { Next page }

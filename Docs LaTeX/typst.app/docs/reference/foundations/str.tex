@@ -1,0 +1,682 @@
+\title{typst.app/docs/reference/foundations/str}
+
+\begin{itemize}
+\tightlist
+\item
+  \href{/docs}{\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-docs-dark.svg}}
+\item
+  \includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-arrow-right.svg}
+\item
+  \href{/docs/reference/}{Reference}
+\item
+  \includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-arrow-right.svg}
+\item
+  \href{/docs/reference/foundations/}{Foundations}
+\item
+  \includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-arrow-right.svg}
+\item
+  \href{/docs/reference/foundations/str/}{String}
+\end{itemize}
+
+\section{\texorpdfstring{{ str }}{ str }}\label{summary}
+
+A sequence of Unicode codepoints.
+
+You can iterate over the grapheme clusters of the string using a
+\href{/docs/reference/scripting/\#loops}{for loop} . Grapheme clusters
+are basically characters but keep together things that belong together,
+e.g. multiple codepoints that together form a flag emoji. Strings can be
+added with the \texttt{\ +\ } operator,
+\href{/docs/reference/scripting/\#blocks}{joined together} and
+multiplied with integers.
+
+Typst provides utility methods for string manipulation. Many of these
+methods (e.g., \texttt{\ split\ } , \texttt{\ trim\ } and
+\texttt{\ replace\ } ) operate on \emph{patterns:} A pattern can be
+either a string or a \href{/docs/reference/foundations/regex/}{regular
+expression} . This makes the methods quite versatile.
+
+All lengths and indices are expressed in terms of UTF-8 bytes. Indices
+are zero-based and negative indices wrap around to the end of the
+string.
+
+You can convert a value to a string with this type\textquotesingle s
+constructor.
+
+\subsection{Example}\label{example}
+
+\begin{verbatim}
+#"hello world!" \
+#"\"hello\n  world\"!" \
+#"1 2 3".split() \
+#"1,2;3".split(regex("[,;]")) \
+#(regex("\d+") in "ten euros") \
+#(regex("\d+") in "10 euros")
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/gK89AnI9k7dy82m9R3F1jgAAAAAAAAAA.png}
+
+\subsection{Escape sequences}\label{escapes}
+
+Just like in markup, you can escape a few symbols in strings:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ }{\texttt{\ \textbackslash{}\textbackslash{}\ }}\texttt{\ }
+  for a backslash
+\item
+  \texttt{\ }{\texttt{\ \textbackslash{}"\ }}\texttt{\ } for a quote
+\item
+  \texttt{\ }{\texttt{\ \textbackslash{}n\ }}\texttt{\ } for a newline
+\item
+  \texttt{\ }{\texttt{\ \textbackslash{}r\ }}\texttt{\ } for a carriage
+  return
+\item
+  \texttt{\ }{\texttt{\ \textbackslash{}t\ }}\texttt{\ } for a tab
+\item
+  \texttt{\ }{\texttt{\ \textbackslash{}u\{1f600\}\ }}\texttt{\ } for a
+  hexadecimal Unicode escape sequence
+\end{itemize}
+
+\subsection{\texorpdfstring{Constructor
+{}}{Constructor }}\label{constructor}
+
+\phantomsection\label{constructor-constructor-tooltip}
+If a type has a constructor, you can call it like a function to create a
+new value of the type.
+
+Converts a value to a string.
+
+\begin{itemize}
+\tightlist
+\item
+  Integers are formatted in base 10. This can be overridden with the
+  optional \texttt{\ base\ } parameter.
+\item
+  Floats are formatted in base 10 and never in exponential notation.
+\item
+  From labels the name is extracted.
+\item
+  Bytes are decoded as UTF-8.
+\end{itemize}
+
+If you wish to convert from and to Unicode code points, see the
+\href{/docs/reference/foundations/str/\#definitions-to-unicode}{\texttt{\ to-unicode\ }}
+and
+\href{/docs/reference/foundations/str/\#definitions-from-unicode}{\texttt{\ from-unicode\ }}
+functions.
+
+{ str } (
+
+{ \href{/docs/reference/foundations/int/}{int}
+\href{/docs/reference/foundations/float/}{float}
+\href{/docs/reference/foundations/str/}{str}
+\href{/docs/reference/foundations/bytes/}{bytes}
+\href{/docs/reference/foundations/label/}{label}
+\href{/docs/reference/foundations/decimal/}{decimal}
+\href{/docs/reference/foundations/version/}{version}
+\href{/docs/reference/foundations/type/}{type} , } {
+\hyperref[constructor-parameters-base]{base :}
+\href{/docs/reference/foundations/int/}{int} , }
+
+) -\textgreater{} \href{/docs/reference/foundations/str/}{str}
+
+\begin{verbatim}
+#str(10) \
+#str(4000, base: 16) \
+#str(2.7) \
+#str(1e8) \
+#str(<intro>)
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/06jR9z-fP-M4eu8XB2MFnAAAAAAAAAAA.png}
+
+\paragraph{\texorpdfstring{\texttt{\ value\ }}{ value }}\label{constructor-value}
+
+\href{/docs/reference/foundations/int/}{int} {or}
+\href{/docs/reference/foundations/float/}{float} {or}
+\href{/docs/reference/foundations/str/}{str} {or}
+\href{/docs/reference/foundations/bytes/}{bytes} {or}
+\href{/docs/reference/foundations/label/}{label} {or}
+\href{/docs/reference/foundations/decimal/}{decimal} {or}
+\href{/docs/reference/foundations/version/}{version} {or}
+\href{/docs/reference/foundations/type/}{type}
+
+{Required} {{ Positional }}
+
+\phantomsection\label{constructor-value-positional-tooltip}
+Positional parameters are specified in order, without names.
+
+The value that should be converted to a string.
+
+\paragraph{\texorpdfstring{\texttt{\ base\ }}{ base }}\label{constructor-base}
+
+\href{/docs/reference/foundations/int/}{int}
+
+The base (radix) to display integers in, between 2 and 36.
+
+Default: \texttt{\ }{\texttt{\ 10\ }}\texttt{\ }
+
+\subsection{\texorpdfstring{{ Definitions
+}}{ Definitions }}\label{definitions}
+
+\phantomsection\label{definitions-tooltip}
+Functions and types and can have associated definitions. These are
+accessed by specifying the function or type, followed by a period, and
+then the definition\textquotesingle s name.
+
+\subsubsection{\texorpdfstring{\texttt{\ len\ }}{ len }}\label{definitions-len}
+
+The length of the string in UTF-8 encoded bytes.
+
+self { . } { len } (
+
+) -\textgreater{} \href{/docs/reference/foundations/int/}{int}
+
+\subsubsection{\texorpdfstring{\texttt{\ first\ }}{ first }}\label{definitions-first}
+
+Extracts the first grapheme cluster of the string. Fails with an error
+if the string is empty.
+
+self { . } { first } (
+
+) -\textgreater{} \href{/docs/reference/foundations/str/}{str}
+
+\subsubsection{\texorpdfstring{\texttt{\ last\ }}{ last }}\label{definitions-last}
+
+Extracts the last grapheme cluster of the string. Fails with an error if
+the string is empty.
+
+self { . } { last } (
+
+) -\textgreater{} \href{/docs/reference/foundations/str/}{str}
+
+\subsubsection{\texorpdfstring{\texttt{\ at\ }}{ at }}\label{definitions-at}
+
+Extracts the first grapheme cluster after the specified index. Returns
+the default value if the index is out of bounds or fails with an error
+if no default value was specified.
+
+self { . } { at } (
+
+{ \href{/docs/reference/foundations/int/}{int} , } {
+\hyperref[definitions-at-parameters-default]{default :} { any } , }
+
+) -\textgreater{} { any }
+
+\paragraph{\texorpdfstring{\texttt{\ index\ }}{ index }}\label{definitions-at-index}
+
+\href{/docs/reference/foundations/int/}{int}
+
+{Required} {{ Positional }}
+
+\phantomsection\label{definitions-at-index-positional-tooltip}
+Positional parameters are specified in order, without names.
+
+The byte index. If negative, indexes from the back.
+
+\paragraph{\texorpdfstring{\texttt{\ default\ }}{ default }}\label{definitions-at-default}
+
+{ any }
+
+A default value to return if the index is out of bounds.
+
+\subsubsection{\texorpdfstring{\texttt{\ slice\ }}{ slice }}\label{definitions-slice}
+
+Extracts a substring of the string. Fails with an error if the start or
+end index is out of bounds.
+
+self { . } { slice } (
+
+{ \href{/docs/reference/foundations/int/}{int} , } {
+\href{/docs/reference/foundations/none/}{none}
+\href{/docs/reference/foundations/int/}{int} , } {
+\hyperref[definitions-slice-parameters-count]{count :}
+\href{/docs/reference/foundations/int/}{int} , }
+
+) -\textgreater{} \href{/docs/reference/foundations/str/}{str}
+
+\paragraph{\texorpdfstring{\texttt{\ start\ }}{ start }}\label{definitions-slice-start}
+
+\href{/docs/reference/foundations/int/}{int}
+
+{Required} {{ Positional }}
+
+\phantomsection\label{definitions-slice-start-positional-tooltip}
+Positional parameters are specified in order, without names.
+
+The start byte index (inclusive). If negative, indexes from the back.
+
+\paragraph{\texorpdfstring{\texttt{\ end\ }}{ end }}\label{definitions-slice-end}
+
+\href{/docs/reference/foundations/none/}{none} {or}
+\href{/docs/reference/foundations/int/}{int}
+
+{{ Positional }}
+
+\phantomsection\label{definitions-slice-end-positional-tooltip}
+Positional parameters are specified in order, without names.
+
+The end byte index (exclusive). If omitted, the whole slice until the
+end of the string is extracted. If negative, indexes from the back.
+
+Default: \texttt{\ }{\texttt{\ none\ }}\texttt{\ }
+
+\paragraph{\texorpdfstring{\texttt{\ count\ }}{ count }}\label{definitions-slice-count}
+
+\href{/docs/reference/foundations/int/}{int}
+
+The number of bytes to extract. This is equivalent to passing
+\texttt{\ start\ +\ count\ } as the \texttt{\ end\ } position. Mutually
+exclusive with \texttt{\ end\ } .
+
+\subsubsection{\texorpdfstring{\texttt{\ clusters\ }}{ clusters }}\label{definitions-clusters}
+
+Returns the grapheme clusters of the string as an array of substrings.
+
+self { . } { clusters } (
+
+) -\textgreater{} \href{/docs/reference/foundations/array/}{array}
+
+\subsubsection{\texorpdfstring{\texttt{\ codepoints\ }}{ codepoints }}\label{definitions-codepoints}
+
+Returns the Unicode codepoints of the string as an array of substrings.
+
+self { . } { codepoints } (
+
+) -\textgreater{} \href{/docs/reference/foundations/array/}{array}
+
+\subsubsection{\texorpdfstring{\texttt{\ to-unicode\ }}{ to-unicode }}\label{definitions-to-unicode}
+
+Converts a character into its corresponding code point.
+
+str { . } { to-unicode } (
+
+{ \href{/docs/reference/foundations/str/}{str} }
+
+) -\textgreater{} \href{/docs/reference/foundations/int/}{int}
+
+\begin{verbatim}
+#"a".to-unicode() \
+#("a\u{0300}"
+   .codepoints()
+   .map(str.to-unicode))
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/q50tz6WAJPnwtBCYWbHrIwAAAAAAAAAA.png}
+
+\paragraph{\texorpdfstring{\texttt{\ character\ }}{ character }}\label{definitions-to-unicode-character}
+
+\href{/docs/reference/foundations/str/}{str}
+
+{Required} {{ Positional }}
+
+\phantomsection\label{definitions-to-unicode-character-positional-tooltip}
+Positional parameters are specified in order, without names.
+
+The character that should be converted.
+
+\subsubsection{\texorpdfstring{\texttt{\ from-unicode\ }}{ from-unicode }}\label{definitions-from-unicode}
+
+Converts a unicode code point into its corresponding string.
+
+str { . } { from-unicode } (
+
+{ \href{/docs/reference/foundations/int/}{int} }
+
+) -\textgreater{} \href{/docs/reference/foundations/str/}{str}
+
+\begin{verbatim}
+#str.from-unicode(97)
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/vNzcsGO4Zd_u-P4qNnxrDQAAAAAAAAAA.png}
+
+\paragraph{\texorpdfstring{\texttt{\ value\ }}{ value }}\label{definitions-from-unicode-value}
+
+\href{/docs/reference/foundations/int/}{int}
+
+{Required} {{ Positional }}
+
+\phantomsection\label{definitions-from-unicode-value-positional-tooltip}
+Positional parameters are specified in order, without names.
+
+The code point that should be converted.
+
+\subsubsection{\texorpdfstring{\texttt{\ contains\ }}{ contains }}\label{definitions-contains}
+
+Whether the string contains the specified pattern.
+
+This method also has dedicated syntax: You can write
+\texttt{\ }{\texttt{\ "bc"\ }}\texttt{\ }{\texttt{\ in\ }}\texttt{\ }{\texttt{\ "abcd"\ }}\texttt{\ }
+instead of
+\texttt{\ }{\texttt{\ "abcd"\ }}\texttt{\ }{\texttt{\ .\ }}\texttt{\ }{\texttt{\ contains\ }}\texttt{\ }{\texttt{\ (\ }}\texttt{\ }{\texttt{\ "bc"\ }}\texttt{\ }{\texttt{\ )\ }}\texttt{\ }
+.
+
+self { . } { contains } (
+
+{ \href{/docs/reference/foundations/str/}{str}
+\href{/docs/reference/foundations/regex/}{regex} }
+
+) -\textgreater{} \href{/docs/reference/foundations/bool/}{bool}
+
+\paragraph{\texorpdfstring{\texttt{\ pattern\ }}{ pattern }}\label{definitions-contains-pattern}
+
+\href{/docs/reference/foundations/str/}{str} {or}
+\href{/docs/reference/foundations/regex/}{regex}
+
+{Required} {{ Positional }}
+
+\phantomsection\label{definitions-contains-pattern-positional-tooltip}
+Positional parameters are specified in order, without names.
+
+The pattern to search for.
+
+\subsubsection{\texorpdfstring{\texttt{\ starts-with\ }}{ starts-with }}\label{definitions-starts-with}
+
+Whether the string starts with the specified pattern.
+
+self { . } { starts-with } (
+
+{ \href{/docs/reference/foundations/str/}{str}
+\href{/docs/reference/foundations/regex/}{regex} }
+
+) -\textgreater{} \href{/docs/reference/foundations/bool/}{bool}
+
+\paragraph{\texorpdfstring{\texttt{\ pattern\ }}{ pattern }}\label{definitions-starts-with-pattern}
+
+\href{/docs/reference/foundations/str/}{str} {or}
+\href{/docs/reference/foundations/regex/}{regex}
+
+{Required} {{ Positional }}
+
+\phantomsection\label{definitions-starts-with-pattern-positional-tooltip}
+Positional parameters are specified in order, without names.
+
+The pattern the string might start with.
+
+\subsubsection{\texorpdfstring{\texttt{\ ends-with\ }}{ ends-with }}\label{definitions-ends-with}
+
+Whether the string ends with the specified pattern.
+
+self { . } { ends-with } (
+
+{ \href{/docs/reference/foundations/str/}{str}
+\href{/docs/reference/foundations/regex/}{regex} }
+
+) -\textgreater{} \href{/docs/reference/foundations/bool/}{bool}
+
+\paragraph{\texorpdfstring{\texttt{\ pattern\ }}{ pattern }}\label{definitions-ends-with-pattern}
+
+\href{/docs/reference/foundations/str/}{str} {or}
+\href{/docs/reference/foundations/regex/}{regex}
+
+{Required} {{ Positional }}
+
+\phantomsection\label{definitions-ends-with-pattern-positional-tooltip}
+Positional parameters are specified in order, without names.
+
+The pattern the string might end with.
+
+\subsubsection{\texorpdfstring{\texttt{\ find\ }}{ find }}\label{definitions-find}
+
+Searches for the specified pattern in the string and returns the first
+match as a string or \texttt{\ }{\texttt{\ none\ }}\texttt{\ } if there
+is no match.
+
+self { . } { find } (
+
+{ \href{/docs/reference/foundations/str/}{str}
+\href{/docs/reference/foundations/regex/}{regex} }
+
+) -\textgreater{} \href{/docs/reference/foundations/none/}{none}
+\href{/docs/reference/foundations/str/}{str}
+
+\paragraph{\texorpdfstring{\texttt{\ pattern\ }}{ pattern }}\label{definitions-find-pattern}
+
+\href{/docs/reference/foundations/str/}{str} {or}
+\href{/docs/reference/foundations/regex/}{regex}
+
+{Required} {{ Positional }}
+
+\phantomsection\label{definitions-find-pattern-positional-tooltip}
+Positional parameters are specified in order, without names.
+
+The pattern to search for.
+
+\subsubsection{\texorpdfstring{\texttt{\ position\ }}{ position }}\label{definitions-position}
+
+Searches for the specified pattern in the string and returns the index
+of the first match as an integer or
+\texttt{\ }{\texttt{\ none\ }}\texttt{\ } if there is no match.
+
+self { . } { position } (
+
+{ \href{/docs/reference/foundations/str/}{str}
+\href{/docs/reference/foundations/regex/}{regex} }
+
+) -\textgreater{} \href{/docs/reference/foundations/none/}{none}
+\href{/docs/reference/foundations/int/}{int}
+
+\paragraph{\texorpdfstring{\texttt{\ pattern\ }}{ pattern }}\label{definitions-position-pattern}
+
+\href{/docs/reference/foundations/str/}{str} {or}
+\href{/docs/reference/foundations/regex/}{regex}
+
+{Required} {{ Positional }}
+
+\phantomsection\label{definitions-position-pattern-positional-tooltip}
+Positional parameters are specified in order, without names.
+
+The pattern to search for.
+
+\subsubsection{\texorpdfstring{\texttt{\ match\ }}{ match }}\label{definitions-match}
+
+Searches for the specified pattern in the string and returns a
+dictionary with details about the first match or
+\texttt{\ }{\texttt{\ none\ }}\texttt{\ } if there is no match.
+
+The returned dictionary has the following keys:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\ start\ } : The start offset of the match
+\item
+  \texttt{\ end\ } : The end offset of the match
+\item
+  \texttt{\ text\ } : The text that matched.
+\item
+  \texttt{\ captures\ } : An array containing a string for each matched
+  capturing group. The first item of the array contains the first
+  matched capturing, not the whole match! This is empty unless the
+  \texttt{\ pattern\ } was a regex with capturing groups.
+\end{itemize}
+
+self { . } { match } (
+
+{ \href{/docs/reference/foundations/str/}{str}
+\href{/docs/reference/foundations/regex/}{regex} }
+
+) -\textgreater{} \href{/docs/reference/foundations/none/}{none}
+\href{/docs/reference/foundations/dictionary/}{dictionary}
+
+\paragraph{\texorpdfstring{\texttt{\ pattern\ }}{ pattern }}\label{definitions-match-pattern}
+
+\href{/docs/reference/foundations/str/}{str} {or}
+\href{/docs/reference/foundations/regex/}{regex}
+
+{Required} {{ Positional }}
+
+\phantomsection\label{definitions-match-pattern-positional-tooltip}
+Positional parameters are specified in order, without names.
+
+The pattern to search for.
+
+\subsubsection{\texorpdfstring{\texttt{\ matches\ }}{ matches }}\label{definitions-matches}
+
+Searches for the specified pattern in the string and returns an array of
+dictionaries with details about all matches. For details about the
+returned dictionaries, see above.
+
+self { . } { matches } (
+
+{ \href{/docs/reference/foundations/str/}{str}
+\href{/docs/reference/foundations/regex/}{regex} }
+
+) -\textgreater{} \href{/docs/reference/foundations/array/}{array}
+
+\paragraph{\texorpdfstring{\texttt{\ pattern\ }}{ pattern }}\label{definitions-matches-pattern}
+
+\href{/docs/reference/foundations/str/}{str} {or}
+\href{/docs/reference/foundations/regex/}{regex}
+
+{Required} {{ Positional }}
+
+\phantomsection\label{definitions-matches-pattern-positional-tooltip}
+Positional parameters are specified in order, without names.
+
+The pattern to search for.
+
+\subsubsection{\texorpdfstring{\texttt{\ replace\ }}{ replace }}\label{definitions-replace}
+
+Replace at most \texttt{\ count\ } occurrences of the given pattern with
+a replacement string or function (beginning from the start). If no count
+is given, all occurrences are replaced.
+
+self { . } { replace } (
+
+{ \href{/docs/reference/foundations/str/}{str}
+\href{/docs/reference/foundations/regex/}{regex} , } {
+\href{/docs/reference/foundations/str/}{str}
+\href{/docs/reference/foundations/function/}{function} , } {
+\hyperref[definitions-replace-parameters-count]{count :}
+\href{/docs/reference/foundations/int/}{int} , }
+
+) -\textgreater{} \href{/docs/reference/foundations/str/}{str}
+
+\paragraph{\texorpdfstring{\texttt{\ pattern\ }}{ pattern }}\label{definitions-replace-pattern}
+
+\href{/docs/reference/foundations/str/}{str} {or}
+\href{/docs/reference/foundations/regex/}{regex}
+
+{Required} {{ Positional }}
+
+\phantomsection\label{definitions-replace-pattern-positional-tooltip}
+Positional parameters are specified in order, without names.
+
+The pattern to search for.
+
+\paragraph{\texorpdfstring{\texttt{\ replacement\ }}{ replacement }}\label{definitions-replace-replacement}
+
+\href{/docs/reference/foundations/str/}{str} {or}
+\href{/docs/reference/foundations/function/}{function}
+
+{Required} {{ Positional }}
+
+\phantomsection\label{definitions-replace-replacement-positional-tooltip}
+Positional parameters are specified in order, without names.
+
+The string to replace the matches with or a function that gets a
+dictionary for each match and can return individual replacement strings.
+
+\paragraph{\texorpdfstring{\texttt{\ count\ }}{ count }}\label{definitions-replace-count}
+
+\href{/docs/reference/foundations/int/}{int}
+
+If given, only the first \texttt{\ count\ } matches of the pattern are
+placed.
+
+\subsubsection{\texorpdfstring{\texttt{\ trim\ }}{ trim }}\label{definitions-trim}
+
+Removes matches of a pattern from one or both sides of the string, once
+or repeatedly and returns the resulting string.
+
+self { . } { trim } (
+
+{ \href{/docs/reference/foundations/none/}{none}
+\href{/docs/reference/foundations/str/}{str}
+\href{/docs/reference/foundations/regex/}{regex} , } {
+\hyperref[definitions-trim-parameters-at]{at :}
+\href{/docs/reference/layout/alignment/}{alignment} , } {
+\hyperref[definitions-trim-parameters-repeat]{repeat :}
+\href{/docs/reference/foundations/bool/}{bool} , }
+
+) -\textgreater{} \href{/docs/reference/foundations/str/}{str}
+
+\paragraph{\texorpdfstring{\texttt{\ pattern\ }}{ pattern }}\label{definitions-trim-pattern}
+
+\href{/docs/reference/foundations/none/}{none} {or}
+\href{/docs/reference/foundations/str/}{str} {or}
+\href{/docs/reference/foundations/regex/}{regex}
+
+{{ Positional }}
+
+\phantomsection\label{definitions-trim-pattern-positional-tooltip}
+Positional parameters are specified in order, without names.
+
+The pattern to search for. If \texttt{\ }{\texttt{\ none\ }}\texttt{\ }
+, trims white spaces.
+
+Default: \texttt{\ }{\texttt{\ none\ }}\texttt{\ }
+
+\paragraph{\texorpdfstring{\texttt{\ at\ }}{ at }}\label{definitions-trim-at}
+
+\href{/docs/reference/layout/alignment/}{alignment}
+
+Can be \texttt{\ start\ } or \texttt{\ end\ } to only trim the start or
+end of the string. If omitted, both sides are trimmed.
+
+\paragraph{\texorpdfstring{\texttt{\ repeat\ }}{ repeat }}\label{definitions-trim-repeat}
+
+\href{/docs/reference/foundations/bool/}{bool}
+
+Whether to repeatedly removes matches of the pattern or just once.
+Defaults to \texttt{\ }{\texttt{\ true\ }}\texttt{\ } .
+
+Default: \texttt{\ }{\texttt{\ true\ }}\texttt{\ }
+
+\subsubsection{\texorpdfstring{\texttt{\ split\ }}{ split }}\label{definitions-split}
+
+Splits a string at matches of a specified pattern and returns an array
+of the resulting parts.
+
+self { . } { split } (
+
+{ \href{/docs/reference/foundations/none/}{none}
+\href{/docs/reference/foundations/str/}{str}
+\href{/docs/reference/foundations/regex/}{regex} }
+
+) -\textgreater{} \href{/docs/reference/foundations/array/}{array}
+
+\paragraph{\texorpdfstring{\texttt{\ pattern\ }}{ pattern }}\label{definitions-split-pattern}
+
+\href{/docs/reference/foundations/none/}{none} {or}
+\href{/docs/reference/foundations/str/}{str} {or}
+\href{/docs/reference/foundations/regex/}{regex}
+
+{{ Positional }}
+
+\phantomsection\label{definitions-split-pattern-positional-tooltip}
+Positional parameters are specified in order, without names.
+
+The pattern to split at. Defaults to whitespace.
+
+Default: \texttt{\ }{\texttt{\ none\ }}\texttt{\ }
+
+\subsubsection{\texorpdfstring{\texttt{\ rev\ }}{ rev }}\label{definitions-rev}
+
+Reverse the string.
+
+self { . } { rev } (
+
+) -\textgreater{} \href{/docs/reference/foundations/str/}{str}
+
+\href{/docs/reference/foundations/selector/}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-arrow-right.svg}}}
+
+{ Selector } { Previous page }
+
+\href{/docs/reference/foundations/style/}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-arrow-right.svg}}}
+
+{ Style } { Next page }

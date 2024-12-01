@@ -1,0 +1,429 @@
+<main>
+    <ul aria-label="Breadcrumbs" class="breadcrumbs">
+     <li class="root">
+      <a href="/docs">
+       <img alt="Docs" height="16" src="/assets/icons/16-docs-dark.svg" width="16"/>
+      </a>
+     </li>
+     <li aria-hidden="true">
+      <img alt="" height="16" src="/assets/icons/16-arrow-right.svg" width="16"/>
+     </li>
+     <li>
+      <a href="/docs/reference/">
+       Reference
+      </a>
+     </li>
+     <li aria-hidden="true">
+      <img alt="" height="16" src="/assets/icons/16-arrow-right.svg" width="16"/>
+     </li>
+     <li>
+      <a href="/docs/reference/layout/">
+       Layout
+      </a>
+     </li>
+     <li aria-hidden="true">
+      <img alt="" height="16" src="/assets/icons/16-arrow-right.svg" width="16"/>
+     </li>
+     <li>
+      <a href="/docs/reference/layout/measure/">
+       Measure
+      </a>
+     </li>
+    </ul>
+    <h1 id="summary">
+     <code>
+      measure
+     </code>
+     <small>
+      <span aria-describedby="contextual-tooltip">
+       Contextual
+      </span>
+      <div class="tooltip-context">
+       <svg aria-labelledby=":Rdj9a:-label" height="12" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 12 12" width="12">
+        <title id=":Rdj9a:-label">
+         Question mark
+        </title>
+        <use href="/assets/icons/12-tooltip.svg#icon">
+        </use>
+       </svg>
+       <div aria-hidden="true" id="contextual-tooltip" role="tooltip" tabindex="-1">
+        Contextual functions can only be used when the context is known
+       </div>
+      </div>
+     </small>
+    </h1>
+    <p>
+     Measures the layouted size of content.
+    </p>
+    <p>
+     The
+     <code>
+      measure
+     </code>
+     function lets you determine the layouted size of content. By default an infinite space is assumed, so the measured dimensions may not necessarily match the final dimensions of the content. If you want to measure in the current layout dimensions, you can combine
+     <code>
+      measure
+     </code>
+     and
+     <a href="/docs/reference/layout/layout/" title="`layout`">
+      <code>
+       layout
+      </code>
+     </a>
+     .
+    </p>
+    <h2 id="example">
+     Example
+    </h2>
+    <p>
+     The same content can have a different size depending on the
+     <a href="/docs/reference/context/" title="context">
+      context
+     </a>
+     that it is placed into. In the example below, the
+     <code>
+      <span class="typ-pol">
+       #
+      </span>
+      <span class="typ-pol">
+       content
+      </span>
+     </code>
+     is of course bigger when we increase the font size.
+    </p>
+    <div class="previewed-code">
+     <pre><code><span class="typ-key">#</span><span class="typ-key">let</span> content <span class="typ-op">=</span> <span class="typ-punct">[</span>Hello!<span class="typ-punct">]</span>
+<span class="typ-pol">#</span><span class="typ-pol">content</span>
+<span class="typ-key">#</span><span class="typ-key">set</span> <span class="typ-func">text</span><span class="typ-punct">(</span><span class="typ-num">14pt</span><span class="typ-punct">)</span>
+<span class="typ-pol">#</span><span class="typ-pol">content</span>
+</code></pre>
+     <div class="preview">
+      <img alt="Preview" height="78/" src="/assets/docs/AhP31noWwrcSQXbwnmO-hwAAAAAAAAAA.png" width="480"/>
+     </div>
+    </div>
+    <p>
+     For this reason, you can only measure when context is available.
+    </p>
+    <div class="previewed-code">
+     <pre><code><span class="typ-key">#</span><span class="typ-key">let</span> <span class="typ-func">thing</span><span class="typ-punct">(</span>body<span class="typ-punct">)</span> <span class="typ-op">=</span> <span class="typ-key">context</span> <span class="typ-punct">{</span>
+  <span class="typ-key">let</span> size <span class="typ-op">=</span> <span class="typ-func">measure</span><span class="typ-punct">(</span>body<span class="typ-punct">)</span>
+  <span class="typ-punct">[</span>Width of "<span class="typ-pol">#</span><span class="typ-pol">body</span>" is <span class="typ-pol">#</span><span class="typ-pol">size</span><span class="typ-punct">.</span><span class="typ-pol">width</span><span class="typ-punct">]</span>
+<span class="typ-punct">}</span>
+
+<span class="typ-func">#</span><span class="typ-func">thing</span><span class="typ-punct">[</span>Hey<span class="typ-punct">]</span> <span class="typ-escape">\</span>
+<span class="typ-func">#</span><span class="typ-func">thing</span><span class="typ-punct">[</span>Welcome<span class="typ-punct">]</span>
+</code></pre>
+     <div class="preview">
+      <img alt="Preview" height="103/" src="/assets/docs/-y6AuN3J3rl7Gz1x_VRjjwAAAAAAAAAA.png" width="480"/>
+     </div>
+    </div>
+    <p>
+     The measure function returns a dictionary with the entries
+     <code>
+      width
+     </code>
+     and
+     <code>
+      height
+     </code>
+     , both of type
+     <a href="/docs/reference/layout/length/" title="`length`">
+      <code>
+       length
+      </code>
+     </a>
+     .
+    </p>
+    <h2 id="parameters">
+     <span aria-describedby="parameters-tooltip">
+      Parameters
+     </span>
+     <div class="tooltip-context">
+      <svg aria-labelledby=":R379a:-label" height="12" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 12 12" width="12">
+       <title id=":R379a:-label">
+        Question mark
+       </title>
+       <use href="/assets/icons/12-tooltip.svg#icon">
+       </use>
+      </svg>
+      <div aria-hidden="true" id="parameters-tooltip" role="tooltip" tabindex="-1">
+       Parameters are the inputs to a function. They are specified in parentheses after the function name.
+      </div>
+     </div>
+    </h2>
+    <div class="code code-definition">
+     <span class="typ-func">
+      measure
+     </span>
+     (
+     <div class="arguments">
+      <span class="overview-param">
+       <a href="#parameters-width">
+        width
+        <!-- -->
+        :
+       </a>
+       <a class="pill pill-kw" href="/docs/reference/foundations/auto/">
+        auto
+       </a>
+       <a class="pill pill-num" href="/docs/reference/layout/length/">
+        length
+       </a>
+       ,
+      </span>
+      <span class="overview-param">
+       <a href="#parameters-height">
+        height
+        <!-- -->
+        :
+       </a>
+       <a class="pill pill-kw" href="/docs/reference/foundations/auto/">
+        auto
+       </a>
+       <a class="pill pill-num" href="/docs/reference/layout/length/">
+        length
+       </a>
+       ,
+      </span>
+      <span class="overview-param">
+       <a class="pill pill-con" href="/docs/reference/foundations/content/">
+        content
+       </a>
+       ,
+      </span>
+      <span class="overview-param">
+       <a class="pill pill-kw" href="/docs/reference/foundations/none/">
+        none
+       </a>
+       <span class="pill pill-obj">
+        styles
+       </span>
+       ,
+      </span>
+     </div>
+     )
+     <!-- -->
+     -&gt;
+     <a class="pill pill-obj" href="/docs/reference/foundations/dictionary/">
+      dictionary
+     </a>
+    </div>
+    <h3 id="parameters-width">
+     <code>
+      width
+     </code>
+     <div class="additional-info">
+      <div>
+       <a class="pill pill-kw" href="/docs/reference/foundations/auto/">
+        auto
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-num" href="/docs/reference/layout/length/">
+        length
+       </a>
+      </div>
+     </div>
+    </h3>
+    <p>
+     The width available to layout the content.
+    </p>
+    <p>
+     Setting this to
+     <code>
+      <span class="typ-key">
+       auto
+      </span>
+     </code>
+     indicates infinite available width.
+    </p>
+    <p>
+     Note that using the
+     <code>
+      width
+     </code>
+     and
+     <code>
+      height
+     </code>
+     parameters of this function is different from measuring a sized
+     <a href="/docs/reference/layout/block/" title="`block`">
+      <code>
+       block
+      </code>
+     </a>
+     containing the content. In the following example, the former will get the dimensions of the inner content instead of the dimensions of the block.
+    </p>
+    <p>
+     Default:
+     <code>
+      <span class="typ-key">
+       auto
+      </span>
+     </code>
+    </p>
+    <details class="folding-example">
+     <summary>
+      <img alt="" height="16" src="/assets/icons/16-arrow-right.svg" width="16"/>
+      View example
+     </summary>
+     <div class="folding">
+      <div class="previewed-code">
+       <pre><code><span class="typ-key">#</span><span class="typ-key">context</span> <span class="typ-func">measure</span><span class="typ-punct">(</span><span class="typ-func">lorem</span><span class="typ-punct">(</span><span class="typ-num">100</span><span class="typ-punct">)</span><span class="typ-punct">,</span> width<span class="typ-punct">:</span> <span class="typ-num">400pt</span><span class="typ-punct">)</span>
+
+<span class="typ-key">#</span><span class="typ-key">context</span> <span class="typ-func">measure</span><span class="typ-punct">(</span><span class="typ-func">block</span><span class="typ-punct">(</span><span class="typ-func">lorem</span><span class="typ-punct">(</span><span class="typ-num">100</span><span class="typ-punct">)</span><span class="typ-punct">,</span> width<span class="typ-punct">:</span> <span class="typ-num">400pt</span><span class="typ-punct">)</span><span class="typ-punct">)</span>
+</code></pre>
+       <div class="preview">
+        <img alt="Preview" height="108/" src="/assets/docs/kGPOcZfxzWEfqWzKQCJaFgAAAAAAAAAA.png" width="480"/>
+       </div>
+      </div>
+     </div>
+    </details>
+    <h3 id="parameters-height">
+     <code>
+      height
+     </code>
+     <div class="additional-info">
+      <div>
+       <a class="pill pill-kw" href="/docs/reference/foundations/auto/">
+        auto
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-num" href="/docs/reference/layout/length/">
+        length
+       </a>
+      </div>
+     </div>
+    </h3>
+    <p>
+     The height available to layout the content.
+    </p>
+    <p>
+     Setting this to
+     <code>
+      <span class="typ-key">
+       auto
+      </span>
+     </code>
+     indicates infinite available height.
+    </p>
+    <p>
+     Default:
+     <code>
+      <span class="typ-key">
+       auto
+      </span>
+     </code>
+    </p>
+    <h3 id="parameters-content">
+     <code>
+      content
+     </code>
+     <div class="additional-info">
+      <div>
+       <a class="pill pill-con" href="/docs/reference/foundations/content/">
+        content
+       </a>
+      </div>
+      <small>
+       Required
+      </small>
+      <small>
+       <span aria-describedby="parameters-content-positional-tooltip">
+        Positional
+       </span>
+       <div class="tooltip-context">
+        <svg aria-labelledby=":R6e5t9a:-label" height="12" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 12 12" width="12">
+         <title id=":R6e5t9a:-label">
+          Question mark
+         </title>
+         <use href="/assets/icons/12-tooltip.svg#icon">
+         </use>
+        </svg>
+        <div aria-hidden="true" id="parameters-content-positional-tooltip" role="tooltip" tabindex="-1">
+         Positional parameters are specified in order, without names.
+        </div>
+       </div>
+      </small>
+     </div>
+    </h3>
+    <p>
+     The content whose size to measure.
+    </p>
+    <h3 id="parameters-styles">
+     <code>
+      styles
+     </code>
+     <div class="additional-info">
+      <div>
+       <a class="pill pill-kw" href="/docs/reference/foundations/none/">
+        none
+       </a>
+       <small>
+        or
+       </small>
+       <span class="pill pill-obj">
+        styles
+       </span>
+      </div>
+      <small>
+       <span aria-describedby="parameters-styles-positional-tooltip">
+        Positional
+       </span>
+       <div class="tooltip-context">
+        <svg aria-labelledby=":R6e6d9a:-label" height="12" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 12 12" width="12">
+         <title id=":R6e6d9a:-label">
+          Question mark
+         </title>
+         <use href="/assets/icons/12-tooltip.svg#icon">
+         </use>
+        </svg>
+        <div aria-hidden="true" id="parameters-styles-positional-tooltip" role="tooltip" tabindex="-1">
+         Positional parameters are specified in order, without names.
+        </div>
+       </div>
+      </small>
+     </div>
+    </h3>
+    <p>
+     <em>
+      Compatibility:
+     </em>
+     This argument is deprecated. It only exists for compatibility with Typst 0.10 and lower and shouldn't be used anymore.
+    </p>
+    <p>
+     Default:
+     <code>
+      <span class="typ-key">
+       none
+      </span>
+     </code>
+    </p>
+    <div class="page-end-buttons">
+     <a class="previous" href="/docs/reference/layout/length/">
+      <img alt="â" src="/assets/icons/16-arrow-right.svg"/>
+      <div>
+       <span class="page-title">
+        Length
+       </span>
+       <span class="hint">
+        Previous page
+       </span>
+      </div>
+     </a>
+     <a class="next" href="/docs/reference/layout/move/">
+      <img alt="â" src="/assets/icons/16-arrow-right.svg"/>
+      <div>
+       <span class="page-title">
+        Move
+       </span>
+       <span class="hint">
+        Next page
+       </span>
+      </div>
+     </a>
+    </div>
+   </main>

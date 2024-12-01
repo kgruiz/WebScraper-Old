@@ -1,0 +1,250 @@
+\title{typst.app/docs/reference/foundations/function}
+
+\begin{itemize}
+\tightlist
+\item
+  \href{/docs}{\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-docs-dark.svg}}
+\item
+  \includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-arrow-right.svg}
+\item
+  \href{/docs/reference/}{Reference}
+\item
+  \includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-arrow-right.svg}
+\item
+  \href{/docs/reference/foundations/}{Foundations}
+\item
+  \includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-arrow-right.svg}
+\item
+  \href{/docs/reference/foundations/function/}{Function}
+\end{itemize}
+
+\section{\texorpdfstring{{ function }}{ function }}\label{summary}
+
+A mapping from argument values to a return value.
+
+You can call a function by writing a comma-separated list of function
+\emph{arguments} enclosed in parentheses directly after the function
+name. Additionally, you can pass any number of trailing content blocks
+arguments to a function \emph{after} the normal argument list. If the
+normal argument list would become empty, it can be omitted. Typst
+supports positional and named arguments. The former are identified by
+position and type, while the latter are written as
+\texttt{\ name:\ value\ } .
+
+Within math mode, function calls have special behaviour. See the
+\href{/docs/reference/math/}{math documentation} for more details.
+
+\subsection{Example}\label{example}
+
+\begin{verbatim}
+// Call a function.
+#list([A], [B])
+
+// Named arguments and trailing
+// content blocks.
+#enum(start: 2)[A][B]
+
+// Version without parentheses.
+#list[A][B]
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/h8ulslRsTYE05Pu4qy5C6AAAAAAAAAAA.png}
+
+Functions are a fundamental building block of Typst. Typst provides
+functions for a variety of typesetting tasks. Moreover, the markup you
+write is backed by functions and all styling happens through functions.
+This reference lists all available functions and how you can use them.
+Please also refer to the documentation about
+\href{/docs/reference/styling/\#set-rules}{set} and
+\href{/docs/reference/styling/\#show-rules}{show} rules to learn about
+additional ways you can work with functions in Typst.
+
+\subsection{Element functions}\label{element-functions}
+
+Some functions are associated with \emph{elements} like
+\href{/docs/reference/model/heading/}{headings} or
+\href{/docs/reference/model/table/}{tables} . When called, these create
+an element of their respective kind. In contrast to normal functions,
+they can further be used in
+\href{/docs/reference/styling/\#set-rules}{set rules} ,
+\href{/docs/reference/styling/\#show-rules}{show rules} , and
+\href{/docs/reference/foundations/selector/}{selectors} .
+
+\subsection{Function scopes}\label{function-scopes}
+
+Functions can hold related definitions in their own scope, similar to a
+\href{/docs/reference/scripting/\#modules}{module} . Examples of this
+are
+\href{/docs/reference/foundations/assert/\#definitions-eq}{\texttt{\ assert.eq\ }}
+or
+\href{/docs/reference/model/list/\#definitions-item}{\texttt{\ list.item\ }}
+. However, this feature is currently only available for built-in
+functions.
+
+\subsection{Defining functions}\label{defining-functions}
+
+You can define your own function with a
+\href{/docs/reference/scripting/\#bindings}{let binding} that has a
+parameter list after the binding\textquotesingle s name. The parameter
+list can contain mandatory positional parameters, named parameters with
+default values and
+\href{/docs/reference/foundations/arguments/}{argument sinks} .
+
+The right-hand side of a function binding is the function body, which
+can be a block or any other expression. It defines the
+function\textquotesingle s return value and can depend on the
+parameters. If the function body is a
+\href{/docs/reference/scripting/\#blocks}{code block} , the return value
+is the result of joining the values of each expression in the block.
+
+Within a function body, the \texttt{\ return\ } keyword can be used to
+exit early and optionally specify a return value. If no explicit return
+value is given, the body evaluates to the result of joining all
+expressions preceding the \texttt{\ return\ } .
+
+Functions that don\textquotesingle t return any meaningful value return
+\href{/docs/reference/foundations/none/}{\texttt{\ none\ }} instead. The
+return type of such functions is not explicitly specified in the
+documentation. (An example of this is
+\href{/docs/reference/foundations/array/\#definitions-push}{\texttt{\ array.push\ }}
+).
+
+\begin{verbatim}
+#let alert(body, fill: red) = {
+  set text(white)
+  set align(center)
+  rect(
+    fill: fill,
+    inset: 8pt,
+    radius: 4pt,
+    [*Warning:\ #body*],
+  )
+}
+
+#alert[
+  Danger is imminent!
+]
+
+#alert(fill: blue)[
+  KEEP OFF TRACKS
+]
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/56wK4TQtzRt7_B3OQOxb7QAAAAAAAAAA.png}
+
+\subsection{Importing functions}\label{importing-functions}
+
+Functions can be imported from one file (
+\href{/docs/reference/scripting/\#modules}{\texttt{\ module\ }} ) into
+another using \texttt{\ }{\texttt{\ import\ }}\texttt{\ } . For example,
+assume that we have defined the \texttt{\ alert\ } function from the
+previous example in a file called \texttt{\ foo.typ\ } . We can import
+it into another file by writing
+\texttt{\ }{\texttt{\ import\ }}\texttt{\ }{\texttt{\ "foo.typ"\ }}\texttt{\ }{\texttt{\ :\ }}\texttt{\ alert\ }
+.
+
+\subsection{Unnamed functions}\label{unnamed}
+
+You can also created an unnamed function without creating a binding by
+specifying a parameter list followed by \texttt{\ =\textgreater{}\ } and
+the function body. If your function has just one parameter, the
+parentheses around the parameter list are optional. Unnamed functions
+are mainly useful for show rules, but also for settable properties that
+take functions like the page function\textquotesingle s
+\href{/docs/reference/layout/page/\#parameters-footer}{\texttt{\ footer\ }}
+property.
+
+\begin{verbatim}
+#show "once?": it => [#it #it]
+once?
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/yXee-w_McX_Uho7Ghovc-QAAAAAAAAAA.png}
+
+\subsection{Note on function purity}\label{note-on-function-purity}
+
+In Typst, all functions are \emph{pure.} This means that for the same
+arguments, they always return the same result. They cannot "remember"
+things to produce another value when they are called a second time.
+
+The only exception are built-in methods like
+\href{/docs/reference/foundations/array/\#definitions-push}{\texttt{\ array.push(value)\ }}
+. These can modify the values they are called on.
+
+\subsection{\texorpdfstring{{ Definitions
+}}{ Definitions }}\label{definitions}
+
+\phantomsection\label{definitions-tooltip}
+Functions and types and can have associated definitions. These are
+accessed by specifying the function or type, followed by a period, and
+then the definition\textquotesingle s name.
+
+\subsubsection{\texorpdfstring{\texttt{\ with\ }}{ with }}\label{definitions-with}
+
+Returns a new function that has the given arguments pre-applied.
+
+self { . } { with } (
+
+{ \hyperref[definitions-with-parameters-arguments]{..} { any } }
+
+) -\textgreater{} \href{/docs/reference/foundations/function/}{function}
+
+\paragraph{\texorpdfstring{\texttt{\ arguments\ }}{ arguments }}\label{definitions-with-arguments}
+
+{ any }
+
+{Required} {{ Positional }}
+
+\phantomsection\label{definitions-with-arguments-positional-tooltip}
+Positional parameters are specified in order, without names.
+
+{{ Variadic }}
+
+\phantomsection\label{definitions-with-arguments-variadic-tooltip}
+Variadic parameters can be specified multiple times.
+
+The arguments to apply to the function.
+
+\subsubsection{\texorpdfstring{\texttt{\ where\ }}{ where }}\label{definitions-where}
+
+Returns a selector that filters for elements belonging to this function
+whose fields have the values of the given arguments.
+
+self { . } { where } (
+
+{ \hyperref[definitions-where-parameters-fields]{..} { any } }
+
+) -\textgreater{} \href{/docs/reference/foundations/selector/}{selector}
+
+\begin{verbatim}
+#show heading.where(level: 2): set text(blue)
+= Section
+== Subsection
+=== Sub-subsection
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/VOR4DpWIitR8ukDkDB2RigAAAAAAAAAA.png}
+
+\paragraph{\texorpdfstring{\texttt{\ fields\ }}{ fields }}\label{definitions-where-fields}
+
+{ any }
+
+{Required} {{ Positional }}
+
+\phantomsection\label{definitions-where-fields-positional-tooltip}
+Positional parameters are specified in order, without names.
+
+{{ Variadic }}
+
+\phantomsection\label{definitions-where-fields-variadic-tooltip}
+Variadic parameters can be specified multiple times.
+
+The fields to filter for.
+
+\href{/docs/reference/foundations/float/}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-arrow-right.svg}}}
+
+{ Float } { Previous page }
+
+\href{/docs/reference/foundations/int/}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-arrow-right.svg}}}
+
+{ Integer } { Next page }

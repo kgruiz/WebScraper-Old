@@ -1,0 +1,227 @@
+\title{typst.app/docs/reference/math}
+
+\begin{itemize}
+\tightlist
+\item
+  \href{/docs}{\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-docs-dark.svg}}
+\item
+  \includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-arrow-right.svg}
+\item
+  \href{/docs/reference/}{Reference}
+\item
+  \includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-arrow-right.svg}
+\item
+  \href{/docs/reference/math/}{Math}
+\end{itemize}
+
+\section{Math}\label{summary}
+
+Typst has special \href{/docs/reference/syntax/\#math}{syntax} and
+library functions to typeset mathematical formulas. Math formulas can be
+displayed inline with text or as separate blocks. They will be typeset
+into their own block if they start and end with at least one space (e.g.
+\texttt{\ }{\texttt{\ \$\ }}\texttt{\ x\ }{\texttt{\ \^{}\ }}\texttt{\ 2\ }{\texttt{\ \$\ }}\texttt{\ }
+).
+
+\subsection{Variables}\label{variables}
+
+In math, single letters are always displayed as is. Multiple letters,
+however, are interpreted as variables and functions. To display multiple
+letters verbatim, you can place them into quotes and to access single
+letter variables, you can use the
+\href{/docs/reference/scripting/\#expressions}{hash syntax} .
+
+\begin{verbatim}
+$ A = pi r^2 $
+$ "area" = pi dot "radius"^2 $
+$ cal(A) :=
+    { x in RR | x "is natural" } $
+#let x = 5
+$ #x < 17 $
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/hSTnanxnhN2cMLti2SpIlwAAAAAAAAAA.png}
+
+\subsection{Symbols}\label{symbols}
+
+Math mode makes a wide selection of
+\href{/docs/reference/symbols/sym/}{symbols} like \texttt{\ pi\ } ,
+\texttt{\ dot\ } , or \texttt{\ RR\ } available. Many mathematical
+symbols are available in different variants. You can select between
+different variants by applying
+\href{/docs/reference/symbols/symbol/}{modifiers} to the symbol. Typst
+further recognizes a number of shorthand sequences like
+\texttt{\ =\textgreater{}\ } that approximate a symbol. When such a
+shorthand exists, the symbol\textquotesingle s documentation lists it.
+
+\begin{verbatim}
+$ x < y => x gt.eq.not y $
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/3QjDlBq8e4sckxD76_cbbgAAAAAAAAAA.png}
+
+\subsection{Line Breaks}\label{line-breaks}
+
+Formulas can also contain line breaks. Each line can contain one or
+multiple \emph{alignment points} ( \texttt{\ \&\ } ) which are then
+aligned.
+
+\begin{verbatim}
+$ sum_(k=0)^n k
+    &= 1 + ... + n \
+    &= (n(n+1)) / 2 $
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/4Y4RfouYZm3Jgju-7W3SZAAAAAAAAAAA.png}
+
+\subsection{Function calls}\label{function-calls}
+
+Math mode supports special function calls without the hash prefix. In
+these "math calls", the argument list works a little differently than in
+code:
+
+\begin{itemize}
+\tightlist
+\item
+  Within them, Typst is still in "math mode". Thus, you can write math
+  directly into them, but need to use hash syntax to pass code
+  expressions (except for strings, which are available in the math
+  syntax).
+\item
+  They support positional and named arguments, but don\textquotesingle t
+  support trailing content blocks and argument spreading.
+\item
+  They provide additional syntax for 2-dimensional argument lists. The
+  semicolon ( \texttt{\ ;\ } ) merges preceding arguments separated by
+  commas into an array argument.
+\end{itemize}
+
+\begin{verbatim}
+$ frac(a^2, 2) $
+$ vec(1, 2, delim: "[") $
+$ mat(1, 2; 3, 4) $
+$ lim_x =
+    op("lim", limits: #true)_x $
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/gWTBh8i7ZWskmajIpEpUWQAAAAAAAAAA.png}
+
+To write a verbatim comma or semicolon in a math call, escape it with a
+backslash. The colon on the other hand is only recognized in a special
+way if directly preceded by an identifier, so to display it verbatim in
+those cases, you can just insert a space before it.
+
+Functions calls preceded by a hash are normal code function calls and
+not affected by these rules.
+
+\subsection{Alignment}\label{alignment}
+
+When equations include multiple \emph{alignment points} (
+\texttt{\ \&\ } ), this creates blocks of alternatingly right- and
+left-aligned columns. In the example below, the expression
+\texttt{\ (3x\ +\ y)\ /\ 7\ } is right-aligned and \texttt{\ =\ 9\ } is
+left-aligned. The word "given" is also left-aligned because
+\texttt{\ \&\&\ } creates two alignment points in a row, alternating the
+alignment twice. \texttt{\ \&\ \&\ } and \texttt{\ \&\&\ } behave
+exactly the same way. Meanwhile, "multiply by 7" is right-aligned
+because just one \texttt{\ \&\ } precedes it. Each alignment point
+simply alternates between right-aligned/left-aligned.
+
+\begin{verbatim}
+$ (3x + y) / 7 &= 9 && "given" \
+  3x + y &= 63 & "multiply by 7" \
+  3x &= 63 - y && "subtract y" \
+  x &= 21 - y/3 & "divide by 3" $
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/8SM9qVyRZ_Elks_C9882dAAAAAAAAAAA.png}
+
+\subsection{Math fonts}\label{math-fonts}
+
+You can set the math font by with a
+\href{/docs/reference/styling/\#show-rules}{show-set rule} as
+demonstrated below. Note that only special OpenType math fonts are
+suitable for typesetting maths.
+
+\begin{verbatim}
+#show math.equation: set text(font: "Fira Math")
+$ sum_(i in NN) 1 + i $
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/qG9Xcf2X5Ju0E76URIxfZgAAAAAAAAAA.png}
+
+\subsection{Math module}\label{math-module}
+
+All math functions are part of the \texttt{\ math\ }
+\href{/docs/reference/scripting/\#modules}{module} , which is available
+by default in equations. Outside of equations, they can be accessed with
+the \texttt{\ math.\ } prefix.
+
+\subsection{Definitions}\label{definitions}
+
+\begin{itemize}
+\tightlist
+\item
+  \href{/docs/reference/math/accent/}{\texttt{\ accent\ }} { Attaches an
+  accent to a base. }
+\item
+  \href{/docs/reference/math/attach}{attach} { Subscript, superscripts,
+  and limits. }
+\item
+  \href{/docs/reference/math/binom/}{\texttt{\ binom\ }} { A binomial
+  expression. }
+\item
+  \href{/docs/reference/math/cancel/}{\texttt{\ cancel\ }} { Displays a
+  diagonal line over a part of an equation. }
+\item
+  \href{/docs/reference/math/cases/}{\texttt{\ cases\ }} { A case
+  distinction. }
+\item
+  \href{/docs/reference/math/class/}{\texttt{\ class\ }} { Forced use of
+  a certain math class. }
+\item
+  \href{/docs/reference/math/equation/}{\texttt{\ equation\ }} { A
+  mathematical equation. }
+\item
+  \href{/docs/reference/math/frac/}{\texttt{\ frac\ }} { A mathematical
+  fraction. }
+\item
+  \href{/docs/reference/math/lr}{lr} { Delimiter matching. }
+\item
+  \href{/docs/reference/math/mat/}{\texttt{\ mat\ }} { A matrix. }
+\item
+  \href{/docs/reference/math/op/}{\texttt{\ op\ }} { A text operator in
+  an equation. }
+\item
+  \href{/docs/reference/math/primes/}{\texttt{\ primes\ }} { Grouped
+  primes. }
+\item
+  \href{/docs/reference/math/roots}{roots} { Square and non-square
+  roots. }
+\item
+  \href{/docs/reference/math/sizes}{sizes} { Forced size styles for
+  expressions within formulas. }
+\item
+  \href{/docs/reference/math/stretch/}{\texttt{\ stretch\ }} { Stretches
+  a glyph. }
+\item
+  \href{/docs/reference/math/styles}{styles} { Alternate letterforms
+  within formulas. }
+\item
+  \href{/docs/reference/math/underover}{underover} { Delimiters above or
+  below parts of an equation. }
+\item
+  \href{/docs/reference/math/variants}{variants} { Alternate typefaces
+  within formulas. }
+\item
+  \href{/docs/reference/math/vec/}{\texttt{\ vec\ }} { A column vector.
+  }
+\end{itemize}
+
+\href{/docs/reference/text/upper/}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-arrow-right.svg}}}
+
+{ Uppercase } { Previous page }
+
+\href{/docs/reference/math/accent/}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-arrow-right.svg}}}
+
+{ Accent } { Next page }

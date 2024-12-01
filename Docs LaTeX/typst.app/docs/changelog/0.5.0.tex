@@ -1,0 +1,256 @@
+\title{typst.app/docs/changelog/0.5.0}
+
+\begin{itemize}
+\tightlist
+\item
+  \href{/docs}{\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-docs-dark.svg}}
+\item
+  \includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-arrow-right.svg}
+\item
+  \href{/docs/changelog/}{Changelog}
+\item
+  \includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-arrow-right.svg}
+\item
+  \href{/docs/changelog/0.5.0/}{0.5.0}
+\end{itemize}
+
+\section{Version 0.5.0 (June 9, 2023)}\label{version-0.5.0-june-9-2023}
+
+\subsection{Text and Layout}\label{text-and-layout}
+
+\begin{itemize}
+\tightlist
+\item
+  Added \href{/docs/reference/text/raw/}{\texttt{\ raw\ }} syntax
+  highlighting for many more languages
+\item
+  Added support for Korean
+  \href{/docs/reference/model/numbering/}{numbering}
+\item
+  Added basic i18n for a few more languages (NL, SV, DA)
+\item
+  Improved line breaking for East Asian languages
+\item
+  Expanded functionality of outline
+  \href{/docs/reference/model/outline/\#parameters-indent}{\texttt{\ indent\ }}
+  property
+\item
+  Fixed footnotes in columns
+\item
+  Fixed page breaking bugs with
+  \href{/docs/reference/model/footnote/}{footnotes}
+\item
+  Fixed bug with handling of footnotes in lists, tables, and figures
+\item
+  Fixed a bug with CJK punctuation adjustment
+\item
+  Fixed a crash with rounded rectangles
+\item
+  Fixed alignment of
+  \href{/docs/reference/visualize/line/}{\texttt{\ line\ }} elements
+\end{itemize}
+
+\subsection{Math}\label{math}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Breaking change:} The syntax rules for mathematical
+  \href{/docs/reference/math/attach/\#functions-attach}{attachments}
+  were improved:
+  \texttt{\ }{\texttt{\ \$\ }}\texttt{\ f\ }{\texttt{\ \^{}\ }}\texttt{\ }{\texttt{\ abs\ }}\texttt{\ }{\texttt{\ (\ }}\texttt{\ 3\ }{\texttt{\ )\ }}\texttt{\ }{\texttt{\ \$\ }}\texttt{\ }
+  now parses as
+  \texttt{\ }{\texttt{\ \$\ }}\texttt{\ f\ }{\texttt{\ \^{}\ }}\texttt{\ }{\texttt{\ (\ }}\texttt{\ }{\texttt{\ abs\ }}\texttt{\ }{\texttt{\ (\ }}\texttt{\ 3\ }{\texttt{\ )\ }}\texttt{\ }{\texttt{\ )\ }}\texttt{\ }{\texttt{\ \$\ }}\texttt{\ }
+  instead of
+  \texttt{\ }{\texttt{\ \$\ }}\texttt{\ (f\ }{\texttt{\ \^{}\ }}\texttt{\ }{\texttt{\ abs\ }}\texttt{\ )(3)\ }{\texttt{\ \$\ }}\texttt{\ }
+  . To disambiguate, add a space:
+  \texttt{\ }{\texttt{\ \$\ }}\texttt{\ f\ }{\texttt{\ \^{}\ }}\texttt{\ }{\texttt{\ zeta\ }}\texttt{\ (3)\ }{\texttt{\ \$\ }}\texttt{\ }
+  .
+\item
+  Added \href{/docs/reference/math/sizes/}{forced size} commands for
+  math (e.g.,
+  \href{/docs/reference/math/sizes/\#functions-display}{\texttt{\ display\ }}
+  )
+\item
+  Added
+  \href{/docs/reference/math/equation/\#parameters-supplement}{\texttt{\ supplement\ }}
+  parameter to
+  \href{/docs/reference/math/equation/}{\texttt{\ equation\ }} , used by
+  \href{/docs/reference/model/ref/}{references}
+\item
+  New \href{/docs/reference/symbols/sym/}{symbols} : \texttt{\ bullet\ }
+  , \texttt{\ xor\ } , \texttt{\ slash.big\ } , \texttt{\ sigma.alt\ } ,
+  \texttt{\ tack.r.not\ } , \texttt{\ tack.r.short\ } ,
+  \texttt{\ tack.r.double.not\ }
+\item
+  Fixed a bug with symbols in matrices
+\item
+  Fixed a crash in the
+  \href{/docs/reference/math/attach/\#functions-attach}{\texttt{\ attach\ }}
+  function
+\end{itemize}
+
+\subsection{Scripting}\label{scripting}
+
+\begin{itemize}
+\tightlist
+\item
+  Added new
+  \href{/docs/reference/foundations/datetime/}{\texttt{\ datetime\ }}
+  type and
+  \href{/docs/reference/foundations/datetime/\#definitions-today}{\texttt{\ datetime.today\ }}
+  to retrieve the current date
+\item
+  Added
+  \href{/docs/reference/foundations/str/\#definitions-from-unicode}{\texttt{\ str.from-unicode\ }}
+  and
+  \href{/docs/reference/foundations/str/\#definitions-to-unicode}{\texttt{\ str.to-unicode\ }}
+  functions
+\item
+  Added
+  \href{/docs/reference/foundations/content/\#definitions-fields}{\texttt{\ fields\ }}
+  method on content
+\item
+  Added \texttt{\ base\ } parameter to
+  \href{/docs/reference/foundations/str/}{\texttt{\ str\ }} function
+\item
+  Added
+  \href{/docs/reference/foundations/calc/\#functions-exp}{\texttt{\ calc.exp\ }}
+  and
+  \href{/docs/reference/foundations/calc/\#functions-ln}{\texttt{\ calc.ln\ }}
+\item
+  Improved accuracy of
+  \href{/docs/reference/foundations/calc/\#functions-pow}{\texttt{\ calc.pow\ }}
+  and
+  \href{/docs/reference/foundations/calc/\#functions-log}{\texttt{\ calc.log\ }}
+  for specific bases
+\item
+  Fixed
+  \href{/docs/reference/foundations/dictionary/\#definitions-remove}{removal}
+  order for dictionary
+\item
+  Fixed \texttt{\ .at(default:\ ..)\ } for
+  \href{/docs/reference/foundations/str/\#definitions-at}{strings} and
+  \href{/docs/reference/foundations/content/\#definitions-at}{content}
+\item
+  Fixed field access on styled elements
+\item
+  Removed deprecated \texttt{\ calc.mod\ } function
+\end{itemize}
+
+\subsection{Command line interface}\label{command-line-interface}
+
+\begin{itemize}
+\tightlist
+\item
+  Added PNG export via
+  \texttt{\ typst\ compile\ source.typ\ output-\{n\}.png\ } . The output
+  path must contain \texttt{\ \{n\}\ } if the document has multiple
+  pages.
+\item
+  Added \texttt{\ -\/-diagnostic-format=short\ } for Unix-style short
+  diagnostics
+\item
+  Doesn\textquotesingle t emit color codes anymore if stderr
+  isn\textquotesingle t a TTY
+\item
+  Now sets the correct exit when invoked with a nonexistent file
+\item
+  Now ignores UTF-8 BOM in Typst files
+\end{itemize}
+
+\subsection{Miscellaneous
+Improvements}\label{miscellaneous-improvements}
+
+\begin{itemize}
+\tightlist
+\item
+  Improved errors for mismatched delimiters
+\item
+  Improved error message for failed length comparisons
+\item
+  Fixed a bug with images not showing up in Apple Preview
+\item
+  Fixed multiple bugs with the PDF outline
+\item
+  Fixed citations and other searchable elements in
+  \href{/docs/reference/layout/hide/}{\texttt{\ hide\ }}
+\item
+  Fixed bugs with
+  \href{/docs/reference/model/ref/\#parameters-supplement}{reference
+  supplements}
+\item
+  Fixed Nix flake
+\end{itemize}
+
+\subsection{Contributors}\label{contributors}
+
+Thanks to everyone who contributed to this release!
+
+\begin{itemize}
+\tightlist
+\item
+  \href{https://github.com/EpicEricEE}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/7191192?s=64&v=4}}
+\item
+  \href{https://github.com/LaurenzV}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/47084093?s=64&v=4}}
+\item
+  \href{https://github.com/PgBiel}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/9021226?s=64&v=4}}
+\item
+  \href{https://github.com/SUPERCILEX}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/9490724?s=64&v=4}}
+\item
+  \href{https://github.com/figsoda}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/40620903?s=64&v=4}}
+\item
+  \href{https://github.com/lynn}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/16232127?s=64&v=4}}
+\item
+  \href{https://github.com/peng1999}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/12483662?s=64&v=4}}
+\item
+  \href{https://github.com/sandalbanditten}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/45170745?s=64&v=4}}
+\item
+  \href{https://github.com/BasixKOR}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/7413880?s=64&v=4}}
+\item
+  \href{https://github.com/JettChenT}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/45888395?s=64&v=4}}
+\item
+  \href{https://github.com/Leedehai}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/18319900?s=64&v=4}}
+\item
+  \href{https://github.com/MDLC01}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/57839069?s=64&v=4}}
+\item
+  \href{https://github.com/StrangeGirlMurph}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/62220780?s=64&v=4}}
+\item
+  \href{https://github.com/alixmacdonald10}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/52908801?s=64&v=4}}
+\item
+  \href{https://github.com/coughmedicine}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/72562074?s=64&v=4}}
+\item
+  \href{https://github.com/epbuennig}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/103939966?s=64&v=4}}
+\item
+  \href{https://github.com/erikwastaken}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/46598911?s=64&v=4}}
+\item
+  \href{https://github.com/glocq}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/16959183?s=64&v=4}}
+\item
+  \href{https://github.com/howjmay}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/13924801?s=64&v=4}}
+\item
+  \href{https://github.com/jassler}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/24298790?s=64&v=4}}
+\item
+  \href{https://github.com/lino-levan}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/11367844?s=64&v=4}}
+\item
+  \href{https://github.com/lucifer1004}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/13583761?s=64&v=4}}
+\item
+  \href{https://github.com/matthiasGmayer}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/28257008?s=64&v=4}}
+\item
+  \href{https://github.com/naim94a}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/227396?s=64&v=4}}
+\item
+  \href{https://github.com/ollema}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/31876997?s=64&v=4}}
+\item
+  \href{https://github.com/sbatial}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/46973479?s=64&v=4}}
+\item
+  \href{https://github.com/sitandr}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/60141933?s=64&v=4}}
+\item
+  \href{https://github.com/xiongmao86}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/1770218?s=64&v=4}}
+\end{itemize}
+
+\href{/docs/changelog/0.6.0/}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-arrow-right.svg}}}
+
+{ 0.6.0 } { Previous page }
+
+\href{/docs/changelog/0.4.0/}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-arrow-right.svg}}}
+
+{ 0.4.0 } { Next page }

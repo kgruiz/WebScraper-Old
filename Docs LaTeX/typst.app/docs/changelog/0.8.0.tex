@@ -1,0 +1,395 @@
+\title{typst.app/docs/changelog/0.8.0}
+
+\begin{itemize}
+\tightlist
+\item
+  \href{/docs}{\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-docs-dark.svg}}
+\item
+  \includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-arrow-right.svg}
+\item
+  \href{/docs/changelog/}{Changelog}
+\item
+  \includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-arrow-right.svg}
+\item
+  \href{/docs/changelog/0.8.0/}{0.8.0}
+\end{itemize}
+
+\section{Version 0.8.0 (September 13,
+2023)}\label{version-0.8.0-september-13-2023}
+
+\subsection{Scripting}\label{scripting}
+
+\begin{itemize}
+\tightlist
+\item
+  Plugins (thanks to
+  \href{https://github.com/astrale-sharp}{@astrale-sharp} and
+  \href{https://github.com/arnaudgolfouse}{@arnaudgolfouse} )
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Typst can now load
+    \href{/docs/reference/foundations/plugin/}{plugins} that are
+    compiled to WebAssembly
+  \item
+    Anything that can be compiled to WebAssembly can thus be loaded as a
+    plugin
+  \item
+    These plugins are fully encapsulated (no access to file system or
+    network)
+  \item
+    Plugins can be shipped as part of
+    \href{/docs/reference/scripting/\#packages}{packages}
+  \item
+    Plugins work just the same in the web app
+  \end{itemize}
+\item
+  Types are now first-class values \textbf{(Breaking change)}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    A \href{/docs/reference/foundations/type/}{type} is now itself a
+    value
+  \item
+    Some types can be called like functions (those that have a
+    constructor), e.g.
+    \href{/docs/reference/foundations/int/}{\texttt{\ int\ }} and
+    \href{/docs/reference/foundations/str/}{\texttt{\ str\ }}
+  \item
+    Type checks are now of the form
+    \texttt{\ }{\texttt{\ type\ }}\texttt{\ }{\texttt{\ (\ }}\texttt{\ }{\texttt{\ 10\ }}\texttt{\ }{\texttt{\ )\ }}\texttt{\ }{\texttt{\ ==\ }}\texttt{\ int\ }
+    instead of the old
+    \texttt{\ }{\texttt{\ type\ }}\texttt{\ }{\texttt{\ (\ }}\texttt{\ }{\texttt{\ 10\ }}\texttt{\ }{\texttt{\ )\ }}\texttt{\ }{\texttt{\ ==\ }}\texttt{\ }{\texttt{\ "integer"\ }}\texttt{\ }
+    .
+    \href{/docs/reference/foundations/type/\#compatibility}{Compatibility}
+    with the old way will remain for a while to give package authors
+    time to upgrade, but it will be removed at some point.
+  \item
+    Methods are now syntax sugar for calling a function scoped to a
+    type, meaning that
+    \texttt{\ }{\texttt{\ "hello"\ }}\texttt{\ }{\texttt{\ .\ }}\texttt{\ }{\texttt{\ len\ }}\texttt{\ }{\texttt{\ (\ }}\texttt{\ }{\texttt{\ )\ }}\texttt{\ }
+    is equivalent to
+    \texttt{\ str\ }{\texttt{\ .\ }}\texttt{\ }{\texttt{\ len\ }}\texttt{\ }{\texttt{\ (\ }}\texttt{\ }{\texttt{\ "hello"\ }}\texttt{\ }{\texttt{\ )\ }}\texttt{\ }
+  \end{itemize}
+\item
+  Added support for
+  \href{/docs/reference/scripting/\#modules}{\texttt{\ import\ }}
+  renaming with \texttt{\ as\ }
+\item
+  Added a
+  \href{/docs/reference/foundations/duration/}{\texttt{\ duration\ }}
+  type
+\item
+  Added support for \href{/docs/reference/data-loading/cbor/}{CBOR}
+  encoding and decoding
+\item
+  Added encoding and decoding functions from and to bytes for data
+  formats:
+  \href{/docs/reference/data-loading/json/\#definitions-decode}{\texttt{\ json.decode\ }}
+  ,
+  \href{/docs/reference/data-loading/json/\#definitions-encode}{\texttt{\ json.encode\ }}
+  , and similar functions for other formats
+\item
+  Added
+  \href{/docs/reference/foundations/array/\#definitions-intersperse}{\texttt{\ array.intersperse\ }}
+  function
+\item
+  Added
+  \href{/docs/reference/foundations/str/\#definitions-rev}{\texttt{\ str.rev\ }}
+  function
+\item
+  Added \texttt{\ calc.tau\ } constant
+\item
+  Made \href{/docs/reference/foundations/bytes/}{bytes} joinable and
+  addable
+\item
+  Made
+  \href{/docs/reference/foundations/array/\#definitions-zip}{\texttt{\ array.zip\ }}
+  function variadic
+\item
+  Fixed bug with
+  \href{/docs/reference/foundations/eval/}{\texttt{\ eval\ }} when the
+  \texttt{\ mode\ } was set to
+  \texttt{\ }{\texttt{\ "math"\ }}\texttt{\ }
+\item
+  Fixed bug with
+  \href{/docs/reference/foundations/str/\#definitions-ends-with}{\texttt{\ ends-with\ }}
+  function on strings
+\item
+  Fixed bug with destructuring in combination with break, continue, and
+  return
+\item
+  Fixed argument types of
+  \href{/docs/reference/foundations/calc/\#functions-cosh}{hyperbolic
+  functions} , they don\textquotesingle t allow angles anymore
+  \textbf{(Breaking change)}
+\item
+  Renamed some color methods: \texttt{\ rgba\ } becomes
+  \texttt{\ to-rgba\ } , \texttt{\ cmyk\ } becomes \texttt{\ to-cmyk\ }
+  , and \texttt{\ luma\ } becomes \texttt{\ to-luma\ } \textbf{(Breaking
+  change)}
+\end{itemize}
+
+\subsection{Export}\label{export}
+
+\begin{itemize}
+\tightlist
+\item
+  Added SVG export (thanks to
+  \href{https://github.com/Enter-tainer}{@Enter-tainer} )
+\item
+  Fixed bugs with PDF font embedding
+\item
+  Added support for page labels that reflect the
+  \href{/docs/reference/layout/page/\#parameters-numbering}{page
+  numbering} style in the PDF
+\end{itemize}
+
+\subsection{Text and Layout}\label{text-and-layout}
+
+\begin{itemize}
+\tightlist
+\item
+  Added \href{/docs/reference/text/highlight/}{\texttt{\ highlight\ }}
+  function for highlighting text with a background color
+\item
+  Added
+  \href{/docs/reference/visualize/polygon/\#definitions-regular}{\texttt{\ polygon.regular\ }}
+  function for drawing a regular polygon
+\item
+  Added support for tabs in
+  \href{/docs/reference/text/raw/}{\texttt{\ raw\ }} elements alongside
+  \href{/docs/reference/text/raw/\#parameters-tab-size}{\texttt{\ tab-width\ }}
+  parameter
+\item
+  The layout engine now tries to prevent "runts" (final lines consisting
+  of just a single word)
+\item
+  Added Finnish translations
+\item
+  Added hyphenation support for Polish
+\item
+  Improved handling of consecutive smart quotes of different kinds
+\item
+  Fixed vertical alignments for
+  \href{/docs/reference/layout/page/\#parameters-number-align}{\texttt{\ number-align\ }}
+  argument on page function \textbf{(Breaking change)}
+\item
+  Fixed weak pagebreaks after counter updates
+\item
+  Fixed missing text in SVG when the text font is set to "New Computer
+  Modern"
+\item
+  Fixed translations for Chinese
+\item
+  Fixed crash for empty text in show rule
+\item
+  Fixed leading spaces when there\textquotesingle s a linebreak after a
+  number and a comma
+\item
+  Fixed placement of floating elements in columns and other containers
+\item
+  Fixed sizing of block containing just a single box
+\end{itemize}
+
+\subsection{Math}\label{math}
+
+\begin{itemize}
+\tightlist
+\item
+  Added support for
+  \href{/docs/reference/math/mat/\#parameters-augment}{augmented
+  matrices}
+\item
+  Removed support for automatic matching of fences like
+  \texttt{\ \textbar{}\ } and \texttt{\ \textbar{}\textbar{}\ } as there
+  were too many false positives. You can use functions like
+  \href{/docs/reference/math/lr/\#functions-abs}{\texttt{\ abs\ }} or
+  \href{/docs/reference/math/lr/\#functions-norm}{\texttt{\ norm\ }} or
+  an explicit
+  \href{/docs/reference/math/lr/\#functions-lr}{\texttt{\ lr\ }} call
+  instead. \textbf{(Breaking change)}
+\item
+  Fixed spacing after number with decimal point in math
+\item
+  Fixed bug with primes in subscript
+\item
+  Fixed weak spacing
+\item
+  Fixed crash when text within math contains a newline
+\end{itemize}
+
+\subsection{Tooling and Diagnostics}\label{tooling-and-diagnostics}
+
+\begin{itemize}
+\tightlist
+\item
+  Added hints when trying to call a function stored in a dictionary
+  without extra parentheses
+\item
+  Fixed hint when referencing an equation without numbering
+\item
+  Added more details to some diagnostics (e.g. when SVG decoding fails)
+\end{itemize}
+
+\subsection{Command line interface}\label{command-line-interface}
+
+\begin{itemize}
+\tightlist
+\item
+  Added \texttt{\ typst\ update\ } command for self-updating the CLI
+  (thanks to \href{https://github.com/jimvdl}{@jimvdl} )
+\item
+  Added download progress indicator for packages and updates
+\item
+  Added \texttt{\ -\/-format\ } argument to explicitly specify the
+  output format
+\item
+  The CLI now respects proxy configuration through environment variables
+  and has a new \texttt{\ -\/-cert\ } option for setting a custom CA
+  certificate
+\item
+  Fixed crash when field wasn\textquotesingle t present and
+  \texttt{\ -\/-one\ } is passed to \texttt{\ typst\ query\ }
+\end{itemize}
+
+\subsection{Miscellaneous
+Improvements}\label{miscellaneous-improvements}
+
+\begin{itemize}
+\tightlist
+\item
+  Added \href{/docs/guides/page-setup-guide/}{page setup guide}
+\item
+  Added
+  \href{/docs/reference/model/figure/\#definitions-caption}{\texttt{\ figure.caption\ }}
+  function that can be used for simpler figure customization (
+  \textbf{Breaking change} because \texttt{\ it.caption\ } now renders
+  the full caption with supplement in figure show rules and manual
+  outlines)
+\item
+  Moved \texttt{\ caption-pos\ } argument to \texttt{\ figure.caption\ }
+  function and renamed it to \texttt{\ position\ } \textbf{(Breaking
+  change)}
+\item
+  Added
+  \href{/docs/reference/model/figure/\#definitions-caption-separator}{\texttt{\ separator\ }}
+  argument to \texttt{\ figure.caption\ } function
+\item
+  Added support for combination of and/or and before/after
+  \href{/docs/reference/foundations/selector/}{selectors}
+\item
+  Packages can now specify a
+  \href{https://github.com/typst/packages\#package-format}{minimum
+  compiler version} they require to work
+\item
+  Fixed parser bug where method calls could be moved onto their own line
+  for
+  \texttt{\ }{\texttt{\ \#\ }}\texttt{\ }{\texttt{\ let\ }}\texttt{\ }
+  expressions in markup \textbf{(Breaking change)}
+\item
+  Fixed bugs in sentence and title case conversion for bibliographies
+\item
+  Fixed supplements for alphanumeric and author-title bibliography
+  styles
+\item
+  Fixed off-by-one error in APA bibliography style
+\end{itemize}
+
+\subsection{Development}\label{development}
+
+\begin{itemize}
+\tightlist
+\item
+  Made \texttt{\ Span\ } and \texttt{\ FileId\ } more type-safe so that
+  all error conditions must be handled by \texttt{\ World\ }
+  implementors
+\end{itemize}
+
+\subsection{Contributors}\label{contributors}
+
+Thanks to everyone who contributed to this release!
+
+\begin{itemize}
+\tightlist
+\item
+  \href{https://github.com/Beiri22}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/8210233?s=64&v=4}}
+\item
+  \href{https://github.com/bluebear94}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/2975203?s=64&v=4}}
+\item
+  \href{https://github.com/jimvdl}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/26407533?s=64&v=4}}
+\item
+  \href{https://github.com/LuxxxLucy}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/19356905?s=64&v=4}}
+\item
+  \href{https://github.com/mattfbacon}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/58113890?s=64&v=4}}
+\item
+  \href{https://github.com/sitandr}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/60141933?s=64&v=4}}
+\item
+  \href{https://github.com/xkevio}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/13004777?s=64&v=4}}
+\item
+  \href{https://github.com/Dherse}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/9665250?s=64&v=4}}
+\item
+  \href{https://github.com/Enter-tainer}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/25521218?s=64&v=4}}
+\item
+  \href{https://github.com/SimonRask}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/33556894?s=64&v=4}}
+\item
+  \href{https://github.com/Andrew15-5}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/37143421?s=64&v=4}}
+\item
+  \href{https://github.com/KillTheMule}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/4117685?s=64&v=4}}
+\item
+  \href{https://github.com/LaurenzV}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/47084093?s=64&v=4}}
+\item
+  \href{https://github.com/MDLC01}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/57839069?s=64&v=4}}
+\item
+  \href{https://github.com/NeillJohnston}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/16545367?s=64&v=4}}
+\item
+  \href{https://github.com/PgBiel}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/9021226?s=64&v=4}}
+\item
+  \href{https://github.com/SillyFreak}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/1029192?s=64&v=4}}
+\item
+  \href{https://github.com/abramchikd}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/32370126?s=64&v=4}}
+\item
+  \href{https://github.com/antonWetzel}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/59712243?s=64&v=4}}
+\item
+  \href{https://github.com/arj0019}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/92353079?s=64&v=4}}
+\item
+  \href{https://github.com/astrale-sharp}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/53686698?s=64&v=4}}
+\item
+  \href{https://github.com/damaxwell}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/918465?s=64&v=4}}
+\item
+  \href{https://github.com/dikkadev}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/64754924?s=64&v=4}}
+\item
+  \href{https://github.com/frozolotl}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/44589151?s=64&v=4}}
+\item
+  \href{https://github.com/kiviktnm}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/65563192?s=64&v=4}}
+\item
+  \href{https://github.com/klMse}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/61806749?s=64&v=4}}
+\item
+  \href{https://github.com/lolstork}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/137357423?s=64&v=4}}
+\item
+  \href{https://github.com/lukas-loering}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/52287649?s=64&v=4}}
+\item
+  \href{https://github.com/owiecc}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/6896639?s=64&v=4}}
+\item
+  \href{https://github.com/pavelzw}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/29506042?s=64&v=4}}
+\item
+  \href{https://github.com/raphCode}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/15750438?s=64&v=4}}
+\item
+  \href{https://github.com/sudormrfbin}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/23398472?s=64&v=4}}
+\item
+  \href{https://github.com/t-rapp}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/20061583?s=64&v=4}}
+\item
+  \href{https://github.com/zicklag}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/25393315?s=64&v=4}}
+\item
+  \href{https://github.com/zyoshoka}{\includegraphics[width=0.66667in,height=0.66667in]{https://avatars.githubusercontent.com/u/107108195?s=64&v=4}}
+\end{itemize}
+
+\href{/docs/changelog/0.9.0/}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-arrow-right.svg}}}
+
+{ 0.9.0 } { Previous page }
+
+\href{/docs/changelog/0.7.0/}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-arrow-right.svg}}}
+
+{ 0.7.0 } { Next page }

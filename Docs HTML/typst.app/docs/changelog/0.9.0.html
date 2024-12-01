@@ -1,0 +1,1137 @@
+<main>
+    <ul aria-label="Breadcrumbs" class="breadcrumbs">
+     <li class="root">
+      <a href="/docs">
+       <img alt="Docs" height="16" src="/assets/icons/16-docs-dark.svg" width="16"/>
+      </a>
+     </li>
+     <li aria-hidden="true">
+      <img alt="" height="16" src="/assets/icons/16-arrow-right.svg" width="16"/>
+     </li>
+     <li>
+      <a href="/docs/changelog/">
+       Changelog
+      </a>
+     </li>
+     <li aria-hidden="true">
+      <img alt="" height="16" src="/assets/icons/16-arrow-right.svg" width="16"/>
+     </li>
+     <li>
+      <a href="/docs/changelog/0.9.0/">
+       0.9.0
+      </a>
+     </li>
+    </ul>
+    <h1>
+     Version 0.9.0 (October 31, 2023)
+    </h1>
+    <h2 id="bibliography-management">
+     Bibliography management
+    </h2>
+    <ul>
+     <li>
+      New bibliography engine based on
+      <a href="https://citationstyles.org/">
+       CSL
+      </a>
+      (Citation Style Language). Ships with about 100 commonly used citation styles and can load custom
+      <code>
+       .csl
+      </code>
+      files.
+     </li>
+     <li>
+      Added new
+      <a href="/docs/reference/model/cite/#parameters-form">
+       <code>
+        form
+       </code>
+      </a>
+      argument to the
+      <code>
+       cite
+      </code>
+      function to produce different forms of citations (e.g. for producing a citation suitable for inclusion in prose)
+     </li>
+     <li>
+      The
+      <a href="/docs/reference/model/cite/" title="`cite`">
+       <code>
+        cite
+       </code>
+      </a>
+      function now takes only a single label/key instead of allowing multiple. Adjacent citations are merged and formatted according to the citation style's rules automatically. This works both with the reference syntax and explicit calls to the
+      <code>
+       cite
+      </code>
+      function.
+      <strong>
+       (Breaking change)
+      </strong>
+     </li>
+     <li>
+      The
+      <code>
+       cite
+      </code>
+      function now takes a
+      <a href="/docs/reference/foundations/label/" title="label">
+       label
+      </a>
+      instead of a string
+      <strong>
+       (Breaking change)
+      </strong>
+     </li>
+     <li>
+      Added
+      <a href="/docs/reference/model/bibliography/#parameters-full">
+       <code>
+        full
+       </code>
+      </a>
+      argument to bibliography function to print the full bibliography even if not all works were cited
+     </li>
+     <li>
+      Bibliography entries can now contain Typst equations (wrapped in
+      <code>
+       <span class="typ-math-delim">
+        $
+       </span>
+       ..
+       <span class="typ-math-delim">
+        $
+       </span>
+      </code>
+      just like in markup), this works both for
+      <code>
+       .yml
+      </code>
+      and
+      <code>
+       .bib
+      </code>
+      bibliographies
+     </li>
+     <li>
+      The hayagriva YAML format was improved. See its
+      <a href="https://github.com/typst/hayagriva/blob/main/CHANGELOG.md">
+       changelog
+      </a>
+      for more details.
+      <strong>
+       (Breaking change)
+      </strong>
+     </li>
+     <li>
+      A few bugs with
+      <code>
+       .bib
+      </code>
+      file parsing were fixed
+     </li>
+     <li>
+      Removed
+      <code>
+       brackets
+      </code>
+      argument of
+      <code>
+       cite
+      </code>
+      function in favor of
+      <code>
+       form
+      </code>
+     </li>
+    </ul>
+    <h2 id="visualization">
+     Visualization
+    </h2>
+    <ul>
+     <li>
+      Gradients and colors (thanks to
+      <a href="https://github.com/Dherse">
+       @Dherse
+      </a>
+      )
+      <ul>
+       <li>
+        Added support for
+        <a href="/docs/reference/visualize/gradient/">
+         gradients
+        </a>
+        on shapes and text
+       </li>
+       <li>
+        Supports linear, radial, and conic gradients
+       </li>
+       <li>
+        Added support for defining colors in more color spaces, including
+        <a href="/docs/reference/visualize/color/#definitions-oklab">
+         Oklab
+        </a>
+        ,
+        <a href="/docs/reference/visualize/color/#definitions-linear-rgb">
+         Linear RGB(A)
+        </a>
+        ,
+        <a href="/docs/reference/visualize/color/#definitions-hsl">
+         HSL
+        </a>
+        , and
+        <a href="/docs/reference/visualize/color/#definitions-hsv">
+         HSV
+        </a>
+       </li>
+       <li>
+        Added
+        <a href="/docs/reference/visualize/color/#definitions-saturate">
+         <code>
+          saturate
+         </code>
+        </a>
+        ,
+        <a href="/docs/reference/visualize/color/#definitions-desaturate">
+         <code>
+          desaturate
+         </code>
+        </a>
+        , and
+        <a href="/docs/reference/visualize/color/#definitions-rotate">
+         <code>
+          rotate
+         </code>
+        </a>
+        functions on colors
+       </li>
+       <li>
+        Added
+        <a href="/docs/reference/visualize/color/#predefined-color-maps">
+         <code>
+          color.map
+         </code>
+        </a>
+        module with predefined color maps that can be used with gradients
+       </li>
+       <li>
+        Rename
+        <code>
+         kind
+        </code>
+        function on colors to
+        <a href="/docs/reference/visualize/color/#definitions-space">
+         <code>
+          space
+         </code>
+        </a>
+       </li>
+       <li>
+        Removed
+        <code>
+         to-rgba
+        </code>
+        ,
+        <code>
+         to-cmyk
+        </code>
+        , and
+        <code>
+         to-luma
+        </code>
+        functions in favor of a new
+        <a href="/docs/reference/visualize/color/#definitions-components">
+         <code>
+          components
+         </code>
+        </a>
+        function
+       </li>
+      </ul>
+     </li>
+     <li>
+      Improved rendering of
+      <a href="/docs/reference/visualize/rect/">
+       rectangles
+      </a>
+      with corner radius and varying stroke widths
+     </li>
+     <li>
+      Added support for properly clipping
+      <a href="/docs/reference/layout/box/#parameters-clip">
+       boxes
+      </a>
+      and
+      <a href="/docs/reference/layout/block/#parameters-clip">
+       blocks
+      </a>
+      with a border radius
+     </li>
+     <li>
+      Added
+      <code>
+       background
+      </code>
+      parameter to
+      <a href="/docs/reference/text/overline/" title="`overline`">
+       <code>
+        overline
+       </code>
+      </a>
+      ,
+      <a href="/docs/reference/text/underline/" title="`underline`">
+       <code>
+        underline
+       </code>
+      </a>
+      , and
+      <a href="/docs/reference/text/strike/" title="`strike`">
+       <code>
+        strike
+       </code>
+      </a>
+      functions
+     </li>
+     <li>
+      Fixed inaccurate color embedding in PDFs
+     </li>
+     <li>
+      Fixed ICC profile handling for images embedded in PDFs
+     </li>
+    </ul>
+    <h2 id="text-and-layout">
+     Text and Layout
+    </h2>
+    <ul>
+     <li>
+      Added support for automatically adding proper
+      <a href="/docs/reference/text/text/#parameters-cjk-latin-spacing">
+       spacing
+      </a>
+      between CJK and Latin text (enabled by default)
+     </li>
+     <li>
+      Added support for automatic adjustment of more CJK punctuation
+     </li>
+     <li>
+      Added
+      <a href="/docs/reference/model/quote/" title="`quote`">
+       <code>
+        quote
+       </code>
+      </a>
+      element for inserting inline and block quotes with optional attributions
+     </li>
+     <li>
+      Added
+      <a href="/docs/reference/text/raw/#definitions-line">
+       <code>
+        raw.line
+       </code>
+      </a>
+      element for customizing the display of individual lines of raw text, e.g. to add line numbers while keeping proper syntax highlighting
+     </li>
+     <li>
+      Added support for per-side
+      <a href="/docs/reference/model/table/#parameters-inset">
+       inset
+      </a>
+      customization to table function
+     </li>
+     <li>
+      Added Hungarian and Romanian translations
+     </li>
+     <li>
+      Added support for Czech hyphenation
+     </li>
+     <li>
+      Added support for setting custom
+      <a href="/docs/reference/text/smartquote/">
+       smart quotes
+      </a>
+     </li>
+     <li>
+      The default
+      <a href="/docs/reference/model/figure/#definitions-caption-separator">
+       figure separator
+      </a>
+      now reacts to the currently set language and region
+     </li>
+     <li>
+      Improved line breaking of links / URLs (especially helpful for bibliographies with many URLs)
+     </li>
+     <li>
+      Improved handling of consecutive hyphens in justification algorithm
+     </li>
+     <li>
+      Fixed interaction of justification and hanging indent
+     </li>
+     <li>
+      Fixed a bug with line breaking of short lines without spaces when justification is enabled
+     </li>
+     <li>
+      Fixed font fallback for hyphen generated by hyphenation
+     </li>
+     <li>
+      Fixed handling of word joiner and other no-break characters during hyphenation
+     </li>
+     <li>
+      Fixed crash when hyphenating after an empty line
+     </li>
+     <li>
+      Fixed line breaking of composite emoji like ð³ï¸âð
+     </li>
+     <li>
+      Fixed missing text in some SVGs
+     </li>
+     <li>
+      Fixed font fallback in SVGs
+     </li>
+     <li>
+      Fixed behavior of
+      <a href="/docs/reference/layout/pagebreak/#parameters-to">
+       <code>
+        to
+       </code>
+      </a>
+      argument on
+      <code>
+       pagebreak
+      </code>
+      function
+     </li>
+     <li>
+      Fixed
+      <code>
+       <span class="typ-key">
+        set
+       </span>
+       <span class="typ-func">
+        align
+       </span>
+       <span class="typ-punct">
+        (
+       </span>
+       <span class="typ-op">
+        ..
+       </span>
+       <span class="typ-punct">
+        )
+       </span>
+      </code>
+      for equations
+     </li>
+     <li>
+      Fixed spacing around
+      <a href="/docs/reference/layout/place/">
+       placed
+      </a>
+      elements
+     </li>
+     <li>
+      Fixed coalescing of
+      <a href="/docs/reference/layout/block/#parameters-above">
+       <code>
+        above
+       </code>
+      </a>
+      and
+      <a href="/docs/reference/layout/block/#parameters-below">
+       <code>
+        below
+       </code>
+      </a>
+      spacing if given in em units and the font sizes differ
+     </li>
+     <li>
+      Fixed handling of
+      <code>
+       extent
+      </code>
+      parameter of
+      <a href="/docs/reference/text/underline/" title="`underline`">
+       <code>
+        underline
+       </code>
+      </a>
+      ,
+      <a href="/docs/reference/text/overline/" title="`overline`">
+       <code>
+        overline
+       </code>
+      </a>
+      , and
+      <a href="/docs/reference/text/strike/" title="`strike`">
+       <code>
+        strike
+       </code>
+      </a>
+      functions
+     </li>
+     <li>
+      Fixed crash for
+      <a href="/docs/reference/layout/place/#parameters-float">
+       floating placed elements
+      </a>
+      with no specified vertical alignment
+     </li>
+     <li>
+      Partially fixed a bug with citations in footnotes
+     </li>
+    </ul>
+    <h2 id="math">
+     Math
+    </h2>
+    <ul>
+     <li>
+      Added
+      <code>
+       gap
+      </code>
+      argument for
+      <a href="/docs/reference/math/vec/#parameters-gap">
+       <code>
+        vec
+       </code>
+      </a>
+      ,
+      <a href="/docs/reference/math/mat/#parameters-gap">
+       <code>
+        mat
+       </code>
+      </a>
+      , and
+      <a href="/docs/reference/math/cases/#parameters-gap">
+       <code>
+        cases
+       </code>
+      </a>
+      function
+     </li>
+     <li>
+      Added
+      <code>
+       size
+      </code>
+      argument for
+      <a href="/docs/reference/math/lr/#functions-abs">
+       <code>
+        abs
+       </code>
+      </a>
+      ,
+      <a href="/docs/reference/math/lr/#functions-norm">
+       <code>
+        norm
+       </code>
+      </a>
+      ,
+      <a href="/docs/reference/math/lr/#functions-floor">
+       <code>
+        floor
+       </code>
+      </a>
+      ,
+      <a href="/docs/reference/math/lr/#functions-ceil">
+       <code>
+        ceil
+       </code>
+      </a>
+      , and
+      <a href="/docs/reference/math/lr/#functions-round">
+       <code>
+        round
+       </code>
+      </a>
+      functions
+     </li>
+     <li>
+      Added
+      <a href="/docs/reference/math/cases/#parameters-reverse">
+       <code>
+        reverse
+       </code>
+      </a>
+      parameter to cases function
+     </li>
+     <li>
+      Added support for multinomial coefficients to
+      <a href="/docs/reference/math/binom/">
+       <code>
+        binom
+       </code>
+      </a>
+      function
+     </li>
+     <li>
+      Removed
+      <code>
+       rotation
+      </code>
+      argument on
+      <a href="/docs/reference/math/cancel/">
+       <code>
+        cancel
+       </code>
+      </a>
+      function in favor of a new and more flexible
+      <code>
+       angle
+      </code>
+      argument
+      <strong>
+       (Breaking change)
+      </strong>
+     </li>
+     <li>
+      Added
+      <code>
+       wide
+      </code>
+      constant, which inserts twice the spacing of
+      <code>
+       quad
+      </code>
+     </li>
+     <li>
+      Added
+      <code>
+       csch
+      </code>
+      and
+      <code>
+       sech
+      </code>
+      <a href="/docs/reference/math/op/">
+       operators
+      </a>
+     </li>
+     <li>
+      <code>
+       â¼
+      </code>
+      ,
+      <code>
+       â
+      </code>
+      ,
+      <code>
+       â
+      </code>
+      , and
+      <code>
+       â·
+      </code>
+      can now be used as
+      <a href="/docs/reference/math/accent/">
+       accents
+      </a>
+     </li>
+     <li>
+      Added
+      <code>
+       integral.dash
+      </code>
+      ,
+      <code>
+       integral.dash.double
+      </code>
+      , and
+      <code>
+       integral.slash
+      </code>
+      <a href="/docs/reference/symbols/sym/">
+       symbols
+      </a>
+     </li>
+     <li>
+      Added support for specifying negative indices for
+      <a href="/docs/reference/math/mat/#parameters-augment">
+       augmentation
+      </a>
+      lines to position the line from the back
+     </li>
+     <li>
+      Fixed default color of matrix
+      <a href="/docs/reference/math/mat/#parameters-augment">
+       augmentation
+      </a>
+      lines
+     </li>
+     <li>
+      Fixed attachment of primes to inline expressions
+     </li>
+     <li>
+      Math content now respects the text
+      <a href="/docs/reference/text/text/#parameters-baseline">
+       baseline
+      </a>
+      setting
+     </li>
+    </ul>
+    <h2 id="performance">
+     Performance
+    </h2>
+    <ul>
+     <li>
+      Fixed a bug related to show rules in templates which would effectively disable incremental compilation in affected documents
+     </li>
+     <li>
+      Micro-optimized code in several hot paths, which brings substantial performance gains, in particular in incremental compilations
+     </li>
+     <li>
+      Improved incremental parsing, which affects the whole incremental compilation pipeline
+     </li>
+     <li>
+      Added support for incremental parsing in the CLI
+     </li>
+     <li>
+      Added support for incremental SVG encoding during PDF export, which greatly improves export performance for documents with many SVG
+     </li>
+    </ul>
+    <h2 id="tooling-and-diagnostics">
+     Tooling and Diagnostics
+    </h2>
+    <ul>
+     <li>
+      Improved autocompletion for variables that are in-scope
+     </li>
+     <li>
+      Added autocompletion for package imports
+     </li>
+     <li>
+      Added autocompletion for
+      <a href="/docs/reference/foundations/label/">
+       labels
+      </a>
+     </li>
+     <li>
+      Added tooltip that shows which variables a function captures (when hovering over the equals sign or arrow of the function)
+     </li>
+     <li>
+      Diagnostics are now deduplicated
+     </li>
+     <li>
+      Improved diagnostics when trying to apply unary
+      <code>
+       +
+      </code>
+      or
+      <code>
+       -
+      </code>
+      to types that only support binary
+      <code>
+       +
+      </code>
+      and
+      <code>
+       -
+      </code>
+     </li>
+     <li>
+      Error messages now state which label or citation key isn't present in the document or its bibliography
+     </li>
+     <li>
+      Fixed a bug where function argument parsing errors were shadowed by function execution errors (e.g. when trying to call
+      <a href="/docs/reference/foundations/array/#definitions-sorted">
+       <code>
+        array.sorted
+       </code>
+      </a>
+      and passing the key function as a positional argument instead of a named one).
+     </li>
+    </ul>
+    <h2 id="export">
+     Export
+    </h2>
+    <ul>
+     <li>
+      Added support for configuring the document's creation
+      <a href="/docs/reference/model/document/#parameters-date">
+       <code>
+        date
+       </code>
+      </a>
+      . If the
+      <code>
+       date
+      </code>
+      is set to
+      <code>
+       <span class="typ-key">
+        auto
+       </span>
+      </code>
+      (the default), the PDF's creation date will be set to the current date and time.
+     </li>
+     <li>
+      Added support for configuring document
+      <a href="/docs/reference/model/document/#parameters-keywords">
+       <code>
+        keywords
+       </code>
+      </a>
+     </li>
+     <li>
+      Generated PDFs now contain PDF document IDs
+     </li>
+     <li>
+      The PDF creator tool metadata now includes the Typst version
+     </li>
+    </ul>
+    <h2 id="web-app">
+     Web app
+    </h2>
+    <ul>
+     <li>
+      Added version picker to pin a project to an older compiler version (with support for Typst 0.6.0+)
+     </li>
+     <li>
+      Fixed desyncs between editor and compiler and improved overall stability
+     </li>
+     <li>
+      The app now continues to highlight the document when typing while the document is being compiled
+     </li>
+    </ul>
+    <h2 id="command-line-interface">
+     Command line interface
+    </h2>
+    <ul>
+     <li>
+      Added support for discovering fonts through fontconfig
+     </li>
+     <li>
+      Now clears the screen instead of resetting the terminal
+     </li>
+     <li>
+      Now automatically picks correct file extension for selected output format
+     </li>
+     <li>
+      Now only regenerates images for changed pages when using
+      <code>
+       typst watch
+      </code>
+      with PNG or SVG export
+     </li>
+    </ul>
+    <h2 id="miscellaneous-improvements">
+     Miscellaneous Improvements
+    </h2>
+    <ul>
+     <li>
+      Added
+      <a href="/docs/reference/foundations/version/" title="`version`">
+       <code>
+        version
+       </code>
+      </a>
+      type and
+      <code>
+       sys.version
+      </code>
+      constant specifying the current compiler version. Can be used to gracefully support multiple versions.
+     </li>
+     <li>
+      The U+2212 MINUS SIGN is now used when displaying a numeric value, in the
+      <a href="/docs/reference/foundations/repr/" title="`repr`">
+       <code>
+        repr
+       </code>
+      </a>
+      of any numeric value and to replace a normal hyphen in text mode when before a digit. This improves, in particular, how negative integer values are displayed in math mode.
+     </li>
+     <li>
+      Added support for specifying a default value instead of failing for
+      <code>
+       remove
+      </code>
+      function in
+      <a href="/docs/reference/foundations/array/#definitions-remove">
+       array
+      </a>
+      and
+      <a href="/docs/reference/foundations/dictionary/#definitions-remove">
+       dictionary
+      </a>
+     </li>
+     <li>
+      Simplified page setup guide examples
+     </li>
+     <li>
+      Switched the documentation from using the word "hashtag" to the word "hash" where appropriate
+     </li>
+     <li>
+      Added support for
+      <a href="/docs/reference/foundations/array/#definitions-zip">
+       <code>
+        array.zip
+       </code>
+      </a>
+      without any further arguments
+     </li>
+     <li>
+      Fixed crash when a plugin tried to read out of bounds memory
+     </li>
+     <li>
+      Fixed crashes when handling infinite
+      <a href="/docs/reference/layout/length/">
+       lengths
+      </a>
+     </li>
+     <li>
+      Fixed introspection (mostly bibliography) bugs due to weak page break close to the end of the document
+     </li>
+    </ul>
+    <h2 id="development">
+     Development
+    </h2>
+    <ul>
+     <li>
+      Extracted
+      <code>
+       typst::ide
+      </code>
+      into separate
+      <code>
+       typst_ide
+      </code>
+      crate
+     </li>
+     <li>
+      Removed a few remaining
+      <code>
+       'static
+      </code>
+      bounds on
+      <code>
+       &amp;dyn World
+      </code>
+     </li>
+     <li>
+      Removed unnecessary dependency, which reduces the binary size
+     </li>
+     <li>
+      Fixed compilation of
+      <code>
+       typst
+      </code>
+      by itself (without
+      <code>
+       typst-library
+      </code>
+      )
+     </li>
+     <li>
+      Fixed warnings with Nix flake when using
+      <code>
+       lib.getExe
+      </code>
+     </li>
+    </ul>
+    <h2 id="contributors">
+     Contributors
+    </h2>
+    Thanks to everyone who contributed to this release!
+    <ul class="contribs">
+     <li>
+      <a href="https://github.com/Dherse" target="_blank">
+       <img alt="GitHub avatar of Dherse" crossorigin="anonymous" height="64" src="https://avatars.githubusercontent.com/u/9665250?s=64&amp;v=4" title="@Dherse made 16 contributions" width="64"/>
+      </a>
+     </li>
+     <li>
+      <a href="https://github.com/EpicEricEE" target="_blank">
+       <img alt="GitHub avatar of EpicEricEE" crossorigin="anonymous" height="64" src="https://avatars.githubusercontent.com/u/7191192?s=64&amp;v=4" title="@EpicEricEE made 7 contributions" width="64"/>
+      </a>
+     </li>
+     <li>
+      <a href="https://github.com/tingerrr" target="_blank">
+       <img alt="GitHub avatar of tingerrr" crossorigin="anonymous" height="64" src="https://avatars.githubusercontent.com/u/137803093?s=64&amp;v=4" title="@tingerrr made 7 contributions" width="64"/>
+      </a>
+     </li>
+     <li>
+      <a href="https://github.com/LuxxxLucy" target="_blank">
+       <img alt="GitHub avatar of LuxxxLucy" crossorigin="anonymous" height="64" src="https://avatars.githubusercontent.com/u/19356905?s=64&amp;v=4" title="@LuxxxLucy made 6 contributions" width="64"/>
+      </a>
+     </li>
+     <li>
+      <a href="https://github.com/bluebear94" target="_blank">
+       <img alt="GitHub avatar of bluebear94" crossorigin="anonymous" height="64" src="https://avatars.githubusercontent.com/u/2975203?s=64&amp;v=4" title="@bluebear94 made 6 contributions" width="64"/>
+      </a>
+     </li>
+     <li>
+      <a href="https://github.com/MDLC01" target="_blank">
+       <img alt="GitHub avatar of MDLC01" crossorigin="anonymous" height="64" src="https://avatars.githubusercontent.com/u/57839069?s=64&amp;v=4" title="@MDLC01 made 5 contributions" width="64"/>
+      </a>
+     </li>
+     <li>
+      <a href="https://github.com/Jollywatt" target="_blank">
+       <img alt="GitHub avatar of Jollywatt" crossorigin="anonymous" height="64" src="https://avatars.githubusercontent.com/u/24970860?s=64&amp;v=4" title="@Jollywatt made 3 contributions" width="64"/>
+      </a>
+     </li>
+     <li>
+      <a href="https://github.com/SekoiaTree" target="_blank">
+       <img alt="GitHub avatar of SekoiaTree" crossorigin="anonymous" height="64" src="https://avatars.githubusercontent.com/u/51149447?s=64&amp;v=4" title="@SekoiaTree made 3 contributions" width="64"/>
+      </a>
+     </li>
+     <li>
+      <a href="https://github.com/DVDTSB" target="_blank">
+       <img alt="GitHub avatar of DVDTSB" crossorigin="anonymous" height="64" src="https://avatars.githubusercontent.com/u/66365801?s=64&amp;v=4" title="@DVDTSB made 2 contributions" width="64"/>
+      </a>
+     </li>
+     <li>
+      <a href="https://github.com/HydroH" target="_blank">
+       <img alt="GitHub avatar of HydroH" crossorigin="anonymous" height="64" src="https://avatars.githubusercontent.com/u/14823453?s=64&amp;v=4" title="@HydroH made 2 contributions" width="64"/>
+      </a>
+     </li>
+     <li>
+      <a href="https://github.com/KillTheMule" target="_blank">
+       <img alt="GitHub avatar of KillTheMule" crossorigin="anonymous" height="64" src="https://avatars.githubusercontent.com/u/4117685?s=64&amp;v=4" title="@KillTheMule made 2 contributions" width="64"/>
+      </a>
+     </li>
+     <li>
+      <a href="https://github.com/LaurenzV" target="_blank">
+       <img alt="GitHub avatar of LaurenzV" crossorigin="anonymous" height="64" src="https://avatars.githubusercontent.com/u/47084093?s=64&amp;v=4" title="@LaurenzV made 2 contributions" width="64"/>
+      </a>
+     </li>
+     <li>
+      <a href="https://github.com/frozolotl" target="_blank">
+       <img alt="GitHub avatar of frozolotl" crossorigin="anonymous" height="64" src="https://avatars.githubusercontent.com/u/44589151?s=64&amp;v=4" title="@frozolotl made 2 contributions" width="64"/>
+      </a>
+     </li>
+     <li>
+      <a href="https://github.com/peng1999" target="_blank">
+       <img alt="GitHub avatar of peng1999" crossorigin="anonymous" height="64" src="https://avatars.githubusercontent.com/u/12483662?s=64&amp;v=4" title="@peng1999 made 2 contributions" width="64"/>
+      </a>
+     </li>
+     <li>
+      <a href="https://github.com/0scvr" target="_blank">
+       <img alt="GitHub avatar of 0scvr" crossorigin="anonymous" height="64" src="https://avatars.githubusercontent.com/u/71343264?s=64&amp;v=4" title="@0scvr made 1 contribution" width="64"/>
+      </a>
+     </li>
+     <li>
+      <a href="https://github.com/7sDream" target="_blank">
+       <img alt="GitHub avatar of 7sDream" crossorigin="anonymous" height="64" src="https://avatars.githubusercontent.com/u/7822577?s=64&amp;v=4" title="@7sDream made 1 contribution" width="64"/>
+      </a>
+     </li>
+     <li>
+      <a href="https://github.com/8LWXpg" target="_blank">
+       <img alt="GitHub avatar of 8LWXpg" crossorigin="anonymous" height="64" src="https://avatars.githubusercontent.com/u/105704427?s=64&amp;v=4" title="@8LWXpg made 1 contribution" width="64"/>
+      </a>
+     </li>
+     <li>
+      <a href="https://github.com/Enter-tainer" target="_blank">
+       <img alt="GitHub avatar of Enter-tainer" crossorigin="anonymous" height="64" src="https://avatars.githubusercontent.com/u/25521218?s=64&amp;v=4" title="@Enter-tainer made 1 contribution" width="64"/>
+      </a>
+     </li>
+     <li>
+      <a href="https://github.com/FlyinPancake" target="_blank">
+       <img alt="GitHub avatar of FlyinPancake" crossorigin="anonymous" height="64" src="https://avatars.githubusercontent.com/u/36113055?s=64&amp;v=4" title="@FlyinPancake made 1 contribution" width="64"/>
+      </a>
+     </li>
+     <li>
+      <a href="https://github.com/Myriad-Dreamin" target="_blank">
+       <img alt="GitHub avatar of Myriad-Dreamin" crossorigin="anonymous" height="64" src="https://avatars.githubusercontent.com/u/35292584?s=64&amp;v=4" title="@Myriad-Dreamin made 1 contribution" width="64"/>
+      </a>
+     </li>
+     <li>
+      <a href="https://github.com/T0mstone" target="_blank">
+       <img alt="GitHub avatar of T0mstone" crossorigin="anonymous" height="64" src="https://avatars.githubusercontent.com/u/39707032?s=64&amp;v=4" title="@T0mstone made 1 contribution" width="64"/>
+      </a>
+     </li>
+     <li>
+      <a href="https://github.com/TheJosefOlsson" target="_blank">
+       <img alt="GitHub avatar of TheJosefOlsson" crossorigin="anonymous" height="64" src="https://avatars.githubusercontent.com/u/143743179?s=64&amp;v=4" title="@TheJosefOlsson made 1 contribution" width="64"/>
+      </a>
+     </li>
+     <li>
+      <a href="https://github.com/WannesMalfait" target="_blank">
+       <img alt="GitHub avatar of WannesMalfait" crossorigin="anonymous" height="64" src="https://avatars.githubusercontent.com/u/46323945?s=64&amp;v=4" title="@WannesMalfait made 1 contribution" width="64"/>
+      </a>
+     </li>
+     <li>
+      <a href="https://github.com/WeetHet" target="_blank">
+       <img alt="GitHub avatar of WeetHet" crossorigin="anonymous" height="64" src="https://avatars.githubusercontent.com/u/43210583?s=64&amp;v=4" title="@WeetHet made 1 contribution" width="64"/>
+      </a>
+     </li>
+     <li>
+      <a href="https://github.com/Weissnix4711" target="_blank">
+       <img alt="GitHub avatar of Weissnix4711" crossorigin="anonymous" height="64" src="https://avatars.githubusercontent.com/u/42943391?s=64&amp;v=4" title="@Weissnix4711 made 1 contribution" width="64"/>
+      </a>
+     </li>
+     <li>
+      <a href="https://github.com/Zheoni" target="_blank">
+       <img alt="GitHub avatar of Zheoni" crossorigin="anonymous" height="64" src="https://avatars.githubusercontent.com/u/38019254?s=64&amp;v=4" title="@Zheoni made 1 contribution" width="64"/>
+      </a>
+     </li>
+     <li>
+      <a href="https://github.com/antonWetzel" target="_blank">
+       <img alt="GitHub avatar of antonWetzel" crossorigin="anonymous" height="64" src="https://avatars.githubusercontent.com/u/59712243?s=64&amp;v=4" title="@antonWetzel made 1 contribution" width="64"/>
+      </a>
+     </li>
+     <li>
+      <a href="https://github.com/arnaudgolfouse" target="_blank">
+       <img alt="GitHub avatar of arnaudgolfouse" crossorigin="anonymous" height="64" src="https://avatars.githubusercontent.com/u/53786772?s=64&amp;v=4" title="@arnaudgolfouse made 1 contribution" width="64"/>
+      </a>
+     </li>
+     <li>
+      <a href="https://github.com/drupol" target="_blank">
+       <img alt="GitHub avatar of drupol" crossorigin="anonymous" height="64" src="https://avatars.githubusercontent.com/u/252042?s=64&amp;v=4" title="@drupol made 1 contribution" width="64"/>
+      </a>
+     </li>
+     <li>
+      <a href="https://github.com/dxniel-19" target="_blank">
+       <img alt="GitHub avatar of dxniel-19" crossorigin="anonymous" height="64" src="https://avatars.githubusercontent.com/u/33750461?s=64&amp;v=4" title="@dxniel-19 made 1 contribution" width="64"/>
+      </a>
+     </li>
+     <li>
+      <a href="https://github.com/extua" target="_blank">
+       <img alt="GitHub avatar of extua" crossorigin="anonymous" height="64" src="https://avatars.githubusercontent.com/u/66693681?s=64&amp;v=4" title="@extua made 1 contribution" width="64"/>
+      </a>
+     </li>
+     <li>
+      <a href="https://github.com/fritzrehde" target="_blank">
+       <img alt="GitHub avatar of fritzrehde" crossorigin="anonymous" height="64" src="https://avatars.githubusercontent.com/u/80471265?s=64&amp;v=4" title="@fritzrehde made 1 contribution" width="64"/>
+      </a>
+     </li>
+     <li>
+      <a href="https://github.com/johannes-wolf" target="_blank">
+       <img alt="GitHub avatar of johannes-wolf" crossorigin="anonymous" height="64" src="https://avatars.githubusercontent.com/u/519002?s=64&amp;v=4" title="@johannes-wolf made 1 contribution" width="64"/>
+      </a>
+     </li>
+     <li>
+      <a href="https://github.com/qrnch-jan" target="_blank">
+       <img alt="GitHub avatar of qrnch-jan" crossorigin="anonymous" height="64" src="https://avatars.githubusercontent.com/u/60492138?s=64&amp;v=4" title="@qrnch-jan made 1 contribution" width="64"/>
+      </a>
+     </li>
+     <li>
+      <a href="https://github.com/toddlerer" target="_blank">
+       <img alt="GitHub avatar of toddlerer" crossorigin="anonymous" height="64" src="https://avatars.githubusercontent.com/u/74579078?s=64&amp;v=4" title="@toddlerer made 1 contribution" width="64"/>
+      </a>
+     </li>
+    </ul>
+    <div class="page-end-buttons">
+     <a class="previous" href="/docs/changelog/0.10.0/">
+      <img alt="â" src="/assets/icons/16-arrow-right.svg"/>
+      <div>
+       <span class="page-title">
+        0.10.0
+       </span>
+       <span class="hint">
+        Previous page
+       </span>
+      </div>
+     </a>
+     <a class="next" href="/docs/changelog/0.8.0/">
+      <img alt="â" src="/assets/icons/16-arrow-right.svg"/>
+      <div>
+       <span class="page-title">
+        0.8.0
+       </span>
+       <span class="hint">
+        Next page
+       </span>
+      </div>
+     </a>
+    </div>
+   </main>

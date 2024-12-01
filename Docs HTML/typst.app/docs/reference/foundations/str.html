@@ -1,0 +1,2011 @@
+<main>
+    <ul aria-label="Breadcrumbs" class="breadcrumbs">
+     <li class="root">
+      <a href="/docs">
+       <img alt="Docs" height="16" src="/assets/icons/16-docs-dark.svg" width="16"/>
+      </a>
+     </li>
+     <li aria-hidden="true">
+      <img alt="" height="16" src="/assets/icons/16-arrow-right.svg" width="16"/>
+     </li>
+     <li>
+      <a href="/docs/reference/">
+       Reference
+      </a>
+     </li>
+     <li aria-hidden="true">
+      <img alt="" height="16" src="/assets/icons/16-arrow-right.svg" width="16"/>
+     </li>
+     <li>
+      <a href="/docs/reference/foundations/">
+       Foundations
+      </a>
+     </li>
+     <li aria-hidden="true">
+      <img alt="" height="16" src="/assets/icons/16-arrow-right.svg" width="16"/>
+     </li>
+     <li>
+      <a href="/docs/reference/foundations/str/">
+       String
+      </a>
+     </li>
+    </ul>
+    <h1 id="summary">
+     <span class="pill pill-str">
+      str
+     </span>
+    </h1>
+    <p>
+     A sequence of Unicode codepoints.
+    </p>
+    <p>
+     You can iterate over the grapheme clusters of the string using a
+     <a href="/docs/reference/scripting/#loops">
+      for loop
+     </a>
+     . Grapheme clusters are basically characters but keep together things that belong together, e.g. multiple codepoints that together form a flag emoji. Strings can be added with the
+     <code>
+      +
+     </code>
+     operator,
+     <a href="/docs/reference/scripting/#blocks">
+      joined together
+     </a>
+     and multiplied with integers.
+    </p>
+    <p>
+     Typst provides utility methods for string manipulation. Many of these methods (e.g.,
+     <code>
+      split
+     </code>
+     ,
+     <code>
+      trim
+     </code>
+     and
+     <code>
+      replace
+     </code>
+     ) operate on
+     <em>
+      patterns:
+     </em>
+     A pattern can be either a string or a
+     <a href="/docs/reference/foundations/regex/">
+      regular expression
+     </a>
+     . This makes the methods quite versatile.
+    </p>
+    <p>
+     All lengths and indices are expressed in terms of UTF-8 bytes. Indices are zero-based and negative indices wrap around to the end of the string.
+    </p>
+    <p>
+     You can convert a value to a string with this type's constructor.
+    </p>
+    <h2 id="example">
+     Example
+    </h2>
+    <div class="previewed-code">
+     <pre><code><span class="typ-str">#</span><span class="typ-str">"hello world!"</span> <span class="typ-escape">\</span>
+<span class="typ-str">#</span><span class="typ-str">"\"hello\n  world\"!"</span> <span class="typ-escape">\</span>
+<span class="typ-str">#</span><span class="typ-str">"1 2 3"</span><span class="typ-punct">.</span><span class="typ-func">split</span><span class="typ-punct">(</span><span class="typ-punct">)</span> <span class="typ-escape">\</span>
+<span class="typ-str">#</span><span class="typ-str">"1,2;3"</span><span class="typ-punct">.</span><span class="typ-func">split</span><span class="typ-punct">(</span><span class="typ-func">regex</span><span class="typ-punct">(</span><span class="typ-str">"[,;]"</span><span class="typ-punct">)</span><span class="typ-punct">)</span> <span class="typ-escape">\</span>
+<span class="typ-punct">#</span><span class="typ-punct">(</span><span class="typ-func">regex</span><span class="typ-punct">(</span><span class="typ-str">"\d+"</span><span class="typ-punct">)</span> <span class="typ-key">in</span> <span class="typ-str">"ten euros"</span><span class="typ-punct">)</span> <span class="typ-escape">\</span>
+<span class="typ-punct">#</span><span class="typ-punct">(</span><span class="typ-func">regex</span><span class="typ-punct">(</span><span class="typ-str">"\d+"</span><span class="typ-punct">)</span> <span class="typ-key">in</span> <span class="typ-str">"10 euros"</span><span class="typ-punct">)</span>
+</code></pre>
+     <div class="preview">
+      <img alt="Preview" height="243/" src="/assets/docs/gK89AnI9k7dy82m9R3F1jgAAAAAAAAAA.png" width="480"/>
+     </div>
+    </div>
+    <h2 id="escapes">
+     Escape sequences
+    </h2>
+    <p>
+     Just like in markup, you can escape a few symbols in strings:
+    </p>
+    <ul>
+     <li>
+      <code>
+       <span class="typ-escape">
+        \\
+       </span>
+      </code>
+      for a backslash
+     </li>
+     <li>
+      <code>
+       <span class="typ-escape">
+        \"
+       </span>
+      </code>
+      for a quote
+     </li>
+     <li>
+      <code>
+       <span class="typ-escape">
+        \n
+       </span>
+      </code>
+      for a newline
+     </li>
+     <li>
+      <code>
+       <span class="typ-escape">
+        \r
+       </span>
+      </code>
+      for a carriage return
+     </li>
+     <li>
+      <code>
+       <span class="typ-escape">
+        \t
+       </span>
+      </code>
+      for a tab
+     </li>
+     <li>
+      <code>
+       <span class="typ-escape">
+        \u{1f600}
+       </span>
+      </code>
+      for a hexadecimal Unicode escape sequence
+     </li>
+    </ul>
+    <h2 id="constructor">
+     Constructor
+     <small>
+      <div class="tooltip-context">
+       <svg aria-labelledby=":R38n9a:-label" height="12" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 12 12" width="12">
+        <title id=":R38n9a:-label">
+         Question mark
+        </title>
+        <use href="/assets/icons/12-tooltip.svg#icon">
+        </use>
+       </svg>
+       <div aria-hidden="true" id="constructor-constructor-tooltip" role="tooltip" tabindex="-1">
+        If a type has a constructor, you can call it like a function to create a new value of the type.
+       </div>
+      </div>
+     </small>
+    </h2>
+    <p>
+     Converts a value to a string.
+    </p>
+    <ul>
+     <li>
+      Integers are formatted in base 10. This can be overridden with the optional
+      <code>
+       base
+      </code>
+      parameter.
+     </li>
+     <li>
+      Floats are formatted in base 10 and never in exponential notation.
+     </li>
+     <li>
+      From labels the name is extracted.
+     </li>
+     <li>
+      Bytes are decoded as UTF-8.
+     </li>
+    </ul>
+    <p>
+     If you wish to convert from and to Unicode code points, see the
+     <a href="/docs/reference/foundations/str/#definitions-to-unicode">
+      <code>
+       to-unicode
+      </code>
+     </a>
+     and
+     <a href="/docs/reference/foundations/str/#definitions-from-unicode">
+      <code>
+       from-unicode
+      </code>
+     </a>
+     functions.
+    </p>
+    <div class="code code-definition">
+     <span class="typ-func">
+      str
+     </span>
+     (
+     <div class="arguments">
+      <span class="overview-param">
+       <a class="pill pill-num" href="/docs/reference/foundations/int/">
+        int
+       </a>
+       <a class="pill pill-num" href="/docs/reference/foundations/float/">
+        float
+       </a>
+       <a class="pill pill-str" href="/docs/reference/foundations/str/">
+        str
+       </a>
+       <a class="pill pill-obj" href="/docs/reference/foundations/bytes/">
+        bytes
+       </a>
+       <a class="pill pill-lbl" href="/docs/reference/foundations/label/">
+        label
+       </a>
+       <a class="pill pill-obj" href="/docs/reference/foundations/decimal/">
+        decimal
+       </a>
+       <a class="pill pill-obj" href="/docs/reference/foundations/version/">
+        version
+       </a>
+       <a class="pill pill-obj" href="/docs/reference/foundations/type/">
+        type
+       </a>
+       ,
+      </span>
+      <span class="overview-param">
+       <a href="#constructor-parameters-base">
+        base
+        <!-- -->
+        :
+       </a>
+       <a class="pill pill-num" href="/docs/reference/foundations/int/">
+        int
+       </a>
+       ,
+      </span>
+     </div>
+     )
+     <!-- -->
+     -&gt;
+     <a class="pill pill-str" href="/docs/reference/foundations/str/">
+      str
+     </a>
+    </div>
+    <div class="previewed-code">
+     <pre><code><span class="typ-func">#</span><span class="typ-func">str</span><span class="typ-punct">(</span><span class="typ-num">10</span><span class="typ-punct">)</span> <span class="typ-escape">\</span>
+<span class="typ-func">#</span><span class="typ-func">str</span><span class="typ-punct">(</span><span class="typ-num">4000</span><span class="typ-punct">,</span> base<span class="typ-punct">:</span> <span class="typ-num">16</span><span class="typ-punct">)</span> <span class="typ-escape">\</span>
+<span class="typ-func">#</span><span class="typ-func">str</span><span class="typ-punct">(</span><span class="typ-num">2.7</span><span class="typ-punct">)</span> <span class="typ-escape">\</span>
+<span class="typ-func">#</span><span class="typ-func">str</span><span class="typ-punct">(</span><span class="typ-num">1e8</span><span class="typ-punct">)</span> <span class="typ-escape">\</span>
+<span class="typ-func">#</span><span class="typ-func">str</span><span class="typ-punct">(</span><span class="typ-label">&lt;intro&gt;</span><span class="typ-punct">)</span>
+</code></pre>
+     <div class="preview">
+      <img alt="Preview" height="190/" src="/assets/docs/06jR9z-fP-M4eu8XB2MFnAAAAAAAAAAA.png" width="480"/>
+     </div>
+    </div>
+    <h4 id="constructor-value">
+     <code>
+      value
+     </code>
+     <div class="additional-info">
+      <div>
+       <a class="pill pill-num" href="/docs/reference/foundations/int/">
+        int
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-num" href="/docs/reference/foundations/float/">
+        float
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-str" href="/docs/reference/foundations/str/">
+        str
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-obj" href="/docs/reference/foundations/bytes/">
+        bytes
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-lbl" href="/docs/reference/foundations/label/">
+        label
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-obj" href="/docs/reference/foundations/decimal/">
+        decimal
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-obj" href="/docs/reference/foundations/version/">
+        version
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-obj" href="/docs/reference/foundations/type/">
+        type
+       </a>
+      </div>
+      <small>
+       Required
+      </small>
+      <small>
+       <span aria-describedby="constructor-value-positional-tooltip">
+        Positional
+       </span>
+       <div class="tooltip-context">
+        <svg aria-labelledby=":Rpon79a:-label" height="12" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 12 12" width="12">
+         <title id=":Rpon79a:-label">
+          Question mark
+         </title>
+         <use href="/assets/icons/12-tooltip.svg#icon">
+         </use>
+        </svg>
+        <div aria-hidden="true" id="constructor-value-positional-tooltip" role="tooltip" tabindex="-1">
+         Positional parameters are specified in order, without names.
+        </div>
+       </div>
+      </small>
+     </div>
+    </h4>
+    <p>
+     The value that should be converted to a string.
+    </p>
+    <h4 id="constructor-base">
+     <code>
+      base
+     </code>
+     <div class="additional-info">
+      <div>
+       <a class="pill pill-num" href="/docs/reference/foundations/int/">
+        int
+       </a>
+      </div>
+     </div>
+    </h4>
+    <p>
+     The base (radix) to display integers in, between 2 and 36.
+    </p>
+    <p>
+     Default:
+     <code>
+      <span class="typ-num">
+       10
+      </span>
+     </code>
+    </p>
+    <h2 id="definitions">
+     <span aria-describedby="definitions-tooltip">
+      Definitions
+     </span>
+     <div class="tooltip-context">
+      <svg aria-labelledby=":Rcp9a:-label" height="12" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 12 12" width="12">
+       <title id=":Rcp9a:-label">
+        Question mark
+       </title>
+       <use href="/assets/icons/12-tooltip.svg#icon">
+       </use>
+      </svg>
+      <div aria-hidden="true" id="definitions-tooltip" role="tooltip" tabindex="-1">
+       Functions and types and can have associated definitions. These are accessed by specifying the function or type, followed by a period, and then the definition's name.
+      </div>
+     </div>
+    </h2>
+    <h3 class="scoped-function" id="definitions-len">
+     <code>
+      len
+     </code>
+    </h3>
+    <p>
+     The length of the string in UTF-8 encoded bytes.
+    </p>
+    <div class="code code-definition single-arg">
+     self
+     <span class="typ-punct">
+      .
+     </span>
+     <span class="typ-func">
+      len
+     </span>
+     (
+     <div class="arguments">
+     </div>
+     )
+     <!-- -->
+     -&gt;
+     <a class="pill pill-num" href="/docs/reference/foundations/int/">
+      int
+     </a>
+    </div>
+    <h3 class="scoped-function" id="definitions-first">
+     <code>
+      first
+     </code>
+    </h3>
+    <p>
+     Extracts the first grapheme cluster of the string. Fails with an error if the string is empty.
+    </p>
+    <div class="code code-definition single-arg">
+     self
+     <span class="typ-punct">
+      .
+     </span>
+     <span class="typ-func">
+      first
+     </span>
+     (
+     <div class="arguments">
+     </div>
+     )
+     <!-- -->
+     -&gt;
+     <a class="pill pill-str" href="/docs/reference/foundations/str/">
+      str
+     </a>
+    </div>
+    <h3 class="scoped-function" id="definitions-last">
+     <code>
+      last
+     </code>
+    </h3>
+    <p>
+     Extracts the last grapheme cluster of the string. Fails with an error if the string is empty.
+    </p>
+    <div class="code code-definition single-arg">
+     self
+     <span class="typ-punct">
+      .
+     </span>
+     <span class="typ-func">
+      last
+     </span>
+     (
+     <div class="arguments">
+     </div>
+     )
+     <!-- -->
+     -&gt;
+     <a class="pill pill-str" href="/docs/reference/foundations/str/">
+      str
+     </a>
+    </div>
+    <h3 class="scoped-function" id="definitions-at">
+     <code>
+      at
+     </code>
+    </h3>
+    <p>
+     Extracts the first grapheme cluster after the specified index. Returns the default value if the index is out of bounds or fails with an error if no default value was specified.
+    </p>
+    <div class="code code-definition">
+     self
+     <span class="typ-punct">
+      .
+     </span>
+     <span class="typ-func">
+      at
+     </span>
+     (
+     <div class="arguments">
+      <span class="overview-param">
+       <a class="pill pill-num" href="/docs/reference/foundations/int/">
+        int
+       </a>
+       ,
+      </span>
+      <span class="overview-param">
+       <a href="#definitions-at-parameters-default">
+        default
+        <!-- -->
+        :
+       </a>
+       <span class="pill pill-obj">
+        any
+       </span>
+       ,
+      </span>
+     </div>
+     )
+     <!-- -->
+     -&gt;
+     <span class="pill pill-obj">
+      any
+     </span>
+    </div>
+    <h4 id="definitions-at-index">
+     <code>
+      index
+     </code>
+     <div class="additional-info">
+      <div>
+       <a class="pill pill-num" href="/docs/reference/foundations/int/">
+        int
+       </a>
+      </div>
+      <small>
+       Required
+      </small>
+      <small>
+       <span aria-describedby="definitions-at-index-positional-tooltip">
+        Positional
+       </span>
+       <div class="tooltip-context">
+        <svg aria-labelledby=":R372s999a:-label" height="12" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 12 12" width="12">
+         <title id=":R372s999a:-label">
+          Question mark
+         </title>
+         <use href="/assets/icons/12-tooltip.svg#icon">
+         </use>
+        </svg>
+        <div aria-hidden="true" id="definitions-at-index-positional-tooltip" role="tooltip" tabindex="-1">
+         Positional parameters are specified in order, without names.
+        </div>
+       </div>
+      </small>
+     </div>
+    </h4>
+    <p>
+     The byte index. If negative, indexes from the back.
+    </p>
+    <h4 id="definitions-at-default">
+     <code>
+      default
+     </code>
+     <div class="additional-info">
+      <div>
+       <span class="pill pill-obj">
+        any
+       </span>
+      </div>
+     </div>
+    </h4>
+    <p>
+     A default value to return if the index is out of bounds.
+    </p>
+    <h3 class="scoped-function" id="definitions-slice">
+     <code>
+      slice
+     </code>
+    </h3>
+    <p>
+     Extracts a substring of the string. Fails with an error if the start or end index is out of bounds.
+    </p>
+    <div class="code code-definition">
+     self
+     <span class="typ-punct">
+      .
+     </span>
+     <span class="typ-func">
+      slice
+     </span>
+     (
+     <div class="arguments">
+      <span class="overview-param">
+       <a class="pill pill-num" href="/docs/reference/foundations/int/">
+        int
+       </a>
+       ,
+      </span>
+      <span class="overview-param">
+       <a class="pill pill-kw" href="/docs/reference/foundations/none/">
+        none
+       </a>
+       <a class="pill pill-num" href="/docs/reference/foundations/int/">
+        int
+       </a>
+       ,
+      </span>
+      <span class="overview-param">
+       <a href="#definitions-slice-parameters-count">
+        count
+        <!-- -->
+        :
+       </a>
+       <a class="pill pill-num" href="/docs/reference/foundations/int/">
+        int
+       </a>
+       ,
+      </span>
+     </div>
+     )
+     <!-- -->
+     -&gt;
+     <a class="pill pill-str" href="/docs/reference/foundations/str/">
+      str
+     </a>
+    </div>
+    <h4 id="definitions-slice-start">
+     <code>
+      start
+     </code>
+     <div class="additional-info">
+      <div>
+       <a class="pill pill-num" href="/docs/reference/foundations/int/">
+        int
+       </a>
+      </div>
+      <small>
+       Required
+      </small>
+      <small>
+       <span aria-describedby="definitions-slice-start-positional-tooltip">
+        Positional
+       </span>
+       <div class="tooltip-context">
+        <svg aria-labelledby=":R372sb99a:-label" height="12" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 12 12" width="12">
+         <title id=":R372sb99a:-label">
+          Question mark
+         </title>
+         <use href="/assets/icons/12-tooltip.svg#icon">
+         </use>
+        </svg>
+        <div aria-hidden="true" id="definitions-slice-start-positional-tooltip" role="tooltip" tabindex="-1">
+         Positional parameters are specified in order, without names.
+        </div>
+       </div>
+      </small>
+     </div>
+    </h4>
+    <p>
+     The start byte index (inclusive). If negative, indexes from the back.
+    </p>
+    <h4 id="definitions-slice-end">
+     <code>
+      end
+     </code>
+     <div class="additional-info">
+      <div>
+       <a class="pill pill-kw" href="/docs/reference/foundations/none/">
+        none
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-num" href="/docs/reference/foundations/int/">
+        int
+       </a>
+      </div>
+      <small>
+       <span aria-describedby="definitions-slice-end-positional-tooltip">
+        Positional
+       </span>
+       <div class="tooltip-context">
+        <svg aria-labelledby=":R373cb99a:-label" height="12" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 12 12" width="12">
+         <title id=":R373cb99a:-label">
+          Question mark
+         </title>
+         <use href="/assets/icons/12-tooltip.svg#icon">
+         </use>
+        </svg>
+        <div aria-hidden="true" id="definitions-slice-end-positional-tooltip" role="tooltip" tabindex="-1">
+         Positional parameters are specified in order, without names.
+        </div>
+       </div>
+      </small>
+     </div>
+    </h4>
+    <p>
+     The end byte index (exclusive). If omitted, the whole slice until the end of the string is extracted. If negative, indexes from the back.
+    </p>
+    <p>
+     Default:
+     <code>
+      <span class="typ-key">
+       none
+      </span>
+     </code>
+    </p>
+    <h4 id="definitions-slice-count">
+     <code>
+      count
+     </code>
+     <div class="additional-info">
+      <div>
+       <a class="pill pill-num" href="/docs/reference/foundations/int/">
+        int
+       </a>
+      </div>
+     </div>
+    </h4>
+    <p>
+     The number of bytes to extract. This is equivalent to passing
+     <code>
+      start + count
+     </code>
+     as the
+     <code>
+      end
+     </code>
+     position. Mutually exclusive with
+     <code>
+      end
+     </code>
+     .
+    </p>
+    <h3 class="scoped-function" id="definitions-clusters">
+     <code>
+      clusters
+     </code>
+    </h3>
+    <p>
+     Returns the grapheme clusters of the string as an array of substrings.
+    </p>
+    <div class="code code-definition single-arg">
+     self
+     <span class="typ-punct">
+      .
+     </span>
+     <span class="typ-func">
+      clusters
+     </span>
+     (
+     <div class="arguments">
+     </div>
+     )
+     <!-- -->
+     -&gt;
+     <a class="pill pill-obj" href="/docs/reference/foundations/array/">
+      array
+     </a>
+    </div>
+    <h3 class="scoped-function" id="definitions-codepoints">
+     <code>
+      codepoints
+     </code>
+    </h3>
+    <p>
+     Returns the Unicode codepoints of the string as an array of substrings.
+    </p>
+    <div class="code code-definition single-arg">
+     self
+     <span class="typ-punct">
+      .
+     </span>
+     <span class="typ-func">
+      codepoints
+     </span>
+     (
+     <div class="arguments">
+     </div>
+     )
+     <!-- -->
+     -&gt;
+     <a class="pill pill-obj" href="/docs/reference/foundations/array/">
+      array
+     </a>
+    </div>
+    <h3 class="scoped-function" id="definitions-to-unicode">
+     <code>
+      to-unicode
+     </code>
+    </h3>
+    <p>
+     Converts a character into its corresponding code point.
+    </p>
+    <div class="code code-definition single-arg">
+     str
+     <span class="typ-punct">
+      .
+     </span>
+     <span class="typ-func">
+      to-unicode
+     </span>
+     (
+     <div class="arguments">
+      <span class="overview-param">
+       <a class="pill pill-str" href="/docs/reference/foundations/str/">
+        str
+       </a>
+      </span>
+     </div>
+     )
+     <!-- -->
+     -&gt;
+     <a class="pill pill-num" href="/docs/reference/foundations/int/">
+      int
+     </a>
+    </div>
+    <div class="previewed-code">
+     <pre><code><span class="typ-str">#</span><span class="typ-str">"a"</span><span class="typ-punct">.</span><span class="typ-func">to-unicode</span><span class="typ-punct">(</span><span class="typ-punct">)</span> <span class="typ-escape">\</span>
+<span class="typ-punct">#</span><span class="typ-punct">(</span><span class="typ-str">"a\u{0300}"</span>
+   <span class="typ-punct">.</span><span class="typ-func">codepoints</span><span class="typ-punct">(</span><span class="typ-punct">)</span>
+   <span class="typ-punct">.</span><span class="typ-func">map</span><span class="typ-punct">(</span>str<span class="typ-punct">.</span>to-unicode<span class="typ-punct">)</span><span class="typ-punct">)</span>
+</code></pre>
+     <div class="preview">
+      <img alt="Preview" height="102/" src="/assets/docs/q50tz6WAJPnwtBCYWbHrIwAAAAAAAAAA.png" width="480"/>
+     </div>
+    </div>
+    <h4 id="definitions-to-unicode-character">
+     <code>
+      character
+     </code>
+     <div class="additional-info">
+      <div>
+       <a class="pill pill-str" href="/docs/reference/foundations/str/">
+        str
+       </a>
+      </div>
+      <small>
+       Required
+      </small>
+      <small>
+       <span aria-describedby="definitions-to-unicode-character-positional-tooltip">
+        Positional
+       </span>
+       <div class="tooltip-context">
+        <svg aria-labelledby=":R1jhsh99a:-label" height="12" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 12 12" width="12">
+         <title id=":R1jhsh99a:-label">
+          Question mark
+         </title>
+         <use href="/assets/icons/12-tooltip.svg#icon">
+         </use>
+        </svg>
+        <div aria-hidden="true" id="definitions-to-unicode-character-positional-tooltip" role="tooltip" tabindex="-1">
+         Positional parameters are specified in order, without names.
+        </div>
+       </div>
+      </small>
+     </div>
+    </h4>
+    <p>
+     The character that should be converted.
+    </p>
+    <h3 class="scoped-function" id="definitions-from-unicode">
+     <code>
+      from-unicode
+     </code>
+    </h3>
+    <p>
+     Converts a unicode code point into its corresponding string.
+    </p>
+    <div class="code code-definition single-arg">
+     str
+     <span class="typ-punct">
+      .
+     </span>
+     <span class="typ-func">
+      from-unicode
+     </span>
+     (
+     <div class="arguments">
+      <span class="overview-param">
+       <a class="pill pill-num" href="/docs/reference/foundations/int/">
+        int
+       </a>
+      </span>
+     </div>
+     )
+     <!-- -->
+     -&gt;
+     <a class="pill pill-str" href="/docs/reference/foundations/str/">
+      str
+     </a>
+    </div>
+    <div class="previewed-code">
+     <pre><code><span class="typ-pol">#</span><span class="typ-pol">str</span><span class="typ-punct">.</span><span class="typ-func">from-unicode</span><span class="typ-punct">(</span><span class="typ-num">97</span><span class="typ-punct">)</span>
+</code></pre>
+     <div class="preview">
+      <img alt="Preview" height="74/" src="/assets/docs/vNzcsGO4Zd_u-P4qNnxrDQAAAAAAAAAA.png" width="480"/>
+     </div>
+    </div>
+    <h4 id="definitions-from-unicode-value">
+     <code>
+      value
+     </code>
+     <div class="additional-info">
+      <div>
+       <a class="pill pill-num" href="/docs/reference/foundations/int/">
+        int
+       </a>
+      </div>
+      <small>
+       Required
+      </small>
+      <small>
+       <span aria-describedby="definitions-from-unicode-value-positional-tooltip">
+        Positional
+       </span>
+       <div class="tooltip-context">
+        <svg aria-labelledby=":R1jhsj99a:-label" height="12" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 12 12" width="12">
+         <title id=":R1jhsj99a:-label">
+          Question mark
+         </title>
+         <use href="/assets/icons/12-tooltip.svg#icon">
+         </use>
+        </svg>
+        <div aria-hidden="true" id="definitions-from-unicode-value-positional-tooltip" role="tooltip" tabindex="-1">
+         Positional parameters are specified in order, without names.
+        </div>
+       </div>
+      </small>
+     </div>
+    </h4>
+    <p>
+     The code point that should be converted.
+    </p>
+    <h3 class="scoped-function" id="definitions-contains">
+     <code>
+      contains
+     </code>
+    </h3>
+    <p>
+     Whether the string contains the specified pattern.
+    </p>
+    <p>
+     This method also has dedicated syntax: You can write
+     <code>
+      <span class="typ-str">
+       "bc"
+      </span>
+      <span class="typ-key">
+       in
+      </span>
+      <span class="typ-str">
+       "abcd"
+      </span>
+     </code>
+     instead of
+     <code>
+      <span class="typ-str">
+       "abcd"
+      </span>
+      <span class="typ-punct">
+       .
+      </span>
+      <span class="typ-func">
+       contains
+      </span>
+      <span class="typ-punct">
+       (
+      </span>
+      <span class="typ-str">
+       "bc"
+      </span>
+      <span class="typ-punct">
+       )
+      </span>
+     </code>
+     .
+    </p>
+    <div class="code code-definition single-arg">
+     self
+     <span class="typ-punct">
+      .
+     </span>
+     <span class="typ-func">
+      contains
+     </span>
+     (
+     <div class="arguments">
+      <span class="overview-param">
+       <a class="pill pill-str" href="/docs/reference/foundations/str/">
+        str
+       </a>
+       <a class="pill pill-obj" href="/docs/reference/foundations/regex/">
+        regex
+       </a>
+      </span>
+     </div>
+     )
+     <!-- -->
+     -&gt;
+     <a class="pill pill-bool" href="/docs/reference/foundations/bool/">
+      bool
+     </a>
+    </div>
+    <h4 id="definitions-contains-pattern">
+     <code>
+      pattern
+     </code>
+     <div class="additional-info">
+      <div>
+       <a class="pill pill-str" href="/docs/reference/foundations/str/">
+        str
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-obj" href="/docs/reference/foundations/regex/">
+        regex
+       </a>
+      </div>
+      <small>
+       Required
+      </small>
+      <small>
+       <span aria-describedby="definitions-contains-pattern-positional-tooltip">
+        Positional
+       </span>
+       <div class="tooltip-context">
+        <svg aria-labelledby=":R1jhsl99a:-label" height="12" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 12 12" width="12">
+         <title id=":R1jhsl99a:-label">
+          Question mark
+         </title>
+         <use href="/assets/icons/12-tooltip.svg#icon">
+         </use>
+        </svg>
+        <div aria-hidden="true" id="definitions-contains-pattern-positional-tooltip" role="tooltip" tabindex="-1">
+         Positional parameters are specified in order, without names.
+        </div>
+       </div>
+      </small>
+     </div>
+    </h4>
+    <p>
+     The pattern to search for.
+    </p>
+    <h3 class="scoped-function" id="definitions-starts-with">
+     <code>
+      starts-with
+     </code>
+    </h3>
+    <p>
+     Whether the string starts with the specified pattern.
+    </p>
+    <div class="code code-definition single-arg">
+     self
+     <span class="typ-punct">
+      .
+     </span>
+     <span class="typ-func">
+      starts-with
+     </span>
+     (
+     <div class="arguments">
+      <span class="overview-param">
+       <a class="pill pill-str" href="/docs/reference/foundations/str/">
+        str
+       </a>
+       <a class="pill pill-obj" href="/docs/reference/foundations/regex/">
+        regex
+       </a>
+      </span>
+     </div>
+     )
+     <!-- -->
+     -&gt;
+     <a class="pill pill-bool" href="/docs/reference/foundations/bool/">
+      bool
+     </a>
+    </div>
+    <h4 id="definitions-starts-with-pattern">
+     <code>
+      pattern
+     </code>
+     <div class="additional-info">
+      <div>
+       <a class="pill pill-str" href="/docs/reference/foundations/str/">
+        str
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-obj" href="/docs/reference/foundations/regex/">
+        regex
+       </a>
+      </div>
+      <small>
+       Required
+      </small>
+      <small>
+       <span aria-describedby="definitions-starts-with-pattern-positional-tooltip">
+        Positional
+       </span>
+       <div class="tooltip-context">
+        <svg aria-labelledby=":R1jhsn99a:-label" height="12" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 12 12" width="12">
+         <title id=":R1jhsn99a:-label">
+          Question mark
+         </title>
+         <use href="/assets/icons/12-tooltip.svg#icon">
+         </use>
+        </svg>
+        <div aria-hidden="true" id="definitions-starts-with-pattern-positional-tooltip" role="tooltip" tabindex="-1">
+         Positional parameters are specified in order, without names.
+        </div>
+       </div>
+      </small>
+     </div>
+    </h4>
+    <p>
+     The pattern the string might start with.
+    </p>
+    <h3 class="scoped-function" id="definitions-ends-with">
+     <code>
+      ends-with
+     </code>
+    </h3>
+    <p>
+     Whether the string ends with the specified pattern.
+    </p>
+    <div class="code code-definition single-arg">
+     self
+     <span class="typ-punct">
+      .
+     </span>
+     <span class="typ-func">
+      ends-with
+     </span>
+     (
+     <div class="arguments">
+      <span class="overview-param">
+       <a class="pill pill-str" href="/docs/reference/foundations/str/">
+        str
+       </a>
+       <a class="pill pill-obj" href="/docs/reference/foundations/regex/">
+        regex
+       </a>
+      </span>
+     </div>
+     )
+     <!-- -->
+     -&gt;
+     <a class="pill pill-bool" href="/docs/reference/foundations/bool/">
+      bool
+     </a>
+    </div>
+    <h4 id="definitions-ends-with-pattern">
+     <code>
+      pattern
+     </code>
+     <div class="additional-info">
+      <div>
+       <a class="pill pill-str" href="/docs/reference/foundations/str/">
+        str
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-obj" href="/docs/reference/foundations/regex/">
+        regex
+       </a>
+      </div>
+      <small>
+       Required
+      </small>
+      <small>
+       <span aria-describedby="definitions-ends-with-pattern-positional-tooltip">
+        Positional
+       </span>
+       <div class="tooltip-context">
+        <svg aria-labelledby=":R1jhsp99a:-label" height="12" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 12 12" width="12">
+         <title id=":R1jhsp99a:-label">
+          Question mark
+         </title>
+         <use href="/assets/icons/12-tooltip.svg#icon">
+         </use>
+        </svg>
+        <div aria-hidden="true" id="definitions-ends-with-pattern-positional-tooltip" role="tooltip" tabindex="-1">
+         Positional parameters are specified in order, without names.
+        </div>
+       </div>
+      </small>
+     </div>
+    </h4>
+    <p>
+     The pattern the string might end with.
+    </p>
+    <h3 class="scoped-function" id="definitions-find">
+     <code>
+      find
+     </code>
+    </h3>
+    <p>
+     Searches for the specified pattern in the string and returns the first match as a string or
+     <code>
+      <span class="typ-key">
+       none
+      </span>
+     </code>
+     if there is no match.
+    </p>
+    <div class="code code-definition single-arg">
+     self
+     <span class="typ-punct">
+      .
+     </span>
+     <span class="typ-func">
+      find
+     </span>
+     (
+     <div class="arguments">
+      <span class="overview-param">
+       <a class="pill pill-str" href="/docs/reference/foundations/str/">
+        str
+       </a>
+       <a class="pill pill-obj" href="/docs/reference/foundations/regex/">
+        regex
+       </a>
+      </span>
+     </div>
+     )
+     <!-- -->
+     -&gt;
+     <a class="pill pill-kw" href="/docs/reference/foundations/none/">
+      none
+     </a>
+     <a class="pill pill-str" href="/docs/reference/foundations/str/">
+      str
+     </a>
+    </div>
+    <h4 id="definitions-find-pattern">
+     <code>
+      pattern
+     </code>
+     <div class="additional-info">
+      <div>
+       <a class="pill pill-str" href="/docs/reference/foundations/str/">
+        str
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-obj" href="/docs/reference/foundations/regex/">
+        regex
+       </a>
+      </div>
+      <small>
+       Required
+      </small>
+      <small>
+       <span aria-describedby="definitions-find-pattern-positional-tooltip">
+        Positional
+       </span>
+       <div class="tooltip-context">
+        <svg aria-labelledby=":R1jhsr99a:-label" height="12" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 12 12" width="12">
+         <title id=":R1jhsr99a:-label">
+          Question mark
+         </title>
+         <use href="/assets/icons/12-tooltip.svg#icon">
+         </use>
+        </svg>
+        <div aria-hidden="true" id="definitions-find-pattern-positional-tooltip" role="tooltip" tabindex="-1">
+         Positional parameters are specified in order, without names.
+        </div>
+       </div>
+      </small>
+     </div>
+    </h4>
+    <p>
+     The pattern to search for.
+    </p>
+    <h3 class="scoped-function" id="definitions-position">
+     <code>
+      position
+     </code>
+    </h3>
+    <p>
+     Searches for the specified pattern in the string and returns the index of the first match as an integer or
+     <code>
+      <span class="typ-key">
+       none
+      </span>
+     </code>
+     if there is no match.
+    </p>
+    <div class="code code-definition single-arg">
+     self
+     <span class="typ-punct">
+      .
+     </span>
+     <span class="typ-func">
+      position
+     </span>
+     (
+     <div class="arguments">
+      <span class="overview-param">
+       <a class="pill pill-str" href="/docs/reference/foundations/str/">
+        str
+       </a>
+       <a class="pill pill-obj" href="/docs/reference/foundations/regex/">
+        regex
+       </a>
+      </span>
+     </div>
+     )
+     <!-- -->
+     -&gt;
+     <a class="pill pill-kw" href="/docs/reference/foundations/none/">
+      none
+     </a>
+     <a class="pill pill-num" href="/docs/reference/foundations/int/">
+      int
+     </a>
+    </div>
+    <h4 id="definitions-position-pattern">
+     <code>
+      pattern
+     </code>
+     <div class="additional-info">
+      <div>
+       <a class="pill pill-str" href="/docs/reference/foundations/str/">
+        str
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-obj" href="/docs/reference/foundations/regex/">
+        regex
+       </a>
+      </div>
+      <small>
+       Required
+      </small>
+      <small>
+       <span aria-describedby="definitions-position-pattern-positional-tooltip">
+        Positional
+       </span>
+       <div class="tooltip-context">
+        <svg aria-labelledby=":R1jhst99a:-label" height="12" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 12 12" width="12">
+         <title id=":R1jhst99a:-label">
+          Question mark
+         </title>
+         <use href="/assets/icons/12-tooltip.svg#icon">
+         </use>
+        </svg>
+        <div aria-hidden="true" id="definitions-position-pattern-positional-tooltip" role="tooltip" tabindex="-1">
+         Positional parameters are specified in order, without names.
+        </div>
+       </div>
+      </small>
+     </div>
+    </h4>
+    <p>
+     The pattern to search for.
+    </p>
+    <h3 class="scoped-function" id="definitions-match">
+     <code>
+      match
+     </code>
+    </h3>
+    <p>
+     Searches for the specified pattern in the string and returns a dictionary with details about the first match or
+     <code>
+      <span class="typ-key">
+       none
+      </span>
+     </code>
+     if there is no match.
+    </p>
+    <p>
+     The returned dictionary has the following keys:
+    </p>
+    <ul>
+     <li>
+      <code>
+       start
+      </code>
+      : The start offset of the match
+     </li>
+     <li>
+      <code>
+       end
+      </code>
+      : The end offset of the match
+     </li>
+     <li>
+      <code>
+       text
+      </code>
+      : The text that matched.
+     </li>
+     <li>
+      <code>
+       captures
+      </code>
+      : An array containing a string for each matched capturing group. The first item of the array contains the first matched capturing, not the whole match! This is empty unless the
+      <code>
+       pattern
+      </code>
+      was a regex with capturing groups.
+     </li>
+    </ul>
+    <div class="code code-definition single-arg">
+     self
+     <span class="typ-punct">
+      .
+     </span>
+     <span class="typ-func">
+      match
+     </span>
+     (
+     <div class="arguments">
+      <span class="overview-param">
+       <a class="pill pill-str" href="/docs/reference/foundations/str/">
+        str
+       </a>
+       <a class="pill pill-obj" href="/docs/reference/foundations/regex/">
+        regex
+       </a>
+      </span>
+     </div>
+     )
+     <!-- -->
+     -&gt;
+     <a class="pill pill-kw" href="/docs/reference/foundations/none/">
+      none
+     </a>
+     <a class="pill pill-obj" href="/docs/reference/foundations/dictionary/">
+      dictionary
+     </a>
+    </div>
+    <h4 id="definitions-match-pattern">
+     <code>
+      pattern
+     </code>
+     <div class="additional-info">
+      <div>
+       <a class="pill pill-str" href="/docs/reference/foundations/str/">
+        str
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-obj" href="/docs/reference/foundations/regex/">
+        regex
+       </a>
+      </div>
+      <small>
+       Required
+      </small>
+      <small>
+       <span aria-describedby="definitions-match-pattern-positional-tooltip">
+        Positional
+       </span>
+       <div class="tooltip-context">
+        <svg aria-labelledby=":R1jhsv99a:-label" height="12" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 12 12" width="12">
+         <title id=":R1jhsv99a:-label">
+          Question mark
+         </title>
+         <use href="/assets/icons/12-tooltip.svg#icon">
+         </use>
+        </svg>
+        <div aria-hidden="true" id="definitions-match-pattern-positional-tooltip" role="tooltip" tabindex="-1">
+         Positional parameters are specified in order, without names.
+        </div>
+       </div>
+      </small>
+     </div>
+    </h4>
+    <p>
+     The pattern to search for.
+    </p>
+    <h3 class="scoped-function" id="definitions-matches">
+     <code>
+      matches
+     </code>
+    </h3>
+    <p>
+     Searches for the specified pattern in the string and returns an array of dictionaries with details about all matches. For details about the returned dictionaries, see above.
+    </p>
+    <div class="code code-definition single-arg">
+     self
+     <span class="typ-punct">
+      .
+     </span>
+     <span class="typ-func">
+      matches
+     </span>
+     (
+     <div class="arguments">
+      <span class="overview-param">
+       <a class="pill pill-str" href="/docs/reference/foundations/str/">
+        str
+       </a>
+       <a class="pill pill-obj" href="/docs/reference/foundations/regex/">
+        regex
+       </a>
+      </span>
+     </div>
+     )
+     <!-- -->
+     -&gt;
+     <a class="pill pill-obj" href="/docs/reference/foundations/array/">
+      array
+     </a>
+    </div>
+    <h4 id="definitions-matches-pattern">
+     <code>
+      pattern
+     </code>
+     <div class="additional-info">
+      <div>
+       <a class="pill pill-str" href="/docs/reference/foundations/str/">
+        str
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-obj" href="/docs/reference/foundations/regex/">
+        regex
+       </a>
+      </div>
+      <small>
+       Required
+      </small>
+      <small>
+       <span aria-describedby="definitions-matches-pattern-positional-tooltip">
+        Positional
+       </span>
+       <div class="tooltip-context">
+        <svg aria-labelledby=":R1jht199a:-label" height="12" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 12 12" width="12">
+         <title id=":R1jht199a:-label">
+          Question mark
+         </title>
+         <use href="/assets/icons/12-tooltip.svg#icon">
+         </use>
+        </svg>
+        <div aria-hidden="true" id="definitions-matches-pattern-positional-tooltip" role="tooltip" tabindex="-1">
+         Positional parameters are specified in order, without names.
+        </div>
+       </div>
+      </small>
+     </div>
+    </h4>
+    <p>
+     The pattern to search for.
+    </p>
+    <h3 class="scoped-function" id="definitions-replace">
+     <code>
+      replace
+     </code>
+    </h3>
+    <p>
+     Replace at most
+     <code>
+      count
+     </code>
+     occurrences of the given pattern with a replacement string or function (beginning from the start). If no count is given, all occurrences are replaced.
+    </p>
+    <div class="code code-definition">
+     self
+     <span class="typ-punct">
+      .
+     </span>
+     <span class="typ-func">
+      replace
+     </span>
+     (
+     <div class="arguments">
+      <span class="overview-param">
+       <a class="pill pill-str" href="/docs/reference/foundations/str/">
+        str
+       </a>
+       <a class="pill pill-obj" href="/docs/reference/foundations/regex/">
+        regex
+       </a>
+       ,
+      </span>
+      <span class="overview-param">
+       <a class="pill pill-str" href="/docs/reference/foundations/str/">
+        str
+       </a>
+       <a class="pill pill-obj" href="/docs/reference/foundations/function/">
+        function
+       </a>
+       ,
+      </span>
+      <span class="overview-param">
+       <a href="#definitions-replace-parameters-count">
+        count
+        <!-- -->
+        :
+       </a>
+       <a class="pill pill-num" href="/docs/reference/foundations/int/">
+        int
+       </a>
+       ,
+      </span>
+     </div>
+     )
+     <!-- -->
+     -&gt;
+     <a class="pill pill-str" href="/docs/reference/foundations/str/">
+      str
+     </a>
+    </div>
+    <h4 id="definitions-replace-pattern">
+     <code>
+      pattern
+     </code>
+     <div class="additional-info">
+      <div>
+       <a class="pill pill-str" href="/docs/reference/foundations/str/">
+        str
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-obj" href="/docs/reference/foundations/regex/">
+        regex
+       </a>
+      </div>
+      <small>
+       Required
+      </small>
+      <small>
+       <span aria-describedby="definitions-replace-pattern-positional-tooltip">
+        Positional
+       </span>
+       <div class="tooltip-context">
+        <svg aria-labelledby=":R372t399a:-label" height="12" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 12 12" width="12">
+         <title id=":R372t399a:-label">
+          Question mark
+         </title>
+         <use href="/assets/icons/12-tooltip.svg#icon">
+         </use>
+        </svg>
+        <div aria-hidden="true" id="definitions-replace-pattern-positional-tooltip" role="tooltip" tabindex="-1">
+         Positional parameters are specified in order, without names.
+        </div>
+       </div>
+      </small>
+     </div>
+    </h4>
+    <p>
+     The pattern to search for.
+    </p>
+    <h4 id="definitions-replace-replacement">
+     <code>
+      replacement
+     </code>
+     <div class="additional-info">
+      <div>
+       <a class="pill pill-str" href="/docs/reference/foundations/str/">
+        str
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-obj" href="/docs/reference/foundations/function/">
+        function
+       </a>
+      </div>
+      <small>
+       Required
+      </small>
+      <small>
+       <span aria-describedby="definitions-replace-replacement-positional-tooltip">
+        Positional
+       </span>
+       <div class="tooltip-context">
+        <svg aria-labelledby=":R373d399a:-label" height="12" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 12 12" width="12">
+         <title id=":R373d399a:-label">
+          Question mark
+         </title>
+         <use href="/assets/icons/12-tooltip.svg#icon">
+         </use>
+        </svg>
+        <div aria-hidden="true" id="definitions-replace-replacement-positional-tooltip" role="tooltip" tabindex="-1">
+         Positional parameters are specified in order, without names.
+        </div>
+       </div>
+      </small>
+     </div>
+    </h4>
+    <p>
+     The string to replace the matches with or a function that gets a dictionary for each match and can return individual replacement strings.
+    </p>
+    <h4 id="definitions-replace-count">
+     <code>
+      count
+     </code>
+     <div class="additional-info">
+      <div>
+       <a class="pill pill-num" href="/docs/reference/foundations/int/">
+        int
+       </a>
+      </div>
+     </div>
+    </h4>
+    <p>
+     If given, only the first
+     <code>
+      count
+     </code>
+     matches of the pattern are placed.
+    </p>
+    <h3 class="scoped-function" id="definitions-trim">
+     <code>
+      trim
+     </code>
+    </h3>
+    <p>
+     Removes matches of a pattern from one or both sides of the string, once or repeatedly and returns the resulting string.
+    </p>
+    <div class="code code-definition">
+     self
+     <span class="typ-punct">
+      .
+     </span>
+     <span class="typ-func">
+      trim
+     </span>
+     (
+     <div class="arguments">
+      <span class="overview-param">
+       <a class="pill pill-kw" href="/docs/reference/foundations/none/">
+        none
+       </a>
+       <a class="pill pill-str" href="/docs/reference/foundations/str/">
+        str
+       </a>
+       <a class="pill pill-obj" href="/docs/reference/foundations/regex/">
+        regex
+       </a>
+       ,
+      </span>
+      <span class="overview-param">
+       <a href="#definitions-trim-parameters-at">
+        at
+        <!-- -->
+        :
+       </a>
+       <a class="pill pill-obj" href="/docs/reference/layout/alignment/">
+        alignment
+       </a>
+       ,
+      </span>
+      <span class="overview-param">
+       <a href="#definitions-trim-parameters-repeat">
+        repeat
+        <!-- -->
+        :
+       </a>
+       <a class="pill pill-bool" href="/docs/reference/foundations/bool/">
+        bool
+       </a>
+       ,
+      </span>
+     </div>
+     )
+     <!-- -->
+     -&gt;
+     <a class="pill pill-str" href="/docs/reference/foundations/str/">
+      str
+     </a>
+    </div>
+    <h4 id="definitions-trim-pattern">
+     <code>
+      pattern
+     </code>
+     <div class="additional-info">
+      <div>
+       <a class="pill pill-kw" href="/docs/reference/foundations/none/">
+        none
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-str" href="/docs/reference/foundations/str/">
+        str
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-obj" href="/docs/reference/foundations/regex/">
+        regex
+       </a>
+      </div>
+      <small>
+       <span aria-describedby="definitions-trim-pattern-positional-tooltip">
+        Positional
+       </span>
+       <div class="tooltip-context">
+        <svg aria-labelledby=":R372t599a:-label" height="12" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 12 12" width="12">
+         <title id=":R372t599a:-label">
+          Question mark
+         </title>
+         <use href="/assets/icons/12-tooltip.svg#icon">
+         </use>
+        </svg>
+        <div aria-hidden="true" id="definitions-trim-pattern-positional-tooltip" role="tooltip" tabindex="-1">
+         Positional parameters are specified in order, without names.
+        </div>
+       </div>
+      </small>
+     </div>
+    </h4>
+    <p>
+     The pattern to search for. If
+     <code>
+      <span class="typ-key">
+       none
+      </span>
+     </code>
+     , trims white spaces.
+    </p>
+    <p>
+     Default:
+     <code>
+      <span class="typ-key">
+       none
+      </span>
+     </code>
+    </p>
+    <h4 id="definitions-trim-at">
+     <code>
+      at
+     </code>
+     <div class="additional-info">
+      <div>
+       <a class="pill pill-obj" href="/docs/reference/layout/alignment/">
+        alignment
+       </a>
+      </div>
+     </div>
+    </h4>
+    <p>
+     Can be
+     <code>
+      start
+     </code>
+     or
+     <code>
+      end
+     </code>
+     to only trim the start or end of the string. If omitted, both sides are trimmed.
+    </p>
+    <h4 id="definitions-trim-repeat">
+     <code>
+      repeat
+     </code>
+     <div class="additional-info">
+      <div>
+       <a class="pill pill-bool" href="/docs/reference/foundations/bool/">
+        bool
+       </a>
+      </div>
+     </div>
+    </h4>
+    <p>
+     Whether to repeatedly removes matches of the pattern or just once. Defaults to
+     <code>
+      <span class="typ-key">
+       true
+      </span>
+     </code>
+     .
+    </p>
+    <p>
+     Default:
+     <code>
+      <span class="typ-key">
+       true
+      </span>
+     </code>
+    </p>
+    <h3 class="scoped-function" id="definitions-split">
+     <code>
+      split
+     </code>
+    </h3>
+    <p>
+     Splits a string at matches of a specified pattern and returns an array of the resulting parts.
+    </p>
+    <div class="code code-definition single-arg">
+     self
+     <span class="typ-punct">
+      .
+     </span>
+     <span class="typ-func">
+      split
+     </span>
+     (
+     <div class="arguments">
+      <span class="overview-param">
+       <a class="pill pill-kw" href="/docs/reference/foundations/none/">
+        none
+       </a>
+       <a class="pill pill-str" href="/docs/reference/foundations/str/">
+        str
+       </a>
+       <a class="pill pill-obj" href="/docs/reference/foundations/regex/">
+        regex
+       </a>
+      </span>
+     </div>
+     )
+     <!-- -->
+     -&gt;
+     <a class="pill pill-obj" href="/docs/reference/foundations/array/">
+      array
+     </a>
+    </div>
+    <h4 id="definitions-split-pattern">
+     <code>
+      pattern
+     </code>
+     <div class="additional-info">
+      <div>
+       <a class="pill pill-kw" href="/docs/reference/foundations/none/">
+        none
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-str" href="/docs/reference/foundations/str/">
+        str
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-obj" href="/docs/reference/foundations/regex/">
+        regex
+       </a>
+      </div>
+      <small>
+       <span aria-describedby="definitions-split-pattern-positional-tooltip">
+        Positional
+       </span>
+       <div class="tooltip-context">
+        <svg aria-labelledby=":R1jht799a:-label" height="12" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 12 12" width="12">
+         <title id=":R1jht799a:-label">
+          Question mark
+         </title>
+         <use href="/assets/icons/12-tooltip.svg#icon">
+         </use>
+        </svg>
+        <div aria-hidden="true" id="definitions-split-pattern-positional-tooltip" role="tooltip" tabindex="-1">
+         Positional parameters are specified in order, without names.
+        </div>
+       </div>
+      </small>
+     </div>
+    </h4>
+    <p>
+     The pattern to split at. Defaults to whitespace.
+    </p>
+    <p>
+     Default:
+     <code>
+      <span class="typ-key">
+       none
+      </span>
+     </code>
+    </p>
+    <h3 class="scoped-function" id="definitions-rev">
+     <code>
+      rev
+     </code>
+    </h3>
+    <p>
+     Reverse the string.
+    </p>
+    <div class="code code-definition single-arg">
+     self
+     <span class="typ-punct">
+      .
+     </span>
+     <span class="typ-func">
+      rev
+     </span>
+     (
+     <div class="arguments">
+     </div>
+     )
+     <!-- -->
+     -&gt;
+     <a class="pill pill-str" href="/docs/reference/foundations/str/">
+      str
+     </a>
+    </div>
+    <div class="page-end-buttons">
+     <a class="previous" href="/docs/reference/foundations/selector/">
+      <img alt="â" src="/assets/icons/16-arrow-right.svg"/>
+      <div>
+       <span class="page-title">
+        Selector
+       </span>
+       <span class="hint">
+        Previous page
+       </span>
+      </div>
+     </a>
+     <a class="next" href="/docs/reference/foundations/style/">
+      <img alt="â" src="/assets/icons/16-arrow-right.svg"/>
+      <div>
+       <span class="page-title">
+        Style
+       </span>
+       <span class="hint">
+        Next page
+       </span>
+      </div>
+     </a>
+    </div>
+   </main>

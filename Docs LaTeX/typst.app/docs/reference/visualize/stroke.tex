@@ -1,0 +1,365 @@
+\title{typst.app/docs/reference/visualize/stroke}
+
+\begin{itemize}
+\tightlist
+\item
+  \href{/docs}{\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-docs-dark.svg}}
+\item
+  \includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-arrow-right.svg}
+\item
+  \href{/docs/reference/}{Reference}
+\item
+  \includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-arrow-right.svg}
+\item
+  \href{/docs/reference/visualize/}{Visualize}
+\item
+  \includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-arrow-right.svg}
+\item
+  \href{/docs/reference/visualize/stroke/}{Stroke}
+\end{itemize}
+
+\section{\texorpdfstring{{ stroke }}{ stroke }}\label{summary}
+
+Defines how to draw a line.
+
+A stroke has a \emph{paint} (a solid color or gradient), a
+\emph{thickness,} a line \emph{cap,} a line \emph{join,} a \emph{miter
+limit,} and a \emph{dash} pattern. All of these values are optional and
+have sensible defaults.
+
+\subsection{Example}\label{example}
+
+\begin{verbatim}
+#set line(length: 100%)
+#stack(
+  spacing: 1em,
+  line(stroke: 2pt + red),
+  line(stroke: (paint: blue, thickness: 4pt, cap: "round")),
+  line(stroke: (paint: blue, thickness: 1pt, dash: "dashed")),
+  line(stroke: 2pt + gradient.linear(..color.map.rainbow)),
+)
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/3NofubbwIllodsFawlNd8wAAAAAAAAAA.png}
+
+\subsection{Simple strokes}\label{simple-strokes}
+
+You can create a simple solid stroke from a color, a thickness, or a
+combination of the two. Specifically, wherever a stroke is expected you
+can pass any of the following values:
+
+\begin{itemize}
+\tightlist
+\item
+  A length specifying the stroke\textquotesingle s thickness. The color
+  is inherited, defaulting to black.
+\item
+  A color to use for the stroke. The thickness is inherited, defaulting
+  to \texttt{\ }{\texttt{\ 1pt\ }}\texttt{\ } .
+\item
+  A stroke combined from color and thickness using the \texttt{\ +\ }
+  operator as in
+  \texttt{\ }{\texttt{\ 2pt\ }}\texttt{\ }{\texttt{\ +\ }}\texttt{\ red\ }
+  .
+\end{itemize}
+
+For full control, you can also provide a
+\href{/docs/reference/foundations/dictionary/}{dictionary} or a
+\texttt{\ stroke\ } object to any function that expects a stroke. The
+dictionary\textquotesingle s keys may include any of the parameters for
+the constructor function, shown below.
+
+\subsection{Fields}\label{fields}
+
+On a stroke object, you can access any of the fields listed in the
+constructor function. For example,
+\texttt{\ }{\texttt{\ (\ }}\texttt{\ }{\texttt{\ 2pt\ }}\texttt{\ }{\texttt{\ +\ }}\texttt{\ blue\ }{\texttt{\ )\ }}\texttt{\ }{\texttt{\ .\ }}\texttt{\ thickness\ }
+is \texttt{\ }{\texttt{\ 2pt\ }}\texttt{\ } . Meanwhile,
+\texttt{\ }{\texttt{\ stroke\ }}\texttt{\ }{\texttt{\ (\ }}\texttt{\ red\ }{\texttt{\ )\ }}\texttt{\ }{\texttt{\ .\ }}\texttt{\ cap\ }
+is \texttt{\ }{\texttt{\ auto\ }}\texttt{\ } because
+it\textquotesingle s unspecified. Fields set to
+\texttt{\ }{\texttt{\ auto\ }}\texttt{\ } are inherited.
+
+\subsection{\texorpdfstring{Constructor
+{}}{Constructor }}\label{constructor}
+
+\phantomsection\label{constructor-constructor-tooltip}
+If a type has a constructor, you can call it like a function to create a
+new value of the type.
+
+Converts a value to a stroke or constructs a stroke with the given
+parameters.
+
+Note that in most cases you do not need to convert values to strokes in
+order to use them, as they will be converted automatically. However,
+this constructor can be useful to ensure a value has all the fields of a
+stroke.
+
+{ stroke } (
+
+{ \href{/docs/reference/foundations/auto/}{auto}
+\href{/docs/reference/visualize/color/}{color}
+\href{/docs/reference/visualize/gradient/}{gradient}
+\href{/docs/reference/visualize/pattern/}{pattern} , } {
+\href{/docs/reference/foundations/auto/}{auto}
+\href{/docs/reference/layout/length/}{length} , } {
+\href{/docs/reference/foundations/auto/}{auto}
+\href{/docs/reference/foundations/str/}{str} , } {
+\href{/docs/reference/foundations/auto/}{auto}
+\href{/docs/reference/foundations/str/}{str} , } {
+\href{/docs/reference/foundations/none/}{none}
+\href{/docs/reference/foundations/auto/}{auto}
+\href{/docs/reference/foundations/str/}{str}
+\href{/docs/reference/foundations/array/}{array}
+\href{/docs/reference/foundations/dictionary/}{dictionary} , } {
+\href{/docs/reference/foundations/auto/}{auto}
+\href{/docs/reference/foundations/float/}{float} , }
+
+) -\textgreater{} \href{/docs/reference/visualize/stroke/}{stroke}
+
+\begin{verbatim}
+#let my-func(x) = {
+    x = stroke(x) // Convert to a stroke
+    [Stroke has thickness #x.thickness.]
+}
+#my-func(3pt) \
+#my-func(red) \
+#my-func(stroke(cap: "round", thickness: 1pt))
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/oulcXDNcpunCSxVvCPXMJQAAAAAAAAAA.png}
+
+\paragraph{\texorpdfstring{\texttt{\ paint\ }}{ paint }}\label{constructor-paint}
+
+\href{/docs/reference/foundations/auto/}{auto} {or}
+\href{/docs/reference/visualize/color/}{color} {or}
+\href{/docs/reference/visualize/gradient/}{gradient} {or}
+\href{/docs/reference/visualize/pattern/}{pattern}
+
+{Required} {{ Positional }}
+
+\phantomsection\label{constructor-paint-positional-tooltip}
+Positional parameters are specified in order, without names.
+
+The color or gradient to use for the stroke.
+
+If set to \texttt{\ }{\texttt{\ auto\ }}\texttt{\ } , the value is
+inherited, defaulting to \texttt{\ black\ } .
+
+\paragraph{\texorpdfstring{\texttt{\ thickness\ }}{ thickness }}\label{constructor-thickness}
+
+\href{/docs/reference/foundations/auto/}{auto} {or}
+\href{/docs/reference/layout/length/}{length}
+
+{Required} {{ Positional }}
+
+\phantomsection\label{constructor-thickness-positional-tooltip}
+Positional parameters are specified in order, without names.
+
+The stroke\textquotesingle s thickness.
+
+If set to \texttt{\ }{\texttt{\ auto\ }}\texttt{\ } , the value is
+inherited, defaulting to \texttt{\ }{\texttt{\ 1pt\ }}\texttt{\ } .
+
+\paragraph{\texorpdfstring{\texttt{\ cap\ }}{ cap }}\label{constructor-cap}
+
+\href{/docs/reference/foundations/auto/}{auto} {or}
+\href{/docs/reference/foundations/str/}{str}
+
+{Required} {{ Positional }}
+
+\phantomsection\label{constructor-cap-positional-tooltip}
+Positional parameters are specified in order, without names.
+
+How the ends of the stroke are rendered.
+
+If set to \texttt{\ }{\texttt{\ auto\ }}\texttt{\ } , the value is
+inherited, defaulting to \texttt{\ }{\texttt{\ "butt"\ }}\texttt{\ } .
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Variant & Details \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\texttt{\ "\ butt\ "\ } & Square stroke cap with the edge at the
+stroke\textquotesingle s end point. \\
+\texttt{\ "\ round\ "\ } & Circular stroke cap centered at the
+stroke\textquotesingle s end point. \\
+\texttt{\ "\ square\ "\ } & Square stroke cap centered at the
+stroke\textquotesingle s end point. \\
+\end{longtable}
+
+\paragraph{\texorpdfstring{\texttt{\ join\ }}{ join }}\label{constructor-join}
+
+\href{/docs/reference/foundations/auto/}{auto} {or}
+\href{/docs/reference/foundations/str/}{str}
+
+{Required} {{ Positional }}
+
+\phantomsection\label{constructor-join-positional-tooltip}
+Positional parameters are specified in order, without names.
+
+How sharp turns are rendered.
+
+If set to \texttt{\ }{\texttt{\ auto\ }}\texttt{\ } , the value is
+inherited, defaulting to \texttt{\ }{\texttt{\ "miter"\ }}\texttt{\ } .
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Variant & Details \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\texttt{\ "\ miter\ "\ } & Segments are joined with sharp edges. Sharp
+bends exceeding the miter limit are bevelled instead. \\
+\texttt{\ "\ round\ "\ } & Segments are joined with circular corners. \\
+\texttt{\ "\ bevel\ "\ } & Segments are joined with a bevel (a straight
+edge connecting the butts of the joined segments). \\
+\end{longtable}
+
+\paragraph{\texorpdfstring{\texttt{\ dash\ }}{ dash }}\label{constructor-dash}
+
+\href{/docs/reference/foundations/none/}{none} {or}
+\href{/docs/reference/foundations/auto/}{auto} {or}
+\href{/docs/reference/foundations/str/}{str} {or}
+\href{/docs/reference/foundations/array/}{array} {or}
+\href{/docs/reference/foundations/dictionary/}{dictionary}
+
+{Required} {{ Positional }}
+
+\phantomsection\label{constructor-dash-positional-tooltip}
+Positional parameters are specified in order, without names.
+
+The dash pattern to use. This can be:
+
+\begin{itemize}
+\tightlist
+\item
+  One of the predefined patterns:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \texttt{\ }{\texttt{\ "solid"\ }}\texttt{\ } or
+    \texttt{\ }{\texttt{\ none\ }}\texttt{\ }
+  \item
+    \texttt{\ }{\texttt{\ "dotted"\ }}\texttt{\ }
+  \item
+    \texttt{\ }{\texttt{\ "densely-dotted"\ }}\texttt{\ }
+  \item
+    \texttt{\ }{\texttt{\ "loosely-dotted"\ }}\texttt{\ }
+  \item
+    \texttt{\ }{\texttt{\ "dashed"\ }}\texttt{\ }
+  \item
+    \texttt{\ }{\texttt{\ "densely-dashed"\ }}\texttt{\ }
+  \item
+    \texttt{\ }{\texttt{\ "loosely-dashed"\ }}\texttt{\ }
+  \item
+    \texttt{\ }{\texttt{\ "dash-dotted"\ }}\texttt{\ }
+  \item
+    \texttt{\ }{\texttt{\ "densely-dash-dotted"\ }}\texttt{\ }
+  \item
+    \texttt{\ }{\texttt{\ "loosely-dash-dotted"\ }}\texttt{\ }
+  \end{itemize}
+\item
+  An \href{/docs/reference/foundations/array/}{array} with alternating
+  lengths for dashes and gaps. You can also use the string
+  \texttt{\ }{\texttt{\ "dot"\ }}\texttt{\ } for a length equal to the
+  line thickness.
+\item
+  A \href{/docs/reference/foundations/dictionary/}{dictionary} with the
+  keys \texttt{\ array\ } (same as the array above), and
+  \texttt{\ phase\ } (of type
+  \href{/docs/reference/layout/length/}{length} ), which defines where
+  in the pattern to start drawing.
+\end{itemize}
+
+If set to \texttt{\ }{\texttt{\ auto\ }}\texttt{\ } , the value is
+inherited, defaulting to \texttt{\ }{\texttt{\ none\ }}\texttt{\ } .
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-arrow-right.svg}
+View options
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Variant & Details \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\texttt{\ "\ solid\ "\ } & \\
+\texttt{\ "\ dotted\ "\ } & \\
+\texttt{\ "\ densely-dotted\ "\ } & \\
+\texttt{\ "\ loosely-dotted\ "\ } & \\
+\texttt{\ "\ dashed\ "\ } & \\
+\texttt{\ "\ densely-dashed\ "\ } & \\
+\texttt{\ "\ loosely-dashed\ "\ } & \\
+\texttt{\ "\ dash-dotted\ "\ } & \\
+\texttt{\ "\ densely-dash-dotted\ "\ } & \\
+\texttt{\ "\ loosely-dash-dotted\ "\ } & \\
+\end{longtable}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-arrow-right.svg}
+View example
+
+\begin{verbatim}
+#set line(length: 100%, stroke: 2pt)
+#stack(
+  spacing: 1em,
+  line(stroke: (dash: "dashed")),
+  line(stroke: (dash: (10pt, 5pt, "dot", 5pt))),
+  line(stroke: (dash: (array: (10pt, 5pt, "dot", 5pt), phase: 10pt))),
+)
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/P38gFluKZcw64WdZR85nHgAAAAAAAAAA.png}
+
+\paragraph{\texorpdfstring{\texttt{\ miter-limit\ }}{ miter-limit }}\label{constructor-miter-limit}
+
+\href{/docs/reference/foundations/auto/}{auto} {or}
+\href{/docs/reference/foundations/float/}{float}
+
+{Required} {{ Positional }}
+
+\phantomsection\label{constructor-miter-limit-positional-tooltip}
+Positional parameters are specified in order, without names.
+
+Number at which protruding sharp bends are rendered with a bevel instead
+or a miter join. The higher the number, the sharper an angle can be
+before it is bevelled. Only applicable if \texttt{\ join\ } is
+\texttt{\ }{\texttt{\ "miter"\ }}\texttt{\ } .
+
+Specifically, the miter limit is the maximum ratio between the
+corner\textquotesingle s protrusion length and the
+stroke\textquotesingle s thickness.
+
+If set to \texttt{\ }{\texttt{\ auto\ }}\texttt{\ } , the value is
+inherited, defaulting to \texttt{\ }{\texttt{\ 4.0\ }}\texttt{\ } .
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-arrow-right.svg}
+View example
+
+\begin{verbatim}
+#let points = ((15pt, 0pt), (0pt, 30pt), (30pt, 30pt), (10pt, 20pt))
+#set path(stroke: 6pt + blue)
+#stack(
+    dir: ltr,
+    spacing: 1cm,
+    path(stroke: (miter-limit: 1), ..points),
+    path(stroke: (miter-limit: 4), ..points),
+    path(stroke: (miter-limit: 5), ..points),
+)
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/3zeU1BuQq8_VfdTfAQbv5QAAAAAAAAAA.png}
+
+\href{/docs/reference/visualize/square/}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-arrow-right.svg}}}
+
+{ Square } { Previous page }
+
+\href{/docs/reference/introspection/}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-arrow-right.svg}}}
+
+{ Introspection } { Next page }

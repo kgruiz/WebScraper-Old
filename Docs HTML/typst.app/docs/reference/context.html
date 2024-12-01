@@ -1,0 +1,625 @@
+<main>
+    <ul aria-label="Breadcrumbs" class="breadcrumbs">
+     <li class="root">
+      <a href="/docs">
+       <img alt="Docs" height="16" src="/assets/icons/16-docs-dark.svg" width="16"/>
+      </a>
+     </li>
+     <li aria-hidden="true">
+      <img alt="" height="16" src="/assets/icons/16-arrow-right.svg" width="16"/>
+     </li>
+     <li>
+      <a href="/docs/reference/">
+       Reference
+      </a>
+     </li>
+     <li aria-hidden="true">
+      <img alt="" height="16" src="/assets/icons/16-arrow-right.svg" width="16"/>
+     </li>
+     <li>
+      <a href="/docs/reference/context/">
+       Context
+      </a>
+     </li>
+    </ul>
+    <h1>
+     Context
+    </h1>
+    <p>
+     Sometimes, we want to create content that reacts to its location in the document. This could be a localized phrase that depends on the configured text language or something as simple as a heading number which prints the right value based on how many headings came before it. However, Typst code isn't directly aware of its location in the document. Some code at the beginning of the source text could yield content that ends up at the back of the document.
+    </p>
+    <p>
+     To produce content that is reactive to its surroundings, we must thus specifically instruct Typst: We do this with the
+     <code>
+      <span class="typ-key">
+       context
+      </span>
+     </code>
+     keyword, which precedes an expression and ensures that it is computed with knowledge of its environment. In return, the context expression itself ends up opaque. We cannot directly access whatever results from it in our code, precisely because it is contextual: There is no one correct result, there may be multiple results in different places of the document. For this reason, everything that depends on the contextual data must happen inside of the context expression.
+    </p>
+    <p>
+     Aside from explicit context expressions, context is also established implicitly in some places that are also aware of their location in the document:
+     <a href="/docs/reference/styling/#show-rules">
+      Show rules
+     </a>
+     provide context
+     <sup class="footnote-reference">
+      <a href="#1">
+       1
+      </a>
+     </sup>
+     and numberings in the outline, for instance, also provide the proper context to resolve counters.
+    </p>
+    <h2 id="style-context">
+     Style context
+    </h2>
+    <p>
+     With set rules, we can adjust style properties for parts or the whole of our document. We cannot access these without a known context, as they may change throughout the course of the document. When context is available, we can retrieve them simply by accessing them as fields on the respective element function.
+    </p>
+    <div class="previewed-code">
+     <pre><code><span class="typ-key">#</span><span class="typ-key">set</span> <span class="typ-func">text</span><span class="typ-punct">(</span>lang<span class="typ-punct">:</span> <span class="typ-str">"de"</span><span class="typ-punct">)</span>
+<span class="typ-key">#</span><span class="typ-key">context</span> text<span class="typ-punct">.</span>lang
+</code></pre>
+     <div class="preview">
+      <img alt="Preview" height="74/" src="/assets/docs/ETetUaSK2J1pHpdRRUWzagAAAAAAAAAA.png" width="480"/>
+     </div>
+    </div>
+    <p>
+     As explained above, a context expression is reactive to the different environments it is placed into. In the example below, we create a single context expression, store it in the
+     <code>
+      value
+     </code>
+     variable and use it multiple times. Each use properly reacts to the current surroundings.
+    </p>
+    <div class="previewed-code">
+     <pre><code><span class="typ-key">#</span><span class="typ-key">let</span> value <span class="typ-op">=</span> <span class="typ-key">context</span> text<span class="typ-punct">.</span>lang
+<span class="typ-pol">#</span><span class="typ-pol">value</span>
+
+<span class="typ-key">#</span><span class="typ-key">set</span> <span class="typ-func">text</span><span class="typ-punct">(</span>lang<span class="typ-punct">:</span> <span class="typ-str">"de"</span><span class="typ-punct">)</span>
+<span class="typ-pol">#</span><span class="typ-pol">value</span>
+
+<span class="typ-key">#</span><span class="typ-key">set</span> <span class="typ-func">text</span><span class="typ-punct">(</span>lang<span class="typ-punct">:</span> <span class="typ-str">"fr"</span><span class="typ-punct">)</span>
+<span class="typ-pol">#</span><span class="typ-pol">value</span>
+</code></pre>
+     <div class="preview">
+      <img alt="Preview" height="156/" src="/assets/docs/cUJma0l-7W2Pm0tXEKJmjAAAAAAAAAAA.png" width="480"/>
+     </div>
+    </div>
+    <p>
+     Crucially, upon creation,
+     <code>
+      value
+     </code>
+     becomes opaque
+     <a href="/docs/reference/foundations/content/" title="content">
+      content
+     </a>
+     that we cannot peek into. It can only be resolved when placed somewhere because only then the context is known. The body of a context expression may be evaluated zero, one, or multiple times, depending on how many different places it is put into.
+    </p>
+    <h2 id="location-context">
+     Location context
+    </h2>
+    <p>
+     We've already seen that context gives us access to set rule values. But it can do more: It also lets us know
+     <em>
+      where
+     </em>
+     in the document we currently are, relative to other elements, and absolutely on the pages. We can use this information to create very flexible interactions between different document parts. This underpins features like heading numbering, the table of contents, or page headers dependent on section headings.
+    </p>
+    <p>
+     Some functions like
+     <a href="/docs/reference/introspection/counter/#definitions-get">
+      <code>
+       counter.get
+      </code>
+     </a>
+     implicitly access the current location. In the example below, we want to retrieve the value of the heading counter. Since it changes throughout the document, we need to first enter a context expression. Then, we use
+     <code>
+      get
+     </code>
+     to retrieve the counter's current value. This function accesses the current location from the context to resolve the counter value. Counters have multiple levels and
+     <code>
+      get
+     </code>
+     returns an array with the resolved numbers. Thus, we get the following result:
+    </p>
+    <div class="previewed-code">
+     <pre><code><span class="typ-key">#</span><span class="typ-key">set</span> <span class="typ-func">heading</span><span class="typ-punct">(</span>numbering<span class="typ-punct">:</span> <span class="typ-str">"1."</span><span class="typ-punct">)</span>
+
+<span class="typ-heading">= Introduction</span>
+<span class="typ-func">#</span><span class="typ-func">lorem</span><span class="typ-punct">(</span><span class="typ-num">5</span><span class="typ-punct">)</span>
+
+<span class="typ-key">#</span><span class="typ-key">context</span> <span class="typ-func">counter</span><span class="typ-punct">(</span>heading<span class="typ-punct">)</span><span class="typ-punct">.</span><span class="typ-func">get</span><span class="typ-punct">(</span><span class="typ-punct">)</span>
+
+<span class="typ-heading">= Background</span>
+<span class="typ-func">#</span><span class="typ-func">lorem</span><span class="typ-punct">(</span><span class="typ-num">5</span><span class="typ-punct">)</span>
+
+<span class="typ-key">#</span><span class="typ-key">context</span> <span class="typ-func">counter</span><span class="typ-punct">(</span>heading<span class="typ-punct">)</span><span class="typ-punct">.</span><span class="typ-func">get</span><span class="typ-punct">(</span><span class="typ-punct">)</span>
+</code></pre>
+     <div class="preview">
+      <img alt="Preview" height="281/" src="/assets/docs/bQONUXVpXWNuuUEOrLszpQAAAAAAAAAA.png" width="480"/>
+     </div>
+    </div>
+    <p>
+     For more flexibility, we can also use the
+     <a href="/docs/reference/introspection/here/" title="`here`">
+      <code>
+       here
+      </code>
+     </a>
+     function to directly extract the current
+     <a href="/docs/reference/introspection/location/" title="location">
+      location
+     </a>
+     from the context. The example below demonstrates this:
+    </p>
+    <ul>
+     <li>
+      We first have
+      <code>
+       <span class="typ-func">
+        counter
+       </span>
+       <span class="typ-punct">
+        (
+       </span>
+       heading
+       <span class="typ-punct">
+        )
+       </span>
+       <span class="typ-punct">
+        .
+       </span>
+       <span class="typ-func">
+        get
+       </span>
+       <span class="typ-punct">
+        (
+       </span>
+       <span class="typ-punct">
+        )
+       </span>
+      </code>
+      , which resolves to
+      <code>
+       <span class="typ-punct">
+        (
+       </span>
+       <span class="typ-num">
+        2
+       </span>
+       <span class="typ-punct">
+        ,
+       </span>
+       <span class="typ-punct">
+        )
+       </span>
+      </code>
+      as before.
+     </li>
+     <li>
+      We then use the more powerful
+      <a href="/docs/reference/introspection/counter/#definitions-at" title="`counter.at`">
+       <code>
+        counter.at
+       </code>
+      </a>
+      with
+      <a href="/docs/reference/introspection/here/" title="`here`">
+       <code>
+        here
+       </code>
+      </a>
+      , which in combination is equivalent to
+      <code>
+       get
+      </code>
+      , and thus get
+      <code>
+       <span class="typ-punct">
+        (
+       </span>
+       <span class="typ-num">
+        2
+       </span>
+       <span class="typ-punct">
+        ,
+       </span>
+       <span class="typ-punct">
+        )
+       </span>
+      </code>
+      .
+     </li>
+     <li>
+      Finally, we use
+      <code>
+       at
+      </code>
+      with a
+      <a href="/docs/reference/foundations/label/" title="label">
+       label
+      </a>
+      to retrieve the value of the counter at a
+      <em>
+       different
+      </em>
+      location in the document, in our case that of the introduction heading. This yields
+      <code>
+       <span class="typ-punct">
+        (
+       </span>
+       <span class="typ-num">
+        1
+       </span>
+       <span class="typ-punct">
+        ,
+       </span>
+       <span class="typ-punct">
+        )
+       </span>
+      </code>
+      . Typst's context system gives us time travel abilities and lets us retrieve the values of any counters and states at
+      <em>
+       any
+      </em>
+      location in the document.
+     </li>
+    </ul>
+    <div class="previewed-code">
+     <pre><code><span class="typ-key">#</span><span class="typ-key">set</span> <span class="typ-func">heading</span><span class="typ-punct">(</span>numbering<span class="typ-punct">:</span> <span class="typ-str">"1."</span><span class="typ-punct">)</span>
+
+<span class="typ-heading">= Introduction</span> <span class="typ-label">&lt;intro&gt;</span>
+<span class="typ-func">#</span><span class="typ-func">lorem</span><span class="typ-punct">(</span><span class="typ-num">5</span><span class="typ-punct">)</span>
+
+<span class="typ-heading">= Background</span> <span class="typ-label">&lt;back&gt;</span>
+<span class="typ-func">#</span><span class="typ-func">lorem</span><span class="typ-punct">(</span><span class="typ-num">5</span><span class="typ-punct">)</span>
+
+<span class="typ-key">#</span><span class="typ-key">context</span> <span class="typ-punct">[</span>
+  <span class="typ-func">#</span><span class="typ-func">counter</span><span class="typ-punct">(</span>heading<span class="typ-punct">)</span><span class="typ-punct">.</span><span class="typ-func">get</span><span class="typ-punct">(</span><span class="typ-punct">)</span> <span class="typ-escape">\</span>
+  <span class="typ-func">#</span><span class="typ-func">counter</span><span class="typ-punct">(</span>heading<span class="typ-punct">)</span><span class="typ-punct">.</span><span class="typ-func">at</span><span class="typ-punct">(</span><span class="typ-func">here</span><span class="typ-punct">(</span><span class="typ-punct">)</span><span class="typ-punct">)</span> <span class="typ-escape">\</span>
+  <span class="typ-func">#</span><span class="typ-func">counter</span><span class="typ-punct">(</span>heading<span class="typ-punct">)</span><span class="typ-punct">.</span><span class="typ-func">at</span><span class="typ-punct">(</span><span class="typ-label">&lt;intro&gt;</span><span class="typ-punct">)</span>
+<span class="typ-punct">]</span>
+</code></pre>
+     <div class="preview">
+      <img alt="Preview" height="296/" src="/assets/docs/gip9ugheiaYydjAEj2_jbgAAAAAAAAAA.png" width="480"/>
+     </div>
+    </div>
+    <p>
+     As mentioned before, we can also use context to get the physical position of elements on the pages. We do this with the
+     <a href="/docs/reference/introspection/locate/" title="`locate`">
+      <code>
+       locate
+      </code>
+     </a>
+     function, which works similarly to
+     <code>
+      counter.at
+     </code>
+     : It takes a location or other
+     <a href="/docs/reference/foundations/selector/" title="selector">
+      selector
+     </a>
+     that resolves to a unique element (could also be a label) and returns the position on the pages for that element.
+    </p>
+    <div class="previewed-code">
+     <pre><code>Background is at: <span class="typ-escape">\</span>
+<span class="typ-key">#</span><span class="typ-key">context</span> <span class="typ-func">locate</span><span class="typ-punct">(</span><span class="typ-label">&lt;back&gt;</span><span class="typ-punct">)</span><span class="typ-punct">.</span><span class="typ-func">position</span><span class="typ-punct">(</span><span class="typ-punct">)</span>
+
+<span class="typ-heading">= Introduction</span> <span class="typ-label">&lt;intro&gt;</span>
+<span class="typ-func">#</span><span class="typ-func">lorem</span><span class="typ-punct">(</span><span class="typ-num">5</span><span class="typ-punct">)</span>
+<span class="typ-func">#</span><span class="typ-func">pagebreak</span><span class="typ-punct">(</span><span class="typ-punct">)</span>
+
+<span class="typ-heading">= Background</span> <span class="typ-label">&lt;back&gt;</span>
+<span class="typ-func">#</span><span class="typ-func">lorem</span><span class="typ-punct">(</span><span class="typ-num">5</span><span class="typ-punct">)</span>
+</code></pre>
+     <div class="preview">
+      <img alt="Preview" height="193/" src="/assets/docs/AV1GaGSFxqcGN8RTlxty3gAAAAAAAAAA.png" width="480"/>
+      <img alt="Preview" height="111/" src="/assets/docs/AV1GaGSFxqcGN8RTlxty3gAAAAAAAAAB.png" width="480"/>
+     </div>
+    </div>
+    <p>
+     There are other functions that make use of the location context, most prominently
+     <a href="/docs/reference/introspection/query/" title="`query`">
+      <code>
+       query
+      </code>
+     </a>
+     . Take a look at the
+     <a href="/docs/reference/introspection/">
+      introspection
+     </a>
+     category for more details on those.
+    </p>
+    <h2 id="nested-contexts">
+     Nested contexts
+    </h2>
+    <p>
+     Context is also accessible from within function calls nested in context blocks. In the example below,
+     <code>
+      foo
+     </code>
+     itself becomes a contextual function, just like
+     <a href="/docs/reference/layout/length/#definitions-to-absolute">
+      <code>
+       to-absolute
+      </code>
+     </a>
+     is.
+    </p>
+    <div class="previewed-code">
+     <pre><code><span class="typ-key">#</span><span class="typ-key">let</span> <span class="typ-func">foo</span><span class="typ-punct">(</span><span class="typ-punct">)</span> <span class="typ-op">=</span> <span class="typ-num">1em</span><span class="typ-punct">.</span><span class="typ-func">to-absolute</span><span class="typ-punct">(</span><span class="typ-punct">)</span>
+<span class="typ-key">#</span><span class="typ-key">context</span> <span class="typ-punct">{</span>
+  <span class="typ-func">foo</span><span class="typ-punct">(</span><span class="typ-punct">)</span> <span class="typ-op">==</span> text<span class="typ-punct">.</span>size
+<span class="typ-punct">}</span>
+</code></pre>
+     <div class="preview">
+      <img alt="Preview" height="73/" src="/assets/docs/tBYLufutRlRl2ZJ_PAm-owAAAAAAAAAA.png" width="480"/>
+     </div>
+    </div>
+    <p>
+     Context blocks can be nested. Contextual code will then always access the innermost context. The example below demonstrates this: The first
+     <code>
+      text.lang
+     </code>
+     will access the outer context block's styles and as such, it will
+     <strong>
+      not
+     </strong>
+     see the effect of
+     <code>
+      <span class="typ-key">
+       set
+      </span>
+      <span class="typ-func">
+       text
+      </span>
+      <span class="typ-punct">
+       (
+      </span>
+      lang
+      <span class="typ-punct">
+       :
+      </span>
+      <span class="typ-str">
+       "fr"
+      </span>
+      <span class="typ-punct">
+       )
+      </span>
+     </code>
+     . The nested context block around the second
+     <code>
+      text.lang
+     </code>
+     , however, starts after the set rule and will thus show its effect.
+    </p>
+    <div class="previewed-code">
+     <pre><code><span class="typ-key">#</span><span class="typ-key">set</span> <span class="typ-func">text</span><span class="typ-punct">(</span>lang<span class="typ-punct">:</span> <span class="typ-str">"de"</span><span class="typ-punct">)</span>
+<span class="typ-key">#</span><span class="typ-key">context</span> <span class="typ-punct">[</span>
+  <span class="typ-key">#</span><span class="typ-key">set</span> <span class="typ-func">text</span><span class="typ-punct">(</span>lang<span class="typ-punct">:</span> <span class="typ-str">"fr"</span><span class="typ-punct">)</span>
+  <span class="typ-pol">#</span><span class="typ-pol">text</span><span class="typ-punct">.</span><span class="typ-pol">lang</span> <span class="typ-escape">\</span>
+  <span class="typ-key">#</span><span class="typ-key">context</span> text<span class="typ-punct">.</span>lang
+<span class="typ-punct">]</span>
+</code></pre>
+     <div class="preview">
+      <img alt="Preview" height="103/" src="/assets/docs/-8ZHuN0AkDNg1gXmAO7X2wAAAAAAAAAA.png" width="480"/>
+     </div>
+    </div>
+    <p>
+     You might wonder why Typst ignores the French set rule when computing the first
+     <code>
+      text.lang
+     </code>
+     in the example above. The reason is that, in the general case, Typst cannot know all the styles that will apply as set rules can be applied to content after it has been constructed. Below,
+     <code>
+      text.lang
+     </code>
+     is already computed when the template function is applied. As such, it cannot possibly be aware of the language change to French in the template.
+    </p>
+    <div class="previewed-code">
+     <pre><code><span class="typ-key">#</span><span class="typ-key">let</span> <span class="typ-func">template</span><span class="typ-punct">(</span>body<span class="typ-punct">)</span> <span class="typ-op">=</span> <span class="typ-punct">{</span>
+  <span class="typ-key">set</span> <span class="typ-func">text</span><span class="typ-punct">(</span>lang<span class="typ-punct">:</span> <span class="typ-str">"fr"</span><span class="typ-punct">)</span>
+  <span class="typ-func">upper</span><span class="typ-punct">(</span>body<span class="typ-punct">)</span>
+<span class="typ-punct">}</span>
+
+<span class="typ-key">#</span><span class="typ-key">set</span> <span class="typ-func">text</span><span class="typ-punct">(</span>lang<span class="typ-punct">:</span> <span class="typ-str">"de"</span><span class="typ-punct">)</span>
+<span class="typ-key">#</span><span class="typ-key">context</span> <span class="typ-punct">[</span>
+  <span class="typ-key">#</span><span class="typ-key">show</span><span class="typ-punct">:</span> <span class="typ-func">template</span>
+  <span class="typ-pol">#</span><span class="typ-pol">text</span><span class="typ-punct">.</span><span class="typ-pol">lang</span> <span class="typ-escape">\</span>
+  <span class="typ-key">#</span><span class="typ-key">context</span> text<span class="typ-punct">.</span>lang
+<span class="typ-punct">]</span>
+</code></pre>
+     <div class="preview">
+      <img alt="Preview" height="103/" src="/assets/docs/ptMaFdqycQGV8lm06g29-gAAAAAAAAAA.png" width="480"/>
+     </div>
+    </div>
+    <p>
+     The second
+     <code>
+      text.lang
+     </code>
+     , however,
+     <em>
+      does
+     </em>
+     react to the language change because evaluation of its surrounding context block is deferred until the styles for it are known. This illustrates the importance of picking the right insertion point for a context to get access to precisely the right styles.
+    </p>
+    <p>
+     The same also holds true for the location context. Below, the first
+     <code>
+      c
+      <span class="typ-punct">
+       .
+      </span>
+      <span class="typ-func">
+       display
+      </span>
+      <span class="typ-punct">
+       (
+      </span>
+      <span class="typ-punct">
+       )
+      </span>
+     </code>
+     call will access the outer context block and will thus not see the effect of
+     <code>
+      c
+      <span class="typ-punct">
+       .
+      </span>
+      <span class="typ-func">
+       update
+      </span>
+      <span class="typ-punct">
+       (
+      </span>
+      <span class="typ-num">
+       2
+      </span>
+      <span class="typ-punct">
+       )
+      </span>
+     </code>
+     while the second
+     <code>
+      c
+      <span class="typ-punct">
+       .
+      </span>
+      <span class="typ-func">
+       display
+      </span>
+      <span class="typ-punct">
+       (
+      </span>
+      <span class="typ-punct">
+       )
+      </span>
+     </code>
+     accesses the inner context and will thus see it.
+    </p>
+    <div class="previewed-code">
+     <pre><code><span class="typ-key">#</span><span class="typ-key">let</span> c <span class="typ-op">=</span> <span class="typ-func">counter</span><span class="typ-punct">(</span><span class="typ-str">"mycounter"</span><span class="typ-punct">)</span>
+<span class="typ-pol">#</span><span class="typ-pol">c</span><span class="typ-punct">.</span><span class="typ-func">update</span><span class="typ-punct">(</span><span class="typ-num">1</span><span class="typ-punct">)</span>
+<span class="typ-key">#</span><span class="typ-key">context</span> <span class="typ-punct">[</span>
+  <span class="typ-pol">#</span><span class="typ-pol">c</span><span class="typ-punct">.</span><span class="typ-func">update</span><span class="typ-punct">(</span><span class="typ-num">2</span><span class="typ-punct">)</span>
+  <span class="typ-pol">#</span><span class="typ-pol">c</span><span class="typ-punct">.</span><span class="typ-func">display</span><span class="typ-punct">(</span><span class="typ-punct">)</span> <span class="typ-escape">\</span>
+  <span class="typ-key">#</span><span class="typ-key">context</span> c<span class="typ-punct">.</span><span class="typ-func">display</span><span class="typ-punct">(</span><span class="typ-punct">)</span>
+<span class="typ-punct">]</span>
+</code></pre>
+     <div class="preview">
+      <img alt="Preview" height="103/" src="/assets/docs/6mlAfSm7646viO4S8ua6gwAAAAAAAAAA.png" width="480"/>
+     </div>
+    </div>
+    <h2 id="compiler-iterations">
+     Compiler iterations
+    </h2>
+    <p>
+     To resolve contextual interactions, the Typst compiler processes your document multiple times. For instance, to resolve a
+     <code>
+      locate
+     </code>
+     call, Typst first provides a placeholder position, layouts your document and then recompiles with the known position from the finished layout. The same approach is taken to resolve counters, states, and queries. In certain cases, Typst may even need more than two iterations to resolve everything. While that's sometimes a necessity, it may also be a sign of misuse of contextual functions (e.g. of
+     <a href="/docs/reference/introspection/state/#caution">
+      state
+     </a>
+     ). If Typst cannot resolve everything within five attempts, it will stop and output the warning "layout did not converge within 5 attempts."
+    </p>
+    <p>
+     A very careful reader might have noticed that not all of the functions presented above actually make use of the current location. While
+     <code>
+      <span class="typ-func">
+       counter
+      </span>
+      <span class="typ-punct">
+       (
+      </span>
+      heading
+      <span class="typ-punct">
+       )
+      </span>
+      <span class="typ-punct">
+       .
+      </span>
+      <span class="typ-func">
+       get
+      </span>
+      <span class="typ-punct">
+       (
+      </span>
+      <span class="typ-punct">
+       )
+      </span>
+     </code>
+     definitely depends on it,
+     <code>
+      <span class="typ-func">
+       counter
+      </span>
+      <span class="typ-punct">
+       (
+      </span>
+      heading
+      <span class="typ-punct">
+       )
+      </span>
+      <span class="typ-punct">
+       .
+      </span>
+      <span class="typ-func">
+       at
+      </span>
+      <span class="typ-punct">
+       (
+      </span>
+      <span class="typ-label">
+       &lt;intro&gt;
+      </span>
+      <span class="typ-punct">
+       )
+      </span>
+     </code>
+     , for instance, does not. However, it still requires context. While its value is always the same
+     <em>
+      within
+     </em>
+     one compilation iteration, it may change over the course of multiple compiler iterations. If one could call it directly at the top level of a module, the whole module and its exports could change over the course of multiple compiler iterations, which would not be desirable.
+    </p>
+    <div class="footnote-definition" id="1">
+     <sup class="footnote-definition-label">
+      1
+     </sup>
+     <p>
+      Currently, all show rules provide styling context, but only show rules on
+      <a href="/docs/reference/introspection/location/#locatable">
+       locatable
+      </a>
+      elements provide a location context.
+     </p>
+    </div>
+    <div class="page-end-buttons">
+     <a class="previous" href="/docs/reference/scripting/">
+      <img alt="â" src="/assets/icons/16-arrow-right.svg"/>
+      <div>
+       <span class="page-title">
+        Scripting
+       </span>
+       <span class="hint">
+        Previous page
+       </span>
+      </div>
+     </a>
+     <a class="next" href="/docs/reference/foundations/">
+      <img alt="â" src="/assets/icons/16-arrow-right.svg"/>
+      <div>
+       <span class="page-title">
+        Foundations
+       </span>
+       <span class="hint">
+        Next page
+       </span>
+      </div>
+     </a>
+    </div>
+   </main>

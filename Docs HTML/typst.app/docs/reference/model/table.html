@@ -1,0 +1,3670 @@
+<main>
+    <ul aria-label="Breadcrumbs" class="breadcrumbs">
+     <li class="root">
+      <a href="/docs">
+       <img alt="Docs" height="16" src="/assets/icons/16-docs-dark.svg" width="16"/>
+      </a>
+     </li>
+     <li aria-hidden="true">
+      <img alt="" height="16" src="/assets/icons/16-arrow-right.svg" width="16"/>
+     </li>
+     <li>
+      <a href="/docs/reference/">
+       Reference
+      </a>
+     </li>
+     <li aria-hidden="true">
+      <img alt="" height="16" src="/assets/icons/16-arrow-right.svg" width="16"/>
+     </li>
+     <li>
+      <a href="/docs/reference/model/">
+       Model
+      </a>
+     </li>
+     <li aria-hidden="true">
+      <img alt="" height="16" src="/assets/icons/16-arrow-right.svg" width="16"/>
+     </li>
+     <li>
+      <a href="/docs/reference/model/table/">
+       Table
+      </a>
+     </li>
+    </ul>
+    <h1 id="summary">
+     <code>
+      table
+     </code>
+     <small>
+      <span aria-describedby="element-tooltip">
+       Element
+      </span>
+      <div class="tooltip-context">
+       <svg aria-labelledby=":Rd39a:-label" height="12" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 12 12" width="12">
+        <title id=":Rd39a:-label">
+         Question mark
+        </title>
+        <use href="/assets/icons/12-tooltip.svg#icon">
+        </use>
+       </svg>
+       <div aria-hidden="true" id="element-tooltip" role="tooltip" tabindex="-1">
+        Element functions can be customized with
+        <code>
+         set
+        </code>
+        and
+        <!-- -->
+        <code>
+         show
+        </code>
+        rules.
+       </div>
+      </div>
+     </small>
+    </h1>
+    <p>
+     A table of items.
+    </p>
+    <p>
+     Tables are used to arrange content in cells. Cells can contain arbitrary content, including multiple paragraphs and are specified in row-major order. For a hands-on explanation of all the ways you can use and customize tables in Typst, check out the
+     <a href="/docs/guides/table-guide/">
+      table guide
+     </a>
+     .
+    </p>
+    <p>
+     Because tables are just grids with different defaults for some cell properties (notably
+     <code>
+      stroke
+     </code>
+     and
+     <code>
+      inset
+     </code>
+     ), refer to the
+     <a href="/docs/reference/layout/grid/">
+      grid documentation
+     </a>
+     for more information on how to size the table tracks and specify the cell appearance properties.
+    </p>
+    <p>
+     If you are unsure whether you should be using a table or a grid, consider whether the content you are arranging semantically belongs together as a set of related data points or similar or whether you are just want to enhance your presentation by arranging unrelated content in a grid. In the former case, a table is the right choice, while in the latter case, a grid is more appropriate. Furthermore, Typst will annotate its output in the future such that screenreaders will announce content in
+     <code>
+      table
+     </code>
+     as tabular while a grid's content will be announced no different than multiple content blocks in the document flow.
+    </p>
+    <p>
+     Note that, to override a particular cell's properties or apply show rules on table cells, you can use the
+     <a href="/docs/reference/model/table/#definitions-cell">
+      <code>
+       table.cell
+      </code>
+     </a>
+     element. See its documentation for more information.
+    </p>
+    <p>
+     Although the
+     <code>
+      table
+     </code>
+     and the
+     <code>
+      grid
+     </code>
+     share most properties, set and show rules on one of them do not affect the other.
+    </p>
+    <p>
+     To give a table a caption and make it
+     <a href="/docs/reference/model/ref/">
+      referenceable
+     </a>
+     , put it into a
+     <a href="/docs/reference/model/figure/" title="figure">
+      figure
+     </a>
+     .
+    </p>
+    <h2 id="example">
+     Example
+    </h2>
+    <p>
+     The example below demonstrates some of the most common table options.
+    </p>
+    <div class="previewed-code">
+     <pre><code><span class="typ-func">#</span><span class="typ-func">table</span><span class="typ-punct">(</span>
+  columns<span class="typ-punct">:</span> <span class="typ-punct">(</span><span class="typ-num">1fr</span><span class="typ-punct">,</span> <span class="typ-key">auto</span><span class="typ-punct">,</span> <span class="typ-key">auto</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+  inset<span class="typ-punct">:</span> <span class="typ-num">10pt</span><span class="typ-punct">,</span>
+  align<span class="typ-punct">:</span> horizon<span class="typ-punct">,</span>
+  table<span class="typ-punct">.</span><span class="typ-func">header</span><span class="typ-punct">(</span>
+    <span class="typ-punct">[</span><span class="typ-punct">]</span><span class="typ-punct">,</span> <span class="typ-punct">[</span><span class="typ-strong">*Volume*</span><span class="typ-punct">]</span><span class="typ-punct">,</span> <span class="typ-punct">[</span><span class="typ-strong">*Parameters*</span><span class="typ-punct">]</span><span class="typ-punct">,</span>
+  <span class="typ-punct">)</span><span class="typ-punct">,</span>
+  <span class="typ-func">image</span><span class="typ-punct">(</span><span class="typ-str">"cylinder.svg"</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+  <span class="typ-math-delim">$</span> <span class="typ-pol">pi</span> h <span class="typ-punct">(</span>D<span class="typ-math-op">^</span>2 <span class="typ-escape">-</span> d<span class="typ-math-op">^</span>2<span class="typ-punct">)</span> <span class="typ-math-op">/</span> 4 <span class="typ-math-delim">$</span><span class="typ-punct">,</span>
+  <span class="typ-punct">[</span>
+    <span class="typ-math-delim">$</span>h<span class="typ-math-delim">$</span>: height <span class="typ-escape">\</span>
+    <span class="typ-math-delim">$</span>D<span class="typ-math-delim">$</span>: outer radius <span class="typ-escape">\</span>
+    <span class="typ-math-delim">$</span>d<span class="typ-math-delim">$</span>: inner radius
+  <span class="typ-punct">]</span><span class="typ-punct">,</span>
+  <span class="typ-func">image</span><span class="typ-punct">(</span><span class="typ-str">"tetrahedron.svg"</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+  <span class="typ-math-delim">$</span> <span class="typ-func">sqrt</span><span class="typ-punct">(</span>2<span class="typ-punct">)</span> <span class="typ-math-op">/</span> 12 a<span class="typ-math-op">^</span>3 <span class="typ-math-delim">$</span><span class="typ-punct">,</span>
+  <span class="typ-punct">[</span><span class="typ-math-delim">$</span>a<span class="typ-math-delim">$</span>: edge length<span class="typ-punct">]</span>
+<span class="typ-punct">)</span>
+</code></pre>
+     <div class="preview">
+      <img alt="Preview" height="318/" src="/assets/docs/KSzjBsOqtudzwvK6Zvp9uwAAAAAAAAAA.png" width="480"/>
+     </div>
+    </div>
+    <p>
+     Much like with grids, you can use
+     <a href="/docs/reference/model/table/#definitions-cell">
+      <code>
+       table.cell
+      </code>
+     </a>
+     to customize the appearance and the position of each cell.
+    </p>
+    <div class="previewed-code">
+     <pre><code><span class="typ-key">#</span><span class="typ-key">set</span> <span class="typ-func">table</span><span class="typ-punct">(</span>
+  stroke<span class="typ-punct">:</span> <span class="typ-key">none</span><span class="typ-punct">,</span>
+  gutter<span class="typ-punct">:</span> <span class="typ-num">0.2em</span><span class="typ-punct">,</span>
+  fill<span class="typ-punct">:</span> <span class="typ-punct">(</span>x<span class="typ-punct">,</span> y<span class="typ-punct">)</span> <span class="typ-op">=&gt;</span>
+    <span class="typ-key">if</span> x <span class="typ-op">==</span> <span class="typ-num">0</span> <span class="typ-key">or</span> y <span class="typ-op">==</span> <span class="typ-num">0</span> <span class="typ-punct">{</span> gray <span class="typ-punct">}</span><span class="typ-punct">,</span>
+  inset<span class="typ-punct">:</span> <span class="typ-punct">(</span>right<span class="typ-punct">:</span> <span class="typ-num">1.5em</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+<span class="typ-punct">)</span>
+
+<span class="typ-key">#</span><span class="typ-key">show</span> table<span class="typ-punct">.</span><span class="typ-func">cell</span><span class="typ-punct">:</span> it <span class="typ-op">=&gt;</span> <span class="typ-punct">{</span>
+  <span class="typ-key">if</span> it<span class="typ-punct">.</span>x <span class="typ-op">==</span> <span class="typ-num">0</span> <span class="typ-key">or</span> it<span class="typ-punct">.</span>y <span class="typ-op">==</span> <span class="typ-num">0</span> <span class="typ-punct">{</span>
+    <span class="typ-key">set</span> <span class="typ-func">text</span><span class="typ-punct">(</span>white<span class="typ-punct">)</span>
+    <span class="typ-func">strong</span><span class="typ-punct">(</span>it<span class="typ-punct">)</span>
+  <span class="typ-punct">}</span> <span class="typ-key">else</span> <span class="typ-key">if</span> it<span class="typ-punct">.</span>body <span class="typ-op">==</span> <span class="typ-punct">[</span><span class="typ-punct">]</span> <span class="typ-punct">{</span>
+    <span class="typ-comment">// Replace empty cells with 'N/A'</span>
+    <span class="typ-func">pad</span><span class="typ-punct">(</span><span class="typ-op">..</span>it<span class="typ-punct">.</span>inset<span class="typ-punct">)</span><span class="typ-punct">[</span><span class="typ-emph">_N/A_</span><span class="typ-punct">]</span>
+  <span class="typ-punct">}</span> <span class="typ-key">else</span> <span class="typ-punct">{</span>
+    it
+  <span class="typ-punct">}</span>
+<span class="typ-punct">}</span>
+
+<span class="typ-key">#</span><span class="typ-key">let</span> a <span class="typ-op">=</span> table<span class="typ-punct">.</span><span class="typ-func">cell</span><span class="typ-punct">(</span>
+  fill<span class="typ-punct">:</span> green<span class="typ-punct">.</span><span class="typ-func">lighten</span><span class="typ-punct">(</span><span class="typ-num">60%</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+<span class="typ-punct">)</span><span class="typ-punct">[</span>A<span class="typ-punct">]</span>
+<span class="typ-key">#</span><span class="typ-key">let</span> b <span class="typ-op">=</span> table<span class="typ-punct">.</span><span class="typ-func">cell</span><span class="typ-punct">(</span>
+  fill<span class="typ-punct">:</span> aqua<span class="typ-punct">.</span><span class="typ-func">lighten</span><span class="typ-punct">(</span><span class="typ-num">60%</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+<span class="typ-punct">)</span><span class="typ-punct">[</span>B<span class="typ-punct">]</span>
+
+<span class="typ-func">#</span><span class="typ-func">table</span><span class="typ-punct">(</span>
+  columns<span class="typ-punct">:</span> <span class="typ-num">4</span><span class="typ-punct">,</span>
+  <span class="typ-punct">[</span><span class="typ-punct">]</span><span class="typ-punct">,</span> <span class="typ-punct">[</span>Exam 1<span class="typ-punct">]</span><span class="typ-punct">,</span> <span class="typ-punct">[</span>Exam 2<span class="typ-punct">]</span><span class="typ-punct">,</span> <span class="typ-punct">[</span>Exam 3<span class="typ-punct">]</span><span class="typ-punct">,</span>
+
+  <span class="typ-punct">[</span>John<span class="typ-punct">]</span><span class="typ-punct">,</span> <span class="typ-punct">[</span><span class="typ-punct">]</span><span class="typ-punct">,</span> a<span class="typ-punct">,</span> <span class="typ-punct">[</span><span class="typ-punct">]</span><span class="typ-punct">,</span>
+  <span class="typ-punct">[</span>Mary<span class="typ-punct">]</span><span class="typ-punct">,</span> <span class="typ-punct">[</span><span class="typ-punct">]</span><span class="typ-punct">,</span> a<span class="typ-punct">,</span> a<span class="typ-punct">,</span>
+  <span class="typ-punct">[</span>Robert<span class="typ-punct">]</span><span class="typ-punct">,</span> b<span class="typ-punct">,</span> a<span class="typ-punct">,</span> b<span class="typ-punct">,</span>
+<span class="typ-punct">)</span>
+</code></pre>
+     <div class="preview">
+      <img alt="Preview" height="215/" src="/assets/docs/D_wYQ9Nqm8ZPq6ssgJwiZQAAAAAAAAAA.png" width="544"/>
+     </div>
+    </div>
+    <h2 id="parameters">
+     <span aria-describedby="parameters-tooltip">
+      Parameters
+     </span>
+     <div class="tooltip-context">
+      <svg aria-labelledby=":R379a:-label" height="12" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 12 12" width="12">
+       <title id=":R379a:-label">
+        Question mark
+       </title>
+       <use href="/assets/icons/12-tooltip.svg#icon">
+       </use>
+      </svg>
+      <div aria-hidden="true" id="parameters-tooltip" role="tooltip" tabindex="-1">
+       Parameters are the inputs to a function. They are specified in parentheses after the function name.
+      </div>
+     </div>
+    </h2>
+    <div class="code code-definition">
+     <span class="typ-func">
+      table
+     </span>
+     (
+     <div class="arguments">
+      <span class="overview-param">
+       <a href="#parameters-columns">
+        columns
+        <!-- -->
+        :
+       </a>
+       <a class="pill pill-kw" href="/docs/reference/foundations/auto/">
+        auto
+       </a>
+       <a class="pill pill-num" href="/docs/reference/foundations/int/">
+        int
+       </a>
+       <a class="pill pill-num" href="/docs/reference/layout/relative/">
+        relative
+       </a>
+       <a class="pill pill-num" href="/docs/reference/layout/fraction/">
+        fraction
+       </a>
+       <a class="pill pill-obj" href="/docs/reference/foundations/array/">
+        array
+       </a>
+       ,
+      </span>
+      <span class="overview-param">
+       <a href="#parameters-rows">
+        rows
+        <!-- -->
+        :
+       </a>
+       <a class="pill pill-kw" href="/docs/reference/foundations/auto/">
+        auto
+       </a>
+       <a class="pill pill-num" href="/docs/reference/foundations/int/">
+        int
+       </a>
+       <a class="pill pill-num" href="/docs/reference/layout/relative/">
+        relative
+       </a>
+       <a class="pill pill-num" href="/docs/reference/layout/fraction/">
+        fraction
+       </a>
+       <a class="pill pill-obj" href="/docs/reference/foundations/array/">
+        array
+       </a>
+       ,
+      </span>
+      <span class="overview-param">
+       <a href="#parameters-gutter">
+        gutter
+        <!-- -->
+        :
+       </a>
+       <a class="pill pill-kw" href="/docs/reference/foundations/auto/">
+        auto
+       </a>
+       <a class="pill pill-num" href="/docs/reference/foundations/int/">
+        int
+       </a>
+       <a class="pill pill-num" href="/docs/reference/layout/relative/">
+        relative
+       </a>
+       <a class="pill pill-num" href="/docs/reference/layout/fraction/">
+        fraction
+       </a>
+       <a class="pill pill-obj" href="/docs/reference/foundations/array/">
+        array
+       </a>
+       ,
+      </span>
+      <span class="overview-param">
+       <a href="#parameters-column-gutter">
+        column-gutter
+        <!-- -->
+        :
+       </a>
+       <a class="pill pill-kw" href="/docs/reference/foundations/auto/">
+        auto
+       </a>
+       <a class="pill pill-num" href="/docs/reference/foundations/int/">
+        int
+       </a>
+       <a class="pill pill-num" href="/docs/reference/layout/relative/">
+        relative
+       </a>
+       <a class="pill pill-num" href="/docs/reference/layout/fraction/">
+        fraction
+       </a>
+       <a class="pill pill-obj" href="/docs/reference/foundations/array/">
+        array
+       </a>
+       ,
+      </span>
+      <span class="overview-param">
+       <a href="#parameters-row-gutter">
+        row-gutter
+        <!-- -->
+        :
+       </a>
+       <a class="pill pill-kw" href="/docs/reference/foundations/auto/">
+        auto
+       </a>
+       <a class="pill pill-num" href="/docs/reference/foundations/int/">
+        int
+       </a>
+       <a class="pill pill-num" href="/docs/reference/layout/relative/">
+        relative
+       </a>
+       <a class="pill pill-num" href="/docs/reference/layout/fraction/">
+        fraction
+       </a>
+       <a class="pill pill-obj" href="/docs/reference/foundations/array/">
+        array
+       </a>
+       ,
+      </span>
+      <span class="overview-param">
+       <a href="#parameters-fill">
+        fill
+        <!-- -->
+        :
+       </a>
+       <a class="pill pill-kw" href="/docs/reference/foundations/none/">
+        none
+       </a>
+       <a class="pill pill-col" href="/docs/reference/visualize/color/">
+        color
+       </a>
+       <a class="pill pill-col" href="/docs/reference/visualize/gradient/">
+        gradient
+       </a>
+       <a class="pill pill-obj" href="/docs/reference/foundations/array/">
+        array
+       </a>
+       <a class="pill pill-obj" href="/docs/reference/visualize/pattern/">
+        pattern
+       </a>
+       <a class="pill pill-obj" href="/docs/reference/foundations/function/">
+        function
+       </a>
+       ,
+      </span>
+      <span class="overview-param">
+       <a href="#parameters-align">
+        align
+        <!-- -->
+        :
+       </a>
+       <a class="pill pill-kw" href="/docs/reference/foundations/auto/">
+        auto
+       </a>
+       <a class="pill pill-obj" href="/docs/reference/foundations/array/">
+        array
+       </a>
+       <a class="pill pill-obj" href="/docs/reference/layout/alignment/">
+        alignment
+       </a>
+       <a class="pill pill-obj" href="/docs/reference/foundations/function/">
+        function
+       </a>
+       ,
+      </span>
+      <span class="overview-param">
+       <a href="#parameters-stroke">
+        stroke
+        <!-- -->
+        :
+       </a>
+       <a class="pill pill-kw" href="/docs/reference/foundations/none/">
+        none
+       </a>
+       <a class="pill pill-num" href="/docs/reference/layout/length/">
+        length
+       </a>
+       <a class="pill pill-col" href="/docs/reference/visualize/color/">
+        color
+       </a>
+       <a class="pill pill-col" href="/docs/reference/visualize/gradient/">
+        gradient
+       </a>
+       <a class="pill pill-obj" href="/docs/reference/foundations/array/">
+        array
+       </a>
+       <a class="pill pill-obj" href="/docs/reference/visualize/stroke/">
+        stroke
+       </a>
+       <a class="pill pill-obj" href="/docs/reference/visualize/pattern/">
+        pattern
+       </a>
+       <a class="pill pill-obj" href="/docs/reference/foundations/dictionary/">
+        dictionary
+       </a>
+       <a class="pill pill-obj" href="/docs/reference/foundations/function/">
+        function
+       </a>
+       ,
+      </span>
+      <span class="overview-param">
+       <a href="#parameters-inset">
+        inset
+        <!-- -->
+        :
+       </a>
+       <a class="pill pill-num" href="/docs/reference/layout/relative/">
+        relative
+       </a>
+       <a class="pill pill-obj" href="/docs/reference/foundations/array/">
+        array
+       </a>
+       <a class="pill pill-obj" href="/docs/reference/foundations/dictionary/">
+        dictionary
+       </a>
+       <a class="pill pill-obj" href="/docs/reference/foundations/function/">
+        function
+       </a>
+       ,
+      </span>
+      <span class="overview-param">
+       <a href="#parameters-children">
+        ..
+       </a>
+       <a class="pill pill-con" href="/docs/reference/foundations/content/">
+        content
+       </a>
+       ,
+      </span>
+     </div>
+     )
+     <!-- -->
+     -&gt;
+     <a class="pill pill-con" href="/docs/reference/foundations/content/">
+      content
+     </a>
+    </div>
+    <h3 id="parameters-columns">
+     <code>
+      columns
+     </code>
+     <div class="additional-info">
+      <div>
+       <a class="pill pill-kw" href="/docs/reference/foundations/auto/">
+        auto
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-num" href="/docs/reference/foundations/int/">
+        int
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-num" href="/docs/reference/layout/relative/">
+        relative
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-num" href="/docs/reference/layout/fraction/">
+        fraction
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-obj" href="/docs/reference/foundations/array/">
+        array
+       </a>
+      </div>
+      <small>
+       <span aria-describedby="parameters-columns-settable-tooltip">
+        Settable
+       </span>
+       <div class="tooltip-context">
+        <svg aria-labelledby=":Rdk8t9a:-label" height="12" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 12 12" width="12">
+         <title id=":Rdk8t9a:-label">
+          Question mark
+         </title>
+         <use href="/assets/icons/12-tooltip.svg#icon">
+         </use>
+        </svg>
+        <div aria-hidden="true" id="parameters-columns-settable-tooltip" role="tooltip" tabindex="-1">
+         Settable parameters can be customized for all following uses of the function with a
+         <code>
+          set
+         </code>
+         rule.
+        </div>
+       </div>
+      </small>
+     </div>
+    </h3>
+    <p>
+     The column sizes. See the
+     <a href="/docs/reference/layout/grid/">
+      grid documentation
+     </a>
+     for more information on track sizing.
+    </p>
+    <p>
+     Default:
+     <code>
+      <span class="typ-punct">
+       (
+      </span>
+      <span class="typ-punct">
+       )
+      </span>
+     </code>
+    </p>
+    <h3 id="parameters-rows">
+     <code>
+      rows
+     </code>
+     <div class="additional-info">
+      <div>
+       <a class="pill pill-kw" href="/docs/reference/foundations/auto/">
+        auto
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-num" href="/docs/reference/foundations/int/">
+        int
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-num" href="/docs/reference/layout/relative/">
+        relative
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-num" href="/docs/reference/layout/fraction/">
+        fraction
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-obj" href="/docs/reference/foundations/array/">
+        array
+       </a>
+      </div>
+      <small>
+       <span aria-describedby="parameters-rows-settable-tooltip">
+        Settable
+       </span>
+       <div class="tooltip-context">
+        <svg aria-labelledby=":Rdk9d9a:-label" height="12" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 12 12" width="12">
+         <title id=":Rdk9d9a:-label">
+          Question mark
+         </title>
+         <use href="/assets/icons/12-tooltip.svg#icon">
+         </use>
+        </svg>
+        <div aria-hidden="true" id="parameters-rows-settable-tooltip" role="tooltip" tabindex="-1">
+         Settable parameters can be customized for all following uses of the function with a
+         <code>
+          set
+         </code>
+         rule.
+        </div>
+       </div>
+      </small>
+     </div>
+    </h3>
+    <p>
+     The row sizes. See the
+     <a href="/docs/reference/layout/grid/">
+      grid documentation
+     </a>
+     for more information on track sizing.
+    </p>
+    <p>
+     Default:
+     <code>
+      <span class="typ-punct">
+       (
+      </span>
+      <span class="typ-punct">
+       )
+      </span>
+     </code>
+    </p>
+    <h3 id="parameters-gutter">
+     <code>
+      gutter
+     </code>
+     <div class="additional-info">
+      <div>
+       <a class="pill pill-kw" href="/docs/reference/foundations/auto/">
+        auto
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-num" href="/docs/reference/foundations/int/">
+        int
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-num" href="/docs/reference/layout/relative/">
+        relative
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-num" href="/docs/reference/layout/fraction/">
+        fraction
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-obj" href="/docs/reference/foundations/array/">
+        array
+       </a>
+      </div>
+      <small>
+       <span aria-describedby="parameters-gutter-settable-tooltip">
+        Settable
+       </span>
+       <div class="tooltip-context">
+        <svg aria-labelledby=":Rdk9t9a:-label" height="12" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 12 12" width="12">
+         <title id=":Rdk9t9a:-label">
+          Question mark
+         </title>
+         <use href="/assets/icons/12-tooltip.svg#icon">
+         </use>
+        </svg>
+        <div aria-hidden="true" id="parameters-gutter-settable-tooltip" role="tooltip" tabindex="-1">
+         Settable parameters can be customized for all following uses of the function with a
+         <code>
+          set
+         </code>
+         rule.
+        </div>
+       </div>
+      </small>
+     </div>
+    </h3>
+    <p>
+     The gaps between rows and columns. This is a shorthand for setting
+     <code>
+      column-gutter
+     </code>
+     and
+     <code>
+      row-gutter
+     </code>
+     to the same value. See the
+     <a href="/docs/reference/layout/grid/">
+      grid documentation
+     </a>
+     for more information on gutters.
+    </p>
+    <p>
+     Default:
+     <code>
+      <span class="typ-punct">
+       (
+      </span>
+      <span class="typ-punct">
+       )
+      </span>
+     </code>
+    </p>
+    <h3 id="parameters-column-gutter">
+     <code>
+      column-gutter
+     </code>
+     <div class="additional-info">
+      <div>
+       <a class="pill pill-kw" href="/docs/reference/foundations/auto/">
+        auto
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-num" href="/docs/reference/foundations/int/">
+        int
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-num" href="/docs/reference/layout/relative/">
+        relative
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-num" href="/docs/reference/layout/fraction/">
+        fraction
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-obj" href="/docs/reference/foundations/array/">
+        array
+       </a>
+      </div>
+      <small>
+       <span aria-describedby="parameters-column-gutter-settable-tooltip">
+        Settable
+       </span>
+       <div class="tooltip-context">
+        <svg aria-labelledby=":Rdkad9a:-label" height="12" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 12 12" width="12">
+         <title id=":Rdkad9a:-label">
+          Question mark
+         </title>
+         <use href="/assets/icons/12-tooltip.svg#icon">
+         </use>
+        </svg>
+        <div aria-hidden="true" id="parameters-column-gutter-settable-tooltip" role="tooltip" tabindex="-1">
+         Settable parameters can be customized for all following uses of the function with a
+         <code>
+          set
+         </code>
+         rule.
+        </div>
+       </div>
+      </small>
+     </div>
+    </h3>
+    <p>
+     The gaps between columns. Takes precedence over
+     <code>
+      gutter
+     </code>
+     . See the
+     <a href="/docs/reference/layout/grid/">
+      grid documentation
+     </a>
+     for more information on gutters.
+    </p>
+    <p>
+     Default:
+     <code>
+      <span class="typ-punct">
+       (
+      </span>
+      <span class="typ-punct">
+       )
+      </span>
+     </code>
+    </p>
+    <h3 id="parameters-row-gutter">
+     <code>
+      row-gutter
+     </code>
+     <div class="additional-info">
+      <div>
+       <a class="pill pill-kw" href="/docs/reference/foundations/auto/">
+        auto
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-num" href="/docs/reference/foundations/int/">
+        int
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-num" href="/docs/reference/layout/relative/">
+        relative
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-num" href="/docs/reference/layout/fraction/">
+        fraction
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-obj" href="/docs/reference/foundations/array/">
+        array
+       </a>
+      </div>
+      <small>
+       <span aria-describedby="parameters-row-gutter-settable-tooltip">
+        Settable
+       </span>
+       <div class="tooltip-context">
+        <svg aria-labelledby=":Rdkat9a:-label" height="12" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 12 12" width="12">
+         <title id=":Rdkat9a:-label">
+          Question mark
+         </title>
+         <use href="/assets/icons/12-tooltip.svg#icon">
+         </use>
+        </svg>
+        <div aria-hidden="true" id="parameters-row-gutter-settable-tooltip" role="tooltip" tabindex="-1">
+         Settable parameters can be customized for all following uses of the function with a
+         <code>
+          set
+         </code>
+         rule.
+        </div>
+       </div>
+      </small>
+     </div>
+    </h3>
+    <p>
+     The gaps between rows. Takes precedence over
+     <code>
+      gutter
+     </code>
+     . See the
+     <a href="/docs/reference/layout/grid/">
+      grid documentation
+     </a>
+     for more information on gutters.
+    </p>
+    <p>
+     Default:
+     <code>
+      <span class="typ-punct">
+       (
+      </span>
+      <span class="typ-punct">
+       )
+      </span>
+     </code>
+    </p>
+    <h3 id="parameters-fill">
+     <code>
+      fill
+     </code>
+     <div class="additional-info">
+      <div>
+       <a class="pill pill-kw" href="/docs/reference/foundations/none/">
+        none
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-col" href="/docs/reference/visualize/color/">
+        color
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-col" href="/docs/reference/visualize/gradient/">
+        gradient
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-obj" href="/docs/reference/foundations/array/">
+        array
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-obj" href="/docs/reference/visualize/pattern/">
+        pattern
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-obj" href="/docs/reference/foundations/function/">
+        function
+       </a>
+      </div>
+      <small>
+       <span aria-describedby="parameters-fill-settable-tooltip">
+        Settable
+       </span>
+       <div class="tooltip-context">
+        <svg aria-labelledby=":Rdkbd9a:-label" height="12" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 12 12" width="12">
+         <title id=":Rdkbd9a:-label">
+          Question mark
+         </title>
+         <use href="/assets/icons/12-tooltip.svg#icon">
+         </use>
+        </svg>
+        <div aria-hidden="true" id="parameters-fill-settable-tooltip" role="tooltip" tabindex="-1">
+         Settable parameters can be customized for all following uses of the function with a
+         <code>
+          set
+         </code>
+         rule.
+        </div>
+       </div>
+      </small>
+     </div>
+    </h3>
+    <p>
+     How to fill the cells.
+    </p>
+    <p>
+     This can be a color or a function that returns a color. The function receives the cells' column and row indices, starting from zero. This can be used to implement striped tables.
+    </p>
+    <p>
+     Default:
+     <code>
+      <span class="typ-key">
+       none
+      </span>
+     </code>
+    </p>
+    <details class="folding-example">
+     <summary>
+      <img alt="" height="16" src="/assets/icons/16-arrow-right.svg" width="16"/>
+      View example
+     </summary>
+     <div class="folding">
+      <div class="previewed-code">
+       <pre><code><span class="typ-func">#</span><span class="typ-func">table</span><span class="typ-punct">(</span>
+  fill<span class="typ-punct">:</span> <span class="typ-punct">(</span>x<span class="typ-punct">,</span> _<span class="typ-punct">)</span> <span class="typ-op">=&gt;</span>
+    <span class="typ-key">if</span> calc<span class="typ-punct">.</span><span class="typ-func">odd</span><span class="typ-punct">(</span>x<span class="typ-punct">)</span> <span class="typ-punct">{</span> <span class="typ-func">luma</span><span class="typ-punct">(</span><span class="typ-num">240</span><span class="typ-punct">)</span> <span class="typ-punct">}</span>
+    <span class="typ-key">else</span> <span class="typ-punct">{</span> white <span class="typ-punct">}</span><span class="typ-punct">,</span>
+  align<span class="typ-punct">:</span> <span class="typ-punct">(</span>x<span class="typ-punct">,</span> y<span class="typ-punct">)</span> <span class="typ-op">=&gt;</span>
+    <span class="typ-key">if</span> y <span class="typ-op">==</span> <span class="typ-num">0</span> <span class="typ-punct">{</span> center <span class="typ-punct">}</span>
+    <span class="typ-key">else</span> <span class="typ-key">if</span> x <span class="typ-op">==</span> <span class="typ-num">0</span> <span class="typ-punct">{</span> left <span class="typ-punct">}</span>
+    <span class="typ-key">else</span> <span class="typ-punct">{</span> right <span class="typ-punct">}</span><span class="typ-punct">,</span>
+  columns<span class="typ-punct">:</span> <span class="typ-num">4</span><span class="typ-punct">,</span>
+  <span class="typ-punct">[</span><span class="typ-punct">]</span><span class="typ-punct">,</span> <span class="typ-punct">[</span><span class="typ-strong">*Q1*</span><span class="typ-punct">]</span><span class="typ-punct">,</span> <span class="typ-punct">[</span><span class="typ-strong">*Q2*</span><span class="typ-punct">]</span><span class="typ-punct">,</span> <span class="typ-punct">[</span><span class="typ-strong">*Q3*</span><span class="typ-punct">]</span><span class="typ-punct">,</span>
+  <span class="typ-punct">[</span>Revenue:<span class="typ-punct">]</span><span class="typ-punct">,</span> <span class="typ-punct">[</span>1000 â¬<span class="typ-punct">]</span><span class="typ-punct">,</span> <span class="typ-punct">[</span>2000 â¬<span class="typ-punct">]</span><span class="typ-punct">,</span> <span class="typ-punct">[</span>3000 â¬<span class="typ-punct">]</span><span class="typ-punct">,</span>
+  <span class="typ-punct">[</span>Expenses:<span class="typ-punct">]</span><span class="typ-punct">,</span> <span class="typ-punct">[</span>500 â¬<span class="typ-punct">]</span><span class="typ-punct">,</span> <span class="typ-punct">[</span>1000 â¬<span class="typ-punct">]</span><span class="typ-punct">,</span> <span class="typ-punct">[</span>1500 â¬<span class="typ-punct">]</span><span class="typ-punct">,</span>
+  <span class="typ-punct">[</span>Profit:<span class="typ-punct">]</span><span class="typ-punct">,</span> <span class="typ-punct">[</span>500 â¬<span class="typ-punct">]</span><span class="typ-punct">,</span> <span class="typ-punct">[</span>1000 â¬<span class="typ-punct">]</span><span class="typ-punct">,</span> <span class="typ-punct">[</span>1500 â¬<span class="typ-punct">]</span><span class="typ-punct">,</span>
+<span class="typ-punct">)</span>
+</code></pre>
+       <div class="preview">
+        <img alt="Preview" height="198/" src="/assets/docs/HObhPJHvYkiYqHCjRK1JHwAAAAAAAAAA.png" width="480"/>
+       </div>
+      </div>
+     </div>
+    </details>
+    <h3 id="parameters-align">
+     <code>
+      align
+     </code>
+     <div class="additional-info">
+      <div>
+       <a class="pill pill-kw" href="/docs/reference/foundations/auto/">
+        auto
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-obj" href="/docs/reference/foundations/array/">
+        array
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-obj" href="/docs/reference/layout/alignment/">
+        alignment
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-obj" href="/docs/reference/foundations/function/">
+        function
+       </a>
+      </div>
+      <small>
+       <span aria-describedby="parameters-align-settable-tooltip">
+        Settable
+       </span>
+       <div class="tooltip-context">
+        <svg aria-labelledby=":Rdkbt9a:-label" height="12" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 12 12" width="12">
+         <title id=":Rdkbt9a:-label">
+          Question mark
+         </title>
+         <use href="/assets/icons/12-tooltip.svg#icon">
+         </use>
+        </svg>
+        <div aria-hidden="true" id="parameters-align-settable-tooltip" role="tooltip" tabindex="-1">
+         Settable parameters can be customized for all following uses of the function with a
+         <code>
+          set
+         </code>
+         rule.
+        </div>
+       </div>
+      </small>
+     </div>
+    </h3>
+    <p>
+     How to align the cells' content.
+    </p>
+    <p>
+     This can either be a single alignment, an array of alignments (corresponding to each column) or a function that returns an alignment. The function receives the cells' column and row indices, starting from zero. If set to
+     <code>
+      <span class="typ-key">
+       auto
+      </span>
+     </code>
+     , the outer alignment is used.
+    </p>
+    <p>
+     Default:
+     <code>
+      <span class="typ-key">
+       auto
+      </span>
+     </code>
+    </p>
+    <details class="folding-example">
+     <summary>
+      <img alt="" height="16" src="/assets/icons/16-arrow-right.svg" width="16"/>
+      View example
+     </summary>
+     <div class="folding">
+      <div class="previewed-code">
+       <pre><code><span class="typ-func">#</span><span class="typ-func">table</span><span class="typ-punct">(</span>
+  columns<span class="typ-punct">:</span> <span class="typ-num">3</span><span class="typ-punct">,</span>
+  align<span class="typ-punct">:</span> <span class="typ-punct">(</span>left<span class="typ-punct">,</span> center<span class="typ-punct">,</span> right<span class="typ-punct">)</span><span class="typ-punct">,</span>
+  <span class="typ-punct">[</span>Hello<span class="typ-punct">]</span><span class="typ-punct">,</span> <span class="typ-punct">[</span>Hello<span class="typ-punct">]</span><span class="typ-punct">,</span> <span class="typ-punct">[</span>Hello<span class="typ-punct">]</span><span class="typ-punct">,</span>
+  <span class="typ-punct">[</span>A<span class="typ-punct">]</span><span class="typ-punct">,</span> <span class="typ-punct">[</span>B<span class="typ-punct">]</span><span class="typ-punct">,</span> <span class="typ-punct">[</span>C<span class="typ-punct">]</span><span class="typ-punct">,</span>
+<span class="typ-punct">)</span>
+</code></pre>
+       <div class="preview">
+        <img alt="Preview" height="129/" src="/assets/docs/_fBgotCl-LtVjvGU4yJFLQAAAAAAAAAA.png" width="480"/>
+       </div>
+      </div>
+     </div>
+    </details>
+    <h3 id="parameters-stroke">
+     <code>
+      stroke
+     </code>
+     <div class="additional-info">
+      <div>
+       <a class="pill pill-kw" href="/docs/reference/foundations/none/">
+        none
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-num" href="/docs/reference/layout/length/">
+        length
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-col" href="/docs/reference/visualize/color/">
+        color
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-col" href="/docs/reference/visualize/gradient/">
+        gradient
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-obj" href="/docs/reference/foundations/array/">
+        array
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-obj" href="/docs/reference/visualize/stroke/">
+        stroke
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-obj" href="/docs/reference/visualize/pattern/">
+        pattern
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-obj" href="/docs/reference/foundations/dictionary/">
+        dictionary
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-obj" href="/docs/reference/foundations/function/">
+        function
+       </a>
+      </div>
+      <small>
+       <span aria-describedby="parameters-stroke-settable-tooltip">
+        Settable
+       </span>
+       <div class="tooltip-context">
+        <svg aria-labelledby=":Rdkcd9a:-label" height="12" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 12 12" width="12">
+         <title id=":Rdkcd9a:-label">
+          Question mark
+         </title>
+         <use href="/assets/icons/12-tooltip.svg#icon">
+         </use>
+        </svg>
+        <div aria-hidden="true" id="parameters-stroke-settable-tooltip" role="tooltip" tabindex="-1">
+         Settable parameters can be customized for all following uses of the function with a
+         <code>
+          set
+         </code>
+         rule.
+        </div>
+       </div>
+      </small>
+     </div>
+    </h3>
+    <p>
+     How to
+     <a href="/docs/reference/visualize/stroke/" title="stroke">
+      stroke
+     </a>
+     the cells.
+    </p>
+    <p>
+     Strokes can be disabled by setting this to
+     <code>
+      <span class="typ-key">
+       none
+      </span>
+     </code>
+     .
+    </p>
+    <p>
+     If it is necessary to place lines which can cross spacing between cells produced by the
+     <code>
+      gutter
+     </code>
+     option, or to override the stroke between multiple specific cells, consider specifying one or more of
+     <a href="/docs/reference/model/table/#definitions-hline">
+      <code>
+       table.hline
+      </code>
+     </a>
+     and
+     <a href="/docs/reference/model/table/#definitions-vline">
+      <code>
+       table.vline
+      </code>
+     </a>
+     alongside your table cells.
+    </p>
+    <p>
+     See the
+     <a href="/docs/reference/layout/grid/#parameters-stroke">
+      grid documentation
+     </a>
+     for more information on strokes.
+    </p>
+    <p>
+     Default:
+     <code>
+      <span class="typ-num">
+       1pt
+      </span>
+      <span class="typ-op">
+       +
+      </span>
+      black
+     </code>
+    </p>
+    <h3 id="parameters-inset">
+     <code>
+      inset
+     </code>
+     <div class="additional-info">
+      <div>
+       <a class="pill pill-num" href="/docs/reference/layout/relative/">
+        relative
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-obj" href="/docs/reference/foundations/array/">
+        array
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-obj" href="/docs/reference/foundations/dictionary/">
+        dictionary
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-obj" href="/docs/reference/foundations/function/">
+        function
+       </a>
+      </div>
+      <small>
+       <span aria-describedby="parameters-inset-settable-tooltip">
+        Settable
+       </span>
+       <div class="tooltip-context">
+        <svg aria-labelledby=":Rdkct9a:-label" height="12" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 12 12" width="12">
+         <title id=":Rdkct9a:-label">
+          Question mark
+         </title>
+         <use href="/assets/icons/12-tooltip.svg#icon">
+         </use>
+        </svg>
+        <div aria-hidden="true" id="parameters-inset-settable-tooltip" role="tooltip" tabindex="-1">
+         Settable parameters can be customized for all following uses of the function with a
+         <code>
+          set
+         </code>
+         rule.
+        </div>
+       </div>
+      </small>
+     </div>
+    </h3>
+    <p>
+     How much to pad the cells' content.
+    </p>
+    <p>
+     Default:
+     <code>
+      <span class="typ-num">
+       0%
+      </span>
+      <span class="typ-op">
+       +
+      </span>
+      <span class="typ-num">
+       5pt
+      </span>
+     </code>
+    </p>
+    <details class="folding-example">
+     <summary>
+      <img alt="" height="16" src="/assets/icons/16-arrow-right.svg" width="16"/>
+      View example
+     </summary>
+     <div class="folding">
+      <div class="previewed-code">
+       <pre><code><span class="typ-func">#</span><span class="typ-func">table</span><span class="typ-punct">(</span>
+  inset<span class="typ-punct">:</span> <span class="typ-num">10pt</span><span class="typ-punct">,</span>
+  <span class="typ-punct">[</span>Hello<span class="typ-punct">]</span><span class="typ-punct">,</span>
+  <span class="typ-punct">[</span>World<span class="typ-punct">]</span><span class="typ-punct">,</span>
+<span class="typ-punct">)</span>
+
+<span class="typ-func">#</span><span class="typ-func">table</span><span class="typ-punct">(</span>
+  columns<span class="typ-punct">:</span> <span class="typ-num">2</span><span class="typ-punct">,</span>
+  inset<span class="typ-punct">:</span> <span class="typ-punct">(</span>
+    x<span class="typ-punct">:</span> <span class="typ-num">20pt</span><span class="typ-punct">,</span>
+    y<span class="typ-punct">:</span> <span class="typ-num">10pt</span><span class="typ-punct">,</span>
+  <span class="typ-punct">)</span><span class="typ-punct">,</span>
+  <span class="typ-punct">[</span>Hello<span class="typ-punct">]</span><span class="typ-punct">,</span>
+  <span class="typ-punct">[</span>World<span class="typ-punct">]</span><span class="typ-punct">,</span>
+<span class="typ-punct">)</span>
+</code></pre>
+       <div class="preview">
+        <img alt="Preview" height="250/" src="/assets/docs/f1kE1ENTTB02iZKKPoV_XwAAAAAAAAAA.png" width="480"/>
+       </div>
+      </div>
+     </div>
+    </details>
+    <h3 id="parameters-children">
+     <code>
+      children
+     </code>
+     <div class="additional-info">
+      <div>
+       <a class="pill pill-con" href="/docs/reference/foundations/content/">
+        content
+       </a>
+      </div>
+      <small>
+       Required
+      </small>
+      <small>
+       <span aria-describedby="parameters-children-positional-tooltip">
+        Positional
+       </span>
+       <div class="tooltip-context">
+        <svg aria-labelledby=":Rcsdd9a:-label" height="12" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 12 12" width="12">
+         <title id=":Rcsdd9a:-label">
+          Question mark
+         </title>
+         <use href="/assets/icons/12-tooltip.svg#icon">
+         </use>
+        </svg>
+        <div aria-hidden="true" id="parameters-children-positional-tooltip" role="tooltip" tabindex="-1">
+         Positional parameters are specified in order, without names.
+        </div>
+       </div>
+      </small>
+      <small>
+       <span aria-describedby="parameters-children-variadic-tooltip">
+        Variadic
+       </span>
+       <div class="tooltip-context">
+        <svg aria-labelledby=":Rdcdd9a:-label" height="12" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 12 12" width="12">
+         <title id=":Rdcdd9a:-label">
+          Question mark
+         </title>
+         <use href="/assets/icons/12-tooltip.svg#icon">
+         </use>
+        </svg>
+        <div aria-hidden="true" id="parameters-children-variadic-tooltip" role="tooltip" tabindex="-1">
+         Variadic parameters can be specified multiple times.
+        </div>
+       </div>
+      </small>
+     </div>
+    </h3>
+    <p>
+     The contents of the table cells, plus any extra table lines specified with the
+     <a href="/docs/reference/model/table/#definitions-hline">
+      <code>
+       table.hline
+      </code>
+     </a>
+     and
+     <a href="/docs/reference/model/table/#definitions-vline">
+      <code>
+       table.vline
+      </code>
+     </a>
+     elements.
+    </p>
+    <h2 id="definitions">
+     <span aria-describedby="definitions-tooltip">
+      Definitions
+     </span>
+     <div class="tooltip-context">
+      <svg aria-labelledby=":Rcv9a:-label" height="12" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 12 12" width="12">
+       <title id=":Rcv9a:-label">
+        Question mark
+       </title>
+       <use href="/assets/icons/12-tooltip.svg#icon">
+       </use>
+      </svg>
+      <div aria-hidden="true" id="definitions-tooltip" role="tooltip" tabindex="-1">
+       Functions and types and can have associated definitions. These are accessed by specifying the function or type, followed by a period, and then the definition's name.
+      </div>
+     </div>
+    </h2>
+    <h3 class="scoped-function" id="definitions-cell">
+     <code>
+      cell
+     </code>
+     <small>
+      <span aria-describedby="definitions-cell-element-tooltip">
+       Element
+      </span>
+      <div class="tooltip-context">
+       <svg aria-labelledby=":R38jf9a:-label" height="12" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 12 12" width="12">
+        <title id=":R38jf9a:-label">
+         Question mark
+        </title>
+        <use href="/assets/icons/12-tooltip.svg#icon">
+        </use>
+       </svg>
+       <div aria-hidden="true" id="definitions-cell-element-tooltip" role="tooltip" tabindex="-1">
+        Element functions can be customized with
+        <code>
+         set
+        </code>
+        and
+        <!-- -->
+        <code>
+         show
+        </code>
+        rules.
+       </div>
+      </div>
+     </small>
+    </h3>
+    <p>
+     A cell in the table. Use this to position a cell manually or to apply styling. To do the latter, you can either use the function to override the properties for a particular cell, or use it in show rules to apply certain styles to multiple cells at once.
+    </p>
+    <p>
+     Perhaps the most important use case of
+     <code>
+      table
+      <span class="typ-punct">
+       .
+      </span>
+      cell
+     </code>
+     is to make a cell span multiple columns and/or rows with the
+     <code>
+      colspan
+     </code>
+     and
+     <code>
+      rowspan
+     </code>
+     fields.
+    </p>
+    <div class="code code-definition">
+     table
+     <span class="typ-punct">
+      .
+     </span>
+     <span class="typ-func">
+      cell
+     </span>
+     (
+     <div class="arguments">
+      <span class="overview-param">
+       <a class="pill pill-con" href="/docs/reference/foundations/content/">
+        content
+       </a>
+       ,
+      </span>
+      <span class="overview-param">
+       <a href="#definitions-cell-parameters-x">
+        x
+        <!-- -->
+        :
+       </a>
+       <a class="pill pill-kw" href="/docs/reference/foundations/auto/">
+        auto
+       </a>
+       <a class="pill pill-num" href="/docs/reference/foundations/int/">
+        int
+       </a>
+       ,
+      </span>
+      <span class="overview-param">
+       <a href="#definitions-cell-parameters-y">
+        y
+        <!-- -->
+        :
+       </a>
+       <a class="pill pill-kw" href="/docs/reference/foundations/auto/">
+        auto
+       </a>
+       <a class="pill pill-num" href="/docs/reference/foundations/int/">
+        int
+       </a>
+       ,
+      </span>
+      <span class="overview-param">
+       <a href="#definitions-cell-parameters-colspan">
+        colspan
+        <!-- -->
+        :
+       </a>
+       <a class="pill pill-num" href="/docs/reference/foundations/int/">
+        int
+       </a>
+       ,
+      </span>
+      <span class="overview-param">
+       <a href="#definitions-cell-parameters-rowspan">
+        rowspan
+        <!-- -->
+        :
+       </a>
+       <a class="pill pill-num" href="/docs/reference/foundations/int/">
+        int
+       </a>
+       ,
+      </span>
+      <span class="overview-param">
+       <a href="#definitions-cell-parameters-fill">
+        fill
+        <!-- -->
+        :
+       </a>
+       <a class="pill pill-kw" href="/docs/reference/foundations/none/">
+        none
+       </a>
+       <a class="pill pill-kw" href="/docs/reference/foundations/auto/">
+        auto
+       </a>
+       <a class="pill pill-col" href="/docs/reference/visualize/color/">
+        color
+       </a>
+       <a class="pill pill-col" href="/docs/reference/visualize/gradient/">
+        gradient
+       </a>
+       <a class="pill pill-obj" href="/docs/reference/visualize/pattern/">
+        pattern
+       </a>
+       ,
+      </span>
+      <span class="overview-param">
+       <a href="#definitions-cell-parameters-align">
+        align
+        <!-- -->
+        :
+       </a>
+       <a class="pill pill-kw" href="/docs/reference/foundations/auto/">
+        auto
+       </a>
+       <a class="pill pill-obj" href="/docs/reference/layout/alignment/">
+        alignment
+       </a>
+       ,
+      </span>
+      <span class="overview-param">
+       <a href="#definitions-cell-parameters-inset">
+        inset
+        <!-- -->
+        :
+       </a>
+       <a class="pill pill-kw" href="/docs/reference/foundations/auto/">
+        auto
+       </a>
+       <a class="pill pill-num" href="/docs/reference/layout/relative/">
+        relative
+       </a>
+       <a class="pill pill-obj" href="/docs/reference/foundations/dictionary/">
+        dictionary
+       </a>
+       ,
+      </span>
+      <span class="overview-param">
+       <a href="#definitions-cell-parameters-stroke">
+        stroke
+        <!-- -->
+        :
+       </a>
+       <a class="pill pill-kw" href="/docs/reference/foundations/none/">
+        none
+       </a>
+       <a class="pill pill-num" href="/docs/reference/layout/length/">
+        length
+       </a>
+       <a class="pill pill-col" href="/docs/reference/visualize/color/">
+        color
+       </a>
+       <a class="pill pill-col" href="/docs/reference/visualize/gradient/">
+        gradient
+       </a>
+       <a class="pill pill-obj" href="/docs/reference/visualize/stroke/">
+        stroke
+       </a>
+       <a class="pill pill-obj" href="/docs/reference/visualize/pattern/">
+        pattern
+       </a>
+       <a class="pill pill-obj" href="/docs/reference/foundations/dictionary/">
+        dictionary
+       </a>
+       ,
+      </span>
+      <span class="overview-param">
+       <a href="#definitions-cell-parameters-breakable">
+        breakable
+        <!-- -->
+        :
+       </a>
+       <a class="pill pill-kw" href="/docs/reference/foundations/auto/">
+        auto
+       </a>
+       <a class="pill pill-bool" href="/docs/reference/foundations/bool/">
+        bool
+       </a>
+       ,
+      </span>
+     </div>
+     )
+     <!-- -->
+     -&gt;
+     <a class="pill pill-con" href="/docs/reference/foundations/content/">
+      content
+     </a>
+    </div>
+    <div class="previewed-code">
+     <pre><code><span class="typ-key">#</span><span class="typ-key">show</span> table<span class="typ-punct">.</span>cell<span class="typ-punct">.</span><span class="typ-func">where</span><span class="typ-punct">(</span>y<span class="typ-punct">:</span> <span class="typ-num">0</span><span class="typ-punct">)</span><span class="typ-punct">:</span> <span class="typ-func">strong</span>
+<span class="typ-key">#</span><span class="typ-key">set</span> <span class="typ-func">table</span><span class="typ-punct">(</span>
+  stroke<span class="typ-punct">:</span> <span class="typ-punct">(</span>x<span class="typ-punct">,</span> y<span class="typ-punct">)</span> <span class="typ-op">=&gt;</span> <span class="typ-key">if</span> y <span class="typ-op">==</span> <span class="typ-num">0</span> <span class="typ-punct">{</span>
+    <span class="typ-punct">(</span>bottom<span class="typ-punct">:</span> <span class="typ-num">0.7pt</span> <span class="typ-op">+</span> black<span class="typ-punct">)</span>
+  <span class="typ-punct">}</span><span class="typ-punct">,</span>
+  align<span class="typ-punct">:</span> <span class="typ-punct">(</span>x<span class="typ-punct">,</span> y<span class="typ-punct">)</span> <span class="typ-op">=&gt;</span> <span class="typ-punct">(</span>
+    <span class="typ-key">if</span> x <span class="typ-op">&gt;</span> <span class="typ-num">0</span> <span class="typ-punct">{</span> center <span class="typ-punct">}</span>
+    <span class="typ-key">else</span> <span class="typ-punct">{</span> left <span class="typ-punct">}</span>
+  <span class="typ-punct">)</span>
+<span class="typ-punct">)</span>
+
+<span class="typ-func">#</span><span class="typ-func">table</span><span class="typ-punct">(</span>
+  columns<span class="typ-punct">:</span> <span class="typ-num">3</span><span class="typ-punct">,</span>
+  table<span class="typ-punct">.</span><span class="typ-func">header</span><span class="typ-punct">(</span>
+    <span class="typ-punct">[</span>Substance<span class="typ-punct">]</span><span class="typ-punct">,</span>
+    <span class="typ-punct">[</span>Subcritical Â°C<span class="typ-punct">]</span><span class="typ-punct">,</span>
+    <span class="typ-punct">[</span>Supercritical Â°C<span class="typ-punct">]</span><span class="typ-punct">,</span>
+  <span class="typ-punct">)</span><span class="typ-punct">,</span>
+  <span class="typ-punct">[</span>Hydrochloric Acid<span class="typ-punct">]</span><span class="typ-punct">,</span>
+  <span class="typ-punct">[</span>12.0<span class="typ-punct">]</span><span class="typ-punct">,</span> <span class="typ-punct">[</span>92.1<span class="typ-punct">]</span><span class="typ-punct">,</span>
+  <span class="typ-punct">[</span>Sodium Myreth Sulfate<span class="typ-punct">]</span><span class="typ-punct">,</span>
+  <span class="typ-punct">[</span>16.6<span class="typ-punct">]</span><span class="typ-punct">,</span> <span class="typ-punct">[</span>104<span class="typ-punct">]</span><span class="typ-punct">,</span>
+  <span class="typ-punct">[</span>Potassium Hydroxide<span class="typ-punct">]</span><span class="typ-punct">,</span>
+  table<span class="typ-punct">.</span><span class="typ-func">cell</span><span class="typ-punct">(</span>colspan<span class="typ-punct">:</span> <span class="typ-num">2</span><span class="typ-punct">)</span><span class="typ-punct">[</span>24.7<span class="typ-punct">]</span><span class="typ-punct">,</span>
+<span class="typ-punct">)</span>
+</code></pre>
+     <div class="preview">
+      <img alt="Preview" height="198/" src="/assets/docs/2rQPm8gbRwbFqiITJlD6oAAAAAAAAAAA.png" width="614"/>
+     </div>
+    </div>
+    <p>
+     For example, you can override the fill, alignment or inset for a single cell:
+    </p>
+    <div class="previewed-code">
+     <pre><code><span class="typ-comment">// You can also import those.</span>
+<span class="typ-key">#</span><span class="typ-key">import</span> table<span class="typ-punct">:</span> cell<span class="typ-punct">,</span> header
+
+<span class="typ-func">#</span><span class="typ-func">table</span><span class="typ-punct">(</span>
+  columns<span class="typ-punct">:</span> <span class="typ-num">2</span><span class="typ-punct">,</span>
+  align<span class="typ-punct">:</span> center<span class="typ-punct">,</span>
+  <span class="typ-func">header</span><span class="typ-punct">(</span>
+    <span class="typ-punct">[</span><span class="typ-strong">*Trip progress*</span><span class="typ-punct">]</span><span class="typ-punct">,</span>
+    <span class="typ-punct">[</span><span class="typ-strong">*Itinerary*</span><span class="typ-punct">]</span><span class="typ-punct">,</span>
+  <span class="typ-punct">)</span><span class="typ-punct">,</span>
+  <span class="typ-func">cell</span><span class="typ-punct">(</span>
+    align<span class="typ-punct">:</span> right<span class="typ-punct">,</span>
+    fill<span class="typ-punct">:</span> fuchsia<span class="typ-punct">.</span><span class="typ-func">lighten</span><span class="typ-punct">(</span><span class="typ-num">80%</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+    <span class="typ-punct">[</span>ð<span class="typ-punct">]</span><span class="typ-punct">,</span>
+  <span class="typ-punct">)</span><span class="typ-punct">,</span>
+  <span class="typ-punct">[</span>Get in, folks!<span class="typ-punct">]</span><span class="typ-punct">,</span>
+  <span class="typ-punct">[</span>ð<span class="typ-punct">]</span><span class="typ-punct">,</span> <span class="typ-punct">[</span>Eat curbside hotdog<span class="typ-punct">]</span><span class="typ-punct">,</span>
+  <span class="typ-func">cell</span><span class="typ-punct">(</span>align<span class="typ-punct">:</span> left<span class="typ-punct">)</span><span class="typ-punct">[</span>ð´ð<span class="typ-punct">]</span><span class="typ-punct">,</span>
+  <span class="typ-func">cell</span><span class="typ-punct">(</span>
+    inset<span class="typ-punct">:</span> <span class="typ-num">0.06em</span><span class="typ-punct">,</span>
+    <span class="typ-func">text</span><span class="typ-punct">(</span><span class="typ-num">1.62em</span><span class="typ-punct">)</span><span class="typ-punct">[</span>ððð<span class="typ-punct">]</span><span class="typ-punct">,</span>
+  <span class="typ-punct">)</span><span class="typ-punct">,</span>
+<span class="typ-punct">)</span>
+</code></pre>
+     <div class="preview">
+      <img alt="Preview" height="207/" src="/assets/docs/VtayZlhMrUWzOmBAyEorDQAAAAAAAAAA.png" width="412"/>
+     </div>
+    </div>
+    <p>
+     You may also apply a show rule on
+     <code>
+      table.cell
+     </code>
+     to style all cells at once. Combined with selectors, this allows you to apply styles based on a cell's position:
+    </p>
+    <div class="previewed-code">
+     <pre><code><span class="typ-key">#</span><span class="typ-key">show</span> table<span class="typ-punct">.</span>cell<span class="typ-punct">.</span><span class="typ-func">where</span><span class="typ-punct">(</span>x<span class="typ-punct">:</span> <span class="typ-num">0</span><span class="typ-punct">)</span><span class="typ-punct">:</span> <span class="typ-func">strong</span>
+
+<span class="typ-func">#</span><span class="typ-func">table</span><span class="typ-punct">(</span>
+  columns<span class="typ-punct">:</span> <span class="typ-num">3</span><span class="typ-punct">,</span>
+  gutter<span class="typ-punct">:</span> <span class="typ-num">3pt</span><span class="typ-punct">,</span>
+  <span class="typ-punct">[</span>Name<span class="typ-punct">]</span><span class="typ-punct">,</span> <span class="typ-punct">[</span>Age<span class="typ-punct">]</span><span class="typ-punct">,</span> <span class="typ-punct">[</span>Strength<span class="typ-punct">]</span><span class="typ-punct">,</span>
+  <span class="typ-punct">[</span>Hannes<span class="typ-punct">]</span><span class="typ-punct">,</span> <span class="typ-punct">[</span>36<span class="typ-punct">]</span><span class="typ-punct">,</span> <span class="typ-punct">[</span>Grace<span class="typ-punct">]</span><span class="typ-punct">,</span>
+  <span class="typ-punct">[</span>Irma<span class="typ-punct">]</span><span class="typ-punct">,</span> <span class="typ-punct">[</span>50<span class="typ-punct">]</span><span class="typ-punct">,</span> <span class="typ-punct">[</span>Resourcefulness<span class="typ-punct">]</span><span class="typ-punct">,</span>
+  <span class="typ-punct">[</span>Vikram<span class="typ-punct">]</span><span class="typ-punct">,</span> <span class="typ-punct">[</span>49<span class="typ-punct">]</span><span class="typ-punct">,</span> <span class="typ-punct">[</span>Perseverance<span class="typ-punct">]</span><span class="typ-punct">,</span>
+<span class="typ-punct">)</span>
+</code></pre>
+     <div class="preview">
+      <img alt="Preview" height="216/" src="/assets/docs/c2SP069qvMBzeFbrjVs8pwAAAAAAAAAA.png" width="480"/>
+     </div>
+    </div>
+    <h4 id="definitions-cell-body">
+     <code>
+      body
+     </code>
+     <div class="additional-info">
+      <div>
+       <a class="pill pill-con" href="/docs/reference/foundations/content/">
+        content
+       </a>
+      </div>
+      <small>
+       Required
+      </small>
+      <small>
+       <span aria-describedby="definitions-cell-body-positional-tooltip">
+        Positional
+       </span>
+       <div class="tooltip-context">
+        <svg aria-labelledby=":R37273f9a:-label" height="12" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 12 12" width="12">
+         <title id=":R37273f9a:-label">
+          Question mark
+         </title>
+         <use href="/assets/icons/12-tooltip.svg#icon">
+         </use>
+        </svg>
+        <div aria-hidden="true" id="definitions-cell-body-positional-tooltip" role="tooltip" tabindex="-1">
+         Positional parameters are specified in order, without names.
+        </div>
+       </div>
+      </small>
+     </div>
+    </h4>
+    <p>
+     The cell's body.
+    </p>
+    <h4 id="definitions-cell-x">
+     <code>
+      x
+     </code>
+     <div class="additional-info">
+      <div>
+       <a class="pill pill-kw" href="/docs/reference/foundations/auto/">
+        auto
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-num" href="/docs/reference/foundations/int/">
+        int
+       </a>
+      </div>
+      <small>
+       <span aria-describedby="definitions-cell-x-settable-tooltip">
+        Settable
+       </span>
+       <div class="tooltip-context">
+        <svg aria-labelledby=":R3d2b3f9a:-label" height="12" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 12 12" width="12">
+         <title id=":R3d2b3f9a:-label">
+          Question mark
+         </title>
+         <use href="/assets/icons/12-tooltip.svg#icon">
+         </use>
+        </svg>
+        <div aria-hidden="true" id="definitions-cell-x-settable-tooltip" role="tooltip" tabindex="-1">
+         Settable parameters can be customized for all following uses of the function with a
+         <code>
+          set
+         </code>
+         rule.
+        </div>
+       </div>
+      </small>
+     </div>
+    </h4>
+    <p>
+     The cell's column (zero-indexed). Functions identically to the
+     <code>
+      x
+     </code>
+     field in
+     <a href="/docs/reference/layout/grid/#definitions-cell">
+      <code>
+       grid.cell
+      </code>
+     </a>
+     .
+    </p>
+    <p>
+     Default:
+     <code>
+      <span class="typ-key">
+       auto
+      </span>
+     </code>
+    </p>
+    <h4 id="definitions-cell-y">
+     <code>
+      y
+     </code>
+     <div class="additional-info">
+      <div>
+       <a class="pill pill-kw" href="/docs/reference/foundations/auto/">
+        auto
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-num" href="/docs/reference/foundations/int/">
+        int
+       </a>
+      </div>
+      <small>
+       <span aria-describedby="definitions-cell-y-settable-tooltip">
+        Settable
+       </span>
+       <div class="tooltip-context">
+        <svg aria-labelledby=":R3d2f3f9a:-label" height="12" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 12 12" width="12">
+         <title id=":R3d2f3f9a:-label">
+          Question mark
+         </title>
+         <use href="/assets/icons/12-tooltip.svg#icon">
+         </use>
+        </svg>
+        <div aria-hidden="true" id="definitions-cell-y-settable-tooltip" role="tooltip" tabindex="-1">
+         Settable parameters can be customized for all following uses of the function with a
+         <code>
+          set
+         </code>
+         rule.
+        </div>
+       </div>
+      </small>
+     </div>
+    </h4>
+    <p>
+     The cell's row (zero-indexed). Functions identically to the
+     <code>
+      y
+     </code>
+     field in
+     <a href="/docs/reference/layout/grid/#definitions-cell">
+      <code>
+       grid.cell
+      </code>
+     </a>
+     .
+    </p>
+    <p>
+     Default:
+     <code>
+      <span class="typ-key">
+       auto
+      </span>
+     </code>
+    </p>
+    <h4 id="definitions-cell-colspan">
+     <code>
+      colspan
+     </code>
+     <div class="additional-info">
+      <div>
+       <a class="pill pill-num" href="/docs/reference/foundations/int/">
+        int
+       </a>
+      </div>
+      <small>
+       <span aria-describedby="definitions-cell-colspan-settable-tooltip">
+        Settable
+       </span>
+       <div class="tooltip-context">
+        <svg aria-labelledby=":R3d2j3f9a:-label" height="12" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 12 12" width="12">
+         <title id=":R3d2j3f9a:-label">
+          Question mark
+         </title>
+         <use href="/assets/icons/12-tooltip.svg#icon">
+         </use>
+        </svg>
+        <div aria-hidden="true" id="definitions-cell-colspan-settable-tooltip" role="tooltip" tabindex="-1">
+         Settable parameters can be customized for all following uses of the function with a
+         <code>
+          set
+         </code>
+         rule.
+        </div>
+       </div>
+      </small>
+     </div>
+    </h4>
+    <p>
+     The amount of columns spanned by this cell.
+    </p>
+    <p>
+     Default:
+     <code>
+      <span class="typ-num">
+       1
+      </span>
+     </code>
+    </p>
+    <h4 id="definitions-cell-rowspan">
+     <code>
+      rowspan
+     </code>
+     <div class="additional-info">
+      <div>
+       <a class="pill pill-num" href="/docs/reference/foundations/int/">
+        int
+       </a>
+      </div>
+      <small>
+       <span aria-describedby="definitions-cell-rowspan-settable-tooltip">
+        Settable
+       </span>
+       <div class="tooltip-context">
+        <svg aria-labelledby=":R3d2n3f9a:-label" height="12" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 12 12" width="12">
+         <title id=":R3d2n3f9a:-label">
+          Question mark
+         </title>
+         <use href="/assets/icons/12-tooltip.svg#icon">
+         </use>
+        </svg>
+        <div aria-hidden="true" id="definitions-cell-rowspan-settable-tooltip" role="tooltip" tabindex="-1">
+         Settable parameters can be customized for all following uses of the function with a
+         <code>
+          set
+         </code>
+         rule.
+        </div>
+       </div>
+      </small>
+     </div>
+    </h4>
+    <p>
+     The amount of rows spanned by this cell.
+    </p>
+    <p>
+     Default:
+     <code>
+      <span class="typ-num">
+       1
+      </span>
+     </code>
+    </p>
+    <h4 id="definitions-cell-fill">
+     <code>
+      fill
+     </code>
+     <div class="additional-info">
+      <div>
+       <a class="pill pill-kw" href="/docs/reference/foundations/none/">
+        none
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-kw" href="/docs/reference/foundations/auto/">
+        auto
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-col" href="/docs/reference/visualize/color/">
+        color
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-col" href="/docs/reference/visualize/gradient/">
+        gradient
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-obj" href="/docs/reference/visualize/pattern/">
+        pattern
+       </a>
+      </div>
+      <small>
+       <span aria-describedby="definitions-cell-fill-settable-tooltip">
+        Settable
+       </span>
+       <div class="tooltip-context">
+        <svg aria-labelledby=":R3d2r3f9a:-label" height="12" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 12 12" width="12">
+         <title id=":R3d2r3f9a:-label">
+          Question mark
+         </title>
+         <use href="/assets/icons/12-tooltip.svg#icon">
+         </use>
+        </svg>
+        <div aria-hidden="true" id="definitions-cell-fill-settable-tooltip" role="tooltip" tabindex="-1">
+         Settable parameters can be customized for all following uses of the function with a
+         <code>
+          set
+         </code>
+         rule.
+        </div>
+       </div>
+      </small>
+     </div>
+    </h4>
+    <p>
+     The cell's
+     <a href="/docs/reference/model/table/#parameters-fill">
+      fill
+     </a>
+     override.
+    </p>
+    <p>
+     Default:
+     <code>
+      <span class="typ-key">
+       auto
+      </span>
+     </code>
+    </p>
+    <h4 id="definitions-cell-align">
+     <code>
+      align
+     </code>
+     <div class="additional-info">
+      <div>
+       <a class="pill pill-kw" href="/docs/reference/foundations/auto/">
+        auto
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-obj" href="/docs/reference/layout/alignment/">
+        alignment
+       </a>
+      </div>
+      <small>
+       <span aria-describedby="definitions-cell-align-settable-tooltip">
+        Settable
+       </span>
+       <div class="tooltip-context">
+        <svg aria-labelledby=":R3d2v3f9a:-label" height="12" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 12 12" width="12">
+         <title id=":R3d2v3f9a:-label">
+          Question mark
+         </title>
+         <use href="/assets/icons/12-tooltip.svg#icon">
+         </use>
+        </svg>
+        <div aria-hidden="true" id="definitions-cell-align-settable-tooltip" role="tooltip" tabindex="-1">
+         Settable parameters can be customized for all following uses of the function with a
+         <code>
+          set
+         </code>
+         rule.
+        </div>
+       </div>
+      </small>
+     </div>
+    </h4>
+    <p>
+     The cell's
+     <a href="/docs/reference/model/table/#parameters-align">
+      alignment
+     </a>
+     override.
+    </p>
+    <p>
+     Default:
+     <code>
+      <span class="typ-key">
+       auto
+      </span>
+     </code>
+    </p>
+    <h4 id="definitions-cell-inset">
+     <code>
+      inset
+     </code>
+     <div class="additional-info">
+      <div>
+       <a class="pill pill-kw" href="/docs/reference/foundations/auto/">
+        auto
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-num" href="/docs/reference/layout/relative/">
+        relative
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-obj" href="/docs/reference/foundations/dictionary/">
+        dictionary
+       </a>
+      </div>
+      <small>
+       <span aria-describedby="definitions-cell-inset-settable-tooltip">
+        Settable
+       </span>
+       <div class="tooltip-context">
+        <svg aria-labelledby=":R3d333f9a:-label" height="12" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 12 12" width="12">
+         <title id=":R3d333f9a:-label">
+          Question mark
+         </title>
+         <use href="/assets/icons/12-tooltip.svg#icon">
+         </use>
+        </svg>
+        <div aria-hidden="true" id="definitions-cell-inset-settable-tooltip" role="tooltip" tabindex="-1">
+         Settable parameters can be customized for all following uses of the function with a
+         <code>
+          set
+         </code>
+         rule.
+        </div>
+       </div>
+      </small>
+     </div>
+    </h4>
+    <p>
+     The cell's
+     <a href="/docs/reference/model/table/#parameters-inset">
+      inset
+     </a>
+     override.
+    </p>
+    <p>
+     Default:
+     <code>
+      <span class="typ-key">
+       auto
+      </span>
+     </code>
+    </p>
+    <h4 id="definitions-cell-stroke">
+     <code>
+      stroke
+     </code>
+     <div class="additional-info">
+      <div>
+       <a class="pill pill-kw" href="/docs/reference/foundations/none/">
+        none
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-num" href="/docs/reference/layout/length/">
+        length
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-col" href="/docs/reference/visualize/color/">
+        color
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-col" href="/docs/reference/visualize/gradient/">
+        gradient
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-obj" href="/docs/reference/visualize/stroke/">
+        stroke
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-obj" href="/docs/reference/visualize/pattern/">
+        pattern
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-obj" href="/docs/reference/foundations/dictionary/">
+        dictionary
+       </a>
+      </div>
+      <small>
+       <span aria-describedby="definitions-cell-stroke-settable-tooltip">
+        Settable
+       </span>
+       <div class="tooltip-context">
+        <svg aria-labelledby=":R3d373f9a:-label" height="12" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 12 12" width="12">
+         <title id=":R3d373f9a:-label">
+          Question mark
+         </title>
+         <use href="/assets/icons/12-tooltip.svg#icon">
+         </use>
+        </svg>
+        <div aria-hidden="true" id="definitions-cell-stroke-settable-tooltip" role="tooltip" tabindex="-1">
+         Settable parameters can be customized for all following uses of the function with a
+         <code>
+          set
+         </code>
+         rule.
+        </div>
+       </div>
+      </small>
+     </div>
+    </h4>
+    <p>
+     The cell's
+     <a href="/docs/reference/model/table/#parameters-stroke">
+      stroke
+     </a>
+     override.
+    </p>
+    <p>
+     Default:
+     <code>
+      <span class="typ-punct">
+       (
+      </span>
+      <span class="typ-punct">
+       :
+      </span>
+      <span class="typ-punct">
+       )
+      </span>
+     </code>
+    </p>
+    <h4 id="definitions-cell-breakable">
+     <code>
+      breakable
+     </code>
+     <div class="additional-info">
+      <div>
+       <a class="pill pill-kw" href="/docs/reference/foundations/auto/">
+        auto
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-bool" href="/docs/reference/foundations/bool/">
+        bool
+       </a>
+      </div>
+      <small>
+       <span aria-describedby="definitions-cell-breakable-settable-tooltip">
+        Settable
+       </span>
+       <div class="tooltip-context">
+        <svg aria-labelledby=":R3d3b3f9a:-label" height="12" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 12 12" width="12">
+         <title id=":R3d3b3f9a:-label">
+          Question mark
+         </title>
+         <use href="/assets/icons/12-tooltip.svg#icon">
+         </use>
+        </svg>
+        <div aria-hidden="true" id="definitions-cell-breakable-settable-tooltip" role="tooltip" tabindex="-1">
+         Settable parameters can be customized for all following uses of the function with a
+         <code>
+          set
+         </code>
+         rule.
+        </div>
+       </div>
+      </small>
+     </div>
+    </h4>
+    <p>
+     Whether rows spanned by this cell can be placed in different pages. When equal to
+     <code>
+      <span class="typ-key">
+       auto
+      </span>
+     </code>
+     , a cell spanning only fixed-size rows is unbreakable, while a cell spanning at least one
+     <code>
+      <span class="typ-key">
+       auto
+      </span>
+     </code>
+     -sized row is breakable.
+    </p>
+    <p>
+     Default:
+     <code>
+      <span class="typ-key">
+       auto
+      </span>
+     </code>
+    </p>
+    <h3 class="scoped-function" id="definitions-hline">
+     <code>
+      hline
+     </code>
+     <small>
+      <span aria-describedby="definitions-hline-element-tooltip">
+       Element
+      </span>
+      <div class="tooltip-context">
+       <svg aria-labelledby=":R38lf9a:-label" height="12" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 12 12" width="12">
+        <title id=":R38lf9a:-label">
+         Question mark
+        </title>
+        <use href="/assets/icons/12-tooltip.svg#icon">
+        </use>
+       </svg>
+       <div aria-hidden="true" id="definitions-hline-element-tooltip" role="tooltip" tabindex="-1">
+        Element functions can be customized with
+        <code>
+         set
+        </code>
+        and
+        <!-- -->
+        <code>
+         show
+        </code>
+        rules.
+       </div>
+      </div>
+     </small>
+    </h3>
+    <p>
+     A horizontal line in the table.
+    </p>
+    <p>
+     Overrides any per-cell stroke, including stroke specified through the table's
+     <code>
+      stroke
+     </code>
+     field. Can cross spacing between cells created through the table's
+     <a href="/docs/reference/model/table/#parameters-column-gutter">
+      <code>
+       column-gutter
+      </code>
+     </a>
+     option.
+    </p>
+    <p>
+     Use this function instead of the table's
+     <code>
+      stroke
+     </code>
+     field if you want to manually place a horizontal line at a specific position in a single table. Consider using
+     <a href="/docs/reference/model/table/#parameters-stroke">
+      table's
+      <code>
+       stroke
+      </code>
+     </a>
+     field or
+     <a href="/docs/reference/model/table/#definitions-cell-stroke">
+      <code>
+       table.cell
+      </code>
+      's
+      <code>
+       stroke
+      </code>
+     </a>
+     field instead if the line you want to place is part of all your tables' designs.
+    </p>
+    <div class="code code-definition">
+     table
+     <span class="typ-punct">
+      .
+     </span>
+     <span class="typ-func">
+      hline
+     </span>
+     (
+     <div class="arguments">
+      <span class="overview-param">
+       <a href="#definitions-hline-parameters-y">
+        y
+        <!-- -->
+        :
+       </a>
+       <a class="pill pill-kw" href="/docs/reference/foundations/auto/">
+        auto
+       </a>
+       <a class="pill pill-num" href="/docs/reference/foundations/int/">
+        int
+       </a>
+       ,
+      </span>
+      <span class="overview-param">
+       <a href="#definitions-hline-parameters-start">
+        start
+        <!-- -->
+        :
+       </a>
+       <a class="pill pill-num" href="/docs/reference/foundations/int/">
+        int
+       </a>
+       ,
+      </span>
+      <span class="overview-param">
+       <a href="#definitions-hline-parameters-end">
+        end
+        <!-- -->
+        :
+       </a>
+       <a class="pill pill-kw" href="/docs/reference/foundations/none/">
+        none
+       </a>
+       <a class="pill pill-num" href="/docs/reference/foundations/int/">
+        int
+       </a>
+       ,
+      </span>
+      <span class="overview-param">
+       <a href="#definitions-hline-parameters-stroke">
+        stroke
+        <!-- -->
+        :
+       </a>
+       <a class="pill pill-kw" href="/docs/reference/foundations/none/">
+        none
+       </a>
+       <a class="pill pill-num" href="/docs/reference/layout/length/">
+        length
+       </a>
+       <a class="pill pill-col" href="/docs/reference/visualize/color/">
+        color
+       </a>
+       <a class="pill pill-col" href="/docs/reference/visualize/gradient/">
+        gradient
+       </a>
+       <a class="pill pill-obj" href="/docs/reference/visualize/stroke/">
+        stroke
+       </a>
+       <a class="pill pill-obj" href="/docs/reference/visualize/pattern/">
+        pattern
+       </a>
+       <a class="pill pill-obj" href="/docs/reference/foundations/dictionary/">
+        dictionary
+       </a>
+       ,
+      </span>
+      <span class="overview-param">
+       <a href="#definitions-hline-parameters-position">
+        position
+        <!-- -->
+        :
+       </a>
+       <a class="pill pill-obj" href="/docs/reference/layout/alignment/">
+        alignment
+       </a>
+       ,
+      </span>
+     </div>
+     )
+     <!-- -->
+     -&gt;
+     <a class="pill pill-con" href="/docs/reference/foundations/content/">
+      content
+     </a>
+    </div>
+    <div class="previewed-code">
+     <pre><code><span class="typ-key">#</span><span class="typ-key">set</span> table<span class="typ-punct">.</span><span class="typ-func">hline</span><span class="typ-punct">(</span>stroke<span class="typ-punct">:</span> <span class="typ-num">.6pt</span><span class="typ-punct">)</span>
+
+<span class="typ-func">#</span><span class="typ-func">table</span><span class="typ-punct">(</span>
+  stroke<span class="typ-punct">:</span> <span class="typ-key">none</span><span class="typ-punct">,</span>
+  columns<span class="typ-punct">:</span> <span class="typ-punct">(</span><span class="typ-key">auto</span><span class="typ-punct">,</span> <span class="typ-num">1fr</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+  <span class="typ-punct">[</span>09:00<span class="typ-punct">]</span><span class="typ-punct">,</span> <span class="typ-punct">[</span>Badge pick up<span class="typ-punct">]</span><span class="typ-punct">,</span>
+  <span class="typ-punct">[</span>09:45<span class="typ-punct">]</span><span class="typ-punct">,</span> <span class="typ-punct">[</span>Opening Keynote<span class="typ-punct">]</span><span class="typ-punct">,</span>
+  <span class="typ-punct">[</span>10:30<span class="typ-punct">]</span><span class="typ-punct">,</span> <span class="typ-punct">[</span>Talk: Typst's Future<span class="typ-punct">]</span><span class="typ-punct">,</span>
+  <span class="typ-punct">[</span>11:15<span class="typ-punct">]</span><span class="typ-punct">,</span> <span class="typ-punct">[</span>Session: Good PRs<span class="typ-punct">]</span><span class="typ-punct">,</span>
+  table<span class="typ-punct">.</span><span class="typ-func">hline</span><span class="typ-punct">(</span>start<span class="typ-punct">:</span> <span class="typ-num">1</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+  <span class="typ-punct">[</span>Noon<span class="typ-punct">]</span><span class="typ-punct">,</span> <span class="typ-punct">[</span><span class="typ-emph">_Lunch break_</span><span class="typ-punct">]</span><span class="typ-punct">,</span>
+  table<span class="typ-punct">.</span><span class="typ-func">hline</span><span class="typ-punct">(</span>start<span class="typ-punct">:</span> <span class="typ-num">1</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+  <span class="typ-punct">[</span>14:00<span class="typ-punct">]</span><span class="typ-punct">,</span> <span class="typ-punct">[</span>Talk: Tracked Layout<span class="typ-punct">]</span><span class="typ-punct">,</span>
+  <span class="typ-punct">[</span>15:00<span class="typ-punct">]</span><span class="typ-punct">,</span> <span class="typ-punct">[</span>Talk: Automations<span class="typ-punct">]</span><span class="typ-punct">,</span>
+  <span class="typ-punct">[</span>16:00<span class="typ-punct">]</span><span class="typ-punct">,</span> <span class="typ-punct">[</span>Workshop: Tables<span class="typ-punct">]</span><span class="typ-punct">,</span>
+  table<span class="typ-punct">.</span><span class="typ-func">hline</span><span class="typ-punct">(</span><span class="typ-punct">)</span><span class="typ-punct">,</span>
+  <span class="typ-punct">[</span>19:00<span class="typ-punct">]</span><span class="typ-punct">,</span> <span class="typ-punct">[</span>Day 1 Attendee Mixer<span class="typ-punct">]</span><span class="typ-punct">,</span>
+<span class="typ-punct">)</span>
+</code></pre>
+     <div class="preview">
+      <img alt="Preview" height="370/" src="/assets/docs/Fl-W72wh8hlKb72YjlJ0PgAAAAAAAAAA.png" width="480"/>
+     </div>
+    </div>
+    <h4 id="definitions-hline-y">
+     <code>
+      y
+     </code>
+     <div class="additional-info">
+      <div>
+       <a class="pill pill-kw" href="/docs/reference/foundations/auto/">
+        auto
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-num" href="/docs/reference/foundations/int/">
+        int
+       </a>
+      </div>
+      <small>
+       <span aria-describedby="definitions-hline-y-settable-tooltip">
+        Settable
+       </span>
+       <div class="tooltip-context">
+        <svg aria-labelledby=":R1mh75f9a:-label" height="12" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 12 12" width="12">
+         <title id=":R1mh75f9a:-label">
+          Question mark
+         </title>
+         <use href="/assets/icons/12-tooltip.svg#icon">
+         </use>
+        </svg>
+        <div aria-hidden="true" id="definitions-hline-y-settable-tooltip" role="tooltip" tabindex="-1">
+         Settable parameters can be customized for all following uses of the function with a
+         <code>
+          set
+         </code>
+         rule.
+        </div>
+       </div>
+      </small>
+     </div>
+    </h4>
+    <p>
+     The row above which the horizontal line is placed (zero-indexed). Functions identically to the
+     <code>
+      y
+     </code>
+     field in
+     <a href="/docs/reference/layout/grid/#definitions-hline-y">
+      <code>
+       grid.hline
+      </code>
+     </a>
+     .
+    </p>
+    <p>
+     Default:
+     <code>
+      <span class="typ-key">
+       auto
+      </span>
+     </code>
+    </p>
+    <h4 id="definitions-hline-start">
+     <code>
+      start
+     </code>
+     <div class="additional-info">
+      <div>
+       <a class="pill pill-num" href="/docs/reference/foundations/int/">
+        int
+       </a>
+      </div>
+      <small>
+       <span aria-describedby="definitions-hline-start-settable-tooltip">
+        Settable
+       </span>
+       <div class="tooltip-context">
+        <svg aria-labelledby=":R1mhb5f9a:-label" height="12" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 12 12" width="12">
+         <title id=":R1mhb5f9a:-label">
+          Question mark
+         </title>
+         <use href="/assets/icons/12-tooltip.svg#icon">
+         </use>
+        </svg>
+        <div aria-hidden="true" id="definitions-hline-start-settable-tooltip" role="tooltip" tabindex="-1">
+         Settable parameters can be customized for all following uses of the function with a
+         <code>
+          set
+         </code>
+         rule.
+        </div>
+       </div>
+      </small>
+     </div>
+    </h4>
+    <p>
+     The column at which the horizontal line starts (zero-indexed, inclusive).
+    </p>
+    <p>
+     Default:
+     <code>
+      <span class="typ-num">
+       0
+      </span>
+     </code>
+    </p>
+    <h4 id="definitions-hline-end">
+     <code>
+      end
+     </code>
+     <div class="additional-info">
+      <div>
+       <a class="pill pill-kw" href="/docs/reference/foundations/none/">
+        none
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-num" href="/docs/reference/foundations/int/">
+        int
+       </a>
+      </div>
+      <small>
+       <span aria-describedby="definitions-hline-end-settable-tooltip">
+        Settable
+       </span>
+       <div class="tooltip-context">
+        <svg aria-labelledby=":R1mhf5f9a:-label" height="12" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 12 12" width="12">
+         <title id=":R1mhf5f9a:-label">
+          Question mark
+         </title>
+         <use href="/assets/icons/12-tooltip.svg#icon">
+         </use>
+        </svg>
+        <div aria-hidden="true" id="definitions-hline-end-settable-tooltip" role="tooltip" tabindex="-1">
+         Settable parameters can be customized for all following uses of the function with a
+         <code>
+          set
+         </code>
+         rule.
+        </div>
+       </div>
+      </small>
+     </div>
+    </h4>
+    <p>
+     The column before which the horizontal line ends (zero-indexed, exclusive).
+    </p>
+    <p>
+     Default:
+     <code>
+      <span class="typ-key">
+       none
+      </span>
+     </code>
+    </p>
+    <h4 id="definitions-hline-stroke">
+     <code>
+      stroke
+     </code>
+     <div class="additional-info">
+      <div>
+       <a class="pill pill-kw" href="/docs/reference/foundations/none/">
+        none
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-num" href="/docs/reference/layout/length/">
+        length
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-col" href="/docs/reference/visualize/color/">
+        color
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-col" href="/docs/reference/visualize/gradient/">
+        gradient
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-obj" href="/docs/reference/visualize/stroke/">
+        stroke
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-obj" href="/docs/reference/visualize/pattern/">
+        pattern
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-obj" href="/docs/reference/foundations/dictionary/">
+        dictionary
+       </a>
+      </div>
+      <small>
+       <span aria-describedby="definitions-hline-stroke-settable-tooltip">
+        Settable
+       </span>
+       <div class="tooltip-context">
+        <svg aria-labelledby=":R1mhj5f9a:-label" height="12" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 12 12" width="12">
+         <title id=":R1mhj5f9a:-label">
+          Question mark
+         </title>
+         <use href="/assets/icons/12-tooltip.svg#icon">
+         </use>
+        </svg>
+        <div aria-hidden="true" id="definitions-hline-stroke-settable-tooltip" role="tooltip" tabindex="-1">
+         Settable parameters can be customized for all following uses of the function with a
+         <code>
+          set
+         </code>
+         rule.
+        </div>
+       </div>
+      </small>
+     </div>
+    </h4>
+    <p>
+     The line's stroke.
+    </p>
+    <p>
+     Specifying
+     <code>
+      <span class="typ-key">
+       none
+      </span>
+     </code>
+     removes any lines previously placed across this line's range, including hlines or per-cell stroke below it.
+    </p>
+    <p>
+     Default:
+     <code>
+      <span class="typ-num">
+       1pt
+      </span>
+      <span class="typ-op">
+       +
+      </span>
+      black
+     </code>
+    </p>
+    <h4 id="definitions-hline-position">
+     <code>
+      position
+     </code>
+     <div class="additional-info">
+      <div>
+       <a class="pill pill-obj" href="/docs/reference/layout/alignment/">
+        alignment
+       </a>
+      </div>
+      <small>
+       <span aria-describedby="definitions-hline-position-settable-tooltip">
+        Settable
+       </span>
+       <div class="tooltip-context">
+        <svg aria-labelledby=":R1mhn5f9a:-label" height="12" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 12 12" width="12">
+         <title id=":R1mhn5f9a:-label">
+          Question mark
+         </title>
+         <use href="/assets/icons/12-tooltip.svg#icon">
+         </use>
+        </svg>
+        <div aria-hidden="true" id="definitions-hline-position-settable-tooltip" role="tooltip" tabindex="-1">
+         Settable parameters can be customized for all following uses of the function with a
+         <code>
+          set
+         </code>
+         rule.
+        </div>
+       </div>
+      </small>
+     </div>
+    </h4>
+    <p>
+     The position at which the line is placed, given its row (
+     <code>
+      y
+     </code>
+     ) - either
+     <code>
+      top
+     </code>
+     to draw above it or
+     <code>
+      bottom
+     </code>
+     to draw below it.
+    </p>
+    <p>
+     This setting is only relevant when row gutter is enabled (and shouldn't be used otherwise - prefer just increasing the
+     <code>
+      y
+     </code>
+     field by one instead), since then the position below a row becomes different from the position above the next row due to the spacing between both.
+    </p>
+    <p>
+     Default:
+     <code>
+      top
+     </code>
+    </p>
+    <h3 class="scoped-function" id="definitions-vline">
+     <code>
+      vline
+     </code>
+     <small>
+      <span aria-describedby="definitions-vline-element-tooltip">
+       Element
+      </span>
+      <div class="tooltip-context">
+       <svg aria-labelledby=":R38nf9a:-label" height="12" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 12 12" width="12">
+        <title id=":R38nf9a:-label">
+         Question mark
+        </title>
+        <use href="/assets/icons/12-tooltip.svg#icon">
+        </use>
+       </svg>
+       <div aria-hidden="true" id="definitions-vline-element-tooltip" role="tooltip" tabindex="-1">
+        Element functions can be customized with
+        <code>
+         set
+        </code>
+        and
+        <!-- -->
+        <code>
+         show
+        </code>
+        rules.
+       </div>
+      </div>
+     </small>
+    </h3>
+    <p>
+     A vertical line in the table. See the docs for
+     <a href="/docs/reference/layout/grid/#definitions-vline">
+      <code>
+       grid.vline
+      </code>
+     </a>
+     for more information regarding how to use this element's fields.
+    </p>
+    <p>
+     Overrides any per-cell stroke, including stroke specified through the table's
+     <code>
+      stroke
+     </code>
+     field. Can cross spacing between cells created through the table's
+     <a href="/docs/reference/model/table/#parameters-row-gutter">
+      <code>
+       row-gutter
+      </code>
+     </a>
+     option.
+    </p>
+    <p>
+     Similar to
+     <a href="/docs/reference/model/table/#definitions-hline">
+      <code>
+       table.hline
+      </code>
+     </a>
+     , use this function if you want to manually place a vertical line at a specific position in a single table and use the
+     <a href="/docs/reference/model/table/#parameters-stroke">
+      table's
+      <code>
+       stroke
+      </code>
+     </a>
+     field or
+     <a href="/docs/reference/model/table/#definitions-cell-stroke">
+      <code>
+       table.cell
+      </code>
+      's
+      <code>
+       stroke
+      </code>
+     </a>
+     field instead if the line you want to place is part of all your tables' designs.
+    </p>
+    <div class="code code-definition">
+     table
+     <span class="typ-punct">
+      .
+     </span>
+     <span class="typ-func">
+      vline
+     </span>
+     (
+     <div class="arguments">
+      <span class="overview-param">
+       <a href="#definitions-vline-parameters-x">
+        x
+        <!-- -->
+        :
+       </a>
+       <a class="pill pill-kw" href="/docs/reference/foundations/auto/">
+        auto
+       </a>
+       <a class="pill pill-num" href="/docs/reference/foundations/int/">
+        int
+       </a>
+       ,
+      </span>
+      <span class="overview-param">
+       <a href="#definitions-vline-parameters-start">
+        start
+        <!-- -->
+        :
+       </a>
+       <a class="pill pill-num" href="/docs/reference/foundations/int/">
+        int
+       </a>
+       ,
+      </span>
+      <span class="overview-param">
+       <a href="#definitions-vline-parameters-end">
+        end
+        <!-- -->
+        :
+       </a>
+       <a class="pill pill-kw" href="/docs/reference/foundations/none/">
+        none
+       </a>
+       <a class="pill pill-num" href="/docs/reference/foundations/int/">
+        int
+       </a>
+       ,
+      </span>
+      <span class="overview-param">
+       <a href="#definitions-vline-parameters-stroke">
+        stroke
+        <!-- -->
+        :
+       </a>
+       <a class="pill pill-kw" href="/docs/reference/foundations/none/">
+        none
+       </a>
+       <a class="pill pill-num" href="/docs/reference/layout/length/">
+        length
+       </a>
+       <a class="pill pill-col" href="/docs/reference/visualize/color/">
+        color
+       </a>
+       <a class="pill pill-col" href="/docs/reference/visualize/gradient/">
+        gradient
+       </a>
+       <a class="pill pill-obj" href="/docs/reference/visualize/stroke/">
+        stroke
+       </a>
+       <a class="pill pill-obj" href="/docs/reference/visualize/pattern/">
+        pattern
+       </a>
+       <a class="pill pill-obj" href="/docs/reference/foundations/dictionary/">
+        dictionary
+       </a>
+       ,
+      </span>
+      <span class="overview-param">
+       <a href="#definitions-vline-parameters-position">
+        position
+        <!-- -->
+        :
+       </a>
+       <a class="pill pill-obj" href="/docs/reference/layout/alignment/">
+        alignment
+       </a>
+       ,
+      </span>
+     </div>
+     )
+     <!-- -->
+     -&gt;
+     <a class="pill pill-con" href="/docs/reference/foundations/content/">
+      content
+     </a>
+    </div>
+    <h4 id="definitions-vline-x">
+     <code>
+      x
+     </code>
+     <div class="additional-info">
+      <div>
+       <a class="pill pill-kw" href="/docs/reference/foundations/auto/">
+        auto
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-num" href="/docs/reference/foundations/int/">
+        int
+       </a>
+      </div>
+      <small>
+       <span aria-describedby="definitions-vline-x-settable-tooltip">
+        Settable
+       </span>
+       <div class="tooltip-context">
+        <svg aria-labelledby=":R1mh77f9a:-label" height="12" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 12 12" width="12">
+         <title id=":R1mh77f9a:-label">
+          Question mark
+         </title>
+         <use href="/assets/icons/12-tooltip.svg#icon">
+         </use>
+        </svg>
+        <div aria-hidden="true" id="definitions-vline-x-settable-tooltip" role="tooltip" tabindex="-1">
+         Settable parameters can be customized for all following uses of the function with a
+         <code>
+          set
+         </code>
+         rule.
+        </div>
+       </div>
+      </small>
+     </div>
+    </h4>
+    <p>
+     The column before which the horizontal line is placed (zero-indexed). Functions identically to the
+     <code>
+      x
+     </code>
+     field in
+     <a href="/docs/reference/layout/grid/#definitions-vline">
+      <code>
+       grid.vline
+      </code>
+     </a>
+     .
+    </p>
+    <p>
+     Default:
+     <code>
+      <span class="typ-key">
+       auto
+      </span>
+     </code>
+    </p>
+    <h4 id="definitions-vline-start">
+     <code>
+      start
+     </code>
+     <div class="additional-info">
+      <div>
+       <a class="pill pill-num" href="/docs/reference/foundations/int/">
+        int
+       </a>
+      </div>
+      <small>
+       <span aria-describedby="definitions-vline-start-settable-tooltip">
+        Settable
+       </span>
+       <div class="tooltip-context">
+        <svg aria-labelledby=":R1mhb7f9a:-label" height="12" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 12 12" width="12">
+         <title id=":R1mhb7f9a:-label">
+          Question mark
+         </title>
+         <use href="/assets/icons/12-tooltip.svg#icon">
+         </use>
+        </svg>
+        <div aria-hidden="true" id="definitions-vline-start-settable-tooltip" role="tooltip" tabindex="-1">
+         Settable parameters can be customized for all following uses of the function with a
+         <code>
+          set
+         </code>
+         rule.
+        </div>
+       </div>
+      </small>
+     </div>
+    </h4>
+    <p>
+     The row at which the vertical line starts (zero-indexed, inclusive).
+    </p>
+    <p>
+     Default:
+     <code>
+      <span class="typ-num">
+       0
+      </span>
+     </code>
+    </p>
+    <h4 id="definitions-vline-end">
+     <code>
+      end
+     </code>
+     <div class="additional-info">
+      <div>
+       <a class="pill pill-kw" href="/docs/reference/foundations/none/">
+        none
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-num" href="/docs/reference/foundations/int/">
+        int
+       </a>
+      </div>
+      <small>
+       <span aria-describedby="definitions-vline-end-settable-tooltip">
+        Settable
+       </span>
+       <div class="tooltip-context">
+        <svg aria-labelledby=":R1mhf7f9a:-label" height="12" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 12 12" width="12">
+         <title id=":R1mhf7f9a:-label">
+          Question mark
+         </title>
+         <use href="/assets/icons/12-tooltip.svg#icon">
+         </use>
+        </svg>
+        <div aria-hidden="true" id="definitions-vline-end-settable-tooltip" role="tooltip" tabindex="-1">
+         Settable parameters can be customized for all following uses of the function with a
+         <code>
+          set
+         </code>
+         rule.
+        </div>
+       </div>
+      </small>
+     </div>
+    </h4>
+    <p>
+     The row on top of which the vertical line ends (zero-indexed, exclusive).
+    </p>
+    <p>
+     Default:
+     <code>
+      <span class="typ-key">
+       none
+      </span>
+     </code>
+    </p>
+    <h4 id="definitions-vline-stroke">
+     <code>
+      stroke
+     </code>
+     <div class="additional-info">
+      <div>
+       <a class="pill pill-kw" href="/docs/reference/foundations/none/">
+        none
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-num" href="/docs/reference/layout/length/">
+        length
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-col" href="/docs/reference/visualize/color/">
+        color
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-col" href="/docs/reference/visualize/gradient/">
+        gradient
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-obj" href="/docs/reference/visualize/stroke/">
+        stroke
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-obj" href="/docs/reference/visualize/pattern/">
+        pattern
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-obj" href="/docs/reference/foundations/dictionary/">
+        dictionary
+       </a>
+      </div>
+      <small>
+       <span aria-describedby="definitions-vline-stroke-settable-tooltip">
+        Settable
+       </span>
+       <div class="tooltip-context">
+        <svg aria-labelledby=":R1mhj7f9a:-label" height="12" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 12 12" width="12">
+         <title id=":R1mhj7f9a:-label">
+          Question mark
+         </title>
+         <use href="/assets/icons/12-tooltip.svg#icon">
+         </use>
+        </svg>
+        <div aria-hidden="true" id="definitions-vline-stroke-settable-tooltip" role="tooltip" tabindex="-1">
+         Settable parameters can be customized for all following uses of the function with a
+         <code>
+          set
+         </code>
+         rule.
+        </div>
+       </div>
+      </small>
+     </div>
+    </h4>
+    <p>
+     The line's stroke.
+    </p>
+    <p>
+     Specifying
+     <code>
+      <span class="typ-key">
+       none
+      </span>
+     </code>
+     removes any lines previously placed across this line's range, including vlines or per-cell stroke below it.
+    </p>
+    <p>
+     Default:
+     <code>
+      <span class="typ-num">
+       1pt
+      </span>
+      <span class="typ-op">
+       +
+      </span>
+      black
+     </code>
+    </p>
+    <h4 id="definitions-vline-position">
+     <code>
+      position
+     </code>
+     <div class="additional-info">
+      <div>
+       <a class="pill pill-obj" href="/docs/reference/layout/alignment/">
+        alignment
+       </a>
+      </div>
+      <small>
+       <span aria-describedby="definitions-vline-position-settable-tooltip">
+        Settable
+       </span>
+       <div class="tooltip-context">
+        <svg aria-labelledby=":R1mhn7f9a:-label" height="12" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 12 12" width="12">
+         <title id=":R1mhn7f9a:-label">
+          Question mark
+         </title>
+         <use href="/assets/icons/12-tooltip.svg#icon">
+         </use>
+        </svg>
+        <div aria-hidden="true" id="definitions-vline-position-settable-tooltip" role="tooltip" tabindex="-1">
+         Settable parameters can be customized for all following uses of the function with a
+         <code>
+          set
+         </code>
+         rule.
+        </div>
+       </div>
+      </small>
+     </div>
+    </h4>
+    <p>
+     The position at which the line is placed, given its column (
+     <code>
+      x
+     </code>
+     ) - either
+     <code>
+      start
+     </code>
+     to draw before it or
+     <code>
+      end
+     </code>
+     to draw after it.
+    </p>
+    <p>
+     The values
+     <code>
+      left
+     </code>
+     and
+     <code>
+      right
+     </code>
+     are also accepted, but discouraged as they cause your table to be inconsistent between left-to-right and right-to-left documents.
+    </p>
+    <p>
+     This setting is only relevant when column gutter is enabled (and shouldn't be used otherwise - prefer just increasing the
+     <code>
+      x
+     </code>
+     field by one instead), since then the position after a column becomes different from the position before the next column due to the spacing between both.
+    </p>
+    <p>
+     Default:
+     <code>
+      start
+     </code>
+    </p>
+    <h3 class="scoped-function" id="definitions-header">
+     <code>
+      header
+     </code>
+     <small>
+      <span aria-describedby="definitions-header-element-tooltip">
+       Element
+      </span>
+      <div class="tooltip-context">
+       <svg aria-labelledby=":R38pf9a:-label" height="12" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 12 12" width="12">
+        <title id=":R38pf9a:-label">
+         Question mark
+        </title>
+        <use href="/assets/icons/12-tooltip.svg#icon">
+        </use>
+       </svg>
+       <div aria-hidden="true" id="definitions-header-element-tooltip" role="tooltip" tabindex="-1">
+        Element functions can be customized with
+        <code>
+         set
+        </code>
+        and
+        <!-- -->
+        <code>
+         show
+        </code>
+        rules.
+       </div>
+      </div>
+     </small>
+    </h3>
+    <p>
+     A repeatable table header.
+    </p>
+    <p>
+     You should wrap your tables' heading rows in this function even if you do not plan to wrap your table across pages because Typst will use this function to attach accessibility metadata to tables in the future and ensure universal access to your document.
+    </p>
+    <p>
+     You can use the
+     <code>
+      repeat
+     </code>
+     parameter to control whether your table's header will be repeated across pages.
+    </p>
+    <div class="code code-definition">
+     table
+     <span class="typ-punct">
+      .
+     </span>
+     <span class="typ-func">
+      header
+     </span>
+     (
+     <div class="arguments">
+      <span class="overview-param">
+       <a href="#definitions-header-parameters-repeat">
+        repeat
+        <!-- -->
+        :
+       </a>
+       <a class="pill pill-bool" href="/docs/reference/foundations/bool/">
+        bool
+       </a>
+       ,
+      </span>
+      <span class="overview-param">
+       <a href="#definitions-header-parameters-children">
+        ..
+       </a>
+       <a class="pill pill-con" href="/docs/reference/foundations/content/">
+        content
+       </a>
+       ,
+      </span>
+     </div>
+     )
+     <!-- -->
+     -&gt;
+     <a class="pill pill-con" href="/docs/reference/foundations/content/">
+      content
+     </a>
+    </div>
+    <div class="previewed-code">
+     <pre><code><span class="typ-key">#</span><span class="typ-key">set</span> <span class="typ-func">page</span><span class="typ-punct">(</span>height<span class="typ-punct">:</span> <span class="typ-num">11.5em</span><span class="typ-punct">)</span>
+<span class="typ-key">#</span><span class="typ-key">set</span> <span class="typ-func">table</span><span class="typ-punct">(</span>
+  fill<span class="typ-punct">:</span> <span class="typ-punct">(</span>x<span class="typ-punct">,</span> y<span class="typ-punct">)</span> <span class="typ-op">=&gt;</span>
+    <span class="typ-key">if</span> x <span class="typ-op">==</span> <span class="typ-num">0</span> <span class="typ-key">or</span> y <span class="typ-op">==</span> <span class="typ-num">0</span> <span class="typ-punct">{</span>
+      gray<span class="typ-punct">.</span><span class="typ-func">lighten</span><span class="typ-punct">(</span><span class="typ-num">40%</span><span class="typ-punct">)</span>
+    <span class="typ-punct">}</span><span class="typ-punct">,</span>
+  align<span class="typ-punct">:</span> right<span class="typ-punct">,</span>
+<span class="typ-punct">)</span>
+
+<span class="typ-key">#</span><span class="typ-key">show</span> table<span class="typ-punct">.</span>cell<span class="typ-punct">.</span><span class="typ-func">where</span><span class="typ-punct">(</span>x<span class="typ-punct">:</span> <span class="typ-num">0</span><span class="typ-punct">)</span><span class="typ-punct">:</span> <span class="typ-func">strong</span>
+<span class="typ-key">#</span><span class="typ-key">show</span> table<span class="typ-punct">.</span>cell<span class="typ-punct">.</span><span class="typ-func">where</span><span class="typ-punct">(</span>y<span class="typ-punct">:</span> <span class="typ-num">0</span><span class="typ-punct">)</span><span class="typ-punct">:</span> <span class="typ-func">strong</span>
+
+<span class="typ-func">#</span><span class="typ-func">table</span><span class="typ-punct">(</span>
+  columns<span class="typ-punct">:</span> <span class="typ-num">4</span><span class="typ-punct">,</span>
+  table<span class="typ-punct">.</span><span class="typ-func">header</span><span class="typ-punct">(</span>
+    <span class="typ-punct">[</span><span class="typ-punct">]</span><span class="typ-punct">,</span> <span class="typ-punct">[</span>Blue chip<span class="typ-punct">]</span><span class="typ-punct">,</span>
+    <span class="typ-punct">[</span>Fresh IPO<span class="typ-punct">]</span><span class="typ-punct">,</span> <span class="typ-punct">[</span>Penny st'k<span class="typ-punct">]</span><span class="typ-punct">,</span>
+  <span class="typ-punct">)</span><span class="typ-punct">,</span>
+  table<span class="typ-punct">.</span><span class="typ-func">cell</span><span class="typ-punct">(</span>
+    rowspan<span class="typ-punct">:</span> <span class="typ-num">6</span><span class="typ-punct">,</span>
+    align<span class="typ-punct">:</span> horizon<span class="typ-punct">,</span>
+    <span class="typ-func">rotate</span><span class="typ-punct">(</span><span class="typ-op">-</span><span class="typ-num">90deg</span><span class="typ-punct">,</span> reflow<span class="typ-punct">:</span> <span class="typ-key">true</span><span class="typ-punct">)</span><span class="typ-punct">[</span>
+      <span class="typ-strong">*USD / day*</span>
+    <span class="typ-punct">]</span><span class="typ-punct">,</span>
+  <span class="typ-punct">)</span><span class="typ-punct">,</span>
+  <span class="typ-punct">[</span>0.20<span class="typ-punct">]</span><span class="typ-punct">,</span> <span class="typ-punct">[</span>104<span class="typ-punct">]</span><span class="typ-punct">,</span> <span class="typ-punct">[</span>5<span class="typ-punct">]</span><span class="typ-punct">,</span>
+  <span class="typ-punct">[</span>3.17<span class="typ-punct">]</span><span class="typ-punct">,</span> <span class="typ-punct">[</span>108<span class="typ-punct">]</span><span class="typ-punct">,</span> <span class="typ-punct">[</span>4<span class="typ-punct">]</span><span class="typ-punct">,</span>
+  <span class="typ-punct">[</span>1.59<span class="typ-punct">]</span><span class="typ-punct">,</span> <span class="typ-punct">[</span>84<span class="typ-punct">]</span><span class="typ-punct">,</span>  <span class="typ-punct">[</span>1<span class="typ-punct">]</span><span class="typ-punct">,</span>
+  <span class="typ-punct">[</span>0.26<span class="typ-punct">]</span><span class="typ-punct">,</span> <span class="typ-punct">[</span>98<span class="typ-punct">]</span><span class="typ-punct">,</span>  <span class="typ-punct">[</span>15<span class="typ-punct">]</span><span class="typ-punct">,</span>
+  <span class="typ-punct">[</span>0.01<span class="typ-punct">]</span><span class="typ-punct">,</span> <span class="typ-punct">[</span>195<span class="typ-punct">]</span><span class="typ-punct">,</span> <span class="typ-punct">[</span>4<span class="typ-punct">]</span><span class="typ-punct">,</span>
+  <span class="typ-punct">[</span>7.34<span class="typ-punct">]</span><span class="typ-punct">,</span> <span class="typ-punct">[</span>57<span class="typ-punct">]</span><span class="typ-punct">,</span>  <span class="typ-punct">[</span>2<span class="typ-punct">]</span><span class="typ-punct">,</span>
+<span class="typ-punct">)</span>
+</code></pre>
+     <div class="preview">
+      <img alt="Preview" height="253/" src="/assets/docs/IHpzp-b7mQ7ctAllSxEWfQAAAAAAAAAA.png" width="480"/>
+      <img alt="Preview" height="253/" src="/assets/docs/IHpzp-b7mQ7ctAllSxEWfQAAAAAAAAAB.png" width="480"/>
+     </div>
+    </div>
+    <h4 id="definitions-header-repeat">
+     <code>
+      repeat
+     </code>
+     <div class="additional-info">
+      <div>
+       <a class="pill pill-bool" href="/docs/reference/foundations/bool/">
+        bool
+       </a>
+      </div>
+      <small>
+       <span aria-describedby="definitions-header-repeat-settable-tooltip">
+        Settable
+       </span>
+       <div class="tooltip-context">
+        <svg aria-labelledby=":Rr8n9f9a:-label" height="12" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 12 12" width="12">
+         <title id=":Rr8n9f9a:-label">
+          Question mark
+         </title>
+         <use href="/assets/icons/12-tooltip.svg#icon">
+         </use>
+        </svg>
+        <div aria-hidden="true" id="definitions-header-repeat-settable-tooltip" role="tooltip" tabindex="-1">
+         Settable parameters can be customized for all following uses of the function with a
+         <code>
+          set
+         </code>
+         rule.
+        </div>
+       </div>
+      </small>
+     </div>
+    </h4>
+    <p>
+     Whether this header should be repeated across pages.
+    </p>
+    <p>
+     Default:
+     <code>
+      <span class="typ-key">
+       true
+      </span>
+     </code>
+    </p>
+    <h4 id="definitions-header-children">
+     <code>
+      children
+     </code>
+     <div class="additional-info">
+      <div>
+       <a class="pill pill-con" href="/docs/reference/foundations/content/">
+        content
+       </a>
+      </div>
+      <small>
+       Required
+      </small>
+      <small>
+       <span aria-describedby="definitions-header-children-positional-tooltip">
+        Positional
+       </span>
+       <div class="tooltip-context">
+        <svg aria-labelledby=":Rpor9f9a:-label" height="12" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 12 12" width="12">
+         <title id=":Rpor9f9a:-label">
+          Question mark
+         </title>
+         <use href="/assets/icons/12-tooltip.svg#icon">
+         </use>
+        </svg>
+        <div aria-hidden="true" id="definitions-header-children-positional-tooltip" role="tooltip" tabindex="-1">
+         Positional parameters are specified in order, without names.
+        </div>
+       </div>
+      </small>
+      <small>
+       <span aria-describedby="definitions-header-children-variadic-tooltip">
+        Variadic
+       </span>
+       <div class="tooltip-context">
+        <svg aria-labelledby=":Rqor9f9a:-label" height="12" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 12 12" width="12">
+         <title id=":Rqor9f9a:-label">
+          Question mark
+         </title>
+         <use href="/assets/icons/12-tooltip.svg#icon">
+         </use>
+        </svg>
+        <div aria-hidden="true" id="definitions-header-children-variadic-tooltip" role="tooltip" tabindex="-1">
+         Variadic parameters can be specified multiple times.
+        </div>
+       </div>
+      </small>
+     </div>
+    </h4>
+    <p>
+     The cells and lines within the header.
+    </p>
+    <h3 class="scoped-function" id="definitions-footer">
+     <code>
+      footer
+     </code>
+     <small>
+      <span aria-describedby="definitions-footer-element-tooltip">
+       Element
+      </span>
+      <div class="tooltip-context">
+       <svg aria-labelledby=":R38rf9a:-label" height="12" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 12 12" width="12">
+        <title id=":R38rf9a:-label">
+         Question mark
+        </title>
+        <use href="/assets/icons/12-tooltip.svg#icon">
+        </use>
+       </svg>
+       <div aria-hidden="true" id="definitions-footer-element-tooltip" role="tooltip" tabindex="-1">
+        Element functions can be customized with
+        <code>
+         set
+        </code>
+        and
+        <!-- -->
+        <code>
+         show
+        </code>
+        rules.
+       </div>
+      </div>
+     </small>
+    </h3>
+    <p>
+     A repeatable table footer.
+    </p>
+    <p>
+     Just like the
+     <a href="/docs/reference/model/table/#definitions-header">
+      <code>
+       table.header
+      </code>
+     </a>
+     element, the footer can repeat itself on every page of the table. This is useful for improving legibility by adding the column labels in both the header and footer of a large table, totals, or other information that should be visible on every page.
+    </p>
+    <p>
+     No other table cells may be placed after the footer.
+    </p>
+    <div class="code code-definition">
+     table
+     <span class="typ-punct">
+      .
+     </span>
+     <span class="typ-func">
+      footer
+     </span>
+     (
+     <div class="arguments">
+      <span class="overview-param">
+       <a href="#definitions-footer-parameters-repeat">
+        repeat
+        <!-- -->
+        :
+       </a>
+       <a class="pill pill-bool" href="/docs/reference/foundations/bool/">
+        bool
+       </a>
+       ,
+      </span>
+      <span class="overview-param">
+       <a href="#definitions-footer-parameters-children">
+        ..
+       </a>
+       <a class="pill pill-con" href="/docs/reference/foundations/content/">
+        content
+       </a>
+       ,
+      </span>
+     </div>
+     )
+     <!-- -->
+     -&gt;
+     <a class="pill pill-con" href="/docs/reference/foundations/content/">
+      content
+     </a>
+    </div>
+    <h4 id="definitions-footer-repeat">
+     <code>
+      repeat
+     </code>
+     <div class="additional-info">
+      <div>
+       <a class="pill pill-bool" href="/docs/reference/foundations/bool/">
+        bool
+       </a>
+      </div>
+      <small>
+       <span aria-describedby="definitions-footer-repeat-settable-tooltip">
+        Settable
+       </span>
+       <div class="tooltip-context">
+        <svg aria-labelledby=":Rr8nbf9a:-label" height="12" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 12 12" width="12">
+         <title id=":Rr8nbf9a:-label">
+          Question mark
+         </title>
+         <use href="/assets/icons/12-tooltip.svg#icon">
+         </use>
+        </svg>
+        <div aria-hidden="true" id="definitions-footer-repeat-settable-tooltip" role="tooltip" tabindex="-1">
+         Settable parameters can be customized for all following uses of the function with a
+         <code>
+          set
+         </code>
+         rule.
+        </div>
+       </div>
+      </small>
+     </div>
+    </h4>
+    <p>
+     Whether this footer should be repeated across pages.
+    </p>
+    <p>
+     Default:
+     <code>
+      <span class="typ-key">
+       true
+      </span>
+     </code>
+    </p>
+    <h4 id="definitions-footer-children">
+     <code>
+      children
+     </code>
+     <div class="additional-info">
+      <div>
+       <a class="pill pill-con" href="/docs/reference/foundations/content/">
+        content
+       </a>
+      </div>
+      <small>
+       Required
+      </small>
+      <small>
+       <span aria-describedby="definitions-footer-children-positional-tooltip">
+        Positional
+       </span>
+       <div class="tooltip-context">
+        <svg aria-labelledby=":Rporbf9a:-label" height="12" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 12 12" width="12">
+         <title id=":Rporbf9a:-label">
+          Question mark
+         </title>
+         <use href="/assets/icons/12-tooltip.svg#icon">
+         </use>
+        </svg>
+        <div aria-hidden="true" id="definitions-footer-children-positional-tooltip" role="tooltip" tabindex="-1">
+         Positional parameters are specified in order, without names.
+        </div>
+       </div>
+      </small>
+      <small>
+       <span aria-describedby="definitions-footer-children-variadic-tooltip">
+        Variadic
+       </span>
+       <div class="tooltip-context">
+        <svg aria-labelledby=":Rqorbf9a:-label" height="12" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 12 12" width="12">
+         <title id=":Rqorbf9a:-label">
+          Question mark
+         </title>
+         <use href="/assets/icons/12-tooltip.svg#icon">
+         </use>
+        </svg>
+        <div aria-hidden="true" id="definitions-footer-children-variadic-tooltip" role="tooltip" tabindex="-1">
+         Variadic parameters can be specified multiple times.
+        </div>
+       </div>
+      </small>
+     </div>
+    </h4>
+    <p>
+     The cells and lines within the footer.
+    </p>
+    <div class="page-end-buttons">
+     <a class="previous" href="/docs/reference/model/strong/">
+      <img alt="â" src="/assets/icons/16-arrow-right.svg"/>
+      <div>
+       <span class="page-title">
+        Strong Emphasis
+       </span>
+       <span class="hint">
+        Previous page
+       </span>
+      </div>
+     </a>
+     <a class="next" href="/docs/reference/model/terms/">
+      <img alt="â" src="/assets/icons/16-arrow-right.svg"/>
+      <div>
+       <span class="page-title">
+        Term List
+       </span>
+       <span class="hint">
+        Next page
+       </span>
+      </div>
+     </a>
+    </div>
+   </main>

@@ -1,0 +1,274 @@
+<main>
+    <ul aria-label="Breadcrumbs" class="breadcrumbs">
+     <li class="root">
+      <a href="/docs">
+       <img alt="Docs" height="16" src="/assets/icons/16-docs-dark.svg" width="16"/>
+      </a>
+     </li>
+     <li aria-hidden="true">
+      <img alt="" height="16" src="/assets/icons/16-arrow-right.svg" width="16"/>
+     </li>
+     <li>
+      <a href="/docs/reference/">
+       Reference
+      </a>
+     </li>
+     <li aria-hidden="true">
+      <img alt="" height="16" src="/assets/icons/16-arrow-right.svg" width="16"/>
+     </li>
+     <li>
+      <a href="/docs/reference/introspection/">
+       Introspection
+      </a>
+     </li>
+     <li aria-hidden="true">
+      <img alt="" height="16" src="/assets/icons/16-arrow-right.svg" width="16"/>
+     </li>
+     <li>
+      <a href="/docs/reference/introspection/location/">
+       Location
+      </a>
+     </li>
+    </ul>
+    <h1 id="summary">
+     <span class="pill pill-obj">
+      location
+     </span>
+    </h1>
+    <p>
+     Identifies an element in the document.
+    </p>
+    <p>
+     A location uniquely identifies an element in the document and lets you access its absolute position on the pages. You can retrieve the current location with the
+     <a href="/docs/reference/introspection/here/" title="`here`">
+      <code>
+       here
+      </code>
+     </a>
+     function and the location of a queried or shown element with the
+     <a href="/docs/reference/foundations/content/#definitions-location">
+      <code>
+       location()
+      </code>
+     </a>
+     method on content.
+    </p>
+    <h2 id="locatable">
+     Locatable elements
+    </h2>
+    <p>
+     Currently, only a subset of element functions is locatable. Aside from headings and figures, this includes equations, references, quotes and all elements with an explicit label. As a result, you
+     <em>
+      can
+     </em>
+     query for e.g.
+     <a href="/docs/reference/model/strong/" title="`strong`">
+      <code>
+       strong
+      </code>
+     </a>
+     elements, but you will find only those that have an explicit label attached to them. This limitation will be resolved in the future.
+    </p>
+    <h2 id="definitions">
+     <span aria-describedby="definitions-tooltip">
+      Definitions
+     </span>
+     <div class="tooltip-context">
+      <svg aria-labelledby=":Rcp9a:-label" height="12" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 12 12" width="12">
+       <title id=":Rcp9a:-label">
+        Question mark
+       </title>
+       <use href="/assets/icons/12-tooltip.svg#icon">
+       </use>
+      </svg>
+      <div aria-hidden="true" id="definitions-tooltip" role="tooltip" tabindex="-1">
+       Functions and types and can have associated definitions. These are accessed by specifying the function or type, followed by a period, and then the definition's name.
+      </div>
+     </div>
+    </h2>
+    <h3 class="scoped-function" id="definitions-page">
+     <code>
+      page
+     </code>
+    </h3>
+    <p>
+     Returns the page number for this location.
+    </p>
+    <p>
+     Note that this does not return the value of the
+     <a href="/docs/reference/introspection/counter/">
+      page counter
+     </a>
+     at this location, but the true page number (starting from one).
+    </p>
+    <p>
+     If you want to know the value of the page counter, use
+     <code>
+      <span class="typ-func">
+       counter
+      </span>
+      <span class="typ-punct">
+       (
+      </span>
+      page
+      <span class="typ-punct">
+       )
+      </span>
+      <span class="typ-punct">
+       .
+      </span>
+      <span class="typ-func">
+       at
+      </span>
+      <span class="typ-punct">
+       (
+      </span>
+      loc
+      <span class="typ-punct">
+       )
+      </span>
+     </code>
+     instead.
+    </p>
+    <p>
+     Can be used with
+     <a href="/docs/reference/introspection/here/" title="`here`">
+      <code>
+       here
+      </code>
+     </a>
+     to retrieve the physical page position of the current context:
+    </p>
+    <div class="code code-definition single-arg">
+     self
+     <span class="typ-punct">
+      .
+     </span>
+     <span class="typ-func">
+      page
+     </span>
+     (
+     <div class="arguments">
+     </div>
+     )
+     <!-- -->
+     -&gt;
+     <a class="pill pill-num" href="/docs/reference/foundations/int/">
+      int
+     </a>
+    </div>
+    <div class="previewed-code">
+     <pre><code><span class="typ-key">#</span><span class="typ-key">context</span> <span class="typ-punct">[</span>
+  I am located on
+  page <span class="typ-func">#</span><span class="typ-func">here</span><span class="typ-punct">(</span><span class="typ-punct">)</span><span class="typ-punct">.</span><span class="typ-func">page</span><span class="typ-punct">(</span><span class="typ-punct">)</span>
+<span class="typ-punct">]</span>
+</code></pre>
+     <div class="preview">
+      <img alt="Preview" height="74/" src="/assets/docs/0ToVSLLUesTLkEw_YsnJkwAAAAAAAAAA.png" width="480"/>
+     </div>
+    </div>
+    <h3 class="scoped-function" id="definitions-position">
+     <code>
+      position
+     </code>
+    </h3>
+    <p>
+     Returns a dictionary with the page number and the x, y position for this location. The page number starts at one and the coordinates are measured from the top-left of the page.
+    </p>
+    <p>
+     If you only need the page number, use
+     <code>
+      page()
+     </code>
+     instead as it allows Typst to skip unnecessary work.
+    </p>
+    <div class="code code-definition single-arg">
+     self
+     <span class="typ-punct">
+      .
+     </span>
+     <span class="typ-func">
+      position
+     </span>
+     (
+     <div class="arguments">
+     </div>
+     )
+     <!-- -->
+     -&gt;
+     <a class="pill pill-obj" href="/docs/reference/foundations/dictionary/">
+      dictionary
+     </a>
+    </div>
+    <h3 class="scoped-function" id="definitions-page-numbering">
+     <code>
+      page-numbering
+     </code>
+    </h3>
+    <p>
+     Returns the page numbering pattern of the page at this location. This can be used when displaying the page counter in order to obtain the local numbering. This is useful if you are building custom indices or outlines.
+    </p>
+    <p>
+     If the page numbering is set to
+     <code>
+      <span class="typ-key">
+       none
+      </span>
+     </code>
+     at that location, this function returns
+     <code>
+      <span class="typ-key">
+       none
+      </span>
+     </code>
+     .
+    </p>
+    <div class="code code-definition single-arg">
+     self
+     <span class="typ-punct">
+      .
+     </span>
+     <span class="typ-func">
+      page-numbering
+     </span>
+     (
+     <div class="arguments">
+     </div>
+     )
+     <!-- -->
+     -&gt;
+     <a class="pill pill-kw" href="/docs/reference/foundations/none/">
+      none
+     </a>
+     <a class="pill pill-str" href="/docs/reference/foundations/str/">
+      str
+     </a>
+     <a class="pill pill-obj" href="/docs/reference/foundations/function/">
+      function
+     </a>
+    </div>
+    <div class="page-end-buttons">
+     <a class="previous" href="/docs/reference/introspection/locate/">
+      <img alt="â" src="/assets/icons/16-arrow-right.svg"/>
+      <div>
+       <span class="page-title">
+        Locate
+       </span>
+       <span class="hint">
+        Previous page
+       </span>
+      </div>
+     </a>
+     <a class="next" href="/docs/reference/introspection/metadata/">
+      <img alt="â" src="/assets/icons/16-arrow-right.svg"/>
+      <div>
+       <span class="page-title">
+        Metadata
+       </span>
+       <span class="hint">
+        Next page
+       </span>
+      </div>
+     </a>
+    </div>
+   </main>

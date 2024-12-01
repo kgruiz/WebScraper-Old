@@ -1,0 +1,153 @@
+\title{typst.app/docs/reference/model/link}
+
+\begin{itemize}
+\tightlist
+\item
+  \href{/docs}{\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-docs-dark.svg}}
+\item
+  \includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-arrow-right.svg}
+\item
+  \href{/docs/reference/}{Reference}
+\item
+  \includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-arrow-right.svg}
+\item
+  \href{/docs/reference/model/}{Model}
+\item
+  \includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-arrow-right.svg}
+\item
+  \href{/docs/reference/model/link/}{Link}
+\end{itemize}
+
+\section{\texorpdfstring{\texttt{\ link\ } {{ Element
+}}}{ link   Element }}\label{summary}
+
+\phantomsection\label{element-tooltip}
+Element functions can be customized with \texttt{\ set\ } and
+\texttt{\ show\ } rules.
+
+Links to a URL or a location in the document.
+
+By default, links are not styled any different from normal text.
+However, you can easily apply a style of your choice with a show rule.
+
+\subsection{Example}\label{example}
+
+\begin{verbatim}
+#show link: underline
+
+https://example.com \
+
+#link("https://example.com") \
+#link("https://example.com")[
+  See example.com
+]
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/mBfQJYO4ObjIyuLi_FjKfgAAAAAAAAAA.png}
+
+\subsection{Syntax}\label{syntax}
+
+This function also has dedicated syntax: Text that starts with
+\texttt{\ http://\ } or \texttt{\ https://\ } is automatically turned
+into a link.
+
+\subsection{\texorpdfstring{{ Parameters
+}}{ Parameters }}\label{parameters}
+
+\phantomsection\label{parameters-tooltip}
+Parameters are the inputs to a function. They are specified in
+parentheses after the function name.
+
+{ link } (
+
+{ \href{/docs/reference/foundations/str/}{str}
+\href{/docs/reference/foundations/label/}{label}
+\href{/docs/reference/introspection/location/}{location}
+\href{/docs/reference/foundations/dictionary/}{dictionary} , } {
+\href{/docs/reference/foundations/content/}{content} , }
+
+) -\textgreater{} \href{/docs/reference/foundations/content/}{content}
+
+\subsubsection{\texorpdfstring{\texttt{\ dest\ }}{ dest }}\label{parameters-dest}
+
+\href{/docs/reference/foundations/str/}{str} {or}
+\href{/docs/reference/foundations/label/}{label} {or}
+\href{/docs/reference/introspection/location/}{location} {or}
+\href{/docs/reference/foundations/dictionary/}{dictionary}
+
+{Required} {{ Positional }}
+
+\phantomsection\label{parameters-dest-positional-tooltip}
+Positional parameters are specified in order, without names.
+
+The destination the link points to.
+
+\begin{itemize}
+\item
+  To link to web pages, \texttt{\ dest\ } should be a valid URL string.
+  If the URL is in the \texttt{\ mailto:\ } or \texttt{\ tel:\ } scheme
+  and the \texttt{\ body\ } parameter is omitted, the email address or
+  phone number will be the link\textquotesingle s body, without the
+  scheme.
+\item
+  To link to another part of the document, \texttt{\ dest\ } can take
+  one of three forms:
+
+  \begin{itemize}
+  \item
+    A \href{/docs/reference/foundations/label/}{label} attached to an
+    element. If you also want automatic text for the link based on the
+    element, consider using a
+    \href{/docs/reference/model/ref/}{reference} instead.
+  \item
+    A
+    \href{/docs/reference/introspection/location/}{\texttt{\ location\ }}
+    (typically retrieved from
+    \href{/docs/reference/introspection/here/}{\texttt{\ here\ }} ,
+    \href{/docs/reference/introspection/locate/}{\texttt{\ locate\ }} or
+    \href{/docs/reference/introspection/query/}{\texttt{\ query\ }} ).
+  \item
+    A dictionary with a \texttt{\ page\ } key of type
+    \href{/docs/reference/foundations/int/}{integer} and \texttt{\ x\ }
+    and \texttt{\ y\ } coordinates of type
+    \href{/docs/reference/layout/length/}{length} . Pages are counted
+    from one, and the coordinates are relative to the
+    page\textquotesingle s top left corner.
+  \end{itemize}
+\end{itemize}
+
+\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-arrow-right.svg}
+View example
+
+\begin{verbatim}
+= Introduction <intro>
+#link("mailto:hello@typst.app") \
+#link(<intro>)[Go to intro] \
+#link((page: 1, x: 0pt, y: 0pt))[
+  Go to top
+]
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/r-LwcI2C1K4OtUWhtvg8QgAAAAAAAAAA.png}
+
+\subsubsection{\texorpdfstring{\texttt{\ body\ }}{ body }}\label{parameters-body}
+
+\href{/docs/reference/foundations/content/}{content}
+
+{Required} {{ Positional }}
+
+\phantomsection\label{parameters-body-positional-tooltip}
+Positional parameters are specified in order, without names.
+
+The content that should become a link.
+
+If \texttt{\ dest\ } is an URL string, the parameter can be omitted. In
+this case, the URL will be shown as the link.
+
+\href{/docs/reference/model/heading/}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-arrow-right.svg}}}
+
+{ Heading } { Previous page }
+
+\href{/docs/reference/model/enum/}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-arrow-right.svg}}}
+
+{ Numbered List } { Next page }

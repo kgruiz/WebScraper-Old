@@ -1,0 +1,116 @@
+\title{typst.app/docs/reference/introspection/location}
+
+\begin{itemize}
+\tightlist
+\item
+  \href{/docs}{\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-docs-dark.svg}}
+\item
+  \includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-arrow-right.svg}
+\item
+  \href{/docs/reference/}{Reference}
+\item
+  \includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-arrow-right.svg}
+\item
+  \href{/docs/reference/introspection/}{Introspection}
+\item
+  \includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-arrow-right.svg}
+\item
+  \href{/docs/reference/introspection/location/}{Location}
+\end{itemize}
+
+\section{\texorpdfstring{{ location }}{ location }}\label{summary}
+
+Identifies an element in the document.
+
+A location uniquely identifies an element in the document and lets you
+access its absolute position on the pages. You can retrieve the current
+location with the
+\href{/docs/reference/introspection/here/}{\texttt{\ here\ }} function
+and the location of a queried or shown element with the
+\href{/docs/reference/foundations/content/\#definitions-location}{\texttt{\ location()\ }}
+method on content.
+
+\subsection{Locatable elements}\label{locatable}
+
+Currently, only a subset of element functions is locatable. Aside from
+headings and figures, this includes equations, references, quotes and
+all elements with an explicit label. As a result, you \emph{can} query
+for e.g. \href{/docs/reference/model/strong/}{\texttt{\ strong\ }}
+elements, but you will find only those that have an explicit label
+attached to them. This limitation will be resolved in the future.
+
+\subsection{\texorpdfstring{{ Definitions
+}}{ Definitions }}\label{definitions}
+
+\phantomsection\label{definitions-tooltip}
+Functions and types and can have associated definitions. These are
+accessed by specifying the function or type, followed by a period, and
+then the definition\textquotesingle s name.
+
+\subsubsection{\texorpdfstring{\texttt{\ page\ }}{ page }}\label{definitions-page}
+
+Returns the page number for this location.
+
+Note that this does not return the value of the
+\href{/docs/reference/introspection/counter/}{page counter} at this
+location, but the true page number (starting from one).
+
+If you want to know the value of the page counter, use
+\texttt{\ }{\texttt{\ counter\ }}\texttt{\ }{\texttt{\ (\ }}\texttt{\ page\ }{\texttt{\ )\ }}\texttt{\ }{\texttt{\ .\ }}\texttt{\ }{\texttt{\ at\ }}\texttt{\ }{\texttt{\ (\ }}\texttt{\ loc\ }{\texttt{\ )\ }}\texttt{\ }
+instead.
+
+Can be used with
+\href{/docs/reference/introspection/here/}{\texttt{\ here\ }} to
+retrieve the physical page position of the current context:
+
+self { . } { page } (
+
+) -\textgreater{} \href{/docs/reference/foundations/int/}{int}
+
+\begin{verbatim}
+#context [
+  I am located on
+  page #here().page()
+]
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/0ToVSLLUesTLkEw_YsnJkwAAAAAAAAAA.png}
+
+\subsubsection{\texorpdfstring{\texttt{\ position\ }}{ position }}\label{definitions-position}
+
+Returns a dictionary with the page number and the x, y position for this
+location. The page number starts at one and the coordinates are measured
+from the top-left of the page.
+
+If you only need the page number, use \texttt{\ page()\ } instead as it
+allows Typst to skip unnecessary work.
+
+self { . } { position } (
+
+) -\textgreater{}
+\href{/docs/reference/foundations/dictionary/}{dictionary}
+
+\subsubsection{\texorpdfstring{\texttt{\ page-numbering\ }}{ page-numbering }}\label{definitions-page-numbering}
+
+Returns the page numbering pattern of the page at this location. This
+can be used when displaying the page counter in order to obtain the
+local numbering. This is useful if you are building custom indices or
+outlines.
+
+If the page numbering is set to
+\texttt{\ }{\texttt{\ none\ }}\texttt{\ } at that location, this
+function returns \texttt{\ }{\texttt{\ none\ }}\texttt{\ } .
+
+self { . } { page-numbering } (
+
+) -\textgreater{} \href{/docs/reference/foundations/none/}{none}
+\href{/docs/reference/foundations/str/}{str}
+\href{/docs/reference/foundations/function/}{function}
+
+\href{/docs/reference/introspection/locate/}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-arrow-right.svg}}}
+
+{ Locate } { Previous page }
+
+\href{/docs/reference/introspection/metadata/}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-arrow-right.svg}}}
+
+{ Metadata } { Next page }

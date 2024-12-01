@@ -1,0 +1,568 @@
+<main>
+    <ul aria-label="Breadcrumbs" class="breadcrumbs">
+     <li class="root">
+      <a href="/docs">
+       <img alt="Docs" height="16" src="/assets/icons/16-docs-dark.svg" width="16"/>
+      </a>
+     </li>
+     <li aria-hidden="true">
+      <img alt="" height="16" src="/assets/icons/16-arrow-right.svg" width="16"/>
+     </li>
+     <li>
+      <a href="/docs/reference/">
+       Reference
+      </a>
+     </li>
+     <li aria-hidden="true">
+      <img alt="" height="16" src="/assets/icons/16-arrow-right.svg" width="16"/>
+     </li>
+     <li>
+      <a href="/docs/reference/foundations/">
+       Foundations
+      </a>
+     </li>
+     <li aria-hidden="true">
+      <img alt="" height="16" src="/assets/icons/16-arrow-right.svg" width="16"/>
+     </li>
+     <li>
+      <a href="/docs/reference/foundations/bytes/">
+       Bytes
+      </a>
+     </li>
+    </ul>
+    <h1 id="summary">
+     <span class="pill pill-obj">
+      bytes
+     </span>
+    </h1>
+    <p>
+     A sequence of bytes.
+    </p>
+    <p>
+     This is conceptually similar to an array of
+     <a href="/docs/reference/foundations/int/">
+      integers
+     </a>
+     between
+     <code>
+      <span class="typ-num">
+       0
+      </span>
+     </code>
+     and
+     <code>
+      <span class="typ-num">
+       255
+      </span>
+     </code>
+     , but represented much more efficiently. You can iterate over it using a
+     <a href="/docs/reference/scripting/#loops">
+      for loop
+     </a>
+     .
+    </p>
+    <p>
+     You can convert
+    </p>
+    <ul>
+     <li>
+      a
+      <a href="/docs/reference/foundations/str/">
+       string
+      </a>
+      or an
+      <a href="/docs/reference/foundations/array/" title="array">
+       array
+      </a>
+      of integers to bytes with the
+      <a href="/docs/reference/foundations/bytes/" title="`bytes`">
+       <code>
+        bytes
+       </code>
+      </a>
+      constructor
+     </li>
+     <li>
+      bytes to a string with the
+      <a href="/docs/reference/foundations/str/" title="`str`">
+       <code>
+        str
+       </code>
+      </a>
+      constructor, with UTF-8 encoding
+     </li>
+     <li>
+      bytes to an array of integers with the
+      <a href="/docs/reference/foundations/array/" title="`array`">
+       <code>
+        array
+       </code>
+      </a>
+      constructor
+     </li>
+    </ul>
+    <p>
+     When
+     <a href="/docs/reference/data-loading/read/">
+      reading
+     </a>
+     data from a file, you can decide whether to load it as a string or as raw bytes.
+    </p>
+    <div class="previewed-code">
+     <pre><code><span class="typ-func">#</span><span class="typ-func">bytes</span><span class="typ-punct">(</span><span class="typ-punct">(</span><span class="typ-num">123</span><span class="typ-punct">,</span> <span class="typ-num">160</span><span class="typ-punct">,</span> <span class="typ-num">22</span><span class="typ-punct">,</span> <span class="typ-num">0</span><span class="typ-punct">)</span><span class="typ-punct">)</span> <span class="typ-escape">\</span>
+<span class="typ-func">#</span><span class="typ-func">bytes</span><span class="typ-punct">(</span><span class="typ-str">"Hello ð"</span><span class="typ-punct">)</span>
+
+<span class="typ-key">#</span><span class="typ-key">let</span> data <span class="typ-op">=</span> <span class="typ-func">read</span><span class="typ-punct">(</span>
+  <span class="typ-str">"rhino.png"</span><span class="typ-punct">,</span>
+  encoding<span class="typ-punct">:</span> <span class="typ-key">none</span><span class="typ-punct">,</span>
+<span class="typ-punct">)</span>
+
+<span class="typ-comment">// Magic bytes.</span>
+<span class="typ-func">#</span><span class="typ-func">array</span><span class="typ-punct">(</span>data<span class="typ-punct">.</span><span class="typ-func">slice</span><span class="typ-punct">(</span><span class="typ-num">0</span><span class="typ-punct">,</span> <span class="typ-num">4</span><span class="typ-punct">)</span><span class="typ-punct">)</span> <span class="typ-escape">\</span>
+<span class="typ-func">#</span><span class="typ-func">str</span><span class="typ-punct">(</span>data<span class="typ-punct">.</span><span class="typ-func">slice</span><span class="typ-punct">(</span><span class="typ-num">1</span><span class="typ-punct">,</span> <span class="typ-num">4</span><span class="typ-punct">)</span><span class="typ-punct">)</span>
+</code></pre>
+     <div class="preview">
+      <img alt="Preview" height="170/" src="/assets/docs/sJtYFgVyQkDZELEHje5ywwAAAAAAAAAA.png" width="480"/>
+     </div>
+    </div>
+    <h2 id="constructor">
+     Constructor
+     <small>
+      <div class="tooltip-context">
+       <svg aria-labelledby=":R38n9a:-label" height="12" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 12 12" width="12">
+        <title id=":R38n9a:-label">
+         Question mark
+        </title>
+        <use href="/assets/icons/12-tooltip.svg#icon">
+        </use>
+       </svg>
+       <div aria-hidden="true" id="constructor-constructor-tooltip" role="tooltip" tabindex="-1">
+        If a type has a constructor, you can call it like a function to create a new value of the type.
+       </div>
+      </div>
+     </small>
+    </h2>
+    <p>
+     Converts a value to bytes.
+    </p>
+    <ul>
+     <li>
+      Strings are encoded in UTF-8.
+     </li>
+     <li>
+      Arrays of integers between
+      <code>
+       <span class="typ-num">
+        0
+       </span>
+      </code>
+      and
+      <code>
+       <span class="typ-num">
+        255
+       </span>
+      </code>
+      are converted directly. The dedicated byte representation is much more efficient than the array representation and thus typically used for large byte buffers (e.g. image data).
+     </li>
+    </ul>
+    <div class="code code-definition single-arg">
+     <span class="typ-func">
+      bytes
+     </span>
+     (
+     <div class="arguments">
+      <span class="overview-param">
+       <a class="pill pill-str" href="/docs/reference/foundations/str/">
+        str
+       </a>
+       <a class="pill pill-obj" href="/docs/reference/foundations/bytes/">
+        bytes
+       </a>
+       <a class="pill pill-obj" href="/docs/reference/foundations/array/">
+        array
+       </a>
+      </span>
+     </div>
+     )
+     <!-- -->
+     -&gt;
+     <a class="pill pill-obj" href="/docs/reference/foundations/bytes/">
+      bytes
+     </a>
+    </div>
+    <div class="previewed-code">
+     <pre><code><span class="typ-func">#</span><span class="typ-func">bytes</span><span class="typ-punct">(</span><span class="typ-str">"Hello ð"</span><span class="typ-punct">)</span> <span class="typ-escape">\</span>
+<span class="typ-func">#</span><span class="typ-func">bytes</span><span class="typ-punct">(</span><span class="typ-punct">(</span><span class="typ-num">123</span><span class="typ-punct">,</span> <span class="typ-num">160</span><span class="typ-punct">,</span> <span class="typ-num">22</span><span class="typ-punct">,</span> <span class="typ-num">0</span><span class="typ-punct">)</span><span class="typ-punct">)</span>
+</code></pre>
+     <div class="preview">
+      <img alt="Preview" height="101/" src="/assets/docs/PlfVajGmfDLMY6p8X4S3BwAAAAAAAAAA.png" width="480"/>
+     </div>
+    </div>
+    <h4 id="constructor-value">
+     <code>
+      value
+     </code>
+     <div class="additional-info">
+      <div>
+       <a class="pill pill-str" href="/docs/reference/foundations/str/">
+        str
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-obj" href="/docs/reference/foundations/bytes/">
+        bytes
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-obj" href="/docs/reference/foundations/array/">
+        array
+       </a>
+      </div>
+      <small>
+       Required
+      </small>
+      <small>
+       <span aria-describedby="constructor-value-positional-tooltip">
+        Positional
+       </span>
+       <div class="tooltip-context">
+        <svg aria-labelledby=":Rcsf79a:-label" height="12" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 12 12" width="12">
+         <title id=":Rcsf79a:-label">
+          Question mark
+         </title>
+         <use href="/assets/icons/12-tooltip.svg#icon">
+         </use>
+        </svg>
+        <div aria-hidden="true" id="constructor-value-positional-tooltip" role="tooltip" tabindex="-1">
+         Positional parameters are specified in order, without names.
+        </div>
+       </div>
+      </small>
+     </div>
+    </h4>
+    <p>
+     The value that should be converted to bytes.
+    </p>
+    <h2 id="definitions">
+     <span aria-describedby="definitions-tooltip">
+      Definitions
+     </span>
+     <div class="tooltip-context">
+      <svg aria-labelledby=":Rcp9a:-label" height="12" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 12 12" width="12">
+       <title id=":Rcp9a:-label">
+        Question mark
+       </title>
+       <use href="/assets/icons/12-tooltip.svg#icon">
+       </use>
+      </svg>
+      <div aria-hidden="true" id="definitions-tooltip" role="tooltip" tabindex="-1">
+       Functions and types and can have associated definitions. These are accessed by specifying the function or type, followed by a period, and then the definition's name.
+      </div>
+     </div>
+    </h2>
+    <h3 class="scoped-function" id="definitions-len">
+     <code>
+      len
+     </code>
+    </h3>
+    <p>
+     The length in bytes.
+    </p>
+    <div class="code code-definition single-arg">
+     self
+     <span class="typ-punct">
+      .
+     </span>
+     <span class="typ-func">
+      len
+     </span>
+     (
+     <div class="arguments">
+     </div>
+     )
+     <!-- -->
+     -&gt;
+     <a class="pill pill-num" href="/docs/reference/foundations/int/">
+      int
+     </a>
+    </div>
+    <h3 class="scoped-function" id="definitions-at">
+     <code>
+      at
+     </code>
+    </h3>
+    <p>
+     Returns the byte at the specified index. Returns the default value if the index is out of bounds or fails with an error if no default value was specified.
+    </p>
+    <div class="code code-definition">
+     self
+     <span class="typ-punct">
+      .
+     </span>
+     <span class="typ-func">
+      at
+     </span>
+     (
+     <div class="arguments">
+      <span class="overview-param">
+       <a class="pill pill-num" href="/docs/reference/foundations/int/">
+        int
+       </a>
+       ,
+      </span>
+      <span class="overview-param">
+       <a href="#definitions-at-parameters-default">
+        default
+        <!-- -->
+        :
+       </a>
+       <span class="pill pill-obj">
+        any
+       </span>
+       ,
+      </span>
+     </div>
+     )
+     <!-- -->
+     -&gt;
+     <span class="pill pill-obj">
+      any
+     </span>
+    </div>
+    <h4 id="definitions-at-index">
+     <code>
+      index
+     </code>
+     <div class="additional-info">
+      <div>
+       <a class="pill pill-num" href="/docs/reference/foundations/int/">
+        int
+       </a>
+      </div>
+      <small>
+       Required
+      </small>
+      <small>
+       <span aria-describedby="definitions-at-index-positional-tooltip">
+        Positional
+       </span>
+       <div class="tooltip-context">
+        <svg aria-labelledby=":Rcsbl99a:-label" height="12" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 12 12" width="12">
+         <title id=":Rcsbl99a:-label">
+          Question mark
+         </title>
+         <use href="/assets/icons/12-tooltip.svg#icon">
+         </use>
+        </svg>
+        <div aria-hidden="true" id="definitions-at-index-positional-tooltip" role="tooltip" tabindex="-1">
+         Positional parameters are specified in order, without names.
+        </div>
+       </div>
+      </small>
+     </div>
+    </h4>
+    <p>
+     The index at which to retrieve the byte.
+    </p>
+    <h4 id="definitions-at-default">
+     <code>
+      default
+     </code>
+     <div class="additional-info">
+      <div>
+       <span class="pill pill-obj">
+        any
+       </span>
+      </div>
+     </div>
+    </h4>
+    <p>
+     A default value to return if the index is out of bounds.
+    </p>
+    <h3 class="scoped-function" id="definitions-slice">
+     <code>
+      slice
+     </code>
+    </h3>
+    <p>
+     Extracts a subslice of the bytes. Fails with an error if the start or end index is out of bounds.
+    </p>
+    <div class="code code-definition">
+     self
+     <span class="typ-punct">
+      .
+     </span>
+     <span class="typ-func">
+      slice
+     </span>
+     (
+     <div class="arguments">
+      <span class="overview-param">
+       <a class="pill pill-num" href="/docs/reference/foundations/int/">
+        int
+       </a>
+       ,
+      </span>
+      <span class="overview-param">
+       <a class="pill pill-kw" href="/docs/reference/foundations/none/">
+        none
+       </a>
+       <a class="pill pill-num" href="/docs/reference/foundations/int/">
+        int
+       </a>
+       ,
+      </span>
+      <span class="overview-param">
+       <a href="#definitions-slice-parameters-count">
+        count
+        <!-- -->
+        :
+       </a>
+       <a class="pill pill-num" href="/docs/reference/foundations/int/">
+        int
+       </a>
+       ,
+      </span>
+     </div>
+     )
+     <!-- -->
+     -&gt;
+     <a class="pill pill-obj" href="/docs/reference/foundations/bytes/">
+      bytes
+     </a>
+    </div>
+    <h4 id="definitions-slice-start">
+     <code>
+      start
+     </code>
+     <div class="additional-info">
+      <div>
+       <a class="pill pill-num" href="/docs/reference/foundations/int/">
+        int
+       </a>
+      </div>
+      <small>
+       Required
+      </small>
+      <small>
+       <span aria-describedby="definitions-slice-start-positional-tooltip">
+        Positional
+       </span>
+       <div class="tooltip-context">
+        <svg aria-labelledby=":Rcsbn99a:-label" height="12" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 12 12" width="12">
+         <title id=":Rcsbn99a:-label">
+          Question mark
+         </title>
+         <use href="/assets/icons/12-tooltip.svg#icon">
+         </use>
+        </svg>
+        <div aria-hidden="true" id="definitions-slice-start-positional-tooltip" role="tooltip" tabindex="-1">
+         Positional parameters are specified in order, without names.
+        </div>
+       </div>
+      </small>
+     </div>
+    </h4>
+    <p>
+     The start index (inclusive).
+    </p>
+    <h4 id="definitions-slice-end">
+     <code>
+      end
+     </code>
+     <div class="additional-info">
+      <div>
+       <a class="pill pill-kw" href="/docs/reference/foundations/none/">
+        none
+       </a>
+       <small>
+        or
+       </small>
+       <a class="pill pill-num" href="/docs/reference/foundations/int/">
+        int
+       </a>
+      </div>
+      <small>
+       <span aria-describedby="definitions-slice-end-positional-tooltip">
+        Positional
+       </span>
+       <div class="tooltip-context">
+        <svg aria-labelledby=":Rcsdn99a:-label" height="12" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 12 12" width="12">
+         <title id=":Rcsdn99a:-label">
+          Question mark
+         </title>
+         <use href="/assets/icons/12-tooltip.svg#icon">
+         </use>
+        </svg>
+        <div aria-hidden="true" id="definitions-slice-end-positional-tooltip" role="tooltip" tabindex="-1">
+         Positional parameters are specified in order, without names.
+        </div>
+       </div>
+      </small>
+     </div>
+    </h4>
+    <p>
+     The end index (exclusive). If omitted, the whole slice until the end is extracted.
+    </p>
+    <p>
+     Default:
+     <code>
+      <span class="typ-key">
+       none
+      </span>
+     </code>
+    </p>
+    <h4 id="definitions-slice-count">
+     <code>
+      count
+     </code>
+     <div class="additional-info">
+      <div>
+       <a class="pill pill-num" href="/docs/reference/foundations/int/">
+        int
+       </a>
+      </div>
+     </div>
+    </h4>
+    <p>
+     The number of items to extract. This is equivalent to passing
+     <code>
+      start + count
+     </code>
+     as the
+     <code>
+      end
+     </code>
+     position. Mutually exclusive with
+     <code>
+      end
+     </code>
+     .
+    </p>
+    <div class="page-end-buttons">
+     <a class="previous" href="/docs/reference/foundations/bool/">
+      <img alt="â" src="/assets/icons/16-arrow-right.svg"/>
+      <div>
+       <span class="page-title">
+        Boolean
+       </span>
+       <span class="hint">
+        Previous page
+       </span>
+      </div>
+     </a>
+     <a class="next" href="/docs/reference/foundations/calc/">
+      <img alt="â" src="/assets/icons/16-arrow-right.svg"/>
+      <div>
+       <span class="page-title">
+        Calculation
+       </span>
+       <span class="hint">
+        Next page
+       </span>
+      </div>
+     </a>
+    </div>
+   </main>

@@ -1,0 +1,179 @@
+\title{typst.app/docs/reference/foundations/arguments}
+
+\begin{itemize}
+\tightlist
+\item
+  \href{/docs}{\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-docs-dark.svg}}
+\item
+  \includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-arrow-right.svg}
+\item
+  \href{/docs/reference/}{Reference}
+\item
+  \includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-arrow-right.svg}
+\item
+  \href{/docs/reference/foundations/}{Foundations}
+\item
+  \includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-arrow-right.svg}
+\item
+  \href{/docs/reference/foundations/arguments/}{Arguments}
+\end{itemize}
+
+\section{\texorpdfstring{{ arguments }}{ arguments }}\label{summary}
+
+Captured arguments to a function.
+
+\subsection{Argument Sinks}\label{argument-sinks}
+
+Like built-in functions, custom functions can also take a variable
+number of arguments. You can specify an \emph{argument sink} which
+collects all excess arguments as \texttt{\ ..sink\ } . The resulting
+\texttt{\ sink\ } value is of the \texttt{\ arguments\ } type. It
+exposes methods to access the positional and named arguments.
+
+\begin{verbatim}
+#let format(title, ..authors) = {
+  let by = authors
+    .pos()
+    .join(", ", last: " and ")
+
+  [*#title* \ _Written by #by;_]
+}
+
+#format("ArtosFlow", "Jane", "Joe")
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/DWzn69gGuCd1q_LVZvjEEgAAAAAAAAAA.png}
+
+\subsection{Spreading}\label{spreading}
+
+Inversely to an argument sink, you can \emph{spread} arguments, arrays
+and dictionaries into a function call with the \texttt{\ ..spread\ }
+operator:
+
+\begin{verbatim}
+#let array = (2, 3, 5)
+#calc.min(..array)
+#let dict = (fill: blue)
+#text(..dict)[Hello]
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/kcmqtH9qxq6Bg8ZwwKnMCQAAAAAAAAAA.png}
+
+\subsection{\texorpdfstring{Constructor
+{}}{Constructor }}\label{constructor}
+
+\phantomsection\label{constructor-constructor-tooltip}
+If a type has a constructor, you can call it like a function to create a
+new value of the type.
+
+Construct spreadable arguments in place.
+
+This function behaves like
+\texttt{\ }{\texttt{\ let\ }}\texttt{\ }{\texttt{\ args\ }}\texttt{\ }{\texttt{\ (\ }}\texttt{\ }{\texttt{\ ..\ }}\texttt{\ sink\ }{\texttt{\ )\ }}\texttt{\ }{\texttt{\ =\ }}\texttt{\ sink\ }
+.
+
+{ arguments } (
+
+{ \hyperref[constructor-parameters-arguments]{..} { any } }
+
+) -\textgreater{}
+\href{/docs/reference/foundations/arguments/}{arguments}
+
+\begin{verbatim}
+#let args = arguments(stroke: red, inset: 1em, [Body])
+#box(..args)
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/JbzK099-rqq0pkW-oHCQsgAAAAAAAAAA.png}
+
+\paragraph{\texorpdfstring{\texttt{\ arguments\ }}{ arguments }}\label{constructor-arguments}
+
+{ any }
+
+{Required} {{ Positional }}
+
+\phantomsection\label{constructor-arguments-positional-tooltip}
+Positional parameters are specified in order, without names.
+
+{{ Variadic }}
+
+\phantomsection\label{constructor-arguments-variadic-tooltip}
+Variadic parameters can be specified multiple times.
+
+The arguments to construct.
+
+\subsection{\texorpdfstring{{ Definitions
+}}{ Definitions }}\label{definitions}
+
+\phantomsection\label{definitions-tooltip}
+Functions and types and can have associated definitions. These are
+accessed by specifying the function or type, followed by a period, and
+then the definition\textquotesingle s name.
+
+\subsubsection{\texorpdfstring{\texttt{\ at\ }}{ at }}\label{definitions-at}
+
+Returns the positional argument at the specified index, or the named
+argument with the specified name.
+
+If the key is an \href{/docs/reference/foundations/int/}{integer} , this
+is equivalent to first calling
+\href{/docs/reference/foundations/arguments/\#definitions-pos}{\texttt{\ pos\ }}
+and then
+\href{/docs/reference/foundations/array/\#definitions-at}{\texttt{\ array.at\ }}
+. If it is a \href{/docs/reference/foundations/str/}{string} , this is
+equivalent to first calling
+\href{/docs/reference/foundations/arguments/\#definitions-named}{\texttt{\ named\ }}
+and then
+\href{/docs/reference/foundations/dictionary/\#definitions-at}{\texttt{\ dictionary.at\ }}
+.
+
+self { . } { at } (
+
+{ \href{/docs/reference/foundations/int/}{int}
+\href{/docs/reference/foundations/str/}{str} , } {
+\hyperref[definitions-at-parameters-default]{default :} { any } , }
+
+) -\textgreater{} { any }
+
+\paragraph{\texorpdfstring{\texttt{\ key\ }}{ key }}\label{definitions-at-key}
+
+\href{/docs/reference/foundations/int/}{int} {or}
+\href{/docs/reference/foundations/str/}{str}
+
+{Required} {{ Positional }}
+
+\phantomsection\label{definitions-at-key-positional-tooltip}
+Positional parameters are specified in order, without names.
+
+The index or name of the argument to get.
+
+\paragraph{\texorpdfstring{\texttt{\ default\ }}{ default }}\label{definitions-at-default}
+
+{ any }
+
+A default value to return if the key is invalid.
+
+\subsubsection{\texorpdfstring{\texttt{\ pos\ }}{ pos }}\label{definitions-pos}
+
+Returns the captured positional arguments as an array.
+
+self { . } { pos } (
+
+) -\textgreater{} \href{/docs/reference/foundations/array/}{array}
+
+\subsubsection{\texorpdfstring{\texttt{\ named\ }}{ named }}\label{definitions-named}
+
+Returns the captured named arguments as a dictionary.
+
+self { . } { named } (
+
+) -\textgreater{}
+\href{/docs/reference/foundations/dictionary/}{dictionary}
+
+\href{/docs/reference/foundations/}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-arrow-right.svg}}}
+
+{ Foundations } { Previous page }
+
+\href{/docs/reference/foundations/array/}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-arrow-right.svg}}}
+
+{ Array } { Next page }

@@ -1,0 +1,520 @@
+<main>
+    <ul aria-label="Breadcrumbs" class="breadcrumbs">
+     <li class="root">
+      <a href="/docs">
+       <img alt="Docs" height="16" src="/assets/icons/16-docs-dark.svg" width="16"/>
+      </a>
+     </li>
+     <li aria-hidden="true">
+      <img alt="" height="16" src="/assets/icons/16-arrow-right.svg" width="16"/>
+     </li>
+     <li>
+      <a href="/docs/reference/">
+       Reference
+      </a>
+     </li>
+     <li aria-hidden="true">
+      <img alt="" height="16" src="/assets/icons/16-arrow-right.svg" width="16"/>
+     </li>
+     <li>
+      <a href="/docs/reference/foundations/">
+       Foundations
+      </a>
+     </li>
+     <li aria-hidden="true">
+      <img alt="" height="16" src="/assets/icons/16-arrow-right.svg" width="16"/>
+     </li>
+     <li>
+      <a href="/docs/reference/foundations/function/">
+       Function
+      </a>
+     </li>
+    </ul>
+    <h1 id="summary">
+     <span class="pill pill-obj">
+      function
+     </span>
+    </h1>
+    <p>
+     A mapping from argument values to a return value.
+    </p>
+    <p>
+     You can call a function by writing a comma-separated list of function
+     <em>
+      arguments
+     </em>
+     enclosed in parentheses directly after the function name. Additionally, you can pass any number of trailing content blocks arguments to a function
+     <em>
+      after
+     </em>
+     the normal argument list. If the normal argument list would become empty, it can be omitted. Typst supports positional and named arguments. The former are identified by position and type, while the latter are written as
+     <code>
+      name: value
+     </code>
+     .
+    </p>
+    <p>
+     Within math mode, function calls have special behaviour. See the
+     <a href="/docs/reference/math/">
+      math documentation
+     </a>
+     for more details.
+    </p>
+    <h2 id="example">
+     Example
+    </h2>
+    <div class="previewed-code">
+     <pre><code><span class="typ-comment">// Call a function.</span>
+<span class="typ-func">#</span><span class="typ-func">list</span><span class="typ-punct">(</span><span class="typ-punct">[</span>A<span class="typ-punct">]</span><span class="typ-punct">,</span> <span class="typ-punct">[</span>B<span class="typ-punct">]</span><span class="typ-punct">)</span>
+
+<span class="typ-comment">// Named arguments and trailing</span>
+<span class="typ-comment">// content blocks.</span>
+<span class="typ-func">#</span><span class="typ-func">enum</span><span class="typ-punct">(</span>start<span class="typ-punct">:</span> <span class="typ-num">2</span><span class="typ-punct">)</span><span class="typ-punct">[</span>A<span class="typ-punct">]</span><span class="typ-punct">[</span>B<span class="typ-punct">]</span>
+
+<span class="typ-comment">// Version without parentheses.</span>
+<span class="typ-func">#</span><span class="typ-func">list</span><span class="typ-punct">[</span>A<span class="typ-punct">]</span><span class="typ-punct">[</span>B<span class="typ-punct">]</span>
+</code></pre>
+     <div class="preview">
+      <img alt="Preview" height="243/" src="/assets/docs/h8ulslRsTYE05Pu4qy5C6AAAAAAAAAAA.png" width="480"/>
+     </div>
+    </div>
+    <p>
+     Functions are a fundamental building block of Typst. Typst provides functions for a variety of typesetting tasks. Moreover, the markup you write is backed by functions and all styling happens through functions. This reference lists all available functions and how you can use them. Please also refer to the documentation about
+     <a href="/docs/reference/styling/#set-rules">
+      set
+     </a>
+     and
+     <a href="/docs/reference/styling/#show-rules">
+      show
+     </a>
+     rules to learn about additional ways you can work with functions in Typst.
+    </p>
+    <h2 id="element-functions">
+     Element functions
+    </h2>
+    <p>
+     Some functions are associated with
+     <em>
+      elements
+     </em>
+     like
+     <a href="/docs/reference/model/heading/">
+      headings
+     </a>
+     or
+     <a href="/docs/reference/model/table/">
+      tables
+     </a>
+     . When called, these create an element of their respective kind. In contrast to normal functions, they can further be used in
+     <a href="/docs/reference/styling/#set-rules">
+      set rules
+     </a>
+     ,
+     <a href="/docs/reference/styling/#show-rules">
+      show rules
+     </a>
+     , and
+     <a href="/docs/reference/foundations/selector/">
+      selectors
+     </a>
+     .
+    </p>
+    <h2 id="function-scopes">
+     Function scopes
+    </h2>
+    <p>
+     Functions can hold related definitions in their own scope, similar to a
+     <a href="/docs/reference/scripting/#modules">
+      module
+     </a>
+     . Examples of this are
+     <a href="/docs/reference/foundations/assert/#definitions-eq">
+      <code>
+       assert.eq
+      </code>
+     </a>
+     or
+     <a href="/docs/reference/model/list/#definitions-item">
+      <code>
+       list.item
+      </code>
+     </a>
+     . However, this feature is currently only available for built-in functions.
+    </p>
+    <h2 id="defining-functions">
+     Defining functions
+    </h2>
+    <p>
+     You can define your own function with a
+     <a href="/docs/reference/scripting/#bindings">
+      let binding
+     </a>
+     that has a parameter list after the binding's name. The parameter list can contain mandatory positional parameters, named parameters with default values and
+     <a href="/docs/reference/foundations/arguments/">
+      argument sinks
+     </a>
+     .
+    </p>
+    <p>
+     The right-hand side of a function binding is the function body, which can be a block or any other expression. It defines the function's return value and can depend on the parameters. If the function body is a
+     <a href="/docs/reference/scripting/#blocks">
+      code block
+     </a>
+     , the return value is the result of joining the values of each expression in the block.
+    </p>
+    <p>
+     Within a function body, the
+     <code>
+      return
+     </code>
+     keyword can be used to exit early and optionally specify a return value. If no explicit return value is given, the body evaluates to the result of joining all expressions preceding the
+     <code>
+      return
+     </code>
+     .
+    </p>
+    <p>
+     Functions that don't return any meaningful value return
+     <a href="/docs/reference/foundations/none/" title="`none`">
+      <code>
+       none
+      </code>
+     </a>
+     instead. The return type of such functions is not explicitly specified in the documentation. (An example of this is
+     <a href="/docs/reference/foundations/array/#definitions-push" title="`array.push`">
+      <code>
+       array.push
+      </code>
+     </a>
+     ).
+    </p>
+    <div class="previewed-code">
+     <pre><code><span class="typ-key">#</span><span class="typ-key">let</span> <span class="typ-func">alert</span><span class="typ-punct">(</span>body<span class="typ-punct">,</span> fill<span class="typ-punct">:</span> red<span class="typ-punct">)</span> <span class="typ-op">=</span> <span class="typ-punct">{</span>
+  <span class="typ-key">set</span> <span class="typ-func">text</span><span class="typ-punct">(</span>white<span class="typ-punct">)</span>
+  <span class="typ-key">set</span> <span class="typ-func">align</span><span class="typ-punct">(</span>center<span class="typ-punct">)</span>
+  <span class="typ-func">rect</span><span class="typ-punct">(</span>
+    fill<span class="typ-punct">:</span> fill<span class="typ-punct">,</span>
+    inset<span class="typ-punct">:</span> <span class="typ-num">8pt</span><span class="typ-punct">,</span>
+    radius<span class="typ-punct">:</span> <span class="typ-num">4pt</span><span class="typ-punct">,</span>
+    <span class="typ-punct">[</span><span class="typ-strong">*Warning:<span class="typ-escape">\</span> <span class="typ-pol">#</span><span class="typ-pol">body</span>*</span><span class="typ-punct">]</span><span class="typ-punct">,</span>
+  <span class="typ-punct">)</span>
+<span class="typ-punct">}</span>
+
+<span class="typ-func">#</span><span class="typ-func">alert</span><span class="typ-punct">[</span>
+  Danger is imminent!
+<span class="typ-punct">]</span>
+
+<span class="typ-func">#</span><span class="typ-func">alert</span><span class="typ-punct">(</span>fill<span class="typ-punct">:</span> blue<span class="typ-punct">)</span><span class="typ-punct">[</span>
+  KEEP OFF TRACKS
+<span class="typ-punct">]</span>
+</code></pre>
+     <div class="preview">
+      <img alt="Preview" height="236/" src="/assets/docs/56wK4TQtzRt7_B3OQOxb7QAAAAAAAAAA.png" width="480"/>
+     </div>
+    </div>
+    <h2 id="importing-functions">
+     Importing functions
+    </h2>
+    <p>
+     Functions can be imported from one file (
+     <a href="/docs/reference/scripting/#modules">
+      <code>
+       module
+      </code>
+     </a>
+     ) into another using
+     <code>
+      <span class="typ-key">
+       import
+      </span>
+     </code>
+     . For example, assume that we have defined the
+     <code>
+      alert
+     </code>
+     function from the previous example in a file called
+     <code>
+      foo.typ
+     </code>
+     . We can import it into another file by writing
+     <code>
+      <span class="typ-key">
+       import
+      </span>
+      <span class="typ-str">
+       "foo.typ"
+      </span>
+      <span class="typ-punct">
+       :
+      </span>
+      alert
+     </code>
+     .
+    </p>
+    <h2 id="unnamed">
+     Unnamed functions
+    </h2>
+    <p>
+     You can also created an unnamed function without creating a binding by specifying a parameter list followed by
+     <code>
+      =&gt;
+     </code>
+     and the function body. If your function has just one parameter, the parentheses around the parameter list are optional. Unnamed functions are mainly useful for show rules, but also for settable properties that take functions like the page function's
+     <a href="/docs/reference/layout/page/#parameters-footer">
+      <code>
+       footer
+      </code>
+     </a>
+     property.
+    </p>
+    <div class="previewed-code">
+     <pre><code><span class="typ-key">#</span><span class="typ-key">show</span> <span class="typ-str">"once?"</span><span class="typ-punct">:</span> it <span class="typ-op">=&gt;</span> <span class="typ-punct">[</span><span class="typ-pol">#</span><span class="typ-pol">it</span> <span class="typ-pol">#</span><span class="typ-pol">it</span><span class="typ-punct">]</span>
+once?
+</code></pre>
+     <div class="preview">
+      <img alt="Preview" height="74/" src="/assets/docs/yXee-w_McX_Uho7Ghovc-QAAAAAAAAAA.png" width="480"/>
+     </div>
+    </div>
+    <h2 id="note-on-function-purity">
+     Note on function purity
+    </h2>
+    <p>
+     In Typst, all functions are
+     <em>
+      pure.
+     </em>
+     This means that for the same arguments, they always return the same result. They cannot "remember" things to produce another value when they are called a second time.
+    </p>
+    <p>
+     The only exception are built-in methods like
+     <a href="/docs/reference/foundations/array/#definitions-push">
+      <code>
+       array.push(value)
+      </code>
+     </a>
+     . These can modify the values they are called on.
+    </p>
+    <h2 id="definitions">
+     <span aria-describedby="definitions-tooltip">
+      Definitions
+     </span>
+     <div class="tooltip-context">
+      <svg aria-labelledby=":Rcp9a:-label" height="12" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 12 12" width="12">
+       <title id=":Rcp9a:-label">
+        Question mark
+       </title>
+       <use href="/assets/icons/12-tooltip.svg#icon">
+       </use>
+      </svg>
+      <div aria-hidden="true" id="definitions-tooltip" role="tooltip" tabindex="-1">
+       Functions and types and can have associated definitions. These are accessed by specifying the function or type, followed by a period, and then the definition's name.
+      </div>
+     </div>
+    </h2>
+    <h3 class="scoped-function" id="definitions-with">
+     <code>
+      with
+     </code>
+    </h3>
+    <p>
+     Returns a new function that has the given arguments pre-applied.
+    </p>
+    <div class="code code-definition single-arg">
+     self
+     <span class="typ-punct">
+      .
+     </span>
+     <span class="typ-func">
+      with
+     </span>
+     (
+     <div class="arguments">
+      <span class="overview-param">
+       <a href="#definitions-with-parameters-arguments">
+        ..
+       </a>
+       <span class="pill pill-obj">
+        any
+       </span>
+      </span>
+     </div>
+     )
+     <!-- -->
+     -&gt;
+     <a class="pill pill-obj" href="/docs/reference/foundations/function/">
+      function
+     </a>
+    </div>
+    <h4 id="definitions-with-arguments">
+     <code>
+      arguments
+     </code>
+     <div class="additional-info">
+      <div>
+       <span class="pill pill-obj">
+        any
+       </span>
+      </div>
+      <small>
+       Required
+      </small>
+      <small>
+       <span aria-describedby="definitions-with-arguments-positional-tooltip">
+        Positional
+       </span>
+       <div class="tooltip-context">
+        <svg aria-labelledby=":R6e7j99a:-label" height="12" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 12 12" width="12">
+         <title id=":R6e7j99a:-label">
+          Question mark
+         </title>
+         <use href="/assets/icons/12-tooltip.svg#icon">
+         </use>
+        </svg>
+        <div aria-hidden="true" id="definitions-with-arguments-positional-tooltip" role="tooltip" tabindex="-1">
+         Positional parameters are specified in order, without names.
+        </div>
+       </div>
+      </small>
+      <small>
+       <span aria-describedby="definitions-with-arguments-variadic-tooltip">
+        Variadic
+       </span>
+       <div class="tooltip-context">
+        <svg aria-labelledby=":R6m7j99a:-label" height="12" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 12 12" width="12">
+         <title id=":R6m7j99a:-label">
+          Question mark
+         </title>
+         <use href="/assets/icons/12-tooltip.svg#icon">
+         </use>
+        </svg>
+        <div aria-hidden="true" id="definitions-with-arguments-variadic-tooltip" role="tooltip" tabindex="-1">
+         Variadic parameters can be specified multiple times.
+        </div>
+       </div>
+      </small>
+     </div>
+    </h4>
+    <p>
+     The arguments to apply to the function.
+    </p>
+    <h3 class="scoped-function" id="definitions-where">
+     <code>
+      where
+     </code>
+    </h3>
+    <p>
+     Returns a selector that filters for elements belonging to this function whose fields have the values of the given arguments.
+    </p>
+    <div class="code code-definition single-arg">
+     self
+     <span class="typ-punct">
+      .
+     </span>
+     <span class="typ-func">
+      where
+     </span>
+     (
+     <div class="arguments">
+      <span class="overview-param">
+       <a href="#definitions-where-parameters-fields">
+        ..
+       </a>
+       <span class="pill pill-obj">
+        any
+       </span>
+      </span>
+     </div>
+     )
+     <!-- -->
+     -&gt;
+     <a class="pill pill-obj" href="/docs/reference/foundations/selector/">
+      selector
+     </a>
+    </div>
+    <div class="previewed-code">
+     <pre><code><span class="typ-key">#</span><span class="typ-key">show</span> heading<span class="typ-punct">.</span><span class="typ-func">where</span><span class="typ-punct">(</span>level<span class="typ-punct">:</span> <span class="typ-num">2</span><span class="typ-punct">)</span><span class="typ-punct">:</span> <span class="typ-key">set</span> <span class="typ-func">text</span><span class="typ-punct">(</span>blue<span class="typ-punct">)</span>
+<span class="typ-heading">= Section</span>
+<span class="typ-heading">== Subsection</span>
+<span class="typ-heading">=== Sub-subsection</span>
+</code></pre>
+     <div class="preview">
+      <img alt="Preview" height="174/" src="/assets/docs/VOR4DpWIitR8ukDkDB2RigAAAAAAAAAA.png" width="480"/>
+     </div>
+    </div>
+    <h4 id="definitions-where-fields">
+     <code>
+      fields
+     </code>
+     <div class="additional-info">
+      <div>
+       <span class="pill pill-obj">
+        any
+       </span>
+      </div>
+      <small>
+       Required
+      </small>
+      <small>
+       <span aria-describedby="definitions-where-fields-positional-tooltip">
+        Positional
+       </span>
+       <div class="tooltip-context">
+        <svg aria-labelledby=":R6e7l99a:-label" height="12" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 12 12" width="12">
+         <title id=":R6e7l99a:-label">
+          Question mark
+         </title>
+         <use href="/assets/icons/12-tooltip.svg#icon">
+         </use>
+        </svg>
+        <div aria-hidden="true" id="definitions-where-fields-positional-tooltip" role="tooltip" tabindex="-1">
+         Positional parameters are specified in order, without names.
+        </div>
+       </div>
+      </small>
+      <small>
+       <span aria-describedby="definitions-where-fields-variadic-tooltip">
+        Variadic
+       </span>
+       <div class="tooltip-context">
+        <svg aria-labelledby=":R6m7l99a:-label" height="12" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 12 12" width="12">
+         <title id=":R6m7l99a:-label">
+          Question mark
+         </title>
+         <use href="/assets/icons/12-tooltip.svg#icon">
+         </use>
+        </svg>
+        <div aria-hidden="true" id="definitions-where-fields-variadic-tooltip" role="tooltip" tabindex="-1">
+         Variadic parameters can be specified multiple times.
+        </div>
+       </div>
+      </small>
+     </div>
+    </h4>
+    <p>
+     The fields to filter for.
+    </p>
+    <div class="page-end-buttons">
+     <a class="previous" href="/docs/reference/foundations/float/">
+      <img alt="â" src="/assets/icons/16-arrow-right.svg"/>
+      <div>
+       <span class="page-title">
+        Float
+       </span>
+       <span class="hint">
+        Previous page
+       </span>
+      </div>
+     </a>
+     <a class="next" href="/docs/reference/foundations/int/">
+      <img alt="â" src="/assets/icons/16-arrow-right.svg"/>
+      <div>
+       <span class="page-title">
+        Integer
+       </span>
+       <span class="hint">
+        Next page
+       </span>
+      </div>
+     </a>
+    </div>
+   </main>

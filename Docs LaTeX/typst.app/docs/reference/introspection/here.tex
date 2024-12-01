@@ -1,0 +1,106 @@
+\title{typst.app/docs/reference/introspection/here}
+
+\begin{itemize}
+\tightlist
+\item
+  \href{/docs}{\includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-docs-dark.svg}}
+\item
+  \includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-arrow-right.svg}
+\item
+  \href{/docs/reference/}{Reference}
+\item
+  \includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-arrow-right.svg}
+\item
+  \href{/docs/reference/introspection/}{Introspection}
+\item
+  \includesvg[width=0.16667in,height=0.16667in]{/assets/icons/16-arrow-right.svg}
+\item
+  \href{/docs/reference/introspection/here/}{Here}
+\end{itemize}
+
+\section{\texorpdfstring{\texttt{\ here\ } {{ Contextual
+}}}{ here   Contextual }}\label{summary}
+
+\phantomsection\label{contextual-tooltip}
+Contextual functions can only be used when the context is known
+
+Provides the current location in the document.
+
+You can think of \texttt{\ here\ } as a low-level building block that
+directly extracts the current location from the active
+\href{/docs/reference/context/}{context} . Some other functions use it
+internally: For instance,
+\texttt{\ counter\ }{\texttt{\ .\ }}\texttt{\ }{\texttt{\ get\ }}\texttt{\ }{\texttt{\ (\ }}\texttt{\ }{\texttt{\ )\ }}\texttt{\ }
+is equivalent to
+\texttt{\ counter\ }{\texttt{\ .\ }}\texttt{\ }{\texttt{\ at\ }}\texttt{\ }{\texttt{\ (\ }}\texttt{\ }{\texttt{\ here\ }}\texttt{\ }{\texttt{\ (\ }}\texttt{\ }{\texttt{\ )\ }}\texttt{\ }{\texttt{\ )\ }}\texttt{\ }
+.
+
+Within show rules on
+\href{/docs/reference/introspection/location/\#locatable}{locatable}
+elements,
+\texttt{\ }{\texttt{\ here\ }}\texttt{\ }{\texttt{\ (\ }}\texttt{\ }{\texttt{\ )\ }}\texttt{\ }
+will match the location of the shown element.
+
+If you want to display the current page number, refer to the
+documentation of the
+\href{/docs/reference/introspection/counter/}{\texttt{\ counter\ }}
+type. While \texttt{\ here\ } can be used to determine the physical page
+number, typically you want the logical page number that may, for
+instance, have been reset after a preface.
+
+\subsection{Examples}\label{examples}
+
+Determining the current position in the document in combination with the
+\href{/docs/reference/introspection/location/\#definitions-position}{\texttt{\ position\ }}
+method:
+
+\begin{verbatim}
+#context [
+  I am located at
+  #here().position()
+]
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/5PrDc8FIHOrLs_qUjTj6iwAAAAAAAAAA.png}
+
+Running a \href{/docs/reference/introspection/query/}{query} for
+elements before the current position:
+
+\begin{verbatim}
+= Introduction
+= Background
+
+There are
+#context query(
+  selector(heading).before(here())
+).len()
+headings before me.
+
+= Conclusion
+\end{verbatim}
+
+\includegraphics[width=5in,height=\textheight,keepaspectratio]{/assets/docs/5DWH6TcZBrEjuGuSwKqf8AAAAAAAAAAA.png}
+
+Refer to the
+\href{/docs/reference/foundations/selector/}{\texttt{\ selector\ }} type
+for more details on before/after selectors.
+
+\subsection{\texorpdfstring{{ Parameters
+}}{ Parameters }}\label{parameters}
+
+\phantomsection\label{parameters-tooltip}
+Parameters are the inputs to a function. They are specified in
+parentheses after the function name.
+
+{ here } (
+
+) -\textgreater{}
+\href{/docs/reference/introspection/location/}{location}
+
+\href{/docs/reference/introspection/counter/}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-arrow-right.svg}}}
+
+{ Counter } { Previous page }
+
+\href{/docs/reference/introspection/locate/}{\pandocbounded{\includesvg[keepaspectratio]{/assets/icons/16-arrow-right.svg}}}
+
+{ Locate } { Next page }

@@ -39,7 +39,7 @@ def GetUrls(
     writeHtml: bool = True,  # New parameter to control HTML file writing
     includeWords: List[str] = None,  # New parameter for words to include
     excludeWords: List[str] = None,  # New parameter for words to exclude
-    maxPage: str = None,
+    maxDepth: str = None,  # Changed from maxPage
     htmlDirName: str = "Raw HTML Files",  # Added parameter
 ):
 
@@ -102,7 +102,7 @@ def GetUrls(
 
             raise Exception(f"404 Error on {url}. Parent link: {parentLink}")
 
-    if maxPage is not None and f"/{maxPage}/" in url:
+    if maxDepth is not None and f"/{maxDepth}/" in url:
 
         urlParts = url.split("/")
 
@@ -110,13 +110,13 @@ def GetUrls(
 
             urlParts.remove("")
 
-        if maxPage not in urlParts[-3:-1]:
+        if maxDepth not in urlParts[-3:-1]:
 
             links = []
 
         else:
 
-            if maxPage == urlParts[-2]:
+            if maxDepth == urlParts[-2]:
 
                 newLinks = []
 
@@ -128,7 +128,7 @@ def GetUrls(
 
                 links = newLinks
 
-            if maxPage == urlParts[-3]:
+            if maxDepth == urlParts[-3]:
 
                 if not all(char.isdigit() or char == "." for char in urlParts[-1]):
 
@@ -176,7 +176,7 @@ def GetUrls(
                 writeHtml=writeHtml,  # Pass the parameter to recursive calls
                 includeWords=includeWords,  # Pass the parameter to recursive calls
                 excludeWords=excludeWords,  # Pass the parameter to recursive calls
-                maxPage=maxPage,
+                maxDepth=maxDepth,  # Changed from maxPage
                 htmlDirName=htmlDirName,  # Pass the parameter to recursive calls
             )
 

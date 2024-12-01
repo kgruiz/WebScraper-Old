@@ -4,9 +4,15 @@ import time
 
 from tqdm import tqdm
 
-from DirStructure import DirStructureFromURLList, OutputJsonWalk
+from DirStructure import DirStructureFromURLList, OutputJsonWalk, PrintJsonWalk
 from Downloader import LoadUrlsFromJson, SavePageAsPdf
-from HTMLtoLatex import CombineDirs, CombineFiles, FlattenDir, HtmlDirToLatex
+from HTMLtoLatex import (
+    CombineDirs,
+    CombineFiles,
+    FlattenDir,
+    GroupFilesByExtension,
+    HtmlDirToLatex,
+)
 from Scraper import GetUrls, OutputJson
 
 
@@ -54,7 +60,7 @@ def main():
     parser.add_argument(
         "--fileNameFull",
         action="store_true",
-        help="Uses directory path as file name. Also activates --writeLatex and --fileNameFull",
+        help="Uses directory path as file name. Also activates --writeLatex.",
     )
     parser.add_argument(
         "--addedPrefix",
@@ -79,131 +85,123 @@ def main():
         "--interactive", action="store_true", help="Run in interactive mode"
     )
     parser.add_argument(
-        "--maxPage",
-        type=str,
-        help="Maximum page to scrape",
+        "--maxDepth",
+        type=int,  # Renamed from maxPage
+        help="Maximum directory depth to scrape",
     )
 
     args = parser.parse_args()
 
-    # if not any(vars(args).values()) or args.interactive or not args.baseUrl:
-    #     args.baseUrl = input("Enter the base URL: ")
-    #     args.outputJson = (
-    #         input("Enter the output JSON file name (default: urlList.json): ")
-    #         or "urlList.json"
-    #     )
-    #     args.htmlDir = (
-    #         input("Enter the HTML directory (default: Raw HTML Files): ")
-    #         or "Raw HTML Files"
-    #     )
-    #     args.latexDir = (
-    #         input("Enter the LaTeX directory (default: Latex Pages): ") or "Latex Pages"
-    #     )
-    #     args.flatten = input("Flatten the directory structure? (y/n): ").lower() == "y"
-    #     args.combine = input("Combine directories into one? (y/n): ").lower() == "y"
-    #     args.downloadPdf = input("Download web pages as PDFs? (y/n): ").lower() == "y"
-    #     args.writeHtml = (
-    #         input("Write HTML files during scraping? (y/n): ").lower() == "y"
-    #     )
-    #     includeWords = input("Enter words to include in URLs (comma-separated): ")
-    #     excludeWords = input("Enter words to exclude from URLs (comma-separated): ")
-    #     args.includeWords = (
-    #         [word.strip() for word in includeWords.split(",")] if includeWords else []
-    #     )
-    #     args.excludeWords = (
-    #         [word.strip() for word in excludeWords.split(",")] if excludeWords else []
-    #     )
-    #     args.maxPage = (
-    #         input("Enter the maxPage parameter (or leave blank for None): ") or None
-    #     )
+    if not any(vars(args).values()) or args.interactive or not args.baseUrl:
+        args.baseUrl = input("Enter the base URL: ")
+        args.outputJson = (
+            input("Enter the output JSON file name (default: urlList.json): ")
+            or "urlList.json"
+        )
+        args.htmlDir = (
+            input("Enter the HTML directory (default: Raw HTML Files): ")
+            or "Raw HTML Files"
+        )
+        args.latexDir = (
+            input("Enter the LaTeX directory (default: Latex Pages): ") or "Latex Pages"
+        )
+        args.flatten = input("Flatten the directory structure? (y/n): ").lower() == "y"
+        args.combine = input("Combine directories into one? (y/n): ").lower() == "y"
+        args.downloadPdf = input("Download web pages as PDFs? (y/n): ").lower() == "y"
+        args.writeHtml = (
+            input("Write HTML files during scraping? (y/n): ").lower() == "y"
+        )
+        includeWords = input("Enter words to include in URLs (comma-separated): ")
+        excludeWords = input("Enter words to exclude from URLs (comma-separated): ")
+        args.includeWords = (
+            [word.strip() for word in includeWords.split(",")] if includeWords else []
+        )
+        args.excludeWords = (
+            [word.strip() for word in excludeWords.split(",")] if excludeWords else []
+        )
+        args.maxDepth = (
+            input("Enter the maxDepth parameter (or leave blank for None): ") or None
+        )
 
-    # if args.baseUrl[-1] != "/":
+    if args.baseUrl[-1] != "/":
 
-    #     args.baseUrl = f"{args.baseUrl}/"
+        args.baseUrl = f"{args.baseUrl}/"
 
-    # if r"https://" not in args.baseUrl:
+    if r"https://" not in args.baseUrl:
 
-    #     print(f'"https://" not in {args.baseUrl}. Adding it.')
+        print(f'"https://" not in {args.baseUrl}. Adding it.')
 
-    #     args.baseUrl = f"https://{args.baseUrl}"
+        args.baseUrl = f"https://{args.baseUrl}"
 
-    #     time.sleep(2)
+        time.sleep(2)
 
-    #     os.system("clear")
+        os.system("clear")
 
-    # if args.baseUrl.count("/") > 2:
+    if args.baseUrl.count("/") > 2:
 
-    #     userChoice = input(
-    #         f'Pathname beyond base domain found in "{args.baseUrl}". Do you want to revert to base domain "{args.baseUrl[: args.baseUrl.index("/", 8)]}"? ([y]/n)'
-    #     )
+        userChoice = input(
+            f'Pathname beyond base domain found in "{args.baseUrl}". Do you want to revert to base domain "{args.baseUrl[: args.baseUrl.index("/", 8)]}"? ([y]/n)'
+        )
 
-    #     if userChoice not in ["y", "n", ""]:
+        if userChoice not in ["y", "n", ""]:
 
-    #         userChoice = (
-    #             input(
-    #                 f'Invalid choice "{userChoice}". Reverting to base domain "{args.baseUrl[: args.baseUrl.index("/", 8)]}". Do you want to only include URL\'s with "{args.baseUrl[args.baseUrl.index("/", 8):]}"? ([y]/n)'
-    #             )
-    #             .strip()
-    #             .lower()
-    #         )
+            userChoice = (
+                input(
+                    f'Invalid choice "{userChoice}". Reverting to base domain "{args.baseUrl[: args.baseUrl.index("/", 8)]}". Do you want to only include URL\'s with "{args.baseUrl[args.baseUrl.index("/", 8):]}"? ([y]/n)'
+                )
+                .strip()
+                .lower()
+            )
 
-    #         if userChoice == "y" or userChoice == "":
+            if userChoice == "y" or userChoice == "":
 
-    #             args.includeWords.append(args.baseUrl[args.baseUrl.index("/", 8) :])
-    #             args.baseUrl = args.baseUrl[: args.baseUrl.index("/", 8)]
+                args.includeWords.append(args.baseUrl[args.baseUrl.index("/", 8) :])
+                args.baseUrl = args.baseUrl[: args.baseUrl.index("/", 8)]
 
-    #         elif userChoice == "n":
+            elif userChoice == "n":
 
-    #             args.baseUrl = args.baseUrl[: args.baseUrl.index("/", 8)]
+                args.baseUrl = args.baseUrl[: args.baseUrl.index("/", 8)]
 
-    #         else:
+            else:
 
-    #             print(
-    #                 f'Invalid choice. Reverting to base domain "{args.baseUrl[: args.baseUrl.index("/", 8)]}".'
-    #             )
-    #             args.baseUrl = args.baseUrl[: args.baseUrl.index("/", 8)]
+                print(
+                    f'Invalid choice. Reverting to base domain "{args.baseUrl[: args.baseUrl.index("/", 8)]}".'
+                )
+                args.baseUrl = args.baseUrl[: args.baseUrl.index("/", 8)]
 
-    #     elif userChoice == "y" or userChoice == "":
+        elif userChoice == "y" or userChoice == "":
 
-    #         userChoice = (
-    #             input(
-    #                 f'Reverting to base domain "{args.baseUrl[: args.baseUrl.index("/", 8)]}". Do you want to only include URL\'s with "{args.baseUrl[args.baseUrl.index("/", 8):]}"? ([y]/n)'
-    #             )
-    #             .strip()
-    #             .lower()
-    #         )
+            userChoice = (
+                input(
+                    f'Reverting to base domain "{args.baseUrl[: args.baseUrl.index("/", 8)]}". Do you want to only include URL\'s with "{args.baseUrl[args.baseUrl.index("/", 8):]}"? ([y]/n)'
+                )
+                .strip()
+                .lower()
+            )
 
-    #         if userChoice == "y" or userChoice == "":
+            if userChoice == "y" or userChoice == "":
 
-    #             args.includeWords.append(args.baseUrl[args.baseUrl.index("/", 8) :])
-    #             args.baseUrl = args.baseUrl[: args.baseUrl.index("/", 8)]
+                args.includeWords.append(args.baseUrl[args.baseUrl.index("/", 8) :])
+                args.baseUrl = args.baseUrl[: args.baseUrl.index("/", 8)]
 
-    #         elif userChoice == "n":
+            elif userChoice == "n":
 
-    #             args.baseUrl = args.baseUrl[: args.baseUrl.index("/", 8)]
+                args.baseUrl = args.baseUrl[: args.baseUrl.index("/", 8)]
 
-    #         else:
+            else:
 
-    #             print(
-    #                 f'Invalid choice. Reverting to base domain "{args.baseUrl[: args.baseUrl.index("/", 8)]}".'
-    #             )
-    #             args.baseUrl = args.baseUrl[: args.baseUrl.index("/", 8)]
+                print(
+                    f'Invalid choice. Reverting to base domain "{args.baseUrl[: args.baseUrl.index("/", 8)]}".'
+                )
+                args.baseUrl = args.baseUrl[: args.baseUrl.index("/", 8)]
 
-    #     else:
+        else:
 
-    #         print(f'Keeping entire URL "{args.baseUrl}"')
+            print(f'Keeping entire URL "{args.baseUrl}"')
 
-    #     time.sleep(2)
+        time.sleep(2)
 
-    #     os.system("clear")
-
-    args.baseUrl = r"https://sitandr.github.io/typst-examples-book/book/"
-    args.htmlDir = "Examples Book HTML"
-    args.latexDir = "Examples Book LaTeX"
-    args.flatten = True
-    args.writeHtml = True
-    args.fileNameFull = True
-    args.writeLatex = True
+        os.system("clear")
 
     if args.writeLatex:
 
@@ -218,7 +216,7 @@ def main():
         writeHtml=args.writeHtml,
         includeWords=args.includeWords,
         excludeWords=args.excludeWords,
-        maxPage=args.maxPage,  # Pass the maxPage argument
+        maxDepth=args.maxDepth,  # Changed from maxPage
         htmlDirName=args.htmlDir,  # Added parameter
     )
 
@@ -258,4 +256,11 @@ def main():
 
 if __name__ == "__main__":
 
-    main()
+    # GroupFilesByExtension(dirPath="Package List LaTeX", ext=".tex")
+    # GroupFilesByExtension(dirPath="Examples Book LaTeX", ext=".tex")
+    GroupFilesByExtension(dirPath="C Examples Book LaTeX", ext=".tex")
+    # HtmlDirToLatex(htmlDir="Docs HTML", latexDir="Docs LaTeX")
+
+    PrintJsonWalk(walkGen=os.walk("Combined Examples Book LaTeX"), fileSize=True)
+
+    # main()
