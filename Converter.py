@@ -602,6 +602,182 @@ def MarkdownToTypst(filePath: Path, outPath: Path) -> None:
         file.write(content)
 
 
+def GetPackageSections(packageTypstFile: Path) -> List:
+
+    packageSections = []
+
+    with packageTypstFile.open("r") as file:
+
+        content = file.read()
+
+    packageSectionStartPattern = r"(^= \*)"
+
+    packageMatches = re.finditer(
+        pattern=packageSectionStartPattern,
+        string=content,
+        flags=re.MULTILINE | re.DOTALL,
+    )
+
+    lastMatchStart = None
+
+    for match in packageMatches:
+
+        matchStart = match.start()
+
+        if lastMatchStart is None:
+
+            lastMatchStart = matchStart
+
+            continue
+
+        else:
+
+            packageSections.append(content[lastMatchStart : matchStart - 1])
+
+            lastMatchStart = matchStart
+
+    packageSections.append(content[lastMatchStart:])
+
+    return packageSections
+
+
+def PackageHeaderExtraction(packageTypstFile: Path, packageOut: Path, templateOut):
+
+    packageSections = GetPackageSections(packageTypstFile=packageTypstFile)
+
+    if packageSections[0].strip() == r"= *Package List Markdown*":
+
+        packageSections.pop(0)
+
+    sectionHeaders = []
+
+    for section in packageSections:
+
+        sectionHeader = []
+        headerLineCount = 0
+
+        for line in section.splitlines():
+
+            if re.search(pattern=r"^=+\s", string=line):
+
+                headerLineCount += 1
+
+            if headerLineCount >= 3 or line.startswith(r"[ Create project in app ]("):
+
+                break
+
+            else:
+
+                sectionHeader.append(line)
+
+        sectionHeaders.append(sectionHeader)
+
+    versionLinePattern = r"\d+\.\d+\.\d+"
+
+    for sectionNum, header in enumerate(sectionHeaders):
+
+        blankLinesRepeat = 0
+
+        if header[0].startswith(r"= *") and header[0].endswith(r".md*"):
+
+            header[0] = header[0][:-4] + "*"
+
+        versionLine = 0
+
+        for lineNum, line in enumerate(header[1:], 1):
+
+            if re.match(pattern=versionLinePattern, string=line.strip()):
+
+                version = line
+
+                header[lineNum] = f"*Latest Version:* {version}"
+
+                versionLine = lineNum
+
+        blankLinesRepeat = 0
+
+        for lineNum, line in enumerate(header):
+
+            if line.strip() == "":
+
+                blankLinesRepeat += 1
+
+            else:
+
+                blankLinesRepeat = 0
+
+            if blankLinesRepeat == 3 and lineNum > versionLine:
+
+                header = header[: lineNum - 1]
+
+                sectionHeaders[sectionNum] = header
+
+                break
+
+        for lineNum, line in enumerate(header):
+
+            if line.count("#") > 1:
+
+                firstHashIndex = line.index("#")
+
+                if (
+                    firstHashIndex > 2
+                    and line[firstHashIndex - 1] == " "
+                    and line[firstHashIndex - 2] == ")"
+                ):
+
+                    line = line[: firstHashIndex - 1] + ";" + line[firstHashIndex - 1 :]
+
+                line = line[: firstHashIndex + 1] + line[firstHashIndex + 1 :].replace(
+                    " #", "; #"
+                )
+
+                header[lineNum] = line
+
+        sectionHeaders[sectionNum] = header
+
+    packageHeaders = []
+
+    templateHeaders = []
+
+    templatePreviewPattern = r"!\[A preview of the .+ Typst template\.\]\("
+
+    for header in sectionHeaders:
+
+        secondLine = header[2].strip()
+        thirdLine = header[3].strip()
+
+        potentialTemplatePreview = secondLine + " " + thirdLine
+
+        if re.match(pattern=templatePreviewPattern, string=potentialTemplatePreview):
+
+            templateHeaders.append(header)
+
+        else:
+
+            packageHeaders.append(header)
+
+    with packageOut.open("w") as packageFile:
+
+        packageFile.write(
+            f"List of Packages, Latest Version, and Basic Description\n\n"
+        )
+
+        for header in packageHeaders:
+
+            packageFile.write("\n".join(header) + "\n\n")
+
+    with templateOut.open("w") as templateFile:
+
+        templateFile.write(
+            f"List of Templates, Latest Version, and Basic Description\n\n"
+        )
+
+        for header in templateHeaders:
+
+            templateFile.write("\n".join(header) + "\n\n")
+
+
 def GroupFilesByExtension(
     dirPath: str,
     ext: str,
