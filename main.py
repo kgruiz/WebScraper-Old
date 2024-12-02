@@ -230,15 +230,6 @@ def main():
 
     OutputJson(urlList=urlList, fileName=args.outputJson)
 
-    if args.downloadPdf:
-        urls = LoadUrlsFromJson(args.outputJson)
-        outputDirectory = "downloadedPdfs"
-        with tqdm(total=len(urls), desc="Processing URLs") as mainBar:
-            for url in urls:
-                mainBar.set_postfix_str(url)
-                SavePageAsPdf(url, outputDirectory)
-                mainBar.update(1)
-
     if args.writeLatex and args.writeHtml:
 
         print(f"Converting HTML Files to LaTeX")
@@ -264,24 +255,4 @@ def main():
 
 if __name__ == "__main__":
 
-    # GroupFilesByExtension(dirPath="Package List LaTeX", ext=".tex")
-    # GroupFilesByExtension(dirPath="Examples Book LaTeX", ext=".tex")
-    # GroupFilesByExtension(dirPath="C Examples Book LaTeX", ext=".tex")
-    # HtmlDirToLatex(htmlDir="Docs HTML", latexDir="Docs LaTeX")
-
-    typstFilePath = Path("Examples Book/Combined Examples Book.typ").resolve()
-    outPath = typstFilePath.parent / "Compacted Examples Book.typ"
-
-    assert typstFilePath.exists()
-
-    print(f"Compacting {typstFilePath}")
-
-    CompactTypstFile(
-        typstFilePath=typstFilePath,
-        outPath=outPath,
-        duplicateHeadingLevels=[1, 2, 3, 4, 5, 6],
-    )
-
-    raise SystemExit
-
-    # main()
+    main()
