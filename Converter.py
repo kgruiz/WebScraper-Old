@@ -778,6 +778,208 @@ def PackageHeaderExtraction(packageTypstFile: Path, packageOut: Path, templateOu
             templateFile.write("\n".join(header) + "\n\n")
 
 
+def CleanSingleFileDirs(dirPath: Path = Path(".")):
+
+    for subdir in dirPath.rglob("*"):
+
+        if subdir.is_dir() and not subdir.name.startswith("."):
+
+            parentDirs = subdir.relative_to(dirPath).parts
+
+            if not any(part.startswith(".") for part in parentDirs):
+
+                hasDir = False
+                numFiles = 0
+
+                onlyFile: Path = None
+
+                for item in subdir.iterdir():
+
+                    if item.is_dir():
+
+                        hasDir = True
+
+                    elif item.is_file():
+
+                        numFiles += 1
+                        onlyFile = item
+
+                if not hasDir and numFiles == 1 and onlyFile is not None:
+
+                    newPath = onlyFile.parent.parent / onlyFile.name
+                    oldParent = onlyFile.parent
+
+                    onlyFile.rename(newPath)
+
+                    oldParent.rmdir()
+
+
+def RemoveRedundantNames(
+    dirPath: Path = Path("."), ignoreExts: List[str] = [], ignorePaths: List[Path] = []
+):
+
+    FILE_EXTENSIONS = {
+        # Document File Extensions
+        ".doc": ["Microsoft Word Document", "Word File", "Word Document", "Word Doc"],
+        ".docx": [
+            "Microsoft Word Open XML Document",
+            "Word File",
+            "Word Document",
+            "Word Docx",
+        ],
+        ".pdf": ["Portable Document Format", "PDF File", "PDF"],
+        ".txt": ["Plain Text File", "Text File", "Plain Text", "TXT"],
+        ".odt": ["OpenDocument Text Document", "ODT File", "ODT", "LibreOffice Text"],
+        ".rtf": ["Rich Text Format", "RTF File", "Rich Text"],
+        ".tex": ["LaTeX Document", "TEX File", "LaTeX", "Latex"],
+        ".typ": ["Typst Document", "Typst File", "Typst"],
+        ".md": ["Markdown File", "Markdown Document", "Markdown"],
+        ".json": ["JavaScript Object Notation File", "JSON File", "JSON"],
+        ".html": ["HyperText Markup Language File", "HTML File", "HTML"],
+        # Spreadsheet File Extensions
+        ".xls": [
+            "Microsoft Excel Spreadsheet",
+            "Excel File",
+            "Excel Spreadsheet",
+            "XLS",
+            "Excel",
+        ],
+        ".xlsx": [
+            "Microsoft Excel Open XML Spreadsheet",
+            "Excel File",
+            "Excel Spreadsheet",
+            "XLSX",
+            "Excel",
+        ],
+        ".csv": [
+            "Comma-Separated Values File",
+            "CSV File",
+            "Comma-Separated Values",
+            "CSV",
+        ],
+        ".ods": [
+            "OpenDocument Spreadsheet",
+            "ODS File",
+            "ODS",
+            "LibreOffice Spreadsheet",
+        ],
+        # Presentation File Extensions
+        ".ppt": [
+            "Microsoft PowerPoint Presentation",
+            "PowerPoint File",
+            "PowerPoint Presentation",
+            "PPT",
+        ],
+        ".pptx": [
+            "Microsoft PowerPoint Open XML Presentation",
+            "PowerPoint File",
+            "PowerPoint Presentation",
+            "PPTX",
+        ],
+        ".odp": [
+            "OpenDocument Presentation",
+            "ODP File",
+            "ODP",
+            "LibreOffice Presentation",
+        ],
+        # Image File Extensions
+        ".jpg": [
+            "Joint Photographic Experts Group Image",
+            "JPEG File",
+            "JPEG",
+            "JPG File",
+            "JPG",
+        ],
+        ".jpeg": ["JPEG File", "JPEG Image", "JPEG"],
+        ".png": ["Portable Network Graphics Image", "PNG File", "PNG"],
+        ".gif": ["Graphics Interchange Format File", "GIF File", "GIF"],
+        ".bmp": ["Bitmap Image File", "Bitmap File", "Bitmap"],
+        ".svg": ["Scalable Vector Graphics File", "SVG File", "SVG"],
+        ".tiff": ["Tagged Image File Format", "TIFF File", "TIFF"],
+        # Audio File Extensions
+        ".mp3": ["MP3 Audio File", "MP3 File", "MP3"],
+        ".wav": ["Waveform Audio File", "WAV File", "WAV"],
+        ".aac": ["Advanced Audio Coding File", "AAC File", "AAC"],
+        ".flac": ["Free Lossless Audio Codec File", "FLAC File", "FLAC"],
+        ".ogg": ["Ogg Vorbis Audio File", "Ogg File", "Ogg Vorbis", "Ogg"],
+        # Video File Extensions
+        ".mp4": ["MPEG-4 Video File", "MP4 File", "MP4"],
+        ".avi": ["Audio Video Interleave File", "AVI File", "AVI"],
+        ".mkv": ["Matroska Video File", "MKV File", "MKV"],
+        ".mov": ["Apple QuickTime Movie", "MOV File", "MOV"],
+        ".wmv": ["Windows Media Video File", "WMV File", "WMV"],
+        # Compressed File Extensions
+        ".zip": ["ZIP File", "Compressed File", "ZIP"],
+        ".rar": ["RAR File", "Compressed File", "RAR"],
+        ".7z": ["7-Zip Compressed File", "7Z File", "7-Zip"],
+        ".tar": ["TAR File", "Archive File", "TAR"],
+        ".gz": ["GZIP File", "GZ File", "GZIP"],
+        # Programming/Script File Extensions
+        ".py": ["Python Script", "Python File", "PY File", "Python"],
+        ".pyc": ["Compiled Python File", "Python Compiled", "PYC File"],
+        ".cpp": ["C++ Source File", "C++ File", "CPP File", "C++"],
+        ".hpp": ["C++ Header File", "HPP File", "C++ Header"],
+        ".h": [
+            "C++ Header File",
+            "C Header File",
+            "Header File",
+            "H File",
+            "C Header",
+            "C++ Header",
+        ],
+    }
+
+    for filePath in dirPath.rglob("*"):
+
+        if filePath.is_file() and not any(
+            part.startswith(".") for part in filePath.parts
+        ):
+
+            if filePath in ignorePaths or filePath.suffix in ignoreExts:
+
+                continue
+
+            commonNames = FILE_EXTENSIONS.get(filePath.suffix)
+
+            if commonNames is None:
+
+                continue
+
+            for name in commonNames:
+
+                if name in filePath.stem:
+
+                    if filePath.stem.startswith(name):
+
+                        newStem = filePath.stem[len(name) :].strip()
+
+                    elif filePath.stem.endswith(name):
+
+                        newStem = filePath.stem[: -len(name)].strip()
+
+                    else:
+
+                        newStem = filePath.stem.replace(name, "").strip()
+
+                    newName = f"{newStem}{filePath.suffix}"
+                    newPath = filePath.with_name(newName)
+                    filePath.rename(newPath)
+
+
+def CompactTypstFile(typstFilePath: Path, outPath: Path):
+    """Only gets all content with no indents"""
+
+    with typstFilePath.open("r") as file:
+
+        contents = file.read()
+
+    identedLinePattern = r"^\s+\S+"
+
+    ins = re.findall(pattern=identedLinePattern, string=contents, flags=re.MULTILINE)
+
+    print(len(ins))
+
+
 def GroupFilesByExtension(
     dirPath: str,
     ext: str,

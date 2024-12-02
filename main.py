@@ -6,8 +6,10 @@ from pathlib import *
 from tqdm import tqdm
 
 from Converter import (
+    CleanSingleFileDirs,
     CombineDirs,
     CombineFiles,
+    CompactTypstFile,
     FlattenDir,
     GetPackageSections,
     GroupFilesByExtension,
@@ -15,6 +17,7 @@ from Converter import (
     HtmlDirToMarkdown,
     MarkdownToTypst,
     PackageHeaderExtraction,
+    RemoveRedundantNames,
 )
 from DirStructure import DirStructureFromURLList, OutputJsonWalk, PrintJsonWalk
 from Downloader import LoadUrlsFromJson, SavePageAsPdf
@@ -266,31 +269,12 @@ if __name__ == "__main__":
     # GroupFilesByExtension(dirPath="C Examples Book LaTeX", ext=".tex")
     # HtmlDirToLatex(htmlDir="Docs HTML", latexDir="Docs LaTeX")
 
-    typstFile = (
-        "Package List/Combined Package List Typst/Combined Package List Typst.typ"
-    )
+    typstFilePath = Path("Examples Book/Combined Examples Book Typst.typ").resolve()
+    outPath = typstFilePath.parent / "Compacted Examples Book Typst.typ"
 
-    outputDir = Path("Package List/Package Info")
+    assert typstFilePath.exists()
 
-    outputDir.mkdir(parents=True, exist_ok=True)
-
-    outputFile = Path("Package Info.typ")
-
-    packageOut = Path(outputDir, outputFile)
-
-    outputDir = Path("Package List/Template Info")
-
-    outputDir.mkdir(parents=True, exist_ok=True)
-
-    outputFile = Path("Template Info.typ")
-
-    templateOut = Path(outputDir, outputFile)
-
-    PackageHeaderExtraction(
-        packageTypstFile=Path(typstFile).resolve(),
-        packageOut=packageOut.resolve(),
-        templateOut=templateOut.resolve(),
-    )
+    print(f"Compacting {typstFilePath}")
 
     raise SystemExit
 
