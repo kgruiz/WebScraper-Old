@@ -269,12 +269,14 @@ if __name__ == "__main__":
     # GroupFilesByExtension(dirPath="C Examples Book LaTeX", ext=".tex")
     # HtmlDirToLatex(htmlDir="Docs HTML", latexDir="Docs LaTeX")
 
-    typstFilePath = Path("Examples Book/Combined Examples Book Typst.typ").resolve()
-    outPath = typstFilePath.parent / "Compacted Examples Book Typst.typ"
+    typstFilePath = Path("Examples Book/Combined Examples Book.typ").resolve()
+    outPath = typstFilePath.parent / "Compacted Examples Book.typ"
 
     assert typstFilePath.exists()
 
     print(f"Compacting {typstFilePath}")
+
+    CompactTypstFile(typstFilePath=typstFilePath, outPath=outPath)
 
     raise SystemExit
 

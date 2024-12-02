@@ -966,18 +966,50 @@ def RemoveRedundantNames(
                     filePath.rename(newPath)
 
 
-def CompactTypstFile(typstFilePath: Path, outPath: Path):
+def CompactTypstFile(
+    typstFilePath: Path,
+    outPath: Path,
+    maxRepeatBlankLines: int = 3,
+    removeLinks: bool = True,
+):
     """Only gets all content with no indents"""
 
     with typstFilePath.open("r") as file:
 
-        contents = file.read()
+        content = file.read()
 
-    identedLinePattern = r"^\s+\S+"
+    indentedLinePattern = r"^[ \t]+.*\S+.*\n"
 
-    ins = re.findall(pattern=identedLinePattern, string=contents, flags=re.MULTILINE)
+    content = re.sub(
+        pattern=indentedLinePattern, repl="", string=content, flags=re.MULTILINE
+    )
 
-    print(len(ins))
+    if removeLinks:
+
+        urlPattern = r"(?:>\s*Link to\s*|>\s*Link\s*|>\s*\.\s*)?!?\[[^\]]+\]\([^\)]+\)"
+
+        content = re.sub(pattern=urlPattern, repl="", string=content)
+
+        singleDotLine = r"^>\s*\.$"
+
+        content = re.sub(
+            pattern=singleDotLine, repl="", string=content, flags=re.MULTILINE
+        )
+
+    if maxRepeatBlankLines > 0:
+
+        maxRepeatBlankLinesPattern = rf"{"\n\\s*$" * maxRepeatBlankLines}"
+
+        content = re.sub(
+            pattern=maxRepeatBlankLinesPattern,
+            repl="",
+            string=content,
+            flags=re.MULTILINE,
+        )
+
+    with outPath.open("w") as file:
+
+        file.write(content)
 
 
 def GroupFilesByExtension(
