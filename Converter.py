@@ -504,7 +504,6 @@ def MarkdownToTypst(filePath: Path, outPath: Path) -> None:
     )
 
     italicPattern = r"(?<!\*)\*(?!\s)([^\*\s][^\*]*[^\*\s])\*(?!\*)"
-    boldPattern = r"\*\*(.+?)\*\*"
 
     newContent = ""
     lastIndex = 0
@@ -515,12 +514,6 @@ def MarkdownToTypst(filePath: Path, outPath: Path) -> None:
         outside = re.sub(
             pattern=italicPattern,
             repl=rf"_\1_",
-            string=outside,
-            flags=re.MULTILINE | re.DOTALL,
-        )
-        outside = re.sub(
-            pattern=boldPattern,
-            repl=rf"*\1*",
             string=outside,
             flags=re.MULTILINE | re.DOTALL,
         )
@@ -536,66 +529,13 @@ def MarkdownToTypst(filePath: Path, outPath: Path) -> None:
         string=outside,
         flags=re.MULTILINE | re.DOTALL,
     )
-    outside = re.sub(
-        pattern=boldPattern,
-        repl=rf"*\1*",
-        string=outside,
-        flags=re.MULTILINE | re.DOTALL,
-    )
     newContent += outside
 
     content = newContent
 
-    # inlinePattern = r"((?<!\\)(\[[^\]]+\]\([^)]+\)|https?://[^\s)]+))"
+    boldPattern = r"\*\*"
 
-    # referenceUsagePattern = r"((?<!\\)\[[^\]]+\]\[[^\]]+\])"
-
-    # referenceDefinitionPattern = r"(^\s*\[[^\]]+\]:\s*\S+(?:\s+\"[^\"]+\")?$)"
-
-    # imagePattern = r"((?<!\\)!\[[^\]]*\]\([^)]+\))"
-
-    # imageAsLinkPattern = r"((?<!\\)\[!\[[^\]]*\]\([^)]+\)\]\([^)]+\))"
-
-    # for pattern in [
-    #     inlinePattern,
-    #     referenceUsagePattern,
-    #     imagePattern,
-    #     imageAsLinkPattern,
-    # ]:
-
-    #     for match in re.finditer(pattern=pattern, string=content, flags=re.DOTALL):
-
-    #         isWithinFunctionRange = any(
-    #             start <= match.start() < end or start < match.end() <= end
-    #             for start, end in functionRanges
-    #         )
-
-    #         if not isWithinFunctionRange:
-
-    #             content = (
-    #                 content[: match.start()]
-    #                 + r"/*"
-    #                 + match.group(1)
-    #                 + r"*/"
-    #                 + content[match.end() :]
-    #             )
-
-    # for match in re.finditer(pattern=referenceDefinitionPattern, string=content):
-
-    #     isWithinFunctionRange = any(
-    #         start <= match.start() < end or start < match.end() <= end
-    #         for start, end in functionRanges
-    #     )
-
-    #     if not isWithinFunctionRange:
-
-    #         content = (
-    #             content[: match.start()]
-    #             + r"/*"
-    #             + match.group(1)
-    #             + r"*/"
-    #             + content[match.end() :]
-    #         )
+    content = re.sub(pattern=boldPattern, repl="*", string=content)
 
     with outPath.open("w") as file:
 
@@ -971,6 +911,9 @@ def CompactTypstFile(
     outPath: Path,
     maxRepeatBlankLines: int = 3,
     removeLinks: bool = True,
+    removeDuplicates: bool = True,
+    duplicateHeadingLevels: List[int] = [2],
+    removeEmptyHeadings: bool = True,
 ):
     """Only gets all content with no indents"""
 
@@ -1006,6 +949,112 @@ def CompactTypstFile(
             string=content,
             flags=re.MULTILINE,
         )
+
+    if removeDuplicates or removeEmptyHeadings:
+
+        sectionHeaders = []
+
+        for lineNum, line in enumerate(content.splitlines()):
+
+            if re.match(pattern=r"^=+\s+\S.*$", string=line):
+
+                numEquals = 0
+
+                for char in line:
+
+                    if char == "=":
+
+                        numEquals += 1
+
+                    else:
+
+                        break
+
+                sectionHeaders.append((lineNum, numEquals))
+
+    if removeDuplicates:
+
+        candidateDuplicateSections = []
+
+        for sectionNum, (lineNum, numEquals) in enumerate(sectionHeaders[:-1]):
+
+            if numEquals in duplicateHeadingLevels:
+
+                candidateDuplicateSections.append(
+                    (lineNum, sectionHeaders[sectionNum + 1][0] - 1)
+                )
+
+        if sectionHeaders[-1][1] in duplicateHeadingLevels:
+
+            candidateDuplicateSections.append(
+                (sectionHeaders[-1][0], len(content.splitlines()) - 1)
+            )
+
+        lines = content.splitlines()
+        uniqueSections = {}
+        duplicateIndices = []
+
+        for start, end in candidateDuplicateSections:
+
+            sectionText = "\n".join(lines[start : end + 1])
+
+            if sectionText in uniqueSections:
+
+                duplicateIndices.append((start, end))
+
+            else:
+
+                uniqueSections[sectionText] = True
+
+        for start, end in sorted(duplicateIndices, reverse=True):
+
+            del lines[start : end + 1]
+
+        content = "\n".join(lines)
+
+    if removeEmptyHeadings:
+
+        sectionsRanges = []
+
+        for sectionNum, (lineNum, numEquals) in enumerate(sectionHeaders[:-1]):
+
+            sectionsRanges.append((lineNum, sectionHeaders[sectionNum + 1][0] - 1))
+
+        sectionsRanges.append((sectionHeaders[-1][0], len(content.splitlines()) - 1))
+
+        emptySections = []
+
+        for firstLine, lastLine in sectionsRanges:
+
+            if firstLine == lastLine or lastLine - 1 == firstLine:
+
+                continue
+
+            sectionTextNoHeading = "".join(content[firstLine + 1 : lastLine + 1])
+
+            if sectionTextNoHeading.strip() == "":
+
+                emptySections.append((firstLine, lastLine))
+
+        lines = content.splitlines()
+
+        for start, end in sorted(emptySections, reverse=True):
+
+            del lines[start : end + 1]
+
+        content = "\n".join(lines)
+
+        for headingLevel in range(2, 7):
+
+            headingPattern = (
+                r"\n("
+                + "=" * headingLevel
+                + r"\s+\S+.*\n(?:\n|\s)*)("
+                + "=" * headingLevel
+                + r"\s+\S+.*\n)"
+            )
+
+            content = re.sub(pattern=headingPattern, repl="\2", string=content)
 
     with outPath.open("w") as file:
 

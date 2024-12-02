@@ -6921,7 +6921,7 @@ img/9eddd9b18a2df43372188dab692be9e2973fac63f3764683c431a2c0fb8ba873-1.svg)
 
 
 
-= **book/packages/word_count.md**
+= *book/packages/word_count.md*
 
 =  Counting words
 
@@ -6970,7 +6970,7 @@ img/0e46f8aa570972e4f8a92bfa4b8f7b86b6374d632fa27bd043c102b683d70f96-1.svg)
 
 
 
-= **book/packages/index.md**
+= *book/packages/index.md*
 
 =  Packages
 
@@ -7024,7 +7024,7 @@ to make issues/PR-s!
 
 
 
-= **book/packages/misc.md**
+= *book/packages/misc.md*
 
 =  Misc
 
@@ -7090,7 +7090,7 @@ img/f8389763af9ec32227285bdc25885f02b4ad74d6a5900852ccd0664989f1d3cb-1.svg)
 
 
 
-= **book/packages/boxes.md**
+= *book/packages/boxes.md*
 
 =  Custom boxes
 
@@ -7309,7 +7309,7 @@ See [ math ](./math.html)
 
 
 
-= **book/packages/code.md**
+= *book/packages/code.md*
 
 =  Code
 
@@ -7369,7 +7369,7 @@ img/2b2bbf130111979e4bc4cbc33171a39842467b3ea5e67a7fa0fcbf26222e8f90-1.svg)
 
 
 
-= **book/packages/layout.md**
+= *book/packages/layout.md*
 
 =  Layouting
 
@@ -7714,7 +7714,7 @@ img/ab3a07e72c5e19f28936f6d2249c9c5bcd102a27f4af177db63d7715c5c64f33-5.svg)
 
 
 
-= **book/packages/drawing.md**
+= *book/packages/drawing.md*
 
 =  Drawing
 
@@ -7843,7 +7843,7 @@ img/7a4a9224b76305ecd694fd4505b3fdee8c706ccea76ac0e59fd13d469c343dd4-1.svg)
 
 
 
-= **book/snippets/scripting/index.md**
+= *book/snippets/scripting/index.md*
 
 =  Scripting
 
@@ -7969,7 +7969,7 @@ other show-set rules.
 
 
 
-= **book/snippets/chapters/outlines.md**
+= *book/snippets/chapters/outlines.md*
 
 =  Outlines
 
@@ -8166,7 +8166,7 @@ img/baac264bb9ab5bfcf402ee4508cb3c18a8e747b17fefa125c9d2998df0f5a283-2.svg)
 
 
 
-= **book/snippets/chapters/page-numbering.md**
+= *book/snippets/chapters/page-numbering.md*
 
 =  Page numbering
 
@@ -8212,7 +8212,7 @@ img/0cd153b35bf7532971dbbb220095812665f44b0ab9cca9d7a8c6c000f83e3e30-3.svg)
 
 
 
-= **book/snippets/layout/page_setup.md**
+= *book/snippets/layout/page_setup.md*
 
 =  Page setup
 
@@ -8287,7 +8287,7 @@ img/b88eae1fcb87b110e66ee6493c60c2c3e0d0c9a7f1c288e739bf1bb8e09c8d70-1.svg)
 
 
 
-= **book/snippets/layout/duplicate.md**
+= *book/snippets/layout/duplicate.md*
 
 =  Duplicate content
 
@@ -8364,7 +8364,7 @@ img/2fdcc2778a936608ed868521793f59311ac54d43e226639db3ab14c6ca37c75f-1.svg)
 
 
 
-= **book/snippets/layout/shapes.md**
+= *book/snippets/layout/shapes.md*
 
 =  Shaped boxes with text
 
@@ -8490,7 +8490,7 @@ img/f40acb7d6d2753b0845c9dd1fb26979c29dd0850448cf585f0c7f1b20acde7ea-1.svg)
 
 
 
-= **book/snippets/layout/multiline_detect.md**
+= *book/snippets/layout/multiline_detect.md*
 
 =  Multiline detection
 
@@ -8543,7 +8543,7 @@ img/8e2a1d9e2e66f654938733a2ed1d9a0dcc771165a60d89c4410f4d970054121c-1.svg)
 
 
 
-= **book/snippets/layout/insert_lines.md**
+= *book/snippets/layout/insert_lines.md*
 
 =  Lines between list items
 
@@ -8570,7 +8570,7 @@ The same approach may be easily adapted to style the enums as you want.
 
 
 
-= **book/snippets/layout/hiding.md**
+= *book/snippets/layout/hiding.md*
 
 =  Hiding things
 
@@ -8590,7 +8590,7 @@ img/6b85fdf4b9ba387543271058b6acb27e202dab93b01c2cd7ac93187c1e8b643c-1.svg)
 
 
 
-= **book/snippets/math/vecs.md**
+= *book/snippets/math/vecs.md*
 
 =  Vectors & Matrices
 
@@ -8678,7 +8678,7 @@ img/98195a6d9cfb93fdc5dca4db04dde22c00b969129e2962c8f7cba9012cd2bd0d-1.svg)
 
 
 
-= **book/snippets/math/operations.md**
+= *book/snippets/math/operations.md*
 
 =  Operations
 
@@ -8716,7 +8716,7 @@ img/36454aba32957127c97710e4fc1db3e6d8c9a558e886b7103915d501004bad76-1.svg)
 
 
 
-= **book/snippets/math/numbering.md**
+= *book/snippets/math/numbering.md*
 
 =  Math Numbering
 
@@ -8834,7 +8834,7 @@ img/c17ccdb8d65b5aa0d0e58b1fba75c67bfc162400ba86ad64f37aa038ad6d8887-1.svg)
 
 
 
-= **book/snippets/math/scripts.md**
+= *book/snippets/math/scripts.md*
 
 =  Scripts
 
@@ -8867,13 +8867,13 @@ img/40b68a1d7f5aeb1c498431996be1b140b3d217ba5b0230b6b73e6fefe64d45cd-1.svg)
 
 
 
-= **book/snippets/math/fonts.md**
+= *book/snippets/math/fonts.md*
 
 =  Fonts
 
 ==  Set math font
 
-**Important:** The font you want to set for math should _contain_ necessary
+*Important:* The font you want to set for math should _contain_ necessary
 math symbols. That should be a special font with math. If it isn't, you are
 very likely to get _an error_ (remember to set ` fallback: false  ` and check
 ` typst fonts  ` to debug the fonts).
@@ -8893,7 +8893,7 @@ img/f1cc8c8afe82aeb14cb0898ff5a83292a7c6a73f8b84cac8dbffa19af0d9370f-1.svg)
 
 
 
-= **book/snippets/math/calligraphic.md**
+= *book/snippets/math/calligraphic.md*
 
 =  Calligraphic letters
 
@@ -8916,7 +8916,7 @@ should be located in Typstonomicon, but it's not large enough).
 
 
 
-= **book/snippets/special/index.md**
+= *book/snippets/special/index.md*
 
 =  Special documents
 
@@ -8967,7 +8967,7 @@ img/d921f4df08e8dab19c9440b3aca6b065cb83ba11f015240b2115a63351ce64ce-1.svg)
 
 
 
-= **book/snippets/text/text_shadows.md**
+= *book/snippets/text/text_shadows.md*
 
 =  Fake italic & Text shadows
 
@@ -9010,7 +9010,7 @@ img/1c00de41a0643ecf254de80601efa4a043302c1e76aedfbf2458a9e30f1c7fd3-1.svg)
 
 
 
-= **book/snippets/text/individual_lang_fonts.md**
+= *book/snippets/text/individual_lang_fonts.md*
 
 =  Individual language fonts
 
@@ -9027,7 +9027,7 @@ img/612267fd94fab114a3e0b75bdb3785b818c0f83427071db0dce086d1b0a6a54a-1.svg)
 
 
 
-= **book/basics/tutorial/templates.md**
+= *book/basics/tutorial/templates.md*
 
 =  Templates
 
@@ -9114,7 +9114,7 @@ typst?ysclid=lj8pur1am7431908794#general) .
 
 
 
-= **book/basics/tutorial/advanced_styling.md**
+= *book/basics/tutorial/advanced_styling.md*
 
 =  Advanced styling
 
@@ -9350,7 +9350,7 @@ img/76ee0cca809299df178ec9d94371c01031d1808a700b39deac5245dd6b83157f-1.svg)
 
 
 
-= **book/basics/tutorial/index.md**
+= *book/basics/tutorial/index.md*
 
 =  Tutorial by Examples
 
@@ -9360,7 +9360,7 @@ words. It is _highly recommended to read the official tutorial anyway_ .
 
 
 
-= **book/basics/tutorial/functions.md**
+= *book/basics/tutorial/functions.md*
 
 =  Functions
 
@@ -9523,7 +9523,7 @@ img/4686939b6d0932f1ebebac4111d8f02919dbc16446def7855c521d8dbf293689-1.svg)
 
 
 
-= **book/basics/tutorial/basic_styling.md**
+= *book/basics/tutorial/basic_styling.md*
 
 =  Basic styling
 
@@ -9661,7 +9661,7 @@ And now we are moving into something much more interesting…
 
 
 
-= **book/basics/tutorial/markup.md**
+= *book/basics/tutorial/markup.md*
 
 =  Markup language
 
@@ -9770,7 +9770,7 @@ img/89114a6e9af45c2eb9db2ef44d0e5ba41e31bf816e72803bd1a9a02120e69fc3-1.svg)
 ![Rendered image](typst-
 img/ad4e424e067a4362e9f145c0c4ba4b7c1b65e17e7d0e7631b6836841607ef85e-1.svg)
 
-**Notice:**
+*Notice:*
 
 
 
@@ -9803,7 +9803,7 @@ img/12cc318c8438cd8e91706013bbd53fee5ee004620a63348cfe2d7dcc3b8a19d4-1.svg)
 
 
 
-= **book/basics/scripting/basics.md**
+= *book/basics/scripting/basics.md*
 
 =  Basics
 
@@ -9875,7 +9875,7 @@ img/e6e4bd179a38f1b3af96f3e7c6308be6f9494f41f43daa26ebabf7a77fc54780-1.svg)
 
 
 
-= **book/basics/scripting/braces.md**
+= *book/basics/scripting/braces.md*
 
 =  Braces, brackets and default
 
@@ -9901,7 +9901,7 @@ We may use same for functions bodies:
 ![Rendered image](typst-
 img/4545deeee45655ee6666feb4773416cd075fe7522cbfd80d0847c615c6c5f30a-1.svg)
 
-**Important:** It is very hard to convert _content_ to _plain text_ , as
+*Important:* It is very hard to convert _content_ to _plain text_ , as
 _content_ may contain _anything_ ! Sp be careful when passing and storing
 content in variables.
 
@@ -9939,7 +9939,7 @@ img/f2bc6aebef06f213c9a8e740266a96e424318d953c09cffba6c5811375e91395-1.svg)
 
 ==  Scopes
 
-**This is a very important thing to remember** .
+*This is a very important thing to remember* .
 
 _You can't use variables outside of scopes they are defined (unless it is file
 root, then you can import them)_ . _Set and show rules affect things in their
@@ -9965,7 +9965,7 @@ img/c25d356831eeea19bb243b87c0f32d062c7086a55b4ee432e41b388d626f875b-1.svg)
 
 ==  Return
 
-**Important** : by default braces return anything that "returns" into them.
+*Important* : by default braces return anything that "returns" into them.
 For example,
 
 
@@ -10027,7 +10027,7 @@ argument is an argument _that has default value_ .
 
 
 
-= **book/basics/scripting/tips.md**
+= *book/basics/scripting/tips.md*
 
 =  Tips
 
@@ -10048,8 +10048,8 @@ Equality doesn't mean objects are really the same, like in many other objects:
 ![Rendered image](typst-
 img/3632e0202f7aae6ed6e2958b7bc6360a6cba31aa3d1aaf169a133ef987c839de-1.svg)
 
-That may be less obvious for dictionaries. In dictionaries **the order may
-matter** , so equality doesn't mean they behave exactly the same way:
+That may be less obvious for dictionaries. In dictionaries *the order may
+matter* , so equality doesn't mean they behave exactly the same way:
 
 
 
@@ -10088,7 +10088,7 @@ img/0fc3ff7d44bbb5bcacd38e921f199699d2ea43ce0a142e79f67314d4f24386a7-1.svg)
 
 
 
-= **book/basics/scripting/conditions.md**
+= *book/basics/scripting/conditions.md*
 
 =  Conditions & loops
 
@@ -10271,11 +10271,11 @@ img/bbb719820f986e52fbf64306536766ecbfd7264d29429a5c62d1bd648a4754c5-1.svg)
 
 
 
-= **book/basics/scripting/types_2.md**
+= *book/basics/scripting/types_2.md*
 
 =  Types, part II
 
-In Typst, most of things are **immutable** . You can't change content, you can
+In Typst, most of things are *immutable* . You can't change content, you can
 just create new using this one (for example, using addition).
 
 Immutability is very important for Typst since it tries to be _as pure
@@ -10394,16 +10394,16 @@ img/6ef41801d46f0b7256bb6913482fde054c811a1850ecae3a446660eb6d1c8850-1.svg)
 
 
 
-= **book/basics/scripting/index.md**
+= *book/basics/scripting/index.md*
 
 =  Scripting
 
-**Typst** has a complete interpreted language inside. One of key aspects of
+*Typst* has a complete interpreted language inside. One of key aspects of
 working with your document in a nicer way
 
 
 
-= **book/basics/scripting/types.md**
+= *book/basics/scripting/types.md*
 
 =  Types, part I
 
@@ -10432,7 +10432,7 @@ We have already seen it. A type that represents what is displayed in document.
 ![Rendered image](typst-
 img/21fd80460de8e8a377a9ef2046a27232ad88924070509ccf8647c9135c9c2fe3-1.svg)
 
-**Important:** It is very hard to convert _content_ to _plain text_ , as
+*Important:* It is very hard to convert _content_ to _plain text_ , as
 _content_ may contain _anything_ ! So be careful when passing and storing
 content in variables.
 
@@ -10597,7 +10597,7 @@ img/f50a22cbea42fded97ab8340f0939e786e5c1cdb5ea531cd4b35b1f732947b7f-1.svg)
 
 
 
-= **book/basics/scripting/arguments.md**
+= *book/basics/scripting/arguments.md*
 
 =  Advanced arguments
 
@@ -10690,7 +10690,7 @@ TODO
 
 
 
-= **book/basics/math/symbols.md**
+= *book/basics/math/symbols.md*
 
 =  Symbols
 
@@ -10768,7 +10768,7 @@ img/8ab0fa590b7a39023b1467e7a376a4810f997f720dd5d221ad83d7e741943b55-1.svg)
 
 
 
-= **book/basics/math/classes.md**
+= *book/basics/math/classes.md*
 
 =  Classes
 
@@ -10822,7 +10822,7 @@ img/86a709c6189649b79005752253a842631eed4722b350e4197116e0be19094035-1.svg)
 
 
 
-= **book/basics/math/operators.md**
+= *book/basics/math/operators.md*
 
 =  Operators
 
@@ -10918,7 +10918,7 @@ img/adf6ee9659a71ecefb64d09f5f27f01acdd193bc79c792abf95fc56821bca4cb-1.svg)
 
 
 
-= **book/basics/math/alignment.md**
+= *book/basics/math/alignment.md*
 
 =  Alignment
 
@@ -10971,11 +10971,11 @@ points in a row, _alternating the alignment twice_ .
 ` & & ` and ` && ` behave exactly the same way. Meanwhile, "multiply by 7" is
 left-aligned because just one ` & ` precedes it.
 
-**Each alignment point simply alternates between right-aligned/left-aligned.**
+*Each alignment point simply alternates between right-aligned/left-aligned.*
 
 
 
-= **book/basics/math/limits.md**
+= *book/basics/math/limits.md*
 
 =  Setting limits
 
@@ -11054,7 +11054,7 @@ img/98d790005c43aa666b392f8a35f1e9564ff315aaf9881ceb309e53bd5db542b1-1.svg)
 
 
 
-= **book/basics/math/index.md**
+= *book/basics/math/index.md*
 
 =  Math
 
@@ -11121,7 +11121,7 @@ To make it short, Typst uses several simple rules:
 
   - All single-letter words _turn into variables_ . That includes any _unicode symbols_ too!
 
-  - All multi-letter words _turn into commands_ . They may be built-in commands (available with math.something outside of math environment). Or they **may be user-defined variables/functions** . If the command **isn't defined** , there will be **compilation error** .
+  - All multi-letter words _turn into commands_ . They may be built-in commands (available with math.something outside of math environment). Or they *may be user-defined variables/functions* . If the command *isn't defined* , there will be *compilation error* .
 
 If you use kebab-case or snake_case for variables you want to use in math, you
 will have to refer to them as #snake-case-variable.
@@ -11208,7 +11208,7 @@ img/ee9fc5a3ec529a9f3e811a70724c1585c294d82454c22ee9343235556f572792-1.svg)
 
 
 
-= **book/basics/math/vec.md**
+= *book/basics/math/vec.md*
 
 =  Vectors, matrices, semicolumn syntax
 
@@ -11302,7 +11302,7 @@ img/ca1e7bdfe61f2ae541843aeff854d40882487bed8fd5b1e094852cf662a759f8-1.svg)
 
 You can specify them the same way as for vectors.
 
-Specify the arguments either before the content, or **after the semicolon** .
+Specify the arguments either before the content, or *after the semicolon* .
 The code will panic if there is no semicolon!
 
 
@@ -11368,7 +11368,7 @@ For example, this will not work:
 
 
 
-= **book/basics/math/sizes.md**
+= *book/basics/math/sizes.md*
 
 =  Location and sizes
 
@@ -11424,7 +11424,7 @@ img/0d16a9d157c9689f4b3cce434ebf89d9a18d67b4916ac0ebfbce3daccb94e709-1.svg)
 
 
 
-= **book/basics/math/grouping.md**
+= *book/basics/math/grouping.md*
 
 =  Grouping
 
@@ -11488,7 +11488,7 @@ img/fd8454b2a97d649525827367f459f3163d830b5db9181178304d5fd2b44fcca1-1.svg)
 
 
 
-= **book/basics/states/states.md**
+= *book/basics/states/states.md*
 
 =  States
 
@@ -11521,7 +11521,7 @@ So instead of
     #compute("x * 2") \
     #compute("x - 5")
 
-**THIS DOES NOT COMPILE:** Variables from outside the function are read-only
+*THIS DOES NOT COMPILE:* Variables from outside the function are read-only
 and cannot be modified
 
 Instead, you should write
@@ -11629,7 +11629,7 @@ img/78e500b80cb85e086a81302e2ce3dad88cb4304d4685b88e3f59111bc71f6748-1.svg)
 
 ===  ID collision
 
-_TLDR;**Never allow colliding states.** _
+_TLDR;*Never allow colliding states.* _
 
 States are described by their id-s, if they are the same, the code will break.
 
@@ -11687,7 +11687,7 @@ img/9185a298f9bcf8c519fa85481b9272e6ef3a00c117a0904d0509920a6abef8b2-1.svg)
 
 
 
-= **book/basics/states/metadata.md**
+= *book/basics/states/metadata.md*
 
 =  Metadata
 
@@ -11710,7 +11710,7 @@ img/ef1c7d9faf74901f6c5266d48ae006167003a22754408a70ae9f9d1088b5fe24-1.svg)
 
 
 
-= **book/basics/states/query.md**
+= *book/basics/states/query.md*
 
 =  Query
 
@@ -11790,7 +11790,7 @@ img/b4d0562911dd308b0d9cbc36ad20ba6ed91fc3c3da5b6259eb6721f3a53a18e3-1.svg)
 
 
 
-= **book/basics/states/index.md**
+= *book/basics/states/index.md*
 
 =  States & Query
 
@@ -11810,7 +11810,7 @@ knowledge comes close to the Dark Arts of Typst!
 
 
 
-= **book/basics/states/counters.md**
+= *book/basics/states/counters.md*
 
 =  Counters
 
@@ -11937,7 +11937,7 @@ img/0f178f614e49a7400d646926705364a92ca3d4d888423b2693f071f83ce09e7d-1.svg)
 
 
 
-= **book/basics/must_know/tables.md**
+= *book/basics/must_know/tables.md*
 
 =  Tables and grids
 
@@ -12081,7 +12081,7 @@ img/5be04bf8770a33256599791fb50751bcb24fa5108c13d0e5e2807b675fed00fb-2.svg)
 
 
 
-= **book/basics/must_know/project_struct.md**
+= *book/basics/must_know/project_struct.md*
 
 =  Project structure
 
@@ -12138,7 +12138,7 @@ can write it there.
 
 ===  Main
 
-**This file should be compiled** to get the whole compiled document.
+*This file should be compiled* to get the whole compiled document.
 
 
 
@@ -12186,7 +12186,7 @@ template.
 
 ==  Cyclic imports
 
-**Important:** Typst _forbids_ cyclic imports. That means you can't import `
+*Important:* Typst _forbids_ cyclic imports. That means you can't import `
 chapter_1  ` from ` chapter_2  ` and ` chapter_2  ` from ` chapter_1  ` at the
 same time!
 
@@ -12195,7 +12195,7 @@ variable from.
 
 
 
-= **book/basics/must_know/box_block.md**
+= *book/basics/must_know/box_block.md*
 
 =  Boxing & Blocking
 
@@ -12269,7 +12269,7 @@ img/e009534c4572064346490dfac659ff94a5a11d7f46af7a2b46c2136d206088c6-1.svg)
 
 
 
-= **book/basics/must_know/index.md**
+= *book/basics/must_know/index.md*
 
 =  Must-know
 
@@ -12280,11 +12280,11 @@ Feel free to skip through things you are sure you will not use.
 
 
 
-= **book/basics/must_know/place.md**
+= *book/basics/must_know/place.md*
 
 =  Placing, Moving, Scale & Hide
 
-This is **a very important section** if you want to do arbitrary things with
+This is *a very important section* if you want to do arbitrary things with
 layout, create custom elements and hacking a way around current Typst
 limitations.
 
@@ -12405,7 +12405,7 @@ img/610672d5e43baa3ce94fe61f8d6dd0307e405c785639359c6a9e84bdd66884ad-1.svg)
 
 
 
-= **book/basics/must_know/spacing.md**
+= *book/basics/must_know/spacing.md*
 
 =  Using spacing
 
@@ -13891,7 +13891,7 @@ img/baac264bb9ab5bfcf402ee4508cb3c18a8e747b17fefa125c9d2998df0f5a283-2.svg)
 
 
 
-= **book/snippets/chapters/page-numbering.md**
+= *book/snippets/chapters/page-numbering.md*
 
 =  Page numbering
 
@@ -13937,7 +13937,7 @@ img/0cd153b35bf7532971dbbb220095812665f44b0ab9cca9d7a8c6c000f83e3e30-3.svg)
 
 
 
-= **book/snippets/layout/page_setup.md**
+= *book/snippets/layout/page_setup.md*
 
 =  Page setup
 
@@ -14012,7 +14012,7 @@ img/b88eae1fcb87b110e66ee6493c60c2c3e0d0c9a7f1c288e739bf1bb8e09c8d70-1.svg)
 
 
 
-= **book/snippets/layout/duplicate.md**
+= *book/snippets/layout/duplicate.md*
 
 =  Duplicate content
 
@@ -14089,7 +14089,7 @@ img/2fdcc2778a936608ed868521793f59311ac54d43e226639db3ab14c6ca37c75f-1.svg)
 
 
 
-= **book/snippets/layout/shapes.md**
+= *book/snippets/layout/shapes.md*
 
 =  Shaped boxes with text
 
@@ -14215,7 +14215,7 @@ img/f40acb7d6d2753b0845c9dd1fb26979c29dd0850448cf585f0c7f1b20acde7ea-1.svg)
 
 
 
-= **book/snippets/layout/multiline_detect.md**
+= *book/snippets/layout/multiline_detect.md*
 
 =  Multiline detection
 
@@ -14268,7 +14268,7 @@ img/8e2a1d9e2e66f654938733a2ed1d9a0dcc771165a60d89c4410f4d970054121c-1.svg)
 
 
 
-= **book/snippets/layout/insert_lines.md**
+= *book/snippets/layout/insert_lines.md*
 
 =  Lines between list items
 
@@ -14295,7 +14295,7 @@ The same approach may be easily adapted to style the enums as you want.
 
 
 
-= **book/snippets/layout/hiding.md**
+= *book/snippets/layout/hiding.md*
 
 =  Hiding things
 
@@ -14315,7 +14315,7 @@ img/6b85fdf4b9ba387543271058b6acb27e202dab93b01c2cd7ac93187c1e8b643c-1.svg)
 
 
 
-= **book/snippets/math/vecs.md**
+= *book/snippets/math/vecs.md*
 
 =  Vectors & Matrices
 
@@ -14403,7 +14403,7 @@ img/98195a6d9cfb93fdc5dca4db04dde22c00b969129e2962c8f7cba9012cd2bd0d-1.svg)
 
 
 
-= **book/snippets/math/operations.md**
+= *book/snippets/math/operations.md*
 
 =  Operations
 
@@ -14441,7 +14441,7 @@ img/36454aba32957127c97710e4fc1db3e6d8c9a558e886b7103915d501004bad76-1.svg)
 
 
 
-= **book/snippets/math/numbering.md**
+= *book/snippets/math/numbering.md*
 
 =  Math Numbering
 
@@ -14559,7 +14559,7 @@ img/c17ccdb8d65b5aa0d0e58b1fba75c67bfc162400ba86ad64f37aa038ad6d8887-1.svg)
 
 
 
-= **book/snippets/math/scripts.md**
+= *book/snippets/math/scripts.md*
 
 =  Scripts
 
@@ -14592,13 +14592,13 @@ img/40b68a1d7f5aeb1c498431996be1b140b3d217ba5b0230b6b73e6fefe64d45cd-1.svg)
 
 
 
-= **book/snippets/math/fonts.md**
+= *book/snippets/math/fonts.md*
 
 =  Fonts
 
 ==  Set math font
 
-**Important:** The font you want to set for math should _contain_ necessary
+*Important:* The font you want to set for math should _contain_ necessary
 math symbols. That should be a special font with math. If it isn't, you are
 very likely to get _an error_ (remember to set ` fallback: false  ` and check
 ` typst fonts  ` to debug the fonts).
@@ -14618,7 +14618,7 @@ img/f1cc8c8afe82aeb14cb0898ff5a83292a7c6a73f8b84cac8dbffa19af0d9370f-1.svg)
 
 
 
-= **book/snippets/math/calligraphic.md**
+= *book/snippets/math/calligraphic.md*
 
 =  Calligraphic letters
 
@@ -14641,7 +14641,7 @@ should be located in Typstonomicon, but it's not large enough).
 
 
 
-= **book/snippets/special/index.md**
+= *book/snippets/special/index.md*
 
 =  Special documents
 
@@ -14692,7 +14692,7 @@ img/d921f4df08e8dab19c9440b3aca6b065cb83ba11f015240b2115a63351ce64ce-1.svg)
 
 
 
-= **book/snippets/text/text_shadows.md**
+= *book/snippets/text/text_shadows.md*
 
 =  Fake italic & Text shadows
 
@@ -14735,7 +14735,7 @@ img/1c00de41a0643ecf254de80601efa4a043302c1e76aedfbf2458a9e30f1c7fd3-1.svg)
 
 
 
-= **book/snippets/text/individual_lang_fonts.md**
+= *book/snippets/text/individual_lang_fonts.md*
 
 =  Individual language fonts
 
@@ -14752,7 +14752,7 @@ img/612267fd94fab114a3e0b75bdb3785b818c0f83427071db0dce086d1b0a6a54a-1.svg)
 
 
 
-= **book/basics/tutorial/templates.md**
+= *book/basics/tutorial/templates.md*
 
 =  Templates
 
@@ -14839,7 +14839,7 @@ typst?ysclid=lj8pur1am7431908794#general) .
 
 
 
-= **book/basics/tutorial/advanced_styling.md**
+= *book/basics/tutorial/advanced_styling.md*
 
 =  Advanced styling
 
@@ -15075,7 +15075,7 @@ img/76ee0cca809299df178ec9d94371c01031d1808a700b39deac5245dd6b83157f-1.svg)
 
 
 
-= **book/basics/tutorial/index.md**
+= *book/basics/tutorial/index.md*
 
 =  Tutorial by Examples
 
@@ -15085,7 +15085,7 @@ words. It is _highly recommended to read the official tutorial anyway_ .
 
 
 
-= **book/basics/tutorial/functions.md**
+= *book/basics/tutorial/functions.md*
 
 =  Functions
 
@@ -15248,7 +15248,7 @@ img/4686939b6d0932f1ebebac4111d8f02919dbc16446def7855c521d8dbf293689-1.svg)
 
 
 
-= **book/basics/tutorial/basic_styling.md**
+= *book/basics/tutorial/basic_styling.md*
 
 =  Basic styling
 
@@ -15386,7 +15386,7 @@ And now we are moving into something much more interesting…
 
 
 
-= **book/basics/tutorial/markup.md**
+= *book/basics/tutorial/markup.md*
 
 =  Markup language
 
@@ -15495,7 +15495,7 @@ img/89114a6e9af45c2eb9db2ef44d0e5ba41e31bf816e72803bd1a9a02120e69fc3-1.svg)
 ![Rendered image](typst-
 img/ad4e424e067a4362e9f145c0c4ba4b7c1b65e17e7d0e7631b6836841607ef85e-1.svg)
 
-**Notice:**
+*Notice:*
 
 
 
@@ -15528,7 +15528,7 @@ img/12cc318c8438cd8e91706013bbd53fee5ee004620a63348cfe2d7dcc3b8a19d4-1.svg)
 
 
 
-= **book/basics/scripting/basics.md**
+= *book/basics/scripting/basics.md*
 
 =  Basics
 
@@ -15600,7 +15600,7 @@ img/e6e4bd179a38f1b3af96f3e7c6308be6f9494f41f43daa26ebabf7a77fc54780-1.svg)
 
 
 
-= **book/basics/scripting/braces.md**
+= *book/basics/scripting/braces.md*
 
 =  Braces, brackets and default
 
@@ -15626,7 +15626,7 @@ We may use same for functions bodies:
 ![Rendered image](typst-
 img/4545deeee45655ee6666feb4773416cd075fe7522cbfd80d0847c615c6c5f30a-1.svg)
 
-**Important:** It is very hard to convert _content_ to _plain text_ , as
+*Important:* It is very hard to convert _content_ to _plain text_ , as
 _content_ may contain _anything_ ! Sp be careful when passing and storing
 content in variables.
 
@@ -15664,7 +15664,7 @@ img/f2bc6aebef06f213c9a8e740266a96e424318d953c09cffba6c5811375e91395-1.svg)
 
 ==  Scopes
 
-**This is a very important thing to remember** .
+*This is a very important thing to remember* .
 
 _You can't use variables outside of scopes they are defined (unless it is file
 root, then you can import them)_ . _Set and show rules affect things in their
@@ -15690,7 +15690,7 @@ img/c25d356831eeea19bb243b87c0f32d062c7086a55b4ee432e41b388d626f875b-1.svg)
 
 ==  Return
 
-**Important** : by default braces return anything that "returns" into them.
+*Important* : by default braces return anything that "returns" into them.
 For example,
 
 
@@ -15752,7 +15752,7 @@ argument is an argument _that has default value_ .
 
 
 
-= **book/basics/scripting/tips.md**
+= *book/basics/scripting/tips.md*
 
 =  Tips
 
@@ -15773,8 +15773,8 @@ Equality doesn't mean objects are really the same, like in many other objects:
 ![Rendered image](typst-
 img/3632e0202f7aae6ed6e2958b7bc6360a6cba31aa3d1aaf169a133ef987c839de-1.svg)
 
-That may be less obvious for dictionaries. In dictionaries **the order may
-matter** , so equality doesn't mean they behave exactly the same way:
+That may be less obvious for dictionaries. In dictionaries *the order may
+matter* , so equality doesn't mean they behave exactly the same way:
 
 
 
@@ -15813,7 +15813,7 @@ img/0fc3ff7d44bbb5bcacd38e921f199699d2ea43ce0a142e79f67314d4f24386a7-1.svg)
 
 
 
-= **book/basics/scripting/conditions.md**
+= *book/basics/scripting/conditions.md*
 
 =  Conditions & loops
 
@@ -15996,11 +15996,11 @@ img/bbb719820f986e52fbf64306536766ecbfd7264d29429a5c62d1bd648a4754c5-1.svg)
 
 
 
-= **book/basics/scripting/types_2.md**
+= *book/basics/scripting/types_2.md*
 
 =  Types, part II
 
-In Typst, most of things are **immutable** . You can't change content, you can
+In Typst, most of things are *immutable* . You can't change content, you can
 just create new using this one (for example, using addition).
 
 Immutability is very important for Typst since it tries to be _as pure
@@ -16119,16 +16119,16 @@ img/6ef41801d46f0b7256bb6913482fde054c811a1850ecae3a446660eb6d1c8850-1.svg)
 
 
 
-= **book/basics/scripting/index.md**
+= *book/basics/scripting/index.md*
 
 =  Scripting
 
-**Typst** has a complete interpreted language inside. One of key aspects of
+*Typst* has a complete interpreted language inside. One of key aspects of
 working with your document in a nicer way
 
 
 
-= **book/basics/scripting/types.md**
+= *book/basics/scripting/types.md*
 
 =  Types, part I
 
@@ -16157,7 +16157,7 @@ We have already seen it. A type that represents what is displayed in document.
 ![Rendered image](typst-
 img/21fd80460de8e8a377a9ef2046a27232ad88924070509ccf8647c9135c9c2fe3-1.svg)
 
-**Important:** It is very hard to convert _content_ to _plain text_ , as
+*Important:* It is very hard to convert _content_ to _plain text_ , as
 _content_ may contain _anything_ ! So be careful when passing and storing
 content in variables.
 
@@ -16322,7 +16322,7 @@ img/f50a22cbea42fded97ab8340f0939e786e5c1cdb5ea531cd4b35b1f732947b7f-1.svg)
 
 
 
-= **book/basics/scripting/arguments.md**
+= *book/basics/scripting/arguments.md*
 
 =  Advanced arguments
 
@@ -16415,7 +16415,7 @@ TODO
 
 
 
-= **book/basics/math/symbols.md**
+= *book/basics/math/symbols.md*
 
 =  Symbols
 
@@ -16493,7 +16493,7 @@ img/8ab0fa590b7a39023b1467e7a376a4810f997f720dd5d221ad83d7e741943b55-1.svg)
 
 
 
-= **book/basics/math/classes.md**
+= *book/basics/math/classes.md*
 
 =  Classes
 
@@ -16547,7 +16547,7 @@ img/86a709c6189649b79005752253a842631eed4722b350e4197116e0be19094035-1.svg)
 
 
 
-= **book/basics/math/operators.md**
+= *book/basics/math/operators.md*
 
 =  Operators
 
@@ -16643,7 +16643,7 @@ img/adf6ee9659a71ecefb64d09f5f27f01acdd193bc79c792abf95fc56821bca4cb-1.svg)
 
 
 
-= **book/basics/math/alignment.md**
+= *book/basics/math/alignment.md*
 
 =  Alignment
 
@@ -16696,11 +16696,11 @@ points in a row, _alternating the alignment twice_ .
 ` & & ` and ` && ` behave exactly the same way. Meanwhile, "multiply by 7" is
 left-aligned because just one ` & ` precedes it.
 
-**Each alignment point simply alternates between right-aligned/left-aligned.**
+*Each alignment point simply alternates between right-aligned/left-aligned.*
 
 
 
-= **book/basics/math/limits.md**
+= *book/basics/math/limits.md*
 
 =  Setting limits
 
@@ -16779,7 +16779,7 @@ img/98d790005c43aa666b392f8a35f1e9564ff315aaf9881ceb309e53bd5db542b1-1.svg)
 
 
 
-= **book/basics/math/index.md**
+= *book/basics/math/index.md*
 
 =  Math
 
@@ -16846,7 +16846,7 @@ To make it short, Typst uses several simple rules:
 
   - All single-letter words _turn into variables_ . That includes any _unicode symbols_ too!
 
-  - All multi-letter words _turn into commands_ . They may be built-in commands (available with math.something outside of math environment). Or they **may be user-defined variables/functions** . If the command **isn't defined** , there will be **compilation error** .
+  - All multi-letter words _turn into commands_ . They may be built-in commands (available with math.something outside of math environment). Or they *may be user-defined variables/functions* . If the command *isn't defined* , there will be *compilation error* .
 
 If you use kebab-case or snake_case for variables you want to use in math, you
 will have to refer to them as #snake-case-variable.
@@ -16933,7 +16933,7 @@ img/ee9fc5a3ec529a9f3e811a70724c1585c294d82454c22ee9343235556f572792-1.svg)
 
 
 
-= **book/basics/math/vec.md**
+= *book/basics/math/vec.md*
 
 =  Vectors, matrices, semicolumn syntax
 
@@ -17027,7 +17027,7 @@ img/ca1e7bdfe61f2ae541843aeff854d40882487bed8fd5b1e094852cf662a759f8-1.svg)
 
 You can specify them the same way as for vectors.
 
-Specify the arguments either before the content, or **after the semicolon** .
+Specify the arguments either before the content, or *after the semicolon* .
 The code will panic if there is no semicolon!
 
 
@@ -17093,7 +17093,7 @@ For example, this will not work:
 
 
 
-= **book/basics/math/sizes.md**
+= *book/basics/math/sizes.md*
 
 =  Location and sizes
 
@@ -17149,7 +17149,7 @@ img/0d16a9d157c9689f4b3cce434ebf89d9a18d67b4916ac0ebfbce3daccb94e709-1.svg)
 
 
 
-= **book/basics/math/grouping.md**
+= *book/basics/math/grouping.md*
 
 =  Grouping
 
@@ -17213,7 +17213,7 @@ img/fd8454b2a97d649525827367f459f3163d830b5db9181178304d5fd2b44fcca1-1.svg)
 
 
 
-= **book/basics/states/states.md**
+= *book/basics/states/states.md*
 
 =  States
 
@@ -17246,7 +17246,7 @@ So instead of
     #compute("x * 2") \
     #compute("x - 5")
 
-**THIS DOES NOT COMPILE:** Variables from outside the function are read-only
+*THIS DOES NOT COMPILE:* Variables from outside the function are read-only
 and cannot be modified
 
 Instead, you should write
@@ -17354,7 +17354,7 @@ img/78e500b80cb85e086a81302e2ce3dad88cb4304d4685b88e3f59111bc71f6748-1.svg)
 
 ===  ID collision
 
-_TLDR;**Never allow colliding states.** _
+_TLDR;*Never allow colliding states.* _
 
 States are described by their id-s, if they are the same, the code will break.
 
@@ -17412,7 +17412,7 @@ img/9185a298f9bcf8c519fa85481b9272e6ef3a00c117a0904d0509920a6abef8b2-1.svg)
 
 
 
-= **book/basics/states/metadata.md**
+= *book/basics/states/metadata.md*
 
 =  Metadata
 
@@ -17435,7 +17435,7 @@ img/ef1c7d9faf74901f6c5266d48ae006167003a22754408a70ae9f9d1088b5fe24-1.svg)
 
 
 
-= **book/basics/states/query.md**
+= *book/basics/states/query.md*
 
 =  Query
 
@@ -17515,7 +17515,7 @@ img/b4d0562911dd308b0d9cbc36ad20ba6ed91fc3c3da5b6259eb6721f3a53a18e3-1.svg)
 
 
 
-= **book/basics/states/index.md**
+= *book/basics/states/index.md*
 
 =  States & Query
 
@@ -17535,7 +17535,7 @@ knowledge comes close to the Dark Arts of Typst!
 
 
 
-= **book/basics/states/counters.md**
+= *book/basics/states/counters.md*
 
 =  Counters
 
@@ -17662,7 +17662,7 @@ img/0f178f614e49a7400d646926705364a92ca3d4d888423b2693f071f83ce09e7d-1.svg)
 
 
 
-= **book/basics/must_know/tables.md**
+= *book/basics/must_know/tables.md*
 
 =  Tables and grids
 
@@ -17806,7 +17806,7 @@ img/5be04bf8770a33256599791fb50751bcb24fa5108c13d0e5e2807b675fed00fb-2.svg)
 
 
 
-= **book/basics/must_know/project_struct.md**
+= *book/basics/must_know/project_struct.md*
 
 =  Project structure
 
@@ -17863,7 +17863,7 @@ can write it there.
 
 ===  Main
 
-**This file should be compiled** to get the whole compiled document.
+*This file should be compiled* to get the whole compiled document.
 
 
 
@@ -17911,7 +17911,7 @@ template.
 
 ==  Cyclic imports
 
-**Important:** Typst _forbids_ cyclic imports. That means you can't import `
+*Important:* Typst _forbids_ cyclic imports. That means you can't import `
 chapter_1  ` from ` chapter_2  ` and ` chapter_2  ` from ` chapter_1  ` at the
 same time!
 
@@ -17920,7 +17920,7 @@ variable from.
 
 
 
-= **book/basics/must_know/box_block.md**
+= *book/basics/must_know/box_block.md*
 
 =  Boxing & Blocking
 
@@ -17994,7 +17994,7 @@ img/e009534c4572064346490dfac659ff94a5a11d7f46af7a2b46c2136d206088c6-1.svg)
 
 
 
-= **book/basics/must_know/index.md**
+= *book/basics/must_know/index.md*
 
 =  Must-know
 
@@ -18005,11 +18005,11 @@ Feel free to skip through things you are sure you will not use.
 
 
 
-= **book/basics/must_know/place.md**
+= *book/basics/must_know/place.md*
 
 =  Placing, Moving, Scale & Hide
 
-This is **a very important section** if you want to do arbitrary things with
+This is *a very important section* if you want to do arbitrary things with
 layout, create custom elements and hacking a way around current Typst
 limitations.
 
@@ -18130,7 +18130,7 @@ img/610672d5e43baa3ce94fe61f8d6dd0307e405c785639359c6a9e84bdd66884ad-1.svg)
 
 
 
-= **book/basics/must_know/spacing.md**
+= *book/basics/must_know/spacing.md*
 
 =  Using spacing
 
@@ -18761,7 +18761,7 @@ img/98195a6d9cfb93fdc5dca4db04dde22c00b969129e2962c8f7cba9012cd2bd0d-1.svg)
 
 
 
-= **book/snippets/math/operations.md**
+= *book/snippets/math/operations.md*
 
 =  Operations
 
@@ -18799,7 +18799,7 @@ img/36454aba32957127c97710e4fc1db3e6d8c9a558e886b7103915d501004bad76-1.svg)
 
 
 
-= **book/snippets/math/numbering.md**
+= *book/snippets/math/numbering.md*
 
 =  Math Numbering
 
@@ -18917,7 +18917,7 @@ img/c17ccdb8d65b5aa0d0e58b1fba75c67bfc162400ba86ad64f37aa038ad6d8887-1.svg)
 
 
 
-= **book/snippets/math/scripts.md**
+= *book/snippets/math/scripts.md*
 
 =  Scripts
 
@@ -18950,13 +18950,13 @@ img/40b68a1d7f5aeb1c498431996be1b140b3d217ba5b0230b6b73e6fefe64d45cd-1.svg)
 
 
 
-= **book/snippets/math/fonts.md**
+= *book/snippets/math/fonts.md*
 
 =  Fonts
 
 ==  Set math font
 
-**Important:** The font you want to set for math should _contain_ necessary
+*Important:* The font you want to set for math should _contain_ necessary
 math symbols. That should be a special font with math. If it isn't, you are
 very likely to get _an error_ (remember to set ` fallback: false  ` and check
 ` typst fonts  ` to debug the fonts).
@@ -18976,7 +18976,7 @@ img/f1cc8c8afe82aeb14cb0898ff5a83292a7c6a73f8b84cac8dbffa19af0d9370f-1.svg)
 
 
 
-= **book/snippets/math/calligraphic.md**
+= *book/snippets/math/calligraphic.md*
 
 =  Calligraphic letters
 
@@ -18999,7 +18999,7 @@ should be located in Typstonomicon, but it's not large enough).
 
 
 
-= **book/snippets/special/index.md**
+= *book/snippets/special/index.md*
 
 =  Special documents
 
@@ -19050,7 +19050,7 @@ img/d921f4df08e8dab19c9440b3aca6b065cb83ba11f015240b2115a63351ce64ce-1.svg)
 
 
 
-= **book/snippets/text/text_shadows.md**
+= *book/snippets/text/text_shadows.md*
 
 =  Fake italic & Text shadows
 
@@ -19093,7 +19093,7 @@ img/1c00de41a0643ecf254de80601efa4a043302c1e76aedfbf2458a9e30f1c7fd3-1.svg)
 
 
 
-= **book/snippets/text/individual_lang_fonts.md**
+= *book/snippets/text/individual_lang_fonts.md*
 
 =  Individual language fonts
 
@@ -19110,7 +19110,7 @@ img/612267fd94fab114a3e0b75bdb3785b818c0f83427071db0dce086d1b0a6a54a-1.svg)
 
 
 
-= **book/basics/tutorial/templates.md**
+= *book/basics/tutorial/templates.md*
 
 =  Templates
 
@@ -19197,7 +19197,7 @@ typst?ysclid=lj8pur1am7431908794#general) .
 
 
 
-= **book/basics/tutorial/advanced_styling.md**
+= *book/basics/tutorial/advanced_styling.md*
 
 =  Advanced styling
 
@@ -19433,7 +19433,7 @@ img/76ee0cca809299df178ec9d94371c01031d1808a700b39deac5245dd6b83157f-1.svg)
 
 
 
-= **book/basics/tutorial/index.md**
+= *book/basics/tutorial/index.md*
 
 =  Tutorial by Examples
 
@@ -19443,7 +19443,7 @@ words. It is _highly recommended to read the official tutorial anyway_ .
 
 
 
-= **book/basics/tutorial/functions.md**
+= *book/basics/tutorial/functions.md*
 
 =  Functions
 
@@ -19606,7 +19606,7 @@ img/4686939b6d0932f1ebebac4111d8f02919dbc16446def7855c521d8dbf293689-1.svg)
 
 
 
-= **book/basics/tutorial/basic_styling.md**
+= *book/basics/tutorial/basic_styling.md*
 
 =  Basic styling
 
@@ -19744,7 +19744,7 @@ And now we are moving into something much more interesting…
 
 
 
-= **book/basics/tutorial/markup.md**
+= *book/basics/tutorial/markup.md*
 
 =  Markup language
 
@@ -19853,7 +19853,7 @@ img/89114a6e9af45c2eb9db2ef44d0e5ba41e31bf816e72803bd1a9a02120e69fc3-1.svg)
 ![Rendered image](typst-
 img/ad4e424e067a4362e9f145c0c4ba4b7c1b65e17e7d0e7631b6836841607ef85e-1.svg)
 
-**Notice:**
+*Notice:*
 
 
 
@@ -19886,7 +19886,7 @@ img/12cc318c8438cd8e91706013bbd53fee5ee004620a63348cfe2d7dcc3b8a19d4-1.svg)
 
 
 
-= **book/basics/scripting/basics.md**
+= *book/basics/scripting/basics.md*
 
 =  Basics
 
@@ -19958,7 +19958,7 @@ img/e6e4bd179a38f1b3af96f3e7c6308be6f9494f41f43daa26ebabf7a77fc54780-1.svg)
 
 
 
-= **book/basics/scripting/braces.md**
+= *book/basics/scripting/braces.md*
 
 =  Braces, brackets and default
 
@@ -19984,7 +19984,7 @@ We may use same for functions bodies:
 ![Rendered image](typst-
 img/4545deeee45655ee6666feb4773416cd075fe7522cbfd80d0847c615c6c5f30a-1.svg)
 
-**Important:** It is very hard to convert _content_ to _plain text_ , as
+*Important:* It is very hard to convert _content_ to _plain text_ , as
 _content_ may contain _anything_ ! Sp be careful when passing and storing
 content in variables.
 
@@ -20022,7 +20022,7 @@ img/f2bc6aebef06f213c9a8e740266a96e424318d953c09cffba6c5811375e91395-1.svg)
 
 ==  Scopes
 
-**This is a very important thing to remember** .
+*This is a very important thing to remember* .
 
 _You can't use variables outside of scopes they are defined (unless it is file
 root, then you can import them)_ . _Set and show rules affect things in their
@@ -20048,7 +20048,7 @@ img/c25d356831eeea19bb243b87c0f32d062c7086a55b4ee432e41b388d626f875b-1.svg)
 
 ==  Return
 
-**Important** : by default braces return anything that "returns" into them.
+*Important* : by default braces return anything that "returns" into them.
 For example,
 
 
@@ -20110,7 +20110,7 @@ argument is an argument _that has default value_ .
 
 
 
-= **book/basics/scripting/tips.md**
+= *book/basics/scripting/tips.md*
 
 =  Tips
 
@@ -20131,8 +20131,8 @@ Equality doesn't mean objects are really the same, like in many other objects:
 ![Rendered image](typst-
 img/3632e0202f7aae6ed6e2958b7bc6360a6cba31aa3d1aaf169a133ef987c839de-1.svg)
 
-That may be less obvious for dictionaries. In dictionaries **the order may
-matter** , so equality doesn't mean they behave exactly the same way:
+That may be less obvious for dictionaries. In dictionaries *the order may
+matter* , so equality doesn't mean they behave exactly the same way:
 
 
 
@@ -20171,7 +20171,7 @@ img/0fc3ff7d44bbb5bcacd38e921f199699d2ea43ce0a142e79f67314d4f24386a7-1.svg)
 
 
 
-= **book/basics/scripting/conditions.md**
+= *book/basics/scripting/conditions.md*
 
 =  Conditions & loops
 
@@ -20354,11 +20354,11 @@ img/bbb719820f986e52fbf64306536766ecbfd7264d29429a5c62d1bd648a4754c5-1.svg)
 
 
 
-= **book/basics/scripting/types_2.md**
+= *book/basics/scripting/types_2.md*
 
 =  Types, part II
 
-In Typst, most of things are **immutable** . You can't change content, you can
+In Typst, most of things are *immutable* . You can't change content, you can
 just create new using this one (for example, using addition).
 
 Immutability is very important for Typst since it tries to be _as pure
@@ -20477,16 +20477,16 @@ img/6ef41801d46f0b7256bb6913482fde054c811a1850ecae3a446660eb6d1c8850-1.svg)
 
 
 
-= **book/basics/scripting/index.md**
+= *book/basics/scripting/index.md*
 
 =  Scripting
 
-**Typst** has a complete interpreted language inside. One of key aspects of
+*Typst* has a complete interpreted language inside. One of key aspects of
 working with your document in a nicer way
 
 
 
-= **book/basics/scripting/types.md**
+= *book/basics/scripting/types.md*
 
 =  Types, part I
 
@@ -20515,7 +20515,7 @@ We have already seen it. A type that represents what is displayed in document.
 ![Rendered image](typst-
 img/21fd80460de8e8a377a9ef2046a27232ad88924070509ccf8647c9135c9c2fe3-1.svg)
 
-**Important:** It is very hard to convert _content_ to _plain text_ , as
+*Important:* It is very hard to convert _content_ to _plain text_ , as
 _content_ may contain _anything_ ! So be careful when passing and storing
 content in variables.
 
@@ -20680,7 +20680,7 @@ img/f50a22cbea42fded97ab8340f0939e786e5c1cdb5ea531cd4b35b1f732947b7f-1.svg)
 
 
 
-= **book/basics/scripting/arguments.md**
+= *book/basics/scripting/arguments.md*
 
 =  Advanced arguments
 
@@ -20773,7 +20773,7 @@ TODO
 
 
 
-= **book/basics/math/symbols.md**
+= *book/basics/math/symbols.md*
 
 =  Symbols
 
@@ -20851,7 +20851,7 @@ img/8ab0fa590b7a39023b1467e7a376a4810f997f720dd5d221ad83d7e741943b55-1.svg)
 
 
 
-= **book/basics/math/classes.md**
+= *book/basics/math/classes.md*
 
 =  Classes
 
@@ -20905,7 +20905,7 @@ img/86a709c6189649b79005752253a842631eed4722b350e4197116e0be19094035-1.svg)
 
 
 
-= **book/basics/math/operators.md**
+= *book/basics/math/operators.md*
 
 =  Operators
 
@@ -21001,7 +21001,7 @@ img/adf6ee9659a71ecefb64d09f5f27f01acdd193bc79c792abf95fc56821bca4cb-1.svg)
 
 
 
-= **book/basics/math/alignment.md**
+= *book/basics/math/alignment.md*
 
 =  Alignment
 
@@ -21054,11 +21054,11 @@ points in a row, _alternating the alignment twice_ .
 ` & & ` and ` && ` behave exactly the same way. Meanwhile, "multiply by 7" is
 left-aligned because just one ` & ` precedes it.
 
-**Each alignment point simply alternates between right-aligned/left-aligned.**
+*Each alignment point simply alternates between right-aligned/left-aligned.*
 
 
 
-= **book/basics/math/limits.md**
+= *book/basics/math/limits.md*
 
 =  Setting limits
 
@@ -21137,7 +21137,7 @@ img/98d790005c43aa666b392f8a35f1e9564ff315aaf9881ceb309e53bd5db542b1-1.svg)
 
 
 
-= **book/basics/math/index.md**
+= *book/basics/math/index.md*
 
 =  Math
 
@@ -21204,7 +21204,7 @@ To make it short, Typst uses several simple rules:
 
   - All single-letter words _turn into variables_ . That includes any _unicode symbols_ too!
 
-  - All multi-letter words _turn into commands_ . They may be built-in commands (available with math.something outside of math environment). Or they **may be user-defined variables/functions** . If the command **isn't defined** , there will be **compilation error** .
+  - All multi-letter words _turn into commands_ . They may be built-in commands (available with math.something outside of math environment). Or they *may be user-defined variables/functions* . If the command *isn't defined* , there will be *compilation error* .
 
 If you use kebab-case or snake_case for variables you want to use in math, you
 will have to refer to them as #snake-case-variable.
@@ -21291,7 +21291,7 @@ img/ee9fc5a3ec529a9f3e811a70724c1585c294d82454c22ee9343235556f572792-1.svg)
 
 
 
-= **book/basics/math/vec.md**
+= *book/basics/math/vec.md*
 
 =  Vectors, matrices, semicolumn syntax
 
@@ -21385,7 +21385,7 @@ img/ca1e7bdfe61f2ae541843aeff854d40882487bed8fd5b1e094852cf662a759f8-1.svg)
 
 You can specify them the same way as for vectors.
 
-Specify the arguments either before the content, or **after the semicolon** .
+Specify the arguments either before the content, or *after the semicolon* .
 The code will panic if there is no semicolon!
 
 
@@ -21451,7 +21451,7 @@ For example, this will not work:
 
 
 
-= **book/basics/math/sizes.md**
+= *book/basics/math/sizes.md*
 
 =  Location and sizes
 
@@ -21507,7 +21507,7 @@ img/0d16a9d157c9689f4b3cce434ebf89d9a18d67b4916ac0ebfbce3daccb94e709-1.svg)
 
 
 
-= **book/basics/math/grouping.md**
+= *book/basics/math/grouping.md*
 
 =  Grouping
 
@@ -21571,7 +21571,7 @@ img/fd8454b2a97d649525827367f459f3163d830b5db9181178304d5fd2b44fcca1-1.svg)
 
 
 
-= **book/basics/states/states.md**
+= *book/basics/states/states.md*
 
 =  States
 
@@ -21604,7 +21604,7 @@ So instead of
     #compute("x * 2") \
     #compute("x - 5")
 
-**THIS DOES NOT COMPILE:** Variables from outside the function are read-only
+*THIS DOES NOT COMPILE:* Variables from outside the function are read-only
 and cannot be modified
 
 Instead, you should write
@@ -21712,7 +21712,7 @@ img/78e500b80cb85e086a81302e2ce3dad88cb4304d4685b88e3f59111bc71f6748-1.svg)
 
 ===  ID collision
 
-_TLDR;**Never allow colliding states.** _
+_TLDR;*Never allow colliding states.* _
 
 States are described by their id-s, if they are the same, the code will break.
 
@@ -21770,7 +21770,7 @@ img/9185a298f9bcf8c519fa85481b9272e6ef3a00c117a0904d0509920a6abef8b2-1.svg)
 
 
 
-= **book/basics/states/metadata.md**
+= *book/basics/states/metadata.md*
 
 =  Metadata
 
@@ -21793,7 +21793,7 @@ img/ef1c7d9faf74901f6c5266d48ae006167003a22754408a70ae9f9d1088b5fe24-1.svg)
 
 
 
-= **book/basics/states/query.md**
+= *book/basics/states/query.md*
 
 =  Query
 
@@ -21873,7 +21873,7 @@ img/b4d0562911dd308b0d9cbc36ad20ba6ed91fc3c3da5b6259eb6721f3a53a18e3-1.svg)
 
 
 
-= **book/basics/states/index.md**
+= *book/basics/states/index.md*
 
 =  States & Query
 
@@ -21893,7 +21893,7 @@ knowledge comes close to the Dark Arts of Typst!
 
 
 
-= **book/basics/states/counters.md**
+= *book/basics/states/counters.md*
 
 =  Counters
 
@@ -22020,7 +22020,7 @@ img/0f178f614e49a7400d646926705364a92ca3d4d888423b2693f071f83ce09e7d-1.svg)
 
 
 
-= **book/basics/must_know/tables.md**
+= *book/basics/must_know/tables.md*
 
 =  Tables and grids
 
@@ -22164,7 +22164,7 @@ img/5be04bf8770a33256599791fb50751bcb24fa5108c13d0e5e2807b675fed00fb-2.svg)
 
 
 
-= **book/basics/must_know/project_struct.md**
+= *book/basics/must_know/project_struct.md*
 
 =  Project structure
 
@@ -22221,7 +22221,7 @@ can write it there.
 
 ===  Main
 
-**This file should be compiled** to get the whole compiled document.
+*This file should be compiled* to get the whole compiled document.
 
 
 
@@ -22269,7 +22269,7 @@ template.
 
 ==  Cyclic imports
 
-**Important:** Typst _forbids_ cyclic imports. That means you can't import `
+*Important:* Typst _forbids_ cyclic imports. That means you can't import `
 chapter_1  ` from ` chapter_2  ` and ` chapter_2  ` from ` chapter_1  ` at the
 same time!
 
@@ -22278,7 +22278,7 @@ variable from.
 
 
 
-= **book/basics/must_know/box_block.md**
+= *book/basics/must_know/box_block.md*
 
 =  Boxing & Blocking
 
@@ -22352,7 +22352,7 @@ img/e009534c4572064346490dfac659ff94a5a11d7f46af7a2b46c2136d206088c6-1.svg)
 
 
 
-= **book/basics/must_know/index.md**
+= *book/basics/must_know/index.md*
 
 =  Must-know
 
@@ -22363,11 +22363,11 @@ Feel free to skip through things you are sure you will not use.
 
 
 
-= **book/basics/must_know/place.md**
+= *book/basics/must_know/place.md*
 
 =  Placing, Moving, Scale & Hide
 
-This is **a very important section** if you want to do arbitrary things with
+This is *a very important section* if you want to do arbitrary things with
 layout, create custom elements and hacking a way around current Typst
 limitations.
 
@@ -22488,7 +22488,7 @@ img/610672d5e43baa3ce94fe61f8d6dd0307e405c785639359c6a9e84bdd66884ad-1.svg)
 
 
 
-= **book/basics/must_know/spacing.md**
+= *book/basics/must_know/spacing.md*
 
 =  Using spacing
 
@@ -22689,7 +22689,7 @@ img/98195a6d9cfb93fdc5dca4db04dde22c00b969129e2962c8f7cba9012cd2bd0d-1.svg)
 
 
 
-= **book/snippets/math/operations.md**
+= *book/snippets/math/operations.md*
 
 =  Operations
 
@@ -22727,7 +22727,7 @@ img/36454aba32957127c97710e4fc1db3e6d8c9a558e886b7103915d501004bad76-1.svg)
 
 
 
-= **book/snippets/math/numbering.md**
+= *book/snippets/math/numbering.md*
 
 =  Math Numbering
 
@@ -22845,7 +22845,7 @@ img/c17ccdb8d65b5aa0d0e58b1fba75c67bfc162400ba86ad64f37aa038ad6d8887-1.svg)
 
 
 
-= **book/snippets/math/scripts.md**
+= *book/snippets/math/scripts.md*
 
 =  Scripts
 
@@ -22878,13 +22878,13 @@ img/40b68a1d7f5aeb1c498431996be1b140b3d217ba5b0230b6b73e6fefe64d45cd-1.svg)
 
 
 
-= **book/snippets/math/fonts.md**
+= *book/snippets/math/fonts.md*
 
 =  Fonts
 
 ==  Set math font
 
-**Important:** The font you want to set for math should _contain_ necessary
+*Important:* The font you want to set for math should _contain_ necessary
 math symbols. That should be a special font with math. If it isn't, you are
 very likely to get _an error_ (remember to set ` fallback: false  ` and check
 ` typst fonts  ` to debug the fonts).
@@ -22904,7 +22904,7 @@ img/f1cc8c8afe82aeb14cb0898ff5a83292a7c6a73f8b84cac8dbffa19af0d9370f-1.svg)
 
 
 
-= **book/snippets/math/calligraphic.md**
+= *book/snippets/math/calligraphic.md*
 
 =  Calligraphic letters
 
@@ -22927,7 +22927,7 @@ should be located in Typstonomicon, but it's not large enough).
 
 
 
-= **book/snippets/special/index.md**
+= *book/snippets/special/index.md*
 
 =  Special documents
 
@@ -22978,7 +22978,7 @@ img/d921f4df08e8dab19c9440b3aca6b065cb83ba11f015240b2115a63351ce64ce-1.svg)
 
 
 
-= **book/snippets/text/text_shadows.md**
+= *book/snippets/text/text_shadows.md*
 
 =  Fake italic & Text shadows
 
@@ -23021,7 +23021,7 @@ img/1c00de41a0643ecf254de80601efa4a043302c1e76aedfbf2458a9e30f1c7fd3-1.svg)
 
 
 
-= **book/snippets/text/individual_lang_fonts.md**
+= *book/snippets/text/individual_lang_fonts.md*
 
 =  Individual language fonts
 
@@ -23038,7 +23038,7 @@ img/612267fd94fab114a3e0b75bdb3785b818c0f83427071db0dce086d1b0a6a54a-1.svg)
 
 
 
-= **book/basics/tutorial/templates.md**
+= *book/basics/tutorial/templates.md*
 
 =  Templates
 
@@ -23125,7 +23125,7 @@ typst?ysclid=lj8pur1am7431908794#general) .
 
 
 
-= **book/basics/tutorial/advanced_styling.md**
+= *book/basics/tutorial/advanced_styling.md*
 
 =  Advanced styling
 
@@ -23361,7 +23361,7 @@ img/76ee0cca809299df178ec9d94371c01031d1808a700b39deac5245dd6b83157f-1.svg)
 
 
 
-= **book/basics/tutorial/index.md**
+= *book/basics/tutorial/index.md*
 
 =  Tutorial by Examples
 
@@ -23371,7 +23371,7 @@ words. It is _highly recommended to read the official tutorial anyway_ .
 
 
 
-= **book/basics/tutorial/functions.md**
+= *book/basics/tutorial/functions.md*
 
 =  Functions
 
@@ -23534,7 +23534,7 @@ img/4686939b6d0932f1ebebac4111d8f02919dbc16446def7855c521d8dbf293689-1.svg)
 
 
 
-= **book/basics/tutorial/basic_styling.md**
+= *book/basics/tutorial/basic_styling.md*
 
 =  Basic styling
 
@@ -23672,7 +23672,7 @@ And now we are moving into something much more interesting…
 
 
 
-= **book/basics/tutorial/markup.md**
+= *book/basics/tutorial/markup.md*
 
 =  Markup language
 
@@ -23781,7 +23781,7 @@ img/89114a6e9af45c2eb9db2ef44d0e5ba41e31bf816e72803bd1a9a02120e69fc3-1.svg)
 ![Rendered image](typst-
 img/ad4e424e067a4362e9f145c0c4ba4b7c1b65e17e7d0e7631b6836841607ef85e-1.svg)
 
-**Notice:**
+*Notice:*
 
 
 
@@ -23814,7 +23814,7 @@ img/12cc318c8438cd8e91706013bbd53fee5ee004620a63348cfe2d7dcc3b8a19d4-1.svg)
 
 
 
-= **book/basics/scripting/basics.md**
+= *book/basics/scripting/basics.md*
 
 =  Basics
 
@@ -23886,7 +23886,7 @@ img/e6e4bd179a38f1b3af96f3e7c6308be6f9494f41f43daa26ebabf7a77fc54780-1.svg)
 
 
 
-= **book/basics/scripting/braces.md**
+= *book/basics/scripting/braces.md*
 
 =  Braces, brackets and default
 
@@ -23912,7 +23912,7 @@ We may use same for functions bodies:
 ![Rendered image](typst-
 img/4545deeee45655ee6666feb4773416cd075fe7522cbfd80d0847c615c6c5f30a-1.svg)
 
-**Important:** It is very hard to convert _content_ to _plain text_ , as
+*Important:* It is very hard to convert _content_ to _plain text_ , as
 _content_ may contain _anything_ ! Sp be careful when passing and storing
 content in variables.
 
@@ -23950,7 +23950,7 @@ img/f2bc6aebef06f213c9a8e740266a96e424318d953c09cffba6c5811375e91395-1.svg)
 
 ==  Scopes
 
-**This is a very important thing to remember** .
+*This is a very important thing to remember* .
 
 _You can't use variables outside of scopes they are defined (unless it is file
 root, then you can import them)_ . _Set and show rules affect things in their
@@ -23976,7 +23976,7 @@ img/c25d356831eeea19bb243b87c0f32d062c7086a55b4ee432e41b388d626f875b-1.svg)
 
 ==  Return
 
-**Important** : by default braces return anything that "returns" into them.
+*Important* : by default braces return anything that "returns" into them.
 For example,
 
 
@@ -24038,7 +24038,7 @@ argument is an argument _that has default value_ .
 
 
 
-= **book/basics/scripting/tips.md**
+= *book/basics/scripting/tips.md*
 
 =  Tips
 
@@ -24059,8 +24059,8 @@ Equality doesn't mean objects are really the same, like in many other objects:
 ![Rendered image](typst-
 img/3632e0202f7aae6ed6e2958b7bc6360a6cba31aa3d1aaf169a133ef987c839de-1.svg)
 
-That may be less obvious for dictionaries. In dictionaries **the order may
-matter** , so equality doesn't mean they behave exactly the same way:
+That may be less obvious for dictionaries. In dictionaries *the order may
+matter* , so equality doesn't mean they behave exactly the same way:
 
 
 
@@ -24099,7 +24099,7 @@ img/0fc3ff7d44bbb5bcacd38e921f199699d2ea43ce0a142e79f67314d4f24386a7-1.svg)
 
 
 
-= **book/basics/scripting/conditions.md**
+= *book/basics/scripting/conditions.md*
 
 =  Conditions & loops
 
@@ -24282,11 +24282,11 @@ img/bbb719820f986e52fbf64306536766ecbfd7264d29429a5c62d1bd648a4754c5-1.svg)
 
 
 
-= **book/basics/scripting/types_2.md**
+= *book/basics/scripting/types_2.md*
 
 =  Types, part II
 
-In Typst, most of things are **immutable** . You can't change content, you can
+In Typst, most of things are *immutable* . You can't change content, you can
 just create new using this one (for example, using addition).
 
 Immutability is very important for Typst since it tries to be _as pure
@@ -24405,16 +24405,16 @@ img/6ef41801d46f0b7256bb6913482fde054c811a1850ecae3a446660eb6d1c8850-1.svg)
 
 
 
-= **book/basics/scripting/index.md**
+= *book/basics/scripting/index.md*
 
 =  Scripting
 
-**Typst** has a complete interpreted language inside. One of key aspects of
+*Typst* has a complete interpreted language inside. One of key aspects of
 working with your document in a nicer way
 
 
 
-= **book/basics/scripting/types.md**
+= *book/basics/scripting/types.md*
 
 =  Types, part I
 
@@ -24443,7 +24443,7 @@ We have already seen it. A type that represents what is displayed in document.
 ![Rendered image](typst-
 img/21fd80460de8e8a377a9ef2046a27232ad88924070509ccf8647c9135c9c2fe3-1.svg)
 
-**Important:** It is very hard to convert _content_ to _plain text_ , as
+*Important:* It is very hard to convert _content_ to _plain text_ , as
 _content_ may contain _anything_ ! So be careful when passing and storing
 content in variables.
 
@@ -24608,7 +24608,7 @@ img/f50a22cbea42fded97ab8340f0939e786e5c1cdb5ea531cd4b35b1f732947b7f-1.svg)
 
 
 
-= **book/basics/scripting/arguments.md**
+= *book/basics/scripting/arguments.md*
 
 =  Advanced arguments
 
@@ -24701,7 +24701,7 @@ TODO
 
 
 
-= **book/basics/math/symbols.md**
+= *book/basics/math/symbols.md*
 
 =  Symbols
 
@@ -24779,7 +24779,7 @@ img/8ab0fa590b7a39023b1467e7a376a4810f997f720dd5d221ad83d7e741943b55-1.svg)
 
 
 
-= **book/basics/math/classes.md**
+= *book/basics/math/classes.md*
 
 =  Classes
 
@@ -24833,7 +24833,7 @@ img/86a709c6189649b79005752253a842631eed4722b350e4197116e0be19094035-1.svg)
 
 
 
-= **book/basics/math/operators.md**
+= *book/basics/math/operators.md*
 
 =  Operators
 
@@ -24929,7 +24929,7 @@ img/adf6ee9659a71ecefb64d09f5f27f01acdd193bc79c792abf95fc56821bca4cb-1.svg)
 
 
 
-= **book/basics/math/alignment.md**
+= *book/basics/math/alignment.md*
 
 =  Alignment
 
@@ -24982,11 +24982,11 @@ points in a row, _alternating the alignment twice_ .
 ` & & ` and ` && ` behave exactly the same way. Meanwhile, "multiply by 7" is
 left-aligned because just one ` & ` precedes it.
 
-**Each alignment point simply alternates between right-aligned/left-aligned.**
+*Each alignment point simply alternates between right-aligned/left-aligned.*
 
 
 
-= **book/basics/math/limits.md**
+= *book/basics/math/limits.md*
 
 =  Setting limits
 
@@ -25065,7 +25065,7 @@ img/98d790005c43aa666b392f8a35f1e9564ff315aaf9881ceb309e53bd5db542b1-1.svg)
 
 
 
-= **book/basics/math/index.md**
+= *book/basics/math/index.md*
 
 =  Math
 
@@ -25132,7 +25132,7 @@ To make it short, Typst uses several simple rules:
 
   - All single-letter words _turn into variables_ . That includes any _unicode symbols_ too!
 
-  - All multi-letter words _turn into commands_ . They may be built-in commands (available with math.something outside of math environment). Or they **may be user-defined variables/functions** . If the command **isn't defined** , there will be **compilation error** .
+  - All multi-letter words _turn into commands_ . They may be built-in commands (available with math.something outside of math environment). Or they *may be user-defined variables/functions* . If the command *isn't defined* , there will be *compilation error* .
 
 If you use kebab-case or snake_case for variables you want to use in math, you
 will have to refer to them as #snake-case-variable.
@@ -25219,7 +25219,7 @@ img/ee9fc5a3ec529a9f3e811a70724c1585c294d82454c22ee9343235556f572792-1.svg)
 
 
 
-= **book/basics/math/vec.md**
+= *book/basics/math/vec.md*
 
 =  Vectors, matrices, semicolumn syntax
 
@@ -25313,7 +25313,7 @@ img/ca1e7bdfe61f2ae541843aeff854d40882487bed8fd5b1e094852cf662a759f8-1.svg)
 
 You can specify them the same way as for vectors.
 
-Specify the arguments either before the content, or **after the semicolon** .
+Specify the arguments either before the content, or *after the semicolon* .
 The code will panic if there is no semicolon!
 
 
@@ -25379,7 +25379,7 @@ For example, this will not work:
 
 
 
-= **book/basics/math/sizes.md**
+= *book/basics/math/sizes.md*
 
 =  Location and sizes
 
@@ -25435,7 +25435,7 @@ img/0d16a9d157c9689f4b3cce434ebf89d9a18d67b4916ac0ebfbce3daccb94e709-1.svg)
 
 
 
-= **book/basics/math/grouping.md**
+= *book/basics/math/grouping.md*
 
 =  Grouping
 
@@ -25499,7 +25499,7 @@ img/fd8454b2a97d649525827367f459f3163d830b5db9181178304d5fd2b44fcca1-1.svg)
 
 
 
-= **book/basics/states/states.md**
+= *book/basics/states/states.md*
 
 =  States
 
@@ -25532,7 +25532,7 @@ So instead of
     #compute("x * 2") \
     #compute("x - 5")
 
-**THIS DOES NOT COMPILE:** Variables from outside the function are read-only
+*THIS DOES NOT COMPILE:* Variables from outside the function are read-only
 and cannot be modified
 
 Instead, you should write
@@ -25640,7 +25640,7 @@ img/78e500b80cb85e086a81302e2ce3dad88cb4304d4685b88e3f59111bc71f6748-1.svg)
 
 ===  ID collision
 
-_TLDR;**Never allow colliding states.** _
+_TLDR;*Never allow colliding states.* _
 
 States are described by their id-s, if they are the same, the code will break.
 
@@ -25698,7 +25698,7 @@ img/9185a298f9bcf8c519fa85481b9272e6ef3a00c117a0904d0509920a6abef8b2-1.svg)
 
 
 
-= **book/basics/states/metadata.md**
+= *book/basics/states/metadata.md*
 
 =  Metadata
 
@@ -25721,7 +25721,7 @@ img/ef1c7d9faf74901f6c5266d48ae006167003a22754408a70ae9f9d1088b5fe24-1.svg)
 
 
 
-= **book/basics/states/query.md**
+= *book/basics/states/query.md*
 
 =  Query
 
@@ -25801,7 +25801,7 @@ img/b4d0562911dd308b0d9cbc36ad20ba6ed91fc3c3da5b6259eb6721f3a53a18e3-1.svg)
 
 
 
-= **book/basics/states/index.md**
+= *book/basics/states/index.md*
 
 =  States & Query
 
@@ -25821,7 +25821,7 @@ knowledge comes close to the Dark Arts of Typst!
 
 
 
-= **book/basics/states/counters.md**
+= *book/basics/states/counters.md*
 
 =  Counters
 
@@ -25948,7 +25948,7 @@ img/0f178f614e49a7400d646926705364a92ca3d4d888423b2693f071f83ce09e7d-1.svg)
 
 
 
-= **book/basics/must_know/tables.md**
+= *book/basics/must_know/tables.md*
 
 =  Tables and grids
 
@@ -26092,7 +26092,7 @@ img/5be04bf8770a33256599791fb50751bcb24fa5108c13d0e5e2807b675fed00fb-2.svg)
 
 
 
-= **book/basics/must_know/project_struct.md**
+= *book/basics/must_know/project_struct.md*
 
 =  Project structure
 
@@ -26149,7 +26149,7 @@ can write it there.
 
 ===  Main
 
-**This file should be compiled** to get the whole compiled document.
+*This file should be compiled* to get the whole compiled document.
 
 
 
@@ -26197,7 +26197,7 @@ template.
 
 ==  Cyclic imports
 
-**Important:** Typst _forbids_ cyclic imports. That means you can't import `
+*Important:* Typst _forbids_ cyclic imports. That means you can't import `
 chapter_1  ` from ` chapter_2  ` and ` chapter_2  ` from ` chapter_1  ` at the
 same time!
 
@@ -26206,7 +26206,7 @@ variable from.
 
 
 
-= **book/basics/must_know/box_block.md**
+= *book/basics/must_know/box_block.md*
 
 =  Boxing & Blocking
 
@@ -26280,7 +26280,7 @@ img/e009534c4572064346490dfac659ff94a5a11d7f46af7a2b46c2136d206088c6-1.svg)
 
 
 
-= **book/basics/must_know/index.md**
+= *book/basics/must_know/index.md*
 
 =  Must-know
 
@@ -26291,11 +26291,11 @@ Feel free to skip through things you are sure you will not use.
 
 
 
-= **book/basics/must_know/place.md**
+= *book/basics/must_know/place.md*
 
 =  Placing, Moving, Scale & Hide
 
-This is **a very important section** if you want to do arbitrary things with
+This is *a very important section* if you want to do arbitrary things with
 layout, create custom elements and hacking a way around current Typst
 limitations.
 
@@ -26416,7 +26416,7 @@ img/610672d5e43baa3ce94fe61f8d6dd0307e405c785639359c6a9e84bdd66884ad-1.svg)
 
 
 
-= **book/basics/must_know/spacing.md**
+= *book/basics/must_know/spacing.md*
 
 =  Using spacing
 

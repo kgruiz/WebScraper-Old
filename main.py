@@ -276,7 +276,11 @@ if __name__ == "__main__":
 
     print(f"Compacting {typstFilePath}")
 
-    CompactTypstFile(typstFilePath=typstFilePath, outPath=outPath)
+    CompactTypstFile(
+        typstFilePath=typstFilePath,
+        outPath=outPath,
+        duplicateHeadingLevels=[1, 2, 3, 4, 5, 6],
+    )
 
     raise SystemExit
 
