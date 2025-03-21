@@ -41,6 +41,7 @@ def GetUrls(
     excludeWords: List[str] = None,  # New parameter for words to exclude
     maxDepth: str = None,  # Changed from maxPage
     htmlDirName: str = "Raw HTML Files",  # Added parameter
+    onlyBaseUrl: bool = False,  # Added parameter
 ):
 
     if urlList is None:
@@ -54,6 +55,10 @@ def GetUrls(
 
     if excludeWords is None:
         excludeWords = []
+
+    if onlyBaseUrl:
+        urlList.append(url)
+        return urlList
 
     response = requests.get(url)
     soup = BeautifulSoup(response.text, "html.parser")
@@ -178,6 +183,7 @@ def GetUrls(
                 excludeWords=excludeWords,  # Pass the parameter to recursive calls
                 maxDepth=maxDepth,  # Changed from maxPage
                 htmlDirName=htmlDirName,  # Pass the parameter to recursive calls
+                onlyBaseUrl=onlyBaseUrl,  # Pass the parameter to recursive calls
             )
 
     return urlList

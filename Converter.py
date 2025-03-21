@@ -100,7 +100,7 @@ def HtmlDirToLatex(htmlDir: str, latexDir: str, fileNameFull: bool = False) -> d
 
                 if fileName.endswith(f".html"):
 
-                    bar.set_postfix_str(f"{root.split("/")[-1]}/{fileName}", True)
+                    bar.set_postfix_str(f"{root.split('/')[-1]}/{fileName}", True)
 
                     baseName = fileName.split(".html")[0]
 
@@ -120,7 +120,9 @@ def HtmlDirToLatex(htmlDir: str, latexDir: str, fileNameFull: bool = False) -> d
 
                     if fileNameFull:
 
-                        fullFileName = f"{root.replace(htmlDir, "").replace("/", "_")}-{baseName}.tex"
+                        rootReplaced = root.replace(htmlDir, "")
+                        rootFormatted = rootReplaced.replace("/", "_")
+                        fullFileName = f"{rootFormatted}-{baseName}.tex"
 
                         latexOutputPath = os.path.join(latexOutputDir, fullFileName)
 
@@ -176,7 +178,8 @@ def FlattenDir(dirName: str) -> None:
 
             for fileName in files:
 
-                bar.set_postfix_str(f"{root.split("/")[-1]}/{fileName}", True)
+                currentDir = root.split("/")[-1]
+                bar.set_postfix_str(f"{currentDir}/{fileName}", refresh=True)
 
                 outputName = os.path.join(outDir, os.path.basename(fileName))
 
@@ -230,7 +233,8 @@ def CombineDirs(dirName: str, addFullName: bool = False) -> None:
 
             for directory in dirs:
 
-                bar.set_postfix_str(f"{root.split("/")[-1]}/{directory}", True)
+                currentDir = root.split("/")[-1]
+                bar.set_postfix_str(f"{currentDir}/{directory}", refresh=True)
 
                 dirPath = os.path.join(root, directory)
 
@@ -242,9 +246,11 @@ def CombineDirs(dirName: str, addFullName: bool = False) -> None:
 
                 if addFullName:
 
+                    rootReplaced = root.replace(f"{dirName}/", "")
+                    rootFormatted = rootReplaced.replace("/", "-")
                     combinedFileName = os.path.join(
                         combinedDirName,
-                        f"{root.replace(f"{dirName}/", "").replace("/", "-")}-{directory}.tex",
+                        f"{rootFormatted}-{directory}.tex",
                     )
 
                 dirFiles = os.listdir(dirPath)
@@ -282,9 +288,9 @@ def CombineFiles(
     def WriteGroup(group: List[str], groupNum: int, outDir: str) -> None:
 
         outputPath = os.path.join(outDir, f"Group{groupNum}.tex")
-        outputPath = os.path.join(
-            outDir, f"{outDir.replace("/","_")}-{groupNumber}.tex"
-        )
+        outDirReplaced = outDir.replace("/", "_")
+        outputFileName = f"{outDirReplaced}-{groupNumber}.tex"
+        outputPath = os.path.join(outDir, outputFileName)
 
         with open(outputPath, "w") as file:
 
@@ -941,7 +947,8 @@ def CompactTypstFile(
 
     if maxRepeatBlankLines > 0:
 
-        maxRepeatBlankLinesPattern = rf"{"\n\\s*$" * maxRepeatBlankLines}"
+        newlinePattern = r"\n\s*$"
+        maxRepeatBlankLinesPattern = newlinePattern * maxRepeatBlankLines
 
         content = re.sub(
             pattern=maxRepeatBlankLinesPattern,

@@ -2,8 +2,8 @@ import json
 import os
 from urllib.parse import urljoin, urlparse
 
+import pdfkit
 import requests
-import weasyprint
 from bs4 import BeautifulSoup
 from tqdm import tqdm
 
@@ -51,10 +51,8 @@ def SavePageAsPdf(url, outputDir):
     with open("out2.html", "w") as file:
         file.write(BeautifulSoup.prettify(soup))
 
-    # Save as PDF
-    pdf = weasyprint.HTML(string=str(soup)).write_pdf()
-    with open(outputPath, "wb") as f:
-        f.write(pdf)
+    # Save as PDF using pdfkit
+    pdfkit.from_string(str(soup), outputPath)
 
 
 def LoadUrlsFromJson(jsonFilePath):
@@ -76,3 +74,9 @@ def LoadUrlsFromJson(jsonFilePath):
         urls = data.get("all", [])
 
     return urls
+
+
+SavePageAsPdf(
+    url=r"https://leetcode.com/discuss/study-guide/458695/dynamic-programming-patterns",
+    outputDir="./Output",
+)

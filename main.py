@@ -97,6 +97,9 @@ def main():
         type=int,  # Renamed from maxPage
         help="Maximum directory depth to scrape",
     )
+    parser.add_argument(
+        "--onlyBaseUrl", action="store_true", help="Scrape only the given base URL"
+    )
 
     args = parser.parse_args()
 
@@ -130,6 +133,7 @@ def main():
         args.maxDepth = (
             input("Enter the maxDepth parameter (or leave blank for None): ") or None
         )
+        args.onlyBaseUrl = input("Scrape only the base URL? (y/n): ").lower() == "y"
 
     if args.baseUrl[-1] != "/":
 
@@ -165,6 +169,7 @@ def main():
 
                 args.includeWords.append(args.baseUrl[args.baseUrl.index("/", 8) :])
                 args.baseUrl = args.baseUrl[: args.baseUrl.index("/", 8)]
+                args.onlyBaseUrl = True  # Ensure only the base URL is scraped
 
             elif userChoice == "n":
 
@@ -176,6 +181,7 @@ def main():
                     f'Invalid choice. Reverting to base domain "{args.baseUrl[: args.baseUrl.index("/", 8)]}".'
                 )
                 args.baseUrl = args.baseUrl[: args.baseUrl.index("/", 8)]
+                args.onlyBaseUrl = True  # Ensure only the base URL is scraped
 
         elif userChoice == "y" or userChoice == "":
 
@@ -226,6 +232,7 @@ def main():
         excludeWords=args.excludeWords,
         maxDepth=args.maxDepth,  # Changed from maxPage
         htmlDirName=args.htmlDir,  # Added parameter
+        onlyBaseUrl=args.onlyBaseUrl,  # Added parameter
     )
 
     OutputJson(urlList=urlList, fileName=args.outputJson)
