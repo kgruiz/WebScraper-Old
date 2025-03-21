@@ -1,4 +1,7 @@
-# WebScraper
+# WebScraper-Old
+
+> **Deprecated Notice:**
+> This project has been deprecated. Please check out the improved version of the scraper at [WebScraper](https://github.com/kgruiz/WebScraper).
 
 A Python-based web scraping tool designed to extract and convert HTML content into LaTeX format for seamless integration into documents.
 
@@ -12,13 +15,13 @@ A Python-based web scraping tool designed to extract and convert HTML content in
 1. **Clone the repository:**
 
    ```bash
-   git clone https://github.com/yourusername/WebScraper.git
+   git clone https://github.com/kgruiz/WebScraper-Old.git
    ```
 
 2. **Navigate to the project directory:**
 
    ```bash
-   cd WebScraper
+   cd WebScraper-Old
    ```
 
 3. **Install the required dependencies:**
